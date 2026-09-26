@@ -65,8 +65,7 @@ class ScaralangBundleFactory:
     '''
 
     _info_file: str = join(
-        dirname(dirname(abspath(__file__))),
-        'infrastructure', 'config', 'scaralang.cfg'
+        dirname(dirname(abspath(__file__))), 'infrastructure', 'config', 'scaralang.cfg'
     )
 
     @classmethod
@@ -99,19 +98,14 @@ class ScaralangBundleFactory:
 
         base_bundle: BaseBundle = BaseBundleFactory.create_bundle(
             options=BaseBundleOptions(
-                info_file=info_file,
-                use_generator=False,
-                context_bundle=ContextBundleFactory.create_bundle(),
+                info_file=info_file, use_generator=False, context_bundle=ContextBundleFactory.create_bundle()
             )
         )
 
         dsl_service: IScaraDslService = ScaraDslServiceFactory.create_default()
 
         cli_bundle: CLIBundle = CLIBundleFactory.create_bundle(
-            options=CLIBundleOptions(
-                service=dsl_service,
-                parser=base_bundle.option_manager,
-            )
+            options=CLIBundleOptions(service=dsl_service, parser=base_bundle.option_manager)
         )
 
         cli: CLI = CLI(bundle=cli_bundle)
@@ -120,14 +114,14 @@ class ScaralangBundleFactory:
             ScaralangBundleDependencies({
                 ScaralangBundleKeys.DEPENDENCY_BASE: base_bundle,
                 ScaralangBundleKeys.DEPENDENCY_SERVICE: dsl_service,
-                ScaralangBundleKeys.DEPENDENCY_CLI: cli,
+                ScaralangBundleKeys.DEPENDENCY_CLI: cli
             })
         )
 
         return ScaralangBundle(
-            base=registry.get(ScaralangBundleKeys.DEPENDENCY_BASE),        # type: ignore[arg-type]
-            service=registry.get(ScaralangBundleKeys.DEPENDENCY_SERVICE),# type: ignore[arg-type]
-            cli=registry.get(ScaralangBundleKeys.DEPENDENCY_CLI),        # type: ignore[arg-type]
+            base=registry.get(ScaralangBundleKeys.DEPENDENCY_BASE),
+            service=registry.get(ScaralangBundleKeys.DEPENDENCY_SERVICE),
+            cli=registry.get(ScaralangBundleKeys.DEPENDENCY_CLI)
         )
 
     @classmethod

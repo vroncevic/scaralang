@@ -94,5 +94,6 @@ class ScaralangBundleValidator:
         try:
             cls.validate(bundle)
             return True
+
         except (ATSValueError, ATSTypeError):
             return False

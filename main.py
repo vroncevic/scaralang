@@ -44,6 +44,7 @@ def main() -> bool:
         :exceptions: None.
     '''
     scaralang: Scaralang = Scaralang(ScaralangBundleFactory.create_bundle())
+
     return scaralang.process()
 
 

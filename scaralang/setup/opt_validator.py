@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from collections.abc import Mapping
+
 from ats_utilities.exceptions import ATSValueError, ATSTypeError
 from ats_utilities.validation.check_type import istype
 from ats_utilities.validation.check_value import not_none
@@ -84,5 +85,6 @@ class ScaralangBundleOptionsValidator:
         try:
             cls.validate(options)
             return True
+
         except (ATSValueError, ATSTypeError):
             return False

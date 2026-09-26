@@ -59,7 +59,7 @@ class Scaralang(Base):
     '''
 
     _is_initialized: bool
-    _logger: ILogger | None
+    _logger: ILogger
     _cli: ICLI
 
     def __init__(self, bundle: ScaralangBundle) -> None:
@@ -105,40 +105,30 @@ class Scaralang(Base):
         result: Mapping[str, object] = {}
 
         try:
-            if self.is_initialized() and self._logger is not None:
+            if self.is_initialized():
                 self._logger.write_log(INFO, '🔥 Starting execution command...')
                 result = self._cli.run()
                 self._logger.write_log(INFO, '✅ Execution finished!')
-
                 stdout_text = str(result.get('stdout') or '')
+
                 if stdout_text:
                     stdout.write(f'{stdout_text}\n')
 
                 if result.get('returncode') != 0:
                     err_msg = str(result.get('stderr') or 'failed!')
                     self._logger.write_log(ERROR, f'❌ scaralang: {err_msg}')
-                    stdout.write(f'❌ scaralang: {err_msg}\n')
                     return False
 
                 self._logger.write_log(INFO, '✅ scaralang: done!')
                 return True
 
-            if self._logger is not None:
-                self._logger.write_log(ERROR, '❌ scaralang: engine not initialized!')
-            else:
-                stdout.write('❌ scaralang: engine not initialized!\n')
+            self._logger.write_log(ERROR, '❌ scaralang: engine not initialized!')
             return False
 
         except (ATSValueError, ATSTypeError) as exc:
-            if self._logger is not None:
-                self._logger.write_log(ERROR, f'❌ scaralang: {exc}!')
-            else:
-                stdout.write(f'❌ scaralang: {exc}!\n')
+            self._logger.write_log(ERROR, f'❌ scaralang: {exc}!')
             return False
 
         except Exception as exc:
-            if self._logger is not None:
-                self._logger.write_log(ERROR, f'❌ scaralang unexpected exception: {exc}!')
-            else:
-                stdout.write(f'❌ scaralang unexpected exception: {exc}!\n')
+            self._logger.write_log(ERROR, f'❌ scaralang unexpected exception: {exc}!')
             return False
