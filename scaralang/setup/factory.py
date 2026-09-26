@@ -69,10 +69,7 @@ class ScaralangBundleFactory:
     )
 
     @classmethod
-    def create_bundle(
-        cls,
-        options: ScaralangBundleOptions | None = None
-    ) -> ScaralangBundle:
+    def create_bundle(cls, options: ScaralangBundleOptions | None = None) -> ScaralangBundle:
         '''
             Creates the scaralang bundle.
 
