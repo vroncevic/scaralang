@@ -16,14 +16,17 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Registry managing scaralang bundle dependencies.
+    Encapsulates core scaralang components for simplification of scaralang bundle.
 '''
 
 from __future__ import annotations
 
-from ats_utilities.exceptions import ATSValueError, ATSTypeError
-from ats_utilities.utils.reflection import to_str
+from ats_utilities.base.setup.bundle import BaseBundle
 
+from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
+from scaralang.infrastructure.cli.icli import ICLI
+from scaralang.setup.bundle import ScaralangBundle
+from scaralang.setup.validator import ScaralangBundleValidator
 from scaralang.setup.keys import ScaralangBundleKeys
 from scaralang.setup.dependencies import ScaralangBundleDependencies
 from scaralang.setup.dep_validator import ScaralangBundleDependenciesValidator
@@ -40,50 +43,54 @@ __status__ = 'Updated'
 
 class ScaralangBundleRegistry:
     '''
-        Registry for scaralang bundle components.
+        Encapsulates core scaralang components for simplification of scaralang bundle.
 
         It defines:
 
-            :attributes:
-                | _dependencies - The registered dependencies of the scaralang bundle.
             :methods:
-                | __init__ - Initializes the registry with validated dependencies.
-                | get - Retrieves a dependency by key.
-                | __str__ - Returns the registry as string representation.
+                | create_bundle - Creates the scaralang bundle.
+                | get_version - Returns the registry version.
     '''
 
-    _dependencies: ScaralangBundleDependencies
-
-    def __init__(self, dependencies: ScaralangBundleDependencies) -> None:
+    @classmethod
+    def create_bundle(cls, dependencies: ScaralangBundleDependencies) -> ScaralangBundle:
         '''
-            Initializes the registry with validated dependencies.
+            Creates the scaralang bundle.
 
             :param dependencies: The scaralang bundle dependencies.
+            :return: The scaralang bundle.
             :exceptions:
-                | ATSValueError: If dependencies are empty.
-                | ATSTypeError:  If dependencies fail validation.
+                | ATSValueError: The dependencies or bundle must be provided and valid.
+                | ATSTypeError:  The dependencies or bundle attributes must match types.
         '''
         ScaralangBundleDependenciesValidator.validate(dependencies)
-        self._dependencies = dependencies
 
-    def get(self, key: str) -> object:
+        base: BaseBundle | None = (
+            dependencies.get(ScaralangBundleKeys.DEPENDENCY_BASE)
+            if dependencies else None
+        )
+        service: IScaraDslService | None = (
+            dependencies.get(ScaralangBundleKeys.DEPENDENCY_SERVICE)
+            if dependencies else None
+        )
+        cli: ICLI | None = (
+            dependencies.get(ScaralangBundleKeys.DEPENDENCY_CLI)
+            if dependencies else None
+        )
+
+        bundle: ScaralangBundle = ScaralangBundle(
+            base=base, service=service, cli=cli
+        )
+        ScaralangBundleValidator.validate(bundle)
+
+        return bundle
+
+    @classmethod
+    def get_version(cls) -> str:
         '''
-            Retrieves a dependency by key.
+            Returns the registry version.
 
-            :param key: The key of the dependency.
-            :return: The dependency object.
-            :exceptions:
-                | ATSValueError: If the key is not in registered dependencies.
-        '''
-        if key not in self._dependencies:
-            raise ATSValueError(f'Key {key} not found in scaralang bundle dependencies')
-        return self._dependencies[key]  # type: ignore[literal-required]
-
-    def __str__(self) -> str:
-        '''
-            Returns the registry as string representation.
-
-            :return: The registry as string representation.
+            :return: The registry version string.
             :exceptions: None.
         '''
-        return to_str(self)
+        return __version__

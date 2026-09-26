@@ -107,18 +107,12 @@ class ScaralangBundleFactory:
 
         cli: CLI = CLI(bundle=cli_bundle)
 
-        registry = ScaralangBundleRegistry(
-            ScaralangBundleDependencies({
-                ScaralangBundleKeys.DEPENDENCY_BASE: base_bundle,
-                ScaralangBundleKeys.DEPENDENCY_SERVICE: dsl_service,
-                ScaralangBundleKeys.DEPENDENCY_CLI: cli
-            })
-        )
-
-        return ScaralangBundle(
-            base=registry.get(ScaralangBundleKeys.DEPENDENCY_BASE),
-            service=registry.get(ScaralangBundleKeys.DEPENDENCY_SERVICE),
-            cli=registry.get(ScaralangBundleKeys.DEPENDENCY_CLI)
+        return ScaralangBundleRegistry.create_bundle(
+            dependencies=ScaralangBundleDependencies(
+                base=base_bundle,
+                service=dsl_service,
+                cli=cli
+            )
         )
 
     @classmethod

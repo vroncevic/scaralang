@@ -90,18 +90,12 @@ class CLIBundleFactory:
             CommandBundle(definition=info_def, executor=info_exec),
         ]
 
-        registry = CLIBundleRegistry(
-            CLIBundleDependencies({
-                CLIBundleKeys.DEPENDENCY_SERVICE: options[CLIBundleKeys.OPTION_SERVICE],
-                CLIBundleKeys.DEPENDENCY_PARSER: options[CLIBundleKeys.OPTION_PARSER],
-                CLIBundleKeys.DEPENDENCY_COMMANDS: commands,
-            })
-        )
-
-        return CLIBundle(
-            service=registry.get(CLIBundleKeys.DEPENDENCY_SERVICE),  # type: ignore[arg-type]
-            parser=registry.get(CLIBundleKeys.DEPENDENCY_PARSER),    # type: ignore[arg-type]
-            commands=registry.get(CLIBundleKeys.DEPENDENCY_COMMANDS),# type: ignore[arg-type]
+        return CLIBundleRegistry.create_bundle(
+            dependencies=CLIBundleDependencies(
+                service=options[CLIBundleKeys.OPTION_SERVICE],
+                parser=options[CLIBundleKeys.OPTION_PARSER],
+                commands=commands
+            )
         )
 
     @classmethod

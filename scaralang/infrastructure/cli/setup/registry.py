@@ -16,14 +16,19 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Registry for CLI bundle components.
+    Encapsulates core CLI components for simplification of CLI bundle.
 '''
 
 from __future__ import annotations
 
-from ats_utilities.exceptions import ATSValueError, ATSTypeError
-from ats_utilities.utils.reflection import to_str
+from collections.abc import Sequence
 
+from ats_utilities.option.imanager import IOptionManager
+
+from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
+from scaralang.infrastructure.command.command import CommandBundle
+from scaralang.infrastructure.cli.setup.bundle import CLIBundle
+from scaralang.infrastructure.cli.setup.validator import CLIBundleValidator
 from scaralang.infrastructure.cli.setup.keys import CLIBundleKeys
 from scaralang.infrastructure.cli.setup.dependencies import CLIBundleDependencies
 from scaralang.infrastructure.cli.setup.dep_validator import CLIBundleDependenciesValidator
@@ -40,50 +45,54 @@ __status__ = 'Updated'
 
 class CLIBundleRegistry:
     '''
-        Registry for CLI bundle components.
+        Encapsulates core CLI components for simplification of CLI bundle.
 
         It defines:
 
-            :attributes:
-                | _dependencies - The registered dependencies of the CLI bundle.
             :methods:
-                | __init__ - Initializes the registry with validated dependencies.
-                | get - Retrieves a dependency by key.
-                | __str__ - Returns the registry as string representation.
+                | create_bundle - Creates the CLI bundle.
+                | get_version - Returns the registry version.
     '''
 
-    _dependencies: CLIBundleDependencies
-
-    def __init__(self, dependencies: CLIBundleDependencies) -> None:
+    @classmethod
+    def create_bundle(cls, dependencies: CLIBundleDependencies) -> CLIBundle:
         '''
-            Initializes the registry with validated dependencies.
+            Creates the CLI bundle.
 
             :param dependencies: The CLI bundle dependencies.
+            :return: The CLI bundle.
             :exceptions:
-                | ATSValueError: If dependencies are empty.
-                | ATSTypeError:  If dependencies fail validation.
+                | ATSValueError: The dependencies or bundle must be provided and valid.
+                | ATSTypeError: The dependencies or bundle attributes must match types.
         '''
         CLIBundleDependenciesValidator.validate(dependencies)
-        self._dependencies = dependencies
 
-    def get(self, key: str) -> object:
+        service: IScaraDslService | None = (
+            dependencies.get(CLIBundleKeys.DEPENDENCY_SERVICE)
+            if dependencies else None
+        )
+        parser: IOptionManager | None = (
+            dependencies.get(CLIBundleKeys.DEPENDENCY_PARSER)
+            if dependencies else None
+        )
+        commands: Sequence[CommandBundle] | None = (
+            dependencies.get(CLIBundleKeys.DEPENDENCY_COMMANDS)
+            if dependencies else None
+        )
+
+        bundle: CLIBundle = CLIBundle(
+            service=service, parser=parser, commands=commands
+        )
+        CLIBundleValidator.validate(bundle)
+
+        return bundle
+
+    @classmethod
+    def get_version(cls) -> str:
         '''
-            Retrieves a dependency by key.
+            Returns the registry version.
 
-            :param key: The key of the dependency.
-            :return: The dependency object.
-            :exceptions:
-                | ATSValueError: If the key is not in registered dependencies.
-        '''
-        if key not in self._dependencies:
-            raise ATSValueError(f'Key {key} not found in CLI bundle dependencies')
-        return self._dependencies[key]  # type: ignore[literal-required]
-
-    def __str__(self) -> str:
-        '''
-            Returns the registry as string representation.
-
-            :return: The registry as string representation.
+            :return: The registry version string.
             :exceptions: None.
         '''
-        return to_str(self)
+        return __version__

@@ -34,10 +34,12 @@ if pkg_dir not in path:
 
 from scaralang.engine import Scaralang
 from scaralang.setup.bundle import ScaralangBundle
+from scaralang.setup.registry import ScaralangBundleRegistry
 from scaralang.setup.factory import ScaralangBundleFactory
 from scaralang.setup.options import ScaralangBundleOptions
 from scaralang.setup.opt_validator import ScaralangBundleOptionsValidator
 from scaralang.setup.validator import ScaralangBundleValidator
+from scaralang.infrastructure.cli.setup.registry import CLIBundleRegistry
 from scaralang.infrastructure.command.compile_command_definition import CompileCommandDefinition
 from scaralang.infrastructure.command.compile_command_executor import CompileCommandExecutor
 from scaralang.infrastructure.command.disassemble_command_definition import DisassembleCommandDefinition
@@ -101,6 +103,12 @@ class TestScaralangCli(TestCase):
 
         engine = Scaralang(bundle=bundle)
         self.assertTrue(engine.is_initialized())
+
+    def test_registries(self) -> None:
+        '''Verifies registry versions and bundle creation.'''
+        self.assertEqual(ScaralangBundleRegistry.get_version(), '1.0.0')
+        self.assertEqual(CLIBundleRegistry.get_version(), '1.0.0')
+        self.assertEqual(ScaralangBundleFactory.get_version(), '1.0.0')
 
     def test_info_command(self) -> None:
         '''Verifies info command execution.'''
