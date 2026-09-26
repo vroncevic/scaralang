@@ -33,7 +33,6 @@ from scaralang.core.model.event.move_event import MoveEvent
 from scaralang.core.model.event.fault_event import FaultEvent
 from scaralang.core.model.telemetry.diagnostics_bundle import DiagnosticsBundle
 from scaralang.core.model.telemetry.diagnostics_snapshot import DiagnosticsSnapshot
-from scaralang.core.model.protocol.protocol_mode import ProtocolMode
 from scaralang.core.service.event.move_event_factory import MoveEventFactory
 from scaralang.core.service.event.fault_event_factory import FaultEventFactory
 from scaralang.core.service.telemetry.diagnostics_snapshot_factory import DiagnosticsSnapshotFactory
@@ -95,10 +94,6 @@ class TestCommunicationEvents(TestCase):
         self.assertIsInstance(diag, DiagnosticsSnapshot)
         self.assertEqual(diag.uptime_ms, 3600000)
         self.assertEqual(diag.queue_high_watermark, 3)
-
-    def test_protocol_mode_enum(self) -> None:
-        self.assertEqual(ProtocolMode.ASCII.value, 'ascii')
-        self.assertEqual(ProtocolMode.BINARY.value, 'binary')
 
 
 if __name__ == '__main__':

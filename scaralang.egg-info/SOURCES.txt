@@ -39,7 +39,6 @@ scaralang/core/model/protocol/binary_frame.py
 scaralang/core/model/protocol/error_code.py
 scaralang/core/model/protocol/joint_steps.py
 scaralang/core/model/protocol/message_id.py
-scaralang/core/model/protocol/protocol_mode.py
 scaralang/core/model/protocol/scara_response.py
 scaralang/core/model/protocol/tool_id.py
 scaralang/core/model/telemetry/__init__.py

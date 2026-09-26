@@ -35,7 +35,6 @@ from scaralang.core.model.event.move_event import MoveEvent
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.protocol.message_id import MessageId
-from scaralang.core.model.protocol.protocol_mode import ProtocolMode
 from scaralang.core.model.protocol.tool_id import ToolId
 from scaralang.core.model.telemetry.diagnostics_snapshot import DiagnosticsSnapshot
 from scaralang.core.model.telemetry.scara_status import ScaraStatus
