@@ -65,22 +65,11 @@ class ScaralangBundleRegistry:
         '''
         ScaralangBundleDependenciesValidator.validate(dependencies)
 
-        base: BaseBundle | None = (
-            dependencies.get(ScaralangBundleKeys.DEPENDENCY_BASE)
-            if dependencies else None
-        )
-        service: IScaraDslService | None = (
-            dependencies.get(ScaralangBundleKeys.DEPENDENCY_SERVICE)
-            if dependencies else None
-        )
-        cli: ICLI | None = (
-            dependencies.get(ScaralangBundleKeys.DEPENDENCY_CLI)
-            if dependencies else None
-        )
+        base: BaseBundle = (dependencies.get(ScaralangBundleKeys.DEPENDENCY_BASE) if dependencies else None)
+        service: IScaraDslService = (dependencies.get(ScaralangBundleKeys.DEPENDENCY_SERVICE) if dependencies else None)
+        cli: ICLI = (dependencies.get(ScaralangBundleKeys.DEPENDENCY_CLI) if dependencies else None)
 
-        bundle: ScaralangBundle = ScaralangBundle(
-            base=base, service=service, cli=cli
-        )
+        bundle: ScaralangBundle = ScaralangBundle(base=base, service=service, cli=cli)
         ScaralangBundleValidator.validate(bundle)
 
         return bundle

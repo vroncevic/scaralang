@@ -79,19 +79,11 @@ class ScaralangBundleFactory:
                 | ATSValueError: If options fail validation.
                 | ATSTypeError:  If options have incorrect types.
         '''
-        if options is None:
-            options = ScaralangBundleOptions(
-                info_file=cls._info_file,
-                verbose=False
-            )
-        else:
+        if options is not None:
             ScaralangBundleOptionsValidator.validate(options)
 
-        info_file: str = (
-            options[ScaralangBundleKeys.OPTION_INFO_FILE]
-            if ScaralangBundleKeys.OPTION_INFO_FILE in options
-            else cls._info_file
-        )
+        info_file: str = options.get(ScaralangBundleKeys.OPTION_INFO_FILE) if options else cls._info_file
+        verbose: bool = options.get(ScaralangBundleKeys.OPTION_VERBOSE) if options else False
 
         base_bundle: BaseBundle = BaseBundleFactory.create_bundle(
             options=BaseBundleOptions(
@@ -108,11 +100,7 @@ class ScaralangBundleFactory:
         cli: CLI = CLI(bundle=cli_bundle)
 
         return ScaralangBundleRegistry.create_bundle(
-            dependencies=ScaralangBundleDependencies(
-                base=base_bundle,
-                service=dsl_service,
-                cli=cli
-            )
+            dependencies=ScaralangBundleDependencies(base=base_bundle, service=dsl_service, cli=cli)
         )
 
     @classmethod

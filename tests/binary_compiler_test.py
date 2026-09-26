@@ -94,8 +94,33 @@ class TestBinaryCompiler(TestCase):
         '''
             Sets up test fixtures wiring components via sub-factories.
         '''
-        self.bounds = ScaraBounds.create_default()
-        self.transmission = TransmissionParameters.create_default()
+        self.bounds = ScaraBounds(
+            l1=150.0,
+            l2=150.0,
+            z_min=-50.0,
+            z_max=50.0,
+            min_speed=1.0,
+            max_speed=200.0,
+            default_speed=50.0,
+            default_accel=100.0,
+            max_accel=500.0,
+            j1_min_rad=-2.61799,
+            j1_max_rad=2.61799,
+            j2_min_rad=-2.61799,
+            j2_max_rad=2.61799,
+            singularity_outer_margin_mm=5.0,
+            singularity_inner_margin_mm=5.0,
+            singularity_theta2_min_rad=0.087266,
+            deadzone_r_min=20.0,
+        )
+        self.transmission = TransmissionParameters(
+            steps_per_rev=200.0,
+            microstepping=16.0,
+            gear_ratio_j1=4.0,
+            gear_ratio_j2=2.0,
+            gear_ratio_j4=1.0,
+            leadscrew_pitch_z=8.0,
+        )
         self.kinematics: IKinematicsService = (
             KinematicsServiceFactory.create(bounds=self.bounds)
         )

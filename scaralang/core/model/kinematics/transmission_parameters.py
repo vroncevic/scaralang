@@ -55,20 +55,3 @@ class TransmissionParameters:
     gear_ratio_j2: float
     gear_ratio_j4: float
     leadscrew_pitch_z: float
-
-    @classmethod
-    def create_default(cls) -> TransmissionParameters:
-        '''
-            Creates a default transmission parameter configuration.
-
-            :return: Default TransmissionParameters value object.
-            :exceptions: None.
-        '''
-        return cls(
-            steps_per_rev=200.0,
-            microstepping=16.0,
-            gear_ratio_j1=4.0,
-            gear_ratio_j2=2.0,
-            gear_ratio_j4=1.0,
-            leadscrew_pitch_z=8.0
-        )

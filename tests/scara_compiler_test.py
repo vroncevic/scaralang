@@ -75,6 +75,28 @@ class TestScaraCompiler(TestCase):
                 | test_compiler_custom_sub_compilers - Verifies injection of custom primitive compilers.
     '''
 
+    def setUp(self) -> None:
+        '''Sets up test fixtures.'''
+        self.bounds = ScaraBounds(
+            l1=150.0,
+            l2=150.0,
+            z_min=-50.0,
+            z_max=50.0,
+            min_speed=1.0,
+            max_speed=200.0,
+            default_speed=50.0,
+            default_accel=100.0,
+            max_accel=500.0,
+            j1_min_rad=-2.61799,
+            j1_max_rad=2.61799,
+            j2_min_rad=-2.61799,
+            j2_max_rad=2.61799,
+            singularity_outer_margin_mm=5.0,
+            singularity_inner_margin_mm=5.0,
+            singularity_theta2_min_rad=0.087266,
+            deadzone_r_min=20.0,
+        )
+
     def test_state_command_compiler(self) -> None:
         '''Verifies StateCommandCompiler handles SPEED, ACCEL, ZONE, CONFIG_ELBOW.'''
         compiler = StateCommandCompiler()
@@ -190,8 +212,7 @@ class TestScaraCompiler(TestCase):
 
     def test_compiler_end_to_end(self) -> None:
         '''Verifies full program compilation through ScaraCompiler orchestrator.'''
-        bounds = ScaraBounds.create_default()
-        kinematics = KinematicsServiceFactory.create(bounds=bounds)
+        kinematics = KinematicsServiceFactory.create(bounds=self.bounds)
         validator = TrajectoryValidatorFactory.create(kinematics=kinematics)
         compiler = ScaraCompilerFactory.create(
             validator=validator
@@ -222,8 +243,7 @@ class TestScaraCompiler(TestCase):
 
     def test_compiler_custom_sub_compilers(self) -> None:
         '''Verifies ScaraCompiler accepts custom primitive sub-compilers.'''
-        bounds = ScaraBounds.create_default()
-        kinematics = KinematicsServiceFactory.create(bounds=bounds)
+        kinematics = KinematicsServiceFactory.create(bounds=self.bounds)
         validator = TrajectoryValidatorFactory.create(kinematics=kinematics)
         custom_tool = ToolCommandCompiler()
         compiler = ScaraCompilerFactory.create_with_compilers(

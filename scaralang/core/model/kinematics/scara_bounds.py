@@ -77,31 +77,3 @@ class ScaraBounds:
     singularity_inner_margin_mm: float
     singularity_theta2_min_rad: float
     deadzone_r_min: float
-
-    @classmethod
-    def create_default(cls) -> ScaraBounds:
-        '''
-            Creates a default SCARA arm bounds configuration.
-
-            :return: Default ScaraBounds value object.
-            :exceptions: None.
-        '''
-        return cls(
-            l1=150.0,
-            l2=150.0,
-            z_min=-50.0,
-            z_max=50.0,
-            min_speed=1.0,
-            max_speed=200.0,
-            default_speed=50.0,
-            default_accel=100.0,
-            max_accel=500.0,
-            j1_min_rad=-2.61799,
-            j1_max_rad=2.61799,
-            j2_min_rad=-2.61799,
-            j2_max_rad=2.61799,
-            singularity_outer_margin_mm=5.0,
-            singularity_inner_margin_mm=5.0,
-            singularity_theta2_min_rad=0.087266,
-            deadzone_r_min=20.0
-        )
