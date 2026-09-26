@@ -1,0 +1,3 @@
+[console_scripts]
+scarac = main:main
+scaralang = main:main

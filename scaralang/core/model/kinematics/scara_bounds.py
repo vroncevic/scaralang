@@ -1,0 +1,107 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    scara_bounds.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Defines ScaraBounds domain value object for kinematic limits.
+'''
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.0'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ScaraBounds:
+    '''
+        Domain Value Object encapsulating kinematic geometry and operational limits for SCARA arm.
+
+        It defines:
+
+            :attributes:
+                | l1 - Length of primary SCARA link in mm.
+                | l2 - Length of secondary SCARA link in mm.
+                | z_min - Minimum vertical height limit in mm.
+                | z_max - Maximum vertical height limit in mm.
+                | min_speed - Minimum feedrate speed limit in mm/s.
+                | max_speed - Maximum feedrate speed limit in mm/s.
+                | default_speed - Default Cartesian linear speed in mm/s.
+                | default_accel - Default acceleration in mm/s^2.
+                | max_accel - Maximum acceleration in mm/s^2.
+                | j1_min_rad - Joint 1 (Shoulder) minimum angle in radians.
+                | j1_max_rad - Joint 1 (Shoulder) maximum angle in radians.
+                | j2_min_rad - Joint 2 (Elbow) minimum angle in radians.
+                | j2_max_rad - Joint 2 (Elbow) maximum angle in radians.
+                | singularity_outer_margin_mm - Outer reach safety margin in mm.
+                | singularity_inner_margin_mm - Inner reach safety margin in mm.
+                | singularity_theta2_min_rad - Elbow singularity deadband in radians.
+                | deadzone_r_min - Inner deadzone radius due to folded elbow in mm.
+    '''
+
+    l1: float
+    l2: float
+    z_min: float
+    z_max: float
+    min_speed: float
+    max_speed: float
+    default_speed: float
+    default_accel: float
+    max_accel: float
+    j1_min_rad: float
+    j1_max_rad: float
+    j2_min_rad: float
+    j2_max_rad: float
+    singularity_outer_margin_mm: float
+    singularity_inner_margin_mm: float
+    singularity_theta2_min_rad: float
+    deadzone_r_min: float
+
+    @classmethod
+    def create_default(cls) -> ScaraBounds:
+        '''
+            Creates a default SCARA arm bounds configuration.
+
+            :return: Default ScaraBounds value object.
+            :exceptions: None.
+        '''
+        return cls(
+            l1=150.0,
+            l2=150.0,
+            z_min=-50.0,
+            z_max=50.0,
+            min_speed=1.0,
+            max_speed=200.0,
+            default_speed=50.0,
+            default_accel=100.0,
+            max_accel=500.0,
+            j1_min_rad=-2.61799,
+            j1_max_rad=2.61799,
+            j2_min_rad=-2.61799,
+            j2_max_rad=2.61799,
+            singularity_outer_margin_mm=5.0,
+            singularity_inner_margin_mm=5.0,
+            singularity_theta2_min_rad=0.087266,
+            deadzone_r_min=20.0
+        )
