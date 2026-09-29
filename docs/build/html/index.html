@@ -882,6 +882,7 @@ BinaryCompiler │ (Step Discretization)
 </div>
 <section id="scara-dsl-instruction-reference">
 <h3>SCARA DSL Instruction Reference<a class="headerlink" href="#scara-dsl-instruction-reference" title="Link to this heading">¶</a></h3>
+<p>For the exhaustive syntax specification, boundary constraints, and compiler rules, see <cite>LANGUAGE_REFERENCE.md</cite>.</p>
 <table class="docutils align-default" id="id1">
 <caption><span class="caption-text">SCARA DSL Instruction Reference</span><a class="headerlink" href="#id1" title="Link to this table">¶</a></caption>
 <colgroup>
@@ -901,92 +902,112 @@ BinaryCompiler │ (Step Discretization)
 <tr class="row-even"><td><p><strong>Motion</strong></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">MOVE_J</span> <span class="pre">X</span> <span class="pre">&lt;x&gt;</span> <span class="pre">Y</span> <span class="pre">&lt;y&gt;</span> <span class="pre">Z</span> <span class="pre">&lt;z&gt;</span> <span class="pre">[P</span> <span class="pre">&lt;phi&gt;]</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">X,</span> <span class="pre">Y,</span> <span class="pre">Z</span></code> (mm), <code class="docutils literal notranslate"><span class="pre">P</span></code> (deg)</p></td>
-<td><p>Rapid Cartesian point-to-point motion.</p></td>
+<td><p>Rapid non-interpolated Cartesian joint motion.</p></td>
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">MOVE_L</span> <span class="pre">X</span> <span class="pre">&lt;x&gt;</span> <span class="pre">Y</span> <span class="pre">&lt;y&gt;</span> <span class="pre">Z</span> <span class="pre">&lt;z&gt;</span> <span class="pre">[P</span> <span class="pre">&lt;phi&gt;]</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">X,</span> <span class="pre">Y,</span> <span class="pre">Z</span></code> (mm), <code class="docutils literal notranslate"><span class="pre">P</span></code> (deg)</p></td>
-<td><p>Linear interpolated Cartesian path.</p></td>
+<td><p>Linear continuous path interpolated motion.</p></td>
 </tr>
 <tr class="row-even"><td></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">ARC_CW</span> <span class="pre">X</span> <span class="pre">&lt;x&gt;</span> <span class="pre">Y</span> <span class="pre">&lt;y&gt;</span> <span class="pre">I</span> <span class="pre">&lt;i&gt;</span> <span class="pre">J</span> <span class="pre">&lt;j&gt;</span> <span class="pre">[Z</span> <span class="pre">&lt;z&gt;]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ARC_CW</span> <span class="pre">X</span> <span class="pre">&lt;x&gt;</span> <span class="pre">Y</span> <span class="pre">&lt;y&gt;</span> <span class="pre">I</span> <span class="pre">&lt;i&gt;</span> <span class="pre">J</span> <span class="pre">&lt;j&gt;</span> <span class="pre">[Z</span> <span class="pre">&lt;z&gt;]</span> <span class="pre">[P</span> <span class="pre">&lt;p&gt;]</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">X,</span> <span class="pre">Y</span></code> target, <code class="docutils literal notranslate"><span class="pre">I,</span> <span class="pre">J</span></code> center offset</p></td>
-<td><p>Clockwise circular arc interpolation.</p></td>
+<td><p>Clockwise circular arc interpolation in XY plane.</p></td>
 </tr>
 <tr class="row-odd"><td></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">ARC_CCW</span> <span class="pre">X</span> <span class="pre">&lt;x&gt;</span> <span class="pre">Y</span> <span class="pre">&lt;y&gt;</span> <span class="pre">I</span> <span class="pre">&lt;i&gt;</span> <span class="pre">J</span> <span class="pre">&lt;j&gt;</span> <span class="pre">[Z</span> <span class="pre">&lt;z&gt;]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ARC_CCW</span> <span class="pre">X</span> <span class="pre">&lt;x&gt;</span> <span class="pre">Y</span> <span class="pre">&lt;y&gt;</span> <span class="pre">I</span> <span class="pre">&lt;i&gt;</span> <span class="pre">J</span> <span class="pre">&lt;j&gt;</span> <span class="pre">[Z</span> <span class="pre">&lt;z&gt;]</span> <span class="pre">[P</span> <span class="pre">&lt;p&gt;]</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">X,</span> <span class="pre">Y</span></code> target, <code class="docutils literal notranslate"><span class="pre">I,</span> <span class="pre">J</span></code> center offset</p></td>
 <td><p>Counter-clockwise circular arc interpolation.</p></td>
 </tr>
 <tr class="row-even"><td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">APPROACH</span> <span class="pre">DIST</span> <span class="pre">&lt;d&gt;</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">DIST</span></code> (mm)</p></td>
-<td><p>Vertical descent towards workpiece along Z.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DIST</span></code> (mm, &gt; 0)</p></td>
+<td><p>Relative vertical descent along -Z axis.</p></td>
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">RETRACT</span> <span class="pre">DIST</span> <span class="pre">&lt;d&gt;</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">DIST</span></code> (mm)</p></td>
-<td><p>Vertical clearance ascent along Z.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DIST</span></code> (mm, &gt; 0)</p></td>
+<td><p>Relative vertical ascent along +Z axis.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>Macros</strong></p></td>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">JOG_AXIS</span> <span class="pre">&lt;X|Y|Z|PHI&gt;</span> <span class="pre">&lt;step&gt;</span></code></p></td>
+<td><p>Axis name, step displacement</p></td>
+<td><p>Incremental single-axis manual jog move.</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">JOG_JOINT</span> <span class="pre">&lt;1|2|3|4&gt;</span> <span class="pre">&lt;deg&gt;</span></code></p></td>
+<td><p>Joint ID (1..4), angle (deg)</p></td>
+<td><p>Incremental individual joint rotational jog.</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PROBE</span> <span class="pre">[SPEED</span> <span class="pre">&lt;s&gt;]</span> <span class="pre">[DIST</span> <span class="pre">&lt;d&gt;]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SPEED</span></code> (mm/s), <code class="docutils literal notranslate"><span class="pre">DIST</span></code> (mm)</p></td>
+<td><p>Tactile surface contact search along -Z axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Macros</strong></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">JUMP</span> <span class="pre">X</span> <span class="pre">&lt;x&gt;</span> <span class="pre">Y</span> <span class="pre">&lt;y&gt;</span> <span class="pre">Z</span> <span class="pre">&lt;z&gt;</span> <span class="pre">[ARCH</span> <span class="pre">&lt;h&gt;]</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">X,</span> <span class="pre">Y,</span> <span class="pre">Z</span></code>, <code class="docutils literal notranslate"><span class="pre">ARCH</span></code> apex clearance</p></td>
 <td><p>Smooth 3D parabolic pick-and-place arch motion.</p></td>
 </tr>
-<tr class="row-odd"><td></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">PALLET</span> <span class="pre">ROWS</span> <span class="pre">&lt;r&gt;</span> <span class="pre">COLS</span> <span class="pre">&lt;c&gt;</span> <span class="pre">DX</span> <span class="pre">&lt;dx&gt;</span> <span class="pre">DY</span> <span class="pre">&lt;dy&gt;</span></code></p></td>
-<td><p>Grid dimensions &amp; spacing</p></td>
-<td><p>Generates structured 2D Cartesian pallet matrix.</p></td>
-</tr>
 <tr class="row-even"><td></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">TANGENT_ARC</span> <span class="pre">RADIUS</span> <span class="pre">&lt;r&gt;</span> <span class="pre">ANGLE</span> <span class="pre">&lt;a&gt;</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RADIUS</span></code> (mm), <code class="docutils literal notranslate"><span class="pre">ANGLE</span></code> (deg)</p></td>
-<td><p>Smooth tangential curve blending into path.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PALLET_DEF</span> <span class="pre">&lt;id&gt;</span> <span class="pre">ROWS</span> <span class="pre">&lt;r&gt;</span> <span class="pre">COLS</span> <span class="pre">&lt;c&gt;</span> <span class="pre">DX</span> <span class="pre">&lt;dx&gt;</span> <span class="pre">DY</span> <span class="pre">&lt;dy&gt;</span></code></p></td>
+<td><p>Matrix dimensions &amp; grid spacing</p></td>
+<td><p>Defines structured 2D Cartesian pallet matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Actuators</strong></p></td>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MOVE_PALLET</span> <span class="pre">&lt;id&gt;</span> <span class="pre">INDEX</span> <span class="pre">&lt;i&gt;</span></code></p></td>
+<td><p>Pallet identifier, 1-based index</p></td>
+<td><p>Direct positioning to pallet matrix cell.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Actuators</strong></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">PUMP</span> <span class="pre">&lt;ON|OFF&gt;</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ON</span></code> or <code class="docutils literal notranslate"><span class="pre">OFF</span></code></p></td>
-<td><p>Actuates end-effector vacuum pump.</p></td>
+<td><p>Energizes or cuts end-effector vacuum pump.</p></td>
 </tr>
-<tr class="row-even"><td></td>
+<tr class="row-odd"><td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">VALVE</span> <span class="pre">&lt;ON|OFF&gt;</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ON</span></code> or <code class="docutils literal notranslate"><span class="pre">OFF</span></code></p></td>
 <td><p>Opens or closes pneumatic release blow-off valve.</p></td>
 </tr>
-<tr class="row-odd"><td></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">WAIT</span> <span class="pre">&lt;ms&gt;</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">ms</span></code> (milliseconds)</p></td>
-<td><p>Dwells execution for specified hardware duration.</p></td>
-</tr>
 <tr class="row-even"><td></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">HOME</span></code></p></td>
-<td><p>None</p></td>
-<td><p>Triggers complete multi-axis homing routine.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TOOL</span> <span class="pre">&lt;UP|DOWN&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UP</span></code> or <code class="docutils literal notranslate"><span class="pre">DOWN</span></code></p></td>
+<td><p>Actuates tool head vertical pneumatic slide stage.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Dynamics</strong></p></td>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TOOL_ORIENT</span> <span class="pre">&lt;AUTO|TANGENT|FIXED&gt;</span></code></p></td>
+<td><p>Tracking mode</p></td>
+<td><p>Configures 4th-axis tool yaw orientation mode.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Dynamics</strong></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">SPEED</span> <span class="pre">&lt;RAPID|WORK&gt;</span> <span class="pre">&lt;val&gt;</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">RAPID</span></code> or <code class="docutils literal notranslate"><span class="pre">WORK</span></code>, feedrate (mm/s)</p></td>
 <td><p>Configures travel or working linear feedrate.</p></td>
 </tr>
-<tr class="row-even"><td></td>
+<tr class="row-odd"><td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ACCEL</span> <span class="pre">&lt;val&gt;</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">val</span></code> (mm/s²)</p></td>
 <td><p>Configures linear path acceleration limit.</p></td>
 </tr>
-<tr class="row-odd"><td></td>
+<tr class="row-even"><td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">OVERRIDE</span> <span class="pre">&lt;percent&gt;</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">percent</span></code> (10% - 200%)</p></td>
 <td><p>Scales path execution velocity dynamically.</p></td>
 </tr>
-<tr class="row-even"><td></td>
+<tr class="row-odd"><td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ZONE</span> <span class="pre">&lt;OFF|FINE|EXACT|Z1..Z50&gt;</span></code></p></td>
-<td><p>Corner rounding tolerance</p></td>
+<td><p>Corner rounding tolerance (mm)</p></td>
 <td><p>Corner tolerance zone for trajectory smoothing.</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Config</strong></p></td>
+<tr class="row-even"><td><p><strong>Kinematics</strong></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">CONFIG</span> <span class="pre">ELBOW</span> <span class="pre">&lt;LEFT|RIGHT&gt;</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">LEFT</span></code> or <code class="docutils literal notranslate"><span class="pre">RIGHT</span></code></p></td>
 <td><p>Sets arm kinematic inverse solution branch.</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CONFIG</span> <span class="pre">MOTOR</span> <span class="pre">&lt;OPEN_LOOP|CLOSED_LOOP&gt;</span></code></p></td>
+<td><p>Drive control mode</p></td>
+<td><p>Selects open-loop microstepping or closed-loop FOC.</p></td>
 </tr>
 <tr class="row-even"><td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">FRAME</span> <span class="pre">X</span> <span class="pre">&lt;x&gt;</span> <span class="pre">Y</span> <span class="pre">&lt;y&gt;</span> <span class="pre">Z</span> <span class="pre">&lt;z&gt;</span> <span class="pre">[PHI</span> <span class="pre">&lt;p&gt;]</span></code></p></td>
@@ -994,9 +1015,49 @@ BinaryCompiler │ (Step Discretization)
 <td><p>Defines user workpiece reference coordinate frame.</p></td>
 </tr>
 <tr class="row-odd"><td></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">TOOL</span> <span class="pre">ORIENT</span> <span class="pre">&lt;AUTO|TANGENT|FIXED&gt;</span></code></p></td>
-<td><p>Orientation mode</p></td>
-<td><p>Configures tool orientation behavior along path.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FRAME_RESET</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Resets coordinate system to base world origin.</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HOME</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Triggers complete multi-axis homing routine.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Safety &amp; Flow</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WAIT</span> <span class="pre">&lt;ms&gt;</span></code> / <code class="docutils literal notranslate"><span class="pre">WAIT_MS</span> <span class="pre">&lt;ms&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ms</span></code> (milliseconds)</p></td>
+<td><p>Dwells execution for specified hardware duration.</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SYNC</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Trajectory execution barrier (drains buffer).</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HOLD</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Trajectory feed hold; pauses running motion.</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RESUME</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Resumes previously suspended trajectory.</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ESTOP</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Immediate emergency stop and motion abort.</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ENABLE</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Energizes motor driver stages (holding torque).</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DISABLE</span></code></p></td>
+<td><p>None</p></td>
+<td><p>De-energizes motor driver stages (free movement).</p></td>
 </tr>
 </tbody>
 </table>
