@@ -28,7 +28,7 @@ other information that should be provided before the modules are installed.
     - [Automated Quality Gates (`run_quality_gates.sh`)](#automated-quality-gates-run_quality_gatessh)
   - [✨ Features](#-features)
   - [📜 SCARA Domain-Specific Language (DSL) & `.scara` Programs](#-scara-domain-specific-language-dsl--scara-programs)
-    - [SCARA DSL Instruction Reference](#scara-dsl-instruction-reference)
+    - [SCARA DSL Instruction Quick Reference](#scara-dsl-instruction-quick-reference)
     - [Example `.scara` Program: Industrial Pick & Place](#example-scara-program-industrial-pick--place)
   - [📡 SCARA Binary Wire Protocol & Codec](#-scara-binary-wire-protocol--codec)
     - [Frame Header & Wire Format](#frame-header--wire-format)
