@@ -16,19 +16,21 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Implementation of kinematic reachability validator delegating to kinematics service.
+    Composite facade enforcing SCARA mechanical reachability and kinematic validation.
 '''
 
 from __future__ import annotations
 
 from typing import Final
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
-from scaralang.core.model.trajectory.validation_result import ValidationResult
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.service.trajectory.plan.itrajectory_read_only import ITrajectoryReadOnly
-from scaralang.core.service.trajectory.metrics.trajectory_metrics import TrajectoryMetrics
+from scaralang.core.model.trajectory.validation_result import ValidationResult
+from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.kinematics.ikinematics_service import IKinematicsService
+from scaralang.core.service.trajectory.plan.itrajectory_read_only import ITrajectoryReadOnly
+from scaralang.core.service.trajectory.validation.feedrate.ifeedrate_validator import IFeedrateValidator
+from scaralang.core.service.trajectory.validation.plan.itrajectory_plan_validator import ITrajectoryPlanValidator
+from scaralang.core.service.trajectory.validation.waypoint.iwaypoint_validator import IWaypointValidator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -48,11 +50,11 @@ class TrajectoryValidator:
 
             :attributes:
                 | _kinematics - Injected analytical kinematics service.
-                | _bounds - Kinematic parameters of the SCARA arm.
-                | _r_min - Minimum reach distance from origin in mm.
-                | _r_max - Maximum reach distance from origin in mm.
+                | _waypoint_validator - Injected waypoint reachability validator.
+                | _feedrate_validator - Injected feedrate boundary validator.
+                | _plan_validator - Injected trajectory plan validator.
             :methods:
-                | __init__ - Initializes validator and kinematics service.
+                | __init__ - Initializes facade with collaborators.
                 | bounds - Returns active bounds model.
                 | r_min - Returns inner workspace radius.
                 | r_max - Returns outer workspace radius.
@@ -63,20 +65,30 @@ class TrajectoryValidator:
     '''
 
     _kinematics: IKinematicsService
-    _bounds: ScaraBounds
-    _r_min: float
-    _r_max: float
+    _waypoint_validator: IWaypointValidator
+    _feedrate_validator: IFeedrateValidator
+    _plan_validator: ITrajectoryPlanValidator
 
-    def __init__(self, kinematics: IKinematicsService) -> None:
+    def __init__(
+        self,
+        *,
+        kinematics: IKinematicsService,
+        waypoint_validator: IWaypointValidator,
+        feedrate_validator: IFeedrateValidator,
+        plan_validator: ITrajectoryPlanValidator,
+    ) -> None:
         '''
-            Initializes validator using injected KinematicsService.
+            Initializes trajectory validator facade using injected collaborators.
 
-            :param kinematics: IKinematicsService instance.
+            :param kinematics: Injected IKinematicsService instance.
+            :param waypoint_validator: Injected IWaypointValidator instance.
+            :param feedrate_validator: Injected IFeedrateValidator instance.
+            :param plan_validator: Injected ITrajectoryPlanValidator instance.
         '''
         self._kinematics: Final[IKinematicsService] = kinematics
-        self._bounds: Final[ScaraBounds] = self._kinematics.bounds
-        self._r_min: Final[float] = self._kinematics.r_min
-        self._r_max: Final[float] = self._kinematics.r_max
+        self._waypoint_validator: Final[IWaypointValidator] = waypoint_validator
+        self._feedrate_validator: Final[IFeedrateValidator] = feedrate_validator
+        self._plan_validator: Final[ITrajectoryPlanValidator] = plan_validator
 
     @property
     def bounds(self) -> ScaraBounds:
@@ -85,7 +97,7 @@ class TrajectoryValidator:
 
             :return: ScaraBounds instance.
         '''
-        return self._bounds
+        return self._kinematics.bounds
 
     @property
     def r_min(self) -> float:
@@ -94,7 +106,7 @@ class TrajectoryValidator:
 
             :return: Minimum reach radius.
         '''
-        return self._r_min
+        return self._kinematics.r_min
 
     @property
     def r_max(self) -> float:
@@ -103,7 +115,7 @@ class TrajectoryValidator:
 
             :return: Maximum reach radius.
         '''
-        return self._r_max
+        return self._kinematics.r_max
 
     @property
     def kinematics(self) -> IKinematicsService:
@@ -116,52 +128,21 @@ class TrajectoryValidator:
 
     def validate_point(self, point: Waypoint) -> ValidationResult:
         '''
-            Validates Waypoint coordinates against annular horizontal reach and vertical bounds.
+            Validates Waypoint coordinates against annular reach and vertical bounds.
 
-            :param point: Target Waypoint.
+            :param point: Target Waypoint to validate.
             :return: ValidationResult with pass/fail and descriptive reason.
         '''
-        in_workspace, ws_msg = self._kinematics.is_in_workspace(point.x, point.y, point.z)
-        if not in_workspace:
-            return ValidationResult(is_valid=False, message=ws_msg, error_index=-1)
-
-        is_reachable, reasons = self._kinematics.is_joint_reachable(point.x, point.y)
-        if not is_reachable:
-            if reasons and 'Mathematically unreachable' in reasons[0]:
-                return ValidationResult(
-                    is_valid=False,
-                    message=f'Point ({point.x:.1f}, {point.y:.1f}) is kinematically unreachable',
-                    error_index=-1,
-                )
-            reason_str: str = ', '.join(reasons) if reasons else 'Joint limits exceeded'
-            return ValidationResult(
-                is_valid=False,
-                message=f'Point ({point.x:.1f}, {point.y:.1f}) violates joint limits: {reason_str}',
-                error_index=-1,
-            )
-
-        return ValidationResult(is_valid=True, message='Point is reachable', error_index=-1)
+        return self._waypoint_validator.validate_point(point)
 
     def validate_feedrate(self, speed: float) -> ValidationResult:
         '''
             Validates that speed is within safe mechanical operation range.
 
             :param speed: Feedrate in mm/s.
-            :return: ValidationResult.
+            :return: ValidationResult with status and details.
         '''
-        if speed < self._bounds.min_speed:
-            return ValidationResult(
-                is_valid=False,
-                message=f'Speed {speed:.1f} mm/s is too slow (minimum {self._bounds.min_speed:.1f} mm/s)',
-                error_index=-1,
-            )
-        if speed > self._bounds.max_speed:
-            return ValidationResult(
-                is_valid=False,
-                message=f'Speed {speed:.1f} mm/s exceeds max safe feedrate {self._bounds.max_speed:.1f} mm/s',
-                error_index=-1,
-            )
-        return ValidationResult(is_valid=True, message='Speed is valid', error_index=-1)
+        return self._feedrate_validator.validate_feedrate(speed)
 
     def validate_plan(self, plan: ITrajectoryReadOnly) -> tuple[bool, list[str]]:
         '''
@@ -170,30 +151,4 @@ class TrajectoryValidator:
             :param plan: ITrajectoryReadOnly instance to validate.
             :return: Tuple of (is_valid, messages_list).
         '''
-        waypoints = plan.waypoints
-        if not waypoints:
-            return False, ['Trajectory plan is empty. Please add waypoints.']
-
-        messages: list[str] = []
-        all_valid: bool = True
-
-        for index, pt in enumerate(waypoints, start=1):
-            res_pt: ValidationResult = self.validate_point(pt)
-            if not res_pt.is_valid:
-                all_valid = False
-                messages.append(f'Point P{index} ({pt.x:.1f}, {pt.y:.1f}, {pt.z:.1f}): {res_pt.message}')
-
-            res_spd: ValidationResult = self.validate_feedrate(pt.speed)
-            if not res_spd.is_valid:
-                all_valid = False
-                messages.append(f'Point P{index} Speed ({pt.speed:.1f} mm/s): {res_spd.message}')
-
-        if all_valid:
-            total_dist: float = TrajectoryMetrics.calculate_distance(waypoints)
-            est_time: float = TrajectoryMetrics.calculate_duration(waypoints)
-            messages.append(
-                f'Validation PASSED: All {len(waypoints)} waypoints are within reachable workspace.\n'
-                f'Total Path Distance: {total_dist:.2f} mm | Estimated Time: {est_time:.2f} s'
-            )
-
-        return all_valid, messages
+        return self._plan_validator.validate_plan(plan)

@@ -21,8 +21,9 @@ Info
 
 from __future__ import annotations
 
-from typing import Protocol, runtime_checkable
 from collections.abc import Sequence
+from typing import Protocol
+from typing import runtime_checkable
 
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.trajectory.plan.itrajectory_read_only import ITrajectoryReadOnly

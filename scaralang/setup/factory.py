@@ -30,10 +30,16 @@ from ats_utilities.context.factory import ContextBundleFactory
 
 from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
 from scaralang.core.service.dsl.scara_dsl_service_factory import ScaraDslServiceFactory
+from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
+from scaralang.core.service.protocol.ibinary_frame_parser import IBinaryFrameParser
+from scaralang.core.service.protocol.ibinary_payload_unpacker import IBinaryPayloadUnpacker
 from scaralang.infrastructure.cli.engine import CLI
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
 from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
 from scaralang.infrastructure.cli.setup.factory import CLIBundleFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
 from scaralang.setup.bundle import ScaralangBundle
 from scaralang.setup.options import ScaralangBundleOptions
 from scaralang.setup.registry import ScaralangBundleRegistry
@@ -82,8 +88,10 @@ class ScaralangBundleFactory:
         if options is not None:
             ScaralangBundleOptionsValidator.validate(options)
 
-        info_file: str = options.get(ScaralangBundleKeys.OPTION_INFO_FILE) if options else cls._info_file
-        verbose: bool = options.get(ScaralangBundleKeys.OPTION_VERBOSE) if options else False
+        info_file: str = (
+            options.get(ScaralangBundleKeys.OPTION_INFO_FILE)
+            if options else cls._info_file
+        )
 
         base_bundle: BaseBundle = BaseBundleFactory.create_bundle(
             options=BaseBundleOptions(
@@ -91,7 +99,14 @@ class ScaralangBundleFactory:
             )
         )
 
-        dsl_service: IScaraDslService = ScaraDslServiceFactory.create_default()
+        frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        frame_parser: IBinaryFrameParser = BinaryFrameParserFactory.create_default()
+        payload_unpacker: IBinaryPayloadUnpacker = BinaryPayloadUnpackerFactory.create()
+        dsl_service: IScaraDslService = ScaraDslServiceFactory.create_default(
+            frame_builder=frame_builder,
+            frame_parser=frame_parser,
+            payload_unpacker=payload_unpacker
+        )
 
         cli_bundle: CLIBundle = CLIBundleFactory.create_bundle(
             options=CLIBundleOptions(service=dsl_service, parser=base_bundle.option_manager)

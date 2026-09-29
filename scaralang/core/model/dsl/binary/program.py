@@ -16,13 +16,14 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Defines immutable Program model representing compiled binary stream payload.
+    Defines immutable BinaryProgram model representing compiled binary stream payload.
 '''
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 
+from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.step import Step
 
 __author__ = 'Vladimir Roncevic'
@@ -36,18 +37,19 @@ __status__ = 'Updated'
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class Program:
+class BinaryProgram:
     '''
         Compiled binary program payload container.
 
         It defines:
 
-        :attributes:
-            | steps - Tuple of binary execution steps.
-            | raw_bytes - Packed byte sequence for wire streaming.
-            | total_duration_us - Total estimated execution duration in microseconds.
-            | instruction_count - Total number of compiled instructions.
-            | step_counts - Tuple of step counts per joint axis.
+            :attributes:
+                | steps - Tuple of binary execution steps.
+                | raw_bytes - Packed byte sequence for wire streaming.
+                | total_duration_us - Total estimated execution duration in microseconds.
+                | instruction_count - Total number of compiled instructions.
+                | step_counts - Tuple of step counts per joint axis.
+                | telemetry - Execution metrics and telemetry metadata.
     '''
 
     steps: tuple[Step, ...]
@@ -55,3 +57,4 @@ class Program:
     total_duration_us: int
     instruction_count: int
     step_counts: tuple[int, ...]
+    telemetry: BinaryProgramTelemetry

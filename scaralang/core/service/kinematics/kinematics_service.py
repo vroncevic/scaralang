@@ -53,8 +53,9 @@ class KinematicsService:
                 | r_max - Returns maximum reach radius in mm.
                 | solve_ik - Solves analytical inverse kinematics for joint angles.
                 | solve_fk - Computes Cartesian coordinates from joint angles.
-                | is_in_workspace - Checks if Cartesian coordinates lie within the workspace envelope.
-                | is_joint_reachable - Evaluates reachability within joint limits and singularity deadband.
+                | solve_fk_pose - Computes Cartesian positions of both elbow and tool joints.
+                | is_in_workspace - Checks if coordinates lie within the workspace envelope.
+                | is_joint_reachable - Evaluates reachability within joint limits.
     '''
 
     _bounds: ScaraBounds
@@ -132,6 +133,27 @@ class KinematicsService:
 
         return theta1, theta2
 
+    def solve_fk_pose(
+        self,
+        theta1: float,
+        theta2: float
+    ) -> tuple[tuple[float, float], tuple[float, float]]:
+        '''
+            Computes Cartesian coordinates of both elbow joint and end-effector tool.
+
+            :param theta1: Joint 1 (shoulder) angle in radians.
+            :param theta2: Joint 2 (elbow) angle in radians.
+            :return: Tuple of ((elbow_x, elbow_y), (tool_x, tool_y)) coordinates in mm.
+        '''
+        l1: float = self._bounds.l1
+        l2: float = self._bounds.l2
+        elbow_x: float = l1 * cos(theta1)
+        elbow_y: float = l1 * sin(theta1)
+        total_angle: float = theta1 + theta2
+        tool_x: float = elbow_x + l2 * cos(total_angle)
+        tool_y: float = elbow_y + l2 * sin(total_angle)
+        return ((elbow_x, elbow_y), (tool_x, tool_y))
+
     def solve_fk(
         self,
         theta1: float,
@@ -144,12 +166,8 @@ class KinematicsService:
             :param theta2: Joint 2 (elbow) angle in radians.
             :return: Tuple of (x, y) Cartesian coordinates in mm.
         '''
-        l1: float = self._bounds.l1
-        l2: float = self._bounds.l2
-        total_angle: float = theta1 + theta2
-        x: float = l1 * cos(theta1) + l2 * cos(total_angle)
-        y: float = l1 * sin(theta1) + l2 * sin(total_angle)
-        return x, y
+        _, tool = self.solve_fk_pose(theta1, theta2)
+        return tool
 
     def is_in_workspace(
         self,
@@ -158,7 +176,7 @@ class KinematicsService:
         z: float
     ) -> tuple[bool, str]:
         '''
-            Checks whether target coordinates lie within the physical annular workspace and Z limits.
+            Checks whether coordinates lie within the physical annular workspace and Z limits.
 
             :param x: Target Cartesian X coordinate in mm.
             :param y: Target Cartesian Y coordinate in mm.
@@ -166,21 +184,28 @@ class KinematicsService:
             :return: Tuple of (is_in_bounds, error_or_warning_message).
         '''
         r: float = hypot(x, y)
+
         if r > self._r_max + 1e-4:
             return (
                 False,
-                f'Point ({x:.1f}, {y:.1f}) exceeds maximum reach R_max={self._r_max:.1f} mm (r={r:.1f} mm)'
+                f'Point ({x:.1f}, {y:.1f}) exceeds maximum reach '
+                f'R_max={self._r_max:.1f} mm (r={r:.1f} mm)'
             )
+
         if r < self._r_min - 1e-4:
             return (
                 False,
-                f'Point ({x:.1f}, {y:.1f}) is inside deadzone R_min={self._r_min:.1f} mm (r={r:.1f} mm)'
+                f'Point ({x:.1f}, {y:.1f}) is inside deadzone '
+                f'R_min={self._r_min:.1f} mm (r={r:.1f} mm)'
             )
+
         if z < self._bounds.z_min - 1e-4 or z > self._bounds.z_max + 1e-4:
             return (
                 False,
-                f'Elevation Z={z:.1f} mm is out of range [{self._bounds.z_min:.1f}, {self._bounds.z_max:.1f}] mm'
+                f'Elevation Z={z:.1f} mm is out of range '
+                f'[{self._bounds.z_min:.1f}, {self._bounds.z_max:.1f}] mm'
             )
+
         return True, 'Point is within Cartesian workspace'
 
     def is_joint_reachable(
@@ -189,7 +214,7 @@ class KinematicsService:
         y: float
     ) -> tuple[bool, list[str]]:
         '''
-            Evaluates whether target position can be achieved within physical joint limits and singularity deadband.
+            Evaluates if target position can be achieved within physical joint limits.
 
             :param x: Target Cartesian X coordinate in mm.
             :param y: Target Cartesian Y coordinate in mm.
@@ -209,9 +234,11 @@ class KinematicsService:
             if theta1 < self._bounds.j1_min_rad or theta1 > self._bounds.j1_max_rad:
                 reasons.append(f'J1 angle {degrees(theta1):.1f}° exceeds limit')
                 continue
+
             if theta2 < self._bounds.j2_min_rad or theta2 > self._bounds.j2_max_rad:
                 reasons.append(f'J2 angle {degrees(theta2):.1f}° exceeds limit')
                 continue
+
             if abs(theta2) < self._bounds.singularity_theta2_min_rad:
                 reasons.append('J2 in singularity deadband')
                 continue

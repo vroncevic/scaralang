@@ -28,7 +28,7 @@ from ats_utilities.option.imanager import IOptionManager
 from ats_utilities.utils.reflection import instance_to_dict
 
 from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
-from scaralang.infrastructure.command.command import CommandBundle
+from scaralang.infrastructure.command.command_bundle import CommandBundle
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'

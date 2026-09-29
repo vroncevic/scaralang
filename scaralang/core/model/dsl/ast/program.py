@@ -16,14 +16,14 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Defines immutable Program AST root containing sequence of parsed instructions.
+    Defines immutable ScaraProgram AST root containing sequence of parsed instructions.
 '''
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.model.dsl.ast.instruction import Instruction
+from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -36,7 +36,7 @@ __status__ = 'Updated'
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class Program:
+class ScaraProgram:
     '''
         Immutable AST root entity representing a complete parsed SCARA DSL program.
 
@@ -44,8 +44,6 @@ class Program:
 
             :attributes:
                 | instructions - Immutable tuple of instruction nodes.
-            :methods:
-                | None.
     '''
 
-    instructions: tuple[Instruction, ...]
+    instructions: tuple[ScaraInstruction, ...]

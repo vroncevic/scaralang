@@ -42,11 +42,21 @@ class IBinaryFrameParser(Protocol):
 
         It defines:
 
+            :attributes:
+                | name - Identifier name of the binary frame parser.
             :methods:
                 | feed_byte - Processes a single incoming stream byte.
                 | feed_bytes - Processes multiple stream bytes and yields frames.
                 | reset - Clears parser state machine and internal buffers.
     '''
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the parser identifier name.
+
+            :return: Parser name string.
+        '''
 
     def feed_byte(self, byte: int) -> BinaryFrame | None:
         '''

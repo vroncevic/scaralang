@@ -22,7 +22,9 @@ Info
 from __future__ import annotations
 
 from scaralang.core.service.protocol.ibinary_frame_parser import IBinaryFrameParser
+from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory import BinaryFrameAssemblerFactory
 from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser import BinaryFrameParser
+from scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler import IBinaryFrameAssembler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -41,7 +43,9 @@ class BinaryFrameParserFactory:
         It defines:
 
             :methods:
-                | create - Builds and returns a new IBinaryFrameParser instance.
+                | create - Builds and returns a new default IBinaryFrameParser instance.
+                | create_default - Builds and returns a new IBinaryFrameParser with default assembler.
+                | create_with_assembler - Builds and returns an IBinaryFrameParser with injected assembler.
                 | get_version - Returns factory version string.
     '''
 
@@ -50,10 +54,37 @@ class BinaryFrameParserFactory:
         '''
             Builds and returns an IBinaryFrameParser instance.
 
-            :return: IBinaryFrameParser protocol instance.
+            :return: Instantiated IBinaryFrameParser instance.
             :exceptions: None.
         '''
-        return BinaryFrameParser()
+        return BinaryFrameParser(
+            assembler=BinaryFrameAssemblerFactory.create()
+        )
+
+    @classmethod
+    def create_default(cls) -> IBinaryFrameParser:
+        '''
+            Builds and returns an IBinaryFrameParser instance with default assembler.
+
+            :return: Instantiated IBinaryFrameParser instance.
+            :exceptions: None.
+        '''
+        return cls.create()
+
+    @classmethod
+    def create_with_assembler(
+        cls,
+        *,
+        assembler: IBinaryFrameAssembler,
+    ) -> IBinaryFrameParser:
+        '''
+            Builds and returns an IBinaryFrameParser instance with injected assembler.
+
+            :param assembler: Injected frame assembler collaborator.
+            :return: Instantiated IBinaryFrameParser instance.
+            :exceptions: None.
+        '''
+        return BinaryFrameParser(assembler=assembler)
 
     @classmethod
     def get_version(cls) -> str:

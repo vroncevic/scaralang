@@ -69,7 +69,10 @@ class CLIBundleOptionsValidator:
 
         for attr_name, expected_type in CLIBundleKeys.get_option_to_type().items():
             if attr_name in options:
-                msg_attr_istype: str = f'the {attr_name.replace("_", " ")} must be an instance of {expected_type.__name__}'
+                attr_label: str = attr_name.replace("_", " ")
+                msg_attr_istype: str = (
+                    f'the {attr_label} must be an instance of {expected_type.__name__}'
+                )
                 istype(options[attr_name], expected_type, ctx, msg_attr_istype)
 
     @classmethod

@@ -16,40 +16,32 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Root factory for the SCARA DSL subsystem wiring lexer, parser, compiler, and binary pipeline.
+    Root factory for the SCARA DSL subsystem wiring parser, compiler, and binary pipeline.
 '''
 
 from __future__ import annotations
 
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.model.kinematics.transmission_parameters import TransmissionParameters
-from scaralang.core.service.kinematics.kinematics_service_factory import KinematicsServiceFactory
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.core.service.trajectory.validation.trajectory_validator_factory import TrajectoryValidatorFactory
-from scaralang.core.service.dsl.binary.command.command_compiler_factory import CommandCompilerFactory
-from scaralang.core.service.dsl.binary.compiler_factory import CompilerFactory
-from scaralang.core.service.dsl.binary.command.icommand_compiler import ICommandCompiler
-from scaralang.core.service.dsl.binary.icompiler import ICompiler
-from scaralang.core.service.dsl.binary.motion.imotion_compiler import IMotionCompiler
-from scaralang.core.service.dsl.binary.step.istep_discretizer import IStepDiscretizer
-from scaralang.core.service.dsl.binary.motion.motion_compiler_factory import MotionCompilerFactory
-from scaralang.core.service.dsl.binary.step.step_discretizer_factory import StepDiscretizerFactory
-from scaralang.core.service.dsl.compiler.iscara_compiler import IScaraCompiler
-from scaralang.core.service.dsl.compiler.scara_compiler_factory import ScaraCompilerFactory
-from scaralang.core.service.dsl.exporter.iscara_plan_exporter import IScaraPlanExporter
-from scaralang.core.service.dsl.exporter.scara_plan_exporter_factory import ScaraPlanExporterFactory
+from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
+from scaralang.core.service.dsl.binary.binary_service_factory import BinaryServiceFactory
 from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
-from scaralang.core.service.dsl.lexer.iscara_lexer import IScaraLexer
-from scaralang.core.service.dsl.lexer.scara_lexer_factory import ScaraLexerFactory
-from scaralang.core.service.dsl.parser.iscara_parser import IScaraParser
-from scaralang.core.service.dsl.parser.scara_parser_factory import ScaraParserFactory
+from scaralang.core.service.dsl.scara_dsl_bundle import ScaraDslBundle
+from scaralang.core.service.dsl.compilation.scara_dsl_compiler_factory import ScaraDslCompilerFactory
+from scaralang.core.service.dsl.scara_dsl_pipeline_bundle import ScaraDslPipelineBundle
 from scaralang.core.service.dsl.scara_dsl_service import ScaraDslService
-from scaralang.core.service.kinematics.ikinematics_service import IKinematicsService
-from scaralang.core.service.trajectory.validation.itrajectory_validator import ITrajectoryValidator
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.core.service.dsl.toolchain.toolchain_info_provider_factory import ToolchainInfoProviderFactory
+from scaralang.core.service.dsl.validation.scara_script_validator_factory import ScaraScriptValidatorFactory
+from scaralang.core.service.exporter.scara.scara_plan_exporter_factory import ScaraPlanExporterFactory
+from scaralang.core.service.kinematics.default_scara_profile import DefaultScaraProfile
+from scaralang.core.service.kinematics.kinematics_service_factory import KinematicsServiceFactory
+from scaralang.core.service.linter.scara_linter_factory import ScaraLinterFactory
+from scaralang.core.service.parser.lexer.scara_lexer_factory import ScaraLexerFactory
+from scaralang.core.service.parser.scara_parser_factory import ScaraParserFactory
+from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
+from scaralang.core.service.protocol.ibinary_frame_parser import IBinaryFrameParser
+from scaralang.core.service.protocol.ibinary_payload_unpacker import IBinaryPayloadUnpacker
+from scaralang.core.service.trajectory.validation.trajectory_validator_factory import TrajectoryValidatorFactory
 
 __author__ = 'Vladimir Roncevic'
-
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
@@ -66,95 +58,78 @@ class ScaraDslServiceFactory:
         It defines:
 
             :methods:
-                | create - Wires child factories and returns an IScaraDslService instance.
+                | create - Builds ScaraDslService from injected pipeline dependencies.
+                | create_default - Builds ScaraDslService with standard kinematics defaults.
                 | get_version - Returns factory version string.
     '''
 
     @classmethod
-    def create(
-        cls,
-        *,
-        validator: ITrajectoryValidator,
-        kinematics: IKinematicsService,
-        transmission: TransmissionParameters
-    ) -> IScaraDslService:
+    def create(cls, *, bundle: ScaraDslPipelineBundle) -> IScaraDslService:
         '''
-            Builds and wires ScaraDslService performing explicit DI into child sub-factories.
+            Builds ScaraDslService from injected pipeline dependencies.
 
-            :param validator: Injected ITrajectoryValidator protocol instance.
-            :param kinematics: Injected IKinematicsService protocol instance.
-            :param transmission: Injected TransmissionParameters domain model.
+            :param bundle: Injected ScaraDslPipelineBundle dependency container.
             :return: Fully wired IScaraDslService protocol instance.
             :exceptions: None.
         '''
-        active_lexer: IScaraLexer = ScaraLexerFactory.create()
-        active_parser: IScaraParser = ScaraParserFactory.create(lexer=active_lexer)
-        active_compiler: IScaraCompiler = ScaraCompilerFactory.create(validator=validator)
-        active_exporter: IScaraPlanExporter = ScaraPlanExporterFactory.create()
-        active_discretizer: IStepDiscretizer = StepDiscretizerFactory.create(
-            kinematics=kinematics, transmission=transmission
+        parser = ScaraParserFactory.create(lexer=ScaraLexerFactory.create())
+        compiler = ScaraCompilerFactory.create(validator=bundle.validator)
+        linter = ScaraLinterFactory.create()
+
+        dsl_compiler = ScaraDslCompilerFactory.create(
+            parser=parser,
+            compiler=compiler,
+            linter=linter,
         )
-        active_frame_builder: IBinaryFrameBuilder = (BinaryFrameBuilderFactory.create())
-        active_motion_compiler: IMotionCompiler = MotionCompilerFactory.create(
-            discretizer=active_discretizer, frame_builder=active_frame_builder
-        )
-        active_command_compiler: ICommandCompiler = CommandCompilerFactory.create(
-            frame_builder=active_frame_builder
-        )
-        active_binary_compiler: ICompiler = CompilerFactory.create(
-            lexer=active_lexer,
-            parser=active_parser,
-            compiler=active_compiler,
-            motion_compiler=active_motion_compiler,
-            command_compiler=active_command_compiler
+        script_validator = ScaraScriptValidatorFactory.create(
+            parser=parser,
+            compiler=compiler,
+            linter=linter,
         )
 
-        return ScaraDslService(
-            lexer=active_lexer,
-            parser=active_parser,
-            compiler=active_compiler,
-            exporter=active_exporter,
-            binary_compiler=active_binary_compiler
+        binary_service = BinaryServiceFactory.create_default(bundle=bundle)
+
+        dsl_bundle = ScaraDslBundle(
+            compiler=dsl_compiler,
+            validator=script_validator,
+            exporter=ScaraPlanExporterFactory.create(),
+            binary_service=binary_service,
+            toolchain_info=ToolchainInfoProviderFactory.create(),
         )
+
+        return ScaraDslService(bundle=dsl_bundle)
 
     @classmethod
-    def create_default(cls) -> IScaraDslService:
+    def create_default(
+        cls,
+        *,
+        frame_builder: IBinaryFrameBuilder,
+        frame_parser: IBinaryFrameParser,
+        payload_unpacker: IBinaryPayloadUnpacker,
+    ) -> IScaraDslService:
         '''
             Builds and wires ScaraDslService using standard robotic kinematics defaults.
 
+            :param frame_builder: Injected IBinaryFrameBuilder protocol instance.
+            :param frame_parser: Injected IBinaryFrameParser protocol instance.
+            :param payload_unpacker: Injected IBinaryPayloadUnpacker protocol instance.
             :return: Fully wired IScaraDslService protocol instance.
             :exceptions: None.
         '''
-        bounds = ScaraBounds(
-            l1=150.0,
-            l2=150.0,
-            z_min=-50.0,
-            z_max=50.0,
-            min_speed=1.0,
-            max_speed=200.0,
-            default_speed=50.0,
-            default_accel=100.0,
-            max_accel=500.0,
-            j1_min_rad=-2.61799,
-            j1_max_rad=2.61799,
-            j2_min_rad=-2.61799,
-            j2_max_rad=2.61799,
-            singularity_outer_margin_mm=5.0,
-            singularity_inner_margin_mm=5.0,
-            singularity_theta2_min_rad=0.087266,
-            deadzone_r_min=20.0
+        bounds = DefaultScaraProfile.create_bounds()
+        kinematics = KinematicsServiceFactory.create(bounds=bounds)
+        validator = TrajectoryValidatorFactory.create(kinematics=kinematics)
+        transmission = DefaultScaraProfile.create_transmission()
+        bundle = ScaraDslPipelineBundle(
+            frame_builder=frame_builder,
+            frame_parser=frame_parser,
+            payload_unpacker=payload_unpacker,
+            kinematics=kinematics,
+            validator=validator,
+            transmission=transmission,
         )
-        kinematics: IKinematicsService = KinematicsServiceFactory.create(bounds=bounds)
-        validator: ITrajectoryValidator = TrajectoryValidatorFactory.create(kinematics=kinematics)
-        transmission = TransmissionParameters(
-            steps_per_rev=200.0,
-            microstepping=16.0,
-            gear_ratio_j1=4.0,
-            gear_ratio_j2=2.0,
-            gear_ratio_j4=1.0,
-            leadscrew_pitch_z=8.0
-        )
-        return cls.create(validator=validator, kinematics=kinematics, transmission=transmission)
+
+        return cls.create(bundle=bundle)
 
     @classmethod
     def get_version(cls) -> str:
@@ -165,4 +140,3 @@ class ScaraDslServiceFactory:
             :exceptions: None.
         '''
         return __version__
-

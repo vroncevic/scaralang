@@ -21,8 +21,7 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.trajectory.history.iplan_history import IPlanHistory
-from scaralang.core.service.trajectory.history.plan_history_factory import PlanHistoryFactory
+from scaralang.core.service.trajectory.plan.itrajectory_plan import ITrajectoryPlan
 from scaralang.core.service.trajectory.plan.trajectory_plan import TrajectoryPlan
 
 __author__ = 'Vladimir Roncevic'
@@ -41,28 +40,44 @@ class TrajectoryPlanFactory:
 
         It defines:
 
+            :attributes:
+                | name - Identifier name of the factory.
             :methods:
-                | create - Instantiates a new TrajectoryPlan with injected history.
+                | __init__ - Initializes TrajectoryPlanFactory instance.
+                | create - Instantiates a new ITrajectoryPlan.
+                | get_version - Returns factory version string.
     '''
 
-    @classmethod
-    def create(cls) -> TrajectoryPlan:
+    def __init__(self) -> None:
         '''
-            Instantiates a new TrajectoryPlan with default domain plan history.
+            Initializes TrajectoryPlanFactory instance.
+        '''
 
-            :return: New TrajectoryPlan instance.
+    @property
+    def name(self) -> str:
+        '''
+            Gets the trajectory plan factory identifier name.
+
+            :return: Factory name string.
+        '''
+        return 'trajectory_plan_factory'
+
+    @classmethod
+    def create(cls) -> ITrajectoryPlan:
+        '''
+            Instantiates a new ITrajectoryPlan.
+
+            :return: New ITrajectoryPlan instance.
             :exceptions: None.
         '''
-        return TrajectoryPlan(history=PlanHistoryFactory.create())
+        return TrajectoryPlan()
 
     @classmethod
-    def create_with_history(cls, *, history: IPlanHistory) -> TrajectoryPlan:
+    def get_version(cls) -> str:
         '''
-            Instantiates a new TrajectoryPlan with injected custom history.
+            Returns the factory version string.
 
-            :param history: Injected IPlanHistory instance.
-            :return: New TrajectoryPlan instance.
+            :return: Factory version string.
             :exceptions: None.
         '''
-        return TrajectoryPlan(history=history)
-
+        return __version__

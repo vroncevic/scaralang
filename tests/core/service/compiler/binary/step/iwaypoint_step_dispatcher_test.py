@@ -1,0 +1,74 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    iwaypoint_step_dispatcher_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for IWaypointStepDispatcher protocol contract.
+'''
+
+from __future__ import annotations
+
+from collections.abc import Sequence
+from unittest import TestCase, main
+
+from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.service.compiler.binary.step.iwaypoint_step_dispatcher import IWaypointStepDispatcher
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.0'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class DummyDispatcher:
+    '''Dummy dispatcher for protocol runtime check verification.'''
+
+    @property
+    def name(self) -> str:
+        '''Returns dummy name.'''
+        return 'dummy'
+
+    def dispatch_steps(
+        self, *, waypoints: Sequence[Waypoint]
+    ) -> tuple[Step, ...]:
+        '''Dummy dispatch_steps implementation.'''
+        _ = waypoints
+        return ()
+
+
+class TestIWaypointStepDispatcher(TestCase):
+    '''
+        Test cases verifying IWaypointStepDispatcher protocol contract.
+
+        It defines:
+
+            :methods:
+                | test_protocol_conformance - Verifies dummy class satisfies protocol.
+    '''
+
+    def test_protocol_conformance(self) -> None:
+        '''Verifies structural typing conformance without inheritance.'''
+        dispatcher = DummyDispatcher()
+        self.assertIsInstance(dispatcher, IWaypointStepDispatcher)
+
+
+if __name__ == '__main__':
+    main()

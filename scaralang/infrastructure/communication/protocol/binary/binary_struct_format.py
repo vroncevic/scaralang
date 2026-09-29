@@ -50,6 +50,8 @@ class BinaryStructFormat(StrEnum):
                 | ACK - 2-byte positive acknowledgment payload (<BB: acked_id, q_count).
                 | NACK - 2-byte negative rejection payload (<BB: rejected_id, error_code).
                 | DIAGNOSTICS - 56-byte extended diagnostics report payload (<IIIIBBIIIIiiiiBBI).
+                | CONFIG_MOTOR - 2-byte motor drive mode payload (<BB: mode, axis_mask).
+                | WAIT - 4-byte delay wait duration payload (<I: delay_ms).
     '''
 
     HEADER = '<BBB'
@@ -62,3 +64,5 @@ class BinaryStructFormat(StrEnum):
     ACK = '<BB'
     NACK = '<BB'
     DIAGNOSTICS = '<IIIIBBIIIIiiiiBBI'
+    CONFIG_MOTOR = '<BB'
+    WAIT = '<I'

@@ -1,0 +1,78 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    csv_trajectory_exporter.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Serializes trajectory plans into comma-separated tabular time-series data.
+'''
+
+from __future__ import annotations
+
+from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.service.trajectory.plan.itrajectory_plan import ITrajectoryPlan
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.0'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class CsvTrajectoryExporter:
+    '''
+        Serializes trajectory plan waypoints into comma-separated tabular data.
+
+        It defines:
+
+            :methods:
+                | export_csv - Serializes ITrajectoryPlan into CSV string.
+                | format_row - Formats a single Waypoint into a CSV row.
+    '''
+
+    def format_row(self, *, index: int, waypoint: Waypoint) -> str:
+        '''
+            Formats a single trajectory waypoint into a CSV row string.
+
+            :param index: Zero-based waypoint sequence index.
+            :param waypoint: Trajectory Waypoint instance.
+            :return: Formatted CSV row string.
+            :exceptions: None.
+        '''
+        return (
+            f'{index},{waypoint.name},{waypoint.x:.3f},{waypoint.y:.3f},'
+            f'{waypoint.z:.3f},{waypoint.phi:.3f},{waypoint.speed:.1f},'
+            f'{waypoint.command}'
+        )
+
+    def export_csv(self, *, plan: ITrajectoryPlan) -> str:
+        '''
+            Serializes trajectory plan waypoints into formatted CSV string.
+
+            :param plan: Validated ITrajectoryPlan protocol instance.
+            :return: Formatted CSV string.
+            :exceptions: None.
+        '''
+        rows: list[str] = [
+            'index,name,x_mm,y_mm,z_mm,phi_deg,speed_pct,command'
+        ]
+
+        for idx, wp in enumerate(plan.waypoints):
+            rows.append(self.format_row(index=idx, waypoint=wp))
+
+        return '\n'.join(rows) + '\n'

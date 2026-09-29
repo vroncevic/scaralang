@@ -26,7 +26,7 @@ from collections.abc import Sequence
 from ats_utilities.option.imanager import IOptionManager
 
 from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
-from scaralang.infrastructure.command.command import CommandBundle
+from scaralang.infrastructure.command.command_bundle import CommandBundle
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
 from scaralang.infrastructure.cli.setup.validator import CLIBundleValidator
 from scaralang.infrastructure.cli.setup.keys import CLIBundleKeys

@@ -16,16 +16,20 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Defines interface IScaraDslService coordinating high-level SCARA DSL compilation and export.
+    Defines composite interface IScaraDslService coordinating high-level SCARA DSL compilation and export.
 '''
 
 from __future__ import annotations
 
-from typing import Protocol, runtime_checkable
+from typing import Protocol
+from typing import runtime_checkable
 
-from scaralang.core.service.dsl.iscara_dsl_compiler import IScaraDslCompiler
+from scaralang.core.service.dsl.iscara_dsl_binary_compiler import IScaraDslBinaryCompiler
+from scaralang.core.service.dsl.compilation.iscara_dsl_compiler import IScaraDslCompiler
+from scaralang.core.service.dsl.iscara_dsl_disassembler import IScaraDslDisassembler
+from scaralang.core.service.dsl.iscara_dsl_info_provider import IScaraDslInfoProvider
 from scaralang.core.service.dsl.iscara_dsl_validator import IScaraDslValidator
-from scaralang.core.service.dsl.iscara_plan_exporter_service import IScaraPlanExporterService
+from scaralang.core.service.exporter.scara.iscara_plan_exporter import IScaraPlanExporter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -38,11 +42,24 @@ __status__ = 'Updated'
 
 
 @runtime_checkable
-class IScaraDslService(IScaraDslCompiler, IScaraDslValidator, IScaraPlanExporterService, Protocol):
+class IScaraDslService(
+    IScaraDslCompiler,
+    IScaraDslValidator,
+    IScaraPlanExporter,
+    IScaraDslBinaryCompiler,
+    IScaraDslDisassembler,
+    IScaraDslInfoProvider,
+    Protocol,
+):
     '''
         High-level composite orchestration service protocol for SCARA DSL processing.
 
-        Combines compilation, validation, linting, and trajectory plan export contracts.
+        Combines compilation, validation, linting, disassembly, binary compilation, and plan export contracts.
+
+        It defines:
+
+            :methods:
+                | is_initialized - Checks if all internal components are initialized.
     '''
 
     def is_initialized(self) -> bool:
@@ -52,5 +69,3 @@ class IScaraDslService(IScaraDslCompiler, IScaraDslValidator, IScaraPlanExporter
             :return: True if all subcomponents are operational, False otherwise.
             :exceptions: None.
         '''
-        ...
-

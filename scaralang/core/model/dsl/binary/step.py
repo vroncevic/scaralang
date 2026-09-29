@@ -42,13 +42,13 @@ class Step:
 
         It defines:
 
-        :attributes:
-            | frame - Structured binary wire frame.
-            | raw_bytes - Raw serialized wire bytes.
-            | duration_us - Move duration in microseconds.
-            | target_steps - Tuple of motor target microstep coordinates (m1, m2, z, tool).
-            | description - Human-readable step label or command text.
-            | line_number - Source DSL line number.
+            :attributes:
+                | frame - Structured binary wire frame.
+                | raw_bytes - Raw serialized wire bytes.
+                | duration_us - Move duration in microseconds.
+                | target_steps - Tuple of motor target microstep coordinates (m1, m2, z, tool).
+                | description - Human-readable step label or command text.
+                | line_number - Source DSL line number.
     '''
 
     frame: BinaryFrame

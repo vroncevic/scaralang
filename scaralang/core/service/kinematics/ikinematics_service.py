@@ -49,8 +49,9 @@ class IKinematicsService(Protocol):
             :methods:
                 | solve_ik - Solves analytical inverse kinematics for joint angles.
                 | solve_fk - Computes Cartesian coordinates from joint angles.
-                | is_in_workspace - Checks whether coordinates fall within annular and height envelope.
-                | is_joint_reachable - Evaluates if position is reachable within joint and singularity limits.
+                | solve_fk_pose - Computes Cartesian positions of both elbow and tool joints.
+                | is_in_workspace - Checks whether coordinates fall within annular envelope.
+                | is_joint_reachable - Evaluates if position is reachable within joint limits.
     '''
 
     @property
@@ -105,6 +106,19 @@ class IKinematicsService(Protocol):
             :return: Tuple of (x, y) Cartesian coordinates in mm.
         '''
 
+    def solve_fk_pose(
+        self,
+        theta1: float,
+        theta2: float
+    ) -> tuple[tuple[float, float], tuple[float, float]]:
+        '''
+            Computes Cartesian coordinates of both elbow joint and end-effector tool.
+
+            :param theta1: Joint 1 (shoulder) angle in radians.
+            :param theta2: Joint 2 (elbow) angle in radians.
+            :return: Tuple of ((elbow_x, elbow_y), (tool_x, tool_y)) coordinates in mm.
+        '''
+
     def is_in_workspace(
         self,
         x: float,
@@ -112,7 +126,7 @@ class IKinematicsService(Protocol):
         z: float
     ) -> tuple[bool, str]:
         '''
-            Checks whether target coordinates lie within the physical annular workspace and Z limits.
+            Checks whether coordinates lie within the physical annular workspace and Z limits.
 
             :param x: Target Cartesian X coordinate in mm.
             :param y: Target Cartesian Y coordinate in mm.
@@ -126,7 +140,7 @@ class IKinematicsService(Protocol):
         y: float
     ) -> tuple[bool, list[str]]:
         '''
-            Evaluates whether target position can be achieved within physical joint limits and singularity deadband.
+            Evaluates if target position can be achieved within physical joint limits.
 
             :param x: Target Cartesian X coordinate in mm.
             :param y: Target Cartesian Y coordinate in mm.

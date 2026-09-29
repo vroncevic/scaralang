@@ -53,7 +53,7 @@ class Waypoint:
     x: float
     y: float
     z: float
-    phi: float
     speed: float
-    name: str
-    command: str
+    phi: float = 0.0
+    name: str = ''
+    command: str = ''

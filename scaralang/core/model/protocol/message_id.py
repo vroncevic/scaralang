@@ -54,6 +54,7 @@ class MessageId(IntEnum):
                 | CMD_TOOL_VALVE - Release valve tool actuation (0x0C).
                 | CMD_WAIT - Dwell delay in milliseconds (0x0D).
                 | CMD_OVERRIDE - Feedrate speed override percentage (0x0E).
+                | CMD_CONFIG_MOTOR - Motor actuation mode configuration (0x0F).
                 | CMD_GET_STATUS - Query system status (0x20).
                 | CMD_GET_STEPS - Query joint step counters (0x21).
                 | CMD_GET_DIAGNOSTICS - Query diagnostics report (0x22).
@@ -85,6 +86,7 @@ class MessageId(IntEnum):
     CMD_TOOL_VALVE = 0x0C
     CMD_WAIT = 0x0D
     CMD_OVERRIDE = 0x0E
+    CMD_CONFIG_MOTOR = 0x0F
 
     CMD_GET_STATUS = 0x20
     CMD_GET_STEPS = 0x21

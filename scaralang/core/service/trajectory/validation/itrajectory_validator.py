@@ -53,8 +53,8 @@ class ITrajectoryValidator(Protocol):
                 | kinematics - Active kinematics service instance.
             :methods:
                 | validate_point - Validates whether a waypoint is within reachable workspace.
-                | validate_feedrate - Validates whether the feedrate is within safe mechanical limits.
-                | validate_plan - Validates entire trajectory plan against kinematic and feedrate bounds.
+                | validate_feedrate - Validates feedrate within safe mechanical limits.
+                | validate_plan - Validates trajectory plan against kinematic and speed bounds.
     '''
 
     @property

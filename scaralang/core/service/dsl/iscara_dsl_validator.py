@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
-from typing import Protocol, runtime_checkable
+from typing import Protocol
+from typing import runtime_checkable
 
-from scaralang.core.model.dsl.diagnostic.diagnostic import Diagnostic
+from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
+from scaralang.core.service.dsl.iscara_dsl_linter import IScaraDslLinter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -36,7 +38,7 @@ __status__ = 'Updated'
 
 
 @runtime_checkable
-class IScaraDslValidator(Protocol):
+class IScaraDslValidator(IScaraDslLinter, Protocol):
     '''
         Role interface protocol for SCARA DSL validation and static analysis.
 
@@ -56,11 +58,11 @@ class IScaraDslValidator(Protocol):
             :exceptions: None.
         '''
 
-    def lint_script(self, *, source: str) -> tuple[Diagnostic, ...]:
+    def lint_script(self, *, source: str) -> tuple[ScaraDiagnostic, ...]:
         '''
             Performs static analysis checks on a DSL script string.
 
             :param source: Raw .scara script text.
-            :return: Tuple of Diagnostic findings.
+            :return: Tuple of ScaraDiagnostic findings.
             :exceptions: None.
         '''

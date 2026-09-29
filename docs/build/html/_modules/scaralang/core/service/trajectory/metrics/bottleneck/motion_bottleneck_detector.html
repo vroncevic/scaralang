@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../../_static/classic.css?v=514cf933" />
+    
+    <script src="../../../../../../../_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="../../../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../../../index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: UTF-8 -*-</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Module</span>
+<span class="sd">    motion_bottleneck_detector.py</span>
+<span class="sd">Copyright</span>
+<span class="sd">    Copyright (C) 2026 Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;</span>
+<span class="sd">    scaralang is free software: you can redistribute it and/or modify it</span>
+<span class="sd">    under the terms of the GNU General Public License as published by the</span>
+<span class="sd">    Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd">    (at your option) any later version.</span>
+<span class="sd">    scaralang is distributed in the hope that it will be useful, but</span>
+<span class="sd">    WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
+<span class="sd">    See the GNU General Public License for more details.</span>
+<span class="sd">    You should have received a copy of the GNU General Public License along</span>
+<span class="sd">    with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">Info</span>
+<span class="sd">    Defines MotionBottleneckDetector identifying axes constraining trajectory execution time.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.step</span> <span class="kn">import</span> <span class="n">Step</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.bottleneck_incident</span> <span class="kn">import</span> <span class="n">BottleneckIncident</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.0&#39;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
+
+
+<div class="viewcode-block" id="MotionBottleneckDetector">
+<a class="viewcode-back" href="../../../../../../../scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector.html#scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector.MotionBottleneckDetector">[docs]</a>
+<span class="k">class</span> <span class="nc">MotionBottleneckDetector</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Detects which robot axis dictates move duration, identifying kinematic bottlenecks.</span>
+
+<span class="sd">        It defines:</span>
+
+<span class="sd">            :attributes:</span>
+<span class="sd">                | name - Identifier name of the motion bottleneck detector.</span>
+<span class="sd">            :methods:</span>
+<span class="sd">                | __init__ - Initializes MotionBottleneckDetector instance.</span>
+<span class="sd">                | detect_bottlenecks - Evaluates motion steps to identify limiting axes.</span>
+<span class="sd">                | detect_step_bottleneck - Evaluates a single step displacement for bottlenecks.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Initializes MotionBottleneckDetector instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Gets the detector identifier name.</span>
+
+<span class="sd">            :return: Detector name string.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;motion_bottleneck_detector&#39;</span>
+
+<div class="viewcode-block" id="MotionBottleneckDetector.detect_step_bottleneck">
+<a class="viewcode-back" href="../../../../../../../scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector.html#scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector.MotionBottleneckDetector.detect_step_bottleneck">[docs]</a>
+    <span class="k">def</span> <span class="nf">detect_step_bottleneck</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">step</span><span class="p">:</span> <span class="n">Step</span><span class="p">,</span>
+        <span class="n">step_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">prev_coords</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BottleneckIncident</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Determines whether a motion step is constrained by an axis velocity or acceleration.</span>
+
+<span class="sd">            :param step: Motion step under analysis.</span>
+<span class="sd">            :param step_index: Index of step in execution sequence.</span>
+<span class="sd">            :param prev_coords: Preceding joint step coordinates (j1, j2, z, j4).</span>
+<span class="sd">            :return: BottleneckIncident if movement occurred, else None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">deltas</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">abs</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">prev_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="nb">abs</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">prev_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="nb">abs</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">prev_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="nb">abs</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">prev_coords</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
+        <span class="p">)</span>
+        <span class="n">max_delta</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">max_delta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">axis_names</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;J1&#39;</span><span class="p">,</span> <span class="s1">&#39;J2&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;J4&#39;</span><span class="p">)</span>
+        <span class="n">limiting_axis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">axis_names</span><span class="p">[</span><span class="n">deltas</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_delta</span><span class="p">)]</span>
+        <span class="n">constraint_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;ACCELERATION&#39;</span> <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">duration_us</span> <span class="o">&lt;=</span> <span class="mi">5000</span> <span class="k">else</span> <span class="s1">&#39;VELOCITY&#39;</span>
+
+        <span class="k">return</span> <span class="n">BottleneckIncident</span><span class="p">(</span>
+            <span class="n">step_index</span><span class="o">=</span><span class="n">step_index</span><span class="p">,</span>
+            <span class="n">limiting_axis</span><span class="o">=</span><span class="n">limiting_axis</span><span class="p">,</span>
+            <span class="n">constraint_type</span><span class="o">=</span><span class="n">constraint_type</span><span class="p">,</span>
+            <span class="n">duration_us</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">duration_us</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MotionBottleneckDetector.detect_bottlenecks">
+<a class="viewcode-back" href="../../../../../../../scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector.html#scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector.MotionBottleneckDetector.detect_bottlenecks">[docs]</a>
+    <span class="k">def</span> <span class="nf">detect_bottlenecks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Step</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">BottleneckIncident</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Evaluates sequence of steps to compile bottleneck incidents across trajectory.</span>
+
+<span class="sd">            :param steps: Sequence of compiled binary motion steps.</span>
+<span class="sd">            :return: Tuple of BottleneckIncident records.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">incidents</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BottleneckIncident</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">prev_coords</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+            <span class="n">incident</span><span class="p">:</span> <span class="n">BottleneckIncident</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detect_step_bottleneck</span><span class="p">(</span>
+                <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+                <span class="n">step_index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+                <span class="n">prev_coords</span><span class="o">=</span><span class="n">prev_coords</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">incident</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">incidents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">incident</span><span class="p">)</span>
+
+            <span class="n">prev_coords</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">target_steps</span>
+
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">incidents</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../../../index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

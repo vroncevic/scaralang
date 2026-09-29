@@ -16,16 +16,15 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Defines immutable Instruction AST node representing a single parsed DSL command.
+    Defines immutable ScaraInstruction AST node representing a single parsed DSL command.
 '''
 
 from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Any
 
-from scaralang.core.model.dsl.ast.command_type import CommandType
+from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -38,7 +37,7 @@ __status__ = 'Updated'
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class Instruction:
+class ScaraInstruction:
     '''
         Immutable AST instruction node representing a single parsed SCARA DSL command.
 
@@ -49,11 +48,9 @@ class Instruction:
                 | line_number - Source code 1-indexed line number.
                 | raw_text - Original raw line string.
                 | parameters - Immutable mapping of command parameters.
-            :methods:
-                | None.
     '''
 
-    command_type: CommandType
+    command_type: ScaraCommandType
     line_number: int
     raw_text: str
-    parameters: Mapping[str, Any]
+    parameters: Mapping[str, object]

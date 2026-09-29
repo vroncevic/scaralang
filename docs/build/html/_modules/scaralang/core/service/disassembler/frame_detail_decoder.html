@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scaralang.core.service.disassembler.frame_detail_decoder &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/classic.css?v=514cf933" />
+    
+    <script src="../../../../../_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.disassembler.frame_detail_decoder</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scaralang.core.service.disassembler.frame_detail_decoder</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: UTF-8 -*-</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Module</span>
+<span class="sd">    frame_detail_decoder.py</span>
+<span class="sd">Copyright</span>
+<span class="sd">    Copyright (C) 2026 Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;</span>
+<span class="sd">    scaralang is free software: you can redistribute it and/or modify it</span>
+<span class="sd">    under the terms of the GNU General Public License as published by the</span>
+<span class="sd">    Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd">    (at your option) any later version.</span>
+<span class="sd">    scaralang is distributed in the hope that it will be useful, but</span>
+<span class="sd">    WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
+<span class="sd">    See the GNU General Public License for more details.</span>
+<span class="sd">    You should have received a copy of the GNU General Public License along</span>
+<span class="sd">    with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">Info</span>
+<span class="sd">    Defines FrameDetailDecoder decoding binary wire frame payloads and symbolic message names.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.command_type</span> <span class="kn">import</span> <span class="n">ScaraCommandType</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.pneumatic_state</span> <span class="kn">import</span> <span class="n">PneumaticState</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.motor.motor_drive_mode</span> <span class="kn">import</span> <span class="n">MotorDriveMode</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.protocol.binary_frame</span> <span class="kn">import</span> <span class="n">BinaryFrame</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.motor.motor_config_factory</span> <span class="kn">import</span> <span class="n">MotorConfigFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.protocol.joint_steps</span> <span class="kn">import</span> <span class="n">JointSteps</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.protocol.message_id</span> <span class="kn">import</span> <span class="n">MessageId</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_payload_unpacker</span> <span class="kn">import</span> <span class="n">IBinaryPayloadUnpacker</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.0&#39;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
+
+
+<div class="viewcode-block" id="FrameDetailDecoder">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.disassembler.frame_detail_decoder.html#scaralang.core.service.disassembler.frame_detail_decoder.FrameDetailDecoder">[docs]</a>
+<span class="k">class</span> <span class="nc">FrameDetailDecoder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Decodes wire protocol frame payloads into structured, human-readable representations.</span>
+
+<span class="sd">        It defines:</span>
+
+<span class="sd">            :attributes:</span>
+<span class="sd">                | _unpacker - Injected binary payload unpacker strategy.</span>
+<span class="sd">                | _system_names - Mapping of system message IDs to command names.</span>
+<span class="sd">            :methods:</span>
+<span class="sd">                | __init__ - Initializes decoder with injected unpacker.</span>
+<span class="sd">                | decode_msg_name - Returns symbolic message identifier name.</span>
+<span class="sd">                | decode_joint_steps - Decodes joint step displacement payload.</span>
+<span class="sd">                | decode_tool_command - Decodes pneumatic tool pump/valve payload.</span>
+<span class="sd">                | decode_wait - Decodes dwell wait delay payload.</span>
+<span class="sd">                | decode_system - Decodes state change system messages.</span>
+<span class="sd">                | decode_fallback - Decodes arbitrary payload bytes into hexadecimal string.</span>
+<span class="sd">                | decode_detail - Routes frame to specific payload decoder.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">_unpacker</span><span class="p">:</span> <span class="n">IBinaryPayloadUnpacker</span>
+    <span class="n">_system_names</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">unpacker</span><span class="p">:</span> <span class="n">IBinaryPayloadUnpacker</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Initializes FrameDetailDecoder with injected payload unpacker.</span>
+
+<span class="sd">            :param unpacker: Binary payload unpacker protocol strategy.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unpacker</span> <span class="o">=</span> <span class="n">unpacker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_system_names</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_HOME</span><span class="p">):</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">HOME</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_ENABLE</span><span class="p">):</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">ENABLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_DISABLE</span><span class="p">):</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">DISABLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_ESTOP</span><span class="p">):</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">ESTOP</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_HOLD</span><span class="p">):</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">HOLD</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_RESUME</span><span class="p">):</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">RESUME</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="FrameDetailDecoder.decode_msg_name">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.disassembler.frame_detail_decoder.html#scaralang.core.service.disassembler.frame_detail_decoder.FrameDetailDecoder.decode_msg_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode_msg_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">msg_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Decodes integer message identifier into symbolic enum name.</span>
+
+<span class="sd">            :param msg_id: Numeric message identifier.</span>
+<span class="sd">            :return: Symbolic name string or UNKNOWN.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">MessageId</span><span class="p">(</span><span class="n">msg_id</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;UNKNOWN&#39;</span></div>
+
+
+<div class="viewcode-block" id="FrameDetailDecoder.decode_joint_steps">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.disassembler.frame_detail_decoder.html#scaralang.core.service.disassembler.frame_detail_decoder.FrameDetailDecoder.decode_joint_steps">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode_joint_steps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Decodes joint step displacement payload into formatted string.</span>
+
+<span class="sd">            :param payload: Packed bytes of joint steps payload.</span>
+<span class="sd">            :return: Formatted coordinate string.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">steps</span><span class="p">:</span> <span class="n">JointSteps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpacker</span><span class="o">.</span><span class="n">unpack_joint_steps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;J1=</span><span class="si">{</span><span class="n">steps</span><span class="o">.</span><span class="n">target_j1_steps</span><span class="si">}</span><span class="s1"> J2=</span><span class="si">{</span><span class="n">steps</span><span class="o">.</span><span class="n">target_j2_steps</span><span class="si">}</span><span class="s1"> &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;Z=</span><span class="si">{</span><span class="n">steps</span><span class="o">.</span><span class="n">target_z_steps</span><span class="si">}</span><span class="s1"> J4=</span><span class="si">{</span><span class="n">steps</span><span class="o">.</span><span class="n">target_j4_steps</span><span class="si">}</span><span class="s1"> &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;dur=</span><span class="si">{</span><span class="n">steps</span><span class="o">.</span><span class="n">duration_us</span><span class="si">}</span><span class="s1">us&#39;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FrameDetailDecoder.decode_tool_command">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.disassembler.frame_detail_decoder.html#scaralang.core.service.disassembler.frame_detail_decoder.FrameDetailDecoder.decode_tool_command">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode_tool_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">msg_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Decodes pneumatic tool command payload into state description.</span>
+
+<span class="sd">            :param msg_id: Tool message identifier integer.</span>
+<span class="sd">            :param payload: Packed tool command bytes.</span>
+<span class="sd">            :return: Tool name and activation state string.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpacker</span><span class="o">.</span><span class="n">unpack_tool_cmd</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">PUMP</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="n">msg_id</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_TOOL_PUMP</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">VALVE</span><span class="o">.</span><span class="n">value</span>
+        <span class="p">)</span>
+        <span class="n">state_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">PneumaticState</span><span class="o">.</span><span class="n">ON</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">state</span> <span class="k">else</span> <span class="n">PneumaticState</span><span class="o">.</span><span class="n">OFF</span><span class="o">.</span><span class="n">value</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">state_str</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="FrameDetailDecoder.decode_wait">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.disassembler.frame_detail_decoder.html#scaralang.core.service.disassembler.frame_detail_decoder.FrameDetailDecoder.decode_wait">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode_wait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Decodes wait delay payload into millisecond string.</span>
+
+<span class="sd">            :param payload: Packed wait delay bytes.</span>
+<span class="sd">            :return: Formatted wait duration string.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">wait_ms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">payload</span><span class="p">[:</span><span class="mi">4</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;little&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">4</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">WAIT</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">wait_ms</span><span class="si">}</span><span class="s1">ms&#39;</span></div>
+
+
+<div class="viewcode-block" id="FrameDetailDecoder.decode_motor_config">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.disassembler.frame_detail_decoder.html#scaralang.core.service.disassembler.frame_detail_decoder.FrameDetailDecoder.decode_motor_config">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode_motor_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Decodes motor mode configuration payload into human-readable string.</span>
+
+<span class="sd">            :param payload: Packed motor configuration bytes.</span>
+<span class="sd">            :return: Formatted motor configuration command string.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">mode_int</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpacker</span><span class="o">.</span><span class="n">unpack_motor_config</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="n">MotorDriveMode</span> <span class="o">=</span> <span class="n">MotorConfigFactory</span><span class="o">.</span><span class="n">from_wire_mode</span><span class="p">(</span><span class="n">mode_int</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> MOTOR </span><span class="si">{</span><span class="n">mode</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="FrameDetailDecoder.decode_system">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.disassembler.frame_detail_decoder.html#scaralang.core.service.disassembler.frame_detail_decoder.FrameDetailDecoder.decode_system">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">msg_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Decodes system command message into symbolic command string.</span>
+
+<span class="sd">            :param msg_id: System message identifier integer.</span>
+<span class="sd">            :return: System command name or empty string.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_system_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">msg_id</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FrameDetailDecoder.decode_fallback">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.disassembler.frame_detail_decoder.html#scaralang.core.service.disassembler.frame_detail_decoder.FrameDetailDecoder.decode_fallback">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode_fallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Decodes unrecognized or raw payloads into hexadecimal string.</span>
+
+<span class="sd">            :param payload: Unrecognized binary payload bytes.</span>
+<span class="sd">            :return: Formatted hex string representation.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;payload=</span><span class="si">{</span><span class="n">payload</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">payload</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="FrameDetailDecoder.decode_detail">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.disassembler.frame_detail_decoder.html#scaralang.core.service.disassembler.frame_detail_decoder.FrameDetailDecoder.decode_detail">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode_detail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">BinaryFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Dispatches binary frame to dedicated message decoder.</span>
+
+<span class="sd">            :param frame: BinaryFrame instance to decode.</span>
+<span class="sd">            :return: Human-readable decoded detail string.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">msg_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">msg_id</span><span class="p">)</span>
+
+        <span class="k">match</span> <span class="n">msg_id</span><span class="p">:</span>
+            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_MOVE_JOINT_STEPS</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode_joint_steps</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
+            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_TOOL_PUMP</span> <span class="o">|</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_TOOL_VALVE</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode_tool_command</span><span class="p">(</span><span class="n">msg_id</span><span class="o">=</span><span class="n">msg_id</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
+            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_WAIT</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode_wait</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
+            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_CONFIG_MOTOR</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode_motor_config</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span> <span class="k">if</span> <span class="n">msg_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_system_names</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode_system</span><span class="p">(</span><span class="n">msg_id</span><span class="o">=</span><span class="n">msg_id</span><span class="p">)</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode_fallback</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.disassembler.frame_detail_decoder</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

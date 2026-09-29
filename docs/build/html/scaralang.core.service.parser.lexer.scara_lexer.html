@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.core.service.parser.lexer.scara_lexer module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.core.service.parser.lexer.scara_lexer_factory module" href="scaralang.core.service.parser.lexer.scara_lexer_factory.html" />
+    <link rel="prev" title="scaralang.core.service.parser.lexer.iscara_lexer module" href="scaralang.core.service.parser.lexer.iscara_lexer.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.parser.lexer.scara_lexer_factory.html" title="scaralang.core.service.parser.lexer.scara_lexer_factory module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.parser.lexer.iscara_lexer.html" title="scaralang.core.service.parser.lexer.iscara_lexer module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.parser.html" >scaralang.core.service.parser package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.service.parser.lexer.html" accesskey="U">scaralang.core.service.parser.lexer package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.parser.lexer.scara_lexer module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.core.service.parser.lexer.scara_lexer">
+<span id="scaralang-core-service-parser-lexer-scara-lexer-module"></span><h1>scaralang.core.service.parser.lexer.scara_lexer module<a class="headerlink" href="#module-scaralang.core.service.parser.lexer.scara_lexer" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>scara_lexer.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Implementation of IScaraLexer converting SCARA DSL source text into atomic tokens.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.parser.lexer.scara_lexer.</span></span><span class="sig-name descname"><span class="pre">ScaraLexer</span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/lexer/scara_lexer.html#ScaraLexer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Concrete lexer implementation converting SCARA DSL text into stream of tokens.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">_TOKEN_REGEX - Compiled regular expression matching DSL lexical entities.</div>
+<div class="line">_PATTERN_TO_TOKEN_TYPE - Mapping of pattern kinds to token types.</div>
+<div class="line">name - Identifier name of the lexer.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">__init__ - Initializes ScaraLexer instance.</div>
+<div class="line">tokenize - Tokenizes raw source code into an immutable tuple of lexical tokens.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer._PATTERN_TO_TOKEN_TYPE">
+<span class="sig-name descname"><span class="pre">_PATTERN_TO_TOKEN_TYPE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.token.lexer_pattern_kind.html#scaralang.core.model.dsl.token.lexer_pattern_kind.LexerPatternKind" title="scaralang.core.model.dsl.token.lexer_pattern_kind.LexerPatternKind"><span class="pre">LexerPatternKind</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.token.scara_token_type.html#scaralang.core.model.dsl.token.scara_token_type.ScaraTokenType" title="scaralang.core.model.dsl.token.scara_token_type.ScaraTokenType"><span class="pre">ScaraTokenType</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{LexerPatternKind.COMMA:</span> <span class="pre">ScaraTokenType.COMMA,</span> <span class="pre">LexerPatternKind.EQUALS:</span> <span class="pre">ScaraTokenType.EQUALS,</span> <span class="pre">LexerPatternKind.IDENTIFIER:</span> <span class="pre">ScaraTokenType.IDENTIFIER,</span> <span class="pre">LexerPatternKind.LPAREN:</span> <span class="pre">ScaraTokenType.LPAREN,</span> <span class="pre">LexerPatternKind.NUMBER:</span> <span class="pre">ScaraTokenType.NUMBER,</span> <span class="pre">LexerPatternKind.RPAREN:</span> <span class="pre">ScaraTokenType.RPAREN,</span> <span class="pre">LexerPatternKind.STRING:</span> <span class="pre">ScaraTokenType.STRING}</span></em><a class="headerlink" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer._PATTERN_TO_TOKEN_TYPE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer._TOKEN_REGEX">
+<span class="sig-name descname"><span class="pre">_TOKEN_REGEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Pattern</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">re.compile('(?P&lt;COMMENT&gt;[#;].*$)|(?P&lt;NUMBER&gt;[-+]?(?:\\d*\\.\\d+|\\d+)(?:[eE][-+]?\\d+)?)|(?P&lt;STRING&gt;&quot;(?:\\\\.|[^&quot;\\\\])*&quot;|\\\'(?:\\\\.|[^\\\'\\\\])*\\\')|(?P&lt;EQUALS&gt;=)|(?P&lt;COMMA&gt;,)|(?P&lt;LPAREN&gt;\\()|(?P&lt;RPAREN&gt;\\))</span></em><a class="headerlink" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer._TOKEN_REGEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer.name" title="Link to this definition">¶</a></dt>
+<dd><p>Gets the lexer identifier name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Lexer name string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer.tokenize">
+<span class="sig-name descname"><span class="pre">tokenize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.token.scara_token.html#scaralang.core.model.dsl.token.scara_token.ScaraToken" title="scaralang.core.model.dsl.token.scara_token.ScaraToken"><span class="pre">ScaraToken</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/lexer/scara_lexer.html#ScaraLexer.tokenize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer.tokenize" title="Link to this definition">¶</a></dt>
+<dd><p>Tokenizes source text into a tuple of ScaraToken instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source</strong> – Raw source code string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Immutable tuple of ScaraToken tokens.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValueError if an illegal/unrecognized character is encountered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.core.service.parser.lexer.scara_lexer module</a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer"><code class="docutils literal notranslate"><span class="pre">ScaraLexer</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer._PATTERN_TO_TOKEN_TYPE"><code class="docutils literal notranslate"><span class="pre">ScaraLexer._PATTERN_TO_TOKEN_TYPE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer._TOKEN_REGEX"><code class="docutils literal notranslate"><span class="pre">ScaraLexer._TOKEN_REGEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer.name"><code class="docutils literal notranslate"><span class="pre">ScaraLexer.name</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.lexer.scara_lexer.ScaraLexer.tokenize"><code class="docutils literal notranslate"><span class="pre">ScaraLexer.tokenize()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.core.service.parser.lexer.iscara_lexer.html"
+                          title="previous chapter">scaralang.core.service.parser.lexer.iscara_lexer module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.core.service.parser.lexer.scara_lexer_factory.html"
+                          title="next chapter">scaralang.core.service.parser.lexer.scara_lexer_factory module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.core.service.parser.lexer.scara_lexer.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.parser.lexer.scara_lexer_factory.html" title="scaralang.core.service.parser.lexer.scara_lexer_factory module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.parser.lexer.iscara_lexer.html" title="scaralang.core.service.parser.lexer.iscara_lexer module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.parser.html" >scaralang.core.service.parser package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.service.parser.lexer.html" >scaralang.core.service.parser.lexer package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.parser.lexer.scara_lexer module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

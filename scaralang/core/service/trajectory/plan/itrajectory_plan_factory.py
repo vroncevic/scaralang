@@ -21,7 +21,8 @@ Info
 
 from __future__ import annotations
 
-from typing import Protocol, runtime_checkable
+from typing import Protocol
+from typing import runtime_checkable
 
 from scaralang.core.service.trajectory.plan.itrajectory_plan import ITrajectoryPlan
 
@@ -42,9 +43,19 @@ class ITrajectoryPlanFactory(Protocol):
 
         It defines:
 
+            :attributes:
+                | name - Identifier name of the factory.
             :methods:
                 | create - Constructs and returns an ITrajectoryPlan aggregate instance.
     '''
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the trajectory plan factory identifier name.
+
+            :return: Factory name string.
+        '''
 
     def create(self) -> ITrajectoryPlan:
         '''

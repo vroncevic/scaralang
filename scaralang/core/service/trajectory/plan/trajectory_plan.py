@@ -16,17 +16,14 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Defines TrajectoryPlan managing ordered waypoint sequence, history and observers.
+    Implementation of TrajectoryPlan aggregate managing compiled motion waypoints.
 '''
 
 from __future__ import annotations
 
-from typing import Final
 from collections.abc import Sequence
 
 from scaralang.core.model.trajectory.waypoint import Waypoint
-from scaralang.core.service.trajectory.history.iplan_history import IPlanHistory
-from scaralang.core.service.trajectory.plan.itrajectory_observer import ITrajectoryObserver
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -40,48 +37,43 @@ __status__ = 'Updated'
 
 class TrajectoryPlan:
     '''
-        Trajectory plan service managing waypoints, selection, undo/redo history, and observers.
+        TrajectoryPlan implementation holding compiled waypoints.
 
         It defines:
 
             :attributes:
-                | _waypoints - List of motion waypoints.
-                | _observers - Registered observers for UI synchronisation.
-                | _selected_index - Index of currently selected waypoint.
-                | _history - IPlanHistory instance.
+                | name - Identifier name of the trajectory plan.
+                | _waypoints - Mutable list of compiled Waypoint entities.
             :methods:
-                | __init__ - Initializes the trajectory plan with injected history.
+                | __init__ - Initializes empty trajectory plan.
                 | waypoints - Returns read-only view of waypoints.
-                | count - Returns total number of waypoints.
-                | selected_index - Returns index of currently selected waypoint.
-                | add_observer - Registers an observer widget.
-                | set_selected_index - Selects a waypoint by index.
+                | count - Returns total number of points in plan.
                 | add_point - Appends a new waypoint to the plan.
                 | insert_point - Inserts a waypoint at a specific index.
-                | update_point - Replaces waypoint at index with updated parameters.
+                | update_point - Replaces waypoint at index.
                 | remove_point - Removes waypoint at index.
-                | clear - Clears all waypoints in the plan.
-                | set_waypoints - Replaces all waypoints with a new list.
-                | undo - Reverts last modification.
-                | redo - Re-applies previously undone action.
+                | clear - Clears all waypoints.
+                | set_waypoints - Replaces all waypoints with a new sequence.
     '''
 
     _waypoints: list[Waypoint]
-    _observers: list[ITrajectoryObserver]
-    _selected_index: int
-    _history: IPlanHistory
 
-    def __init__(self, history: IPlanHistory) -> None:
+    def __init__(self) -> None:
         '''
-            Initializes the trajectory plan with injected history stack.
+            Initializes an empty trajectory plan.
 
-            :param history: Injected IPlanHistory instance.
             :exceptions: None.
         '''
         self._waypoints = []
-        self._observers = []
-        self._selected_index = -1
-        self._history: Final[IPlanHistory] = history
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the trajectory plan identifier name.
+
+            :return: Trajectory plan name string.
+        '''
+        return 'trajectory_plan'
 
     @property
     def waypoints(self) -> Sequence[Waypoint]:
@@ -96,52 +88,12 @@ class TrajectoryPlan:
     @property
     def count(self) -> int:
         '''
-            Returns total number of points.
+            Returns total number of points in plan.
 
             :return: Number of waypoints.
             :exceptions: None.
         '''
         return len(self._waypoints)
-
-    @property
-    def selected_index(self) -> int:
-        '''
-            Returns index of selected point.
-
-            :return: Current index or -1 if nothing is selected.
-            :exceptions: None.
-        '''
-        return self._selected_index
-
-    def set_selected_index(self, index: int) -> None:
-        '''
-            Sets selected point by index.
-
-            :param index: Selected index.
-            :exceptions: None.
-        '''
-        if -1 <= index < len(self._waypoints):
-            self._selected_index = index
-            self._notify()
-
-    def add_observer(self, observer: ITrajectoryObserver) -> None:
-        '''
-            Registers observer for change notifications.
-
-            :param observer: ITrajectoryObserver instance.
-            :exceptions: None.
-        '''
-        if observer not in self._observers:
-            self._observers.append(observer)
-
-    def _notify(self) -> None:
-        '''
-            Notifies registered observers on change.
-
-            :exceptions: None.
-        '''
-        for obs in self._observers:
-            obs.on_plan_changed()
 
     def add_point(self, point: Waypoint) -> None:
         '''
@@ -150,10 +102,7 @@ class TrajectoryPlan:
             :param point: Waypoint entity to add.
             :exceptions: None.
         '''
-        self._history.save_state(self._waypoints)
         self._waypoints.append(point)
-        self._selected_index = len(self._waypoints) - 1
-        self._notify()
 
     def insert_point(self, index: int, point: Waypoint) -> None:
         '''
@@ -163,10 +112,7 @@ class TrajectoryPlan:
             :param point: Waypoint entity to insert.
             :exceptions: None.
         '''
-        self._history.save_state(self._waypoints)
         self._waypoints.insert(index, point)
-        self._selected_index = index
-        self._notify()
 
     def update_point(self, index: int, new_point: Waypoint) -> bool:
         '''
@@ -178,10 +124,7 @@ class TrajectoryPlan:
             :exceptions: None.
         '''
         if 0 <= index < len(self._waypoints):
-            self._history.save_state(self._waypoints)
             self._waypoints[index] = new_point
-            self._notify()
-
             return True
 
         return False
@@ -195,14 +138,7 @@ class TrajectoryPlan:
             :exceptions: None.
         '''
         if 0 <= index < len(self._waypoints):
-            self._history.save_state(self._waypoints)
             self._waypoints.pop(index)
-
-            if self._selected_index >= len(self._waypoints):
-                self._selected_index = len(self._waypoints) - 1
-
-            self._notify()
-
             return True
 
         return False
@@ -213,56 +149,13 @@ class TrajectoryPlan:
 
             :exceptions: None.
         '''
-        if self._waypoints:
-            self._history.save_state(self._waypoints)
-            self._waypoints.clear()
-            self._selected_index = -1
-            self._notify()
+        self._waypoints.clear()
 
-    def set_waypoints(self, waypoints: list[Waypoint]) -> None:
+    def set_waypoints(self, waypoints: Sequence[Waypoint]) -> None:
         '''
-            Replaces all waypoints with a new list.
+            Replaces all waypoints with a new sequence.
 
-            :param waypoints: New list of Waypoint instances.
+            :param waypoints: Sequence of Waypoint instances.
             :exceptions: None.
         '''
-        self._history.save_state(self._waypoints)
         self._waypoints = list(waypoints)
-        self._selected_index = 0 if self._waypoints else -1
-        self._notify()
-
-    def undo(self) -> bool:
-        '''
-            Reverts last modification.
-
-            :return: True if undone, False otherwise.
-            :exceptions: None.
-        '''
-        prev = self._history.undo(self._waypoints)
-
-        if prev is not None:
-            self._waypoints = prev
-            self._selected_index = min(self._selected_index, len(self._waypoints) - 1)
-            self._notify()
-
-            return True
-
-        return False
-
-    def redo(self) -> bool:
-        '''
-            Re-applies previously undone action.
-
-            :return: True if reapplied, False otherwise.
-            :exceptions: None.
-        '''
-        nxt = self._history.redo(self._waypoints)
-
-        if nxt is not None:
-            self._waypoints = nxt
-            self._selected_index = min(self._selected_index, len(self._waypoints) - 1)
-            self._notify()
-
-            return True
-
-        return False

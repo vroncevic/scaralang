@@ -21,15 +21,12 @@ Info
 
 from __future__ import annotations
 
-from struct import pack
-from typing import ClassVar, Final
+from typing import ClassVar
+from typing import Final
 
+from scaralang.core.model.protocol.binary_delimiter import BinaryDelimiter
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
-from scaralang.core.model.protocol.message_id import MessageId
-from scaralang.infrastructure.communication.protocol.binary.binary_delimiter import BinaryDelimiter
-from scaralang.infrastructure.communication.protocol.binary.binary_struct_format import BinaryStructFormat
-from scaralang.infrastructure.communication.protocol.binary.checksum.crc16_ccitt import Crc16Ccitt
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker import BinaryPayloadUnpacker
+from scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler import IBinaryFrameAssembler
 from scaralang.infrastructure.communication.protocol.binary.parser.parser_state import ParserState
 
 __author__ = 'Vladimir Roncevic'
@@ -49,18 +46,18 @@ class BinaryFrameParser:
         It defines:
 
             :attributes:
+                | name - Identifier name of the parser.
                 | SOF1 - First start of frame byte delimiter (0xAA).
                 | SOF2 - Second start of frame byte delimiter (0x55).
                 | EOF - End of frame byte delimiter (0x0D).
-                | HEADER_FORMAT - Struct format for 3-byte frame header (<BBB).
                 | MAX_PAYLOAD_LEN - Maximum supported payload byte length (64).
                 | _state - Current discrete ParserState enum value.
                 | _msg_id - Currently parsed message ID.
                 | _seq_num - Currently parsed sequence number.
                 | _payload_len - Expected payload byte length.
                 | _payload_buffer - Bytearray accumulating payload.
-                | _crc_lo - Received CRC lower byte.
-                | _crc_hi - Received CRC higher byte.
+                | _crc_bytes - Bytearray accumulating received CRC bytes.
+                | _assembler - Collaborating binary frame assembler.
             :methods:
                 | feed_byte - Feeds a single byte into the FSM.
                 | feed_bytes - Processes contiguous bytes and yields complete frames.
@@ -71,7 +68,6 @@ class BinaryFrameParser:
     SOF1: ClassVar[int] = int(BinaryDelimiter.SOF1)
     SOF2: ClassVar[int] = int(BinaryDelimiter.SOF2)
     EOF: ClassVar[int] = int(BinaryDelimiter.EOF)
-    HEADER_FORMAT: ClassVar[str] = str(BinaryStructFormat.HEADER)
     MAX_PAYLOAD_LEN: ClassVar[int] = int(BinaryDelimiter.MAX_PAYLOAD_LEN)
 
     _state: ParserState
@@ -79,20 +75,31 @@ class BinaryFrameParser:
     _seq_num: int
     _payload_len: int
     _payload_buffer: bytearray
-    _crc_lo: int
-    _crc_hi: int
+    _crc_bytes: bytearray
+    _assembler: IBinaryFrameAssembler
 
-    def __init__(self) -> None:
+    def __init__(self, *, assembler: IBinaryFrameAssembler) -> None:
         '''
-            Initializes parser FSM state machine and internal buffers.
+            Initializes parser FSM state machine, buffers, and frame assembler.
+
+            :param assembler: Collaborating binary frame assembler and validator.
         '''
         self._state = ParserState.SEARCH_SOF1
         self._msg_id = 0
         self._seq_num = 0
         self._payload_len = 0
         self._payload_buffer = bytearray()
-        self._crc_lo = 0
-        self._crc_hi = 0
+        self._crc_bytes = bytearray()
+        self._assembler = assembler
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the parser identifier name.
+
+            :return: Parser name string.
+        '''
+        return 'binary_frame_parser'
 
     def reset(self) -> None:
         '''
@@ -100,6 +107,7 @@ class BinaryFrameParser:
         '''
         self._state = ParserState.SEARCH_SOF1
         self._payload_buffer.clear()
+        self._crc_bytes.clear()
 
     def get_state(self) -> ParserState:
         '''
@@ -117,82 +125,63 @@ class BinaryFrameParser:
             :return: Assembled BinaryFrame if completed and valid, None otherwise.
         '''
         safe_byte: Final[int] = byte & 0xFF
+        frame: BinaryFrame | None = None
 
         match self._state:
             case ParserState.SEARCH_SOF1:
                 if safe_byte == self.SOF1:
                     self._state = ParserState.SEARCH_SOF2
-                return None
 
             case ParserState.SEARCH_SOF2:
                 if safe_byte == self.SOF2:
                     self._state = ParserState.READ_MSG_ID
                 elif safe_byte != self.SOF1:
                     self._state = ParserState.SEARCH_SOF1
-                return None
 
             case ParserState.READ_MSG_ID:
                 self._msg_id = safe_byte
                 self._state = ParserState.READ_SEQ_NUM
-                return None
 
             case ParserState.READ_SEQ_NUM:
                 self._seq_num = safe_byte
                 self._state = ParserState.READ_PAYLOAD_LEN
-                return None
 
             case ParserState.READ_PAYLOAD_LEN:
                 if safe_byte > self.MAX_PAYLOAD_LEN:
                     self._state = ParserState.SEARCH_SOF1
-                    return None
-                self._payload_len = safe_byte
-                self._payload_buffer.clear()
-                self._state = (
-                    ParserState.READ_CRC_LO if safe_byte == 0
-                    else ParserState.READ_PAYLOAD
-                )
-                return None
+                else:
+                    self._payload_len = safe_byte
+                    self._payload_buffer.clear()
+                    self._crc_bytes.clear()
+                    self._state = (
+                        ParserState.READ_CRC_LO if safe_byte == 0
+                        else ParserState.READ_PAYLOAD
+                    )
 
             case ParserState.READ_PAYLOAD:
                 self._payload_buffer.append(safe_byte)
                 if len(self._payload_buffer) >= self._payload_len:
                     self._state = ParserState.READ_CRC_LO
-                return None
 
             case ParserState.READ_CRC_LO:
-                self._crc_lo = safe_byte
+                self._crc_bytes.append(safe_byte)
                 self._state = ParserState.READ_CRC_HI
-                return None
 
             case ParserState.READ_CRC_HI:
-                self._crc_hi = safe_byte
+                self._crc_bytes.append(safe_byte)
                 self._state = ParserState.READ_EOF
-                return None
 
             case ParserState.READ_EOF:
                 self._state = ParserState.SEARCH_SOF1
-                if safe_byte != self.EOF:
-                    return None
+                if safe_byte == self.EOF:
+                    frame = self._assembler.assemble(
+                        msg_id=self._msg_id,
+                        seq_num=self._seq_num,
+                        payload=bytes(self._payload_buffer),
+                        crc_bytes=(self._crc_bytes[0], self._crc_bytes[1]),
+                    )
 
-                header_bytes: bytes = pack(
-                    self.HEADER_FORMAT,
-                    self._msg_id,
-                    self._seq_num,
-                    self._payload_len
-                )
-                payload_bytes: bytes = bytes(self._payload_buffer)
-                expected_crc: int = Crc16Ccitt.calculate(header_bytes + payload_bytes)
-                rx_crc: int = (self._crc_lo & 0xFF) | ((self._crc_hi & 0xFF) << 8)
-
-                if rx_crc != expected_crc:
-                    return None
-
-                return BinaryFrame(
-                    msg_id=MessageId(self._msg_id),
-                    seq_num=self._seq_num,
-                    payload=payload_bytes,
-                    crc16=rx_crc
-                )
+        return frame
 
     def feed_bytes(self, data: bytes) -> tuple[BinaryFrame, ...]:
         '''
@@ -202,8 +191,11 @@ class BinaryFrameParser:
             :return: Tuple of complete BinaryFrame instances.
         '''
         frames: list[BinaryFrame] = []
+
         for b in data:
             frame: BinaryFrame | None = self.feed_byte(b)
+
             if frame is not None:
                 frames.append(frame)
+
         return tuple(frames)

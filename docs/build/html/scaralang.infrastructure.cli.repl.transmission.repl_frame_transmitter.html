@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory module" href="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory.html" />
+    <link rel="prev" title="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter module" href="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory.html" title="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.html" title="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.infrastructure.html" >scaralang.infrastructure package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.infrastructure.cli.html" >scaralang.infrastructure.cli package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.infrastructure.cli.repl.html" >scaralang.infrastructure.cli.repl package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.infrastructure.cli.repl.transmission.html" accesskey="U">scaralang.infrastructure.cli.repl.transmission package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter">
+<span id="scaralang-infrastructure-cli-repl-transmission-repl-frame-transmitter-module"></span><h1>scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter module<a class="headerlink" href="#module-scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>repl_frame_transmitter.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Concrete implementation of REPL binary frame transmitter.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.</span></span><span class="sig-name descname"><span class="pre">ReplFrameTransmitter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dry-run'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter.html#ReplFrameTransmitter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Transmitter sending binary frames to hardware, emulator or dry-run buffer.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">endpoint - Target connection endpoint identifier.</div>
+<div class="line">dry_run - True if running in simulated dry-run mode.</div>
+<div class="line">transmitted_frames - In-memory log of transmitted raw byte packets.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">__init__ - Initializes transmitter with endpoint and dry-run flag.</div>
+<div class="line">transmit_frame - Transmits binary wire bytes to target or buffer.</div>
+<div class="line">is_dry_run - Checks if transmitter is operating in offline mode.</div>
+<div class="line">get_endpoint - Returns the configured target endpoint string.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.dry_run">
+<span class="sig-name descname"><span class="pre">dry_run</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.dry_run" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.endpoint" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.get_endpoint">
+<span class="sig-name descname"><span class="pre">get_endpoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter.html#ReplFrameTransmitter.get_endpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.get_endpoint" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the configured target endpoint string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Endpoint string description.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.is_dry_run">
+<span class="sig-name descname"><span class="pre">is_dry_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter.html#ReplFrameTransmitter.is_dry_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.is_dry_run" title="Link to this definition">¶</a></dt>
+<dd><p>Checks if transmitter is operating in offline dry-run mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if dry-run, False otherwise.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmit_frame">
+<span class="sig-name descname"><span class="pre">transmit_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter.html#ReplFrameTransmitter.transmit_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmit_frame" title="Link to this definition">¶</a></dt>
+<dd><p>Transmits binary wire bytes to target or simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_bytes</strong> – Serialized binary frame byte stream.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if transmission succeeded, False otherwise.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmitted_frames">
+<span class="sig-name descname"><span class="pre">transmitted_frames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmitted_frames" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter module</a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.dry_run"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.dry_run</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.endpoint"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.endpoint</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.get_endpoint"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.get_endpoint()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.is_dry_run"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.is_dry_run()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmit_frame"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.transmit_frame()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmitted_frames"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.transmitted_frames</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.html"
+                          title="previous chapter">scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory.html"
+                          title="next chapter">scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory.html" title="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.html" title="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.infrastructure.html" >scaralang.infrastructure package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.infrastructure.cli.html" >scaralang.infrastructure.cli package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.infrastructure.cli.repl.html" >scaralang.infrastructure.cli.repl package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.infrastructure.cli.repl.transmission.html" >scaralang.infrastructure.cli.repl.transmission package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    jump_macro_expander.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Implementation of IMacroExpander expanding high-speed JUMP arch pick-and-place trajectories.
+'''
+
+from __future__ import annotations
+
+from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
+from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
+from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.0'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class JumpMacroExpander:
+    '''
+        Macro expander generating 3D parabolic clearance trajectories for JUMP commands.
+
+        It defines:
+
+            :attributes:
+                | None.
+            :methods:
+                | can_expand - Checks if instruction is of type JUMP.
+                | expand - Expands JUMP instruction into vertical lift, transit, and descent.
+    '''
+
+    def can_expand(self, *, instruction: ScaraInstruction) -> bool:
+        '''
+            Checks whether this expander handles JUMP instructions.
+
+            :param instruction: ScaraInstruction node to check.
+            :return: True if instruction is JUMP, False otherwise.
+        '''
+        return instruction.command_type == ScaraCommandType.JUMP
+
+    def expand(
+        self,
+        *,
+        instruction: ScaraInstruction,
+        context: ScaraCompilerContext,
+    ) -> tuple[ScaraInstruction, ...]:
+        '''
+            Expands JUMP into 3-phase 3D clearance motion.
+
+            :param instruction: JUMP instruction node.
+            :param context: Active compiler context.
+            :return: Tuple of expanded motion instructions.
+        '''
+        params = instruction.parameters
+        target_x: float = float(params.get(InstructionParam.X, context.current_x))
+        target_y: float = float(params.get(InstructionParam.Y, context.current_y))
+        target_z: float = float(params.get(InstructionParam.Z, 0.0))
+        target_phi: float = float(params.get(InstructionParam.PHI, context.current_phi))
+        arch_height: float = float(
+            params.get(InstructionParam.ARCH_HEIGHT, params.get(InstructionParam.ARCH, 20.0))
+        )
+        speed: float = float(params.get(InstructionParam.SPEED, context.speed_rapid))
+
+        clearance_z = max(context.current_z, target_z) + arch_height
+        line_num = instruction.line_number
+
+        lift_inst = ScaraInstruction(
+            command_type=ScaraCommandType.MOVE_L,
+            line_number=line_num,
+            raw_text=f'# JUMP phase 1 (Lift): Z={clearance_z:.2f}',
+            parameters={
+                InstructionParam.X: context.current_x,
+                InstructionParam.Y: context.current_y,
+                InstructionParam.Z: clearance_z,
+                InstructionParam.PHI: context.current_phi,
+                InstructionParam.SPEED: speed,
+            },
+        )
+
+        transit_inst = ScaraInstruction(
+            command_type=ScaraCommandType.MOVE_J,
+            line_number=line_num,
+            raw_text=f'# JUMP phase 2 (Transit): X={target_x:.2f} Y={target_y:.2f}',
+            parameters={
+                InstructionParam.X: target_x,
+                InstructionParam.Y: target_y,
+                InstructionParam.Z: clearance_z,
+                InstructionParam.PHI: target_phi,
+                InstructionParam.SPEED: speed,
+            },
+        )
+
+        descend_inst = ScaraInstruction(
+            command_type=ScaraCommandType.MOVE_L,
+            line_number=line_num,
+            raw_text=f'# JUMP phase 3 (Descent): Z={target_z:.2f}',
+            parameters={
+                InstructionParam.X: target_x,
+                InstructionParam.Y: target_y,
+                InstructionParam.Z: target_z,
+                InstructionParam.PHI: target_phi,
+                InstructionParam.SPEED: speed,
+            },
+        )
+
+        context.current_x = target_x
+        context.current_y = target_y
+        context.current_z = target_z
+        context.current_phi = target_phi
+
+        return lift_inst, transit_inst, descend_inst

@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 '''
 Module
     shape_discretizer_factory.py
@@ -14,20 +16,19 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Factory instantiating ShapeDiscretizer with domain WaypointFactory.
+    Factory instantiating ShapeDiscretizer components.
 '''
 
 from __future__ import annotations
 
-from scaralang.core.service.trajectory.discretization.iwaypoint_factory import IWaypointFactory
+from scaralang.core.service.trajectory.discretization.ishape_discretizer import IShapeDiscretizer
 from scaralang.core.service.trajectory.discretization.shape_discretizer import ShapeDiscretizer
-from scaralang.core.service.trajectory.discretization.waypoint_factory import WaypointFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -35,48 +36,31 @@ __status__ = 'Updated'
 
 class ShapeDiscretizerFactory:
     '''
-        Factory providing creation of ShapeDiscretizer service instances.
+        Factory providing configured IShapeDiscretizer instances.
 
         It defines:
 
             :methods:
-                | create - Builds ShapeDiscretizer with default domain WaypointFactory.
-                | create_with_waypoint_factory - Builds ShapeDiscretizer with injected IWaypointFactory.
+                | create - Builds and returns a ShapeDiscretizer instance.
                 | get_version - Returns factory version string.
     '''
 
     @classmethod
-    def create(cls) -> ShapeDiscretizer:
+    def create(cls) -> IShapeDiscretizer:
         '''
-            Builds and returns a ShapeDiscretizer instance with internal WaypointFactory.
+            Builds and returns an IShapeDiscretizer protocol instance.
 
-            :return: ShapeDiscretizer instance.
+            :return: Configured IShapeDiscretizer protocol instance.
             :exceptions: None.
         '''
-        return ShapeDiscretizer(waypoint_factory=WaypointFactory())
-
-    @classmethod
-    def create_with_waypoint_factory(
-        cls,
-        *,
-        waypoint_factory: IWaypointFactory,
-    ) -> ShapeDiscretizer:
-        '''
-            Builds and returns a ShapeDiscretizer instance with injected IWaypointFactory.
-
-            :param waypoint_factory: Injected IWaypointFactory instance.
-            :return: ShapeDiscretizer instance.
-            :exceptions: None.
-        '''
-        return ShapeDiscretizer(waypoint_factory=waypoint_factory)
+        return ShapeDiscretizer()
 
     @classmethod
     def get_version(cls) -> str:
         '''
-            Returns factory version string.
+            Returns the factory version string.
 
             :return: Factory version string.
             :exceptions: None.
         '''
         return __version__
-

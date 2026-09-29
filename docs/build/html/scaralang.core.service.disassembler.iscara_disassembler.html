@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.core.service.disassembler.iscara_disassembler module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.core.service.disassembler.scara_disassembler module" href="scaralang.core.service.disassembler.scara_disassembler.html" />
+    <link rel="prev" title="scaralang.core.service.disassembler.iframe_detail_decoder module" href="scaralang.core.service.disassembler.iframe_detail_decoder.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.disassembler.scara_disassembler.html" title="scaralang.core.service.disassembler.scara_disassembler module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.disassembler.iframe_detail_decoder.html" title="scaralang.core.service.disassembler.iframe_detail_decoder module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.disassembler.html" accesskey="U">scaralang.core.service.disassembler package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.disassembler.iscara_disassembler module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.core.service.disassembler.iscara_disassembler">
+<span id="scaralang-core-service-disassembler-iscara-disassembler-module"></span><h1>scaralang.core.service.disassembler.iscara_disassembler module<a class="headerlink" href="#module-scaralang.core.service.disassembler.iscara_disassembler" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>iscara_disassembler.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Defines IScaraDisassembler Protocol for disassembling raw binary protocol frames.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.disassembler.iscara_disassembler.</span></span><span class="sig-name descname"><span class="pre">IScaraDisassembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/iscara_disassembler.html#IScaraDisassembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
+<p>Structural protocol defining binary frame disassembly service operations.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">disassemble_frame - Decodes single binary frame into DisassembledFrame model.</div>
+<div class="line">disassemble - Disassembles raw binary bytes into decoded DisassembledFrame models.</div>
+<div class="line">calculate_summary - Computes DisassemblySummary domain model from decoded frames.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler._abc_impl" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler._is_protocol">
+<span class="sig-name descname"><span class="pre">_is_protocol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler._is_protocol" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler._is_runtime_protocol">
+<span class="sig-name descname"><span class="pre">_is_runtime_protocol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler._is_runtime_protocol" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler.calculate_summary">
+<span class="sig-name descname"><span class="pre">calculate_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.binary.disassembled_frame.html#scaralang.core.model.dsl.binary.disassembled_frame.DisassembledFrame" title="scaralang.core.model.dsl.binary.disassembled_frame.DisassembledFrame"><span class="pre">DisassembledFrame</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byte_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.dsl.binary.disassembly_summary.html#scaralang.core.model.dsl.binary.disassembly_summary.DisassemblySummary" title="scaralang.core.model.dsl.binary.disassembly_summary.DisassemblySummary"><span class="pre">DisassemblySummary</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/iscara_disassembler.html#IScaraDisassembler.calculate_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler.calculate_summary" title="Link to this definition">¶</a></dt>
+<dd><p>Computes a DisassemblySummary domain model from decoded frames and total bytes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frames</strong> – Decoded DisassembledFrame domain models.</p></li>
+<li><p><strong>byte_count</strong> – Total raw bytes parsed from binary source.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed DisassemblySummary domain model.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler.disassemble">
+<span class="sig-name descname"><span class="pre">disassemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.binary.disassembled_frame.html#scaralang.core.model.dsl.binary.disassembled_frame.DisassembledFrame" title="scaralang.core.model.dsl.binary.disassembled_frame.DisassembledFrame"><span class="pre">DisassembledFrame</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/iscara_disassembler.html#IScaraDisassembler.disassemble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler.disassemble" title="Link to this definition">¶</a></dt>
+<dd><p>Disassembles raw binary stream bytes into structured frame models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – Contiguous binary bytes containing one or more frames.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple of decoded DisassembledFrame domain models.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler.disassemble_frame">
+<span class="sig-name descname"><span class="pre">disassemble_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame" title="scaralang.core.model.protocol.binary_frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.dsl.binary.disassembled_frame.html#scaralang.core.model.dsl.binary.disassembled_frame.DisassembledFrame" title="scaralang.core.model.dsl.binary.disassembled_frame.DisassembledFrame"><span class="pre">DisassembledFrame</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/iscara_disassembler.html#IScaraDisassembler.disassemble_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler.disassemble_frame" title="Link to this definition">¶</a></dt>
+<dd><p>Decodes a single binary frame into a DisassembledFrame domain model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – BinaryFrame instance to disassemble.</p></li>
+<li><p><strong>index</strong> – Sequence zero-based position index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Decoded DisassembledFrame domain model.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.core.service.disassembler.iscara_disassembler module</a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler"><code class="docutils literal notranslate"><span class="pre">IScaraDisassembler</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler._abc_impl"><code class="docutils literal notranslate"><span class="pre">IScaraDisassembler._abc_impl</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler._is_protocol"><code class="docutils literal notranslate"><span class="pre">IScaraDisassembler._is_protocol</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IScaraDisassembler._is_runtime_protocol</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler.calculate_summary"><code class="docutils literal notranslate"><span class="pre">IScaraDisassembler.calculate_summary()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler.disassemble"><code class="docutils literal notranslate"><span class="pre">IScaraDisassembler.disassemble()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.disassembler.iscara_disassembler.IScaraDisassembler.disassemble_frame"><code class="docutils literal notranslate"><span class="pre">IScaraDisassembler.disassemble_frame()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.core.service.disassembler.iframe_detail_decoder.html"
+                          title="previous chapter">scaralang.core.service.disassembler.iframe_detail_decoder module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.core.service.disassembler.scara_disassembler.html"
+                          title="next chapter">scaralang.core.service.disassembler.scara_disassembler module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.core.service.disassembler.iscara_disassembler.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.disassembler.scara_disassembler.html" title="scaralang.core.service.disassembler.scara_disassembler module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.disassembler.iframe_detail_decoder.html" title="scaralang.core.service.disassembler.iframe_detail_decoder module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.disassembler.html" >scaralang.core.service.disassembler package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.disassembler.iscara_disassembler module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

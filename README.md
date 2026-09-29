@@ -1,59 +1,1660 @@
 # SCARA Robotics Domain-Specific Language (DSL) Toolchain & Binary Protocol Codec
 
-[![GitHub Workflow Build](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_python3_build.yml/badge.svg)](https://github.com/vroncevic/scaralang/actions)
-[![Documentation Status](https://readthedocs.org/projects/scaralang/badge/?version=latest)](https://scaralang.readthedocs.io/en/latest/?badge=latest)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+<img align="right" src="https://raw.githubusercontent.com/vroncevic/scaralang/dev/docs/scaralang_logo.png" width="25%">
 
 **scaralang** is a standalone, lightweight, GUI-independent Python toolchain and compiler for the **SCARA Robotics Domain-Specific Language (DSL)**, combined with the official **SCARA Wire Binary Protocol Codec**.
 
-It serves as the **Single Source of Truth (SSoT)** across the entire SCARA software ecosystem, shared seamlessly between:
-- **[scarajectory](https://github.com/vroncevic/scarajectory)** (Desktop Studio & Motion Trajectory Planner)
-- **[scaraemu](https://github.com/vroncevic/scaraemu)** (SCARA Digital Twin Kinematic Simulator)
-- **[scara_base](https://github.com/vroncevic/scara)** (Raspberry Pi Pico RP2040 C Firmware)
+Developed in **[python](https://www.python.org/)** code.
 
----
+The README is used to introduce the modules and provide instructions on
+how to install the modules, any machine dependencies it may have and any
+other information that should be provided before the modules are installed.
 
-## 🚀 Key Features
+[![scaralang python checker](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_python_checker.yml/badge.svg)](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_python_checker.yml) [![scaralang package checker](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_package_checker.yml/badge.svg)](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_package_checker.yml) [![scaralang interface checker](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_interface_checker.yml/badge.svg)](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_interface_checker.yml) [![scaralang isp checker](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_isp_checker.yml/badge.svg)](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_isp_checker.yml) [![scaralang srp checker](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_srp_checker.yml/badge.svg)](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_srp_checker.yml) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/) [![GitHub issues open](https://img.shields.io/github/issues/vroncevic/scaralang.svg)](https://github.com/vroncevic/scaralang/issues) [![GitHub contributors](https://img.shields.io/github/contributors/vroncevic/scaralang.svg)](https://github.com/vroncevic/scaralang/graphs/contributors)
 
-* **High-Level SCARA DSL**: Lexer, Parser, AST, Linter, and Semantic Validator for human-readable robot motion scripts (`.scara`).
-* **Deterministic Bytecode Compiler**: Direct translation of DSL programs into discrete motor joint step blocks (`JointSteps`, `Step`, `Program`).
-* **Binary Wire Protocol Codec**: High-performance binary frame serialization and streaming parsing (`BinaryFrameBuilder`, `BinaryFrameParser`, `BinaryPayloadUnpacker`, CRC-16-CCITT).
-* **CLI Tool (`scarac` / `scaralang`)**: Command-line interface for compiling, linting, and inspecting SCARA DSL programs in headless environments and CI/CD pipelines.
-* **Zero GUI Dependencies**: Built on Clean Architecture and `ats_utilities` with zero Tkinter/Qt dependencies.
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
 
----
+- [🚀 Installation](#-installation)
+    - [Install using pip](#install-using-pip)
+    - [Install using build](#install-using-build)
+    - [Install using py setup](#install-using-py-setup)
+    - [Install using docker](#install-using-docker)
+- [📦 Dependencies](#-dependencies)
+- [📁 Tool structure](#-tool-structure)
+  - [🏗 Architecture & SOLID Principles](#-architecture--solid-principles)
+    - [SOLID Principles Compliance](#solid-principles-compliance)
+    - [Automated Quality Gates (`run_quality_gates.sh`)](#automated-quality-gates-run_quality_gatessh)
+  - [✨ Features](#-features)
+  - [📜 SCARA Domain-Specific Language (DSL) & `.scara` Programs](#-scara-domain-specific-language-dsl--scara-programs)
+    - [SCARA DSL Instruction Reference](#scara-dsl-instruction-reference)
+    - [Example `.scara` Program: Industrial Pick & Place](#example-scara-program-industrial-pick--place)
+  - [📡 SCARA Binary Wire Protocol & Codec](#-scara-binary-wire-protocol--codec)
+    - [Frame Header & Wire Format](#frame-header--wire-format)
+    - [Message Types & Payload Structure](#message-types--payload-structure)
+    - [Hardware Execution & Motor Actuation Targets](#hardware-execution--motor-actuation-targets)
+- [📊 Code coverage](#-code-coverage)
+- [🛠 Usage](#-usage)
+    - [CLI Tool (`scarac` / `scaralang`)](#cli-tool-scarac--scaralang)
+    - [CLI Subcommand Reference](#cli-subcommand-reference)
+    - [Python Library API](#python-library-api)
+- [📚 Docs](#-docs)
+- [👥 Contributing](#-contributing)
+- [📄 Copyright and licence](#-copyright-and-licence)
 
-## 📦 Installation
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+### 🚀 Installation
+
+Used next development environment
+
+![debian linux os](https://raw.githubusercontent.com/vroncevic/scaralang/dev/docs/debtux.png)
+
+[![scaralang python3 build](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_python3_build.yml/badge.svg)](https://github.com/vroncevic/scaralang/actions/workflows/scaralang_python3_build.yml)
+
+Currently there are three ways to install package
+* Install process based on using pip mechanism
+* Install process based on build mechanism
+* Install process based on setup.py mechanism
+* Install process based on docker mechanism
+
+##### Install using pip
+
+**scaralang** is located at **[pypi.org](https://pypi.org/project/scaralang/)**.
+
+You can install by using pip
 
 ```bash
-pip install scaralang
+# python3
+pip3 install scaralang
 ```
 
-Or from source:
+##### Install using build
+
+Navigate to release **[page](https://github.com/vroncevic/scaralang/releases/)** download and extract release archive.
+
+To install **scaralang** type the following
 
 ```bash
-git clone git@github.com:vroncevic/scaralang.git
-cd scaralang
-pip install -r requirements.txt
-python3 setup.py install
+tar xvzf scaralang-x.y.z.tar.gz
+cd scaralang-x.y.z/
+# python3
+wget https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py 
+python3 -m pip install --upgrade setuptools
+python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade build
+pip3 install -r requirements.txt
+python3 -m build --no-isolation --wheel
+pip3 install ./dist/scaralang-*-py3-none-any.whl
+rm -f get-pip.py
+chmod 755 /usr/local/lib/python3.10/dist-packages/usr/local/bin/scarac.py
+ln -s /usr/local/lib/python3.10/dist-packages/usr/local/bin/scarac.py /usr/local/bin/scarac
 ```
 
----
+##### Install using py setup
 
-## 🛠️ Usage
+Navigate to **[release page](https://github.com/vroncevic/scaralang/releases)** download and extract release archive.
 
-### CLI (`scarac`)
+To install **scaralang** locate and run setup.py with arguments
 
 ```bash
-# Check syntax and lint program
+tar xvzf scaralang-x.y.z.tar.gz
+cd scaralang-x.y.z
+# python3
+pip3 install -r requirements.txt
+python3 setup.py install_lib
+python3 setup.py install_egg_info
+```
+
+##### Install using docker
+
+You can use Dockerfile to create image/container.
+
+### 📦 Dependencies
+
+**scaralang** requires next modules and libraries
+
+* [ats-utilities - Python App/Tool/Script Utilities](https://pypi.org/project/ats-utilities/) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+### 📁 Tool structure
+
+**scaralang** is based on OOP and Clean Architecture.
+
+Tool structure
+
+<details>
+<summary><b>Click to expand framework structure</b></summary>
+
+```bash
+    scaralang/
+         ├── core/
+         │   ├── __init__.py
+         │   ├── model/
+         │   │   ├── dsl/
+         │   │   │   ├── ast/
+         │   │   │   │   ├── command_type.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── instruction.py
+         │   │   │   │   ├── instruction_param.py
+         │   │   │   │   ├── jog_axis.py
+         │   │   │   │   ├── pneumatic_state.py
+         │   │   │   │   ├── program.py
+         │   │   │   │   ├── speed_mode.py
+         │   │   │   │   ├── tool_orient_mode.py
+         │   │   │   │   ├── tool_position.py
+         │   │   │   │   └── zone_mode.py
+         │   │   │   ├── binary/
+         │   │   │   │   ├── binary_program_telemetry.py
+         │   │   │   │   ├── disassembled_frame.py
+         │   │   │   │   ├── disassembly_summary.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── parsed_command_token.py
+         │   │   │   │   ├── program.py
+         │   │   │   │   └── step.py
+         │   │   │   ├── compiler/
+         │   │   │   │   ├── arc_geometry.py
+         │   │   │   │   ├── control_waypoint_descriptor.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── scara_compiler_context.py
+         │   │   │   ├── diagnostic/
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── scara_diagnostic.py
+         │   │   │   │   ├── scara_diagnostic_code.py
+         │   │   │   │   └── scara_diagnostic_severity.py
+         │   │   │   ├── exporter/
+         │   │   │   │   ├── export_format.py
+         │   │   │   │   └── __init__.py
+         │   │   │   ├── __init__.py
+         │   │   │   ├── linter/
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── scara_lint_context.py
+         │   │   │   ├── macro/
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── pallet_definition.py
+         │   │   │   │   └── work_frame.py
+         │   │   │   └── token/
+         │   │   │       ├── __init__.py
+         │   │   │       ├── lexer_pattern_kind.py
+         │   │   │       ├── scara_token.py
+         │   │   │       └── scara_token_type.py
+         │   │   ├── __init__.py
+         │   │   ├── kinematics/
+         │   │   │   ├── elbow_config.py
+         │   │   │   ├── __init__.py
+         │   │   │   ├── point_2d.py
+         │   │   │   ├── scara_bounds.py
+         │   │   │   └── transmission_parameters.py
+         │   │   ├── motor/
+         │   │   │   ├── axis_mask.py
+         │   │   │   ├── __init__.py
+         │   │   │   ├── motor_config.py
+         │   │   │   ├── motor_drive_mode.py
+         │   │   │   └── motor_interface_type.py
+         │   │   ├── protocol/
+         │   │   │   ├── binary_delimiter.py
+         │   │   │   ├── binary_frame.py
+         │   │   │   ├── error_code.py
+         │   │   │   ├── __init__.py
+         │   │   │   ├── joint_steps.py
+         │   │   │   ├── message_id.py
+         │   │   │   ├── motor_wire_mode.py
+         │   │   │   └── tool_id.py
+         │   │   ├── repl/
+         │   │   │   ├── __init__.py
+         │   │   │   ├── repl_dispatch_result.py
+         │   │   │   └── repl_session_context.py
+         │   │   └── trajectory/
+         │   │       ├── arc_point.py
+         │   │       ├── axis_peak_metric.py
+         │   │       ├── bottleneck_incident.py
+         │   │       ├── circle_geometry.py
+         │   │       ├── __init__.py
+         │   │       ├── trajectory_cycle_report.py
+         │   │       ├── validation_result.py
+         │   │       └── waypoint.py
+         │   └── service/
+         │       ├── compiler/
+         │       │   ├── binary/
+         │       │   │   ├── binary_compiler.py
+         │       │   │   ├── binary_compiler_factory.py
+         │       │   │   ├── command/
+         │       │   │   │   ├── command_compiler.py
+         │       │   │   │   ├── command_compiler_factory.py
+         │       │   │   │   ├── icommand_compiler.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── motor/
+         │       │   │   │   │   ├── imotor_frame_builder.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── motor_frame_builder.py
+         │       │   │   │   │   └── motor_frame_builder_factory.py
+         │       │   │   │   ├── tokens/
+         │       │   │   │   │   ├── command_token_parser.py
+         │       │   │   │   │   ├── command_token_parser_factory.py
+         │       │   │   │   │   ├── icommand_token_parser.py
+         │       │   │   │   │   └── __init__.py
+         │       │   │   │   └── tool/
+         │       │   │   │       ├── __init__.py
+         │       │   │   │       ├── itool_frame_builder.py
+         │       │   │   │       ├── tool_frame_builder.py
+         │       │   │   │       └── tool_frame_builder_factory.py
+         │       │   │   ├── ibinary_compiler.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── metrics/
+         │       │   │   │   ├── binary_metrics_calculator.py
+         │       │   │   │   ├── binary_metrics_calculator_factory.py
+         │       │   │   │   ├── ibinary_metrics_calculator.py
+         │       │   │   │   └── __init__.py
+         │       │   │   ├── motion/
+         │       │   │   │   ├── imotion_compiler.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── motion_compiler.py
+         │       │   │   │   └── motion_compiler_factory.py
+         │       │   │   └── step/
+         │       │   │       ├── __init__.py
+         │       │   │       ├── istep_discretizer.py
+         │       │   │       ├── iwaypoint_step_dispatcher.py
+         │       │   │       ├── step_discretizer.py
+         │       │   │       ├── step_discretizer_factory.py
+         │       │   │       ├── waypoint_step_dispatcher.py
+         │       │   │       └── waypoint_step_dispatcher_factory.py
+         │       │   ├── frame/
+         │       │   │   ├── frame_transformer.py
+         │       │   │   ├── frame_transformer_factory.py
+         │       │   │   ├── iframe_transformer.py
+         │       │   │   └── __init__.py
+         │       │   ├── iinstruction_pipeline.py
+         │       │   ├── __init__.py
+         │       │   ├── instruction_pipeline.py
+         │       │   ├── instruction_pipeline_factory.py
+         │       │   ├── iprimitive_instruction_processor.py
+         │       │   ├── iscara_compiler.py
+         │       │   ├── macro/
+         │       │   │   ├── frame_macro_expander.py
+         │       │   │   ├── frame_macro_expander_factory.py
+         │       │   │   ├── imacro_expander.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── jump_macro_expander.py
+         │       │   │   ├── jump_macro_expander_factory.py
+         │       │   │   ├── pallet_macro_expander.py
+         │       │   │   ├── pallet_macro_expander_factory.py
+         │       │   │   ├── tangent_macro_expander.py
+         │       │   │   └── tangent_macro_expander_factory.py
+         │       │   ├── motion/
+         │       │   │   ├── arc/
+         │       │   │   │   ├── arc_move_compiler.py
+         │       │   │   │   ├── arc_move_compiler_factory.py
+         │       │   │   │   ├── builder/
+         │       │   │   │   │   ├── arc_waypoint_builder.py
+         │       │   │   │   │   ├── arc_waypoint_builder_factory.py
+         │       │   │   │   │   ├── iarc_waypoint_builder.py
+         │       │   │   │   │   └── __init__.py
+         │       │   │   │   ├── calculator/
+         │       │   │   │   │   ├── arc_point_calculator.py
+         │       │   │   │   │   ├── arc_point_calculator_factory.py
+         │       │   │   │   │   ├── iarc_point_calculator.py
+         │       │   │   │   │   └── __init__.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   └── interpolation/
+         │       │   │   │       ├── arc_interpolator.py
+         │       │   │   │       ├── arc_interpolator_factory.py
+         │       │   │   │       ├── iarc_interpolator.py
+         │       │   │   │       └── __init__.py
+         │       │   │   ├── cartesian/
+         │       │   │   │   ├── cartesian_move_compiler.py
+         │       │   │   │   ├── cartesian_move_compiler_factory.py
+         │       │   │   │   └── __init__.py
+         │       │   │   ├── imotion_sub_compiler.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── motion_command_compiler.py
+         │       │   │   ├── motion_command_compiler_factory.py
+         │       │   │   └── vertical/
+         │       │   │       ├── __init__.py
+         │       │   │       ├── vertical_move_compiler.py
+         │       │   │       └── vertical_move_compiler_factory.py
+         │       │   ├── primitive/
+         │       │   │   ├── control/
+         │       │   │   │   ├── control_command_compiler.py
+         │       │   │   │   ├── control_command_compiler_factory.py
+         │       │   │   │   ├── control_waypoint_builder.py
+         │       │   │   │   ├── control_waypoint_builder_factory.py
+         │       │   │   │   ├── icontrol_waypoint_builder.py
+         │       │   │   │   └── __init__.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── iprimitive_compiler.py
+         │       │   │   ├── state/
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── state_command_compiler.py
+         │       │   │   │   └── state_command_compiler_factory.py
+         │       │   │   └── tool/
+         │       │   │       ├── __init__.py
+         │       │   │       ├── itool_waypoint_builder.py
+         │       │   │       ├── tool_command_compiler.py
+         │       │   │       ├── tool_command_compiler_factory.py
+         │       │   │       ├── tool_waypoint_builder.py
+         │       │   │       └── tool_waypoint_builder_factory.py
+         │       │   ├── primitive_instruction_processor.py
+         │       │   ├── primitive_instruction_processor_factory.py
+         │       │   ├── scara_compiler.py
+         │       │   └── scara_compiler_factory.py
+         │       ├── disassembler/
+         │       │   ├── frame_detail_decoder.py
+         │       │   ├── frame_detail_decoder_factory.py
+         │       │   ├── iframe_detail_decoder.py
+         │       │   ├── __init__.py
+         │       │   ├── iscara_disassembler.py
+         │       │   ├── scara_disassembler.py
+         │       │   └── scara_disassembler_factory.py
+         │       ├── dsl/
+         │       │   ├── binary/
+         │       │   │   ├── binary_service.py
+         │       │   │   ├── binary_service_factory.py
+         │       │   │   ├── ibinary_service.py
+         │       │   │   └── __init__.py
+         │       │   ├── compilation/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── iscara_dsl_compiler.py
+         │       │   │   ├── scara_dsl_compiler.py
+         │       │   │   └── scara_dsl_compiler_factory.py
+         │       │   ├── __init__.py
+         │       │   ├── iscara_dsl_binary_compiler.py
+         │       │   ├── iscara_dsl_disassembler.py
+         │       │   ├── iscara_dsl_info_provider.py
+         │       │   ├── iscara_dsl_linter.py
+         │       │   ├── iscara_dsl_service.py
+         │       │   ├── iscara_dsl_validator.py
+         │       │   ├── scara_dsl_bundle.py
+         │       │   ├── scara_dsl_pipeline_bundle.py
+         │       │   ├── scara_dsl_service.py
+         │       │   ├── scara_dsl_service_factory.py
+         │       │   ├── toolchain/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── itoolchain_info_provider.py
+         │       │   │   ├── toolchain_info_provider.py
+         │       │   │   └── toolchain_info_provider_factory.py
+         │       │   └── validation/
+         │       │       ├── __init__.py
+         │       │       ├── scara_script_validator.py
+         │       │       └── scara_script_validator_factory.py
+         │       ├── exporter/
+         │       │   ├── csv/
+         │       │   │   ├── csv_trajectory_exporter.py
+         │       │   │   ├── csv_trajectory_exporter_factory.py
+         │       │   │   ├── icsv_trajectory_exporter.py
+         │       │   │   └── __init__.py
+         │       │   ├── export_dispatcher_bundle.py
+         │       │   ├── export_target_dispatcher.py
+         │       │   ├── export_target_dispatcher_factory.py
+         │       │   ├── gcode/
+         │       │   │   ├── gcode_exporter.py
+         │       │   │   ├── gcode_exporter_factory.py
+         │       │   │   ├── igcode_exporter.py
+         │       │   │   └── __init__.py
+         │       │   ├── iexport_target_dispatcher.py
+         │       │   ├── __init__.py
+         │       │   ├── json/
+         │       │   │   ├── ijson_trajectory_exporter.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── json_trajectory_exporter.py
+         │       │   │   └── json_trajectory_exporter_factory.py
+         │       │   ├── scara/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── iscara_plan_exporter.py
+         │       │   │   ├── scara_plan_exporter.py
+         │       │   │   ├── scara_plan_exporter_factory.py
+         │       │   │   ├── scara_program_serializer.py
+         │       │   │   └── scara_source_generator.py
+         │       │   └── svg/
+         │       │       ├── __init__.py
+         │       │       ├── isvg_trajectory_exporter.py
+         │       │       ├── svg_trajectory_exporter.py
+         │       │       └── svg_trajectory_exporter_factory.py
+         │       ├── __init__.py
+         │       ├── kinematics/
+         │       │   ├── default_scara_profile.py
+         │       │   ├── ikinematics_service.py
+         │       │   ├── __init__.py
+         │       │   ├── kinematics_service.py
+         │       │   ├── kinematics_service_factory.py
+         │       │   └── transmission/
+         │       │       ├── ijoint_step_transmission_converter.py
+         │       │       ├── __init__.py
+         │       │       ├── joint_step_transmission_converter.py
+         │       │       └── joint_step_transmission_converter_factory.py
+         │       ├── linter/
+         │       │   ├── diagnostic/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── iscara_diagnostic_formatter.py
+         │       │   │   ├── scara_diagnostic_formatter.py
+         │       │   │   └── scara_diagnostic_formatter_factory.py
+         │       │   ├── __init__.py
+         │       │   ├── iscara_linter.py
+         │       │   ├── rules/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── iscara_lint_rule.py
+         │       │   │   ├── motion/
+         │       │   │   │   ├── imotion_calibration_validator.py
+         │       │   │   │   ├── imotion_duplicate_validator.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── motion_calibration_validator.py
+         │       │   │   │   ├── motion_calibration_validator_factory.py
+         │       │   │   │   ├── motion_duplicate_validator.py
+         │       │   │   │   ├── motion_duplicate_validator_factory.py
+         │       │   │   │   ├── motion_lint_rule.py
+         │       │   │   │   └── motion_lint_rule_factory.py
+         │       │   │   ├── pneumatic/
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── ipneumatic_conflict_validator.py
+         │       │   │   │   ├── ipneumatic_flyby_validator.py
+         │       │   │   │   ├── ipneumatic_redundancy_validator.py
+         │       │   │   │   ├── pneumatic_conflict_validator.py
+         │       │   │   │   ├── pneumatic_conflict_validator_factory.py
+         │       │   │   │   ├── pneumatic_flyby_validator.py
+         │       │   │   │   ├── pneumatic_flyby_validator_factory.py
+         │       │   │   │   ├── pneumatic_lint_rule.py
+         │       │   │   │   ├── pneumatic_lint_rule_factory.py
+         │       │   │   │   ├── pneumatic_redundancy_validator.py
+         │       │   │   │   └── pneumatic_redundancy_validator_factory.py
+         │       │   │   ├── state/
+         │       │   │   │   ├── imotor_mode_validator.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── istate_homing_validator.py
+         │       │   │   │   ├── istate_zone_validator.py
+         │       │   │   │   ├── motor_mode_validator.py
+         │       │   │   │   ├── motor_mode_validator_factory.py
+         │       │   │   │   ├── state_homing_validator.py
+         │       │   │   │   ├── state_homing_validator_factory.py
+         │       │   │   │   ├── state_lint_rule.py
+         │       │   │   │   ├── state_lint_rule_factory.py
+         │       │   │   │   ├── state_zone_validator.py
+         │       │   │   │   └── state_zone_validator_factory.py
+         │       │   │   └── timing/
+         │       │   │       ├── __init__.py
+         │       │   │       ├── itiming_blend_zone_validator.py
+         │       │   │       ├── itiming_dwell_validator.py
+         │       │   │       ├── timing_blend_zone_validator.py
+         │       │   │       ├── timing_blend_zone_validator_factory.py
+         │       │   │       ├── timing_dwell_validator.py
+         │       │   │       ├── timing_dwell_validator_factory.py
+         │       │   │       ├── timing_lint_rule.py
+         │       │   │       └── timing_lint_rule_factory.py
+         │       │   ├── scara_linter.py
+         │       │   └── scara_linter_factory.py
+         │       ├── motor/
+         │       │   ├── __init__.py
+         │       │   ├── motor_config_factory.py
+         │       │   ├── motor_drive_mode_resolver.py
+         │       │   ├── motor_interface_resolver.py
+         │       │   └── motor_wire_mode_converter.py
+         │       ├── parser/
+         │       │   ├── commands/
+         │       │   │   ├── config/
+         │       │   │   │   ├── accel_config_parser.py
+         │       │   │   │   ├── config_command_parser_factory.py
+         │       │   │   │   ├── elbow_config_parser.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── motor_config_parser.py
+         │       │   │   │   ├── override_config_parser.py
+         │       │   │   │   ├── speed_config_parser.py
+         │       │   │   │   ├── tool_orient_command_parser.py
+         │       │   │   │   └── zone_command_parser.py
+         │       │   │   ├── flow/
+         │       │   │   │   ├── disable_command_parser.py
+         │       │   │   │   ├── enable_command_parser.py
+         │       │   │   │   ├── estop_command_parser.py
+         │       │   │   │   ├── flow_command_parser_factory.py
+         │       │   │   │   ├── hold_command_parser.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── resume_command_parser.py
+         │       │   │   │   ├── sync_command_parser.py
+         │       │   │   │   └── wait_command_parser.py
+         │       │   │   ├── frame/
+         │       │   │   │   ├── frame_command_parser_factory.py
+         │       │   │   │   ├── frame_reset_command_parser.py
+         │       │   │   │   ├── frame_set_command_parser.py
+         │       │   │   │   └── __init__.py
+         │       │   │   ├── icommand_parser.py
+         │       │   │   ├── icommand_parser_provider.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── macro/
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── jump_command_parser.py
+         │       │   │   │   ├── macro_command_parser_factory.py
+         │       │   │   │   ├── pallet_def_command_parser.py
+         │       │   │   │   └── pallet_move_command_parser.py
+         │       │   │   ├── motion/
+         │       │   │   │   ├── approach_command_parser.py
+         │       │   │   │   ├── arc_command_parser.py
+         │       │   │   │   ├── home_command_parser.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── jog_command_parser.py
+         │       │   │   │   ├── joint_move_command_parser.py
+         │       │   │   │   ├── linear_move_command_parser.py
+         │       │   │   │   ├── motion_command_parser_factory.py
+         │       │   │   │   ├── probe_command_parser.py
+         │       │   │   │   └── retract_command_parser.py
+         │       │   │   ├── parameter/
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   └── parameter_extractor.py
+         │       │   │   └── tool/
+         │       │   │       ├── __init__.py
+         │       │   │       ├── pump_command_parser.py
+         │       │   │       ├── tool_command_parser.py
+         │       │   │       ├── tool_command_parser_factory.py
+         │       │   │       └── valve_command_parser.py
+         │       │   ├── __init__.py
+         │       │   ├── instruction/
+         │       │   │   ├── iinstruction_line_parser.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── instruction_line_parser.py
+         │       │   │   └── instruction_line_parser_factory.py
+         │       │   ├── iscara_parser.py
+         │       │   ├── lexer/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── iscara_lexer.py
+         │       │   │   ├── scara_lexer.py
+         │       │   │   └── scara_lexer_factory.py
+         │       │   ├── scara_parser.py
+         │       │   ├── scara_parser_factory.py
+         │       │   └── splitter/
+         │       │       ├── __init__.py
+         │       │       ├── itoken_line_splitter.py
+         │       │       ├── token_line_splitter.py
+         │       │       └── token_line_splitter_factory.py
+         │       ├── protocol/
+         │       │   ├── ibinary_frame_builder.py
+         │       │   ├── ibinary_frame_parser.py
+         │       │   ├── ibinary_payload_unpacker.py
+         │       │   └── __init__.py
+         │       └── trajectory/
+         │           ├── discretization/
+         │           │   ├── __init__.py
+         │           │   ├── ishape_discretizer.py
+         │           │   ├── shape_discretizer.py
+         │           │   └── shape_discretizer_factory.py
+         │           ├── __init__.py
+         │           ├── metrics/
+         │           │   ├── bottleneck/
+         │           │   │   ├── imotion_bottleneck_detector.py
+         │           │   │   ├── __init__.py
+         │           │   │   ├── motion_bottleneck_detector.py
+         │           │   │   └── motion_bottleneck_detector_factory.py
+         │           │   ├── cycle/
+         │           │   │   ├── cycle_time_calculator.py
+         │           │   │   ├── cycle_time_calculator_factory.py
+         │           │   │   ├── icycle_time_calculator.py
+         │           │   │   └── __init__.py
+         │           │   ├── __init__.py
+         │           │   ├── profile/
+         │           │   │   ├── axis_speed_profile_analyzer.py
+         │           │   │   ├── axis_speed_profile_analyzer_factory.py
+         │           │   │   ├── iaxis_speed_profile_analyzer.py
+         │           │   │   └── __init__.py
+         │           │   ├── summary/
+         │           │   │   ├── __init__.py
+         │           │   │   ├── itrajectory_cycle_summary_builder.py
+         │           │   │   ├── trajectory_cycle_summary_builder.py
+         │           │   │   └── trajectory_cycle_summary_builder_factory.py
+         │           │   └── trajectory_metrics.py
+         │           ├── plan/
+         │           │   ├── __init__.py
+         │           │   ├── itrajectory_mutable.py
+         │           │   ├── itrajectory_plan.py
+         │           │   ├── itrajectory_plan_factory.py
+         │           │   ├── itrajectory_read_only.py
+         │           │   ├── trajectory_plan.py
+         │           │   └── trajectory_plan_factory.py
+         │           └── validation/
+         │               ├── feedrate/
+         │               │   ├── feedrate_validator.py
+         │               │   ├── feedrate_validator_factory.py
+         │               │   ├── ifeedrate_validator.py
+         │               │   └── __init__.py
+         │               ├── __init__.py
+         │               ├── itrajectory_validator.py
+         │               ├── plan/
+         │               │   ├── __init__.py
+         │               │   ├── itrajectory_plan_validator.py
+         │               │   ├── trajectory_plan_validator.py
+         │               │   └── trajectory_plan_validator_factory.py
+         │               ├── trajectory_validator.py
+         │               ├── trajectory_validator_factory.py
+         │               └── waypoint/
+         │                   ├── __init__.py
+         │                   ├── iwaypoint_validator.py
+         │                   ├── waypoint_validator.py
+         │                   └── waypoint_validator_factory.py
+         ├── engine.py
+         ├── infrastructure/
+         │   ├── cli/
+         │   │   ├── engine.py
+         │   │   ├── icli.py
+         │   │   ├── __init__.py
+         │   │   ├── repl/
+         │   │   │   ├── compiler/
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── irepl_single_command_compiler.py
+         │   │   │   │   ├── repl_single_command_compiler.py
+         │   │   │   │   └── repl_single_command_compiler_factory.py
+         │   │   │   ├── dispatch/
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── irepl_command_dispatcher.py
+         │   │   │   │   ├── repl_command_dispatcher.py
+         │   │   │   │   └── repl_command_dispatcher_factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   ├── input/
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── irepl_line_reader.py
+         │   │   │   │   ├── repl_line_reader.py
+         │   │   │   │   └── repl_line_reader_factory.py
+         │   │   │   ├── presentation/
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── irepl_response_presenter.py
+         │   │   │   │   ├── repl_response_presenter.py
+         │   │   │   │   └── repl_response_presenter_factory.py
+         │   │   │   └── transmission/
+         │   │   │       ├── __init__.py
+         │   │   │       ├── irepl_frame_transmitter.py
+         │   │   │       ├── repl_frame_transmitter.py
+         │   │   │       └── repl_frame_transmitter_factory.py
+         │   │   └── setup/
+         │   │       ├── bundle.py
+         │   │       ├── dep_validator.py
+         │   │       ├── dependencies.py
+         │   │       ├── factory.py
+         │   │       ├── __init__.py
+         │   │       ├── keys.py
+         │   │       ├── opt_validator.py
+         │   │       ├── options.py
+         │   │       ├── registry.py
+         │   │       └── validator.py
+         │   ├── command/
+         │   │   ├── command_bundle.py
+         │   │   ├── command_bundle_factory.py
+         │   │   ├── compile/
+         │   │   │   ├── compile_command_definition.py
+         │   │   │   ├── compile_command_executor.py
+         │   │   │   ├── compile_command_executor_factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   ├── inspection/
+         │   │   │   │   ├── framing/
+         │   │   │   │   │   ├── frame_header_formatter.py
+         │   │   │   │   │   ├── frame_header_formatter_factory.py
+         │   │   │   │   │   ├── frame_trailer_formatter.py
+         │   │   │   │   │   ├── frame_trailer_formatter_factory.py
+         │   │   │   │   │   ├── hex_stream_formatter.py
+         │   │   │   │   │   ├── hex_stream_formatter_factory.py
+         │   │   │   │   │   ├── iframe_header_formatter.py
+         │   │   │   │   │   ├── iframe_trailer_formatter.py
+         │   │   │   │   │   ├── ihex_stream_formatter.py
+         │   │   │   │   │   └── __init__.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── payload/
+         │   │   │   │   │   ├── ijoint_steps_payload_formatter.py
+         │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   ├── ipayload_dispatcher_formatter.py
+         │   │   │   │   │   ├── itool_command_payload_formatter.py
+         │   │   │   │   │   ├── joint_steps_payload_formatter.py
+         │   │   │   │   │   ├── joint_steps_payload_formatter_factory.py
+         │   │   │   │   │   ├── payload_dispatcher_formatter.py
+         │   │   │   │   │   ├── payload_dispatcher_formatter_factory.py
+         │   │   │   │   │   ├── tool_command_payload_formatter.py
+         │   │   │   │   │   └── tool_command_payload_formatter_factory.py
+         │   │   │   │   └── presentation/
+         │   │   │   │       ├── frame_step_presenter.py
+         │   │   │   │       ├── frame_step_presenter_factory.py
+         │   │   │   │       ├── iframe_step_presenter.py
+         │   │   │   │       ├── __init__.py
+         │   │   │   │       ├── iprogram_inspection_presenter.py
+         │   │   │   │       ├── program_inspection_presenter.py
+         │   │   │   │       └── program_inspection_presenter_factory.py
+         │   │   │   └── telemetry/
+         │   │   │       ├── compile_telemetry_formatter.py
+         │   │   │       ├── compile_telemetry_formatter_factory.py
+         │   │   │       ├── icompile_telemetry_formatter.py
+         │   │   │       └── __init__.py
+         │   │   ├── disassemble/
+         │   │   │   ├── disassemble_command_definition.py
+         │   │   │   ├── disassemble_command_executor.py
+         │   │   │   ├── disassemble_command_executor_factory.py
+         │   │   │   ├── format/
+         │   │   │   │   ├── disassemble_summary_formatter.py
+         │   │   │   │   ├── disassemble_summary_formatter_factory.py
+         │   │   │   │   ├── idisassemble_summary_formatter.py
+         │   │   │   │   └── __init__.py
+         │   │   │   └── __init__.py
+         │   │   ├── export/
+         │   │   │   ├── export_command_definition.py
+         │   │   │   ├── export_command_executor.py
+         │   │   │   ├── export_command_executor_factory.py
+         │   │   │   └── __init__.py
+         │   │   ├── icommand_definition.py
+         │   │   ├── icommand_executor.py
+         │   │   ├── info/
+         │   │   │   ├── info_command_definition.py
+         │   │   │   ├── info_command_executor.py
+         │   │   │   ├── info_command_executor_factory.py
+         │   │   │   └── __init__.py
+         │   │   ├── __init__.py
+         │   │   ├── lint/
+         │   │   │   ├── __init__.py
+         │   │   │   ├── lint_command_definition.py
+         │   │   │   ├── lint_command_executor.py
+         │   │   │   └── lint_command_executor_factory.py
+         │   │   └── repl/
+         │   │       ├── __init__.py
+         │   │       ├── repl_command_definition.py
+         │   │       ├── repl_command_executor.py
+         │   │       └── repl_command_executor_factory.py
+         │   ├── communication/
+         │   │   ├── __init__.py
+         │   │   └── protocol/
+         │   │       ├── binary/
+         │   │       │   ├── binary_struct_format.py
+         │   │       │   ├── builder/
+         │   │       │   │   ├── binary_frame_builder.py
+         │   │       │   │   ├── binary_frame_builder_factory.py
+         │   │       │   │   └── __init__.py
+         │   │       │   ├── checksum/
+         │   │       │   │   ├── crc16_ccitt.py
+         │   │       │   │   └── __init__.py
+         │   │       │   ├── __init__.py
+         │   │       │   └── parser/
+         │   │       │       ├── binary_frame_assembler.py
+         │   │       │       ├── binary_frame_assembler_factory.py
+         │   │       │       ├── binary_frame_parser.py
+         │   │       │       ├── binary_frame_parser_factory.py
+         │   │       │       ├── binary_payload_unpacker.py
+         │   │       │       ├── binary_payload_unpacker_factory.py
+         │   │       │       ├── ibinary_frame_assembler.py
+         │   │       │       ├── __init__.py
+         │   │       │       └── parser_state.py
+         │   │       └── __init__.py
+         │   ├── config/
+         │   │   ├── scaralang.cfg
+         │   │   └── scaralang.logo
+         │   └── __init__.py
+         ├── __init__.py
+         ├── py.typed
+         └── setup/
+             ├── bundle.py
+             ├── dep_validator.py
+             ├── dependencies.py
+             ├── factory.py
+             ├── __init__.py
+             ├── keys.py
+             ├── opt_validator.py
+             ├── options.py
+             ├── registry.py
+             └── validator.py
+
+     117 directories, 543 files
+```
+</details>
+
+#### 🏗 Architecture & SOLID Principles
+
+```
+           ┌─────────────────────────────────────────────────────────────┐
+           │                   CLI / Inbound Adapters                    │
+           │        (Compile, Disassemble, Lint, Info, Export, REPL)     │
+           └──────────────┬───────────────────────────────┬──────────────┘
+                          │ Depends on Role Protocols     │
+                          ▼                               ▼
+           ┌──────────────────────────────┐┌─────────────────────────────┐
+           │     IScaraDslLinter          ││  IScaraDslBinaryCompiler    │
+           │   (Validation & Diagnostics) ││  (Plan / Binary Generation) │
+           └──────────────┬───────────────┘└──────────────┬──────────────┘
+                          │                               │
+                          ▼                               ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                       Application Services                             │
+│  ┌────────────────────┐  ┌───────────────────┐  ┌───────────────────┐  │
+│  │     ScaraLexer     │  │    ScaraParser    │  │   ScaraCompiler   │  │
+│  │   (Token Stream)   │  │ (Command Parsers) │  │  (Macro Expander) │  │
+│  └────────────────────┘  └───────────────────┘  └───────────────────┘  │
+│  ┌────────────────────┐  ┌───────────────────┐  ┌───────────────────┐  │
+│  │   BinaryCompiler   │  │ ScaraDisassembler │  │  ExportDispatcher │  │
+│  │  (Step Generator)  │  │ (Frame Detail Dec)│  │ (Multi-target Exp)│  │
+│  └────────────────────┘  └───────────────────┘  └───────────────────┘  │
+└─────────────────────────────────┬──────────────────────────────────────┘
+                                  │ Operates on Pure Models
+                                  ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Pure Domain Models                              │
+│       (ScaraProgram, BinaryProgram, Waypoint, DisassemblySummary,      │
+│        InstructionParam, ScaraCommandType, MessageId, ZoneMode)        │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+##### SOLID Principles Compliance
+
+* **S — Single Responsibility Principle (SRP)**:
+  * Every module, class, and service has exactly one clearly bounded reason to change.
+  * Parser and compiler logic is decomposed into dedicated handlers (`MotionCommandParser`, `ConfigCommandParser`, `PalletMacroExpander`, `StepDiscretizer`) rather than a monolithic interpreter.
+  * Strict limit of $\le 15$ methods per class across the entire codebase enforced by automated Quality Gate.
+* **O — Open/Closed Principle (OCP)**:
+  * The DSL parser, macro expanders, and exporters are open for extension without modifying existing code.
+  * Extensible Chain of Responsibility and dispatcher pattern allow registering new instruction handlers and export targets seamlessly.
+* **L — Liskov Substitution Principle (LSP)**:
+  * Pure structural subtyping via Python `@runtime_checkable Protocol` definitions. Concrete classes never inherit from abstract protocols, ensuring complete structural interchangeability.
+* **I — Interface Segregation Principle (ISP)**:
+  * Fat facade `IScaraDslService` is segregated into focused role protocols (`IScaraDslBinaryCompiler`, `IScaraDslDisassembler`, `IScaraDslLinter`, `IScaraDslInfoProvider`, `IScaraDslCompiler`, `IScaraPlanExporter`). Clients depend strictly on the minimal methods they call.
+* **D — Dependency Inversion Principle (DIP)**:
+  * High-level domain services and CLI executors depend strictly on abstract protocols, never on concrete implementations. All infrastructure dependencies are injected via constructor Dependency Injection (Zero-Fallback DI).
+
+##### Automated Quality Gates (`run_quality_gates.sh`)
+
+Every build is validated against 4 strict automated quality gates:
+1. **Structural Protocols Gate (`interfaces_checker.py`)**: Verifies 100% compliance with `@runtime_checkable Protocol` structural typing across concrete implementations.
+2. **Interface Segregation Gate (`isp_checker.py`)**: Enforces ISP compliance and verifies that no bloated or unused interfaces exist.
+3. **Module Limits Gate (`limits_checker.py`)**: Enforces file length, method count, and line length limits ($\le 150$ characters).
+4. **Single Responsibility Gate (`srp_checker.py`)**: Strictly enforces $\le 15$ methods per class and logical method line limits.
+
+#### ✨ Features
+
+* **High-Level SCARA DSL Toolchain**: Lexer, Tokenizer, Line Splitter, AST Parser, Linter, and Semantic Validator for human-readable SCARA motion scripts (`.scara`).
+* **Deterministic Bytecode Compiler**: Direct translation of high-level Cartesian DSL trajectories into discrete stepper motor joint step blocks (`JointSteps`, `Step`, `BinaryProgram`).
+* **SCARA Binary Wire Protocol Codec**: High-performance streaming frame parser, payload unpacker, frame builder, and CRC-16-CCITT integrity verification (`0xAA 0x55` header framing).
+* **Multi-Target Trajectory Exporter**: Export robotic trajectories into industrial G-code, CSV time-series data, JSON trajectory bundles, and SVG vector toolpaths.
+* **Interactive Motion REPL Console**: Terminal-based interactive console (`scarac repl`) for real-time single-command compilation, inspection, and frame transmission.
+* **Single Source of Truth (SSoT)**: Seamless domain and codec foundation shared between `scarajectory` (Desktop Studio), `scaraemu` (Digital Twin Simulator), and `dof2bot/scara` (RP2040 firmware).
+* **Zero GUI Dependencies**: 100% headless, clean architecture design with zero Tkinter, Qt, or graphics dependencies.
+* **Strict Quality & SOLID Standards**: 100% structural protocol conformance, 99% test coverage, and 10.00 / 10.00 Pylint score.
+
+#### 📜 SCARA Domain-Specific Language (DSL) & `.scara` Programs
+
+**scaralang** includes a dedicated, industrial-grade Domain-Specific Language designed specifically for SCARA robotic manipulators. Programs are written in plain text files with the `.scara` extension and compiled into validated Cartesian trajectories via a clean AST pipeline:
+
+```
+            ┌─────────────────────────┐
+            │      .scara Source      │
+            └────────────┬────────────┘
+              ScaraLexer │
+                         ▼
+            ┌─────────────────────────┐
+            │      Token Stream       │
+            └────────────┬────────────┘
+             ScaraParser │
+                         ▼
+            ┌─────────────────────────┐
+            │       Abstract AST      │
+            └────────────┬────────────┘
+          ScaraCompiler  │ (Macros + Kinematics) 
+                         ▼
+         ┌────────────────────────────┐
+         │       TrajectoryPlan       │
+         |(Waypoints & Discretization)|
+         └───────────────┬────────────┘
+          BinaryCompiler │ (Step Discretization)
+                         ▼
+            ┌─────────────────────────┐
+            │      BinaryProgram      │
+            | (Wire Frames & Bytecode)|
+            └─────────────────────────┘
+```
+
+##### SCARA DSL Instruction Quick Reference
+
+> 📖 **Complete Specification:** For the exhaustive parameter reference, boundary checks, linter diagnostics, and full industrial examples, see **[LANGUAGE_REFERENCE.md](LANGUAGE_REFERENCE.md)**.
+
+| Category | Instruction & Syntax | Parameters | Description |
+|---|---|---|---|
+| **Motion** | `MOVE_J X <x> Y <y> Z <z> [P <phi>]` | `X, Y, Z` (mm), `P` (deg) | Rapid non-interpolated Cartesian joint motion. |
+| | `MOVE_L X <x> Y <y> Z <z> [P <phi>]` | `X, Y, Z` (mm), `P` (deg) | Linear continuous path interpolated motion. |
+| | `ARC_CW X <x> Y <y> I <i> J <j> [Z <z>] [P <p>]` | `X, Y`, `I, J` center offset | Clockwise circular arc interpolation in XY plane. |
+| | `ARC_CCW X <x> Y <y> I <i> J <j> [Z <z>] [P <p>]` | `X, Y`, `I, J` center offset | Counter-clockwise circular arc interpolation. |
+| | `APPROACH DIST <d>` | `DIST` (mm, > 0) | Relative vertical descent along -Z axis. |
+| | `RETRACT DIST <d>` | `DIST` (mm, > 0) | Relative vertical ascent along +Z axis. |
+| | `JOG_AXIS <X\|Y\|Z\|PHI> <step>` | Axis, step displacement | Incremental single-axis manual jog move. |
+| | `JOG_JOINT <1\|2\|3\|4> <deg>` | Joint ID (1..4), angle (deg) | Incremental individual joint rotational jog. |
+| | `PROBE [SPEED <s>] [DIST <d>]` | `SPEED` (mm/s), `DIST` (mm) | Tactile surface contact search along -Z axis. |
+| **Macros** | `JUMP X <x> Y <y> Z <z> [ARCH <h>]` | `X, Y, Z`, `ARCH` height | 3D parabolic arch pick-and-place transfer. |
+| | `PALLET_DEF <id> ROWS <r> COLS <c> DX <dx> DY <dy>`| Matrix dimensions & pitch | Defines structured 2D Cartesian pallet matrix. |
+| | `MOVE_PALLET <id> INDEX <i>` | Pallet name, 1-based index | Direct positioning to pallet matrix cell. |
+| **Actuators** | `PUMP <ON\|OFF>` | `ON` or `OFF` | Energizes or cuts end-effector vacuum pump. |
+| | `VALVE <ON\|OFF>` | `ON` or `OFF` | Opens or closes pneumatic release blow-off valve. |
+| | `TOOL <UP\|DOWN>` | `UP` or `DOWN` | Actuates tool head vertical pneumatic slide stage. |
+| | `TOOL_ORIENT <AUTO\|TANGENT\|FIXED>` | Tracking mode | Configures 4th-axis tool yaw orientation mode. |
+| **Dynamics** | `SPEED <RAPID\|WORK> <val>` | `RAPID` or `WORK`, feedrate | Sets rapid travel or working path feedrate (mm/s). |
+| | `ACCEL <val>` | `val` (mm/s²) | Sets trajectory acceleration and deceleration limit. |
+| | `OVERRIDE <percent>` | `percent` (10% - 200%) | Dynamically scales path velocity in real time. |
+| | `ZONE <OFF\|FINE\|EXACT\|Z1..Z50>` | Blending tolerance (mm) | Corner path rounding and continuous velocity mode. |
+| **Kinematics**| `CONFIG ELBOW <LEFT\|RIGHT>` | `LEFT` or `RIGHT` | Sets arm kinematic inverse solution branch. |
+| | `CONFIG MOTOR <OPEN_LOOP\|CLOSED_LOOP>`| Drive control mode | Selects open-loop microstepping or closed-loop FOC. |
+| | `FRAME X <x> Y <y> Z <z> [PHI <p>]` | Cartesian offsets, angle | Defines local Work Coordinate System (WCS). |
+| | `FRAME_RESET` | None | Resets coordinate system to base world origin. |
+| | `HOME` | None | Triggers multi-axis hardware homing calibration. |
+| **Safety & Flow**| `WAIT <ms>` / `WAIT_MS <ms>` | Duration in milliseconds | Pauses execution dwell for hardware stabilization. |
+| | `SYNC` | None | Execution barrier; drains motion queue buffer. |
+| | `HOLD` | None | Trajectory feed hold; pauses running motion. |
+| | `RESUME` | None | Resumes previously suspended trajectory. |
+| | `ESTOP` | None | Immediate emergency stop and motion abort. |
+| | `ENABLE` | None | Energizes motor driver stages (holding torque). |
+| | `DISABLE` | None | De-energizes motor driver stages (free movement). |
+
+##### Example `.scara` Program: Industrial Pick & Place
+
+```scara
+# ----------------------------------------------------
+# Industrial Pick-and-Place Cycle with Pneumatic Grip
+# ----------------------------------------------------
+CONFIG ELBOW LEFT
+SPEED RAPID 180.0
+SPEED WORK 60.0
+ACCEL 400.0
+OVERRIDE 100
+
+# Home robot to reference position
+HOME
+
+# Rapid move above pick feeder station
+MOVE_J X 140.0 Y -30.0 Z 35.0
+APPROACH DIST 30.0
+
+# Engage suction cup and pause for vacuum seal
+PUMP ON
+WAIT 200
+
+# Retract with part
+RETRACT DIST 30.0
+
+# Smooth 3D parabolic arch transfer to drop location
+JUMP X 180.0 Y 30.0 Z 5.0 ARCH 40.0
+
+# Release part with air pulse
+PUMP OFF
+VALVE ON
+WAIT 100
+VALVE OFF
+
+# Retract to safe transit altitude
+RETRACT DIST 30.0
+HOME
+```
+
+#### 📡 SCARA Binary Wire Protocol & Codec
+
+All binary wire communication between **scaralang**, **scarajectory**, **scaraemu**, and physical robot firmware is governed by deterministic packet framing:
+
+##### Frame Header & Wire Format
+
+Each binary frame consists of a 4-byte header, variable payload, and 2-byte CRC-16-CCITT checksum:
+
+```
+┌──────────────┬──────────────┬──────────────┬──────────────────┬──────────────┐
+│  SOF1 (0xAA) │  SOF2 (0x55) │  Msg ID (1B) │  Payload Len (1B)│ Payload (NB) │ ... CRC16 (2B)
+└──────────────┴──────────────┴──────────────┴──────────────────┴──────────────┘
+```
+
+##### Message Types & Payload Structure
+
+| Message ID | Enum Identifier | Payload Structure | Description |
+|---|:---:|---|---|
+| `0x01` | `JOINT_STEPS` | `Step[n]` (8 bytes per step: $\Delta S_1, \Delta S_2, \Delta S_3, \Delta S_4$) | Coordinated stepper motor joint step block. |
+| `0x02` | `TOOL_COMMAND` | `ToolId (1B), Action (1B), Param (2B)` | End-effector actuator trigger (vacuum, gripper, valve). |
+| `0x03` | `ESTOP` | Empty (`0 bytes`) | Immediate hardware emergency stop. |
+| `0x04` | `PAUSE` | Empty (`0 bytes`) | Pause execution / feed hold. |
+| `0x05` | `RESUME` | Empty (`0 bytes`) | Resume paused trajectory execution. |
+| `0x06` | `HEARTBEAT` | `Sequence (4B), Status (1B)` | Real-time link health and operational state beacon. |
+| `0x07` | `SYNC` | `Timestamp (4B)` | Clock synchronization and timestamp alignment. |
+
+##### Hardware Execution & Motor Actuation Targets
+
+Binary wire frames generated by **scaralang** stream directly over UART / USB-CDC to the physical **`scara_base`** firmware running on the Raspberry Pi Pico (RP2040), which coordinates motor actuation across two configurable drive modes:
+* **Open-Loop Stepper Mode (TMC2209):** Coordinated microstepping pulses generated by RP2040 PIO hardware state machines driving TMC2209 STEP/DIR stages for ultra-silent operation.
+* **Closed-Loop Stepper Mode (MKS SERVO42D over CAN Bus):** NEMA stepper motors equipped with **MKS SERVO42D** closed-loop modules communicating with the Raspberry Pi Pico over a high-speed differential **CAN bus** (CAN_H / CAN_L). This guarantees 100% elimination of lost steps, hardware PID closed-loop position correction, and real-time following-error telemetry.
+
+### 📊 Code coverage
+
+<details>
+<summary><b>Click to expand code coverage</b></summary>
+
+| Name | Stmts | Miss | Cover |
+|------|-------|------|-------|
+| `scaralang/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/command_type.py` | 47 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/instruction.py` | 18 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/instruction_param.py` | 57 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/jog_axis.py` | 16 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/pneumatic_state.py` | 14 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/program.py` | 14 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/speed_mode.py` | 14 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/tool_orient_mode.py` | 15 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/tool_position.py` | 14 | 0 | 100%|
+| `scaralang/core/model/dsl/ast/zone_mode.py` | 15 | 0 | 100%|
+| `scaralang/core/model/dsl/binary/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/binary/binary_program_telemetry.py` | 21 | 0 | 100%|
+| `scaralang/core/model/dsl/binary/disassembled_frame.py` | 17 | 0 | 100%|
+| `scaralang/core/model/dsl/binary/disassembly_summary.py` | 18 | 0 | 100%|
+| `scaralang/core/model/dsl/binary/parsed_command_token.py` | 16 | 0 | 100%|
+| `scaralang/core/model/dsl/binary/program.py` | 20 | 0 | 100%|
+| `scaralang/core/model/dsl/binary/step.py` | 19 | 0 | 100%|
+| `scaralang/core/model/dsl/compiler/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/compiler/arc_geometry.py` | 20 | 0 | 100%|
+| `scaralang/core/model/dsl/compiler/control_waypoint_descriptor.py` | 16 | 0 | 100%|
+| `scaralang/core/model/dsl/compiler/scara_compiler_context.py` | 34 | 0 | 100%|
+| `scaralang/core/model/dsl/diagnostic/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/diagnostic/scara_diagnostic.py` | 18 | 0 | 100%|
+| `scaralang/core/model/dsl/diagnostic/scara_diagnostic_code.py` | 23 | 0 | 100%|
+| `scaralang/core/model/dsl/diagnostic/scara_diagnostic_severity.py` | 15 | 0 | 100%|
+| `scaralang/core/model/dsl/exporter/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/exporter/export_format.py` | 17 | 0 | 100%|
+| `scaralang/core/model/dsl/linter/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/linter/scara_lint_context.py` | 22 | 0 | 100%|
+| `scaralang/core/model/dsl/macro/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/macro/pallet_definition.py` | 19 | 0 | 100%|
+| `scaralang/core/model/dsl/macro/work_frame.py` | 15 | 0 | 100%|
+| `scaralang/core/model/dsl/token/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/dsl/token/lexer_pattern_kind.py` | 22 | 0 | 100%|
+| `scaralang/core/model/dsl/token/scara_token.py` | 17 | 0 | 100%|
+| `scaralang/core/model/dsl/token/scara_token_type.py` | 23 | 0 | 100%|
+| `scaralang/core/model/kinematics/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/kinematics/elbow_config.py` | 14 | 0 | 100%|
+| `scaralang/core/model/kinematics/point_2d.py` | 14 | 0 | 100%|
+| `scaralang/core/model/kinematics/scara_bounds.py` | 29 | 0 | 100%|
+| `scaralang/core/model/kinematics/transmission_parameters.py` | 18 | 0 | 100%|
+| `scaralang/core/model/motor/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/motor/axis_mask.py` | 18 | 0 | 100%|
+| `scaralang/core/model/motor/motor_config.py` | 18 | 0 | 100%|
+| `scaralang/core/model/motor/motor_drive_mode.py` | 14 | 0 | 100%|
+| `scaralang/core/model/motor/motor_interface_type.py` | 15 | 0 | 100%|
+| `scaralang/core/model/protocol/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/protocol/binary_delimiter.py` | 15 | 0 | 100%|
+| `scaralang/core/model/protocol/binary_frame.py` | 17 | 0 | 100%|
+| `scaralang/core/model/protocol/error_code.py` | 21 | 0 | 100%|
+| `scaralang/core/model/protocol/joint_steps.py` | 18 | 0 | 100%|
+| `scaralang/core/model/protocol/message_id.py` | 41 | 0 | 100%|
+| `scaralang/core/model/protocol/motor_wire_mode.py` | 14 | 0 | 100%|
+| `scaralang/core/model/protocol/tool_id.py` | 13 | 0 | 100%|
+| `scaralang/core/model/repl/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/repl/repl_dispatch_result.py` | 15 | 0 | 100%|
+| `scaralang/core/model/repl/repl_session_context.py` | 23 | 0 | 100%|
+| `scaralang/core/model/trajectory/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/model/trajectory/arc_point.py` | 15 | 0 | 100%|
+| `scaralang/core/model/trajectory/axis_peak_metric.py` | 16 | 0 | 100%|
+| `scaralang/core/model/trajectory/bottleneck_incident.py` | 16 | 0 | 100%|
+| `scaralang/core/model/trajectory/circle_geometry.py` | 17 | 0 | 100%|
+| `scaralang/core/model/trajectory/trajectory_cycle_report.py` | 18 | 0 | 100%|
+| `scaralang/core/model/trajectory/validation_result.py` | 15 | 0 | 100%|
+| `scaralang/core/model/trajectory/waypoint.py` | 19 | 0 | 100%|
+| `scaralang/core/service/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/binary_compiler.py` | 27 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/binary_compiler_factory.py` | 20 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/command_compiler.py` | 56 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/command_compiler_factory.py` | 31 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/icommand_compiler.py` | 14 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/motor/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/motor/imotor_frame_builder.py` | 14 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/motor/motor_frame_builder.py` | 21 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/motor/motor_frame_builder_factory.py` | 19 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/tokens/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/tokens/command_token_parser.py` | 22 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/tokens/command_token_parser_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/tokens/icommand_token_parser.py` | 17 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/tool/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/tool/itool_frame_builder.py` | 16 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/tool/tool_frame_builder.py` | 20 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/command/tool/tool_frame_builder_factory.py` | 19 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/ibinary_compiler.py` | 15 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/metrics/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/metrics/binary_metrics_calculator.py` | 26 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/metrics/binary_metrics_calculator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/metrics/ibinary_metrics_calculator.py` | 17 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/motion/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/motion/imotion_compiler.py` | 15 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/motion/motion_compiler.py` | 27 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/motion/motion_compiler_factory.py` | 20 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/step/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/step/istep_discretizer.py` | 16 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/step/iwaypoint_step_dispatcher.py` | 16 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/step/step_discretizer.py` | 40 | 2 | 95%|
+| `scaralang/core/service/compiler/binary/step/step_discretizer_factory.py` | 20 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/step/waypoint_step_dispatcher.py` | 31 | 0 | 100%|
+| `scaralang/core/service/compiler/binary/step/waypoint_step_dispatcher_factory.py` | 20 | 0 | 100%|
+| `scaralang/core/service/compiler/frame/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/frame/frame_transformer.py` | 21 | 0 | 100%|
+| `scaralang/core/service/compiler/frame/frame_transformer_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/frame/iframe_transformer.py` | 14 | 0 | 100%|
+| `scaralang/core/service/compiler/iinstruction_pipeline.py` | 16 | 0 | 100%|
+| `scaralang/core/service/compiler/instruction_pipeline.py` | 35 | 4 | 89%|
+| `scaralang/core/service/compiler/instruction_pipeline_factory.py` | 27 | 1 | 96%|
+| `scaralang/core/service/compiler/iprimitive_instruction_processor.py` | 17 | 0 | 100%|
+| `scaralang/core/service/compiler/iscara_compiler.py` | 16 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/frame_macro_expander.py` | 24 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/frame_macro_expander_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/imacro_expander.py` | 16 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/jump_macro_expander.py` | 34 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/jump_macro_expander_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/pallet_macro_expander.py` | 41 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/pallet_macro_expander_factory.py` | 23 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/tangent_macro_expander.py` | 34 | 0 | 100%|
+| `scaralang/core/service/compiler/macro/tangent_macro_expander_factory.py` | 17 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/arc_move_compiler.py` | 39 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/arc_move_compiler_factory.py` | 29 | 1 | 97%|
+| `scaralang/core/service/compiler/motion/arc/builder/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/builder/arc_waypoint_builder.py` | 21 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/builder/arc_waypoint_builder_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/builder/iarc_waypoint_builder.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/calculator/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/calculator/arc_point_calculator.py` | 34 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/calculator/arc_point_calculator_factory.py` | 28 | 1 | 96%|
+| `scaralang/core/service/compiler/motion/arc/calculator/iarc_point_calculator.py` | 19 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/interpolation/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/interpolation/arc_interpolator.py` | 47 | 1 | 98%|
+| `scaralang/core/service/compiler/motion/arc/interpolation/arc_interpolator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/arc/interpolation/iarc_interpolator.py` | 16 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/cartesian/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/cartesian/cartesian_move_compiler.py` | 44 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/cartesian/cartesian_move_compiler_factory.py` | 28 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/imotion_sub_compiler.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/motion_command_compiler.py` | 33 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/motion_command_compiler_factory.py` | 26 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/vertical/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/vertical/vertical_move_compiler.py` | 33 | 0 | 100%|
+| `scaralang/core/service/compiler/motion/vertical/vertical_move_compiler_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/control/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/control/control_command_compiler.py` | 41 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/control/control_command_compiler_factory.py` | 23 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/control/control_waypoint_builder.py` | 16 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/control/control_waypoint_builder_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/control/icontrol_waypoint_builder.py` | 17 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/iprimitive_compiler.py` | 17 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/state/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/state/state_command_compiler.py` | 47 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/state/state_command_compiler_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/tool/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/tool/itool_waypoint_builder.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/tool/tool_command_compiler.py` | 33 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/tool/tool_command_compiler_factory.py` | 23 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/tool/tool_waypoint_builder.py` | 21 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive/tool/tool_waypoint_builder_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive_instruction_processor.py` | 23 | 0 | 100%|
+| `scaralang/core/service/compiler/primitive_instruction_processor_factory.py` | 20 | 0 | 100%|
+| `scaralang/core/service/compiler/scara_compiler.py` | 31 | 0 | 100%|
+| `scaralang/core/service/compiler/scara_compiler_factory.py` | 43 | 0 | 100%|
+| `scaralang/core/service/disassembler/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/disassembler/frame_detail_decoder.py` | 62 | 0 | 100%|
+| `scaralang/core/service/disassembler/frame_detail_decoder_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/disassembler/iframe_detail_decoder.py` | 16 | 0 | 100%|
+| `scaralang/core/service/disassembler/iscara_disassembler.py` | 19 | 0 | 100%|
+| `scaralang/core/service/disassembler/scara_disassembler.py` | 32 | 0 | 100%|
+| `scaralang/core/service/disassembler/scara_disassembler_factory.py` | 20 | 0 | 100%|
+| `scaralang/core/service/dsl/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/dsl/binary/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/dsl/binary/binary_service.py` | 30 | 0 | 100%|
+| `scaralang/core/service/dsl/binary/binary_service_factory.py` | 39 | 0 | 100%|
+| `scaralang/core/service/dsl/binary/ibinary_service.py` | 21 | 0 | 100%|
+| `scaralang/core/service/dsl/compilation/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/dsl/compilation/iscara_dsl_compiler.py` | 17 | 0 | 100%|
+| `scaralang/core/service/dsl/compilation/scara_dsl_compiler.py` | 30 | 0 | 100%|
+| `scaralang/core/service/dsl/compilation/scara_dsl_compiler_factory.py` | 21 | 0 | 100%|
+| `scaralang/core/service/dsl/iscara_dsl_binary_compiler.py` | 20 | 0 | 100%|
+| `scaralang/core/service/dsl/iscara_dsl_disassembler.py` | 17 | 0 | 100%|
+| `scaralang/core/service/dsl/iscara_dsl_info_provider.py` | 14 | 0 | 100%|
+| `scaralang/core/service/dsl/iscara_dsl_linter.py` | 15 | 0 | 100%|
+| `scaralang/core/service/dsl/iscara_dsl_service.py` | 20 | 0 | 100%|
+| `scaralang/core/service/dsl/iscara_dsl_validator.py` | 17 | 0 | 100%|
+| `scaralang/core/service/dsl/scara_dsl_bundle.py` | 22 | 0 | 100%|
+| `scaralang/core/service/dsl/scara_dsl_pipeline_bundle.py` | 24 | 0 | 100%|
+| `scaralang/core/service/dsl/scara_dsl_service.py` | 67 | 1 | 99%|
+| `scaralang/core/service/dsl/scara_dsl_service_factory.py` | 50 | 0 | 100%|
+| `scaralang/core/service/dsl/toolchain/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/dsl/toolchain/itoolchain_info_provider.py` | 15 | 0 | 100%|
+| `scaralang/core/service/dsl/toolchain/toolchain_info_provider.py` | 19 | 0 | 100%|
+| `scaralang/core/service/dsl/toolchain/toolchain_info_provider_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/dsl/validation/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/dsl/validation/scara_script_validator.py` | 42 | 0 | 100%|
+| `scaralang/core/service/dsl/validation/scara_script_validator_factory.py` | 21 | 0 | 100%|
+| `scaralang/core/service/exporter/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/exporter/csv/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/exporter/csv/csv_trajectory_exporter.py` | 19 | 0 | 100%|
+| `scaralang/core/service/exporter/csv/csv_trajectory_exporter_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/exporter/csv/icsv_trajectory_exporter.py` | 17 | 0 | 100%|
+| `scaralang/core/service/exporter/export_dispatcher_bundle.py` | 22 | 0 | 100%|
+| `scaralang/core/service/exporter/export_target_dispatcher.py` | 43 | 0 | 100%|
+| `scaralang/core/service/exporter/export_target_dispatcher_factory.py` | 28 | 0 | 100%|
+| `scaralang/core/service/exporter/gcode/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/exporter/gcode/gcode_exporter.py` | 24 | 0 | 100%|
+| `scaralang/core/service/exporter/gcode/gcode_exporter_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/exporter/gcode/igcode_exporter.py` | 17 | 0 | 100%|
+| `scaralang/core/service/exporter/iexport_target_dispatcher.py` | 17 | 0 | 100%|
+| `scaralang/core/service/exporter/json/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/exporter/json/ijson_trajectory_exporter.py` | 17 | 0 | 100%|
+| `scaralang/core/service/exporter/json/json_trajectory_exporter.py` | 18 | 0 | 100%|
+| `scaralang/core/service/exporter/json/json_trajectory_exporter_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/exporter/scara/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/exporter/scara/iscara_plan_exporter.py` | 17 | 0 | 100%|
+| `scaralang/core/service/exporter/scara/scara_plan_exporter.py` | 27 | 0 | 100%|
+| `scaralang/core/service/exporter/scara/scara_plan_exporter_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/exporter/scara/scara_program_serializer.py` | 18 | 0 | 100%|
+| `scaralang/core/service/exporter/scara/scara_source_generator.py` | 22 | 0 | 100%|
+| `scaralang/core/service/exporter/svg/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/exporter/svg/isvg_trajectory_exporter.py` | 18 | 0 | 100%|
+| `scaralang/core/service/exporter/svg/svg_trajectory_exporter.py` | 25 | 0 | 100%|
+| `scaralang/core/service/exporter/svg/svg_trajectory_exporter_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/kinematics/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/kinematics/default_scara_profile.py` | 21 | 0 | 100%|
+| `scaralang/core/service/kinematics/ikinematics_service.py` | 24 | 0 | 100%|
+| `scaralang/core/service/kinematics/kinematics_service.py` | 89 | 4 | 96%|
+| `scaralang/core/service/kinematics/kinematics_service_factory.py` | 23 | 0 | 100%|
+| `scaralang/core/service/kinematics/transmission/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/kinematics/transmission/ijoint_step_transmission_converter.py` | 17 | 0 | 100%|
+| `scaralang/core/service/kinematics/transmission/joint_step_transmission_converter.py` | 32 | 0 | 100%|
+| `scaralang/core/service/kinematics/transmission/joint_step_transmission_converter_factory.py` | 23 | 0 | 100%|
+| `scaralang/core/service/linter/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/linter/diagnostic/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/linter/diagnostic/iscara_diagnostic_formatter.py` | 16 | 0 | 100%|
+| `scaralang/core/service/linter/diagnostic/scara_diagnostic_formatter.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/diagnostic/scara_diagnostic_formatter_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/iscara_linter.py` | 19 | 0 | 100%|
+| `scaralang/core/service/linter/rules/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/linter/rules/iscara_lint_rule.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/motion/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/linter/rules/motion/imotion_calibration_validator.py` | 19 | 0 | 100%|
+| `scaralang/core/service/linter/rules/motion/imotion_duplicate_validator.py` | 19 | 0 | 100%|
+| `scaralang/core/service/linter/rules/motion/motion_calibration_validator.py` | 22 | 1 | 95%|
+| `scaralang/core/service/linter/rules/motion/motion_calibration_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/motion/motion_duplicate_validator.py` | 39 | 1 | 97%|
+| `scaralang/core/service/linter/rules/motion/motion_duplicate_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/motion/motion_lint_rule.py` | 34 | 0 | 100%|
+| `scaralang/core/service/linter/rules/motion/motion_lint_rule_factory.py` | 25 | 0 | 100%|
+| `scaralang/core/service/linter/rules/pneumatic/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/linter/rules/pneumatic/ipneumatic_conflict_validator.py` | 19 | 0 | 100%|
+| `scaralang/core/service/linter/rules/pneumatic/ipneumatic_flyby_validator.py` | 19 | 0 | 100%|
+| `scaralang/core/service/linter/rules/pneumatic/ipneumatic_redundancy_validator.py` | 19 | 0 | 100%|
+| `scaralang/core/service/linter/rules/pneumatic/pneumatic_conflict_validator.py` | 32 | 1 | 97%|
+| `scaralang/core/service/linter/rules/pneumatic/pneumatic_conflict_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/pneumatic/pneumatic_flyby_validator.py` | 25 | 1 | 96%|
+| `scaralang/core/service/linter/rules/pneumatic/pneumatic_flyby_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/pneumatic/pneumatic_lint_rule.py` | 42 | 0 | 100%|
+| `scaralang/core/service/linter/rules/pneumatic/pneumatic_lint_rule_factory.py` | 27 | 0 | 100%|
+| `scaralang/core/service/linter/rules/pneumatic/pneumatic_redundancy_validator.py` | 32 | 1 | 97%|
+| `scaralang/core/service/linter/rules/pneumatic/pneumatic_redundancy_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/imotor_mode_validator.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/istate_homing_validator.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/istate_zone_validator.py` | 19 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/motor_mode_validator.py` | 35 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/motor_mode_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/state_homing_validator.py` | 20 | 1 | 95%|
+| `scaralang/core/service/linter/rules/state/state_homing_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/state_lint_rule.py` | 38 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/state_lint_rule_factory.py` | 28 | 0 | 100%|
+| `scaralang/core/service/linter/rules/state/state_zone_validator.py` | 37 | 1 | 97%|
+| `scaralang/core/service/linter/rules/state/state_zone_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/timing/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/linter/rules/timing/itiming_blend_zone_validator.py` | 19 | 0 | 100%|
+| `scaralang/core/service/linter/rules/timing/itiming_dwell_validator.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/timing/timing_blend_zone_validator.py` | 27 | 1 | 96%|
+| `scaralang/core/service/linter/rules/timing/timing_blend_zone_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/timing/timing_dwell_validator.py` | 27 | 1 | 96%|
+| `scaralang/core/service/linter/rules/timing/timing_dwell_validator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/linter/rules/timing/timing_lint_rule.py` | 33 | 0 | 100%|
+| `scaralang/core/service/linter/rules/timing/timing_lint_rule_factory.py` | 25 | 0 | 100%|
+| `scaralang/core/service/linter/scara_linter.py` | 34 | 0 | 100%|
+| `scaralang/core/service/linter/scara_linter_factory.py` | 27 | 0 | 100%|
+| `scaralang/core/service/motor/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/motor/motor_config_factory.py` | 51 | 0 | 100%|
+| `scaralang/core/service/motor/motor_drive_mode_resolver.py` | 28 | 0 | 100%|
+| `scaralang/core/service/motor/motor_interface_resolver.py` | 30 | 0 | 100%|
+| `scaralang/core/service/motor/motor_wire_mode_converter.py` | 25 | 0 | 100%|
+| `scaralang/core/service/parser/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/commands/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/commands/config/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/commands/config/accel_config_parser.py` | 26 | 0 | 100%|
+| `scaralang/core/service/parser/commands/config/config_command_parser_factory.py` | 24 | 0 | 100%|
+| `scaralang/core/service/parser/commands/config/elbow_config_parser.py` | 32 | 0 | 100%|
+| `scaralang/core/service/parser/commands/config/motor_config_parser.py` | 56 | 0 | 100%|
+| `scaralang/core/service/parser/commands/config/override_config_parser.py` | 26 | 0 | 100%|
+| `scaralang/core/service/parser/commands/config/speed_config_parser.py` | 30 | 0 | 100%|
+| `scaralang/core/service/parser/commands/config/tool_orient_command_parser.py` | 36 | 0 | 100%|
+| `scaralang/core/service/parser/commands/config/zone_command_parser.py` | 34 | 0 | 100%|
+| `scaralang/core/service/parser/commands/flow/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/commands/flow/disable_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/flow/enable_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/flow/estop_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/flow/flow_command_parser_factory.py` | 24 | 0 | 100%|
+| `scaralang/core/service/parser/commands/flow/hold_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/flow/resume_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/flow/sync_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/flow/wait_command_parser.py` | 28 | 0 | 100%|
+| `scaralang/core/service/parser/commands/frame/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/commands/frame/frame_command_parser_factory.py` | 19 | 0 | 100%|
+| `scaralang/core/service/parser/commands/frame/frame_reset_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/frame/frame_set_command_parser.py` | 24 | 0 | 100%|
+| `scaralang/core/service/parser/commands/icommand_parser.py` | 18 | 0 | 100%|
+| `scaralang/core/service/parser/commands/icommand_parser_provider.py` | 18 | 0 | 100%|
+| `scaralang/core/service/parser/commands/macro/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/commands/macro/jump_command_parser.py` | 24 | 0 | 100%|
+| `scaralang/core/service/parser/commands/macro/macro_command_parser_factory.py` | 20 | 0 | 100%|
+| `scaralang/core/service/parser/commands/macro/pallet_def_command_parser.py` | 31 | 0 | 100%|
+| `scaralang/core/service/parser/commands/macro/pallet_move_command_parser.py` | 31 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/approach_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/arc_command_parser.py` | 25 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/home_command_parser.py` | 22 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/jog_command_parser.py` | 34 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/joint_move_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/linear_move_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/motion_command_parser_factory.py` | 25 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/probe_command_parser.py` | 24 | 0 | 100%|
+| `scaralang/core/service/parser/commands/motion/retract_command_parser.py` | 23 | 0 | 100%|
+| `scaralang/core/service/parser/commands/parameter/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/commands/parameter/parameter_extractor.py` | 39 | 0 | 100%|
+| `scaralang/core/service/parser/commands/tool/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/commands/tool/pump_command_parser.py` | 31 | 0 | 100%|
+| `scaralang/core/service/parser/commands/tool/tool_command_parser.py` | 31 | 0 | 100%|
+| `scaralang/core/service/parser/commands/tool/tool_command_parser_factory.py` | 20 | 0 | 100%|
+| `scaralang/core/service/parser/commands/tool/valve_command_parser.py` | 31 | 0 | 100%|
+| `scaralang/core/service/parser/instruction/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/instruction/iinstruction_line_parser.py` | 20 | 0 | 100%|
+| `scaralang/core/service/parser/instruction/instruction_line_parser.py` | 51 | 0 | 100%|
+| `scaralang/core/service/parser/instruction/instruction_line_parser_factory.py` | 36 | 0 | 100%|
+| `scaralang/core/service/parser/iscara_parser.py` | 19 | 0 | 100%|
+| `scaralang/core/service/parser/lexer/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/lexer/iscara_lexer.py` | 16 | 0 | 100%|
+| `scaralang/core/service/parser/lexer/scara_lexer.py` | 45 | 1 | 98%|
+| `scaralang/core/service/parser/lexer/scara_lexer_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/parser/scara_parser.py` | 30 | 0 | 100%|
+| `scaralang/core/service/parser/scara_parser_factory.py` | 31 | 0 | 100%|
+| `scaralang/core/service/parser/splitter/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/parser/splitter/itoken_line_splitter.py` | 17 | 0 | 100%|
+| `scaralang/core/service/parser/splitter/token_line_splitter.py` | 29 | 0 | 100%|
+| `scaralang/core/service/parser/splitter/token_line_splitter_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/protocol/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/protocol/ibinary_frame_builder.py` | 25 | 0 | 100%|
+| `scaralang/core/service/protocol/ibinary_frame_parser.py` | 18 | 0 | 100%|
+| `scaralang/core/service/protocol/ibinary_payload_unpacker.py` | 20 | 0 | 100%|
+| `scaralang/core/service/trajectory/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/discretization/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/discretization/ishape_discretizer.py` | 20 | 0 | 100%|
+| `scaralang/core/service/trajectory/discretization/shape_discretizer.py` | 34 | 0 | 100%|
+| `scaralang/core/service/trajectory/discretization/shape_discretizer_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/bottleneck/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/bottleneck/imotion_bottleneck_detector.py` | 18 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/bottleneck/motion_bottleneck_detector.py` | 34 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/bottleneck/motion_bottleneck_detector_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/cycle/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/cycle/cycle_time_calculator.py` | 41 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/cycle/cycle_time_calculator_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/cycle/icycle_time_calculator.py` | 18 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/profile/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/profile/axis_speed_profile_analyzer.py` | 46 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/profile/axis_speed_profile_analyzer_factory.py` | 18 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/profile/iaxis_speed_profile_analyzer.py` | 18 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/summary/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/summary/itrajectory_cycle_summary_builder.py` | 19 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/summary/trajectory_cycle_summary_builder.py` | 34 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/summary/trajectory_cycle_summary_builder_factory.py` | 21 | 0 | 100%|
+| `scaralang/core/service/trajectory/metrics/trajectory_metrics.py` | 40 | 0 | 100%|
+| `scaralang/core/service/trajectory/plan/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/plan/itrajectory_mutable.py` | 22 | 0 | 100%|
+| `scaralang/core/service/trajectory/plan/itrajectory_plan.py` | 13 | 0 | 100%|
+| `scaralang/core/service/trajectory/plan/itrajectory_plan_factory.py` | 17 | 0 | 100%|
+| `scaralang/core/service/trajectory/plan/itrajectory_read_only.py` | 20 | 0 | 100%|
+| `scaralang/core/service/trajectory/plan/trajectory_plan.py` | 42 | 0 | 100%|
+| `scaralang/core/service/trajectory/plan/trajectory_plan_factory.py` | 22 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/feedrate/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/feedrate/feedrate_validator.py` | 25 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/feedrate/feedrate_validator_factory.py` | 19 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/feedrate/ifeedrate_validator.py` | 17 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/itrajectory_validator.py` | 28 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/plan/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/plan/itrajectory_plan_validator.py` | 16 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/plan/trajectory_plan_validator.py` | 44 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/plan/trajectory_plan_validator_factory.py` | 20 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/trajectory_validator.py` | 46 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/trajectory_validator_factory.py` | 28 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/waypoint/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/waypoint/iwaypoint_validator.py` | 18 | 0 | 100%|
+| `scaralang/core/service/trajectory/validation/waypoint/waypoint_validator.py` | 31 | 4 | 87%|
+| `scaralang/core/service/trajectory/validation/waypoint/waypoint_validator_factory.py` | 19 | 0 | 100%|
+| `scaralang/engine.py` | 60 | 27 | 55%|
+| `scaralang/infrastructure/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/cli/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/cli/engine.py` | 43 | 11 | 74%|
+| `scaralang/infrastructure/cli/icli.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/compiler/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/compiler/irepl_single_command_compiler.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/compiler/repl_single_command_compiler.py` | 45 | 1 | 98%|
+| `scaralang/infrastructure/cli/repl/compiler/repl_single_command_compiler_factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/dispatch/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/dispatch/irepl_command_dispatcher.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher.py` | 37 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher_factory.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/input/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/input/irepl_line_reader.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/input/repl_line_reader.py` | 20 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/input/repl_line_reader_factory.py` | 21 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/presentation/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/presentation/irepl_response_presenter.py` | 19 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/presentation/repl_response_presenter.py` | 25 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/presentation/repl_response_presenter_factory.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/transmission/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/transmission/irepl_frame_transmitter.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter_factory.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/cli/setup/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/cli/setup/bundle.py` | 22 | 1 | 95%|
+| `scaralang/infrastructure/cli/setup/dep_validator.py` | 37 | 5 | 86%|
+| `scaralang/infrastructure/cli/setup/dependencies.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/cli/setup/factory.py` | 26 | 0 | 100%|
+| `scaralang/infrastructure/cli/setup/keys.py` | 26 | 0 | 100%|
+| `scaralang/infrastructure/cli/setup/opt_validator.py` | 35 | 5 | 86%|
+| `scaralang/infrastructure/cli/setup/options.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/cli/setup/registry.py` | 31 | 0 | 100%|
+| `scaralang/infrastructure/cli/setup/validator.py` | 43 | 5 | 88%|
+| `scaralang/infrastructure/command/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/command_bundle.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/command_bundle_factory.py` | 47 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/compile_command_definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/compile_command_executor.py` | 56 | 5 | 91%|
+| `scaralang/infrastructure/command/compile/compile_command_executor_factory.py` | 26 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/frame_header_formatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/frame_header_formatter_factory.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/frame_trailer_formatter.py` | 12 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/frame_trailer_formatter_factory.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/hex_stream_formatter.py` | 19 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/hex_stream_formatter_factory.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/iframe_header_formatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/iframe_trailer_formatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/ihex_stream_formatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/ijoint_steps_payload_formatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/ipayload_dispatcher_formatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/itool_command_payload_formatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/joint_steps_payload_formatter.py` | 22 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/joint_steps_payload_formatter_factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/payload_dispatcher_formatter.py` | 42 | 5 | 88%|
+| `scaralang/infrastructure/command/compile/inspection/payload/payload_dispatcher_formatter_factory.py` | 25 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/tool_command_payload_formatter.py` | 21 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/tool_command_payload_formatter_factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/frame_step_presenter.py` | 33 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/frame_step_presenter_factory.py` | 21 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/iframe_step_presenter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/iprogram_inspection_presenter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/program_inspection_presenter.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/program_inspection_presenter_factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/telemetry/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/telemetry/compile_telemetry_formatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/telemetry/compile_telemetry_formatter_factory.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/telemetry/icompile_telemetry_formatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/disassemble_command_definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/disassemble_command_executor.py` | 44 | 2 | 95%|
+| `scaralang/infrastructure/command/disassemble/disassemble_command_executor_factory.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/format/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/format/disassemble_summary_formatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/format/disassemble_summary_formatter_factory.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/format/idisassemble_summary_formatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/export/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/export/export_command_definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/export/export_command_executor.py` | 45 | 2 | 96%|
+| `scaralang/infrastructure/command/export/export_command_executor_factory.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/icommand_definition.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/icommand_executor.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/info/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/info/info_command_definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/info/info_command_executor.py` | 22 | 0 | 100%|
+| `scaralang/infrastructure/command/info/info_command_executor_factory.py` | 22 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/lint_command_definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/lint_command_executor.py` | 39 | 2 | 95%|
+| `scaralang/infrastructure/command/lint/lint_command_executor_factory.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/repl/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/repl/repl_command_definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/repl/repl_command_executor.py` | 76 | 2 | 97%|
+| `scaralang/infrastructure/command/repl/repl_command_executor_factory.py` | 33 | 0 | 100%|
+| `scaralang/infrastructure/communication/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/binary_struct_format.py` | 23 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/builder/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/builder/binary_frame_builder.py` | 57 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/builder/binary_frame_builder_factory.py` | 18 | 1 | 94%|
+| `scaralang/infrastructure/communication/protocol/binary/checksum/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/checksum/crc16_ccitt.py` | 30 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_assembler.py` | 27 | 1 | 96%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_assembler_factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_parser.py` | 91 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_parser_factory.py` | 26 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/binary_payload_unpacker.py` | 48 | 3 | 94%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/binary_payload_unpacker_factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/ibinary_frame_assembler.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/parser_state.py` | 20 | 0 | 100%|
+| `scaralang/setup/__init__.py` | 9 | 0 | 100%|
+| `scaralang/setup/bundle.py` | 21 | 0 | 100%|
+| `scaralang/setup/dep_validator.py` | 36 | 5 | 86%|
+| `scaralang/setup/dependencies.py` | 17 | 0 | 100%|
+| `scaralang/setup/factory.py` | 50 | 1 | 98%|
+| `scaralang/setup/keys.py` | 26 | 1 | 96%|
+| `scaralang/setup/opt_validator.py` | 34 | 14 | 59%|
+| `scaralang/setup/options.py` | 13 | 0 | 100%|
+| `scaralang/setup/registry.py` | 30 | 0 | 100%|
+| `scaralang/setup/validator.py` | 43 | 0 | 100%|
+| **Total** | 11411 | 128 | 99% |
+
+</details>
+
+### 🛠 Usage
+
+##### CLI Tool (`scarac` / `scaralang`)
+
+```bash
+# Display general help and available subcommands
+scarac --help
+
+# Validate syntax and run static diagnostic lint checks
 scarac lint program.scara
 
-# Compile DSL program to packed binary execution file
+# Compile DSL program to packed binary execution file (.bin)
 scarac compile program.scara -o program.bin
+
+# Compile with verbose wire frame inspection and telemetry metrics
+scarac compile program.scara -o program.bin --inspect --telemetry
+
+# Disassemble binary bytecode file into human-readable frame breakdown
+scarac disassemble program.bin --summary
+
+# Export trajectory to industrial G-code, CSV time-series, JSON, or SVG
+scarac export program.scara --format GCODE -o program.gcode
+scarac export program.scara --format CSV -o trajectory.csv
+scarac export program.scara --format JSON -o trajectory.json
+scarac export program.scara --format SVG -o toolpath.svg
+
+# Inspect toolchain info, supported commands, and grammar version
+scarac info
+
+# Launch interactive SCARA DSL motion REPL console
+scarac repl
 ```
 
----
+##### CLI Subcommand Reference
 
-## 📄 License
+| Subcommand | Description | Key Options |
+|---|---|---|
+| **`lint`** | Static analysis linter and semantic validator. | `path`, `--verbose` |
+| **`compile`** | Compiles `.scara` scripts into binary execution files. | `input`, `-o/--output`, `--inspect`, `--telemetry` |
+| **`disassemble`** | Decodes binary `.bin` frames into assembly instructions. | `input`, `--summary`, `--hex` |
+| **`export`** | Exports trajectory plans to multi-target formats. | `input`, `--format <GCODE\|CSV\|JSON\|SVG>`, `-o/--output` |
+| **`info`** | Displays compiler version, supported grammar, and limits. | `--json`, `--verbose` |
+| **`repl`** | Interactive terminal REPL for single-line compilation. | `--port`, `--baud` |
 
-GPL-3.0 License. Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>.
+##### Python Library API
+
+```python
+from scaralang.setup.factory import ScaraDslServiceFactory
+from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
+
+# Initialize full DSL service via Composition Root factory
+service: IScaraDslService = ScaraDslServiceFactory.create_default()
+
+# Lint a script string
+script: str = """
+SPEED RAPID 100.0
+MOVE_J X 150.0 Y 50.0 Z 20.0
+PUMP ON
+WAIT 100
+MOVE_L X 180.0 Y 50.0 Z 20.0
+PUMP OFF
+"""
+
+report = service.lint_script(script)
+if not report.has_errors:
+    # Compile directly to binary program
+    binary_prog = service.compile_to_binary(script)
+    print(f"Generated {len(binary_prog.raw_bytes)} bytes of bytecode.")
+    print(f"Total motor steps: {len(binary_prog.steps)}")
+```
+
+### 📚 Docs
+
+[![Documentation Status](https://readthedocs.org/projects/scaralang/badge/?version=latest)](https://scaralang.readthedocs.io/en/latest/?badge=latest)
+
+More documentation and info at
+
+* [scaralang.readthedocs.io](https://scaralang.readthedocs.io)
+* [www.python.org](https://www.python.org/)
+
+### 👥 Contributing
+
+[Contributing to scaralang](CONTRIBUTING.md)
+
+### 📄 Copyright and licence
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+Copyright (C) 2026 by [vroncevic.github.io/scaralang](https://vroncevic.github.io/scaralang)
+
+**scaralang** is free software; you can redistribute it and/or modify
+it under the same terms as Python itself, either Python version 3.x or,
+at your option, any later version of Python 3 you may have available.
+
+Special thanks to **Google** and the Google developer ecosystem for their tremendous support and innovative tools from the Google bundle that empowered the development and realization of this project. *Google, you make this world a better place!* 🌍✨
+
+Lets help and support PSF.
+
+[![Python Software Foundation](https://raw.githubusercontent.com/vroncevic/scaralang/dev/docs/psf-logo-alpha.png)](https://www.python.org/psf/)
+
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.python.org/psf/donations/)

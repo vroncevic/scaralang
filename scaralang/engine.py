@@ -91,7 +91,7 @@ class Scaralang(Base):
         except (ATSValueError, ATSTypeError) as exc:
             stdout.write(f'❌ scaralang: {exc}!\n')
 
-        except Exception as exc:
+        except (RuntimeError, OSError, ValueError, TypeError, KeyError) as exc:
             stdout.write(f'❌ scaralang unexpected exception: {exc}!\n')
 
     def process(self, verbose: bool = False) -> bool:
@@ -129,6 +129,6 @@ class Scaralang(Base):
             self._logger.write_log(ERROR, f'❌ scaralang: {exc}!')
             return False
 
-        except Exception as exc:
+        except (RuntimeError, OSError, ValueError, TypeError, KeyError) as exc:
             self._logger.write_log(ERROR, f'❌ scaralang unexpected exception: {exc}!')
             return False

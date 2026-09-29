@@ -21,8 +21,8 @@ Info
 
 from __future__ import annotations
 
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder import BinaryFrameBuilder
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
+from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder import BinaryFrameBuilder
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'

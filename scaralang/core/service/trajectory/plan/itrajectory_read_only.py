@@ -43,10 +43,19 @@ class ITrajectoryReadOnly(Protocol):
 
         It defines:
 
-            :methods:
+            :attributes:
+                | name - Identifier name of the trajectory plan.
                 | waypoints - Returns sequence of waypoints in plan.
                 | count - Returns count of waypoints in plan.
     '''
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the trajectory plan identifier name.
+
+            :return: Trajectory plan name string.
+        '''
 
     @property
     def waypoints(self) -> Sequence[Waypoint]:

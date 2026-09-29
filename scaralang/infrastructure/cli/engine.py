@@ -88,7 +88,9 @@ class CLI:
         '''
         try:
             command_name, params = self._parser.parse_command()
-            executor: ICommandExecutor[ICommandDefinition, object, object, object] | None = self._executors.get(command_name)
+            executor: (
+                ICommandExecutor[ICommandDefinition, object, object, object] | None
+            ) = self._executors.get(command_name)
 
             if executor is None:
                 return {
@@ -102,7 +104,7 @@ class CLI:
         except (ATSValueError, ATSTypeError) as exc:
             return {'returncode': 1, 'stdout': '', 'stderr': f'cli::run - error: {exc}'}
 
-        except Exception as exc:
+        except (RuntimeError, OSError, ValueError, TypeError, KeyError) as exc:
             return {'returncode': 1, 'stdout': '', 'stderr': f'cli::run - unexpected error: {exc}'}
 
     def is_initialized(self) -> bool:

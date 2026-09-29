@@ -24,11 +24,12 @@ from __future__ import annotations
 from struct import pack
 from typing import ClassVar
 
+from scaralang.core.model.motor.axis_mask import AxisMask
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.protocol.tool_id import ToolId
-from scaralang.infrastructure.communication.protocol.binary.binary_delimiter import BinaryDelimiter
+from scaralang.core.model.protocol.binary_delimiter import BinaryDelimiter
 from scaralang.infrastructure.communication.protocol.binary.binary_struct_format import BinaryStructFormat
 from scaralang.infrastructure.communication.protocol.binary.checksum.crc16_ccitt import Crc16Ccitt
 
@@ -49,18 +50,24 @@ class BinaryFrameBuilder:
         It defines:
 
             :attributes:
+                | name - Identifier name of the builder.
                 | SOF1 - First start of frame byte delimiter (0xAA).
                 | SOF2 - Second start of frame byte delimiter (0x55).
                 | EOF - End of frame byte delimiter (0x0D).
                 | JOINT_STEPS_FORMAT - Struct format for 22-byte joint step payload.
                 | TOOL_CMD_FORMAT - Struct format for 2-byte tool actuation payload.
+                | CONFIG_MOTOR_FORMAT - Struct format for 2-byte motor config payload.
+                | WAIT_FORMAT - Struct format for 4-byte wait delay payload.
                 | HEADER_FORMAT - Struct format for 3-byte frame header (msg, seq, len).
                 | TRAILER_FORMAT - Struct format for 3-byte frame trailer (crc16, eof).
             :methods:
+                | __init__ - Initializes BinaryFrameBuilder instance.
                 | build_frame - Encodes generic binary command frame with CRC16.
                 | build_joint_move - Builds joint step movement frame.
                 | build_system_cmd - Builds parameterless system command.
                 | build_tool_cmd - Builds tool state actuation frame.
+                | build_motor_config_cmd - Builds motor actuation mode configuration frame.
+                | build_wait_cmd - Builds a delay pause command frame.
                 | pack_frame - Serializes complete frame with delimiters and CRC.
     '''
 
@@ -69,8 +76,24 @@ class BinaryFrameBuilder:
     EOF: ClassVar[int] = int(BinaryDelimiter.EOF)
     JOINT_STEPS_FORMAT: ClassVar[str] = str(BinaryStructFormat.JOINT_STEPS)
     TOOL_CMD_FORMAT: ClassVar[str] = str(BinaryStructFormat.TOOL_CMD)
+    CONFIG_MOTOR_FORMAT: ClassVar[str] = str(BinaryStructFormat.CONFIG_MOTOR)
+    WAIT_FORMAT: ClassVar[str] = str(BinaryStructFormat.WAIT)
     HEADER_FORMAT: ClassVar[str] = str(BinaryStructFormat.HEADER)
     TRAILER_FORMAT: ClassVar[str] = str(BinaryStructFormat.TRAILER)
+
+    def __init__(self) -> None:
+        '''
+            Initializes BinaryFrameBuilder instance.
+        '''
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the builder identifier name.
+
+            :return: Builder name string.
+        '''
+        return 'binary_frame_builder'
 
     def build_frame(
         self,
@@ -116,7 +139,9 @@ class BinaryFrameBuilder:
             steps.feedrate_scale
         )
 
-        return self.build_frame(msg_id=MessageId.CMD_MOVE_JOINT_STEPS, seq_num=seq_num, payload=payload)
+        return self.build_frame(
+            msg_id=MessageId.CMD_MOVE_JOINT_STEPS, seq_num=seq_num, payload=payload
+        )
 
     def build_system_cmd(
         self,
@@ -155,6 +180,45 @@ class BinaryFrameBuilder:
 
         return self.build_frame(msg_id=target_cmd, seq_num=seq_num, payload=tool_payload)
 
+    def build_motor_config_cmd(
+        self,
+        *,
+        seq_num: int,
+        mode: int,
+        axis_mask: int = AxisMask.ALL
+    ) -> BinaryFrame:
+        '''
+            Builds a motor actuation mode configuration frame.
+
+            :param seq_num: Cyclic sequence index.
+            :param mode: Motor drive mode integer (0=OPEN_LOOP, 1=CLOSED_LOOP).
+            :param axis_mask: Bitmask of target axes (default AxisMask.ALL).
+            :return: Assembled motor configuration BinaryFrame.
+        '''
+        payload: bytes = pack(self.CONFIG_MOTOR_FORMAT, mode & 0xFF, axis_mask & 0xFF)
+
+        return self.build_frame(
+            msg_id=MessageId.CMD_CONFIG_MOTOR,
+            seq_num=seq_num,
+            payload=payload,
+        )
+
+    def build_wait_cmd(self, *, delay_ms: int, seq_num: int) -> BinaryFrame:
+        '''
+            Builds a delay pause command frame (CMD_WAIT).
+
+            :param delay_ms: Dwell duration in milliseconds.
+            :param seq_num: Cyclic sequence index.
+            :return: Assembled BinaryFrame with packed delay payload.
+        '''
+        payload: bytes = pack(self.WAIT_FORMAT, max(0, delay_ms))
+
+        return self.build_frame(
+            msg_id=MessageId.CMD_WAIT,
+            seq_num=seq_num,
+            payload=payload,
+        )
+
     def pack_frame(self, *, frame: BinaryFrame) -> bytes:
         '''
             Encodes the frame into a byte string according to wire format.
@@ -162,7 +226,12 @@ class BinaryFrameBuilder:
             :param frame: BinaryFrame instance to serialize.
             :return: Formatted bytes: SOF1 + SOF2 + MSG + SEQ + LEN + DATA + CRC + EOF.
         '''
-        header: bytes = pack(self.HEADER_FORMAT, int(frame.msg_id), frame.seq_num & 0xFF, len(frame.payload) & 0xFF)
+        header: bytes = pack(
+            self.HEADER_FORMAT,
+            int(frame.msg_id),
+            frame.seq_num & 0xFF,
+            len(frame.payload) & 0xFF,
+        )
         trailer: bytes = pack(self.TRAILER_FORMAT, frame.crc16 & 0xFFFF, self.EOF)
 
         return bytes([self.SOF1, self.SOF2]) + header + frame.payload + trailer

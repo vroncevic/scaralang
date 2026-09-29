@@ -16,14 +16,20 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Factory instantiating and wiring TrajectoryValidator component with kinematics.
+    Factory instantiating and wiring TrajectoryValidator component with sub-validators.
 '''
 
 from __future__ import annotations
 
 from scaralang.core.service.kinematics.ikinematics_service import IKinematicsService
+from scaralang.core.service.trajectory.validation.feedrate.feedrate_validator_factory import FeedrateValidatorFactory
+from scaralang.core.service.trajectory.validation.feedrate.ifeedrate_validator import IFeedrateValidator
+from scaralang.core.service.trajectory.validation.plan.itrajectory_plan_validator import ITrajectoryPlanValidator
 from scaralang.core.service.trajectory.validation.itrajectory_validator import ITrajectoryValidator
+from scaralang.core.service.trajectory.validation.waypoint.iwaypoint_validator import IWaypointValidator
+from scaralang.core.service.trajectory.validation.plan.trajectory_plan_validator_factory import TrajectoryPlanValidatorFactory
 from scaralang.core.service.trajectory.validation.trajectory_validator import TrajectoryValidator
+from scaralang.core.service.trajectory.validation.waypoint.waypoint_validator_factory import WaypointValidatorFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -37,7 +43,7 @@ __status__ = 'Updated'
 
 class TrajectoryValidatorFactory:
     '''
-        Factory instantiating and wiring TrajectoryValidator component.
+        Factory instantiating and wiring TrajectoryValidator component with collaborators.
 
         It defines:
 
@@ -49,13 +55,29 @@ class TrajectoryValidatorFactory:
     @classmethod
     def create(cls, *, kinematics: IKinematicsService) -> ITrajectoryValidator:
         '''
-            Builds TrajectoryValidator instance with injected kinematics.
+            Builds TrajectoryValidator instance with injected kinematics and sub-validators.
 
             :param kinematics: Injected IKinematicsService instance.
             :return: ITrajectoryValidator structural protocol instance.
             :exceptions: None.
         '''
-        return TrajectoryValidator(kinematics=kinematics)
+        waypoint_val: IWaypointValidator = WaypointValidatorFactory.create(
+            kinematics=kinematics
+        )
+        feedrate_val: IFeedrateValidator = FeedrateValidatorFactory.create(
+            bounds=kinematics.bounds
+        )
+        plan_val: ITrajectoryPlanValidator = TrajectoryPlanValidatorFactory.create(
+            waypoint_validator=waypoint_val,
+            feedrate_validator=feedrate_val,
+        )
+
+        return TrajectoryValidator(
+            kinematics=kinematics,
+            waypoint_validator=waypoint_val,
+            feedrate_validator=feedrate_val,
+            plan_validator=plan_val,
+        )
 
     @classmethod
     def get_version(cls) -> str:

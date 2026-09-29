@@ -44,7 +44,7 @@ class TrajectoryMetrics:
 
             :methods:
                 | distance_between - Computes 3D Euclidean distance between two waypoints.
-                | radial_distance - Calculates planar radial distance from robot base for a waypoint.
+                | radial_distance - Calculates planar radial distance from robot base.
                 | calculate_distance - Computes total 3D Cartesian distance along the path.
                 | calculate_duration - Computes estimated execution duration based on speeds.
     '''

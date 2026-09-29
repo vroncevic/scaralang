@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
+from scaralang.core.model.motor.axis_mask import AxisMask
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.protocol.message_id import MessageId
@@ -44,13 +45,25 @@ class IBinaryFrameBuilder(Protocol):
 
         It defines:
 
+            :attributes:
+                | name - Identifier name of the binary frame builder.
             :methods:
                 | build_frame - Assembles a generic binary frame with CRC16.
                 | build_joint_move - Builds a MSG_CMD_MOVE_JOINT_STEPS motion frame.
                 | build_system_cmd - Builds a parameterless system command frame.
                 | build_tool_cmd - Builds a tool actuation command frame.
+                | build_motor_config_cmd - Builds a MSG_CMD_CONFIG_MOTOR configuration frame.
+                | build_wait_cmd - Builds a MSG_CMD_WAIT delay pause frame.
                 | pack_frame - Serializes a BinaryFrame into raw wire bytes with delimiters.
     '''
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the builder identifier name.
+
+            :return: Builder name string.
+        '''
 
     def build_frame(self, *, msg_id: MessageId, seq_num: int, payload: bytes = b'') -> BinaryFrame:
         '''
@@ -88,6 +101,27 @@ class IBinaryFrameBuilder(Protocol):
             :param tool_id: Tool identifier (0=PUMP, 1=VALVE).
             :param state: True to activate, False to deactivate.
             :return: Assembled tool command BinaryFrame.
+        '''
+
+    def build_motor_config_cmd(
+        self, *, seq_num: int, mode: int, axis_mask: int = AxisMask.ALL
+    ) -> BinaryFrame:
+        '''
+            Builds a motor actuation mode configuration frame.
+
+            :param seq_num: Cyclic sequence index.
+            :param mode: Motor drive mode integer (0=OPEN_LOOP, 1=CLOSED_LOOP).
+            :param axis_mask: Bitmask of target axes (default AxisMask.ALL).
+            :return: Assembled motor configuration BinaryFrame.
+        '''
+
+    def build_wait_cmd(self, *, delay_ms: int, seq_num: int) -> BinaryFrame:
+        '''
+            Builds a delay pause command frame (CMD_WAIT).
+
+            :param delay_ms: Dwell duration in milliseconds.
+            :param seq_num: Cyclic sequence index.
+            :return: Assembled BinaryFrame with packed delay payload.
         '''
 
     def pack_frame(self, *, frame: BinaryFrame) -> bytes:

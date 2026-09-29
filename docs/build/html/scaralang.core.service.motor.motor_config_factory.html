@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.core.service.motor.motor_config_factory module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.core.service.motor.motor_drive_mode_resolver module" href="scaralang.core.service.motor.motor_drive_mode_resolver.html" />
+    <link rel="prev" title="scaralang.core.service.motor package" href="scaralang.core.service.motor.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.motor.motor_drive_mode_resolver.html" title="scaralang.core.service.motor.motor_drive_mode_resolver module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.motor.html" title="scaralang.core.service.motor package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.motor.html" accesskey="U">scaralang.core.service.motor package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.motor.motor_config_factory module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.core.service.motor.motor_config_factory">
+<span id="scaralang-core-service-motor-motor-config-factory-module"></span><h1>scaralang.core.service.motor.motor_config_factory module<a class="headerlink" href="#module-scaralang.core.service.motor.motor_config_factory" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>motor_config_factory.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Factory service instantiating MotorConfig domain models.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.motor.motor_config_factory.</span></span><span class="sig-name descname"><span class="pre">MotorConfigFactory</span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Factory providing MotorConfig domain instances and delegating mode resolution.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">create - Creates an instance of MotorConfig with specified parameters.</div>
+<div class="line">create_open_loop - Creates a default open-loop MotorConfig.</div>
+<div class="line">create_closed_loop - Creates a default closed-loop MotorConfig.</div>
+<div class="line">parse_drive_mode - Resolves raw string into MotorDriveMode enum.</div>
+<div class="line">is_valid_drive_mode - Verifies whether a raw string is a valid drive mode.</div>
+<div class="line">supported_mode_strings - Returns tuple of all supported drive mode strings.</div>
+<div class="line">resolve_interface_type - Resolves and validates interface with mode defaults.</div>
+<div class="line">supported_interface_strings - Returns tuple of supported interface strings.</div>
+<div class="line">to_wire_mode - Maps domain MotorDriveMode to protocol MotorWireMode.</div>
+<div class="line">from_wire_mode - Maps wire mode integer or enum to domain MotorDriveMode.</div>
+<div class="line">get_version - Returns factory version string.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.motor_drive_mode.html#scaralang.core.model.motor.motor_drive_mode.MotorDriveMode" title="scaralang.core.model.motor.motor_drive_mode.MotorDriveMode"><span class="pre">MotorDriveMode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.motor_interface_type.html#scaralang.core.model.motor.motor_interface_type.MotorInterfaceType" title="scaralang.core.model.motor.motor_interface_type.MotorInterfaceType"><span class="pre">MotorInterfaceType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.axis_mask.html#scaralang.core.model.motor.axis_mask.AxisMask" title="scaralang.core.model.motor.axis_mask.AxisMask"><span class="pre">AxisMask</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.motor.motor_config.html#scaralang.core.model.motor.motor_config.MotorConfig" title="scaralang.core.model.motor.motor_config.MotorConfig"><span class="pre">MotorConfig</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.create" title="Link to this definition">¶</a></dt>
+<dd><p>Builds and returns a configured MotorConfig instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> – Actuation drive mode.</p></li>
+<li><p><strong>interface_type</strong> – Communication/electrical interface type.</p></li>
+<li><p><strong>axis_mask</strong> – Target axis bitmask.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configured MotorConfig instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.create_closed_loop">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_closed_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.axis_mask.html#scaralang.core.model.motor.axis_mask.AxisMask" title="scaralang.core.model.motor.axis_mask.AxisMask"><span class="pre">AxisMask</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">AxisMask.ALL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.motor_interface_type.html#scaralang.core.model.motor.motor_interface_type.MotorInterfaceType" title="scaralang.core.model.motor.motor_interface_type.MotorInterfaceType"><span class="pre">MotorInterfaceType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">MotorInterfaceType.CAN_BUS</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.motor.motor_config.html#scaralang.core.model.motor.motor_config.MotorConfig" title="scaralang.core.model.motor.motor_config.MotorConfig"><span class="pre">MotorConfig</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.create_closed_loop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.create_closed_loop" title="Link to this definition">¶</a></dt>
+<dd><p>Builds a default closed-loop MotorConfig instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>axis_mask</strong> – Target axis bitmask (default AxisMask.ALL).</p></li>
+<li><p><strong>interface_type</strong> – Interface type (default MotorInterfaceType.CAN_BUS).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configured closed-loop MotorConfig instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.create_open_loop">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_open_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.axis_mask.html#scaralang.core.model.motor.axis_mask.AxisMask" title="scaralang.core.model.motor.axis_mask.AxisMask"><span class="pre">AxisMask</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">AxisMask.ALL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.motor_interface_type.html#scaralang.core.model.motor.motor_interface_type.MotorInterfaceType" title="scaralang.core.model.motor.motor_interface_type.MotorInterfaceType"><span class="pre">MotorInterfaceType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">MotorInterfaceType.STEP_DIR</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.motor.motor_config.html#scaralang.core.model.motor.motor_config.MotorConfig" title="scaralang.core.model.motor.motor_config.MotorConfig"><span class="pre">MotorConfig</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.create_open_loop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.create_open_loop" title="Link to this definition">¶</a></dt>
+<dd><p>Builds a default open-loop MotorConfig instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>axis_mask</strong> – Target axis bitmask (default AxisMask.ALL).</p></li>
+<li><p><strong>interface_type</strong> – Interface type (default MotorInterfaceType.STEP_DIR).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configured open-loop MotorConfig instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.from_wire_mode">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_wire_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wire_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.protocol.motor_wire_mode.html#scaralang.core.model.protocol.motor_wire_mode.MotorWireMode" title="scaralang.core.model.protocol.motor_wire_mode.MotorWireMode"><span class="pre">MotorWireMode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.motor.motor_drive_mode.html#scaralang.core.model.motor.motor_drive_mode.MotorDriveMode" title="scaralang.core.model.motor.motor_drive_mode.MotorDriveMode"><span class="pre">MotorDriveMode</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.from_wire_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.from_wire_mode" title="Link to this definition">¶</a></dt>
+<dd><p>Maps wire protocol integer or enum value to domain MotorDriveMode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>wire_mode</strong> – Wire mode integer or MotorWireMode enum.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Corresponding MotorDriveMode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.get_version">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.get_version" title="Link to this definition">¶</a></dt>
+<dd><p>Returns factory component version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Version string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.is_valid_drive_mode">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid_drive_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.is_valid_drive_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.is_valid_drive_mode" title="Link to this definition">¶</a></dt>
+<dd><p>Checks whether raw string represents a supported motor drive mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode_val</strong> – Raw motor mode string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if valid, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.parse_drive_mode">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_drive_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.motor.motor_drive_mode.html#scaralang.core.model.motor.motor_drive_mode.MotorDriveMode" title="scaralang.core.model.motor.motor_drive_mode.MotorDriveMode"><span class="pre">MotorDriveMode</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.parse_drive_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.parse_drive_mode" title="Link to this definition">¶</a></dt>
+<dd><p>Parses raw string representation into MotorDriveMode enum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode_val</strong> – Raw motor mode string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Matching MotorDriveMode enum member.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValueError if raw string is not recognized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.resolve_interface_type">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolve_interface_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.motor_drive_mode.html#scaralang.core.model.motor.motor_drive_mode.MotorDriveMode" title="scaralang.core.model.motor.motor_drive_mode.MotorDriveMode"><span class="pre">MotorDriveMode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_interface</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.motor.motor_interface_type.html#scaralang.core.model.motor.motor_interface_type.MotorInterfaceType" title="scaralang.core.model.motor.motor_interface_type.MotorInterfaceType"><span class="pre">MotorInterfaceType</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.resolve_interface_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.resolve_interface_type" title="Link to this definition">¶</a></dt>
+<dd><p>Resolves and validates motor interface type with mode-aware defaults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> – Actuation drive mode.</p></li>
+<li><p><strong>raw_interface</strong> – Optional raw interface string (e.g. STEP_DIR, CAN_BUS).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resolved MotorInterfaceType enum member.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValueError if raw_interface is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.supported_interface_strings">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_interface_strings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.supported_interface_strings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.supported_interface_strings" title="Link to this definition">¶</a></dt>
+<dd><p>Returns tuple of supported motor interface strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple of supported interface names.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.supported_mode_strings">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_mode_strings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.supported_mode_strings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.supported_mode_strings" title="Link to this definition">¶</a></dt>
+<dd><p>Returns tuple of all recognized motor drive mode strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple of supported mode string representations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.to_wire_mode">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_wire_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.motor_drive_mode.html#scaralang.core.model.motor.motor_drive_mode.MotorDriveMode" title="scaralang.core.model.motor.motor_drive_mode.MotorDriveMode"><span class="pre">MotorDriveMode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.protocol.motor_wire_mode.html#scaralang.core.model.protocol.motor_wire_mode.MotorWireMode" title="scaralang.core.model.protocol.motor_wire_mode.MotorWireMode"><span class="pre">MotorWireMode</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/motor/motor_config_factory.html#MotorConfigFactory.to_wire_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.to_wire_mode" title="Link to this definition">¶</a></dt>
+<dd><p>Maps domain MotorDriveMode to binary wire protocol MotorWireMode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> – Domain MotorDriveMode enum.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Corresponding MotorWireMode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.core.service.motor.motor_config_factory module</a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.create"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.create()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.create_closed_loop"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.create_closed_loop()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.create_open_loop"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.create_open_loop()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.from_wire_mode"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.from_wire_mode()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.get_version"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.get_version()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.is_valid_drive_mode"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.is_valid_drive_mode()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.parse_drive_mode"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.parse_drive_mode()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.resolve_interface_type"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.resolve_interface_type()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.supported_interface_strings"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.supported_interface_strings()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.supported_mode_strings"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.supported_mode_strings()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.motor.motor_config_factory.MotorConfigFactory.to_wire_mode"><code class="docutils literal notranslate"><span class="pre">MotorConfigFactory.to_wire_mode()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.core.service.motor.html"
+                          title="previous chapter">scaralang.core.service.motor package</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.core.service.motor.motor_drive_mode_resolver.html"
+                          title="next chapter">scaralang.core.service.motor.motor_drive_mode_resolver module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.core.service.motor.motor_config_factory.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.motor.motor_drive_mode_resolver.html" title="scaralang.core.service.motor.motor_drive_mode_resolver module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.motor.html" title="scaralang.core.service.motor package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.motor.html" >scaralang.core.service.motor package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.motor.motor_config_factory module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

@@ -21,8 +21,10 @@ Info
 
 from __future__ import annotations
 
-from typing import Protocol, runtime_checkable
+from typing import Protocol
+from typing import runtime_checkable
 
+from scaralang.core.model.trajectory.circle_geometry import CircleGeometry
 from scaralang.core.model.trajectory.waypoint import Waypoint
 
 __author__ = 'Vladimir Roncevic'
@@ -42,11 +44,21 @@ class IShapeDiscretizer(Protocol):
 
         It defines:
 
+            :attributes:
+                | name - Identifier name of the shape discretizer.
             :methods:
                 | discretize_line - Discretizes straight linear segment.
                 | discretize_circle - Discretizes circular boundary into polygonal waypoints.
                 | discretize_rectangle - Discretizes rectangular boundary into corner waypoints.
     '''
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the shape discretizer identifier name.
+
+            :return: Discretizer name string.
+        '''
 
     def discretize_line(
         self,
@@ -68,21 +80,13 @@ class IShapeDiscretizer(Protocol):
 
     def discretize_circle(
         self,
-        center: tuple[float, float],
-        radius: float,
-        steps: int,
         *,
-        z: float,
-        speed: float,
+        geometry: CircleGeometry,
     ) -> list[Waypoint]:
         '''
             Generates circle perimeter waypoints.
 
-            :param center: Center coordinate (x, y) tuple in mm.
-            :param radius: Circle radius in mm.
-            :param steps: Discretization step count.
-            :param z: Z vertical height coordinate in mm.
-            :param speed: Feedrate speed in mm/s.
+            :param geometry: CircleGeometry domain model encapsulating circle parameters.
             :return: List of Waypoint instances.
         '''
 

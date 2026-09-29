@@ -52,8 +52,8 @@ class CLIBundleKeys:
                 | OPTION_SERVICE - The service option constant of the CLI bundle.
                 | OPTION_PARSER - The parser option constant of the CLI bundle.
             :methods:
-                | get_dependency_to_type - Returns the mapping of the CLI bundle dependencies to their types.
-                | get_option_to_type - Returns the mapping of the CLI bundle options to their types.
+                | get_dependency_to_type - Returns dependency to type mapping.
+                | get_option_to_type - Returns option to type mapping.
     '''
 
     DEPENDENCY_SERVICE: ClassVar[str] = 'service'

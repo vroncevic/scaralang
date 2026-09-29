@@ -68,8 +68,11 @@ class CLIBundleDependenciesValidator:
         istype(dependencies, Mapping, ctx, msg_deps_istype)
 
         for attr_name, expected_type in CLIBundleKeys.get_dependency_to_type().items():
-            msg_attr_none: str = f'the {attr_name.replace("_", " ")} must be provided'
-            msg_attr_istype: str = f'the {attr_name.replace("_", " ")} must be an instance of {expected_type.__name__}'
+            attr_label: str = attr_name.replace("_", " ")
+            msg_attr_none: str = f'the {attr_label} must be provided'
+            msg_attr_istype: str = (
+                f'the {attr_label} must be an instance of {expected_type.__name__}'
+            )
 
             attribute = dependencies.get(attr_name)
 

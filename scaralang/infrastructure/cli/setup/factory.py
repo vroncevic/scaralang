@@ -21,21 +21,13 @@ Info
 
 from __future__ import annotations
 
-from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
-from scaralang.infrastructure.cli.setup.opt_validator import CLIBundleOptionsValidator
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
-from scaralang.infrastructure.cli.setup.keys import CLIBundleKeys
-from scaralang.infrastructure.cli.setup.registry import CLIBundleRegistry
 from scaralang.infrastructure.cli.setup.dependencies import CLIBundleDependencies
-from scaralang.infrastructure.command.command import CommandBundle
-from scaralang.infrastructure.command.compile_command_definition import CompileCommandDefinition
-from scaralang.infrastructure.command.compile_command_executor import CompileCommandExecutor
-from scaralang.infrastructure.command.lint_command_definition import LintCommandDefinition
-from scaralang.infrastructure.command.lint_command_executor import LintCommandExecutor
-from scaralang.infrastructure.command.disassemble_command_definition import DisassembleCommandDefinition
-from scaralang.infrastructure.command.disassemble_command_executor import DisassembleCommandExecutor
-from scaralang.infrastructure.command.info_command_definition import InfoCommandDefinition
-from scaralang.infrastructure.command.info_command_executor import InfoCommandExecutor
+from scaralang.infrastructure.cli.setup.keys import CLIBundleKeys
+from scaralang.infrastructure.cli.setup.opt_validator import CLIBundleOptionsValidator
+from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
+from scaralang.infrastructure.cli.setup.registry import CLIBundleRegistry
+from scaralang.infrastructure.command.command_bundle_factory import CommandBundleFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -70,29 +62,12 @@ class CLIBundleFactory:
                 | ATSTypeError:  If options have incorrect types.
         '''
         CLIBundleOptionsValidator.validate(options)
-
-        compile_def = CompileCommandDefinition()
-        compile_exec = CompileCommandExecutor(definition=compile_def)
-
-        lint_def = LintCommandDefinition()
-        lint_exec = LintCommandExecutor(definition=lint_def)
-
-        disasm_def = DisassembleCommandDefinition()
-        disasm_exec = DisassembleCommandExecutor(definition=disasm_def)
-
-        info_def = InfoCommandDefinition()
-        info_exec = InfoCommandExecutor(definition=info_def)
-
-        commands = [
-            CommandBundle(definition=compile_def, executor=compile_exec),
-            CommandBundle(definition=lint_def, executor=lint_exec),
-            CommandBundle(definition=disasm_def, executor=disasm_exec),
-            CommandBundle(definition=info_def, executor=info_exec),
-        ]
+        service = options[CLIBundleKeys.OPTION_SERVICE]
+        commands = CommandBundleFactory.create_commands(service=service)
 
         return CLIBundleRegistry.create_bundle(
             dependencies=CLIBundleDependencies(
-                service=options[CLIBundleKeys.OPTION_SERVICE],
+                service=service,
                 parser=options[CLIBundleKeys.OPTION_PARSER],
                 commands=commands
             )

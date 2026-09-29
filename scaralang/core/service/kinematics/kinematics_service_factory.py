@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.service.kinematics.default_scara_profile import DefaultScaraProfile
 from scaralang.core.service.kinematics.ikinematics_service import IKinematicsService
 from scaralang.core.service.kinematics.kinematics_service import KinematicsService
 
@@ -43,6 +44,7 @@ class KinematicsServiceFactory:
 
             :methods:
                 | create - Builds KinematicsService instance with injected bounds.
+                | create_default - Builds KinematicsService with default ScaraBounds profile.
                 | get_version - Returns factory version string.
     '''
 
@@ -55,6 +57,16 @@ class KinematicsServiceFactory:
             :return: IKinematicsService structural protocol instance.
         '''
         return KinematicsService(bounds=bounds)
+
+    @classmethod
+    def create_default(cls) -> IKinematicsService:
+        '''
+            Builds KinematicsService instance with default ScaraBounds profile.
+
+            :return: IKinematicsService structural protocol instance.
+            :exceptions: None.
+        '''
+        return cls.create(bounds=DefaultScaraProfile.create_bounds())
 
     @classmethod
     def get_version(cls) -> str:

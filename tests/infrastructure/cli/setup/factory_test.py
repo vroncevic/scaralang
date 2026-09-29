@@ -1,0 +1,93 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    factory_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for CLIBundleFactory class.
+'''
+
+from __future__ import annotations
+
+from unittest import TestCase
+from unittest import main
+
+from ats_utilities.base.setup.factory import BaseBundleFactory
+from ats_utilities.base.setup.options import BaseBundleOptions
+from ats_utilities.context.factory import ContextBundleFactory
+
+from scaralang.core.service.dsl.scara_dsl_service_factory import ScaraDslServiceFactory
+from scaralang.infrastructure.cli.setup.bundle import CLIBundle
+from scaralang.infrastructure.cli.setup.factory import CLIBundleFactory
+from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
+from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
+from scaralang.setup.factory import ScaralangBundleFactory
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.0'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class TestCLIBundleFactory(TestCase):
+    '''
+        Test cases verifying CLIBundleFactory.
+
+        It defines:
+
+            :methods:
+                | test_create_bundle - Verifies creating initialized CLIBundle.
+                | test_get_version - Verifies factory version string.
+    '''
+
+    def test_create_bundle(self) -> None:
+        '''
+            Verifies creating initialized CLIBundle.
+        '''
+        base_bundle = BaseBundleFactory.create_bundle(
+            options=BaseBundleOptions(
+                info_file=ScaralangBundleFactory._info_file,  # pylint: disable=protected-access
+                use_generator=False,
+                context_bundle=ContextBundleFactory.create_bundle(),
+            )
+        )
+        dsl_service = ScaraDslServiceFactory.create_default(
+            frame_builder=BinaryFrameBuilderFactory.create(),
+            frame_parser=BinaryFrameParserFactory.create_default(),
+            payload_unpacker=BinaryPayloadUnpackerFactory.create(),
+        )
+        options = CLIBundleOptions(
+            service=dsl_service, parser=base_bundle.option_manager
+        )
+        bundle = CLIBundleFactory.create_bundle(options=options)
+        self.assertIsInstance(bundle, CLIBundle)
+        self.assertEqual(len(bundle.commands), 6)
+
+    def test_get_version(self) -> None:
+        '''
+            Verifies factory version string.
+        '''
+        version = CLIBundleFactory.get_version()
+        self.assertEqual(version, '1.0.0')
+
+
+if __name__ == '__main__':
+    main()

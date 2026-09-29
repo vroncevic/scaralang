@@ -24,8 +24,6 @@ from __future__ import annotations
 from typing import Protocol, runtime_checkable
 
 from scaralang.core.service.trajectory.plan.itrajectory_mutable import ITrajectoryMutable
-from scaralang.core.service.trajectory.plan.itrajectory_history import ITrajectoryHistory
-from scaralang.core.service.trajectory.plan.itrajectory_observer import ITrajectoryObserver
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -38,36 +36,5 @@ __status__ = 'Updated'
 
 
 @runtime_checkable
-class ITrajectoryPlan(ITrajectoryMutable, ITrajectoryHistory, Protocol):
-    '''
-        Composite structural interface protocol for a complete trajectory plan.
-
-        It defines:
-
-            :methods:
-                | selected_index - Returns currently selected waypoint index.
-                | set_selected_index - Selects waypoint at index.
-                | add_observer - Registers plan mutation observer.
-    '''
-
-    @property
-    def selected_index(self) -> int:
-        '''
-            Returns index of currently selected waypoint.
-
-            :return: Selected waypoint index or -1.
-        '''
-
-    def set_selected_index(self, index: int) -> None:
-        '''
-            Selects a waypoint by index.
-
-            :param index: Target index (-1 for deselect).
-        '''
-
-    def add_observer(self, observer: ITrajectoryObserver) -> None:
-        '''
-            Registers an observer widget.
-
-            :param observer: ITrajectoryObserver instance.
-        '''
+class ITrajectoryPlan(ITrajectoryMutable, Protocol):
+    '''Composite structural interface protocol for a complete compilation trajectory plan.'''

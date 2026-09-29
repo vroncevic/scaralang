@@ -16,22 +16,28 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    High-level facade orchestrating SCARA DSL compilation, validation, linting, and binary framing.
+    High-level facade orchestrating SCARA DSL compilation, validation, and binary framing.
 '''
 
 from __future__ import annotations
 
-from scaralang.core.model.dsl.binary.program import Program
-from scaralang.core.model.dsl.diagnostic.diagnostic import Diagnostic
-from scaralang.core.model.dsl.diagnostic.diagnostic_severity import DiagnosticSeverity
-from scaralang.core.service.dsl.diagnostic.scara_diagnostic_formatter import ScaraDiagnosticFormatter
+from typing import Final
+
+from scaralang.core.model.dsl.ast.program import ScaraProgram
+from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
+from scaralang.core.model.dsl.binary.disassembled_frame import DisassembledFrame
+from scaralang.core.model.dsl.binary.disassembly_summary import DisassemblySummary
+from scaralang.core.model.dsl.binary.program import BinaryProgram
+from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
+from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.service.dsl.binary.ibinary_service import IBinaryService
+from scaralang.core.service.dsl.compilation.iscara_dsl_compiler import IScaraDslCompiler
+from scaralang.core.service.dsl.iscara_dsl_validator import IScaraDslValidator
+from scaralang.core.service.dsl.scara_dsl_bundle import ScaraDslBundle
+from scaralang.core.service.dsl.toolchain.itoolchain_info_provider import IToolchainInfoProvider
+from scaralang.core.service.exporter.scara.iscara_plan_exporter import IScaraPlanExporter
+from scaralang.core.service.trajectory.plan.itrajectory_plan import ITrajectoryPlan
 from scaralang.core.service.trajectory.plan.itrajectory_read_only import ITrajectoryReadOnly
-from scaralang.core.service.trajectory.plan.trajectory_plan import TrajectoryPlan
-from scaralang.core.service.dsl.binary.icompiler import ICompiler
-from scaralang.core.service.dsl.compiler.iscara_compiler import IScaraCompiler
-from scaralang.core.service.dsl.exporter.iscara_plan_exporter import IScaraPlanExporter
-from scaralang.core.service.dsl.lexer.iscara_lexer import IScaraLexer
-from scaralang.core.service.dsl.parser.iscara_parser import IScaraParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -45,57 +51,49 @@ __status__ = 'Updated'
 
 class ScaraDslService:
     '''
-        High-level facade orchestrating SCARA DSL compilation, validation and binary serialization.
+        High-level facade orchestrating SCARA DSL compilation, validation, and binary serialization.
 
         It defines:
 
             :attributes:
-                | _lexer - Dedicated lexical tokenizer protocol.
-                | _parser - AST grammar parser orchestrator protocol.
-                | _compiler - Macro expander and validator protocol.
+                | _compiler - DSL compiler orchestrating parsing, linting, and trajectory creation.
+                | _validator - DSL script syntax, diagnostics, and kinematics validator.
                 | _exporter - TrajectoryPlan to .scara code serializer protocol.
-                | _binary_compiler - TrajectoryPlan to binary frame compiler protocol.
+                | _binary_service - Binary compilation and disassembly service protocol.
+                | _toolchain_info - Provider of toolchain catalog, metadata, and wire spec.
             :methods:
-                | __init__ - Initializes DSL facade with injected component protocols.
-                | compile_script - Compiles DSL source code into executable TrajectoryPlan.
-                | validate_script - Checks syntax, static analysis rules, and kinematics of DSL script.
+                | __init__ - Initializes DSL facade with injected collaborator bundle.
+                | compile_script - Compiles DSL source code into executable ITrajectoryPlan.
+                | compile_program - Compiles AST program into executable ITrajectoryPlan.
+                | validate_script - Checks syntax, static analysis, and kinematics of DSL script.
                 | lint_script - Performs static analysis checks on DSL script string.
                 | export_plan - Serializes active TrajectoryPlan to DSL source text.
-                | compile_plan - Compiles TrajectoryPlan into Program package.
+                | format_waypoint - Formats trajectory waypoint into SCARA move instruction.
+                | compile_plan - Compiles ITrajectoryPlan into BinaryProgram package.
                 | compile_to_bytes - Compiles DSL code directly to raw UART wire byte stream.
-                | compile_to_binary - Compiles DSL source text into Program package.
+                | compile_to_binary - Compiles DSL source text into BinaryProgram package.
+                | disassemble_bytes - Disassembles binary frame bytes into structured frame models.
+                | get_toolchain_info - Returns toolchain metadata, catalog, and protocol spec.
+                | is_initialized - Checks if all internal components are initialized.
     '''
 
-    _lexer: IScaraLexer
-    _parser: IScaraParser
-    _compiler: IScaraCompiler
+    _compiler: IScaraDslCompiler
+    _validator: IScaraDslValidator
     _exporter: IScaraPlanExporter
-    _binary_compiler: ICompiler
+    _binary_service: IBinaryService
+    _toolchain_info: IToolchainInfoProvider
 
-    def __init__(
-        self,
-        *,
-        lexer: IScaraLexer,
-        parser: IScaraParser,
-        compiler: IScaraCompiler,
-        exporter: IScaraPlanExporter,
-        binary_compiler: ICompiler
-    ) -> None:
+    def __init__(self, *, bundle: ScaraDslBundle) -> None:
         '''
-            Initializes ScaraDslService with injected component protocols.
+            Initializes ScaraDslService with injected collaborator bundle.
 
-            :param lexer: Injected IScaraLexer protocol instance.
-            :param parser: Injected IScaraParser protocol instance.
-            :param compiler: Injected IScaraCompiler protocol instance.
-            :param exporter: Injected IScaraPlanExporter protocol instance.
-            :param binary_compiler: Injected ICompiler protocol instance.
-            :exceptions: None.
+            :param bundle: Injected ScaraDslBundle collaborator container.
         '''
-        self._lexer = lexer
-        self._parser = parser
-        self._compiler = compiler
-        self._exporter = exporter
-        self._binary_compiler = binary_compiler
+        self._compiler: Final[IScaraDslCompiler] = bundle.compiler
+        self._validator: Final[IScaraDslValidator] = bundle.validator
+        self._exporter: Final[IScaraPlanExporter] = bundle.exporter
+        self._binary_service: Final[IBinaryService] = bundle.binary_service
+        self._toolchain_info: Final[IToolchainInfoProvider] = bundle.toolchain_info
 
     def is_initialized(self) -> bool:
         '''
@@ -104,26 +102,33 @@ class ScaraDslService:
             :return: True if service is operational, False otherwise.
             :exceptions: None.
         '''
-        return all([
-            self._lexer is not None,
-            self._parser is not None,
+        return all((
             self._compiler is not None,
+            self._validator is not None,
             self._exporter is not None,
-            self._binary_compiler is not None
-        ])
+            self._binary_service is not None,
+            self._toolchain_info is not None,
+        ))
 
-    def compile_script(self, *, source: str) -> TrajectoryPlan:
+    def compile_script(self, *, source: str) -> ITrajectoryPlan:
         '''
-            Compiles DSL source code into an executable and validated TrajectoryPlan.
+            Compiles DSL source code into an executable and validated ITrajectoryPlan.
 
             :param source: Raw .scara script text.
-            :return: Validated TrajectoryPlan instance.
+            :return: Validated ITrajectoryPlan protocol instance.
             :exceptions: ValueError if syntax or static analysis errors occur.
         '''
-        tokens = self._lexer.tokenize(source=source)
-        program = self._parser.parse_tokens(tokens=tokens)
+        return self._compiler.compile_script(source=source)
 
-        return self._compiler.compile(program=program)
+    def compile_program(self, *, program: ScaraProgram) -> ITrajectoryPlan:
+        '''
+            Compiles parsed AST program into an executable and validated ITrajectoryPlan.
+
+            :param program: ScaraProgram AST instance to compile.
+            :return: Validated ITrajectoryPlan protocol instance.
+            :exceptions: ValueError if static analysis errors occur.
+        '''
+        return self._compiler.compile_program(program=program)
 
     def validate_script(self, *, source: str) -> tuple[bool, list[str]]:
         '''
@@ -133,59 +138,17 @@ class ScaraDslService:
             :return: Tuple of (is_valid boolean, list of error message strings).
             :exceptions: None.
         '''
-        messages: list[str] = []
+        return self._validator.validate_script(source=source)
 
-        try:
-            tokens = self._lexer.tokenize(source=source)
-            program = self._parser.parse_tokens(tokens=tokens)
-            diagnostics = self._compiler.lint(program=program)
-
-            for diag in diagnostics:
-                messages.append(
-                    ScaraDiagnosticFormatter.format_report(diagnostic=diag)
-                )
-
-            has_errors: bool = any(
-                d.severity == DiagnosticSeverity.ERROR
-                for d in diagnostics
-            )
-
-            if has_errors:
-                return False, messages
-
-            plan = self._compiler.compile(program=program)
-            messages.append(
-                f'✅ Validation PASSED: {len(program.instructions)} instructions, {plan.count} waypoints generated.'
-            )
-
-            return True, messages
-
-        except Exception as exc:
-            messages.append(f'❌ Validation failed: {exc}')
-            return False, messages
-
-    def lint_script(self, *, source: str) -> tuple[Diagnostic, ...]:
+    def lint_script(self, *, source: str) -> tuple[ScaraDiagnostic, ...]:
         '''
             Performs static analysis checks on a DSL script string.
 
             :param source: Raw .scara script text.
-            :return: Tuple of Diagnostic findings.
+            :return: Tuple of ScaraDiagnostic findings.
             :exceptions: None.
         '''
-        try:
-            tokens = self._lexer.tokenize(source=source)
-            program = self._parser.parse_tokens(tokens=tokens)
-            return self._compiler.lint(program=program)
-        except Exception as exc:
-            return (
-                Diagnostic(
-                    code='SYNTAX_ERROR',
-                    severity=DiagnosticSeverity.ERROR,
-                    message=str(exc),
-                    line=1,
-                    command=''
-                ),
-            )
+        return self._validator.lint_script(source=source)
 
     def export_plan(self, *, plan: ITrajectoryReadOnly) -> str:
         '''
@@ -197,15 +160,30 @@ class ScaraDslService:
         '''
         return self._exporter.export_plan(plan=plan)
 
-    def compile_plan(self, *, plan: TrajectoryPlan) -> Program:
+    def format_waypoint(
+        self, *, waypoint: Waypoint, is_initial: bool = False
+    ) -> str:
         '''
-            Compiles TrajectoryPlan into Program package.
+            Formats a single trajectory waypoint into a SCARA DSL move instruction.
 
-            :param plan: TrajectoryPlan instance.
-            :return: Program instance.
+            :param waypoint: Trajectory Waypoint instance.
+            :param is_initial: True if generating the initial joint move, False for linear.
+            :return: Formatted SCARA DSL instruction line.
             :exceptions: None.
         '''
-        return self._binary_compiler.compile_plan(plan=plan)
+        return self._exporter.format_waypoint(
+            waypoint=waypoint, is_initial=is_initial
+        )
+
+    def compile_plan(self, *, plan: ITrajectoryPlan) -> BinaryProgram:
+        '''
+            Compiles ITrajectoryPlan into BinaryProgram package.
+
+            :param plan: ITrajectoryPlan protocol instance.
+            :return: BinaryProgram instance.
+            :exceptions: None.
+        '''
+        return self._binary_service.compile_plan(plan=plan)
 
     def compile_to_bytes(self, *, source: str) -> bytes:
         '''
@@ -215,14 +193,70 @@ class ScaraDslService:
             :return: Serialized wire byte stream.
             :exceptions: None.
         '''
-        return self._binary_compiler.compile_to_bytes(source=source)
+        program = self.compile_to_binary(source=source)
 
-    def compile_to_binary(self, *, source: str) -> Program:
+        return program.raw_bytes
+
+    def compile_to_binary(self, *, source: str) -> BinaryProgram:
         '''
-            Compiles DSL source text into Program package.
+            Compiles DSL source text into BinaryProgram package.
 
             :param source: Raw .scara DSL source text.
-            :return: Program instance.
+            :return: BinaryProgram instance.
             :exceptions: None.
         '''
-        return self._binary_compiler.compile_script(source=source)
+        plan = self.compile_script(source=source)
+
+        return self._binary_service.compile_plan(plan=plan)
+
+    def disassemble_bytes(
+        self, *, data: bytes
+    ) -> tuple[DisassembledFrame, ...]:
+        '''
+            Disassembles binary frame bytes into structured frame models.
+
+            :param data: Contiguous binary bytes.
+            :return: Tuple of decoded DisassembledFrame domain models.
+            :exceptions: None.
+        '''
+        return self._binary_service.disassemble_bytes(data=data)
+
+    def get_program_telemetry(
+        self, *, program: BinaryProgram
+    ) -> BinaryProgramTelemetry:
+        '''
+            Returns execution metrics and telemetry for a compiled binary program.
+
+            :param program: BinaryProgram instance.
+            :return: BinaryProgramTelemetry domain model.
+            :exceptions: None.
+        '''
+        return self._binary_service.get_program_telemetry(program=program)
+
+    def get_toolchain_info(self, *, verbose: bool = False) -> tuple[str, ...]:
+        '''
+            Returns toolchain metadata, instruction catalog and protocol specification.
+
+            :param verbose: Whether to include kinematic bounds details.
+            :return: Tuple of informative strings.
+            :exceptions: None.
+        '''
+        return self._toolchain_info.get_toolchain_info(verbose=verbose)
+
+    def calculate_disassembly_summary(
+        self,
+        *,
+        frames: tuple[DisassembledFrame, ...],
+        byte_count: int,
+    ) -> DisassemblySummary:
+        '''
+            Computes DisassemblySummary domain model from decoded frames and total bytes.
+
+            :param frames: Decoded DisassembledFrame domain models.
+            :param byte_count: Total raw bytes parsed from binary source.
+            :return: Computed DisassemblySummary domain model.
+            :exceptions: None.
+        '''
+        return self._binary_service.calculate_disassembly_summary(
+            frames=frames, byte_count=byte_count
+        )

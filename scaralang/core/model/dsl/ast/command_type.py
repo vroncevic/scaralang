@@ -16,7 +16,7 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Defines CommandType enumeration representing all supported SCARA DSL command types.
+    Defines ScaraCommandType enumeration representing all supported SCARA DSL command types.
 '''
 
 from __future__ import annotations
@@ -34,14 +34,16 @@ __status__ = 'Updated'
 
 
 @unique
-class CommandType(StrEnum):
+class ScaraCommandType(StrEnum):
     '''
         Enumeration of supported SCARA Domain-Specific Language (DSL) command types.
 
         It defines:
 
             :attributes:
+                | CONFIG - System configuration command keyword.
                 | CONFIG_ELBOW - Kinematic elbow arm configuration (LEFT or RIGHT).
+                | CONFIG_MOTOR - Stepper motor actuation drive mode (OPEN_LOOP or CLOSED_LOOP).
                 | SPEED - Feedrate speed setting (RAPID or WORK).
                 | ACCEL - Path acceleration setting.
                 | OVERRIDE - Real-time global speed override percentage.
@@ -74,11 +76,11 @@ class CommandType(StrEnum):
                 | ESTOP - Immediate emergency stop.
                 | ENABLE - Energize robot stepper driver stages.
                 | DISABLE - De-energize robot stepper driver stages.
-            :methods:
-                | None.
     '''
 
+    CONFIG = 'CONFIG'
     CONFIG_ELBOW = 'CONFIG_ELBOW'
+    CONFIG_MOTOR = 'CONFIG_MOTOR'
     SPEED = 'SPEED'
     ACCEL = 'ACCEL'
     OVERRIDE = 'OVERRIDE'
