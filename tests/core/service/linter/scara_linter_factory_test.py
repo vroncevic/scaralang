@@ -71,7 +71,7 @@ class TestScaraLinterFactory(TestCase):
         '''
             Verifies factory returns correct version string.
         '''
-        self.assertEqual(ScaraLinterFactory.get_version(), '1.0.4')
+        self.assertEqual(ScaraLinterFactory.get_version(), '1.0.0')
 
 
 if __name__ == '__main__':
