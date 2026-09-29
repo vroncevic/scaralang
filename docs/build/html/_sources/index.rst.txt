@@ -884,6 +884,8 @@ Every build is validated against 4 strict automated quality gates:
 SCARA DSL Instruction Reference
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+For the exhaustive syntax specification, boundary constraints, and compiler rules, see `LANGUAGE_REFERENCE.md`.
+
 .. list-table:: SCARA DSL Instruction Reference
    :widths: 15 35 25 35
    :header-rows: 1
@@ -895,55 +897,67 @@ SCARA DSL Instruction Reference
    * - **Motion**
      - ``MOVE_J X <x> Y <y> Z <z> [P <phi>]``
      - ``X, Y, Z`` (mm), ``P`` (deg)
-     - Rapid Cartesian point-to-point motion.
+     - Rapid non-interpolated Cartesian joint motion.
    * -
      - ``MOVE_L X <x> Y <y> Z <z> [P <phi>]``
      - ``X, Y, Z`` (mm), ``P`` (deg)
-     - Linear interpolated Cartesian path.
+     - Linear continuous path interpolated motion.
    * -
-     - ``ARC_CW X <x> Y <y> I <i> J <j> [Z <z>]``
+     - ``ARC_CW X <x> Y <y> I <i> J <j> [Z <z>] [P <p>]``
      - ``X, Y`` target, ``I, J`` center offset
-     - Clockwise circular arc interpolation.
+     - Clockwise circular arc interpolation in XY plane.
    * -
-     - ``ARC_CCW X <x> Y <y> I <i> J <j> [Z <z>]``
+     - ``ARC_CCW X <x> Y <y> I <i> J <j> [Z <z>] [P <p>]``
      - ``X, Y`` target, ``I, J`` center offset
      - Counter-clockwise circular arc interpolation.
    * -
      - ``APPROACH DIST <d>``
-     - ``DIST`` (mm)
-     - Vertical descent towards workpiece along Z.
+     - ``DIST`` (mm, > 0)
+     - Relative vertical descent along -Z axis.
    * -
      - ``RETRACT DIST <d>``
-     - ``DIST`` (mm)
-     - Vertical clearance ascent along Z.
+     - ``DIST`` (mm, > 0)
+     - Relative vertical ascent along +Z axis.
+   * -
+     - ``JOG_AXIS <X|Y|Z|PHI> <step>``
+     - Axis name, step displacement
+     - Incremental single-axis manual jog move.
+   * -
+     - ``JOG_JOINT <1|2|3|4> <deg>``
+     - Joint ID (1..4), angle (deg)
+     - Incremental individual joint rotational jog.
+   * -
+     - ``PROBE [SPEED <s>] [DIST <d>]``
+     - ``SPEED`` (mm/s), ``DIST`` (mm)
+     - Tactile surface contact search along -Z axis.
    * - **Macros**
      - ``JUMP X <x> Y <y> Z <z> [ARCH <h>]``
      - ``X, Y, Z``, ``ARCH`` apex clearance
      - Smooth 3D parabolic pick-and-place arch motion.
    * -
-     - ``PALLET ROWS <r> COLS <c> DX <dx> DY <dy>``
-     - Grid dimensions & spacing
-     - Generates structured 2D Cartesian pallet matrix.
+     - ``PALLET_DEF <id> ROWS <r> COLS <c> DX <dx> DY <dy>``
+     - Matrix dimensions & grid spacing
+     - Defines structured 2D Cartesian pallet matrix.
    * -
-     - ``TANGENT_ARC RADIUS <r> ANGLE <a>``
-     - ``RADIUS`` (mm), ``ANGLE`` (deg)
-     - Smooth tangential curve blending into path.
+     - ``MOVE_PALLET <id> INDEX <i>``
+     - Pallet identifier, 1-based index
+     - Direct positioning to pallet matrix cell.
    * - **Actuators**
      - ``PUMP <ON|OFF>``
      - ``ON`` or ``OFF``
-     - Actuates end-effector vacuum pump.
+     - Energizes or cuts end-effector vacuum pump.
    * -
      - ``VALVE <ON|OFF>``
      - ``ON`` or ``OFF``
      - Opens or closes pneumatic release blow-off valve.
    * -
-     - ``WAIT <ms>``
-     - ``ms`` (milliseconds)
-     - Dwells execution for specified hardware duration.
+     - ``TOOL <UP|DOWN>``
+     - ``UP`` or ``DOWN``
+     - Actuates tool head vertical pneumatic slide stage.
    * -
-     - ``HOME``
-     - None
-     - Triggers complete multi-axis homing routine.
+     - ``TOOL_ORIENT <AUTO|TANGENT|FIXED>``
+     - Tracking mode
+     - Configures 4th-axis tool yaw orientation mode.
    * - **Dynamics**
      - ``SPEED <RAPID|WORK> <val>``
      - ``RAPID`` or ``WORK``, feedrate (mm/s)
@@ -958,20 +972,56 @@ SCARA DSL Instruction Reference
      - Scales path execution velocity dynamically.
    * -
      - ``ZONE <OFF|FINE|EXACT|Z1..Z50>``
-     - Corner rounding tolerance
+     - Corner rounding tolerance (mm)
      - Corner tolerance zone for trajectory smoothing.
-   * - **Config**
+   * - **Kinematics**
      - ``CONFIG ELBOW <LEFT|RIGHT>``
      - ``LEFT`` or ``RIGHT``
      - Sets arm kinematic inverse solution branch.
+   * -
+     - ``CONFIG MOTOR <OPEN_LOOP|CLOSED_LOOP>``
+     - Drive control mode
+     - Selects open-loop microstepping or closed-loop FOC.
    * -
      - ``FRAME X <x> Y <y> Z <z> [PHI <p>]``
      - Cartesian offset coordinates
      - Defines user workpiece reference coordinate frame.
    * -
-     - ``TOOL ORIENT <AUTO|TANGENT|FIXED>``
-     - Orientation mode
-     - Configures tool orientation behavior along path.
+     - ``FRAME_RESET``
+     - None
+     - Resets coordinate system to base world origin.
+   * -
+     - ``HOME``
+     - None
+     - Triggers complete multi-axis homing routine.
+   * - **Safety & Flow**
+     - ``WAIT <ms>`` / ``WAIT_MS <ms>``
+     - ``ms`` (milliseconds)
+     - Dwells execution for specified hardware duration.
+   * -
+     - ``SYNC``
+     - None
+     - Trajectory execution barrier (drains buffer).
+   * -
+     - ``HOLD``
+     - None
+     - Trajectory feed hold; pauses running motion.
+   * -
+     - ``RESUME``
+     - None
+     - Resumes previously suspended trajectory.
+   * -
+     - ``ESTOP``
+     - None
+     - Immediate emergency stop and motion abort.
+   * -
+     - ``ENABLE``
+     - None
+     - Energizes motor driver stages (holding torque).
+   * -
+     - ``DISABLE``
+     - None
+     - De-energizes motor driver stages (free movement).
 
 Example ``.scara`` Program: Industrial Pick & Place
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

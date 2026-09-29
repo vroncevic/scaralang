@@ -40,7 +40,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -113,7 +113,7 @@ class TestInstructionPipeline(TestCase):
             primitive_compilers=(),
         )
         self.assertIsInstance(pipeline, IInstructionPipeline)
-        self.assertEqual(InstructionPipelineFactory.get_version(), '1.0.0')
+        self.assertEqual(InstructionPipelineFactory.get_version(), '1.0.1')
 
     def test_pipeline_with_collaborators(self) -> None:
         '''Verifies InstructionPipeline instantiation with injected processor.'''
