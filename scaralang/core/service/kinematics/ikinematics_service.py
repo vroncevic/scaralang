@@ -23,13 +23,15 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
+from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -80,15 +82,13 @@ class IKinematicsService(Protocol):
 
     def solve_ik(
         self,
-        x: float,
-        y: float,
+        point: Point2D,
         elbow_left: bool = False
     ) -> tuple[float, float] | None:
         '''
             Solves analytical inverse kinematics for SCARA 2-DOF arm.
 
-            :param x: Target Cartesian X coordinate in mm.
-            :param y: Target Cartesian Y coordinate in mm.
+            :param point: Target planar Cartesian coordinate point in mm.
             :param elbow_left: True for elbow-left configuration, False for elbow-right.
             :return: Tuple of (theta1, theta2) in radians, or None if mathematically unreachable.
         '''
@@ -97,52 +97,46 @@ class IKinematicsService(Protocol):
         self,
         theta1: float,
         theta2: float
-    ) -> tuple[float, float]:
+    ) -> Point2D:
         '''
             Computes Cartesian end-effector position from joint angles via forward kinematics.
 
             :param theta1: Joint 1 (shoulder) angle in radians.
             :param theta2: Joint 2 (elbow) angle in radians.
-            :return: Tuple of (x, y) Cartesian coordinates in mm.
+            :return: Point2D Cartesian coordinate instance in mm.
         '''
 
     def solve_fk_pose(
         self,
         theta1: float,
         theta2: float
-    ) -> tuple[tuple[float, float], tuple[float, float]]:
+    ) -> tuple[Point2D, Point2D]:
         '''
             Computes Cartesian coordinates of both elbow joint and end-effector tool.
 
             :param theta1: Joint 1 (shoulder) angle in radians.
             :param theta2: Joint 2 (elbow) angle in radians.
-            :return: Tuple of ((elbow_x, elbow_y), (tool_x, tool_y)) coordinates in mm.
+            :return: Tuple of (elbow_point, tool_point) Point2D coordinate instances in mm.
         '''
 
     def is_in_workspace(
         self,
-        x: float,
-        y: float,
-        z: float
+        point: Point3D
     ) -> tuple[bool, str]:
         '''
             Checks whether coordinates lie within the physical annular workspace and Z limits.
 
-            :param x: Target Cartesian X coordinate in mm.
-            :param y: Target Cartesian Y coordinate in mm.
-            :param z: Target Cartesian Z coordinate in mm.
+            :param point: Target Cartesian 3D spatial coordinate in mm.
             :return: Tuple of (is_in_bounds, error_or_warning_message).
         '''
 
     def is_joint_reachable(
         self,
-        x: float,
-        y: float
+        point: Point2D
     ) -> tuple[bool, list[str]]:
         '''
             Evaluates if target position can be achieved within physical joint limits.
 
-            :param x: Target Cartesian X coordinate in mm.
-            :param y: Target Cartesian Y coordinate in mm.
+            :param point: Target Cartesian 2D planar coordinate in mm.
             :return: Tuple of (is_reachable, list_of_warning_messages).
         '''

@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,6 +53,8 @@ class TestBinaryPayloadUnpacker(TestCase):
                 | test_unpack_tool_cmd - Verifies unpack_tool_cmd.
                 | test_unpack_ack - Verifies unpack_ack.
                 | test_unpack_nack - Verifies unpack_nack.
+                | test_unpack_motor_config - Verifies unpack_motor_config.
+                | test_unpack_motor_config_partial - Verifies partial unpack_motor_config.
     '''
 
     def test_name_property(self) -> None:
@@ -110,6 +112,18 @@ class TestBinaryPayloadUnpacker(TestCase):
         mode, axis_mask = BinaryPayloadUnpacker.unpack_motor_config(raw_motor)
         self.assertEqual(mode, 1)
         self.assertEqual(axis_mask, 0x0F)
+
+    def test_unpack_motor_config_partial(self) -> None:
+        '''
+            Verifies unpacking motor config with single-byte and empty payloads.
+        '''
+        mode_single, axes_single = BinaryPayloadUnpacker.unpack_motor_config(b'\x02')
+        self.assertEqual(mode_single, 2)
+        self.assertEqual(axes_single, 0x0F)
+
+        mode_empty, axes_empty = BinaryPayloadUnpacker.unpack_motor_config(b'')
+        self.assertEqual(mode_empty, 0)
+        self.assertEqual(axes_empty, 0x0F)
 
 
 if __name__ == '__main__':

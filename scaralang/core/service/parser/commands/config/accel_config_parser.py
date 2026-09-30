@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -99,8 +99,5 @@ class AccelConfigParser:
             command_type=ScaraCommandType.ACCEL,
             line_number=line_num,
             raw_text=raw_text,
-            parameters={
-                InstructionParam.ACCEL: accel_val,
-                'accel': accel_val,
-            },
+            parameters={InstructionParam.ACCEL: accel_val,},
         )

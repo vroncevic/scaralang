@@ -22,6 +22,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.ast.program import ScaraProgram
 from scaralang.core.service.compiler.iinstruction_pipeline import IInstructionPipeline
 from scaralang.core.service.trajectory.plan.itrajectory_plan import ITrajectoryPlan
@@ -32,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -72,9 +74,9 @@ class ScaraCompiler:
             :param plan_factory: Injected ITrajectoryPlanFactory component.
             :exceptions: None.
         '''
-        self._validator = validator
-        self._instruction_pipeline = instruction_pipeline
-        self._plan_factory = plan_factory
+        self._validator: Final[ITrajectoryValidator] = validator
+        self._instruction_pipeline: Final[IInstructionPipeline] = instruction_pipeline
+        self._plan_factory: Final[ITrajectoryPlanFactory] = plan_factory
 
     def compile(self, *, program: ScaraProgram) -> ITrajectoryPlan:
         '''

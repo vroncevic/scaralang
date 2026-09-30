@@ -54,7 +54,8 @@
 <span class="sd">    You should have received a copy of the GNU General Public License along</span>
 <span class="sd">    with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 <span class="sd">Info</span>
-<span class="sd">    Stateful domain model tracking robot pose, coordinate frames, speeds, and pallets during compilation.</span>
+<span class="sd">    Stateful domain model tracking robot pose, coordinate frames, speeds,</span>
+<span class="sd">    and pallets during compilation.</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
@@ -66,13 +67,14 @@
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.macro.pallet_definition</span> <span class="kn">import</span> <span class="n">PalletDefinition</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.macro.work_frame</span> <span class="kn">import</span> <span class="n">WorkFrame</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.elbow_config</span> <span class="kn">import</span> <span class="n">ElbowConfig</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.motor.motor_drive_mode</span> <span class="kn">import</span> <span class="n">MotorDriveMode</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.1&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -116,7 +118,9 @@
     <span class="n">active_accel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">300.0</span>
     <span class="n">elbow_config</span><span class="p">:</span> <span class="n">ElbowConfig</span> <span class="o">=</span> <span class="n">ElbowConfig</span><span class="o">.</span><span class="n">RIGHT</span>
     <span class="n">active_frame</span><span class="p">:</span> <span class="n">WorkFrame</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
-        <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">WorkFrame</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">angle_deg</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">WorkFrame</span><span class="p">(</span>
+            <span class="n">origin</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">angle_deg</span><span class="o">=</span><span class="mf">0.0</span>
+        <span class="p">)</span>
     <span class="p">)</span>
     <span class="n">tool_orient_mode</span><span class="p">:</span> <span class="n">ToolOrientMode</span> <span class="o">=</span> <span class="n">ToolOrientMode</span><span class="o">.</span><span class="n">FIXED</span>
     <span class="n">zone_mode</span><span class="p">:</span> <span class="n">ZoneMode</span> <span class="o">=</span> <span class="n">ZoneMode</span><span class="o">.</span><span class="n">FINE</span>

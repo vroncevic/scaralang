@@ -25,12 +25,13 @@ from dataclasses import FrozenInstanceError
 from unittest import TestCase, main
 
 from scaralang.core.model.dsl.macro.work_frame import WorkFrame
+from scaralang.core.model.kinematics.point_2d import Point2D
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,18 +46,19 @@ class WorkFrameTest(TestCase):
         '''
             Verifies initialization of WorkFrame at global origin with zero rotation.
         '''
-        frame = WorkFrame(x=0.0, y=0.0, angle_deg=0.0)
-        self.assertAlmostEqual(frame.x, 0.0)
-        self.assertAlmostEqual(frame.y, 0.0)
+        frame = WorkFrame(origin=Point2D(x=0.0, y=0.0), angle_deg=0.0)
+        self.assertEqual(frame.origin, Point2D(x=0.0, y=0.0))
+        self.assertAlmostEqual(frame.origin.x, 0.0)
+        self.assertAlmostEqual(frame.origin.y, 0.0)
         self.assertAlmostEqual(frame.angle_deg, 0.0)
 
     def test_equality(self) -> None:
         '''
             Verifies value equality and inequality between WorkFrame instances.
         '''
-        f1 = WorkFrame(x=10.0, y=20.0, angle_deg=30.0)
-        f2 = WorkFrame(x=10.0, y=20.0, angle_deg=30.0)
-        f3 = WorkFrame(x=10.0, y=20.0, angle_deg=45.0)
+        f1 = WorkFrame(origin=Point2D(x=10.0, y=20.0), angle_deg=30.0)
+        f2 = WorkFrame(origin=Point2D(x=10.0, y=20.0), angle_deg=30.0)
+        f3 = WorkFrame(origin=Point2D(x=10.0, y=20.0), angle_deg=45.0)
         self.assertEqual(f1, f2)
         self.assertNotEqual(f1, f3)
 
@@ -64,18 +66,19 @@ class WorkFrameTest(TestCase):
         '''
             Verifies custom translation and orientation attributes.
         '''
-        frame = WorkFrame(x=120.0, y=-45.0, angle_deg=30.0)
-        self.assertAlmostEqual(frame.x, 120.0)
-        self.assertAlmostEqual(frame.y, -45.0)
+        frame = WorkFrame(origin=Point2D(x=120.0, y=-45.0), angle_deg=30.0)
+        self.assertEqual(frame.origin, Point2D(x=120.0, y=-45.0))
+        self.assertAlmostEqual(frame.origin.x, 120.0)
+        self.assertAlmostEqual(frame.origin.y, -45.0)
         self.assertAlmostEqual(frame.angle_deg, 30.0)
 
     def test_immutability(self) -> None:
         '''
             Verifies that WorkFrame instances cannot be modified after construction.
         '''
-        frame = WorkFrame(x=10.0, y=20.0, angle_deg=30.0)
+        frame = WorkFrame(origin=Point2D(x=10.0, y=20.0), angle_deg=30.0)
         with self.assertRaises(FrozenInstanceError):
-            frame.x = 99.0
+            frame.origin = Point2D(x=99.0, y=0.0)
 
 
 if __name__ == '__main__':

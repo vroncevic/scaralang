@@ -64,9 +64,9 @@
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.iscara_compiler</span> <span class="kn">import</span> <span class="n">IScaraCompiler</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.macro.frame_macro_expander_factory</span> <span class="kn">import</span> <span class="n">FrameMacroExpanderFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.macro.imacro_expander</span> <span class="kn">import</span> <span class="n">IMacroExpander</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.macro.itangent_macro_expander</span> <span class="kn">import</span> <span class="n">ITangentMacroExpander</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.macro.jump_macro_expander_factory</span> <span class="kn">import</span> <span class="n">JumpMacroExpanderFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.macro.pallet_macro_expander_factory</span> <span class="kn">import</span> <span class="n">PalletMacroExpanderFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.macro.tangent_macro_expander</span> <span class="kn">import</span> <span class="n">TangentMacroExpander</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.macro.tangent_macro_expander_factory</span> <span class="kn">import</span> <span class="n">TangentMacroExpanderFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.motion.arc.interpolation.arc_interpolator_factory</span> <span class="kn">import</span> <span class="n">ArcInterpolatorFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.motion.motion_command_compiler_factory</span> <span class="kn">import</span> <span class="n">MotionCommandCompilerFactory</span>
@@ -83,7 +83,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.1&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -118,7 +118,7 @@
 <span class="sd">            :return: IScaraCompiler structural protocol instance.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">active_tangent</span><span class="p">:</span> <span class="n">TangentMacroExpander</span> <span class="o">=</span> <span class="n">TangentMacroExpanderFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+        <span class="n">active_tangent</span><span class="p">:</span> <span class="n">ITangentMacroExpander</span> <span class="o">=</span> <span class="n">TangentMacroExpanderFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
         <span class="n">active_motion</span> <span class="o">=</span> <span class="n">MotionCommandCompilerFactory</span><span class="o">.</span><span class="n">create_with_helpers</span><span class="p">(</span>
             <span class="n">tangent_helper</span><span class="o">=</span><span class="n">active_tangent</span><span class="p">,</span>
             <span class="n">arc_interpolator</span><span class="o">=</span><span class="n">ArcInterpolatorFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(),</span>

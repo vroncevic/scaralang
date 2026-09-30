@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -70,10 +70,9 @@ class ToolWaypointBuilder:
             :return: Constructed Waypoint instance.
             :exceptions: None.
         '''
-        token: str = 'PUMP' if tool_type == ScaraCommandType.PUMP else 'VALVE'
-        is_on: bool = state == PneumaticState.ON
-        suffix: str = '#1' if is_on else '#0'
-        state_str: str = 'ON' if is_on else 'OFF'
+        token: str = tool_type.value
+        state_str: str = state.value
+        suffix: str = '#1' if state == PneumaticState.ON else '#0'
 
         return Waypoint(
             x=context.current_x,

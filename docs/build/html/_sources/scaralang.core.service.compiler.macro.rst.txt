@@ -10,6 +10,7 @@ Submodules
    scaralang.core.service.compiler.macro.frame_macro_expander
    scaralang.core.service.compiler.macro.frame_macro_expander_factory
    scaralang.core.service.compiler.macro.imacro_expander
+   scaralang.core.service.compiler.macro.itangent_macro_expander
    scaralang.core.service.compiler.macro.jump_macro_expander
    scaralang.core.service.compiler.macro.jump_macro_expander_factory
    scaralang.core.service.compiler.macro.pallet_macro_expander

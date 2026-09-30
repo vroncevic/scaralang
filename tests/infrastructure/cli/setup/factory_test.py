@@ -41,7 +41,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -86,7 +86,7 @@ class TestCLIBundleFactory(TestCase):
             Verifies factory version string.
         '''
         version = CLIBundleFactory.get_version()
-        self.assertEqual(version, '1.0.1')
+        self.assertEqual(version, '1.0.2')
 
 
 if __name__ == '__main__':

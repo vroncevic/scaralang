@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -99,10 +99,7 @@ class WaitCommandParser:
             )
 
         ms_val: float = float(tokens[1].value)
-        params: dict[str, object] = {
-            InstructionParam.MS: ms_val,
-            'ms': ms_val,
-        }
+        params: dict[str, object] = {InstructionParam.MS: ms_val}
 
         return ScaraInstruction(
             command_type=ScaraCommandType.WAIT_MS,

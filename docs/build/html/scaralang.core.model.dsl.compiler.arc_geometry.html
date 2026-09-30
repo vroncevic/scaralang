@@ -71,7 +71,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.compiler.arc_geometry.</span></span><span class="sig-name descname"><span class="pre">ArcGeometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset_i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset_j</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_clockwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_angle_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/compiler/arc_geometry.html#ArcGeometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.compiler.arc_geometry.</span></span><span class="sig-name descname"><span class="pre">ArcGeometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_clockwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_angle_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/compiler/arc_geometry.html#ArcGeometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Geometric description of a circular arc for discretization into linear waypoints.</p>
 <p>It defines:</p>
@@ -79,12 +79,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">start_x - Starting arc X Cartesian coordinate.</div>
-<div class="line">start_y - Starting arc Y Cartesian coordinate.</div>
-<div class="line">target_x - Destination arc X Cartesian coordinate.</div>
-<div class="line">target_y - Destination arc Y Cartesian coordinate.</div>
-<div class="line">offset_i - Arc center X offset relative to start position.</div>
-<div class="line">offset_j - Arc center Y offset relative to start position.</div>
+<div class="line">start - Starting arc Cartesian Point2D coordinate.</div>
+<div class="line">target - Destination arc Cartesian Point2D coordinate.</div>
+<div class="line">offset - Arc center Point2D offset relative to start position.</div>
 <div class="line">is_clockwise - True for clockwise arc (ARC_CW), False for counter-clockwise.</div>
 <div class="line">step_angle_deg - Angular discretization step size in degrees.</div>
 </div>
@@ -97,23 +94,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.offset_i">
-<span class="sig-name descname"><span class="pre">offset_i</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.offset_i" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.offset">
+<span class="sig-name descname"><span class="pre">offset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.offset" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.offset_j">
-<span class="sig-name descname"><span class="pre">offset_j</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.offset_j" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.start_x">
-<span class="sig-name descname"><span class="pre">start_x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.start_x" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.start_y">
-<span class="sig-name descname"><span class="pre">start_y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.start_y" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.start">
+<span class="sig-name descname"><span class="pre">start</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.start" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -122,13 +109,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.target_x">
-<span class="sig-name descname"><span class="pre">target_x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.target_x" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.target_y">
-<span class="sig-name descname"><span class="pre">target_y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.target_y" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.target">
+<span class="sig-name descname"><span class="pre">target</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.target" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -148,13 +130,10 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#">scaralang.core.model.dsl.compiler.arc_geometry module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry"><code class="docutils literal notranslate"><span class="pre">ArcGeometry</span></code></a><ul>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.is_clockwise"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.is_clockwise</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.offset_i"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.offset_i</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.offset_j"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.offset_j</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.start_x"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.start_x</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.start_y"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.start_y</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.offset"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.offset</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.start"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.start</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.step_angle_deg"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.step_angle_deg</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.target_x"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.target_x</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.target_y"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.target_y</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.arc_geometry.ArcGeometry.target"><code class="docutils literal notranslate"><span class="pre">ArcGeometry.target</span></code></a></li>
 </ul>
 </li>
 </ul>

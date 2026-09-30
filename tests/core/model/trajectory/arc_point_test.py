@@ -24,13 +24,14 @@ from __future__ import annotations
 from dataclasses import FrozenInstanceError
 from unittest import TestCase, main
 
+from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.arc_point import ArcPoint
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,22 +42,37 @@ class TestArcPoint(TestCase):
 
     def test_instantiation(self) -> None:
         '''Verify field values on initialization.'''
-        pt = ArcPoint(x=120.5, y=-85.25, heading_deg=45.0)
-        self.assertEqual(pt.x, 120.5)
-        self.assertEqual(pt.y, -85.25)
+        pt = ArcPoint(
+            point=Point2D(x=120.5, y=-85.25),
+            heading_deg=45.0,
+        )
+        self.assertEqual(pt.point.x, 120.5)
+        self.assertEqual(pt.point.y, -85.25)
         self.assertEqual(pt.heading_deg, 45.0)
 
     def test_immutability(self) -> None:
         '''Verify frozen dataclass prevents mutation.'''
-        pt = ArcPoint(x=0.0, y=0.0, heading_deg=0.0)
+        pt = ArcPoint(
+            point=Point2D(x=0.0, y=0.0),
+            heading_deg=0.0,
+        )
         with self.assertRaises(FrozenInstanceError):
-            pt.x = 10.0
+            pt.point = Point2D(x=10.0, y=10.0)
 
     def test_equality(self) -> None:
         '''Verify value-object equality semantics.'''
-        pt1 = ArcPoint(x=10.0, y=20.0, heading_deg=30.0)
-        pt2 = ArcPoint(x=10.0, y=20.0, heading_deg=30.0)
-        pt3 = ArcPoint(x=10.0, y=20.0, heading_deg=35.0)
+        pt1 = ArcPoint(
+            point=Point2D(x=10.0, y=20.0),
+            heading_deg=30.0,
+        )
+        pt2 = ArcPoint(
+            point=Point2D(x=10.0, y=20.0),
+            heading_deg=30.0,
+        )
+        pt3 = ArcPoint(
+            point=Point2D(x=10.0, y=20.0),
+            heading_deg=35.0,
+        )
         self.assertEqual(pt1, pt2)
         self.assertNotEqual(pt1, pt3)
 

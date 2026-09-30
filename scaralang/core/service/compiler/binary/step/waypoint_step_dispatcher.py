@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import Final
 
 from scaralang.core.model.dsl.binary.step import Step
 from scaralang.core.model.trajectory.waypoint import Waypoint
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -68,8 +69,8 @@ class WaypointStepDispatcher:
             :param motion_compiler: Injected IMotionCompiler protocol instance.
             :exceptions: None.
         '''
-        self._command_compiler = command_compiler
-        self._motion_compiler = motion_compiler
+        self._command_compiler: Final[ICommandCompiler] = command_compiler
+        self._motion_compiler: Final[IMotionCompiler] = motion_compiler
 
     def dispatch_steps(
         self, *, waypoints: Sequence[Waypoint]

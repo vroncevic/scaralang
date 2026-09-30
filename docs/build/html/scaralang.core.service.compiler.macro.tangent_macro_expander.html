@@ -85,7 +85,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="field-even">methods<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">can_expand - Checks if instruction requires tangential Phi or orientation.</div>
-<div class="line">expand - Updates orientation mode or calculates tangent angle for motion target.</div>
+<div class="line">expand - Updates tool orientation mode and heading in compiler context.</div>
 <div class="line">calculate_tangent_angle - Computes tangent heading angle between two 2D points.</div>
 </div>
 </dd>
@@ -135,7 +135,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Informational marker instruction.</p>
+<dd class="field-even"><p>Empty tuple since orientation configuration mutates context only.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
@@ -29,13 +31,13 @@ from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompil
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.frame.iframe_transformer import IFrameTransformer
-from scaralang.core.service.compiler.macro.tangent_macro_expander import TangentMacroExpander
+from scaralang.core.service.compiler.macro.itangent_macro_expander import ITangentMacroExpander
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,24 +64,24 @@ class CartesianMoveCompiler:
         ScaraCommandType.MOVE_J,
     })
 
-    _tangent_helper: TangentMacroExpander
+    _tangent_helper: ITangentMacroExpander
     _frame_transformer: IFrameTransformer
 
     def __init__(
         self,
         *,
-        tangent_helper: TangentMacroExpander,
+        tangent_helper: ITangentMacroExpander,
         frame_transformer: IFrameTransformer,
     ) -> None:
         '''
             Initializes CartesianMoveCompiler with injected tangent helper and frame transformer.
 
-            :param tangent_helper: Injected TangentMacroExpander helper for heading calculation.
+            :param tangent_helper: Injected ITangentMacroExpander helper for heading calculation.
             :param frame_transformer: Injected IFrameTransformer instance.
             :exceptions: None.
         '''
-        self._tangent_helper = tangent_helper
-        self._frame_transformer = frame_transformer
+        self._tangent_helper: Final[ITangentMacroExpander] = tangent_helper
+        self._frame_transformer: Final[IFrameTransformer] = frame_transformer
 
     def can_compile(self, *, instruction: ScaraInstruction) -> bool:
         '''
@@ -113,16 +115,15 @@ class CartesianMoveCompiler:
             params.get(InstructionParam.SPEED, context.current_speed)
         )
 
-        global_x, global_y = self._frame_transformer.transform_point(
+        target_point: Point2D = self._frame_transformer.transform_point(
             frame=context.active_frame,
-            x=raw_x,
-            y=raw_y,
+            point=Point2D(x=raw_x, y=raw_y),
         )
 
         if context.tool_orient_mode == ToolOrientMode.TANGENTIAL:
             target_phi: float = self._tangent_helper.calculate_tangent_angle(
                 source=Point2D(x=context.current_x, y=context.current_y),
-                target=Point2D(x=global_x, y=global_y),
+                target=target_point,
                 fallback_phi=context.current_phi,
             )
         else:
@@ -131,8 +132,8 @@ class CartesianMoveCompiler:
         effective_spd: float = target_spd * (context.speed_override_pct / 100.0)
 
         waypoint = Waypoint(
-            x=global_x,
-            y=global_y,
+            x=target_point.x,
+            y=target_point.y,
             z=target_z,
             phi=target_phi,
             speed=effective_spd,
@@ -140,8 +141,8 @@ class CartesianMoveCompiler:
             command='',
         )
 
-        context.current_x = global_x
-        context.current_y = global_y
+        context.current_x = target_point.x
+        context.current_y = target_point.y
         context.current_z = target_z
         context.current_phi = target_phi
 

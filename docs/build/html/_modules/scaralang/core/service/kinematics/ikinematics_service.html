@@ -61,13 +61,15 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
 
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_3d</span> <span class="kn">import</span> <span class="n">Point3D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.scara_bounds</span> <span class="kn">import</span> <span class="n">ScaraBounds</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.1&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -122,15 +124,13 @@
 <a class="viewcode-back" href="../../../../../scaralang.core.service.kinematics.ikinematics_service.html#scaralang.core.service.kinematics.ikinematics_service.IKinematicsService.solve_ik">[docs]</a>
     <span class="k">def</span> <span class="nf">solve_ik</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">point</span><span class="p">:</span> <span class="n">Point2D</span><span class="p">,</span>
         <span class="n">elbow_left</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Solves analytical inverse kinematics for SCARA 2-DOF arm.</span>
 
-<span class="sd">            :param x: Target Cartesian X coordinate in mm.</span>
-<span class="sd">            :param y: Target Cartesian Y coordinate in mm.</span>
+<span class="sd">            :param point: Target planar Cartesian coordinate point in mm.</span>
 <span class="sd">            :param elbow_left: True for elbow-left configuration, False for elbow-right.</span>
 <span class="sd">            :return: Tuple of (theta1, theta2) in radians, or None if mathematically unreachable.</span>
 <span class="sd">        &#39;&#39;&#39;</span></div>
@@ -142,13 +142,13 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">theta1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">theta2</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Point2D</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Computes Cartesian end-effector position from joint angles via forward kinematics.</span>
 
 <span class="sd">            :param theta1: Joint 1 (shoulder) angle in radians.</span>
 <span class="sd">            :param theta2: Joint 2 (elbow) angle in radians.</span>
-<span class="sd">            :return: Tuple of (x, y) Cartesian coordinates in mm.</span>
+<span class="sd">            :return: Point2D Cartesian coordinate instance in mm.</span>
 <span class="sd">        &#39;&#39;&#39;</span></div>
 
 
@@ -158,13 +158,13 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">theta1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">theta2</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Point2D</span><span class="p">,</span> <span class="n">Point2D</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Computes Cartesian coordinates of both elbow joint and end-effector tool.</span>
 
 <span class="sd">            :param theta1: Joint 1 (shoulder) angle in radians.</span>
 <span class="sd">            :param theta2: Joint 2 (elbow) angle in radians.</span>
-<span class="sd">            :return: Tuple of ((elbow_x, elbow_y), (tool_x, tool_y)) coordinates in mm.</span>
+<span class="sd">            :return: Tuple of (elbow_point, tool_point) Point2D coordinate instances in mm.</span>
 <span class="sd">        &#39;&#39;&#39;</span></div>
 
 
@@ -172,16 +172,12 @@
 <a class="viewcode-back" href="../../../../../scaralang.core.service.kinematics.ikinematics_service.html#scaralang.core.service.kinematics.ikinematics_service.IKinematicsService.is_in_workspace">[docs]</a>
     <span class="k">def</span> <span class="nf">is_in_workspace</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">z</span><span class="p">:</span> <span class="nb">float</span>
+        <span class="n">point</span><span class="p">:</span> <span class="n">Point3D</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Checks whether coordinates lie within the physical annular workspace and Z limits.</span>
 
-<span class="sd">            :param x: Target Cartesian X coordinate in mm.</span>
-<span class="sd">            :param y: Target Cartesian Y coordinate in mm.</span>
-<span class="sd">            :param z: Target Cartesian Z coordinate in mm.</span>
+<span class="sd">            :param point: Target Cartesian 3D spatial coordinate in mm.</span>
 <span class="sd">            :return: Tuple of (is_in_bounds, error_or_warning_message).</span>
 <span class="sd">        &#39;&#39;&#39;</span></div>
 
@@ -190,14 +186,12 @@
 <a class="viewcode-back" href="../../../../../scaralang.core.service.kinematics.ikinematics_service.html#scaralang.core.service.kinematics.ikinematics_service.IKinematicsService.is_joint_reachable">[docs]</a>
     <span class="k">def</span> <span class="nf">is_joint_reachable</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="nb">float</span>
+        <span class="n">point</span><span class="p">:</span> <span class="n">Point2D</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Evaluates if target position can be achieved within physical joint limits.</span>
 
-<span class="sd">            :param x: Target Cartesian X coordinate in mm.</span>
-<span class="sd">            :param y: Target Cartesian Y coordinate in mm.</span>
+<span class="sd">            :param point: Target Cartesian 2D planar coordinate in mm.</span>
 <span class="sd">            :return: Tuple of (is_reachable, list_of_warning_messages).</span>
 <span class="sd">        &#39;&#39;&#39;</span></div>
 </div>

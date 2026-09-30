@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
 from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,6 +55,10 @@ class ScaraScriptValidator:
                 | lint_script - Performs static analysis checks on a DSL script string.
     '''
 
+    _parser: IScaraParser
+    _compiler: IScaraCompiler
+    _linter: IScaraLinter
+
     def __init__(
         self,
         *,
@@ -68,9 +74,9 @@ class ScaraScriptValidator:
             :param linter: Injected IScaraLinter protocol instance.
             :exceptions: None.
         '''
-        self._parser = parser
-        self._compiler = compiler
-        self._linter = linter
+        self._parser: Final[IScaraParser] = parser
+        self._compiler: Final[IScaraCompiler] = compiler
+        self._linter: Final[IScaraLinter] = linter
 
     def validate_script(self, *, source: str) -> tuple[bool, list[str]]:
         '''
@@ -81,6 +87,7 @@ class ScaraScriptValidator:
             :exceptions: None.
         '''
         messages: list[str] = []
+
         try:
             program = self._parser.parse(source=source)
             diagnostics = self._linter.lint(program=program)
@@ -106,6 +113,7 @@ class ScaraScriptValidator:
                 f'Validation PASSED: {len(program.instructions)} instructions, '
                 f'{plan.count} waypoints generated.'
             )
+
             return True, messages
 
         except (ValueError, TypeError, KeyError) as exc:

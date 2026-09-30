@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -71,12 +71,9 @@ class TestArcInterpolator(TestCase):
             Verifies empty tuple returned when offset_i and offset_j are zero.
         '''
         geometry = ArcGeometry(
-            start_x=10.0,
-            start_y=10.0,
-            target_x=10.0,
-            target_y=10.0,
-            offset_i=0.0,
-            offset_j=0.0,
+            start=Point2D(x=10.0, y=10.0),
+            target=Point2D(x=10.0, y=10.0),
+            offset=Point2D(x=0.0, y=0.0),
             is_clockwise=True,
         )
         points = self.interpolator.interpolate(geometry=geometry)
@@ -87,40 +84,34 @@ class TestArcInterpolator(TestCase):
             Verifies clockwise circular arc point interpolation.
         '''
         geometry = ArcGeometry(
-            start_x=100.0,
-            start_y=0.0,
-            target_x=0.0,
-            target_y=100.0,
-            offset_i=-100.0,
-            offset_j=0.0,
+            start=Point2D(x=100.0, y=0.0),
+            target=Point2D(x=0.0, y=100.0),
+            offset=Point2D(x=-100.0, y=0.0),
             is_clockwise=True,
             step_angle_deg=10.0,
         )
         points = self.interpolator.interpolate(geometry=geometry)
         self.assertTrue(len(points) >= 4)
         last_pt = points[-1]
-        self.assertAlmostEqual(last_pt.x, 0.0, places=3)
-        self.assertAlmostEqual(last_pt.y, 100.0, places=3)
+        self.assertAlmostEqual(last_pt.point.x, 0.0, places=3)
+        self.assertAlmostEqual(last_pt.point.y, 100.0, places=3)
 
     def test_interpolate_ccw(self) -> None:
         '''
             Verifies counter-clockwise circular arc point interpolation.
         '''
         geometry = ArcGeometry(
-            start_x=100.0,
-            start_y=0.0,
-            target_x=0.0,
-            target_y=100.0,
-            offset_i=-100.0,
-            offset_j=0.0,
+            start=Point2D(x=100.0, y=0.0),
+            target=Point2D(x=0.0, y=100.0),
+            offset=Point2D(x=-100.0, y=0.0),
             is_clockwise=False,
             step_angle_deg=10.0,
         )
         points = self.interpolator.interpolate(geometry=geometry)
         self.assertTrue(len(points) >= 4)
         last_pt = points[-1]
-        self.assertAlmostEqual(last_pt.x, 0.0, places=3)
-        self.assertAlmostEqual(last_pt.y, 100.0, places=3)
+        self.assertAlmostEqual(last_pt.point.x, 0.0, places=3)
+        self.assertAlmostEqual(last_pt.point.y, 100.0, places=3)
 
     def test_calculate_point(self) -> None:
         '''
@@ -132,8 +123,8 @@ class TestArcInterpolator(TestCase):
             angle=0.0,
             is_clockwise=True,
         )
-        self.assertAlmostEqual(arc_pt.x, 50.0, places=4)
-        self.assertAlmostEqual(arc_pt.y, 0.0, places=4)
+        self.assertAlmostEqual(arc_pt.point.x, 50.0, places=4)
+        self.assertAlmostEqual(arc_pt.point.y, 0.0, places=4)
         self.assertAlmostEqual(arc_pt.heading_deg, -90.0, places=4)
 
 

@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
@@ -34,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -69,8 +71,8 @@ class FrameDetailDecoder:
 
             :param unpacker: Binary payload unpacker protocol strategy.
         '''
-        self._unpacker = unpacker
-        self._system_names = {
+        self._unpacker: Final[IBinaryPayloadUnpacker] = unpacker
+        self._system_names: Final[dict[int, str]] = {
             int(MessageId.CMD_HOME): ScaraCommandType.HOME.value,
             int(MessageId.CMD_ENABLE): ScaraCommandType.ENABLE.value,
             int(MessageId.CMD_DISABLE): ScaraCommandType.DISABLE.value,

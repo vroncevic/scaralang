@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -97,21 +97,18 @@ class ZoneCommandParser:
             )
 
         mode: str = tokens[1].value.upper()
-        params: dict[str, object] = {
-            InstructionParam.MODE: mode,
-            'mode': mode,
-        }
+        params: dict[str, object] = {InstructionParam.MODE: mode,}
 
         if mode == ZoneMode.BLEND:
             sub_params: dict[str, object] = ParameterExtractor.extract_key_values(
                 tokens=tokens[2:]
             )
-            radius_val: object = sub_params.get(
-                InstructionParam.R,
-                sub_params.get(InstructionParam.RADIUS, 5.0),
-            )
+            radius_val: object = sub_params.get(InstructionParam.R)
+
+            if radius_val is None:
+                radius_val = sub_params.get(InstructionParam.RADIUS, 5.0)
+
             params[InstructionParam.RADIUS] = radius_val
-            params['radius'] = radius_val
 
         return ScaraInstruction(
             command_type=ScaraCommandType.ZONE,

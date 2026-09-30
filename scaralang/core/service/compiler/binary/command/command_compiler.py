@@ -21,7 +21,7 @@ Info
 
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import ClassVar, Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.binary.parsed_command_token import ParsedCommandToken
@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -95,10 +95,10 @@ class CommandCompiler:
             :param token_parser: Injected ICommandTokenParser protocol.
             :exceptions: None.
         '''
-        self._frame_builder = frame_builder
-        self._tool_frame_builder = tool_frame_builder
-        self._motor_frame_builder = motor_frame_builder
-        self._token_parser = token_parser
+        self._frame_builder: Final[IBinaryFrameBuilder] = frame_builder
+        self._tool_frame_builder: Final[IToolFrameBuilder] = tool_frame_builder
+        self._motor_frame_builder: Final[IMotorFrameBuilder] = motor_frame_builder
+        self._token_parser: Final[ICommandTokenParser] = token_parser
 
     def compile_command_step(
         self,

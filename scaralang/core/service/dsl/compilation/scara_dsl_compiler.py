@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.ast.program import ScaraProgram
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
 from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
@@ -32,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,6 +56,10 @@ class ScaraDslCompiler:
                 | compile_program - Compiles AST program into validated ITrajectoryPlan.
     '''
 
+    _parser: IScaraParser
+    _compiler: IScaraCompiler
+    _linter: IScaraLinter
+
     def __init__(
         self,
         *,
@@ -69,9 +75,9 @@ class ScaraDslCompiler:
             :param linter: Injected IScaraLinter protocol instance.
             :exceptions: None.
         '''
-        self._parser = parser
-        self._compiler = compiler
-        self._linter = linter
+        self._parser: Final[IScaraParser] = parser
+        self._compiler: Final[IScaraCompiler] = compiler
+        self._linter: Final[IScaraLinter] = linter
 
     def compile_program(self, *, program: ScaraProgram) -> ITrajectoryPlan:
         '''

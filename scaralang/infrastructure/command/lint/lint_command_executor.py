@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from os.path import exists
+from typing import Final
 
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
@@ -34,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -70,8 +71,8 @@ class LintCommandExecutor:
             :param diagnostic_formatter: Injected diagnostic report formatter.
             :exceptions: None.
         '''
-        self.definition = definition
-        self._diagnostic_formatter = diagnostic_formatter
+        self.definition: Final[ICommandDefinition] = definition
+        self._diagnostic_formatter: Final[IScaraDiagnosticFormatter] = diagnostic_formatter
 
     def execute(
         self,

@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.binary.program import BinaryProgram
 from scaralang.infrastructure.command.compile.inspection.presentation.iframe_step_presenter import IFrameStepPresenter
 
@@ -28,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,7 +57,7 @@ class ProgramInspectionPresenter:
 
             :param step_presenter: Step card presenter strategy.
         '''
-        self._step_presenter = step_presenter
+        self._step_presenter: Final[IFrameStepPresenter] = step_presenter
 
     def present_program(self, *, program: BinaryProgram) -> str:
         '''

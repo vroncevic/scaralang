@@ -16,13 +16,13 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Defines composite interface IScaraDslService coordinating high-level SCARA DSL compilation and export.
+    Defines composite interface IScaraDslService coordinating high-level
+    SCARA DSL compilation and export.
 '''
 
 from __future__ import annotations
 
-from typing import Protocol
-from typing import runtime_checkable
+from typing import Protocol, runtime_checkable
 
 from scaralang.core.service.dsl.iscara_dsl_binary_compiler import IScaraDslBinaryCompiler
 from scaralang.core.service.dsl.compilation.iscara_dsl_compiler import IScaraDslCompiler
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,7 +54,8 @@ class IScaraDslService(
     '''
         High-level composite orchestration service protocol for SCARA DSL processing.
 
-        Combines compilation, validation, linting, disassembly, binary compilation, and plan export contracts.
+        Combines compilation, validation, linting, disassembly, binary compilation,
+        and plan export contracts.
 
         It defines:
 

@@ -21,18 +21,21 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.dsl.macro.pallet_definition import PalletDefinition
+from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.service.compiler.frame.iframe_transformer import IFrameTransformer
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,7 +68,7 @@ class PalletMacroExpander:
             :param frame_transformer: Injected IFrameTransformer instance.
             :exceptions: None.
         '''
-        self._frame_transformer = frame_transformer
+        self._frame_transformer: Final[IFrameTransformer] = frame_transformer
 
     def can_expand(self, *, instruction: ScaraInstruction) -> bool:
         '''
@@ -103,10 +106,13 @@ class PalletMacroExpander:
                 cols=int(params.get(InstructionParam.COLS, 1)),
                 dx=float(params.get(InstructionParam.DX, 20.0)),
                 dy=float(params.get(InstructionParam.DY, 20.0)),
-                start_x=float(params.get(InstructionParam.START_X, context.current_x)),
-                start_y=float(params.get(InstructionParam.START_Y, context.current_y)),
+                start=Point2D(
+                    x=float(params.get(InstructionParam.START_X, context.current_x)),
+                    y=float(params.get(InstructionParam.START_Y, context.current_y)),
+                ),
             )
             context.pallets[name] = pallet_def
+
             return ()
 
         if name not in context.pallets:
@@ -117,17 +123,16 @@ class PalletMacroExpander:
 
         pallet_def = context.pallets[name]
         index = int(params.get(InstructionParam.INDEX, 0))
-        local_x = pallet_def.start_x + (index % pallet_def.cols) * pallet_def.dx
-        local_y = pallet_def.start_y + (index // pallet_def.cols) * pallet_def.dy
-        global_x, global_y = self._frame_transformer.transform_point(
+        local_x = pallet_def.start.x + (index % pallet_def.cols) * pallet_def.dx
+        local_y = pallet_def.start.y + (index // pallet_def.cols) * pallet_def.dy
+        transformed_point = self._frame_transformer.transform_point(
             frame=context.active_frame,
-            x=local_x,
-            y=local_y,
+            point=Point2D(x=local_x, y=local_y),
         )
         target_z = float(params.get(InstructionParam.Z, context.current_z))
 
-        context.current_x = global_x
-        context.current_y = global_y
+        context.current_x = transformed_point.x
+        context.current_y = transformed_point.y
         context.current_z = target_z
 
         move_inst = ScaraInstruction(
@@ -135,11 +140,12 @@ class PalletMacroExpander:
             line_number=instruction.line_number,
             raw_text=(
                 f'# MOVE_PALLET: {name}[{index}] -> '
-                f'X={global_x:.2f} Y={global_y:.2f} Z={target_z:.2f}'
+                f'X={transformed_point.x:.2f} Y={transformed_point.y:.2f} '
+                f'Z={target_z:.2f}'
             ),
             parameters={
-                InstructionParam.X: global_x,
-                InstructionParam.Y: global_y,
+                InstructionParam.X: transformed_point.x,
+                InstructionParam.Y: transformed_point.y,
                 InstructionParam.Z: target_z,
                 InstructionParam.PHI: context.current_phi,
                 InstructionParam.SPEED: context.current_speed,

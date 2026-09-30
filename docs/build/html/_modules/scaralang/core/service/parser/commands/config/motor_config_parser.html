@@ -73,7 +73,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.1&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -194,9 +194,9 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">interface_type</span><span class="p">:</span> <span class="n">MotorInterfaceType</span> <span class="o">=</span> <span class="n">MotorConfigFactory</span><span class="o">.</span><span class="n">resolve_interface_type</span><span class="p">(</span>
-                <span class="n">mode</span><span class="o">=</span><span class="n">drive_mode</span><span class="p">,</span>
-                <span class="n">raw_interface</span><span class="o">=</span><span class="n">raw_iface</span><span class="p">,</span>
+                <span class="n">mode</span><span class="o">=</span><span class="n">drive_mode</span><span class="p">,</span> <span class="n">raw_interface</span><span class="o">=</span><span class="n">raw_iface</span><span class="p">,</span>
             <span class="p">)</span>
+
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Invalid motor interface </span><span class="si">{</span><span class="n">raw_iface</span><span class="si">!r}</span><span class="s1"> at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">. &#39;</span>
@@ -215,7 +215,6 @@
             <span class="n">raw_text</span><span class="o">=</span><span class="n">raw_text</span><span class="p">,</span>
             <span class="n">parameters</span><span class="o">=</span><span class="p">{</span>
                 <span class="n">InstructionParam</span><span class="o">.</span><span class="n">MODE</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                <span class="n">InstructionParam</span><span class="o">.</span><span class="n">MOTOR_MODE</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">InstructionParam</span><span class="o">.</span><span class="n">INTERFACE</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">interface_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">InstructionParam</span><span class="o">.</span><span class="n">AXIS_MASK</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">axis_mask</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="p">},</span>

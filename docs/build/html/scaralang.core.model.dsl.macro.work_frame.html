@@ -71,7 +71,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.macro.work_frame.WorkFrame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.macro.work_frame.</span></span><span class="sig-name descname"><span class="pre">WorkFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/macro/work_frame.html#WorkFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.macro.work_frame.</span></span><span class="sig-name descname"><span class="pre">WorkFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/macro/work_frame.html#WorkFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Immutable planar work coordinate frame defining 2D translation and rotation.</p>
 <p>It defines:</p>
@@ -79,8 +79,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">x - Frame translation origin along world X axis in millimeters.</div>
-<div class="line">y - Frame translation origin along world Y axis in millimeters.</div>
+<div class="line">origin - Frame translation origin coordinate in millimeters.</div>
 <div class="line">angle_deg - Frame rotation angle relative to world coordinate system in degrees.</div>
 </div>
 </dd>
@@ -92,13 +91,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.macro.work_frame.WorkFrame.x">
-<span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame.x" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.macro.work_frame.WorkFrame.y">
-<span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame.y" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.macro.work_frame.WorkFrame.origin">
+<span class="sig-name descname"><span class="pre">origin</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame.origin" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -118,8 +112,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#">scaralang.core.model.dsl.macro.work_frame module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame"><code class="docutils literal notranslate"><span class="pre">WorkFrame</span></code></a><ul>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame.angle_deg"><code class="docutils literal notranslate"><span class="pre">WorkFrame.angle_deg</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame.x"><code class="docutils literal notranslate"><span class="pre">WorkFrame.x</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame.y"><code class="docutils literal notranslate"><span class="pre">WorkFrame.y</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.macro.work_frame.WorkFrame.origin"><code class="docutils literal notranslate"><span class="pre">WorkFrame.origin</span></code></a></li>
 </ul>
 </li>
 </ul>

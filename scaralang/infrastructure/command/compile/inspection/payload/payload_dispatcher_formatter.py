@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.protocol.message_id import MessageId
@@ -34,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -77,10 +79,10 @@ class PayloadDispatcherFormatter:
             :param hex_formatter: Hexadecimal stream formatter.
             :param unpacker: Binary payload unpacker.
         '''
-        self._joint_formatter = joint_formatter
-        self._tool_formatter = tool_formatter
-        self._hex_formatter = hex_formatter
-        self._unpacker = unpacker
+        self._joint_formatter: Final[IJointStepsPayloadFormatter] = joint_formatter
+        self._tool_formatter: Final[IToolCommandPayloadFormatter] = tool_formatter
+        self._hex_formatter: Final[IHexStreamFormatter] = hex_formatter
+        self._unpacker: Final[IBinaryPayloadUnpacker] = unpacker
 
     def format_payload(self, *, msg_id: MessageId, payload: bytes) -> str:
         '''

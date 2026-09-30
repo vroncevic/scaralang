@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,6 +59,10 @@ class PneumaticLintRule:
                 | name - Returns rule identifier name.
                 | check - Evaluates instruction against pneumatic state and blend config.
     '''
+
+    _flyby_validator: IPneumaticFlybyValidator
+    _redundancy_validator: IPneumaticRedundancyValidator
+    _conflict_validator: IPneumaticConflictValidator
 
     def __init__(
         self,

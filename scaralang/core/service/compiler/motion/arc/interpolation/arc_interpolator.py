@@ -21,14 +21,7 @@ Info
 
 from __future__ import annotations
 
-from math import atan2
-from math import ceil
-from math import cos
-from math import degrees
-from math import hypot
-from math import pi
-from math import radians
-from math import sin
+from math import atan2, ceil, cos, degrees, hypot, pi, radians, sin
 
 from scaralang.core.model.dsl.compiler.arc_geometry import ArcGeometry
 from scaralang.core.model.kinematics.point_2d import Point2D
@@ -38,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -70,19 +63,19 @@ class ArcInterpolator:
             :exceptions: None.
         '''
         center = Point2D(
-            x=geometry.start_x + geometry.offset_i,
-            y=geometry.start_y + geometry.offset_j,
+            x=geometry.start.x + geometry.offset.x,
+            y=geometry.start.y + geometry.offset.y,
         )
-        radius = hypot(geometry.offset_i, geometry.offset_j)
+        radius = hypot(geometry.offset.x, geometry.offset.y)
 
         if radius < 1e-4:
             return ()
 
         angle_start = atan2(
-            geometry.start_y - center.y, geometry.start_x - center.x
+            geometry.start.y - center.y, geometry.start.x - center.x
         )
         angle_end = atan2(
-            geometry.target_y - center.y, geometry.target_x - center.x
+            geometry.target.y - center.y, geometry.target.x - center.x
         )
 
         if geometry.is_clockwise:
@@ -136,4 +129,7 @@ class ArcInterpolator:
         )
         tangent_deg: float = (degrees(tangent_rad) + 180.0) % 360.0 - 180.0
 
-        return ArcPoint(x=px, y=py, heading_deg=tangent_deg)
+        return ArcPoint(
+            point=Point2D(x=px, y=py),
+            heading_deg=tangent_deg,
+        )

@@ -23,13 +23,14 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
+from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.circle_geometry import CircleGeometry
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,11 +42,11 @@ class TestCircleGeometry(TestCase):
     def test_instantiation_defaults(self) -> None:
         '''Verify default parameters on initialization.'''
         geom = CircleGeometry(
-            center=(100.0, 50.0),
+            center=Point2D(x=100.0, y=50.0),
             radius=25.0,
             steps=36,
         )
-        self.assertEqual(geom.center, (100.0, 50.0))
+        self.assertEqual(geom.center, Point2D(x=100.0, y=50.0))
         self.assertEqual(geom.radius, 25.0)
         self.assertEqual(geom.steps, 36)
         self.assertEqual(geom.z, 0.0)
@@ -54,12 +55,13 @@ class TestCircleGeometry(TestCase):
     def test_instantiation_custom(self) -> None:
         '''Verify custom parameters on initialization.'''
         geom = CircleGeometry(
-            center=(0.0, 0.0),
+            center=Point2D(x=0.0, y=0.0),
             radius=10.0,
             steps=18,
             z=15.0,
             speed=80.0,
         )
+        self.assertEqual(geom.center, Point2D(x=0.0, y=0.0))
         self.assertEqual(geom.z, 15.0)
         self.assertEqual(geom.speed, 80.0)
 

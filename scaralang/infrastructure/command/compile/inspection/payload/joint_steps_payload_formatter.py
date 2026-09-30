@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.infrastructure.command.compile.inspection.framing.ihex_stream_formatter import IHexStreamFormatter
 
@@ -28,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,7 +57,7 @@ class JointStepsPayloadFormatter:
 
             :param hex_formatter: Injected hex stream formatter.
         '''
-        self._hex_formatter = hex_formatter
+        self._hex_formatter: Final[IHexStreamFormatter] = hex_formatter
 
     def format_joint_steps(
         self,
@@ -83,4 +85,5 @@ class JointStepsPayloadFormatter:
             f'Feedrate={steps.feedrate_scale}%'
         )
         hex_line: str = f'  - Payload Hex:   {hex_str}'
+
         return f'{struct_line_1}\n{struct_line_2}\n{hex_line}'

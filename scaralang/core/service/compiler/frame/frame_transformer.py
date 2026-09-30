@@ -24,12 +24,13 @@ from __future__ import annotations
 from math import cos, radians, sin
 
 from scaralang.core.model.dsl.macro.work_frame import WorkFrame
+from scaralang.core.model.kinematics.point_2d import Point2D
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,24 +52,26 @@ class FrameTransformer:
         self,
         *,
         frame: WorkFrame,
-        x: float,
-        y: float,
-    ) -> tuple[float, float]:
+        point: Point2D,
+    ) -> Point2D:
         '''
-            Transforms point (x, y) from local work frame to global base coordinate system.
+            Transforms point from local work frame to global base coordinate system.
 
             :param frame: WorkFrame instance defining offset and rotation.
-            :param x: Local X coordinate in millimeters.
-            :param y: Local Y coordinate in millimeters.
-            :return: Tuple of transformed (global_x, global_y) coordinates.
+            :param point: Local coordinate Point2D in millimeters.
+            :return: Transformed global coordinate Point2D.
         '''
-        if frame.x == 0.0 and frame.y == 0.0 and frame.angle_deg == 0.0:
-            return x, y
+        if (
+            frame.origin.x == 0.0
+            and frame.origin.y == 0.0
+            and frame.angle_deg == 0.0
+        ):
+            return point
 
         rad = radians(frame.angle_deg)
         cos_a = cos(rad)
         sin_a = sin(rad)
-        gx = frame.x + (x * cos_a - y * sin_a)
-        gy = frame.y + (x * sin_a + y * cos_a)
+        gx = frame.origin.x + (point.x * cos_a - point.y * sin_a)
+        gy = frame.origin.y + (point.x * sin_a + point.y * cos_a)
 
-        return gx, gy
+        return Point2D(x=gx, y=gy)

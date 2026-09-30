@@ -9,6 +9,7 @@ Submodules
 
    scaralang.core.model.kinematics.elbow_config
    scaralang.core.model.kinematics.point_2d
+   scaralang.core.model.kinematics.point_3d
    scaralang.core.model.kinematics.scara_bounds
    scaralang.core.model.kinematics.transmission_parameters
 

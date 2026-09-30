@@ -32,6 +32,8 @@ from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.service.compiler.iinstruction_pipeline import IInstructionPipeline
 from scaralang.core.service.compiler.instruction_pipeline import InstructionPipeline
 from scaralang.core.service.compiler.instruction_pipeline_factory import InstructionPipelineFactory
+from scaralang.core.service.compiler.macro.jump_macro_expander_factory import JumpMacroExpanderFactory
+from scaralang.core.service.compiler.motion.motion_command_compiler_factory import MotionCommandCompilerFactory
 from scaralang.core.service.compiler.primitive_instruction_processor_factory import PrimitiveInstructionProcessorFactory
 from scaralang.core.service.compiler.primitive.state.state_command_compiler_factory import StateCommandCompilerFactory
 from scaralang.core.service.compiler.primitive.tool.tool_command_compiler_factory import ToolCommandCompilerFactory
@@ -40,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -113,7 +115,7 @@ class TestInstructionPipeline(TestCase):
             primitive_compilers=(),
         )
         self.assertIsInstance(pipeline, IInstructionPipeline)
-        self.assertEqual(InstructionPipelineFactory.get_version(), '1.0.1')
+        self.assertEqual(InstructionPipelineFactory.get_version(), '1.0.2')
 
     def test_pipeline_with_collaborators(self) -> None:
         '''Verifies InstructionPipeline instantiation with injected processor.'''
@@ -125,6 +127,30 @@ class TestInstructionPipeline(TestCase):
             processor=processor,
         )
         self.assertIsInstance(pipeline, IInstructionPipeline)
+
+    def test_pipeline_with_macro_expansion(self) -> None:
+        '''Verifies pipeline expands macro instructions and compiles primitive sub-instructions.'''
+        pipeline = InstructionPipelineFactory.create(
+            macro_expanders=(JumpMacroExpanderFactory.create(),),
+            primitive_compilers=(MotionCommandCompilerFactory.create(),),
+        )
+        instructions = [
+            ScaraInstruction(
+                command_type=ScaraCommandType.JUMP,
+                parameters={
+                    InstructionParam.X: 100.0,
+                    InstructionParam.Y: 50.0,
+                    InstructionParam.Z: 10.0,
+                    InstructionParam.PHI: 0.0,
+                    InstructionParam.ARCH_HEIGHT: 25.0,
+                    InstructionParam.SPEED: 50.0,
+                },
+                line_number=1,
+                raw_text='JUMP X=100.0 Y=50.0 Z=10.0 ARCH_HEIGHT=25.0 SPEED=50.0',
+            ),
+        ]
+        waypoints = pipeline.compile_instructions(instructions=instructions)
+        self.assertEqual(len(waypoints), 3)
 
 
 if __name__ == '__main__':

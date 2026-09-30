@@ -23,11 +23,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from scaralang.core.model.kinematics.point_2d import Point2D
+
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,11 +43,9 @@ class ArcPoint:
         It defines:
 
             :attributes:
-                | x - Cartesian X coordinate in mm.
-                | y - Cartesian Y coordinate in mm.
+                | point - Planar Cartesian 2D coordinates in mm.
                 | heading_deg - Tool tangent orientation angle in degrees.
     '''
 
-    x: float
-    y: float
+    point: Point2D
     heading_deg: float

@@ -25,6 +25,7 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
+from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
 from scaralang.core.model.kinematics.elbow_config import ElbowConfig
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -85,7 +86,7 @@ class TestElbowConfigParser(TestCase):
         )
         instruction = parser.parse(tokens=tokens, line_num=1, raw_text='CONFIG ELBOW LEFT')
         self.assertEqual(instruction.command_type, ScaraCommandType.CONFIG_ELBOW)
-        self.assertEqual(instruction.parameters.get('elbow'), ElbowConfig.LEFT)
+        self.assertEqual(instruction.parameters.get(InstructionParam.ELBOW), ElbowConfig.LEFT)
 
     def test_parse_syntax_error(self) -> None:
         '''

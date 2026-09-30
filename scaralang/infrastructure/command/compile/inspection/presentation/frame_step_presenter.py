@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.binary.step import Step
 from scaralang.infrastructure.command.compile.inspection.framing.iframe_header_formatter import IFrameHeaderFormatter
 from scaralang.infrastructure.command.compile.inspection.framing.iframe_trailer_formatter import IFrameTrailerFormatter
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,10 +76,10 @@ class FrameStepPresenter:
             :param trailer_formatter: Frame trailer formatter.
             :param hex_formatter: Hexadecimal stream formatter.
         '''
-        self._header_formatter = header_formatter
-        self._payload_formatter = payload_formatter
-        self._trailer_formatter = trailer_formatter
-        self._hex_formatter = hex_formatter
+        self._header_formatter: Final[IFrameHeaderFormatter] = header_formatter
+        self._payload_formatter: Final[IPayloadDispatcherFormatter] = payload_formatter
+        self._trailer_formatter: Final[IFrameTrailerFormatter] = trailer_formatter
+        self._hex_formatter: Final[IHexStreamFormatter] = hex_formatter
 
     def present_step(self, *, step: Step, index: int) -> str:
         '''

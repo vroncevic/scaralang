@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.binary.step import Step
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,7 +62,7 @@ class ReplSingleCommandCompiler:
             :param service: Injected IScaraDslService protocol instance.
             :exceptions: None.
         '''
-        self.service = service
+        self.service: Final[IScaraDslService] = service
 
     def compile_instruction(
         self,
@@ -79,12 +81,15 @@ class ReplSingleCommandCompiler:
         '''
         plan = self.service.compile_script(source=line)
         program = self.service.compile_plan(plan=plan)
+
         if not program.steps:
             raise ValueError(f'No binary steps compiled for line: {line}')
+
         step: Step = program.steps[-1]
         new_context: ReplSessionContext = self.update_context(
             line=line, step=step, plan_waypoints=plan.waypoints, context=context
         )
+
         return step.frame, step, new_context
 
     def update_context(

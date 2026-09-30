@@ -22,25 +22,23 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.control_waypoint_descriptor import (
-    ControlWaypointDescriptor,
-)
+from scaralang.core.model.dsl.compiler.control_waypoint_descriptor import ControlWaypointDescriptor
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.model.trajectory.waypoint import Waypoint
-from scaralang.core.service.compiler.primitive.control.icontrol_waypoint_builder import (
-    IControlWaypointBuilder,
-)
+from scaralang.core.service.compiler.primitive.control.icontrol_waypoint_builder import IControlWaypointBuilder
 from scaralang.core.service.motor.motor_config_factory import MotorConfigFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -86,7 +84,7 @@ class ControlCommandCompiler:
             :param waypoint_builder: Injected IControlWaypointBuilder instance.
             :exceptions: None.
         '''
-        self._waypoint_builder = waypoint_builder
+        self._waypoint_builder: Final[IControlWaypointBuilder] = waypoint_builder
 
     def can_compile(self, *, instruction: ScaraInstruction) -> bool:
         '''
@@ -131,8 +129,10 @@ class ControlCommandCompiler:
                     ),
                 ),
             )
+
         if cmd_type == ScaraCommandType.WAIT_MS:
             delay_ms = max(0, int(float(params.get(InstructionParam.MS, 0.0))))
+
             return (
                 self._waypoint_builder.build_waypoint(
                     context=context,
@@ -144,6 +144,7 @@ class ControlCommandCompiler:
                     ),
                 ),
             )
+
         if cmd_type == ScaraCommandType.CONFIG_MOTOR:
             mode_param = str(
                 params.get(InstructionParam.MODE, MotorDriveMode.OPEN_LOOP.value)
@@ -154,6 +155,7 @@ class ControlCommandCompiler:
                 else MotorDriveMode.OPEN_LOOP
             )
             context.motor_drive_mode = mode_obj
+
             return (
                 self._waypoint_builder.build_waypoint(
                     context=context,
@@ -165,6 +167,7 @@ class ControlCommandCompiler:
                     ),
                 ),
             )
+
         return (
             self._waypoint_builder.build_waypoint(
                 context=context,
