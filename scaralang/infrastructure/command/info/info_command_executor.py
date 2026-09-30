@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from collections.abc import Mapping
+from typing import Final
 
 from scaralang.core.service.dsl.iscara_dsl_info_provider import IScaraDslInfoProvider
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
@@ -30,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,7 +59,7 @@ class InfoCommandExecutor:
             :param definition: The command definition metadata.
             :exceptions: None.
         '''
-        self.definition = definition
+        self.definition: Final[ICommandDefinition] = definition
 
     def execute(
         self,

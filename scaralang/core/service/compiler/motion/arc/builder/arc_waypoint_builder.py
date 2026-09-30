@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -76,8 +76,8 @@ class ArcWaypointBuilder:
             )
             waypoints.append(
                 Waypoint(
-                    x=pt.x,
-                    y=pt.y,
+                    x=pt.point.x,
+                    y=pt.point.y,
                     z=target_z,
                     phi=phi,
                     speed=speed,

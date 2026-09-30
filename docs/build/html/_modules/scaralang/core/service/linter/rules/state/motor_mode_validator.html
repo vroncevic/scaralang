@@ -73,7 +73,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.1&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -123,7 +123,7 @@
 
         <span class="n">params</span> <span class="o">=</span> <span class="n">instruction</span><span class="o">.</span><span class="n">parameters</span>
         <span class="n">raw_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-            <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">MODE</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">MOTOR_MODE</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">MODE</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
         <span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">MotorConfigFactory</span><span class="o">.</span><span class="n">is_valid_drive_mode</span><span class="p">(</span><span class="n">raw_mode</span><span class="p">):</span>
@@ -157,6 +157,7 @@
             <span class="p">)</span>
 
         <span class="n">context</span><span class="o">.</span><span class="n">motor_drive_mode</span> <span class="o">=</span> <span class="n">target_mode</span>
+
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">findings</span><span class="p">)</span></div>
 </div>
 

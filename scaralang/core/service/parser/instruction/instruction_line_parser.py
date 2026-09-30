@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import Final
 
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
@@ -31,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,6 +52,9 @@ class InstructionLineParser:
                 | parse_line - Parses single statement token tuple into a ScaraInstruction.
     '''
 
+    _handlers: tuple[ICommandParser, ...]
+    _registry: dict[str, ICommandParser]
+
     def __init__(self, *, handlers: Sequence[ICommandParser]) -> None:
         '''
             Initializes InstructionLineParser constructor with injected command handlers.
@@ -58,7 +62,7 @@ class InstructionLineParser:
             :param handlers: Sequence of custom ICommandParser handlers.
             :exceptions: None.
         '''
-        self._handlers: tuple[ICommandParser, ...] = tuple(handlers)
+        self._handlers: Final[tuple[ICommandParser, ...]] = tuple(handlers)
         self._registry: dict[str, ICommandParser] = {}
 
     @property

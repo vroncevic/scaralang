@@ -22,7 +22,7 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.compiler.macro.tangent_macro_expander import TangentMacroExpander
+from scaralang.core.service.compiler.macro.itangent_macro_expander import ITangentMacroExpander
 from scaralang.core.service.compiler.motion.arc.arc_move_compiler_factory import ArcMoveCompilerFactory
 from scaralang.core.service.compiler.motion.arc.interpolation.iarc_interpolator import IArcInterpolator
 from scaralang.core.service.compiler.motion.cartesian.cartesian_move_compiler_factory import CartesianMoveCompilerFactory
@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -70,13 +70,13 @@ class MotionCommandCompilerFactory:
     def create_with_helpers(
         cls,
         *,
-        tangent_helper: TangentMacroExpander,
+        tangent_helper: ITangentMacroExpander,
         arc_interpolator: IArcInterpolator,
     ) -> IPrimitiveCompiler:
         '''
             Creates MotionCommandCompiler with specified helper components.
 
-            :param tangent_helper: TangentMacroExpander instance for cartesian compiler.
+            :param tangent_helper: ITangentMacroExpander instance for cartesian compiler.
             :param arc_interpolator: IArcInterpolator instance for arc compiler.
             :return: Fully wired IPrimitiveCompiler instance.
             :exceptions: None.

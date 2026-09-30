@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.binary.program import BinaryProgram
 from scaralang.core.model.trajectory.axis_peak_metric import AxisPeakMetric
 from scaralang.core.model.trajectory.bottleneck_incident import BottleneckIncident
@@ -34,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,9 +76,9 @@ class TrajectoryCycleSummaryBuilder:
             :param speed_profile_analyzer: Injected axis velocity and acceleration profiler.
             :param bottleneck_detector: Injected motion bottleneck detector.
         '''
-        self._cycle_time_calculator = cycle_time_calculator
-        self._speed_profile_analyzer = speed_profile_analyzer
-        self._bottleneck_detector = bottleneck_detector
+        self._cycle_time_calculator: Final[ICycleTimeCalculator] = cycle_time_calculator
+        self._speed_profile_analyzer: Final[IAxisSpeedProfileAnalyzer] = speed_profile_analyzer
+        self._bottleneck_detector: Final[IMotionBottleneckDetector] = bottleneck_detector
 
     @property
     def name(self) -> str:

@@ -169,6 +169,7 @@ Tool structure
          │   │   │   ├── elbow_config.py
          │   │   │   ├── __init__.py
          │   │   │   ├── point_2d.py
+         │   │   │   ├── point_3d.py
          │   │   │   ├── scara_bounds.py
          │   │   │   └── transmission_parameters.py
          │   │   ├── motor/
@@ -260,6 +261,7 @@ Tool structure
          │       │   │   ├── frame_macro_expander_factory.py
          │       │   │   ├── imacro_expander.py
          │       │   │   ├── __init__.py
+         │       │   │   ├── itangent_macro_expander.py
          │       │   │   ├── jump_macro_expander.py
          │       │   │   ├── jump_macro_expander_factory.py
          │       │   │   ├── pallet_macro_expander.py
@@ -774,7 +776,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     117 directories, 543 files
+     117 directories, 545 files
 
 🏗 Architecture & SOLID Principles
 --------------------------------------------------------------------------------

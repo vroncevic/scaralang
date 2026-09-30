@@ -23,11 +23,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from scaralang.core.model.kinematics.point_2d import Point2D
+
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,8 +48,7 @@ class PalletDefinition:
                 | cols - Number of grid columns in the pallet matrix.
                 | dx - Column spacing pitch in millimeters.
                 | dy - Row spacing pitch in millimeters.
-                | start_x - Origin X coordinate of cell index 0 in millimeters.
-                | start_y - Origin Y coordinate of cell index 0 in millimeters.
+                | start - Origin coordinate Point2D of cell index 0 in millimeters.
     '''
 
     name: str
@@ -55,5 +56,4 @@ class PalletDefinition:
     cols: int
     dx: float
     dy: float
-    start_x: float
-    start_y: float
+    start: Point2D

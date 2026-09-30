@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -111,15 +111,11 @@ class ToolOrientCommandParser:
         sub_params: dict[str, object] = ParameterExtractor.extract_key_values(
             tokens=tokens[2:]
         )
-        params: dict[str, object] = {
-            InstructionParam.MODE: mode,
-            'mode': mode,
-        }
+        params: dict[str, object] = {InstructionParam.MODE: mode,}
 
         if InstructionParam.PHI in sub_params:
             phi_val: object = sub_params[InstructionParam.PHI]
             params[InstructionParam.PHI] = phi_val
-            params['phi'] = phi_val
 
         return ScaraInstruction(
             command_type=ScaraCommandType.TOOL_ORIENT,

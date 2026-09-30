@@ -25,6 +25,7 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
+from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -83,8 +84,8 @@ class TestSpeedConfigParser(TestCase):
         )
         instruction = parser.parse(tokens=tokens, line_num=1, raw_text='SPEED WORK 100.0')
         self.assertEqual(instruction.command_type, ScaraCommandType.SPEED)
-        self.assertEqual(instruction.parameters.get('mode'), SpeedMode.WORK)
-        self.assertEqual(instruction.parameters.get('speed'), 100.0)
+        self.assertEqual(instruction.parameters.get(InstructionParam.MODE), SpeedMode.WORK)
+        self.assertEqual(instruction.parameters.get(InstructionParam.SPEED), 100.0)
 
     def test_parse_invalid_syntax(self) -> None:
         '''

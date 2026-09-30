@@ -40,7 +40,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,6 +58,10 @@ class TestCompileCommandExecutor(TestCase):
                 | test_compile_missing_file - Verifies handling of missing script.
                 | test_compile_to_file - Verifies compiling to binary output file.
                 | test_compile_verbose - Verifies compiling with verbose output telemetry.
+                | test_compile_hex - Verifies compiling with hex output flag.
+                | test_compile_dump_frames - Verifies compiling with dump_frames inspection flag.
+                | test_compile_default_message - Verifies compiling with default status message.
+                | test_compile_error_exception - Verifies error handling when write fails.
                 | test_get_definition - Verifies definition retrieval.
     '''
 
@@ -136,6 +140,54 @@ class TestCompileCommandExecutor(TestCase):
         self.assertIn('Compilation Telemetry:', stdout_text)
         self.assertIn('Source Instructions:', stdout_text)
         self.assertIn('Estimated Duration:', stdout_text)
+
+    def test_compile_hex(self) -> None:
+        '''
+            Verifies compile command with hex output flag.
+        '''
+        script_path = self.write_test_script(text='HOME\n')
+        res = self.executor.execute(
+            params={'script': script_path, 'hex': True},
+            service=self.service,
+        )
+        self.assertEqual(res.get('returncode'), 0)
+        self.assertTrue(len(str(res.get('stdout', ''))) > 0)
+
+    def test_compile_dump_frames(self) -> None:
+        '''
+            Verifies compile command with dump_frames inspection flag.
+        '''
+        script_path = self.write_test_script(text='HOME\n')
+        res = self.executor.execute(
+            params={'script': script_path, 'dump_frames': True},
+            service=self.service,
+        )
+        self.assertEqual(res.get('returncode'), 0)
+        self.assertIn('SCARA BINARY FRAME INSPECTION', str(res.get('stdout', '')))
+
+    def test_compile_default_message(self) -> None:
+        '''
+            Verifies compile command with default status output.
+        '''
+        script_path = self.write_test_script(text='HOME\n')
+        res = self.executor.execute(
+            params={'script': script_path},
+            service=self.service,
+        )
+        self.assertEqual(res.get('returncode'), 0)
+        self.assertIn('Successfully compiled', str(res.get('stdout', '')))
+
+    def test_compile_error_exception(self) -> None:
+        '''
+            Verifies handling of unexpected error during compilation output write.
+        '''
+        script_path = self.write_test_script(text='HOME\n')
+        res = self.executor.execute(
+            params={'script': script_path, 'output': '/nonexistent_dir/out.bin'},
+            service=self.service,
+        )
+        self.assertEqual(res.get('returncode'), 1)
+        self.assertIn('compile error', str(res.get('stderr', '')))
 
     def test_get_definition(self) -> None:
         '''

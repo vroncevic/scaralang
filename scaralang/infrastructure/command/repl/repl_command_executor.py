@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from collections.abc import Mapping
+from typing import Final
 
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
 from scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler import IReplSingleCommandCompiler
@@ -36,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -95,13 +96,13 @@ class ReplCommandExecutor:
             :param output_func: Injected output emission callable.
             :exceptions: None.
         '''
-        self.definition = definition
-        self.reader = reader
-        self.dispatcher = dispatcher
-        self.compiler = compiler
-        self.transmitter = transmitter
-        self.presenter = presenter
-        self.output_func = output_func
+        self.definition: Final[ICommandDefinition] = definition
+        self.reader: Final[IReplLineReader] = reader
+        self.dispatcher: Final[IReplCommandDispatcher] = dispatcher
+        self.compiler: Final[IReplSingleCommandCompiler] = compiler
+        self.transmitter: Final[IReplFrameTransmitter] = transmitter
+        self.presenter: Final[IReplResponsePresenter] = presenter
+        self.output_func: Final[Callable[[str], None]] = output_func
 
     def execute(
         self,

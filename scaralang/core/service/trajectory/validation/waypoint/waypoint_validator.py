@@ -23,6 +23,8 @@ from __future__ import annotations
 
 from typing import Final
 
+from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.model.trajectory.validation_result import ValidationResult
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.kinematics.ikinematics_service import IKinematicsService
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -77,12 +79,16 @@ class WaypointValidator:
             :param point: Target Waypoint to validate.
             :return: ValidationResult with pass/fail and descriptive reason.
         '''
-        in_workspace, ws_msg = self._kinematics.is_in_workspace(point.x, point.y, point.z)
+        in_workspace, ws_msg = self._kinematics.is_in_workspace(
+            point=Point3D(x=point.x, y=point.y, z=point.z)
+        )
 
         if not in_workspace:
             return ValidationResult(is_valid=False, message=ws_msg, error_index=-1)
 
-        is_reachable, reasons = self._kinematics.is_joint_reachable(point.x, point.y)
+        is_reachable, reasons = self._kinematics.is_joint_reachable(
+            point=Point2D(x=point.x, y=point.y)
+        )
 
         if not is_reachable:
             if reasons and 'Mathematically unreachable' in reasons[0]:
@@ -91,6 +97,7 @@ class WaypointValidator:
                     message=f'Point ({point.x:.1f}, {point.y:.1f}) is kinematically unreachable',
                     error_index=-1,
                 )
+
             reason_str: str = ', '.join(reasons) if reasons else 'Joint limits exceeded'
 
             return ValidationResult(

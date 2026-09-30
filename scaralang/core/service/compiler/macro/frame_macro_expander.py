@@ -26,12 +26,13 @@ from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.dsl.macro.work_frame import WorkFrame
+from scaralang.core.model.kinematics.point_2d import Point2D
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,7 +48,7 @@ class FrameMacroExpander:
                 | None.
             :methods:
                 | can_expand - Checks if instruction is FRAME_SET or FRAME_RESET.
-                | expand - Updates active frame in compiler context and emits marker comment.
+                | expand - Updates active frame in compiler context.
     '''
 
     def can_expand(self, *, instruction: ScaraInstruction) -> bool:
@@ -73,18 +74,26 @@ class FrameMacroExpander:
 
             :param instruction: Frame instruction node.
             :param context: Active compiler context.
-            :return: Tuple containing empty or informational comment instruction.
+            :return: Empty tuple since frame configuration mutates context only.
         '''
         if instruction.command_type == ScaraCommandType.FRAME_RESET:
-            context.active_frame = WorkFrame(x=0.0, y=0.0, angle_deg=0.0)
+            context.active_frame = WorkFrame(
+                origin=Point2D(x=0.0, y=0.0), angle_deg=0.0
+            )
         else:
             params = instruction.parameters
-            raw_angle = params.get(
-                InstructionParam.ANGLE, params.get(InstructionParam.RZ, 0.0)
-            )
+            raw_angle = params.get(InstructionParam.ANGLE)
+
+            if raw_angle is None:
+                raw_angle = params.get(InstructionParam.RZ, 0.0)
+
+            raw_x = params.get(InstructionParam.X, 0.0)
+            raw_y = params.get(InstructionParam.Y, 0.0)
             context.active_frame = WorkFrame(
-                x=float(params.get(InstructionParam.X, 0.0)),
-                y=float(params.get(InstructionParam.Y, 0.0)),
+                origin=Point2D(
+                    x=float(raw_x),
+                    y=float(raw_y),
+                ),
                 angle_deg=float(raw_angle),
             )
 

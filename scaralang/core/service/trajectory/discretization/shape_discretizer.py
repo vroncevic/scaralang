@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from math import cos, pi, sin
 
+from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.circle_geometry import CircleGeometry
 from scaralang.core.model.trajectory.waypoint import Waypoint
 
@@ -30,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -67,8 +68,8 @@ class ShapeDiscretizer:
 
     def discretize_line(
         self,
-        p1: tuple[float, float],
-        p2: tuple[float, float],
+        p1: Point2D,
+        p2: Point2D,
         *,
         z: float,
         speed: float,
@@ -76,16 +77,16 @@ class ShapeDiscretizer:
         '''
             Generates start and end waypoints of straight linear segment.
 
-            :param p1: Start coordinate (x, y) tuple in mm.
-            :param p2: End coordinate (x, y) tuple in mm.
+            :param p1: Start coordinate Point2D in mm.
+            :param p2: End coordinate Point2D in mm.
             :param z: Z vertical height coordinate in mm.
             :param speed: Feedrate speed in mm/s.
             :return: List of Waypoint instances.
             :exceptions: None.
         '''
         return [
-            Waypoint(x=p1[0], y=p1[1], z=z, speed=speed),
-            Waypoint(x=p2[0], y=p2[1], z=z, speed=speed),
+            Waypoint(x=p1.x, y=p1.y, z=z, speed=speed),
+            Waypoint(x=p2.x, y=p2.y, z=z, speed=speed),
         ]
 
     def discretize_circle(
@@ -109,16 +110,16 @@ class ShapeDiscretizer:
 
         for i in range(steps + 1):
             angle: float = 2.0 * pi * (i / steps)
-            px: float = center[0] + radius * cos(angle)
-            py: float = center[1] + radius * sin(angle)
+            px: float = center.x + radius * cos(angle)
+            py: float = center.y + radius * sin(angle)
             pts.append(Waypoint(x=px, y=py, z=z, speed=speed))
 
         return pts
 
     def discretize_rectangle(
         self,
-        p1: tuple[float, float],
-        p2: tuple[float, float],
+        p1: Point2D,
+        p2: Point2D,
         *,
         z: float,
         speed: float,
@@ -126,17 +127,17 @@ class ShapeDiscretizer:
         '''
             Generates corner waypoints of closed rectangular boundary.
 
-            :param p1: Initial corner coordinate (x, y) tuple in mm.
-            :param p2: Opposite corner coordinate (x, y) tuple in mm.
+            :param p1: Initial corner coordinate Point2D in mm.
+            :param p2: Opposite corner coordinate Point2D in mm.
             :param z: Z vertical height coordinate in mm.
             :param speed: Feedrate speed in mm/s.
             :return: List of Waypoint instances.
             :exceptions: None.
         '''
         return [
-            Waypoint(x=p1[0], y=p1[1], z=z, speed=speed),
-            Waypoint(x=p2[0], y=p1[1], z=z, speed=speed),
-            Waypoint(x=p2[0], y=p2[1], z=z, speed=speed),
-            Waypoint(x=p1[0], y=p2[1], z=z, speed=speed),
-            Waypoint(x=p1[0], y=p1[1], z=z, speed=speed),
+            Waypoint(x=p1.x, y=p1.y, z=z, speed=speed),
+            Waypoint(x=p2.x, y=p1.y, z=z, speed=speed),
+            Waypoint(x=p2.x, y=p2.y, z=z, speed=speed),
+            Waypoint(x=p1.x, y=p2.y, z=z, speed=speed),
+            Waypoint(x=p1.x, y=p1.y, z=z, speed=speed),
         ]

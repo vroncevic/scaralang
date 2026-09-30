@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -149,9 +149,9 @@ class MotorConfigParser:
 
         try:
             interface_type: MotorInterfaceType = MotorConfigFactory.resolve_interface_type(
-                mode=drive_mode,
-                raw_interface=raw_iface,
+                mode=drive_mode, raw_interface=raw_iface,
             )
+
         except ValueError as exc:
             raise ValueError(
                 f'Invalid motor interface {raw_iface!r} at line {line_num}. '
@@ -170,7 +170,6 @@ class MotorConfigParser:
             raw_text=raw_text,
             parameters={
                 InstructionParam.MODE: motor_config.mode.value,
-                InstructionParam.MOTOR_MODE: motor_config.mode.value,
                 InstructionParam.INTERFACE: motor_config.interface_type.value,
                 InstructionParam.AXIS_MASK: motor_config.axis_mask.value,
             },

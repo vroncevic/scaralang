@@ -21,29 +21,55 @@ Info
 
 from __future__ import annotations
 
-from unittest import TestCase
-from unittest import main
+from struct import pack
+from unittest import TestCase, main
 
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.infrastructure.command.compile.inspection.framing.hex_stream_formatter import HexStreamFormatter
-from scaralang.infrastructure.command.compile.inspection.payload.ipayload_dispatcher_formatter import IPayloadDispatcherFormatter
-from scaralang.infrastructure.command.compile.inspection.payload.joint_steps_payload_formatter import JointStepsPayloadFormatter
-from scaralang.infrastructure.command.compile.inspection.payload.payload_dispatcher_formatter import PayloadDispatcherFormatter
-from scaralang.infrastructure.command.compile.inspection.payload.tool_command_payload_formatter import ToolCommandPayloadFormatter
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker import BinaryPayloadUnpacker
+from scaralang.infrastructure.command.compile.inspection.payload.ipayload_dispatcher_formatter import (
+    IPayloadDispatcherFormatter,
+)
+from scaralang.infrastructure.command.compile.inspection.payload.joint_steps_payload_formatter import (
+    JointStepsPayloadFormatter,
+)
+from scaralang.infrastructure.command.compile.inspection.payload.payload_dispatcher_formatter import (
+    PayloadDispatcherFormatter,
+)
+from scaralang.infrastructure.command.compile.inspection.payload.tool_command_payload_formatter import (
+    ToolCommandPayloadFormatter,
+)
+from scaralang.infrastructure.communication.protocol.binary.binary_struct_format import (
+    BinaryStructFormat,
+)
+from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker import (
+    BinaryPayloadUnpacker,
+)
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 class TestPayloadDispatcherFormatter(TestCase):
-    '''Test suite verifying PayloadDispatcherFormatter routing.'''
+    '''
+        Test suite verifying PayloadDispatcherFormatter routing.
+
+        It defines:
+
+            :methods:
+                | setUp - Initializes dispatcher and collaborator fixtures.
+                | test_implements_protocol - Verifies structural protocol compliance.
+                | test_format_payload_empty - Verifies empty payload formatting.
+                | test_format_payload_generic_hex - Verifies generic hex payload dump.
+                | test_format_payload_tool - Verifies tool payload dispatch.
+                | test_format_payload_joint_steps - Verifies joint steps payload dispatch.
+                | test_format_payload_motor_config - Verifies motor config payload dispatch.
+    '''
 
     def setUp(self) -> None:
         '''Initializes dispatcher and collaborator fixtures.'''
@@ -82,6 +108,24 @@ class TestPayloadDispatcherFormatter(TestCase):
             payload=bytes([0, 1]),
         )
         self.assertIn('Tool=PUMP', result)
+
+    def test_format_payload_joint_steps(self) -> None:
+        '''Verifies joint steps payload dispatch.'''
+        raw_steps = pack(str(BinaryStructFormat.JOINT_STEPS), 100, -200, 300, 400, 50000, 100)
+        result: str = self.dispatcher.format_payload(
+            msg_id=MessageId.CMD_MOVE_JOINT_STEPS,
+            payload=raw_steps,
+        )
+        self.assertIn('J1=+100 steps', result)
+
+    def test_format_payload_motor_config(self) -> None:
+        '''Verifies motor config payload dispatch.'''
+        raw_motor = pack(str(BinaryStructFormat.CONFIG_MOTOR), 1, 0x0F)
+        result: str = self.dispatcher.format_payload(
+            msg_id=MessageId.CMD_CONFIG_MOTOR,
+            payload=raw_motor,
+        )
+        self.assertIn('Motor Mode', result)
 
 
 if __name__ == '__main__':

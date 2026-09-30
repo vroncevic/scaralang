@@ -23,11 +23,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from scaralang.core.model.kinematics.point_2d import Point2D
+
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,21 +43,15 @@ class ArcGeometry:
         It defines:
 
             :attributes:
-                | start_x - Starting arc X Cartesian coordinate.
-                | start_y - Starting arc Y Cartesian coordinate.
-                | target_x - Destination arc X Cartesian coordinate.
-                | target_y - Destination arc Y Cartesian coordinate.
-                | offset_i - Arc center X offset relative to start position.
-                | offset_j - Arc center Y offset relative to start position.
+                | start - Starting arc Cartesian Point2D coordinate.
+                | target - Destination arc Cartesian Point2D coordinate.
+                | offset - Arc center Point2D offset relative to start position.
                 | is_clockwise - True for clockwise arc (ARC_CW), False for counter-clockwise.
                 | step_angle_deg - Angular discretization step size in degrees.
     '''
 
-    start_x: float
-    start_y: float
-    target_x: float
-    target_y: float
-    offset_i: float
-    offset_j: float
+    start: Point2D
+    target: Point2D
+    offset: Point2D
     is_clockwise: bool
     step_angle_deg: float = 5.0

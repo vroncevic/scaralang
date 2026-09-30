@@ -22,7 +22,9 @@ Info
 from __future__ import annotations
 
 from math import radians
+from typing import Final
 
+from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.kinematics.ikinematics_service import IKinematicsService
@@ -32,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -70,8 +72,8 @@ class StepDiscretizer:
             :param transmission: Injected IJointStepTransmissionConverter instance.
             :exceptions: None.
         '''
-        self._kinematics = kinematics
-        self._transmission = transmission
+        self._kinematics: Final[IKinematicsService] = kinematics
+        self._transmission: Final[IJointStepTransmissionConverter] = transmission
 
     def angles_to_steps(
         self,
@@ -108,7 +110,8 @@ class StepDiscretizer:
             :exceptions: ValueError if position is unreachable.
         '''
         ik_sol: tuple[float, float] | None = self._kinematics.solve_ik(
-            waypoint.x, waypoint.y, elbow_left=False
+            point=Point2D(x=waypoint.x, y=waypoint.y),
+            elbow_left=False,
         )
 
         if ik_sol is None:

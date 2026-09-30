@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from os.path import exists
+from typing import Final
 
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -75,9 +76,9 @@ class CompileCommandExecutor:
             :param telemetry_formatter: Injected binary telemetry formatter.
             :exceptions: None.
         '''
-        self.definition = definition
-        self._inspection_presenter = inspection_presenter
-        self._telemetry_formatter = telemetry_formatter
+        self.definition: Final[ICommandDefinition] = definition
+        self._inspection_presenter: Final[IProgramInspectionPresenter] = inspection_presenter
+        self._telemetry_formatter: Final[ICompileTelemetryFormatter] = telemetry_formatter
 
     def execute(
         self,

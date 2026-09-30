@@ -23,6 +23,7 @@ Info
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import Final
 
 from scaralang.core.model.dsl.ast.program import ScaraProgram
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
@@ -34,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,6 +55,10 @@ class ScaraParser:
                 | parse_tokens - Parses a sequence of lexical tokens into an ScaraProgram.
     '''
 
+    _lexer: IScaraLexer
+    _line_splitter: ITokenLineSplitter
+    _line_parser: IInstructionLineParser
+
     def __init__(
         self,
         *,
@@ -69,9 +74,9 @@ class ScaraParser:
             :param line_parser: Injected IInstructionLineParser line parser.
             :exceptions: None.
         '''
-        self._lexer: IScaraLexer = lexer
-        self._line_splitter: ITokenLineSplitter = line_splitter
-        self._line_parser: IInstructionLineParser = line_parser
+        self._lexer: Final[IScaraLexer] = lexer
+        self._line_splitter: Final[ITokenLineSplitter] = line_splitter
+        self._line_parser: Final[IInstructionLineParser] = line_parser
 
     @property
     def name(self) -> str:

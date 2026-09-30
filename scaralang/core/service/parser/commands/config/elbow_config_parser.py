@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -103,6 +103,7 @@ class ElbowConfigParser:
             raise ValueError(
                 f'Unknown CONFIG property {sub!r} at line {line_num}'
             )
+
         val: str = tokens[2].value.upper()
 
         if val not in (ElbowConfig.LEFT, ElbowConfig.RIGHT):
@@ -114,5 +115,5 @@ class ElbowConfigParser:
             command_type=ScaraCommandType.CONFIG_ELBOW,
             line_number=line_num,
             raw_text=raw_text,
-            parameters={InstructionParam.ELBOW: val, 'elbow': val},
+            parameters={InstructionParam.ELBOW: val},
         )

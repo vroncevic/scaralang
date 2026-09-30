@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
@@ -37,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -73,8 +74,8 @@ class ArcPointCalculator:
             :param arc_interpolator: Injected IArcInterpolator instance.
             :exceptions: None.
         '''
-        self._frame_transformer = frame_transformer
-        self._arc_interpolator = arc_interpolator
+        self._frame_transformer: Final[IFrameTransformer] = frame_transformer
+        self._arc_interpolator: Final[IArcInterpolator] = arc_interpolator
 
     def calculate_points(
         self,
@@ -95,25 +96,22 @@ class ArcPointCalculator:
         target_x_raw: float = float(params.get(InstructionParam.X, context.current_x))
         target_y_raw: float = float(params.get(InstructionParam.Y, context.current_y))
 
-        end_x: float
-        end_y: float
-        end_x, end_y = self._frame_transformer.transform_point(
+        end_point: Point2D = self._frame_transformer.transform_point(
             frame=context.active_frame,
-            x=target_x_raw,
-            y=target_y_raw,
+            point=Point2D(x=target_x_raw, y=target_y_raw),
         )
 
         geometry: ArcGeometry = ArcGeometry(
-            start_x=context.current_x,
-            start_y=context.current_y,
-            target_x=end_x,
-            target_y=end_y,
-            offset_i=float(params.get(InstructionParam.I, 0.0)),
-            offset_j=float(params.get(InstructionParam.J, 0.0)),
+            start=Point2D(x=context.current_x, y=context.current_y),
+            target=end_point,
+            offset=Point2D(
+                x=float(params.get(InstructionParam.I, 0.0)),
+                y=float(params.get(InstructionParam.J, 0.0)),
+            ),
             is_clockwise=is_cw,
         )
         arc_points: tuple[ArcPoint, ...] = (
             self._arc_interpolator.interpolate(geometry=geometry)
         )
 
-        return (arc_points, Point2D(x=end_x, y=end_y))
+        return (arc_points, end_point)

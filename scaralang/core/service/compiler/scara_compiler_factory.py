@@ -26,9 +26,9 @@ from scaralang.core.service.compiler.instruction_pipeline_factory import Instruc
 from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
 from scaralang.core.service.compiler.macro.frame_macro_expander_factory import FrameMacroExpanderFactory
 from scaralang.core.service.compiler.macro.imacro_expander import IMacroExpander
+from scaralang.core.service.compiler.macro.itangent_macro_expander import ITangentMacroExpander
 from scaralang.core.service.compiler.macro.jump_macro_expander_factory import JumpMacroExpanderFactory
 from scaralang.core.service.compiler.macro.pallet_macro_expander_factory import PalletMacroExpanderFactory
-from scaralang.core.service.compiler.macro.tangent_macro_expander import TangentMacroExpander
 from scaralang.core.service.compiler.macro.tangent_macro_expander_factory import TangentMacroExpanderFactory
 from scaralang.core.service.compiler.motion.arc.interpolation.arc_interpolator_factory import ArcInterpolatorFactory
 from scaralang.core.service.compiler.motion.motion_command_compiler_factory import MotionCommandCompilerFactory
@@ -45,7 +45,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -76,7 +76,7 @@ class ScaraCompilerFactory:
             :return: IScaraCompiler structural protocol instance.
             :exceptions: None.
         '''
-        active_tangent: TangentMacroExpander = TangentMacroExpanderFactory.create()
+        active_tangent: ITangentMacroExpander = TangentMacroExpanderFactory.create()
         active_motion = MotionCommandCompilerFactory.create_with_helpers(
             tangent_helper=active_tangent,
             arc_interpolator=ArcInterpolatorFactory.create(),

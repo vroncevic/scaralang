@@ -59,9 +59,9 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">runtime_checkable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
 
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.circle_geometry</span> <span class="kn">import</span> <span class="n">CircleGeometry</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
 
@@ -69,7 +69,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.1&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -104,8 +104,8 @@
 <a class="viewcode-back" href="../../../../../../scaralang.core.service.trajectory.discretization.ishape_discretizer.html#scaralang.core.service.trajectory.discretization.ishape_discretizer.IShapeDiscretizer.discretize_line">[docs]</a>
     <span class="k">def</span> <span class="nf">discretize_line</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">p1</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-        <span class="n">p2</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">p1</span><span class="p">:</span> <span class="n">Point2D</span><span class="p">,</span>
+        <span class="n">p2</span><span class="p">:</span> <span class="n">Point2D</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">speed</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -113,8 +113,8 @@
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Generates start and end waypoints of straight linear segment.</span>
 
-<span class="sd">            :param p1: Start coordinate (x, y) tuple in mm.</span>
-<span class="sd">            :param p2: End coordinate (x, y) tuple in mm.</span>
+<span class="sd">            :param p1: Start coordinate Point2D in mm.</span>
+<span class="sd">            :param p2: End coordinate Point2D in mm.</span>
 <span class="sd">            :param z: Z vertical height coordinate in mm.</span>
 <span class="sd">            :param speed: Feedrate speed in mm/s.</span>
 <span class="sd">            :return: List of Waypoint instances.</span>
@@ -140,8 +140,8 @@
 <a class="viewcode-back" href="../../../../../../scaralang.core.service.trajectory.discretization.ishape_discretizer.html#scaralang.core.service.trajectory.discretization.ishape_discretizer.IShapeDiscretizer.discretize_rectangle">[docs]</a>
     <span class="k">def</span> <span class="nf">discretize_rectangle</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">p1</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-        <span class="n">p2</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">p1</span><span class="p">:</span> <span class="n">Point2D</span><span class="p">,</span>
+        <span class="n">p2</span><span class="p">:</span> <span class="n">Point2D</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">speed</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -149,8 +149,8 @@
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Generates corner waypoints of closed rectangular boundary.</span>
 
-<span class="sd">            :param p1: Initial corner coordinate (x, y) tuple in mm.</span>
-<span class="sd">            :param p2: Opposite corner coordinate (x, y) tuple in mm.</span>
+<span class="sd">            :param p1: Initial corner coordinate Point2D in mm.</span>
+<span class="sd">            :param p2: Opposite corner coordinate Point2D in mm.</span>
 <span class="sd">            :param z: Z vertical height coordinate in mm.</span>
 <span class="sd">            :param speed: Feedrate speed in mm/s.</span>
 <span class="sd">            :return: List of Waypoint instances.</span>

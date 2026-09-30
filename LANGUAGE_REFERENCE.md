@@ -1,6 +1,6 @@
 # SCARA Domain-Specific Language (DSL) Specification & Reference Manual
 
-**Version:** 1.0.1  
+**Version:** 1.0.2  
 **Target:** Industrial SCARA Robotic Manipulators  
 **Toolchain:** `scaralang` (`scarac` compiler & binary protocol engine)  
 **Author:** Vladimir Roncevic  
@@ -316,10 +316,10 @@ The quintessential robotic pick-and-place command. Expands into a smooth, time-o
 
 Eliminates discrete corner stops and optimizes cycle times.
 
-- **Syntax:** `JUMP X <x> Y <y> Z <z> [ARCH <h>]`
+- **Syntax:** `JUMP X <x> Y <y> Z <z> [ARCH <h> | ARCH_HEIGHT <h>]`
 - **Parameters:**
   - `X`, `Y`, `Z`: *float (mm)* — Destination coordinates.
-  - `ARCH`: *float (mm, optional)* — Height of arch apex above the higher of source or target Z (default: 25.0 mm).
+  - `ARCH` / `ARCH_HEIGHT`: *float (mm, optional)* — Height of arch apex above the higher of source or target Z (default: 25.0 mm).
 - **Example:**
   ```scara
   JUMP X 220.0 Y 45.0 Z 10.0 ARCH 35.0

@@ -23,7 +23,7 @@ from __future__ import annotations
 
 from scaralang.core.service.compiler.frame.frame_transformer_factory import FrameTransformerFactory
 from scaralang.core.service.compiler.frame.iframe_transformer import IFrameTransformer
-from scaralang.core.service.compiler.macro.tangent_macro_expander import TangentMacroExpander
+from scaralang.core.service.compiler.macro.itangent_macro_expander import ITangentMacroExpander
 from scaralang.core.service.compiler.macro.tangent_macro_expander_factory import TangentMacroExpanderFactory
 from scaralang.core.service.compiler.motion.cartesian.cartesian_move_compiler import CartesianMoveCompiler
 from scaralang.core.service.compiler.motion.imotion_sub_compiler import IMotionSubCompiler
@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -68,12 +68,12 @@ class CartesianMoveCompilerFactory:
     def create_with_tangent_helper(
         cls,
         *,
-        tangent_helper: TangentMacroExpander,
+        tangent_helper: ITangentMacroExpander,
     ) -> IMotionSubCompiler:
         '''
             Creates CartesianMoveCompiler instance with injected tangent helper.
 
-            :param tangent_helper: Injected TangentMacroExpander instance.
+            :param tangent_helper: Injected ITangentMacroExpander instance.
             :return: Configured IMotionSubCompiler instance.
             :exceptions: None.
         '''
@@ -86,13 +86,13 @@ class CartesianMoveCompilerFactory:
     def create_with_collaborators(
         cls,
         *,
-        tangent_helper: TangentMacroExpander,
+        tangent_helper: ITangentMacroExpander,
         frame_transformer: IFrameTransformer,
     ) -> IMotionSubCompiler:
         '''
             Creates CartesianMoveCompiler instance with all injected collaborators.
 
-            :param tangent_helper: Injected TangentMacroExpander instance.
+            :param tangent_helper: Injected ITangentMacroExpander instance.
             :param frame_transformer: Injected IFrameTransformer instance.
             :return: Configured IMotionSubCompiler instance.
             :exceptions: None.

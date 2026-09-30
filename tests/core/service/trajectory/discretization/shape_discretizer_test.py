@@ -24,6 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.circle_geometry import CircleGeometry
 from scaralang.core.service.trajectory.discretization.ishape_discretizer import IShapeDiscretizer
 from scaralang.core.service.trajectory.discretization.shape_discretizer_factory import ShapeDiscretizerFactory
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,8 +60,8 @@ class TestShapeDiscretizer(TestCase):
     def test_discretize_line(self) -> None:
         '''Verify linear segment discretization.'''
         pts = self.discretizer.discretize_line(
-            (0.0, 0.0),
-            (100.0, 100.0),
+            Point2D(x=0.0, y=0.0),
+            Point2D(x=100.0, y=100.0),
             z=10.0,
             speed=50.0,
         )
@@ -73,7 +74,7 @@ class TestShapeDiscretizer(TestCase):
     def test_discretize_circle(self) -> None:
         '''Verify circle boundary discretization.'''
         geom = CircleGeometry(
-            center=(50.0, 50.0),
+            center=Point2D(x=50.0, y=50.0),
             radius=20.0,
             steps=8,
             z=5.0,
@@ -88,8 +89,8 @@ class TestShapeDiscretizer(TestCase):
     def test_discretize_rectangle(self) -> None:
         '''Verify rectangular boundary discretization.'''
         pts = self.discretizer.discretize_rectangle(
-            (0.0, 0.0),
-            (80.0, 40.0),
+            Point2D(x=0.0, y=0.0),
+            Point2D(x=80.0, y=40.0),
             z=12.0,
             speed=45.0,
         )

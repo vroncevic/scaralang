@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from collections.abc import Mapping
+from typing import Final
 
 from ats_utilities.option.imanager import IOptionManager
 from ats_utilities.exceptions import ATSValueError, ATSTypeError
@@ -37,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,9 +75,11 @@ class CLI:
                 | ATSTypeError:  If bundle attributes have invalid types.
         '''
         CLIBundleValidator.validate(bundle)
-        self._service = bundle.service
-        self._parser = bundle.parser
-        self._executors = {pair.definition.name: pair.executor for pair in bundle.commands}
+        self._service: Final[IScaraDslService] = bundle.service
+        self._parser: Final[IOptionManager] = bundle.parser
+        self._executors: Final[
+            Mapping[str, ICommandExecutor[ICommandDefinition, object, object, object]]
+        ] = {pair.definition.name: pair.executor for pair in bundle.commands}
         self._parser.register_commands([pair.definition for pair in bundle.commands])
 
     def run(self) -> Mapping[str, object]:

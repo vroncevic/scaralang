@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.exporter.export_format import ExportFormat
 from scaralang.core.service.exporter.export_dispatcher_bundle import ExportDispatcherBundle
 from scaralang.core.service.exporter.csv.icsv_trajectory_exporter import ICsvTrajectoryExporter
@@ -34,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -71,11 +73,11 @@ class ExportTargetDispatcher:
             :param bundle: Injected ExportDispatcherBundle protocol container.
             :exceptions: None.
         '''
-        self._gcode_exporter = bundle.gcode_exporter
-        self._csv_exporter = bundle.csv_exporter
-        self._json_exporter = bundle.json_exporter
-        self._svg_exporter = bundle.svg_exporter
-        self._scara_exporter = bundle.scara_exporter
+        self._gcode_exporter: Final[IGCodeExporter] = bundle.gcode_exporter
+        self._csv_exporter: Final[ICsvTrajectoryExporter] = bundle.csv_exporter
+        self._json_exporter: Final[IJsonTrajectoryExporter] = bundle.json_exporter
+        self._svg_exporter: Final[ISvgTrajectoryExporter] = bundle.svg_exporter
+        self._scara_exporter: Final[IScaraPlanExporter] = bundle.scara_exporter
 
     def supported_formats(self) -> tuple[ExportFormat, ...]:
         '''

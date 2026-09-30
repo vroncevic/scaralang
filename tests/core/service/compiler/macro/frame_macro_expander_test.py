@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -115,8 +115,8 @@ class TestFrameMacroExpander(TestCase):
         )
         result = self.expander.expand(instruction=inst, context=context)
         self.assertEqual(result, ())
-        self.assertEqual(context.active_frame.x, 100.0)
-        self.assertEqual(context.active_frame.y, 50.0)
+        self.assertEqual(context.active_frame.origin.x, 100.0)
+        self.assertEqual(context.active_frame.origin.y, 50.0)
         self.assertEqual(context.active_frame.angle_deg, 30.0)
 
     def test_expand_frame_set_with_rz(self) -> None:
@@ -136,8 +136,8 @@ class TestFrameMacroExpander(TestCase):
         )
         result = self.expander.expand(instruction=inst, context=context)
         self.assertEqual(result, ())
-        self.assertEqual(context.active_frame.x, 75.0)
-        self.assertEqual(context.active_frame.y, 25.0)
+        self.assertEqual(context.active_frame.origin.x, 75.0)
+        self.assertEqual(context.active_frame.origin.y, 25.0)
         self.assertEqual(context.active_frame.angle_deg, -15.0)
 
     def test_expand_frame_reset(self) -> None:
@@ -156,7 +156,7 @@ class TestFrameMacroExpander(TestCase):
             raw_text='FRAME_SET X=100.0 Y=50.0 ANGLE=30.0',
         )
         self.expander.expand(instruction=inst_set, context=context)
-        self.assertNotEqual(context.active_frame.x, 0.0)
+        self.assertNotEqual(context.active_frame.origin.x, 0.0)
 
         inst_reset = ScaraInstruction(
             command_type=ScaraCommandType.FRAME_RESET,
@@ -166,8 +166,8 @@ class TestFrameMacroExpander(TestCase):
         )
         result = self.expander.expand(instruction=inst_reset, context=context)
         self.assertEqual(result, ())
-        self.assertEqual(context.active_frame.x, 0.0)
-        self.assertEqual(context.active_frame.y, 0.0)
+        self.assertEqual(context.active_frame.origin.x, 0.0)
+        self.assertEqual(context.active_frame.origin.y, 0.0)
         self.assertEqual(context.active_frame.angle_deg, 0.0)
 
 

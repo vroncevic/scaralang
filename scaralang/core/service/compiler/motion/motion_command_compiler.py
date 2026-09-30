@@ -22,6 +22,8 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
@@ -32,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -86,9 +88,9 @@ class MotionCommandCompiler:
             :param arc_compiler: Injected sub-compiler for circular arcs.
             :exceptions: None.
         '''
-        self._cartesian_compiler = cartesian_compiler
-        self._vertical_compiler = vertical_compiler
-        self._arc_compiler = arc_compiler
+        self._cartesian_compiler: Final[IMotionSubCompiler] = cartesian_compiler
+        self._vertical_compiler: Final[IMotionSubCompiler] = vertical_compiler
+        self._arc_compiler: Final[IMotionSubCompiler] = arc_compiler
 
     def can_compile(self, *, instruction: ScaraInstruction) -> bool:
         '''
@@ -119,14 +121,17 @@ class MotionCommandCompiler:
                 instruction=instruction,
                 context=context,
             )
+
         if self._vertical_compiler.can_compile(instruction=instruction):
             return self._vertical_compiler.compile(
                 instruction=instruction,
                 context=context,
             )
+
         if self._arc_compiler.can_compile(instruction=instruction):
             return self._arc_compiler.compile(
                 instruction=instruction,
                 context=context,
             )
+
         return ()

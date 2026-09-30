@@ -29,12 +29,13 @@ from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompil
 from scaralang.core.model.dsl.macro.pallet_definition import PalletDefinition
 from scaralang.core.model.dsl.macro.work_frame import WorkFrame
 from scaralang.core.model.kinematics.elbow_config import ElbowConfig
+from scaralang.core.model.kinematics.point_2d import Point2D
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -64,8 +65,8 @@ class ScaraCompilerContextTest(TestCase):
         self.assertAlmostEqual(context.zone_radius, 0.0)
         self.assertAlmostEqual(context.speed_override_pct, 100.0)
         self.assertEqual(len(context.pallets), 0)
-        self.assertAlmostEqual(context.active_frame.x, 0.0)
-        self.assertAlmostEqual(context.active_frame.y, 0.0)
+        self.assertAlmostEqual(context.active_frame.origin.x, 0.0)
+        self.assertAlmostEqual(context.active_frame.origin.y, 0.0)
         self.assertAlmostEqual(context.active_frame.angle_deg, 0.0)
 
     def test_active_frame_storage(self) -> None:
@@ -73,10 +74,12 @@ class ScaraCompilerContextTest(TestCase):
             Verifies active_frame state storage in compiler context.
         '''
         context = ScaraCompilerContext()
-        context.active_frame = WorkFrame(x=100.0, y=50.0, angle_deg=90.0)
+        context.active_frame = WorkFrame(
+            origin=Point2D(x=100.0, y=50.0), angle_deg=90.0
+        )
 
-        self.assertAlmostEqual(context.active_frame.x, 100.0)
-        self.assertAlmostEqual(context.active_frame.y, 50.0)
+        self.assertAlmostEqual(context.active_frame.origin.x, 100.0)
+        self.assertAlmostEqual(context.active_frame.origin.y, 50.0)
         self.assertAlmostEqual(context.active_frame.angle_deg, 90.0)
 
     def test_pallet_registration_and_retrieval(self) -> None:
@@ -90,8 +93,7 @@ class ScaraCompilerContextTest(TestCase):
             cols=2,
             dx=10.0,
             dy=10.0,
-            start_x=50.0,
-            start_y=60.0,
+            start=Point2D(x=50.0, y=60.0),
         )
         context.pallets[pallet.name] = pallet
         self.assertIn('TRAY', context.pallets)

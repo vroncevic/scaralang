@@ -26,6 +26,7 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.arc_point import ArcPoint
 from scaralang.core.service.compiler.motion.arc.builder.arc_waypoint_builder import ArcWaypointBuilder
 from scaralang.core.service.compiler.motion.arc.builder.iarc_waypoint_builder import IArcWaypointBuilder
@@ -34,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -78,8 +79,8 @@ class TestArcWaypointBuilder(TestCase):
             Verifies that waypoints inherit current_phi when in fixed orientation mode.
         '''
         arc_points = (
-            ArcPoint(x=10.0, y=20.0, heading_deg=90.0),
-            ArcPoint(x=30.0, y=40.0, heading_deg=180.0),
+            ArcPoint(point=Point2D(x=10.0, y=20.0), heading_deg=90.0),
+            ArcPoint(point=Point2D(x=30.0, y=40.0), heading_deg=180.0),
         )
         waypoints = self.builder.build_waypoints(
             arc_points=arc_points,
@@ -100,8 +101,8 @@ class TestArcWaypointBuilder(TestCase):
         '''
         self.context.tool_orient_mode = ToolOrientMode.TANGENTIAL
         arc_points = (
-            ArcPoint(x=10.0, y=20.0, heading_deg=90.0),
-            ArcPoint(x=30.0, y=40.0, heading_deg=180.0),
+            ArcPoint(point=Point2D(x=10.0, y=20.0), heading_deg=90.0),
+            ArcPoint(point=Point2D(x=30.0, y=40.0), heading_deg=180.0),
         )
         waypoints = self.builder.build_waypoints(
             arc_points=arc_points,
