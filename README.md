@@ -1650,18 +1650,10 @@ scarac repl --endpoint dry-run
 ##### Python Library API
 
 ```python
-from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import (
-    ScaraDslCompilerFactory,
-)
-from scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory import (
-    ScaraDslBinaryCompilerFactory,
-)
-from scaralang.core.service.linter.script.scara_script_validator_factory import (
-    ScaraScriptValidatorFactory,
-)
-from scaralang.core.service.decompiler.scara_decompiler_factory import (
-    ScaraDecompilerFactory,
-)
+from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
+from scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory import ScaraDslBinaryCompilerFactory
+from scaralang.core.service.linter.script.scara_script_validator_factory import ScaraScriptValidatorFactory
+from scaralang.core.service.decompiler.scara_decompiler_factory import ScaraDecompilerFactory
 
 # Initialize fine-grained role services via their factories
 validator = ScaraScriptValidatorFactory.create_default()

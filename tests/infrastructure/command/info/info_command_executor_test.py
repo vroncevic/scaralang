@@ -25,9 +25,7 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.service.info.itoolchain_info_provider import IToolchainInfoProvider
-from scaralang.core.service.info.toolchain_info_provider_factory import (
-    ToolchainInfoProviderFactory,
-)
+from scaralang.core.service.info.toolchain_info_provider_factory import ToolchainInfoProviderFactory
 from scaralang.infrastructure.command.info.info_command_definition import InfoCommandDefinition
 from scaralang.infrastructure.command.info.info_command_executor import InfoCommandExecutor
 

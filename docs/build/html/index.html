@@ -4070,18 +4070,10 @@ scarac<span class="w"> </span>repl<span class="w"> </span>--endpoint<span class=
 </section>
 <section id="python-library-api">
 <h3>Python Library API<a class="headerlink" href="#python-library-api" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ScaraDslCompilerFactory</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ScaraDslBinaryCompilerFactory</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.linter.script.scara_script_validator_factory</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ScaraScriptValidatorFactory</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.decompiler.scara_decompiler_factory</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ScaraDecompilerFactory</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraDslCompilerFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraDslBinaryCompilerFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.linter.script.scara_script_validator_factory</span> <span class="kn">import</span> <span class="n">ScaraScriptValidatorFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.decompiler.scara_decompiler_factory</span> <span class="kn">import</span> <span class="n">ScaraDecompilerFactory</span>
 
 <span class="c1"># Initialize fine-grained role services via their factories</span>
 <span class="n">validator</span> <span class="o">=</span> <span class="n">ScaraScriptValidatorFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
