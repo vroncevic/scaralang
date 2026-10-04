@@ -131,6 +131,7 @@ Tool structure
          │   │   │   │   ├── tool_position.py
          │   │   │   │   └── zone_mode.py
          │   │   │   ├── binary/
+         │   │   │   │   ├── axis_peak_steps.py
          │   │   │   │   ├── binary_program_telemetry.py
          │   │   │   │   ├── disassembled_frame.py
          │   │   │   │   ├── disassembly_summary.py
@@ -140,6 +141,9 @@ Tool structure
          │   │   │   │   └── step.py
          │   │   │   ├── compiler/
          │   │   │   │   ├── arc_geometry.py
+         │   │   │   │   ├── compiler_blend_state.py
+         │   │   │   │   ├── compiler_pose_state.py
+         │   │   │   │   ├── compiler_speed_state.py
          │   │   │   │   ├── control_waypoint_descriptor.py
          │   │   │   │   ├── __init__.py
          │   │   │   │   └── scara_compiler_context.py
@@ -154,6 +158,7 @@ Tool structure
          │   │   │   ├── __init__.py
          │   │   │   ├── linter/
          │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── lint_tool_state.py
          │   │   │   │   └── scara_lint_context.py
          │   │   │   ├── macro/
          │   │   │   │   ├── __init__.py
@@ -168,15 +173,21 @@ Tool structure
          │   │   ├── kinematics/
          │   │   │   ├── elbow_config.py
          │   │   │   ├── __init__.py
+         │   │   │   ├── joint_angle_bounds.py
+         │   │   │   ├── link_dimensions.py
          │   │   │   ├── point_2d.py
          │   │   │   ├── point_3d.py
          │   │   │   ├── scara_bounds.py
-         │   │   │   └── transmission_parameters.py
+         │   │   │   ├── singularity_margins.py
+         │   │   │   ├── speed_limits.py
+         │   │   │   ├── transmission_parameters.py
+         │   │   │   └── vertical_bounds.py
          │   │   ├── motor/
          │   │   │   ├── axis_mask.py
          │   │   │   ├── __init__.py
          │   │   │   ├── motor_config.py
          │   │   │   ├── motor_drive_mode.py
+         │   │   │   ├── motor_drive_mode_alias.py
          │   │   │   └── motor_interface_type.py
          │   │   ├── protocol/
          │   │   │   ├── binary_delimiter.py
@@ -190,6 +201,7 @@ Tool structure
          │   │   ├── repl/
          │   │   │   ├── __init__.py
          │   │   │   ├── repl_dispatch_result.py
+         │   │   │   ├── repl_pose_state.py
          │   │   │   └── repl_session_context.py
          │   │   └── trajectory/
          │   │       ├── arc_point.py
@@ -245,11 +257,14 @@ Tool structure
          │       │   │       ├── step_discretizer_factory.py
          │       │   │       ├── waypoint_step_dispatcher.py
          │       │   │       └── waypoint_step_dispatcher_factory.py
-         │       │   ├── frame/
-         │       │   │   ├── frame_transformer.py
-         │       │   │   ├── frame_transformer_factory.py
-         │       │   │   ├── iframe_transformer.py
-         │       │   │   └── __init__.py
+         │       │   ├── dsl/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── iscara_dsl_binary_compiler.py
+         │       │   │   ├── iscara_dsl_compiler.py
+         │       │   │   ├── scara_dsl_binary_compiler.py
+         │       │   │   ├── scara_dsl_binary_compiler_factory.py
+         │       │   │   ├── scara_dsl_compiler.py
+         │       │   │   └── scara_dsl_compiler_factory.py
          │       │   ├── iinstruction_pipeline.py
          │       │   ├── __init__.py
          │       │   ├── instruction_pipeline.py
@@ -325,6 +340,14 @@ Tool structure
          │       │   ├── primitive_instruction_processor_factory.py
          │       │   ├── scara_compiler.py
          │       │   └── scara_compiler_factory.py
+         │       ├── decompiler/
+         │       │   ├── frame_decompiler.py
+         │       │   ├── frame_decompiler_factory.py
+         │       │   ├── iframe_decompiler.py
+         │       │   ├── __init__.py
+         │       │   ├── iscara_decompiler.py
+         │       │   ├── scara_decompiler.py
+         │       │   └── scara_decompiler_factory.py
          │       ├── disassembler/
          │       │   ├── frame_detail_decoder.py
          │       │   ├── frame_detail_decoder_factory.py
@@ -333,37 +356,6 @@ Tool structure
          │       │   ├── iscara_disassembler.py
          │       │   ├── scara_disassembler.py
          │       │   └── scara_disassembler_factory.py
-         │       ├── dsl/
-         │       │   ├── binary/
-         │       │   │   ├── binary_service.py
-         │       │   │   ├── binary_service_factory.py
-         │       │   │   ├── ibinary_service.py
-         │       │   │   └── __init__.py
-         │       │   ├── compilation/
-         │       │   │   ├── __init__.py
-         │       │   │   ├── iscara_dsl_compiler.py
-         │       │   │   ├── scara_dsl_compiler.py
-         │       │   │   └── scara_dsl_compiler_factory.py
-         │       │   ├── __init__.py
-         │       │   ├── iscara_dsl_binary_compiler.py
-         │       │   ├── iscara_dsl_disassembler.py
-         │       │   ├── iscara_dsl_info_provider.py
-         │       │   ├── iscara_dsl_linter.py
-         │       │   ├── iscara_dsl_service.py
-         │       │   ├── iscara_dsl_validator.py
-         │       │   ├── scara_dsl_bundle.py
-         │       │   ├── scara_dsl_pipeline_bundle.py
-         │       │   ├── scara_dsl_service.py
-         │       │   ├── scara_dsl_service_factory.py
-         │       │   ├── toolchain/
-         │       │   │   ├── __init__.py
-         │       │   │   ├── itoolchain_info_provider.py
-         │       │   │   ├── toolchain_info_provider.py
-         │       │   │   └── toolchain_info_provider_factory.py
-         │       │   └── validation/
-         │       │       ├── __init__.py
-         │       │       ├── scara_script_validator.py
-         │       │       └── scara_script_validator_factory.py
          │       ├── exporter/
          │       │   ├── csv/
          │       │   │   ├── csv_trajectory_exporter.py
@@ -397,6 +389,11 @@ Tool structure
          │       │       ├── isvg_trajectory_exporter.py
          │       │       ├── svg_trajectory_exporter.py
          │       │       └── svg_trajectory_exporter_factory.py
+         │       ├── info/
+         │       │   ├── __init__.py
+         │       │   ├── itoolchain_info_provider.py
+         │       │   ├── toolchain_info_provider.py
+         │       │   └── toolchain_info_provider_factory.py
          │       ├── __init__.py
          │       ├── kinematics/
          │       │   ├── default_scara_profile.py
@@ -467,7 +464,13 @@ Tool structure
          │       │   │       ├── timing_lint_rule.py
          │       │   │       └── timing_lint_rule_factory.py
          │       │   ├── scara_linter.py
-         │       │   └── scara_linter_factory.py
+         │       │   ├── scara_linter_factory.py
+         │       │   └── script/
+         │       │       ├── __init__.py
+         │       │       ├── iscara_dsl_linter.py
+         │       │       ├── iscara_dsl_validator.py
+         │       │       ├── scara_script_validator.py
+         │       │       └── scara_script_validator_factory.py
          │       ├── motor/
          │       │   ├── __init__.py
          │       │   ├── motor_config_factory.py
@@ -554,64 +557,69 @@ Tool structure
          │       │   ├── ibinary_frame_parser.py
          │       │   ├── ibinary_payload_unpacker.py
          │       │   └── __init__.py
-         │       └── trajectory/
-         │           ├── discretization/
-         │           │   ├── __init__.py
-         │           │   ├── ishape_discretizer.py
-         │           │   ├── shape_discretizer.py
-         │           │   └── shape_discretizer_factory.py
-         │           ├── __init__.py
-         │           ├── metrics/
-         │           │   ├── bottleneck/
-         │           │   │   ├── imotion_bottleneck_detector.py
-         │           │   │   ├── __init__.py
-         │           │   │   ├── motion_bottleneck_detector.py
-         │           │   │   └── motion_bottleneck_detector_factory.py
-         │           │   ├── cycle/
-         │           │   │   ├── cycle_time_calculator.py
-         │           │   │   ├── cycle_time_calculator_factory.py
-         │           │   │   ├── icycle_time_calculator.py
-         │           │   │   └── __init__.py
-         │           │   ├── __init__.py
-         │           │   ├── profile/
-         │           │   │   ├── axis_speed_profile_analyzer.py
-         │           │   │   ├── axis_speed_profile_analyzer_factory.py
-         │           │   │   ├── iaxis_speed_profile_analyzer.py
-         │           │   │   └── __init__.py
-         │           │   ├── summary/
-         │           │   │   ├── __init__.py
-         │           │   │   ├── itrajectory_cycle_summary_builder.py
-         │           │   │   ├── trajectory_cycle_summary_builder.py
-         │           │   │   └── trajectory_cycle_summary_builder_factory.py
-         │           │   └── trajectory_metrics.py
-         │           ├── plan/
-         │           │   ├── __init__.py
-         │           │   ├── itrajectory_mutable.py
-         │           │   ├── itrajectory_plan.py
-         │           │   ├── itrajectory_plan_factory.py
-         │           │   ├── itrajectory_read_only.py
-         │           │   ├── trajectory_plan.py
-         │           │   └── trajectory_plan_factory.py
-         │           └── validation/
-         │               ├── feedrate/
-         │               │   ├── feedrate_validator.py
-         │               │   ├── feedrate_validator_factory.py
-         │               │   ├── ifeedrate_validator.py
-         │               │   └── __init__.py
-         │               ├── __init__.py
-         │               ├── itrajectory_validator.py
-         │               ├── plan/
-         │               │   ├── __init__.py
-         │               │   ├── itrajectory_plan_validator.py
-         │               │   ├── trajectory_plan_validator.py
-         │               │   └── trajectory_plan_validator_factory.py
-         │               ├── trajectory_validator.py
-         │               ├── trajectory_validator_factory.py
-         │               └── waypoint/
-         │                   ├── __init__.py
-         │                   ├── iwaypoint_validator.py
-         │                   ├── waypoint_validator.py
-         │                   └── waypoint_validator_factory.py
+         │       ├── trajectory/
+         │       │   ├── discretization/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── ishape_discretizer.py
+         │       │   │   ├── shape_discretizer.py
+         │       │   │   └── shape_discretizer_factory.py
+         │       │   ├── __init__.py
+         │       │   ├── metrics/
+         │       │   │   ├── bottleneck/
+         │       │   │   │   ├── imotion_bottleneck_detector.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── motion_bottleneck_detector.py
+         │       │   │   │   └── motion_bottleneck_detector_factory.py
+         │       │   │   ├── cycle/
+         │       │   │   │   ├── cycle_time_calculator.py
+         │       │   │   │   ├── cycle_time_calculator_factory.py
+         │       │   │   │   ├── icycle_time_calculator.py
+         │       │   │   │   └── __init__.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── profile/
+         │       │   │   │   ├── axis_speed_profile_analyzer.py
+         │       │   │   │   ├── axis_speed_profile_analyzer_factory.py
+         │       │   │   │   ├── iaxis_speed_profile_analyzer.py
+         │       │   │   │   └── __init__.py
+         │       │   │   ├── summary/
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── itrajectory_cycle_summary_builder.py
+         │       │   │   │   ├── trajectory_cycle_summary_builder.py
+         │       │   │   │   └── trajectory_cycle_summary_builder_factory.py
+         │       │   │   └── trajectory_metrics.py
+         │       │   ├── plan/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── itrajectory_mutable.py
+         │       │   │   ├── itrajectory_plan.py
+         │       │   │   ├── itrajectory_plan_factory.py
+         │       │   │   ├── itrajectory_read_only.py
+         │       │   │   ├── trajectory_plan.py
+         │       │   │   └── trajectory_plan_factory.py
+         │       │   └── validation/
+         │       │       ├── feedrate/
+         │       │       │   ├── feedrate_validator.py
+         │       │       │   ├── feedrate_validator_factory.py
+         │       │       │   ├── ifeedrate_validator.py
+         │       │       │   └── __init__.py
+         │       │       ├── __init__.py
+         │       │       ├── itrajectory_validator.py
+         │       │       ├── plan/
+         │       │       │   ├── __init__.py
+         │       │       │   ├── itrajectory_plan_validator.py
+         │       │       │   ├── trajectory_plan_validator.py
+         │       │       │   └── trajectory_plan_validator_factory.py
+         │       │       ├── trajectory_validator.py
+         │       │       ├── trajectory_validator_factory.py
+         │       │       └── waypoint/
+         │       │           ├── __init__.py
+         │       │           ├── iwaypoint_validator.py
+         │       │           ├── waypoint_validator.py
+         │       │           └── waypoint_validator_factory.py
+         │       └── transformation/
+         │           ├── frame_transformer.py
+         │           ├── frame_transformer_factory.py
+         │           ├── iframe_transformer.py
+         │           └── __init__.py
          ├── engine.py
          ├── infrastructure/
          │   ├── cli/
@@ -635,6 +643,11 @@ Tool structure
          │   │   │   │   ├── irepl_line_reader.py
          │   │   │   │   ├── repl_line_reader.py
          │   │   │   │   └── repl_line_reader_factory.py
+         │   │   │   ├── output/
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── irepl_output_writer.py
+         │   │   │   │   ├── repl_output_writer.py
+         │   │   │   │   └── repl_output_writer_factory.py
          │   │   │   ├── presentation/
          │   │   │   │   ├── __init__.py
          │   │   │   │   ├── irepl_response_presenter.py
@@ -701,6 +714,11 @@ Tool structure
          │   │   │       ├── compile_telemetry_formatter_factory.py
          │   │   │       ├── icompile_telemetry_formatter.py
          │   │   │       └── __init__.py
+         │   │   ├── decompile/
+         │   │   │   ├── decompile_command_definition.py
+         │   │   │   ├── decompile_command_executor.py
+         │   │   │   ├── decompile_command_executor_factory.py
+         │   │   │   └── __init__.py
          │   │   ├── disassemble/
          │   │   │   ├── disassemble_command_definition.py
          │   │   │   ├── disassemble_command_executor.py
@@ -731,6 +749,7 @@ Tool structure
          │   │   │   └── lint_command_executor_factory.py
          │   │   └── repl/
          │   │       ├── __init__.py
+         │   │       ├── repl_command_bundle.py
          │   │       ├── repl_command_definition.py
          │   │       ├── repl_command_executor.py
          │   │       └── repl_command_executor_factory.py
@@ -776,7 +795,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     117 directories, 545 files
+     118 directories, 563 files
 
 🏗 Architecture & SOLID Principles
 --------------------------------------------------------------------------------
@@ -824,7 +843,7 @@ SOLID Principles Compliance
 * **L — Liskov Substitution Principle (LSP)**:
   Pure structural subtyping via Python ``@runtime_checkable Protocol`` definitions. Concrete classes never inherit from abstract protocols, ensuring complete structural interchangeability.
 * **I — Interface Segregation Principle (ISP)**:
-  Fat facade ``IScaraDslService`` is segregated into focused role protocols (``IScaraDslBinaryCompiler``, ``IScaraDslDisassembler``, ``IScaraDslLinter``, ``IScaraDslInfoProvider``, ``IScaraDslCompiler``, ``IScaraPlanExporter``). Clients depend strictly on the minimal methods they call.
+  Fat facade ``IScaraDslService`` is segregated into focused role protocols (``IScaraDslCompiler``, ``IScaraDslBinaryCompiler``, ``IScaraDslValidator``, ``IScaraDecompiler``, ``IScaraDisassembler``, ``IToolchainInfoProvider``, ``IScaraPlanExporter``). Clients depend strictly on the minimal methods they call.
 * **D — Dependency Inversion Principle (DIP)**:
   High-level domain services and CLI executors depend strictly on abstract protocols, never on concrete implementations. All infrastructure dependencies are injected via constructor Dependency Injection (Zero-Fallback DI).
 
@@ -843,6 +862,7 @@ Every build is validated against 4 strict automated quality gates:
 
 * **High-Level SCARA DSL Toolchain**: Lexer, Tokenizer, Line Splitter, AST Parser, Linter, and Semantic Validator for human-readable SCARA motion scripts (``.scara``).
 * **Deterministic Bytecode Compiler**: Direct translation of high-level Cartesian DSL trajectories into discrete stepper motor joint step blocks (``JointSteps``, ``Step``, ``BinaryProgram``).
+* **Bidirectional Decompiler**: Full binary-to-source decompilation reconstructing high-level SCARA DSL scripts from compiled bytecode frames (``scarac decompile``).
 * **SCARA Binary Wire Protocol Codec**: High-performance streaming frame parser, payload unpacker, frame builder, and CRC-16-CCITT integrity verification (``0xAA 0x55`` header framing).
 * **Multi-Target Trajectory Exporter**: Export robotic trajectories into industrial G-code, CSV time-series data, JSON trajectory bundles, and SVG vector toolpaths.
 * **Interactive Motion REPL Console**: Terminal-based interactive console (``scarac repl``) for real-time single-command compilation, inspection, and frame transmission.
@@ -1156,57 +1176,85 @@ CLI Tool (scarac / scaralang)
     scarac --help
 
     # Validate syntax and run static diagnostic lint checks
-    scarac lint program.scara
+    scarac lint --script program.scara
 
     # Compile DSL program to packed binary execution file (.bin)
-    scarac compile program.scara -o program.bin
+    scarac compile --script program.scara --output program.bin
 
-    # Compile with verbose wire frame inspection and telemetry metrics
-    scarac compile program.scara -o program.bin --verbose
+    # Compile with hexadecimal stream output and detailed wire frame breakdown
+    scarac compile --script program.scara --hex --dump-frames --verbose
+
+    # Decompile binary bytecode file (.bin) back into high-level SCARA DSL script
+    scarac decompile --file program.bin --output decompiled.scara
 
     # Disassemble binary bytecode file into human-readable frame breakdown
-    scarac disassemble program.bin --summary
+    scarac disassemble --file program.bin --summary
 
-    # Export trajectory to industrial G-code, CSV time-series, JSON, or SVG
-    scarac export program.scara --format GCODE -o program.gcode
-    scarac export program.scara --format CSV -o trajectory.csv
-    scarac export program.scara --format JSON -o bundle.json
-    scarac export program.scara --format SVG -o toolpath.svg
+    # Export trajectory to industrial G-code, CSV time-series, JSON, SVG, or SCARA
+    scarac export --script program.scara --format gcode --output program.gcode
+    scarac export --script program.scara --format csv --output trajectory.csv
+    scarac export --script program.scara --format json --output trajectory.json
+    scarac export --script program.scara --format svg --output toolpath.svg
 
     # Inspect toolchain info, supported commands, and grammar version
-    scarac info
+    scarac info --verbose
 
     # Launch interactive SCARA DSL motion REPL console
-    scarac repl
+    scarac repl --endpoint dry-run
 
 Python Library API
 ^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
-    from scaralang.setup.factory import ScaralangBundleFactory
-    from scaralang.engine import Scaralang
-    from scaralang.core.service.dsl.scara_dsl_service_factory import (
-        ScaraDslServiceFactory,
+    from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import (
+        ScaraDslCompilerFactory,
+    )
+    from scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory import (
+        ScaraDslBinaryCompilerFactory,
+    )
+    from scaralang.core.service.linter.script.scara_script_validator_factory import (
+        ScaraScriptValidatorFactory,
+    )
+    from scaralang.core.service.decompiler.scara_decompiler_factory import (
+        ScaraDecompilerFactory,
     )
 
-    # Initialize full DSL service via Composition Root factory
-    dsl_service = ScaraDslServiceFactory.create()
+    # Initialize fine-grained role services via their factories
+    validator = ScaraScriptValidatorFactory.create_default()
+    compiler = ScaraDslCompilerFactory.create_default()
+    binary_compiler = ScaraDslBinaryCompilerFactory.create_default()
+    decompiler = ScaraDecompilerFactory.create_default()
 
-    # Lint a script string
-    diagnostics = dsl_service.lint(
-        "HOME\nMOVE_J X:100.0 Y:150.0 Z:20.0 SPEED:FAST\n"
-    )
-    if not diagnostics:
-        print("Syntax & static semantics: OK")
+    # SCARA DSL script to analyze and compile
+    script = """HOME
+    SPEED RAPID 100.0
+    MOVE_J X 150.0 Y 50.0 Z 20.0
+    PUMP ON
+    WAIT 100
+    MOVE_L X 180.0 Y 50.0 Z 20.0
+    PUMP OFF
+    """
 
-    # Compile to binary wire payload
-    binary_data, telemetry = dsl_service.compile_to_binary(
-        "HOME\nMOVE_L X:50.0 Y:80.0 Z:10.0 SPEED:SLOW\n"
-    )
-    print(
-        f"Compiled {len(binary_data)} bytes in {telemetry.compilation_duration_ms:.2f} ms"
-    )
+    # 1. Validate syntax and kinematics
+    is_valid, diagnostics = validator.validate_script(source=script)
+    if is_valid:
+        # 2. Compile into validated trajectory plan
+        plan = compiler.compile_script(source=script)
+        print(f"Trajectory plan contains {len(plan.waypoints)} waypoints.")
+
+        # 3. Compile directly to binary program package and raw bytecode
+        binary_prog = binary_compiler.compile_to_binary(source=script)
+        raw_bytes = binary_compiler.compile_to_bytes(source=script)
+        telemetry = binary_compiler.get_program_telemetry(program=binary_prog)
+        print(f"Generated {len(raw_bytes)} bytes of binary bytecode.")
+        print(f"Total motor steps: {len(binary_prog.steps)}")
+        print(f"Trajectory execution time: {telemetry.duration_s:.2f} s")
+
+        # 4. Decompile binary bytecode back into high-level SCARA DSL script
+        decompiled_script = decompiler.decompile_bytes(data=raw_bytes)
+        print("Decompiled script:")
+        print(decompiled_script)
 
 📚 Docs
 --------------------------------------------------------------------------------

@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,18 +50,12 @@ class DummyBinaryCompiler:
             total_duration_us=0,
             instruction_count=0,
             step_counts=(0, 0, 0, 0),
-            telemetry=BinaryProgramTelemetry(
-                source_instructions=0,
-                compiled_steps=0,
-                duration_us=0,
-                duration_s=0.0,
-                peak_j1_steps=0,
-                peak_j2_steps=0,
-                peak_z_steps=0,
-                peak_j4_steps=0,
-                total_wire_bytes=0,
-            ),
+            telemetry=BinaryProgramTelemetry(),
         )
+
+    def get_version(self) -> str:
+        '''Dummy get_version implementation.'''
+        return '1.0.0'
 
 
 class TestIBinaryCompiler(TestCase):
@@ -72,12 +66,18 @@ class TestIBinaryCompiler(TestCase):
 
             :methods:
                 | test_protocol_conformance - Verifies dummy class satisfies protocol.
+                | test_negative_protocol_conformance - Verifies non-conforming class fails protocol.
     '''
 
     def test_protocol_conformance(self) -> None:
         '''Verifies structural typing conformance without inheritance.'''
         compiler = DummyBinaryCompiler()
         self.assertIsInstance(compiler, IBinaryCompiler)
+
+    def test_negative_protocol_conformance(self) -> None:
+        '''Verifies object() fails IBinaryCompiler protocol.'''
+        self.assertFalse(isinstance(object(), IBinaryCompiler))
+
 
 
 if __name__ == '__main__':

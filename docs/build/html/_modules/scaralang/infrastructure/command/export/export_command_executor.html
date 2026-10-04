@@ -64,7 +64,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.exporter.export_format</span> <span class="kn">import</span> <span class="n">ExportFormat</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.dsl.compilation.iscara_dsl_compiler</span> <span class="kn">import</span> <span class="n">IScaraDslCompiler</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.iscara_dsl_compiler</span> <span class="kn">import</span> <span class="n">IScaraDslCompiler</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.exporter.iexport_target_dispatcher</span> <span class="kn">import</span> <span class="n">IExportTargetDispatcher</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.icommand_definition</span> <span class="kn">import</span> <span class="n">ICommandDefinition</span>
 
@@ -72,7 +72,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -87,7 +87,8 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | definition - The command CLI metadata definition.</span>
+<span class="sd">                | _definition - The command CLI metadata definition.</span>
+<span class="sd">                | _service - SCARA DSL compiler service protocol instance.</span>
 <span class="sd">                | _dispatcher - Trajectory export target dispatcher protocol instance.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | __init__ - Initializes the export command executor.</span>
@@ -95,23 +96,27 @@
 <span class="sd">                | get_definition - Returns the command definition metadata.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span>
+    <span class="n">_definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span>
+    <span class="n">_service</span><span class="p">:</span> <span class="n">IScaraDslCompiler</span>
     <span class="n">_dispatcher</span><span class="p">:</span> <span class="n">IExportTargetDispatcher</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span><span class="p">,</span>
+        <span class="n">service</span><span class="p">:</span> <span class="n">IScaraDslCompiler</span><span class="p">,</span>
         <span class="n">dispatcher</span><span class="p">:</span> <span class="n">IExportTargetDispatcher</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Initializes the export command executor.</span>
 
 <span class="sd">            :param definition: The command definition metadata.</span>
+<span class="sd">            :param service: SCARA DSL compiler service protocol instance.</span>
 <span class="sd">            :param dispatcher: Trajectory export target dispatcher protocol instance.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_definition</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IScaraDslCompiler</span><span class="p">]</span> <span class="o">=</span> <span class="n">service</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dispatcher</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IExportTargetDispatcher</span><span class="p">]</span> <span class="o">=</span> <span class="n">dispatcher</span>
 
 <div class="viewcode-block" id="ExportCommandExecutor.execute">
@@ -120,13 +125,11 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">],</span>
-        <span class="n">service</span><span class="p">:</span> <span class="n">IScaraDslCompiler</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Executes the export subcommand.</span>
 
 <span class="sd">            :param params: Subcommand parameters from CLI parser.</span>
-<span class="sd">            :param service: SCARA DSL service instance.</span>
 <span class="sd">            :return: The result of the subcommand execution.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -147,7 +150,7 @@
             <span class="n">format_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;format&#39;</span><span class="p">,</span> <span class="s1">&#39;gcode&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
             <span class="n">target_format</span><span class="p">:</span> <span class="n">ExportFormat</span> <span class="o">=</span> <span class="n">ExportFormat</span><span class="p">[</span><span class="n">format_str</span><span class="p">]</span>
 
-            <span class="n">plan</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">compile_script</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source_code</span><span class="p">)</span>
+            <span class="n">plan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">compile_script</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source_code</span><span class="p">)</span>
             <span class="n">exported_content</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dispatcher</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
                 <span class="n">plan</span><span class="o">=</span><span class="n">plan</span><span class="p">,</span> <span class="n">target_format</span><span class="o">=</span><span class="n">target_format</span>
             <span class="p">)</span>
@@ -180,7 +183,7 @@
 <span class="sd">            :return: The command definition metadata.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_definition</span></div>
 </div>
 
 </pre></div>

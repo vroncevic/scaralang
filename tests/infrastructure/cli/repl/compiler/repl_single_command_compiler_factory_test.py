@@ -24,17 +24,17 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
+from scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory import ScaraDslBinaryCompilerFactory
+from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
 from scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler import IReplSingleCommandCompiler
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler import ReplSingleCommandCompiler
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler_factory import ReplSingleCommandCompilerFactory
-from scaralang.setup.factory import ScaralangBundleFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,13 +48,22 @@ class TestReplSingleCommandCompilerFactory(TestCase):
 
             :methods:
                 | test_create - Verifies factory instantiates compiler correctly.
+                | test_create_default - Verifies factory instantiates compiler with defaults.
                 | test_get_version - Verifies factory returns version string.
     '''
 
     def test_create(self) -> None:
-        '''Verifies factory builds ReplSingleCommandCompiler instance.'''
-        service: IScaraDslService = ScaralangBundleFactory.create_bundle().service
-        compiler = ReplSingleCommandCompilerFactory.create(service=service)
+        '''Verifies factory builds ReplSingleCommandCompiler instance with collaborators.'''
+        compiler = ReplSingleCommandCompilerFactory.create(
+            compiler=ScaraDslCompilerFactory.create_default(),
+            binary_compiler=ScaraDslBinaryCompilerFactory.create_default(),
+        )
+        self.assertIsInstance(compiler, ReplSingleCommandCompiler)
+        self.assertIsInstance(compiler, IReplSingleCommandCompiler)
+
+    def test_create_default(self) -> None:
+        '''Verifies factory builds ReplSingleCommandCompiler instance with default collaborators.'''
+        compiler = ReplSingleCommandCompilerFactory.create_default()
         self.assertIsInstance(compiler, ReplSingleCommandCompiler)
         self.assertIsInstance(compiler, IReplSingleCommandCompiler)
 

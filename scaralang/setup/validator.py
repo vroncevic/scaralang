@@ -27,14 +27,13 @@ from ats_utilities.validation.check_value import not_none
 from ats_utilities.validation.check_type import istype
 
 from scaralang.setup.bundle import ScaralangBundle
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
 from scaralang.infrastructure.cli.icli import ICLI
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,21 +64,17 @@ class ScaralangBundleValidator:
         msg_bundle_none: str = 'the scaralang bundle must be provided'
         msg_bundle_istype: str = 'the scaralang bundle must be an instance of ScaralangBundle'
         msg_base_none: str = 'the base bundle must be provided'
-        msg_service_none: str = 'the service must be provided'
         msg_cli_none: str = 'the cli must be provided'
         msg_base_istype: str = 'the base bundle must be an instance of BaseBundle'
-        msg_service_istype: str = 'the service must be an instance of IScaraDslService'
         msg_cli_istype: str = 'the cli must be an instance of ICLI'
 
         not_none(bundle, ctx, msg_bundle_none)
         istype(bundle, ScaralangBundle, ctx, msg_bundle_istype)
 
         not_none(bundle.base, ctx, msg_base_none)
-        not_none(bundle.service, ctx, msg_service_none)
         not_none(bundle.cli, ctx, msg_cli_none)
 
         istype(bundle.base, BaseBundle, ctx, msg_base_istype)
-        istype(bundle.service, IScaraDslService, ctx, msg_service_istype)
         istype(bundle.cli, ICLI, ctx, msg_cli_istype)
 
     @classmethod

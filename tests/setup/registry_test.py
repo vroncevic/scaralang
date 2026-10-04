@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,7 +51,7 @@ class TestScaralangBundleRegistry(TestCase):
             Verifies registry version string.
         '''
         version = ScaralangBundleRegistry.get_version()
-        self.assertEqual(version, '1.0.2')
+        self.assertEqual(version, '1.0.3')
 
 
 if __name__ == '__main__':

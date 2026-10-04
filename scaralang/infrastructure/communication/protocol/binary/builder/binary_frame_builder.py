@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,7 +61,6 @@ class BinaryFrameBuilder:
                 | HEADER_FORMAT - Struct format for 3-byte frame header (msg, seq, len).
                 | TRAILER_FORMAT - Struct format for 3-byte frame trailer (crc16, eof).
             :methods:
-                | __init__ - Initializes BinaryFrameBuilder instance.
                 | build_frame - Encodes generic binary command frame with CRC16.
                 | build_joint_move - Builds joint step movement frame.
                 | build_system_cmd - Builds parameterless system command.
@@ -80,11 +79,6 @@ class BinaryFrameBuilder:
     WAIT_FORMAT: ClassVar[str] = str(BinaryStructFormat.WAIT)
     HEADER_FORMAT: ClassVar[str] = str(BinaryStructFormat.HEADER)
     TRAILER_FORMAT: ClassVar[str] = str(BinaryStructFormat.TRAILER)
-
-    def __init__(self) -> None:
-        '''
-            Initializes BinaryFrameBuilder instance.
-        '''
 
     @property
     def name(self) -> str:

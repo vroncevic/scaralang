@@ -71,29 +71,38 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.cli.repl.input.repl_line_reader.</span></span><span class="sig-name descname"><span class="pre">ReplLineReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/input/repl_line_reader.html#ReplLineReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.cli.repl.input.repl_line_reader.</span></span><span class="sig-name descname"><span class="pre">ReplLineReader</span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/input/repl_line_reader.html#ReplLineReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Line reader adapter reading interactive input from user or custom function.</p>
+<p>Line reader adapter reading interactive input from standard terminal input.</p>
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">attributes<span class="colon">:</span></dt>
+<dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">reader_func - Callable invoked to obtain an input line given a prompt.</div>
-</div>
-</dd>
-<dt class="field-even">methods<span class="colon">:</span></dt>
-<dd class="field-even"><div class="line-block">
-<div class="line">__init__ - Initializes line reader with optional reader function.</div>
-<div class="line">read_line - Reads a single input line from user or callable.</div>
+<div class="line">read_line - Reads a single input line from user terminal.</div>
+<div class="line">get_version - Returns line reader version string.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
 <dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/input/repl_line_reader.html#ReplLineReader.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader.get_version" title="Link to this definition">¶</a></dt>
+<dd><p>Returns line reader component version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Version string.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader.read_line">
 <span class="sig-name descname"><span class="pre">read_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'scaralang&gt;</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/input/repl_line_reader.html#ReplLineReader.read_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader.read_line" title="Link to this definition">¶</a></dt>
-<dd><p>Reads a single input line from the user.</p>
+<dd><p>Reads a single input line from standard terminal input.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>prompt</strong> – Prompt string to display.</p>
@@ -106,11 +115,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader.reader_func">
-<span class="sig-name descname"><span class="pre">reader_func</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader.reader_func" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -128,8 +132,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.infrastructure.cli.repl.input.repl_line_reader module</a><ul>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader"><code class="docutils literal notranslate"><span class="pre">ReplLineReader</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader.get_version"><code class="docutils literal notranslate"><span class="pre">ReplLineReader.get_version()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader.read_line"><code class="docutils literal notranslate"><span class="pre">ReplLineReader.read_line()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader.reader_func"><code class="docutils literal notranslate"><span class="pre">ReplLineReader.reader_func</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="scaralang.core.model.trajectory package" href="scaralang.core.model.trajectory.html" />
-    <link rel="prev" title="scaralang.core.model.repl.repl_dispatch_result module" href="scaralang.core.model.repl.repl_dispatch_result.html" /> 
+    <link rel="prev" title="scaralang.core.model.repl.repl_pose_state module" href="scaralang.core.model.repl.repl_pose_state.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
           <a href="scaralang.core.model.trajectory.html" title="scaralang.core.model.trajectory package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.repl.repl_dispatch_result.html" title="scaralang.core.model.repl.repl_dispatch_result module"
+          <a href="scaralang.core.model.repl.repl_pose_state.html" title="scaralang.core.model.repl.repl_pose_state module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -70,7 +70,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.model.repl.repl_session_context.ReplSessionContext">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.repl.repl_session_context.</span></span><span class="sig-name descname"><span class="pre">ReplSessionContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_theta4</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elbow_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.ast.speed_mode.html#scaralang.core.model.dsl.ast.speed_mode.SpeedMode" title="scaralang.core.model.dsl.ast.speed_mode.SpeedMode"><span class="pre">SpeedMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">SpeedMode.WORK</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.ast.zone_mode.html#scaralang.core.model.dsl.ast.zone_mode.ZoneMode" title="scaralang.core.model.dsl.ast.zone_mode.ZoneMode"><span class="pre">ZoneMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ZoneMode.FINE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pump_active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valve_active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/repl/repl_session_context.html#ReplSessionContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.repl.repl_session_context.</span></span><span class="sig-name descname"><span class="pre">ReplSessionContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose:</span> <span class="pre">~scaralang.core.model.repl.repl_pose_state.ReplPoseState</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elbow_left:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_mode:</span> <span class="pre">~scaralang.core.model.dsl.ast.speed_mode.SpeedMode</span> <span class="pre">=</span> <span class="pre">SpeedMode.WORK</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_mode:</span> <span class="pre">~scaralang.core.model.dsl.ast.zone_mode.ZoneMode</span> <span class="pre">=</span> <span class="pre">ZoneMode.FINE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pump_active:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valve_active:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/repl/repl_session_context.html#ReplSessionContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Immutable data model encapsulating current robot state in an interactive session.</p>
 <p>It defines:</p>
@@ -78,10 +78,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">current_x - Active Cartesian X coordinate in mm.</div>
-<div class="line">current_y - Active Cartesian Y coordinate in mm.</div>
-<div class="line">current_z - Active Cartesian Z coordinate in mm.</div>
-<div class="line">current_theta4 - Active wrist rotation in degrees.</div>
+<div class="line">pose - Active Cartesian pose coordinates in mm and degrees.</div>
 <div class="line">elbow_left - True if elbow is in LEFT configuration, False for RIGHT.</div>
 <div class="line">speed_mode - Active feedrate mode (RAPID or WORK).</div>
 <div class="line">zone_mode - Active corner blending mode (FINE or BLEND).</div>
@@ -92,28 +89,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_theta4">
-<span class="sig-name descname"><span class="pre">current_theta4</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_theta4" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_x">
-<span class="sig-name descname"><span class="pre">current_x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_x" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_y">
-<span class="sig-name descname"><span class="pre">current_y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_y" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_z">
-<span class="sig-name descname"><span class="pre">current_z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_z" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.repl.repl_session_context.ReplSessionContext.elbow_left">
 <span class="sig-name descname"><span class="pre">elbow_left</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.elbow_left" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.repl.repl_session_context.ReplSessionContext.pose">
+<span class="sig-name descname"><span class="pre">pose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.repl.repl_pose_state.html#scaralang.core.model.repl.repl_pose_state.ReplPoseState" title="scaralang.core.model.repl.repl_pose_state.ReplPoseState"><span class="pre">ReplPoseState</span></a></em><a class="headerlink" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.pose" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -152,11 +134,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.model.repl.repl_session_context module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_theta4"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext.current_theta4</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_x"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext.current_x</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_y"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext.current_y</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.current_z"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext.current_z</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.elbow_left"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext.elbow_left</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.pose"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext.pose</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.pump_active"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext.pump_active</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.speed_mode"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext.speed_mode</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.repl.repl_session_context.ReplSessionContext.valve_active"><code class="docutils literal notranslate"><span class="pre">ReplSessionContext.valve_active</span></code></a></li>
@@ -170,8 +149,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.model.repl.repl_dispatch_result.html"
-                          title="previous chapter">scaralang.core.model.repl.repl_dispatch_result module</a></p>
+    <p class="topless"><a href="scaralang.core.model.repl.repl_pose_state.html"
+                          title="previous chapter">scaralang.core.model.repl.repl_pose_state module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -212,7 +191,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="scaralang.core.model.trajectory.html" title="scaralang.core.model.trajectory package"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.repl.repl_dispatch_result.html" title="scaralang.core.model.repl.repl_dispatch_result module"
+          <a href="scaralang.core.model.repl.repl_pose_state.html" title="scaralang.core.model.repl.repl_pose_state module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

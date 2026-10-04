@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,6 +53,7 @@ class TestMotionDuplicateValidator(TestCase):
                 | test_distinct_target_no_diagnostic - Verifies no diagnostic when targets differ.
                 | test_non_linear_motion_clears_coords - Verifies arc/jump clears last_coords.
                 | test_missing_coordinates_clears_coords - Verifies incomplete coordinates clears last_coords.
+                | test_name - Verifies validator name property.
     '''
 
     def test_consecutive_duplicate_motion_emits_info(self) -> None:
@@ -154,6 +155,13 @@ class TestMotionDuplicateValidator(TestCase):
 
         self.assertEqual(len(diagnostics), 0)
         self.assertEqual(context.last_coords, ())
+
+    def test_name(self) -> None:
+        '''
+            Verifies validator name property.
+        '''
+        validator = MotionDuplicateValidator()
+        self.assertEqual(validator.name, 'motion_duplicate')
 
 
 if __name__ == '__main__':

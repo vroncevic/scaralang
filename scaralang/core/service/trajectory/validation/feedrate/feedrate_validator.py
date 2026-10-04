@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -76,22 +76,22 @@ class FeedrateValidator:
             :param speed: Feedrate in mm/s.
             :return: ValidationResult with status and details.
         '''
-        if speed < self._bounds.min_speed:
+        if speed < self._bounds.speeds.min_speed:
             return ValidationResult(
                 is_valid=False,
                 message=(
                     f'Speed {speed:.1f} mm/s is too slow '
-                    f'(minimum {self._bounds.min_speed:.1f} mm/s)'
+                    f'(minimum {self._bounds.speeds.min_speed:.1f} mm/s)'
                 ),
                 error_index=-1,
             )
 
-        if speed > self._bounds.max_speed:
+        if speed > self._bounds.speeds.max_speed:
             return ValidationResult(
                 is_valid=False,
                 message=(
                     f'Speed {speed:.1f} mm/s exceeds max safe feedrate '
-                    f'{self._bounds.max_speed:.1f} mm/s'
+                    f'{self._bounds.speeds.max_speed:.1f} mm/s'
                 ),
                 error_index=-1,
             )

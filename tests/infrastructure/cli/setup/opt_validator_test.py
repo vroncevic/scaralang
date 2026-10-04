@@ -27,7 +27,6 @@ from ats_utilities.exceptions.ats_type_error import ATSTypeError
 from ats_utilities.exceptions.ats_value_error import ATSValueError
 from ats_utilities.option.imanager import IOptionManager
 
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
 from scaralang.infrastructure.cli.setup.opt_validator import (
     CLIBundleOptionsValidator,
 )
@@ -39,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -64,10 +63,8 @@ class TestCLIBundleOptionsValidator(TestCase):
     def setUp(self) -> None:
         '''Prepares valid options from real bundle components.'''
         bundle = ScaralangBundleFactory.create_bundle()
-        self.service: IScaraDslService = bundle.service
         self.parser: IOptionManager = bundle.base.option_manager
         self.valid_options = CLIBundleOptions(
-            service=self.service,
             parser=self.parser
         )
 
@@ -88,8 +85,7 @@ class TestCLIBundleOptionsValidator(TestCase):
     def test_validate_invalid_option_type(self) -> None:
         '''Verifies validate raises ATSTypeError when an option has invalid type.'''
         invalid_options = CLIBundleOptions(
-            service='invalid_service_type',  # type: ignore[arg-type]
-            parser=self.parser
+            parser='invalid_parser_type'  # type: ignore[arg-type]
         )
         with self.assertRaises(ATSTypeError):
             CLIBundleOptionsValidator.validate(invalid_options)

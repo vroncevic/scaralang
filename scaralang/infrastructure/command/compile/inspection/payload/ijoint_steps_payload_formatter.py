@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,6 +44,7 @@ class IJointStepsPayloadFormatter(Protocol):
 
             :methods:
                 | format_joint_steps - Formats unpacked JointSteps and hex bytes.
+                | get_version - Returns the interface protocol version identifier.
     '''
 
     def format_joint_steps(
@@ -58,4 +59,11 @@ class IJointStepsPayloadFormatter(Protocol):
             :param steps: Deserialized JointSteps model.
             :param raw_payload: Raw payload byte sequence.
             :return: Formatted presentation string.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Returns the interface protocol version identifier.
+
+            :return: The protocol version string.
         '''

@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,7 +50,6 @@ class StateCommandCompiler:
             :attributes:
                 | _SUPPORTED - Frozenset of handled ScaraCommandType instances.
             :methods:
-                | __init__ - Initializes StateCommandCompiler instance.
                 | can_compile - Checks if command is a state configuration instruction.
                 | compile - Updates ScaraCompilerContext with instruction parameters.
     '''
@@ -62,13 +61,6 @@ class StateCommandCompiler:
         ScaraCommandType.CONFIG_ELBOW,
         ScaraCommandType.ZONE,
     })
-
-    def __init__(self) -> None:
-        '''
-            Initializes StateCommandCompiler instance.
-
-            :exceptions: None.
-        '''
 
     def can_compile(self, *, instruction: ScaraInstruction) -> bool:
         '''
@@ -107,22 +99,22 @@ class StateCommandCompiler:
                 spd = float(params.get(InstructionParam.SPEED, 40.0))
 
                 if raw_mode == SpeedMode.RAPID:
-                    context.speed_rapid = spd
+                    context.speed.speed_rapid = spd
                 else:
-                    context.speed_work = spd
-                    context.current_speed = spd
+                    context.speed.speed_work = spd
+                    context.speed.current_speed = spd
 
             case ScaraCommandType.ACCEL:
-                context.active_accel = float(params.get(InstructionParam.ACCEL, 300.0))
+                context.speed.active_accel = float(params.get(InstructionParam.ACCEL, 300.0))
 
             case ScaraCommandType.OVERRIDE:
-                context.speed_override_pct = float(
+                context.speed.speed_override_pct = float(
                     params.get(InstructionParam.PERCENT, 100.0)
                 )
 
             case ScaraCommandType.CONFIG_ELBOW:
                 raw_elbow = str(params.get(InstructionParam.ELBOW, ElbowConfig.RIGHT)).upper()
-                context.elbow_config = (
+                context.pose.elbow_config = (
                     ElbowConfig(raw_elbow)
                     if raw_elbow in (ElbowConfig.RIGHT, ElbowConfig.LEFT)
                     else ElbowConfig.RIGHT
@@ -130,11 +122,11 @@ class StateCommandCompiler:
 
             case ScaraCommandType.ZONE:
                 raw_zone = str(params.get(InstructionParam.MODE, ZoneMode.FINE)).upper()
-                context.zone_mode = (
+                context.blend.zone_mode = (
                     ZoneMode(raw_zone)
                     if raw_zone in (ZoneMode.FINE, ZoneMode.EXACT, ZoneMode.BLEND)
                     else ZoneMode.FINE
                 )
-                context.zone_radius = float(params.get(InstructionParam.RADIUS, 0.0))
+                context.blend.zone_radius = float(params.get(InstructionParam.RADIUS, 0.0))
 
         return ()

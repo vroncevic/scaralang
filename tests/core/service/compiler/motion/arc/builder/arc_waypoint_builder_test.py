@@ -25,6 +25,8 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
+from scaralang.core.model.dsl.compiler.compiler_pose_state import CompilerPoseState
+from scaralang.core.model.dsl.compiler.compiler_speed_state import CompilerSpeedState
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.arc_point import ArcPoint
@@ -35,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,6 +52,7 @@ class TestArcWaypointBuilder(TestCase):
             :methods:
                 | setUp - Initializes builder and initial context.
                 | test_structural_conformance - Verifies protocol check.
+                | test_get_version - Verifies get_version returns valid version string.
                 | test_build_waypoints_fixed_orientation - Tests waypoints with fixed phi.
                 | test_build_waypoints_tangential_orientation - Tests waypoints with tangential phi.
     '''
@@ -60,11 +63,15 @@ class TestArcWaypointBuilder(TestCase):
         '''
         self.builder = ArcWaypointBuilder()
         self.context = ScaraCompilerContext(
-            current_x=0.0,
-            current_y=0.0,
-            current_z=5.0,
-            current_phi=45.0,
-            current_speed=60.0,
+            pose=CompilerPoseState(
+                current_x=0.0,
+                current_y=0.0,
+                current_z=5.0,
+                current_phi=45.0,
+            ),
+            speed=CompilerSpeedState(
+                current_speed=60.0,
+            ),
             tool_orient_mode=ToolOrientMode.FIXED,
         )
 
@@ -73,6 +80,13 @@ class TestArcWaypointBuilder(TestCase):
             Verifies structural conformance to IArcWaypointBuilder.
         '''
         self.assertIsInstance(self.builder, IArcWaypointBuilder)
+
+    def test_get_version(self) -> None:
+        '''
+            Verifies get_version returns valid version string.
+        '''
+        self.assertEqual(self.builder.get_version(), '1.0.3')
+
 
     def test_build_waypoints_fixed_orientation(self) -> None:
         '''

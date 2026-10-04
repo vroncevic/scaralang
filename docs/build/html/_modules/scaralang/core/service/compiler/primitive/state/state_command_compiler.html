@@ -73,7 +73,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -90,7 +90,6 @@
 <span class="sd">            :attributes:</span>
 <span class="sd">                | _SUPPORTED - Frozenset of handled ScaraCommandType instances.</span>
 <span class="sd">            :methods:</span>
-<span class="sd">                | __init__ - Initializes StateCommandCompiler instance.</span>
 <span class="sd">                | can_compile - Checks if command is a state configuration instruction.</span>
 <span class="sd">                | compile - Updates ScaraCompilerContext with instruction parameters.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -102,13 +101,6 @@
         <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG_ELBOW</span><span class="p">,</span>
         <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">ZONE</span><span class="p">,</span>
     <span class="p">})</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Initializes StateCommandCompiler instance.</span>
-
-<span class="sd">            :exceptions: None.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
 
 <div class="viewcode-block" id="StateCommandCompiler.can_compile">
 <a class="viewcode-back" href="../../../../../../../scaralang.core.service.compiler.primitive.state.state_command_compiler.html#scaralang.core.service.compiler.primitive.state.state_command_compiler.StateCommandCompiler.can_compile">[docs]</a>
@@ -152,22 +144,22 @@
                 <span class="n">spd</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">SPEED</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">))</span>
 
                 <span class="k">if</span> <span class="n">raw_mode</span> <span class="o">==</span> <span class="n">SpeedMode</span><span class="o">.</span><span class="n">RAPID</span><span class="p">:</span>
-                    <span class="n">context</span><span class="o">.</span><span class="n">speed_rapid</span> <span class="o">=</span> <span class="n">spd</span>
+                    <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">speed_rapid</span> <span class="o">=</span> <span class="n">spd</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">context</span><span class="o">.</span><span class="n">speed_work</span> <span class="o">=</span> <span class="n">spd</span>
-                    <span class="n">context</span><span class="o">.</span><span class="n">current_speed</span> <span class="o">=</span> <span class="n">spd</span>
+                    <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">speed_work</span> <span class="o">=</span> <span class="n">spd</span>
+                    <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">current_speed</span> <span class="o">=</span> <span class="n">spd</span>
 
             <span class="k">case</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">ACCEL</span><span class="p">:</span>
-                <span class="n">context</span><span class="o">.</span><span class="n">active_accel</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">ACCEL</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">))</span>
+                <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">active_accel</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">ACCEL</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">))</span>
 
             <span class="k">case</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">OVERRIDE</span><span class="p">:</span>
-                <span class="n">context</span><span class="o">.</span><span class="n">speed_override_pct</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">speed_override_pct</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
                     <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">PERCENT</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span>
                 <span class="p">)</span>
 
             <span class="k">case</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG_ELBOW</span><span class="p">:</span>
                 <span class="n">raw_elbow</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">ELBOW</span><span class="p">,</span> <span class="n">ElbowConfig</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">))</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-                <span class="n">context</span><span class="o">.</span><span class="n">elbow_config</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">elbow_config</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="n">ElbowConfig</span><span class="p">(</span><span class="n">raw_elbow</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">raw_elbow</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ElbowConfig</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">ElbowConfig</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
                     <span class="k">else</span> <span class="n">ElbowConfig</span><span class="o">.</span><span class="n">RIGHT</span>
@@ -175,12 +167,12 @@
 
             <span class="k">case</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">ZONE</span><span class="p">:</span>
                 <span class="n">raw_zone</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">MODE</span><span class="p">,</span> <span class="n">ZoneMode</span><span class="o">.</span><span class="n">FINE</span><span class="p">))</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-                <span class="n">context</span><span class="o">.</span><span class="n">zone_mode</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">context</span><span class="o">.</span><span class="n">blend</span><span class="o">.</span><span class="n">zone_mode</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="n">ZoneMode</span><span class="p">(</span><span class="n">raw_zone</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">raw_zone</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ZoneMode</span><span class="o">.</span><span class="n">FINE</span><span class="p">,</span> <span class="n">ZoneMode</span><span class="o">.</span><span class="n">EXACT</span><span class="p">,</span> <span class="n">ZoneMode</span><span class="o">.</span><span class="n">BLEND</span><span class="p">)</span>
                     <span class="k">else</span> <span class="n">ZoneMode</span><span class="o">.</span><span class="n">FINE</span>
                 <span class="p">)</span>
-                <span class="n">context</span><span class="o">.</span><span class="n">zone_radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">RADIUS</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+                <span class="n">context</span><span class="o">.</span><span class="n">blend</span><span class="o">.</span><span class="n">zone_radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">RADIUS</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="p">()</span></div>
 </div>

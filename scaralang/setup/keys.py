@@ -26,14 +26,13 @@ from typing import ClassVar
 
 from ats_utilities.base.setup.bundle import BaseBundle
 
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
 from scaralang.infrastructure.cli.icli import ICLI
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,7 +46,6 @@ class ScaralangBundleKeys:
 
             :attributes:
                 | DEPENDENCY_BASE - Base bundle key.
-                | DEPENDENCY_SERVICE - Service key.
                 | DEPENDENCY_CLI - CLI adapter key.
                 | OPTION_INFO_FILE - Info file configuration key.
                 | OPTION_VERBOSE - Verbose option key.
@@ -57,7 +55,6 @@ class ScaralangBundleKeys:
     '''
 
     DEPENDENCY_BASE: ClassVar[str] = 'base'
-    DEPENDENCY_SERVICE: ClassVar[str] = 'service'
     DEPENDENCY_CLI: ClassVar[str] = 'cli'
 
     OPTION_INFO_FILE: ClassVar[str] = 'info_file'
@@ -73,7 +70,6 @@ class ScaralangBundleKeys:
         '''
         return MappingProxyType({
             cls.DEPENDENCY_BASE: BaseBundle,
-            cls.DEPENDENCY_SERVICE: IScaraDslService,
             cls.DEPENDENCY_CLI: ICLI,
         })
 

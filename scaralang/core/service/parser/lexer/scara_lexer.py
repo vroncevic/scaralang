@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,7 +50,6 @@ class ScaraLexer:
                 | _PATTERN_TO_TOKEN_TYPE - Mapping of pattern kinds to token types.
                 | name - Identifier name of the lexer.
             :methods:
-                | __init__ - Initializes ScaraLexer instance.
                 | tokenize - Tokenizes raw source code into an immutable tuple of lexical tokens.
     '''
 
@@ -76,11 +75,6 @@ class ScaraLexer:
         LexerPatternKind.RPAREN: ScaraTokenType.RPAREN,
         LexerPatternKind.IDENTIFIER: ScaraTokenType.IDENTIFIER,
     }
-
-    def __init__(self) -> None:
-        '''
-            Initializes ScaraLexer instance.
-        '''
 
     @property
     def name(self) -> str:

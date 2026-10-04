@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,6 +47,7 @@ class IReplCommandDispatcher(Protocol):
                 | dispatch_line - Routes line to session handlers or flags for DSL.
                 | format_help - Returns formatted help text for REPL commands and syntax.
                 | format_status - Returns formatted status text for active session state.
+                | format_pose - Returns formatted Cartesian pose string.
     '''
 
     def dispatch_line(
@@ -78,5 +79,14 @@ class IReplCommandDispatcher(Protocol):
 
             :param context: Active REPL session context model.
             :return: Multiline status string.
+            :exceptions: None.
+        '''
+
+    def format_pose(self, *, context: ReplSessionContext) -> str:
+        '''
+            Returns formatted Cartesian pose string.
+
+            :param context: Active REPL session context model.
+            :return: Single-line Cartesian pose string.
             :exceptions: None.
         '''

@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,6 +54,7 @@ class TestStateZoneValidator(TestCase):
                 | test_invalid_zone_mode_emits_warning - Verifies invalid zone mode diagnostic.
                 | test_negative_radius_emits_warning - Verifies negative radius diagnostic.
                 | test_non_zone_instruction_no_op - Verifies non-ZONE command ignored.
+                | test_name - Verifies validator name property.
     '''
 
     def test_valid_zone_updates_context(self) -> None:
@@ -151,6 +152,13 @@ class TestStateZoneValidator(TestCase):
         )
 
         self.assertEqual(len(diagnostics), 0)
+
+    def test_name(self) -> None:
+        '''
+            Verifies validator name property.
+        '''
+        validator = StateZoneValidator()
+        self.assertEqual(validator.name, 'state_zone')
 
 
 if __name__ == '__main__':

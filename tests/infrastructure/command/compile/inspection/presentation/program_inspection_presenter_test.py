@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,6 +56,11 @@ class TestProgramInspectionPresenter(TestCase):
     def test_implements_protocol(self) -> None:
         '''Verifies structural protocol compliance.'''
         self.assertTrue(isinstance(self.presenter, IProgramInspectionPresenter))
+        self.assertFalse(isinstance(object(), IProgramInspectionPresenter))
+
+    def test_get_version(self) -> None:
+        '''Verifies get_version returns valid semantic version.'''
+        self.assertEqual(self.presenter.get_version(), '1.0.3')
 
     def test_present_empty_program(self) -> None:
         '''Verifies inspection presentation of empty binary program.'''
@@ -65,17 +70,7 @@ class TestProgramInspectionPresenter(TestCase):
             total_duration_us=0,
             instruction_count=0,
             step_counts=(0, 0, 0, 0),
-            telemetry=BinaryProgramTelemetry(
-                source_instructions=0,
-                compiled_steps=0,
-                duration_us=0,
-                duration_s=0.0,
-                peak_j1_steps=0,
-                peak_j2_steps=0,
-                peak_z_steps=0,
-                peak_j4_steps=0,
-                total_wire_bytes=0,
-            ),
+            telemetry=BinaryProgramTelemetry(),
         )
         result: str = self.presenter.present_program(program=program)
         self.assertIn('SCARA BINARY FRAME INSPECTION: 0 Frames Compiled (0 bytes total)', result)
@@ -108,10 +103,6 @@ class TestProgramInspectionPresenter(TestCase):
                 compiled_steps=1,
                 duration_us=10000,
                 duration_s=0.01,
-                peak_j1_steps=0,
-                peak_j2_steps=0,
-                peak_z_steps=0,
-                peak_j4_steps=0,
                 total_wire_bytes=len(step.raw_bytes),
             ),
         )

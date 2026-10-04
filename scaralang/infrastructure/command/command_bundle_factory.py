@@ -21,31 +21,20 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
-from scaralang.core.service.exporter.export_target_dispatcher_factory import ExportTargetDispatcherFactory
-from scaralang.core.service.linter.diagnostic.scara_diagnostic_formatter_factory import ScaraDiagnosticFormatterFactory
 from scaralang.infrastructure.command.command_bundle import CommandBundle
-from scaralang.infrastructure.command.compile.compile_command_definition import CompileCommandDefinition
 from scaralang.infrastructure.command.compile.compile_command_executor_factory import CompileCommandExecutorFactory
-from scaralang.infrastructure.command.compile.inspection.presentation.program_inspection_presenter_factory import ProgramInspectionPresenterFactory
-from scaralang.infrastructure.command.compile.telemetry.compile_telemetry_formatter_factory import CompileTelemetryFormatterFactory
-from scaralang.infrastructure.command.disassemble.disassemble_command_definition import DisassembleCommandDefinition
+from scaralang.infrastructure.command.decompile.decompile_command_executor_factory import DecompileCommandExecutorFactory
 from scaralang.infrastructure.command.disassemble.disassemble_command_executor_factory import DisassembleCommandExecutorFactory
-from scaralang.infrastructure.command.disassemble.format.disassemble_summary_formatter_factory import DisassembleSummaryFormatterFactory
-from scaralang.infrastructure.command.export.export_command_definition import ExportCommandDefinition
 from scaralang.infrastructure.command.export.export_command_executor_factory import ExportCommandExecutorFactory
-from scaralang.infrastructure.command.info.info_command_definition import InfoCommandDefinition
 from scaralang.infrastructure.command.info.info_command_executor_factory import InfoCommandExecutorFactory
-from scaralang.infrastructure.command.lint.lint_command_definition import LintCommandDefinition
 from scaralang.infrastructure.command.lint.lint_command_executor_factory import LintCommandExecutorFactory
-from scaralang.infrastructure.command.repl.repl_command_definition import ReplCommandDefinition
 from scaralang.infrastructure.command.repl.repl_command_executor_factory import ReplCommandExecutorFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,59 +47,34 @@ class CommandBundleFactory:
         It defines:
 
             :methods:
-                | create_commands - Builds list of all 6 CLI CommandBundle instances.
+                | create_commands - Builds list of all 7 CLI CommandBundle instances.
                 | get_version - Returns factory version string.
     '''
 
     @classmethod
-    def create_commands(cls, *, service: IScaraDslService) -> list[CommandBundle]:
+    def create_commands(cls) -> list[CommandBundle]:
         '''
             Builds and returns all CLI command bundles wired with their executors.
 
-            :param service: Injected IScaraDslService domain service facade.
             :return: List of configured CommandBundle instances.
             :exceptions: None.
         '''
-        compile_def = CompileCommandDefinition()
-        compile_exec = CompileCommandExecutorFactory.create(
-            definition=compile_def,
-            inspection_presenter=ProgramInspectionPresenterFactory.create(),
-            telemetry_formatter=CompileTelemetryFormatterFactory.create(),
-        )
-
-        lint_def = LintCommandDefinition()
-        lint_exec = LintCommandExecutorFactory.create(
-            definition=lint_def,
-            diagnostic_formatter=ScaraDiagnosticFormatterFactory.create(),
-        )
-
-        disasm_def = DisassembleCommandDefinition()
-        disasm_exec = DisassembleCommandExecutorFactory.create(
-            definition=disasm_def,
-            summary_formatter=DisassembleSummaryFormatterFactory.create(),
-        )
-
-        info_def = InfoCommandDefinition()
-        info_exec = InfoCommandExecutorFactory.create(definition=info_def)
-
-        export_def = ExportCommandDefinition()
-        export_exec = ExportCommandExecutorFactory.create(
-            definition=export_def,
-            dispatcher=ExportTargetDispatcherFactory.create_default(),
-        )
-
-        repl_def = ReplCommandDefinition()
-        repl_exec = ReplCommandExecutorFactory.create_default(
-            service=service, definition=repl_def
-        )
+        compile_exec = CompileCommandExecutorFactory.create_default()
+        decompile_exec = DecompileCommandExecutorFactory.create_default()
+        lint_exec = LintCommandExecutorFactory.create_default()
+        disasm_exec = DisassembleCommandExecutorFactory.create_default()
+        info_exec = InfoCommandExecutorFactory.create_default()
+        export_exec = ExportCommandExecutorFactory.create_default()
+        repl_exec = ReplCommandExecutorFactory.create_default()
 
         return [
-            CommandBundle(definition=compile_def, executor=compile_exec),
-            CommandBundle(definition=lint_def, executor=lint_exec),
-            CommandBundle(definition=disasm_def, executor=disasm_exec),
-            CommandBundle(definition=info_def, executor=info_exec),
-            CommandBundle(definition=export_def, executor=export_exec),
-            CommandBundle(definition=repl_def, executor=repl_exec),
+            CommandBundle(definition=compile_exec.get_definition(), executor=compile_exec),
+            CommandBundle(definition=decompile_exec.get_definition(), executor=decompile_exec),
+            CommandBundle(definition=lint_exec.get_definition(), executor=lint_exec),
+            CommandBundle(definition=disasm_exec.get_definition(), executor=disasm_exec),
+            CommandBundle(definition=info_exec.get_definition(), executor=info_exec),
+            CommandBundle(definition=export_exec.get_definition(), executor=export_exec),
+            CommandBundle(definition=repl_exec.get_definition(), executor=repl_exec),
         ]
 
     @classmethod

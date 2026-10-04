@@ -27,9 +27,14 @@ from math import radians
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.kinematics.joint_angle_bounds import JointAngleBounds
+from scaralang.core.model.kinematics.link_dimensions import LinkDimensions
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.singularity_margins import SingularityMargins
+from scaralang.core.model.kinematics.speed_limits import SpeedLimits
+from scaralang.core.model.kinematics.vertical_bounds import VerticalBounds
 from scaralang.core.service.kinematics.ikinematics_service import IKinematicsService
 from scaralang.core.service.kinematics.kinematics_service import KinematicsService
 
@@ -37,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -68,23 +73,27 @@ class TestKinematicsService(TestCase):
             Sets up standard SCARA geometry bounds and initializes KinematicsService.
         '''
         self.bounds = ScaraBounds(
-            l1=150.0,
-            l2=120.0,
-            z_min=0.0,
-            z_max=50.0,
-            min_speed=1.0,
-            max_speed=200.0,
-            default_speed=50.0,
-            default_accel=100.0,
-            max_accel=500.0,
-            j1_min_rad=radians(-150.0),
-            j1_max_rad=radians(150.0),
-            j2_min_rad=radians(-145.0),
-            j2_max_rad=radians(145.0),
-            singularity_outer_margin_mm=5.0,
-            singularity_inner_margin_mm=5.0,
-            singularity_theta2_min_rad=radians(5.0),
-            deadzone_r_min=20.0,
+            links=LinkDimensions(l1=150.0, l2=120.0),
+            vertical=VerticalBounds(z_min=0.0, z_max=50.0),
+            speeds=SpeedLimits(
+                min_speed=1.0,
+                max_speed=200.0,
+                default_speed=50.0,
+                default_accel=100.0,
+                max_accel=500.0,
+            ),
+            joints=JointAngleBounds(
+                j1_min_rad=radians(-150.0),
+                j1_max_rad=radians(150.0),
+                j2_min_rad=radians(-145.0),
+                j2_max_rad=radians(145.0),
+            ),
+            singularity=SingularityMargins(
+                singularity_outer_margin_mm=5.0,
+                singularity_inner_margin_mm=5.0,
+                singularity_theta2_min_rad=radians(5.0),
+                deadzone_r_min=20.0,
+            ),
         )
         self.service = KinematicsService(bounds=self.bounds)
 
@@ -100,8 +109,8 @@ class TestKinematicsService(TestCase):
         '''
         self.assertAlmostEqual(self.service.r_min, 30.0)
         self.assertAlmostEqual(self.service.r_max, 270.0)
-        self.assertEqual(self.service.bounds.l1, 150.0)
-        self.assertEqual(self.service.bounds.l2, 120.0)
+        self.assertEqual(self.service.bounds.links.l1, 150.0)
+        self.assertEqual(self.service.bounds.links.l2, 120.0)
 
     def test_forward_kinematics(self) -> None:
         '''
@@ -214,23 +223,27 @@ class TestKinematicsService(TestCase):
             Verifies reachability failure when required J2 angle exceeds joint limits.
         '''
         restricted_bounds = ScaraBounds(
-            l1=150.0,
-            l2=120.0,
-            z_min=0.0,
-            z_max=50.0,
-            min_speed=1.0,
-            max_speed=200.0,
-            default_speed=50.0,
-            default_accel=100.0,
-            max_accel=500.0,
-            j1_min_rad=radians(-150.0),
-            j1_max_rad=radians(150.0),
-            j2_min_rad=radians(-10.0),
-            j2_max_rad=radians(10.0),
-            singularity_outer_margin_mm=5.0,
-            singularity_inner_margin_mm=5.0,
-            singularity_theta2_min_rad=radians(1.0),
-            deadzone_r_min=20.0,
+            links=LinkDimensions(l1=150.0, l2=120.0),
+            vertical=VerticalBounds(z_min=0.0, z_max=50.0),
+            speeds=SpeedLimits(
+                min_speed=1.0,
+                max_speed=200.0,
+                default_speed=50.0,
+                default_accel=100.0,
+                max_accel=500.0,
+            ),
+            joints=JointAngleBounds(
+                j1_min_rad=radians(-150.0),
+                j1_max_rad=radians(150.0),
+                j2_min_rad=radians(-10.0),
+                j2_max_rad=radians(10.0),
+            ),
+            singularity=SingularityMargins(
+                singularity_outer_margin_mm=5.0,
+                singularity_inner_margin_mm=5.0,
+                singularity_theta2_min_rad=radians(1.0),
+                deadzone_r_min=20.0,
+            ),
         )
         service = KinematicsService(bounds=restricted_bounds)
         reachable, reasons = service.is_joint_reachable(Point2D(x=200.0, y=0.0))

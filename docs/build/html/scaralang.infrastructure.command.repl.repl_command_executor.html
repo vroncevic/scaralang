@@ -70,7 +70,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.command.repl.repl_command_executor.</span></span><span class="sig-name descname"><span class="pre">ReplCommandExecutor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">definition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.command.icommand_definition.html#scaralang.infrastructure.command.icommand_definition.ICommandDefinition" title="scaralang.infrastructure.command.icommand_definition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.cli.repl.input.irepl_line_reader.html#scaralang.infrastructure.cli.repl.input.irepl_line_reader.IReplLineReader" title="scaralang.infrastructure.cli.repl.input.irepl_line_reader.IReplLineReader"><span class="pre">IReplLineReader</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dispatcher</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.html#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher" title="scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher"><span class="pre">IReplCommandDispatcher</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.html#scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler" title="scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler"><span class="pre">IReplSingleCommandCompiler</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">transmitter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.html#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter" title="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter"><span class="pre">IReplFrameTransmitter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">presenter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter.html#scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter.IReplResponsePresenter" title="scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter.IReplResponsePresenter"><span class="pre">IReplResponsePresenter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/command/repl/repl_command_executor.html#ReplCommandExecutor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.command.repl.repl_command_executor.</span></span><span class="sig-name descname"><span class="pre">ReplCommandExecutor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">definition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.command.icommand_definition.html#scaralang.infrastructure.command.icommand_definition.ICommandDefinition" title="scaralang.infrastructure.command.icommand_definition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.command.repl.repl_command_bundle.html#scaralang.infrastructure.command.repl.repl_command_bundle.ReplCommandBundle" title="scaralang.infrastructure.command.repl.repl_command_bundle.ReplCommandBundle"><span class="pre">ReplCommandBundle</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/command/repl/repl_command_executor.html#ReplCommandExecutor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Command executor orchestrating the interactive REPL event loop.</p>
 <p>It defines:</p>
@@ -78,13 +78,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">definition - The command CLI metadata definition.</div>
-<div class="line">reader - Line reader protocol instance.</div>
-<div class="line">dispatcher - Command dispatcher protocol instance.</div>
-<div class="line">compiler - Single-instruction compiler protocol instance.</div>
-<div class="line">transmitter - Wire frame transmitter protocol instance.</div>
-<div class="line">presenter - Terminal response presenter protocol instance.</div>
-<div class="line">output_func - Optional custom output callable.</div>
+<div class="line">_definition - The command CLI metadata definition.</div>
+<div class="line">_reader - Line reader protocol instance.</div>
+<div class="line">_writer - Output writer protocol instance.</div>
+<div class="line">_dispatcher - Command dispatcher protocol instance.</div>
+<div class="line">_compiler - Single-instruction compiler protocol instance.</div>
+<div class="line">_transmitter - Wire frame transmitter protocol instance.</div>
+<div class="line">_presenter - Terminal response presenter protocol instance.</div>
 </div>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
@@ -92,31 +92,51 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div class="line">__init__ - Initializes the REPL command executor.</div>
 <div class="line">execute - Executes the REPL command from CLI arguments.</div>
 <div class="line">run_session - Executes the REPL read-eval-print loop.</div>
-<div class="line">emit - Emits text to output callable or stdout.</div>
+<div class="line">emit - Emits text to output writer.</div>
 <div class="line">get_definition - Returns the command definition metadata.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.compiler">
-<span class="sig-name descname"><span class="pre">compiler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.html#scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler" title="scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler"><span class="pre">IReplSingleCommandCompiler</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.compiler" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._compiler">
+<span class="sig-name descname"><span class="pre">_compiler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.html#scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler" title="scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler"><span class="pre">IReplSingleCommandCompiler</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._compiler" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.definition">
-<span class="sig-name descname"><span class="pre">definition</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.icommand_definition.html#scaralang.infrastructure.command.icommand_definition.ICommandDefinition" title="scaralang.infrastructure.command.icommand_definition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.definition" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._definition">
+<span class="sig-name descname"><span class="pre">_definition</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.icommand_definition.html#scaralang.infrastructure.command.icommand_definition.ICommandDefinition" title="scaralang.infrastructure.command.icommand_definition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._definition" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.dispatcher">
-<span class="sig-name descname"><span class="pre">dispatcher</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.html#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher" title="scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher"><span class="pre">IReplCommandDispatcher</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.dispatcher" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._dispatcher">
+<span class="sig-name descname"><span class="pre">_dispatcher</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.html#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher" title="scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher"><span class="pre">IReplCommandDispatcher</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._dispatcher" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._presenter">
+<span class="sig-name descname"><span class="pre">_presenter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter.html#scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter.IReplResponsePresenter" title="scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter.IReplResponsePresenter"><span class="pre">IReplResponsePresenter</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._presenter" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._reader">
+<span class="sig-name descname"><span class="pre">_reader</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.input.irepl_line_reader.html#scaralang.infrastructure.cli.repl.input.irepl_line_reader.IReplLineReader" title="scaralang.infrastructure.cli.repl.input.irepl_line_reader.IReplLineReader"><span class="pre">IReplLineReader</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._reader" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._transmitter">
+<span class="sig-name descname"><span class="pre">_transmitter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.html#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter" title="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter"><span class="pre">IReplFrameTransmitter</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._transmitter" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._writer">
+<span class="sig-name descname"><span class="pre">_writer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.output.irepl_output_writer.html#scaralang.infrastructure.cli.repl.output.irepl_output_writer.IReplOutputWriter" title="scaralang.infrastructure.cli.repl.output.irepl_output_writer.IReplOutputWriter"><span class="pre">IReplOutputWriter</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._writer" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.emit">
 <span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/command/repl/repl_command_executor.html#ReplCommandExecutor.emit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.emit" title="Link to this definition">¶</a></dt>
-<dd><p>Emits output text to configured output function.</p>
+<dd><p>Emits output text to configured output writer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>text</strong> – Output text to emit.</p>
@@ -129,14 +149,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/command/repl/repl_command_executor.html#ReplCommandExecutor.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.execute" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/command/repl/repl_command_executor.html#ReplCommandExecutor.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.execute" title="Link to this definition">¶</a></dt>
 <dd><p>Executes the REPL subcommand.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>params</strong> – Subcommand parameters from CLI parser.</p></li>
-<li><p><strong>service</strong> – SCARA DSL service instance.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>params</strong> – Subcommand parameters from CLI parser.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The result mapping of the subcommand execution.</p>
@@ -161,21 +178,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.output_func">
-<span class="sig-name descname"><span class="pre">output_func</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.output_func" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.presenter">
-<span class="sig-name descname"><span class="pre">presenter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter.html#scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter.IReplResponsePresenter" title="scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter.IReplResponsePresenter"><span class="pre">IReplResponsePresenter</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.presenter" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.reader">
-<span class="sig-name descname"><span class="pre">reader</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.input.irepl_line_reader.html#scaralang.infrastructure.cli.repl.input.irepl_line_reader.IReplLineReader" title="scaralang.infrastructure.cli.repl.input.irepl_line_reader.IReplLineReader"><span class="pre">IReplLineReader</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.reader" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.run_session">
 <span class="sig-name descname"><span class="pre">run_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.repl.repl_session_context.html#scaralang.core.model.repl.repl_session_context.ReplSessionContext" title="scaralang.core.model.repl.repl_session_context.ReplSessionContext"><span class="pre">ReplSessionContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/command/repl/repl_command_executor.html#ReplCommandExecutor.run_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.run_session" title="Link to this definition">¶</a></dt>
@@ -193,11 +195,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.transmitter">
-<span class="sig-name descname"><span class="pre">transmitter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.html#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter" title="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter"><span class="pre">IReplFrameTransmitter</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.transmitter" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </section>
@@ -214,17 +211,17 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.infrastructure.command.repl.repl_command_executor module</a><ul>
 <li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.compiler"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.compiler</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.definition"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.definition</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.dispatcher"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.dispatcher</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._compiler"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor._compiler</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._definition"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor._definition</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._dispatcher"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor._dispatcher</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._presenter"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor._presenter</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._reader"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor._reader</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._transmitter"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor._transmitter</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor._writer"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor._writer</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.emit"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.emit()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.execute"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.execute()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.get_definition"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.get_definition()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.output_func"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.output_func</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.presenter"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.presenter</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.reader"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.reader</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.run_session"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.run_session()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.transmitter"><code class="docutils literal notranslate"><span class="pre">ReplCommandExecutor.transmitter</span></code></a></li>
 </ul>
 </li>
 </ul>

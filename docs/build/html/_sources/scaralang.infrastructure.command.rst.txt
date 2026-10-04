@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    scaralang.infrastructure.command.compile
+   scaralang.infrastructure.command.decompile
    scaralang.infrastructure.command.disassemble
    scaralang.infrastructure.command.export
    scaralang.infrastructure.command.info

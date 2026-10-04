@@ -27,7 +27,7 @@ from typing import Final
 
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
-from scaralang.core.service.dsl.iscara_dsl_binary_compiler import IScaraDslBinaryCompiler
+from scaralang.core.service.compiler.dsl.iscara_dsl_binary_compiler import IScaraDslBinaryCompiler
 from scaralang.infrastructure.command.compile.telemetry.icompile_telemetry_formatter import ICompileTelemetryFormatter
 from scaralang.infrastructure.command.compile.inspection.presentation.iprogram_inspection_presenter import IProgramInspectionPresenter
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,7 +49,8 @@ class CompileCommandExecutor:
         It defines:
 
             :attributes:
-                | definition - The command CLI metadata definition.
+                | _definition - The command CLI metadata definition.
+                | _service - Injected binary compiler service.
                 | _inspection_presenter - Injected binary program inspection presenter.
                 | _telemetry_formatter - Injected binary telemetry formatter.
             :methods:
@@ -57,7 +58,8 @@ class CompileCommandExecutor:
                 | get_definition - Returns the command definition metadata.
     '''
 
-    definition: ICommandDefinition
+    _definition: ICommandDefinition
+    _service: IScaraDslBinaryCompiler
     _inspection_presenter: IProgramInspectionPresenter
     _telemetry_formatter: ICompileTelemetryFormatter
 
@@ -65,6 +67,7 @@ class CompileCommandExecutor:
         self,
         *,
         definition: ICommandDefinition,
+        service: IScaraDslBinaryCompiler,
         inspection_presenter: IProgramInspectionPresenter,
         telemetry_formatter: ICompileTelemetryFormatter,
     ) -> None:
@@ -72,11 +75,13 @@ class CompileCommandExecutor:
             Initializes the compile command executor.
 
             :param definition: The command definition metadata.
+            :param service: Injected binary compiler service protocol.
             :param inspection_presenter: Injected binary inspection presenter.
             :param telemetry_formatter: Injected binary telemetry formatter.
             :exceptions: None.
         '''
-        self.definition: Final[ICommandDefinition] = definition
+        self._definition: Final[ICommandDefinition] = definition
+        self._service: Final[IScaraDslBinaryCompiler] = service
         self._inspection_presenter: Final[IProgramInspectionPresenter] = inspection_presenter
         self._telemetry_formatter: Final[ICompileTelemetryFormatter] = telemetry_formatter
 
@@ -84,18 +89,15 @@ class CompileCommandExecutor:
         self,
         *,
         params: Mapping[str, object],
-        service: IScaraDslBinaryCompiler
     ) -> Mapping[str, object]:
         '''
             Executes the compilation subcommand.
 
             :param params: Subcommand parameters from CLI parser.
-            :param service: SCARA DSL service instance.
             :return: The result of the subcommand execution.
         '''
         try:
-            raw_script = params.get('script')
-            script_path: str = str(raw_script) if isinstance(raw_script, str) else ''
+            script_path: str = str(params.get('script') or '')
 
             if not script_path or not exists(script_path):
                 return {
@@ -109,35 +111,27 @@ class CompileCommandExecutor:
             with open(script_path, 'r', encoding='utf-8') as f:
                 source_code: str = f.read()
 
-            program: BinaryProgram = service.compile_to_binary(source=source_code)
-            binary_bytes: bytes = program.raw_bytes
-            raw_output = params.get('output')
-            output_path: str | None = (
-                str(raw_output) if isinstance(raw_output, str) and raw_output.strip()
-                else None
-            )
+            program: BinaryProgram = self._service.compile_to_binary(source=source_code)
+            raw_bytes: bytes = program.raw_bytes
+            output_path: str = str(params.get('output') or '').strip()
 
-            if output_path is not None:
+            if output_path:
                 with open(output_path, 'wb') as f_out:
-                    f_out.write(binary_bytes)
-                msg: str = f'Compiled {len(binary_bytes)} bytes written to {output_path}'
+                    f_out.write(raw_bytes)
+                msg: str = f'Compiled {len(raw_bytes)} bytes written to {output_path}'
             elif bool(params.get('hex')):
-                msg = binary_bytes.hex()
+                msg = raw_bytes.hex()
             else:
-                msg = f'Successfully compiled {len(binary_bytes)} binary wire bytes'
+                msg = f'Successfully compiled {len(raw_bytes)} binary wire bytes'
 
             if bool(params.get('verbose')):
-                telemetry: BinaryProgramTelemetry = service.get_program_telemetry(
+                telemetry: BinaryProgramTelemetry = self._service.get_program_telemetry(
                     program=program
                 )
-                formatted_telemetry: str = self._telemetry_formatter.format_telemetry(
-                    telemetry=telemetry
-                )
-                msg = f'{msg}\n\n{formatted_telemetry}'
+                msg = f'{msg}\n\n{self._telemetry_formatter.format_telemetry(telemetry=telemetry)}'
 
             if bool(params.get('dump_frames')):
-                inspection: str = self._inspection_presenter.present_program(program=program)
-                msg = f'{msg}\n\n{inspection}'
+                msg = f'{msg}\n\n{self._inspection_presenter.present_program(program=program)}'
 
             return {'returncode': 0, 'stdout': msg, 'stderr': ''}
 
@@ -150,4 +144,4 @@ class CompileCommandExecutor:
 
             :return: The command definition metadata.
         '''
-        return self.definition
+        return self._definition

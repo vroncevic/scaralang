@@ -9,6 +9,7 @@ Subpackages
 
    scaralang.core.service.linter.diagnostic
    scaralang.core.service.linter.rules
+   scaralang.core.service.linter.script
 
 Submodules
 ----------

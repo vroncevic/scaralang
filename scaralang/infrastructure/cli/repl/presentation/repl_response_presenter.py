@@ -28,7 +28,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,11 +56,12 @@ class ReplResponsePresenter:
         '''
         lines: list[str] = [
             '=' * 72,
-            '  SCARA Robotics Interactive Motion Console (REPL) v1.0.0',
-            '  Type \'help\' for instructions, \'status\' or \'pose\' for robot state,',
-            '  or \'exit\' / \'quit\' to terminate.',
+            '  SCARA Robotics Interactive Motion Console (REPL) v1.0.2',
+            '  Type \'help\' for manual, \'info\' for specifications, \'status\' for state,',
+            '  \'clear\' to reset viewport, or \'exit\' / \'quit\' to terminate.',
             '=' * 72,
         ]
+
         return '\n'.join(lines)
 
     def present_success(
@@ -84,9 +85,10 @@ class ReplResponsePresenter:
             f'✅ Executed: {step.description}',
             f'   Frame: {msg_name} ({msg_hex}) | {len(step.raw_bytes)} bytes | '
             f'Duration: {duration_ms:.1f} ms',
-            f'   Pose:  X={context.current_x:.2f} mm | Y={context.current_y:.2f} mm | '
-            f'Z={context.current_z:.2f} mm | Phi={context.current_theta4:.2f}°',
+            f'   Pose:  X={context.pose.current_x:.2f} mm | Y={context.pose.current_y:.2f} mm | '
+            f'Z={context.pose.current_z:.2f} mm | Phi={context.pose.current_theta4:.2f}°',
         ]
+
         return '\n'.join(lines)
 
     def present_error(self, *, error: str) -> str:

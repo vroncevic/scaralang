@@ -21,16 +21,17 @@ Info
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
+from scaralang.core.model.repl.repl_pose_state import ReplPoseState
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,10 +45,7 @@ class ReplSessionContext:
         It defines:
 
             :attributes:
-                | current_x - Active Cartesian X coordinate in mm.
-                | current_y - Active Cartesian Y coordinate in mm.
-                | current_z - Active Cartesian Z coordinate in mm.
-                | current_theta4 - Active wrist rotation in degrees.
+                | pose - Active Cartesian pose coordinates in mm and degrees.
                 | elbow_left - True if elbow is in LEFT configuration, False for RIGHT.
                 | speed_mode - Active feedrate mode (RAPID or WORK).
                 | zone_mode - Active corner blending mode (FINE or BLEND).
@@ -55,10 +53,7 @@ class ReplSessionContext:
                 | valve_active - True if release valve is energized.
     '''
 
-    current_x: float = 0.0
-    current_y: float = 0.0
-    current_z: float = 0.0
-    current_theta4: float = 0.0
+    pose: ReplPoseState = field(default_factory=ReplPoseState)
     elbow_left: bool = False
     speed_mode: SpeedMode = SpeedMode.WORK
     zone_mode: ZoneMode = ZoneMode.FINE

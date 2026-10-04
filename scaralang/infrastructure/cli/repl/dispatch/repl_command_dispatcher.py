@@ -21,14 +21,17 @@ Info
 
 from __future__ import annotations
 
+from typing import Final
+
 from scaralang.core.model.repl.repl_dispatch_result import ReplDispatchResult
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
+from scaralang.core.service.info.itoolchain_info_provider import IToolchainInfoProvider
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -40,12 +43,30 @@ class ReplCommandDispatcher:
 
         It defines:
 
+            :attributes:
+                | _info_provider - Injected toolchain metadata and instruction catalog provider.
             :methods:
+                | __init__ - Initializes dispatcher with injected info provider.
                 | dispatch_line - Dispatches line to built-in session handlers or flags for DSL.
                 | format_help - Returns formatted help text for REPL commands and syntax.
                 | format_status - Returns formatted status text for active session state.
                 | format_pose - Returns formatted Cartesian pose string.
     '''
+
+    _info_provider: IToolchainInfoProvider
+
+    def __init__(
+        self,
+        *,
+        info_provider: IToolchainInfoProvider,
+    ) -> None:
+        '''
+            Initializes REPL command dispatcher with injected collaborators.
+
+            :param info_provider: Injected toolchain metadata and instruction provider.
+            :exceptions: None.
+        '''
+        self._info_provider: Final[IToolchainInfoProvider] = info_provider
 
     def dispatch_line(
         self,
@@ -61,35 +82,66 @@ class ReplCommandDispatcher:
             :return: ReplDispatchResult model capturing dispatch outcome.
             :exceptions: None.
         '''
-        cleaned: str = line.strip()
-        lower: str = cleaned.lower()
-        if not cleaned:
-            return ReplDispatchResult(is_exit=False, is_handled=True, message='')
-        if lower in ('exit', 'quit', ':q'):
-            return ReplDispatchResult(
-                is_exit=True,
-                is_handled=True,
-                message='Session terminated.',
-            )
-        if lower in ('help', '?'):
-            return ReplDispatchResult(
-                is_exit=False,
-                is_handled=True,
-                message=self.format_help(),
-            )
-        if lower in ('status', 'state'):
-            return ReplDispatchResult(
-                is_exit=False,
-                is_handled=True,
-                message=self.format_status(context=context),
-            )
-        if lower in ('pose', 'pos'):
-            return ReplDispatchResult(
-                is_exit=False,
-                is_handled=True,
-                message=self.format_pose(context=context),
-            )
-        return ReplDispatchResult(is_exit=False, is_handled=False, message='')
+        tokens: list[str] = [token.lower() for token in line.strip().split()]
+        result: ReplDispatchResult
+
+        match tokens:
+            case []:
+                result = ReplDispatchResult(
+                    is_exit=False,
+                    is_handled=True,
+                    message='',
+                )
+            case ['exit' | 'quit' | ':q', *_]:
+                result = ReplDispatchResult(
+                    is_exit=True,
+                    is_handled=True,
+                    message='Session terminated.',
+                )
+            case ['help' | '?', *_]:
+                result = ReplDispatchResult(
+                    is_exit=False,
+                    is_handled=True,
+                    message=self.format_help(),
+                )
+            case ['clear' | 'cls', *_]:
+                result = ReplDispatchResult(
+                    is_exit=False,
+                    is_handled=True,
+                    message='\033[H\033[2J',
+                )
+            case ['info' | 'specs' | 'catalog', *args]:
+                is_verbose: bool = any(
+                    flag in ('-v', '--verbose', 'verbose') for flag in args
+                )
+                info_lines: tuple[str, ...] = self._info_provider.get_toolchain_info(
+                    verbose=is_verbose
+                )
+                result = ReplDispatchResult(
+                    is_exit=False,
+                    is_handled=True,
+                    message='\n'.join(info_lines),
+                )
+            case ['status' | 'state', *_]:
+                result = ReplDispatchResult(
+                    is_exit=False,
+                    is_handled=True,
+                    message=self.format_status(context=context),
+                )
+            case ['pose' | 'pos', *_]:
+                result = ReplDispatchResult(
+                    is_exit=False,
+                    is_handled=True,
+                    message=self.format_pose(context=context),
+                )
+            case _:
+                result = ReplDispatchResult(
+                    is_exit=False,
+                    is_handled=False,
+                    message='',
+                )
+
+        return result
 
     def format_help(self) -> str:
         '''
@@ -103,6 +155,8 @@ class ReplCommandDispatcher:
             '  help, ?        - Show this reference manual',
             '  status, state  - Display current kinematic and tool status',
             '  pose, pos      - Display current Cartesian coordinates',
+            '  info [-v]      - Display SCARA toolchain specifications and limits',
+            '  clear, cls     - Clear terminal screen',
             '  exit, quit, :q - Terminate the interactive REPL session',
             '',
             'Robotic DSL Instructions (Immediate Execution):',
@@ -115,6 +169,7 @@ class ReplCommandDispatcher:
             '  VALVE ON|OFF                              - Vent blow-off',
             '  HOME                                      - Calibration',
         ]
+
         return '\n'.join(lines)
 
     def format_status(self, *, context: ReplSessionContext) -> str:
@@ -130,12 +185,13 @@ class ReplCommandDispatcher:
         valve_str: str = 'ACTIVE' if context.valve_active else 'INACTIVE'
         lines: list[str] = [
             'Current Robot State:',
-            f'  Pose:     X={context.current_x:.2f} mm, Y={context.current_y:.2f} mm, '
-            f'Z={context.current_z:.2f} mm, Phi={context.current_theta4:.2f}°',
+            f'  Pose:     X={context.pose.current_x:.2f} mm, Y={context.pose.current_y:.2f} mm, '
+            f'Z={context.pose.current_z:.2f} mm, Phi={context.pose.current_theta4:.2f}°',
             f'  Config:   Elbow={elbow_str}, SpeedMode={context.speed_mode.name}, '
             f'ZoneMode={context.zone_mode.name}',
             f'  Pneumatics: Pump={pump_str}, Valve={valve_str}',
         ]
+
         return '\n'.join(lines)
 
     def format_pose(self, *, context: ReplSessionContext) -> str:
@@ -147,6 +203,6 @@ class ReplCommandDispatcher:
             :exceptions: None.
         '''
         return (
-            f'Pose: X={context.current_x:.2f} mm | Y={context.current_y:.2f} mm | '
-            f'Z={context.current_z:.2f} mm | Phi={context.current_theta4:.2f}°'
+            f'Pose: X={context.pose.current_x:.2f} mm | Y={context.pose.current_y:.2f} mm | '
+            f'Z={context.pose.current_z:.2f} mm | Phi={context.pose.current_theta4:.2f}°'
         )

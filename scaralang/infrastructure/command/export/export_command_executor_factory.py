@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
+from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
 from scaralang.core.service.exporter.export_target_dispatcher_factory import ExportTargetDispatcherFactory
 from scaralang.core.service.exporter.iexport_target_dispatcher import IExportTargetDispatcher
 from scaralang.infrastructure.command.export.export_command_definition import ExportCommandDefinition
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,18 +56,21 @@ class ExportCommandExecutorFactory:
         cls,
         *,
         definition: ICommandDefinition,
+        service: IScaraDslCompiler,
         dispatcher: IExportTargetDispatcher,
     ) -> ExportCommandExecutor:
         '''
             Builds and returns an ExportCommandExecutor with strictly injected dependencies.
 
             :param definition: Required ICommandDefinition protocol instance.
+            :param service: Required IScaraDslCompiler protocol instance.
             :param dispatcher: Required IExportTargetDispatcher protocol instance.
             :return: Fully wired ExportCommandExecutor instance.
             :exceptions: None.
         '''
         return ExportCommandExecutor(
             definition=definition,
+            service=service,
             dispatcher=dispatcher,
         )
 
@@ -79,6 +84,7 @@ class ExportCommandExecutorFactory:
         '''
         return ExportCommandExecutor(
             definition=ExportCommandDefinition(),
+            service=ScaraDslCompilerFactory.create_default(),
             dispatcher=ExportTargetDispatcherFactory.create_default(),
         )
 

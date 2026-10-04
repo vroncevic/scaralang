@@ -29,13 +29,13 @@ from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.dsl.macro.pallet_definition import PalletDefinition
 from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.service.compiler.frame.iframe_transformer import IFrameTransformer
+from scaralang.core.service.transformation.iframe_transformer import IFrameTransformer
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -107,8 +107,12 @@ class PalletMacroExpander:
                 dx=float(params.get(InstructionParam.DX, 20.0)),
                 dy=float(params.get(InstructionParam.DY, 20.0)),
                 start=Point2D(
-                    x=float(params.get(InstructionParam.START_X, context.current_x)),
-                    y=float(params.get(InstructionParam.START_Y, context.current_y)),
+                    x=float(
+                        params.get(InstructionParam.START_X, context.pose.current_x)
+                    ),
+                    y=float(
+                        params.get(InstructionParam.START_Y, context.pose.current_y)
+                    ),
                 ),
             )
             context.pallets[name] = pallet_def
@@ -129,11 +133,11 @@ class PalletMacroExpander:
             frame=context.active_frame,
             point=Point2D(x=local_x, y=local_y),
         )
-        target_z = float(params.get(InstructionParam.Z, context.current_z))
+        target_z = float(params.get(InstructionParam.Z, context.pose.current_z))
 
-        context.current_x = transformed_point.x
-        context.current_y = transformed_point.y
-        context.current_z = target_z
+        context.pose.current_x = transformed_point.x
+        context.pose.current_y = transformed_point.y
+        context.pose.current_z = target_z
 
         move_inst = ScaraInstruction(
             command_type=ScaraCommandType.MOVE_L,
@@ -147,8 +151,8 @@ class PalletMacroExpander:
                 InstructionParam.X: transformed_point.x,
                 InstructionParam.Y: transformed_point.y,
                 InstructionParam.Z: target_z,
-                InstructionParam.PHI: context.current_phi,
-                InstructionParam.SPEED: context.current_speed,
+                InstructionParam.PHI: context.pose.current_phi,
+                InstructionParam.SPEED: context.speed.current_speed,
             },
         )
 

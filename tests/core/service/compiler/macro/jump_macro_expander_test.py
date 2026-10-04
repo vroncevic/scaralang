@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -95,10 +95,10 @@ class TestJumpMacroExpander(TestCase):
             Verifies JUMP expands into lift, transit, and descent instructions.
         '''
         context = ScaraCompilerContext()
-        context.current_x = 10.0
-        context.current_y = 20.0
-        context.current_z = 5.0
-        context.current_phi = 0.0
+        context.pose.current_x = 10.0
+        context.pose.current_y = 20.0
+        context.pose.current_z = 5.0
+        context.pose.current_phi = 0.0
 
         inst = ScaraInstruction(
             command_type=ScaraCommandType.JUMP,
@@ -128,19 +128,19 @@ class TestJumpMacroExpander(TestCase):
         self.assertEqual(descend_inst.parameters[InstructionParam.Z], 2.0)
 
         # Context updated to final destination
-        self.assertEqual(context.current_x, 100.0)
-        self.assertEqual(context.current_y, 150.0)
-        self.assertEqual(context.current_z, 2.0)
-        self.assertEqual(context.current_phi, 30.0)
+        self.assertEqual(context.pose.current_x, 100.0)
+        self.assertEqual(context.pose.current_y, 150.0)
+        self.assertEqual(context.pose.current_z, 2.0)
+        self.assertEqual(context.pose.current_phi, 30.0)
 
     def test_expand_jump_with_arch_height(self) -> None:
         '''
             Verifies custom ARCH_HEIGHT parameter sets correct clearance.
         '''
         context = ScaraCompilerContext()
-        context.current_x = 0.0
-        context.current_y = 0.0
-        context.current_z = 10.0
+        context.pose.current_x = 0.0
+        context.pose.current_y = 0.0
+        context.pose.current_z = 10.0
 
         inst = ScaraInstruction(
             command_type=ScaraCommandType.JUMP,

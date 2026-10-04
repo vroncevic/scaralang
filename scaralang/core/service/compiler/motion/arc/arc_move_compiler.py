@@ -39,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -116,12 +116,12 @@ class ArcMoveCompiler:
         )
         params = instruction.parameters
         target_z: float = float(
-            params.get(InstructionParam.Z, context.current_z)
+            params.get(InstructionParam.Z, context.pose.current_z)
         )
         spd: float = float(
-            params.get(InstructionParam.SPEED, context.current_speed)
+            params.get(InstructionParam.SPEED, context.speed.current_speed)
         )
-        effective_spd: float = spd * (context.speed_override_pct / 100.0)
+        effective_spd: float = spd * (context.speed.speed_override_pct / 100.0)
 
         compiled: tuple[Waypoint, ...] = (
             self._waypoint_builder.build_waypoints(
@@ -132,8 +132,8 @@ class ArcMoveCompiler:
             )
         )
 
-        context.current_x = end_point.x
-        context.current_y = end_point.y
-        context.current_z = target_z
+        context.pose.current_x = end_point.x
+        context.pose.current_y = end_point.y
+        context.pose.current_z = target_z
 
         return compiled

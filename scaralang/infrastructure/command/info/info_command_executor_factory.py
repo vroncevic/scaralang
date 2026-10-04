@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from scaralang.core.service.info.itoolchain_info_provider import IToolchainInfoProvider
+from scaralang.core.service.info.toolchain_info_provider_factory import ToolchainInfoProviderFactory
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
 from scaralang.infrastructure.command.info.info_command_definition import InfoCommandDefinition
 from scaralang.infrastructure.command.info.info_command_executor import InfoCommandExecutor
@@ -29,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,8 +44,8 @@ class InfoCommandExecutorFactory:
         It defines:
 
             :methods:
-                | create - Builds InfoCommandExecutor with injected definition.
-                | create_default - Builds InfoCommandExecutor with default definition.
+                | create - Builds InfoCommandExecutor with injected definition and service.
+                | create_default - Builds InfoCommandExecutor with default definition and service.
                 | get_version - Returns factory version string.
     '''
 
@@ -52,28 +54,32 @@ class InfoCommandExecutorFactory:
         cls,
         *,
         definition: ICommandDefinition,
+        service: IToolchainInfoProvider,
     ) -> InfoCommandExecutor:
         '''
             Builds and returns an InfoCommandExecutor with strictly injected definition.
 
             :param definition: Required ICommandDefinition protocol instance.
+            :param service: Required IToolchainInfoProvider protocol instance.
             :return: Fully wired InfoCommandExecutor instance.
             :exceptions: None.
         '''
         return InfoCommandExecutor(
             definition=definition,
+            service=service,
         )
 
     @classmethod
     def create_default(cls) -> InfoCommandExecutor:
         '''
-            Builds and returns an InfoCommandExecutor instance with default definition.
+            Builds and returns an InfoCommandExecutor instance with default dependencies.
 
             :return: Fully wired InfoCommandExecutor instance.
             :exceptions: None.
         '''
         return InfoCommandExecutor(
             definition=InfoCommandDefinition(),
+            service=ToolchainInfoProviderFactory.create_default(),
         )
 
     @classmethod

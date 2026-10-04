@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,16 +42,9 @@ class ControlWaypointBuilder:
         It defines:
 
             :methods:
-                | __init__ - Initializes ControlWaypointBuilder instance.
                 | build_waypoint - Builds waypoint for execution control commands.
+                | get_version - Returns the builder version string.
     '''
-
-    def __init__(self) -> None:
-        '''
-            Initializes ControlWaypointBuilder instance.
-
-            :exceptions: None.
-        '''
 
     def build_waypoint(
         self,
@@ -68,11 +61,20 @@ class ControlWaypointBuilder:
             :exceptions: None.
         '''
         return Waypoint(
-            x=context.current_x,
-            y=context.current_y,
-            z=context.current_z,
+            x=context.pose.current_x,
+            y=context.pose.current_y,
+            z=context.pose.current_z,
             phi=descriptor.phi,
             speed=descriptor.speed,
             name=descriptor.name,
             command=descriptor.command,
         )
+
+    def get_version(self) -> str:
+        '''
+            Returns the builder version string representation.
+
+            :return: Version string representation.
+            :exceptions: None.
+        '''
+        return __version__

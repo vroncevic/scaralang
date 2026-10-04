@@ -79,9 +79,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">endpoint - Target connection endpoint identifier.</div>
-<div class="line">dry_run - True if running in simulated dry-run mode.</div>
-<div class="line">transmitted_frames - In-memory log of transmitted raw byte packets.</div>
+<div class="line">_endpoint - Target connection endpoint identifier.</div>
+<div class="line">_dry_run - True if running in simulated dry-run mode.</div>
+<div class="line">_transmitted_frames - In-memory log of transmitted raw byte packets.</div>
 </div>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
@@ -90,19 +90,43 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div class="line">transmit_frame - Transmits binary wire bytes to target or buffer.</div>
 <div class="line">is_dry_run - Checks if transmitter is operating in offline mode.</div>
 <div class="line">get_endpoint - Returns the configured target endpoint string.</div>
+<div class="line">configure - Updates target endpoint and dry-run mode.</div>
+<div class="line">transmitted_frames - Property returning logged byte packets.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.dry_run">
-<span class="sig-name descname"><span class="pre">dry_run</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.dry_run" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter._dry_run">
+<span class="sig-name descname"><span class="pre">_dry_run</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter._dry_run" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.endpoint">
-<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.endpoint" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter._endpoint">
+<span class="sig-name descname"><span class="pre">_endpoint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter._endpoint" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter._transmitted_frames">
+<span class="sig-name descname"><span class="pre">_transmitted_frames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter._transmitted_frames" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.configure">
+<span class="sig-name descname"><span class="pre">configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter.html#ReplFrameTransmitter.configure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.configure" title="Link to this definition">¶</a></dt>
+<dd><p>Configures the transmitter with updated endpoint and dry-run mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – Target connection endpoint identifier.</p></li>
+<li><p><strong>dry_run</strong> – True if running in simulated dry-run mode.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.get_endpoint">
@@ -149,10 +173,19 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py property">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmitted_frames">
-<span class="sig-name descname"><span class="pre">transmitted_frames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmitted_frames" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transmitted_frames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmitted_frames" title="Link to this definition">¶</a></dt>
+<dd><p>Returns logged transmitted byte packets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>In-memory log of transmitted raw byte packets.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -170,8 +203,10 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter module</a><ul>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.dry_run"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.dry_run</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.endpoint"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.endpoint</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter._dry_run"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter._dry_run</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter._endpoint"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter._endpoint</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter._transmitted_frames"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter._transmitted_frames</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.configure"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.configure()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.get_endpoint"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.get_endpoint()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.is_dry_run"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.is_dry_run()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter.ReplFrameTransmitter.transmit_frame"><code class="docutils literal notranslate"><span class="pre">ReplFrameTransmitter.transmit_frame()</span></code></a></li>

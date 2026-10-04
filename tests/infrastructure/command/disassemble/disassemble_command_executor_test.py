@@ -26,21 +26,18 @@ from os.path import exists
 from tempfile import NamedTemporaryFile
 from unittest import TestCase
 from unittest import main
+from unittest.mock import MagicMock
 
-from scaralang.core.service.dsl.scara_dsl_service_factory import ScaraDslServiceFactory
 from scaralang.infrastructure.command.compile.compile_command_executor_factory import CompileCommandExecutorFactory
 from scaralang.infrastructure.command.disassemble.disassemble_command_definition import DisassembleCommandDefinition
 from scaralang.infrastructure.command.disassemble.disassemble_command_executor import DisassembleCommandExecutor
-from scaralang.infrastructure.command.disassemble.format.disassemble_summary_formatter_factory import DisassembleSummaryFormatterFactory
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
+from scaralang.infrastructure.command.disassemble.disassemble_command_executor_factory import DisassembleCommandExecutorFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,9 +52,12 @@ class TestDisassembleCommandExecutor(TestCase):
             :methods:
                 | setUp - Initializes fixtures.
                 | tearDown - Cleans up temporary resources.
+                | create_source_file - Creates temporary source file helper.
                 | test_disassemble_missing_file - Verifies handling of absent file.
                 | test_disassemble_compiled_file - Verifies disassembling valid binary file.
                 | test_disassemble_summary - Verifies disassemble with summary option.
+                | test_disassemble_alternate_service_methods - Verifies alternate service method fallback.
+                | test_disassemble_error - Verifies handling of disassembly errors.
                 | test_get_definition - Verifies definition retrieval.
     '''
 
@@ -66,16 +66,7 @@ class TestDisassembleCommandExecutor(TestCase):
             Sets up test fixtures.
         '''
         self.cmd_def = DisassembleCommandDefinition()
-        self.summary_formatter = DisassembleSummaryFormatterFactory.create()
-        self.executor = DisassembleCommandExecutor(
-            definition=self.cmd_def,
-            summary_formatter=self.summary_formatter,
-        )
-        self.service = ScaraDslServiceFactory.create_default(
-            frame_builder=BinaryFrameBuilderFactory.create(),
-            frame_parser=BinaryFrameParserFactory.create_default(),
-            payload_unpacker=BinaryPayloadUnpackerFactory.create(),
-        )
+        self.executor = DisassembleCommandExecutorFactory.create_default()
         self.temp_files: list[str] = []
 
     def tearDown(self) -> None:
@@ -102,7 +93,6 @@ class TestDisassembleCommandExecutor(TestCase):
         '''
         res = self.executor.execute(
             params={'file': '/nonexistent/file.bin'},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 1)
         self.assertIn('does not exist', str(res.get('stderr', '')))
@@ -118,10 +108,9 @@ class TestDisassembleCommandExecutor(TestCase):
         compile_exec = CompileCommandExecutorFactory.create_default()
         compile_exec.execute(
             params={'script': script_path, 'output': bin_path},
-            service=self.service,
         )
 
-        res = self.executor.execute(params={'file': bin_path}, service=self.service)
+        res = self.executor.execute(params={'file': bin_path})
         self.assertEqual(res.get('returncode'), 0)
         disasm_out = str(res.get('stdout', ''))
         self.assertIn('CMD_HOME', disasm_out)
@@ -139,12 +128,10 @@ class TestDisassembleCommandExecutor(TestCase):
         compile_exec = CompileCommandExecutorFactory.create_default()
         compile_exec.execute(
             params={'script': script_path, 'output': bin_path},
-            service=self.service,
         )
 
         res = self.executor.execute(
             params={'file': bin_path, 'summary': True},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 0)
         stdout_text = str(res.get('stdout', ''))
@@ -156,7 +143,48 @@ class TestDisassembleCommandExecutor(TestCase):
         '''
             Verifies definition getter.
         '''
-        self.assertEqual(self.executor.get_definition(), self.cmd_def)
+        self.assertEqual(self.executor.get_definition().name, self.cmd_def.name)
+
+    def test_disassemble_alternate_service_methods(self) -> None:
+        '''
+            Verifies fallback when service provides disassemble_bytes and calculate_disassembly_summary.
+        '''
+        mock_service = MagicMock(spec=['disassemble_bytes', 'calculate_disassembly_summary'])
+        mock_service.disassemble_bytes.return_value = ()
+        mock_service.calculate_disassembly_summary.return_value = MagicMock()
+        mock_formatter = MagicMock()
+        mock_formatter.format_summary.return_value = 'Mock Summary'
+        executor = DisassembleCommandExecutor(
+            definition=MagicMock(),
+            service=mock_service,
+            summary_formatter=mock_formatter,
+        )
+        with NamedTemporaryFile(mode='wb', delete=False) as f:
+            f.write(b'1234')
+            tmp = f.name
+        self.temp_files.append(tmp)
+        res = executor.execute(params={'file': tmp, 'summary': True})
+        self.assertEqual(res.get('returncode'), 0)
+        self.assertIn('Mock Summary', str(res.get('stdout', '')))
+
+    def test_disassemble_error(self) -> None:
+        '''
+            Verifies error handling when disassembly raises an exception.
+        '''
+        mock_service = MagicMock(spec=['disassemble_bytes'])
+        mock_service.disassemble_bytes.side_effect = ValueError('Corrupted data')
+        executor = DisassembleCommandExecutor(
+            definition=MagicMock(),
+            service=mock_service,
+            summary_formatter=MagicMock(),
+        )
+        with NamedTemporaryFile(mode='wb', delete=False) as f:
+            f.write(b'1234')
+            tmp = f.name
+        self.temp_files.append(tmp)
+        res = executor.execute(params={'file': tmp})
+        self.assertEqual(res.get('returncode'), 1)
+        self.assertIn('disassemble error: Corrupted data', str(res.get('stderr', '')))
 
 
 if __name__ == '__main__':

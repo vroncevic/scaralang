@@ -24,13 +24,14 @@ from __future__ import annotations
 from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
+from scaralang.core.model.dsl.linter.lint_tool_state import LintToolState
 from scaralang.core.model.dsl.linter.scara_lint_context import ScaraLintContext
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,8 +49,8 @@ class ScaraLintContextTest(TestCase):
         ctx = ScaraLintContext()
         self.assertFalse(ctx.is_homed)
         self.assertFalse(ctx.motion_occurred)
-        self.assertFalse(ctx.pump_on)
-        self.assertFalse(ctx.valve_on)
+        self.assertFalse(ctx.tool_state.pump_on)
+        self.assertFalse(ctx.tool_state.valve_on)
         self.assertEqual(ctx.zone_mode, ZoneMode.FINE)
         self.assertAlmostEqual(ctx.zone_radius, 0.0)
         self.assertEqual(ctx.last_coords, ())
@@ -61,16 +62,15 @@ class ScaraLintContextTest(TestCase):
         ctx = ScaraLintContext(
             is_homed=True,
             motion_occurred=True,
-            pump_on=True,
-            valve_on=False,
+            tool_state=LintToolState(pump_on=True, valve_on=False),
             zone_mode=ZoneMode.BLEND,
             zone_radius=5.0,
             last_coords=(100.0, 50.0, 20.0),
         )
         self.assertTrue(ctx.is_homed)
         self.assertTrue(ctx.motion_occurred)
-        self.assertTrue(ctx.pump_on)
-        self.assertFalse(ctx.valve_on)
+        self.assertTrue(ctx.tool_state.pump_on)
+        self.assertFalse(ctx.tool_state.valve_on)
         self.assertEqual(ctx.zone_mode, ZoneMode.BLEND)
         self.assertAlmostEqual(ctx.zone_radius, 5.0)
         self.assertEqual(ctx.last_coords, (100.0, 50.0, 20.0))
@@ -82,14 +82,14 @@ class ScaraLintContextTest(TestCase):
         ctx = ScaraLintContext()
         ctx.is_homed = True
         ctx.motion_occurred = True
-        ctx.pump_on = True
-        ctx.valve_on = True
+        ctx.tool_state.pump_on = True
+        ctx.tool_state.valve_on = True
         ctx.last_coords = (150.0, 0.0, 20.0)
 
         self.assertTrue(ctx.is_homed)
         self.assertTrue(ctx.motion_occurred)
-        self.assertTrue(ctx.pump_on)
-        self.assertTrue(ctx.valve_on)
+        self.assertTrue(ctx.tool_state.pump_on)
+        self.assertTrue(ctx.tool_state.valve_on)
         self.assertEqual(ctx.last_coords, (150.0, 0.0, 20.0))
 
 

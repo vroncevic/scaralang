@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,26 +58,21 @@ class StateLintRuleFactory:
         *,
         homing_validator: IStateHomingValidator,
         zone_validator: IStateZoneValidator,
-        motor_mode_validator: IMotorModeValidator | None = None,
+        motor_mode_validator: IMotorModeValidator,
     ) -> IScaraLintRule:
         '''
             Builds and returns an IScaraLintRule instance for state validation.
 
             :param homing_validator: Required IStateHomingValidator instance.
             :param zone_validator: Required IStateZoneValidator instance.
-            :param motor_mode_validator: Optional IMotorModeValidator instance.
+            :param motor_mode_validator: Required IMotorModeValidator instance.
             :return: Configured IScaraLintRule instance.
             :exceptions: None.
         '''
-        active_motor_validator = (
-            MotorModeValidatorFactory.create()
-            if motor_mode_validator is None
-            else motor_mode_validator
-        )
         return StateLintRule(
             homing_validator=homing_validator,
             zone_validator=zone_validator,
-            motor_mode_validator=active_motor_validator,
+            motor_mode_validator=motor_mode_validator,
         )
 
     @classmethod

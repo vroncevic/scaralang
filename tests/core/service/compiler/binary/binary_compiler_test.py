@@ -24,6 +24,7 @@ from __future__ import annotations
 from unittest import TestCase, main
 from unittest.mock import MagicMock
 
+from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
 from scaralang.core.model.dsl.binary.step import Step
@@ -36,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,8 +50,12 @@ class TestBinaryCompiler(TestCase):
         It defines:
 
             :methods:
+                | setUp - Sets up compiler instance and mocks.
                 | test_compile_plan - Verifies compiling trajectory plan into binary program.
+                | test_protocol_conformance - Verifies BinaryCompiler satisfies IBinaryCompiler.
+                | test_get_version - Verifies get_version returns valid version string.
     '''
+
 
     def setUp(self) -> None:
         '''Sets up compiler instance and mocks.'''
@@ -84,10 +89,12 @@ class TestBinaryCompiler(TestCase):
             compiled_steps=1,
             duration_us=1500,
             duration_s=0.0015,
-            peak_j1_steps=10,
-            peak_j2_steps=20,
-            peak_z_steps=30,
-            peak_j4_steps=0,
+            peak_steps=AxisPeakSteps(
+                peak_j1_steps=10,
+                peak_j2_steps=20,
+                peak_z_steps=30,
+                peak_j4_steps=0,
+            ),
             total_wire_bytes=2,
         )
         self.mock_dispatcher.dispatch_steps.return_value = (step,)
@@ -108,6 +115,11 @@ class TestBinaryCompiler(TestCase):
     def test_protocol_conformance(self) -> None:
         '''Verifies BinaryCompiler satisfies IBinaryCompiler.'''
         self.assertIsInstance(self.compiler, IBinaryCompiler)
+
+    def test_get_version(self) -> None:
+        '''Verifies get_version returns valid version string.'''
+        self.assertEqual(self.compiler.get_version(), '1.0.3')
+
 
 
 if __name__ == '__main__':

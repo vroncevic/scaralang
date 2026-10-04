@@ -26,14 +26,16 @@ from typing import Final
 from scaralang.core.model.dsl.binary.step import Step
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.model.repl.repl_pose_state import ReplPoseState
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
+from scaralang.core.service.compiler.dsl.iscara_dsl_binary_compiler import IScaraDslBinaryCompiler
+from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,23 +48,32 @@ class ReplSingleCommandCompiler:
         It defines:
 
             :attributes:
-                | service - Injected IScaraDslService protocol instance.
+                | _compiler - Injected IScaraDslCompiler protocol instance.
+                | _binary_compiler - Injected IScaraDslBinaryCompiler protocol instance.
             :methods:
-                | __init__ - Initializes compiler with injected DSL service.
+                | __init__ - Initializes compiler with injected DSL compilers.
                 | compile_instruction - Compiles single instruction and derives updated context.
                 | update_context - Computes updated session context model from plan and step.
     '''
 
-    service: IScaraDslService
+    _compiler: IScaraDslCompiler
+    _binary_compiler: IScaraDslBinaryCompiler
 
-    def __init__(self, *, service: IScaraDslService) -> None:
+    def __init__(
+        self,
+        *,
+        compiler: IScaraDslCompiler,
+        binary_compiler: IScaraDslBinaryCompiler,
+    ) -> None:
         '''
             Initializes single-line command compiler.
 
-            :param service: Injected IScaraDslService protocol instance.
+            :param compiler: Injected IScaraDslCompiler protocol instance.
+            :param binary_compiler: Injected IScaraDslBinaryCompiler protocol instance.
             :exceptions: None.
         '''
-        self.service: Final[IScaraDslService] = service
+        self._compiler: Final[IScaraDslCompiler] = compiler
+        self._binary_compiler: Final[IScaraDslBinaryCompiler] = binary_compiler
 
     def compile_instruction(
         self,
@@ -79,8 +90,8 @@ class ReplSingleCommandCompiler:
             :exceptions:
                 | ValueError: If syntax, kinematic limits, or validation checks fail.
         '''
-        plan = self.service.compile_script(source=line)
-        program = self.service.compile_plan(plan=plan)
+        plan = self._compiler.compile_script(source=line)
+        program = self._binary_compiler.compile_plan(plan=plan)
 
         if not program.steps:
             raise ValueError(f'No binary steps compiled for line: {line}')
@@ -110,16 +121,17 @@ class ReplSingleCommandCompiler:
             :return: Updated ReplSessionContext instance.
             :exceptions: None.
         '''
-        x = context.current_x
-        y = context.current_y
-        z = context.current_z
-        phi = context.current_theta4
+        x = context.pose.current_x
+        y = context.pose.current_y
+        z = context.pose.current_z
+        phi = context.pose.current_theta4
 
         if step.frame.msg_id == MessageId.CMD_HOME:
             x, y, z, phi = 150.0, 0.0, 20.0, 0.0
         elif plan_waypoints:
             last_wp = plan_waypoints[-1]
             cmd_name: str = str(getattr(last_wp, 'command', ''))
+
             if not cmd_name.startswith('<CMD:'):
                 x = float(getattr(last_wp, 'x', x))
                 y = float(getattr(last_wp, 'y', y))
@@ -137,10 +149,12 @@ class ReplSingleCommandCompiler:
         )
 
         return ReplSessionContext(
-            current_x=x,
-            current_y=y,
-            current_z=z,
-            current_theta4=phi,
+            pose=ReplPoseState(
+                current_x=x,
+                current_y=y,
+                current_z=z,
+                current_theta4=phi,
+            ),
             elbow_left=context.elbow_left,
             speed_mode=context.speed_mode,
             zone_mode=context.zone_mode,

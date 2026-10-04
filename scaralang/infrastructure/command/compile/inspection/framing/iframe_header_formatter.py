@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,6 +44,7 @@ class IFrameHeaderFormatter(Protocol):
 
             :methods:
                 | format_header - Formats frame header parameters into display string.
+                | get_version - Returns the interface protocol version identifier.
     '''
 
     def format_header(
@@ -60,4 +61,11 @@ class IFrameHeaderFormatter(Protocol):
             :param seq_num: Cyclic frame sequence number.
             :param payload_len: Length of payload in bytes.
             :return: Formatted wire header string.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Returns the interface protocol version identifier.
+
+            :return: The protocol version string.
         '''

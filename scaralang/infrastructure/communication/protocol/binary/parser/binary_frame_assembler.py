@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,16 +49,10 @@ class BinaryFrameAssembler:
                 | name - Identifier name of the assembler.
                 | HEADER_FORMAT - Struct format for 3-byte frame header (<BBB).
             :methods:
-                | __init__ - Initializes BinaryFrameAssembler instance.
                 | assemble - Validates CRC-16 and constructs BinaryFrame if valid.
     '''
 
     HEADER_FORMAT: ClassVar[str] = str(BinaryStructFormat.HEADER)
-
-    def __init__(self) -> None:
-        '''
-            Initializes BinaryFrameAssembler instance.
-        '''
 
     @property
     def name(self) -> str:

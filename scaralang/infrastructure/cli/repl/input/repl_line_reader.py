@@ -21,14 +21,11 @@ Info
 
 from __future__ import annotations
 
-from collections.abc import Callable
-from typing import Final
-
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -36,43 +33,35 @@ __status__ = 'Updated'
 
 class ReplLineReader:
     '''
-        Line reader adapter reading interactive input from user or custom function.
+        Line reader adapter reading interactive input from standard terminal input.
 
         It defines:
 
-            :attributes:
-                | reader_func - Callable invoked to obtain an input line given a prompt.
             :methods:
-                | __init__ - Initializes line reader with optional reader function.
-                | read_line - Reads a single input line from user or callable.
+                | read_line - Reads a single input line from user terminal.
+                | get_version - Returns line reader version string.
     '''
-
-    reader_func: Callable[[str], str]
-
-    def __init__(
-        self,
-        *,
-        reader_func: Callable[[str], str],
-    ) -> None:
-        '''
-            Initializes line reader with custom reader function.
-
-            :param reader_func: Callable taking prompt and returning string.
-            :exceptions: None.
-        '''
-        self.reader_func: Final[Callable[[str], str]] = reader_func
 
     def read_line(self, *, prompt: str = 'scaralang> ') -> str | None:
         '''
-            Reads a single input line from the user.
+            Reads a single input line from standard terminal input.
 
             :param prompt: Prompt string to display.
             :return: The input line stripped of trailing newline, or None on EOF.
             :exceptions: None.
         '''
         try:
-            raw_input: str = self.reader_func(prompt)
+            raw_input: str = input(prompt)
             return raw_input.strip()
 
         except (EOFError, KeyboardInterrupt):
             return None
+
+    def get_version(self) -> str:
+        '''
+            Returns line reader component version.
+
+            :return: Version string.
+            :exceptions: None.
+        '''
+        return __version__

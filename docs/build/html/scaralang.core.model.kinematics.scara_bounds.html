@@ -15,7 +15,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.core.model.kinematics.transmission_parameters module" href="scaralang.core.model.kinematics.transmission_parameters.html" />
+    <link rel="next" title="scaralang.core.model.kinematics.singularity_margins module" href="scaralang.core.model.kinematics.singularity_margins.html" />
     <link rel="prev" title="scaralang.core.model.kinematics.point_3d module" href="scaralang.core.model.kinematics.point_3d.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,7 +28,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.kinematics.transmission_parameters.html" title="scaralang.core.model.kinematics.transmission_parameters module"
+          <a href="scaralang.core.model.kinematics.singularity_margins.html" title="scaralang.core.model.kinematics.singularity_margins module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.model.kinematics.point_3d.html" title="scaralang.core.model.kinematics.point_3d module"
@@ -70,7 +70,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.kinematics.scara_bounds.</span></span><span class="sig-name descname"><span class="pre">ScaraBounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_accel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_accel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j1_min_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j1_max_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j2_min_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j2_max_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">singularity_outer_margin_mm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">singularity_inner_margin_mm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">singularity_theta2_min_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deadzone_r_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/kinematics/scara_bounds.html#ScaraBounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.kinematics.scara_bounds.</span></span><span class="sig-name descname"><span class="pre">ScaraBounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.link_dimensions.html#scaralang.core.model.kinematics.link_dimensions.LinkDimensions" title="scaralang.core.model.kinematics.link_dimensions.LinkDimensions"><span class="pre">LinkDimensions</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.vertical_bounds.html#scaralang.core.model.kinematics.vertical_bounds.VerticalBounds" title="scaralang.core.model.kinematics.vertical_bounds.VerticalBounds"><span class="pre">VerticalBounds</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">speeds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.speed_limits.html#scaralang.core.model.kinematics.speed_limits.SpeedLimits" title="scaralang.core.model.kinematics.speed_limits.SpeedLimits"><span class="pre">SpeedLimits</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">joints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.joint_angle_bounds.html#scaralang.core.model.kinematics.joint_angle_bounds.JointAngleBounds" title="scaralang.core.model.kinematics.joint_angle_bounds.JointAngleBounds"><span class="pre">JointAngleBounds</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">singularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.singularity_margins.html#scaralang.core.model.kinematics.singularity_margins.SingularityMargins" title="scaralang.core.model.kinematics.singularity_margins.SingularityMargins"><span class="pre">SingularityMargins</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/kinematics/scara_bounds.html#ScaraBounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Domain Value Object encapsulating kinematic geometry and operational limits for SCARA arm.</p>
 <p>It defines:</p>
@@ -78,110 +78,38 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">l1 - Length of primary SCARA link in mm.</div>
-<div class="line">l2 - Length of secondary SCARA link in mm.</div>
-<div class="line">z_min - Minimum vertical height limit in mm.</div>
-<div class="line">z_max - Maximum vertical height limit in mm.</div>
-<div class="line">min_speed - Minimum feedrate speed limit in mm/s.</div>
-<div class="line">max_speed - Maximum feedrate speed limit in mm/s.</div>
-<div class="line">default_speed - Default Cartesian linear speed in mm/s.</div>
-<div class="line">default_accel - Default acceleration in mm/s^2.</div>
-<div class="line">max_accel - Maximum acceleration in mm/s^2.</div>
-<div class="line">j1_min_rad - Joint 1 (Shoulder) minimum angle in radians.</div>
-<div class="line">j1_max_rad - Joint 1 (Shoulder) maximum angle in radians.</div>
-<div class="line">j2_min_rad - Joint 2 (Elbow) minimum angle in radians.</div>
-<div class="line">j2_max_rad - Joint 2 (Elbow) maximum angle in radians.</div>
-<div class="line">singularity_outer_margin_mm - Outer reach safety margin in mm.</div>
-<div class="line">singularity_inner_margin_mm - Inner reach safety margin in mm.</div>
-<div class="line">singularity_theta2_min_rad - Elbow singularity deadband in radians.</div>
-<div class="line">deadzone_r_min - Inner deadzone radius due to folded elbow in mm.</div>
+<div class="line">links - Mechanical link lengths (L1, L2) in mm.</div>
+<div class="line">vertical - Vertical motion limits (Z min, Z max) in mm.</div>
+<div class="line">speeds - Operational velocity and acceleration limits.</div>
+<div class="line">joints - Joint angular limits for shoulder and elbow.</div>
+<div class="line">singularity - Singularity thresholds and deadzone margins.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.deadzone_r_min">
-<span class="sig-name descname"><span class="pre">deadzone_r_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.deadzone_r_min" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.joints">
+<span class="sig-name descname"><span class="pre">joints</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.joint_angle_bounds.html#scaralang.core.model.kinematics.joint_angle_bounds.JointAngleBounds" title="scaralang.core.model.kinematics.joint_angle_bounds.JointAngleBounds"><span class="pre">JointAngleBounds</span></a></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.joints" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.default_accel">
-<span class="sig-name descname"><span class="pre">default_accel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.default_accel" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.links">
+<span class="sig-name descname"><span class="pre">links</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.link_dimensions.html#scaralang.core.model.kinematics.link_dimensions.LinkDimensions" title="scaralang.core.model.kinematics.link_dimensions.LinkDimensions"><span class="pre">LinkDimensions</span></a></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.links" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.default_speed">
-<span class="sig-name descname"><span class="pre">default_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.default_speed" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity">
+<span class="sig-name descname"><span class="pre">singularity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.singularity_margins.html#scaralang.core.model.kinematics.singularity_margins.SingularityMargins" title="scaralang.core.model.kinematics.singularity_margins.SingularityMargins"><span class="pre">SingularityMargins</span></a></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j1_max_rad">
-<span class="sig-name descname"><span class="pre">j1_max_rad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j1_max_rad" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.speeds">
+<span class="sig-name descname"><span class="pre">speeds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.speed_limits.html#scaralang.core.model.kinematics.speed_limits.SpeedLimits" title="scaralang.core.model.kinematics.speed_limits.SpeedLimits"><span class="pre">SpeedLimits</span></a></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.speeds" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j1_min_rad">
-<span class="sig-name descname"><span class="pre">j1_min_rad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j1_min_rad" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j2_max_rad">
-<span class="sig-name descname"><span class="pre">j2_max_rad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j2_max_rad" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j2_min_rad">
-<span class="sig-name descname"><span class="pre">j2_min_rad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j2_min_rad" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.l1">
-<span class="sig-name descname"><span class="pre">l1</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.l1" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.l2">
-<span class="sig-name descname"><span class="pre">l2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.l2" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.max_accel">
-<span class="sig-name descname"><span class="pre">max_accel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.max_accel" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.max_speed">
-<span class="sig-name descname"><span class="pre">max_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.max_speed" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.min_speed">
-<span class="sig-name descname"><span class="pre">min_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.min_speed" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity_inner_margin_mm">
-<span class="sig-name descname"><span class="pre">singularity_inner_margin_mm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity_inner_margin_mm" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity_outer_margin_mm">
-<span class="sig-name descname"><span class="pre">singularity_outer_margin_mm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity_outer_margin_mm" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity_theta2_min_rad">
-<span class="sig-name descname"><span class="pre">singularity_theta2_min_rad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity_theta2_min_rad" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.z_max">
-<span class="sig-name descname"><span class="pre">z_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.z_max" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.z_min">
-<span class="sig-name descname"><span class="pre">z_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.z_min" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.kinematics.scara_bounds.ScaraBounds.vertical">
+<span class="sig-name descname"><span class="pre">vertical</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.vertical_bounds.html#scaralang.core.model.kinematics.vertical_bounds.VerticalBounds" title="scaralang.core.model.kinematics.vertical_bounds.VerticalBounds"><span class="pre">VerticalBounds</span></a></em><a class="headerlink" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.vertical" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -200,23 +128,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.model.kinematics.scara_bounds module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds"><code class="docutils literal notranslate"><span class="pre">ScaraBounds</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.deadzone_r_min"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.deadzone_r_min</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.default_accel"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.default_accel</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.default_speed"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.default_speed</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j1_max_rad"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.j1_max_rad</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j1_min_rad"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.j1_min_rad</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j2_max_rad"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.j2_max_rad</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.j2_min_rad"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.j2_min_rad</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.l1"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.l1</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.l2"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.l2</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.max_accel"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.max_accel</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.max_speed"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.max_speed</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.min_speed"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.min_speed</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity_inner_margin_mm"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.singularity_inner_margin_mm</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity_outer_margin_mm"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.singularity_outer_margin_mm</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity_theta2_min_rad"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.singularity_theta2_min_rad</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.z_max"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.z_max</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.z_min"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.z_min</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.joints"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.joints</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.links"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.links</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.singularity"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.singularity</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.speeds"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.speeds</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.kinematics.scara_bounds.ScaraBounds.vertical"><code class="docutils literal notranslate"><span class="pre">ScaraBounds.vertical</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -231,8 +147,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.core.model.kinematics.transmission_parameters.html"
-                          title="next chapter">scaralang.core.model.kinematics.transmission_parameters module</a></p>
+    <p class="topless"><a href="scaralang.core.model.kinematics.singularity_margins.html"
+                          title="next chapter">scaralang.core.model.kinematics.singularity_margins module</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -265,7 +181,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.kinematics.transmission_parameters.html" title="scaralang.core.model.kinematics.transmission_parameters module"
+          <a href="scaralang.core.model.kinematics.singularity_margins.html" title="scaralang.core.model.kinematics.singularity_margins module"
              >next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.model.kinematics.point_3d.html" title="scaralang.core.model.kinematics.point_3d module"

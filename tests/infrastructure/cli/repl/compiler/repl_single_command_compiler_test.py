@@ -23,19 +23,20 @@ from __future__ import annotations
 
 from unittest import TestCase
 from unittest import main
+from unittest.mock import MagicMock
 
 from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.model.repl.repl_pose_state import ReplPoseState
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
 from scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler import IReplSingleCommandCompiler
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler import ReplSingleCommandCompiler
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler_factory import ReplSingleCommandCompilerFactory
-from scaralang.setup.factory import ScaralangBundleFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,14 +53,13 @@ class TestReplSingleCommandCompiler(TestCase):
                 | test_compile_tool_pump_instruction - Verifies compiling pump command.
                 | test_compile_home_instruction - Verifies compiling home command.
                 | test_compile_invalid_instruction - Verifies error raised on syntax error.
+                | test_compile_instruction_no_binary_steps - Verifies error when no binary steps compiled.
                 | test_factory_and_protocol_conformance - Verifies factory and protocol check.
     '''
 
     def setUp(self) -> None:
-        '''Initializes service and compiler under test.'''
-        bundle = ScaralangBundleFactory.create_bundle()
-        self.service = bundle.service
-        self.compiler = ReplSingleCommandCompiler(service=self.service)
+        '''Initializes compiler under test.'''
+        self.compiler = ReplSingleCommandCompilerFactory.create_default()
 
     def test_compile_move_instruction(self) -> None:
         '''Verifies compiling Cartesian linear move instruction.'''
@@ -69,9 +69,9 @@ class TestReplSingleCommandCompiler(TestCase):
         )
         self.assertIsNotNone(step)
         self.assertEqual(frame.msg_id, MessageId.CMD_MOVE_JOINT_STEPS)
-        self.assertEqual(new_ctx.current_x, 150.0)
-        self.assertEqual(new_ctx.current_y, 50.0)
-        self.assertEqual(new_ctx.current_z, 0.0)
+        self.assertEqual(new_ctx.pose.current_x, 150.0)
+        self.assertEqual(new_ctx.pose.current_y, 50.0)
+        self.assertEqual(new_ctx.pose.current_z, 0.0)
 
     def test_compile_tool_pump_instruction(self) -> None:
         '''Verifies compiling pneumatic tool suction command.'''
@@ -85,15 +85,17 @@ class TestReplSingleCommandCompiler(TestCase):
 
     def test_compile_home_instruction(self) -> None:
         '''Verifies compiling homing sequence resets coordinates.'''
-        context = ReplSessionContext(current_x=100.0, current_y=100.0)
+        context = ReplSessionContext(
+            pose=ReplPoseState(current_x=100.0, current_y=100.0)
+        )
         frame, step, new_ctx = self.compiler.compile_instruction(
             line='HOME', context=context
         )
         self.assertIsNotNone(step)
         self.assertEqual(frame.msg_id, MessageId.CMD_HOME)
-        self.assertEqual(new_ctx.current_x, 150.0)
-        self.assertEqual(new_ctx.current_y, 0.0)
-        self.assertEqual(new_ctx.current_z, 20.0)
+        self.assertEqual(new_ctx.pose.current_x, 150.0)
+        self.assertEqual(new_ctx.pose.current_y, 0.0)
+        self.assertEqual(new_ctx.pose.current_z, 20.0)
 
     def test_compile_invalid_instruction(self) -> None:
         '''Verifies exception raised on invalid DSL instruction.'''
@@ -105,9 +107,28 @@ class TestReplSingleCommandCompiler(TestCase):
 
     def test_factory_and_protocol_conformance(self) -> None:
         '''Verifies factory instantiation and protocol check.'''
-        compiler = ReplSingleCommandCompilerFactory.create(service=self.service)
+        compiler = ReplSingleCommandCompilerFactory.create_default()
         self.assertTrue(isinstance(compiler, IReplSingleCommandCompiler))
-        self.assertEqual(ReplSingleCommandCompilerFactory.get_version(), '1.0.2')
+        self.assertEqual(ReplSingleCommandCompilerFactory.get_version(), '1.0.3')
+
+    def test_compile_instruction_no_binary_steps(self) -> None:
+        '''Verifies ValueError when compiled program produces no binary steps.'''
+        mock_compiler = MagicMock()
+        mock_binary_compiler = MagicMock()
+        mock_plan = MagicMock()
+        mock_compiler.compile_script.return_value = mock_plan
+        mock_program = MagicMock()
+        mock_program.steps = ()
+        mock_binary_compiler.compile_plan.return_value = mock_program
+        single_compiler = ReplSingleCommandCompiler(
+            compiler=mock_compiler,
+            binary_compiler=mock_binary_compiler,
+        )
+        with self.assertRaises(ValueError) as ctx:
+            single_compiler.compile_instruction(
+                line='HOME', context=ReplSessionContext()
+            )
+        self.assertIn('No binary steps compiled', str(ctx.exception))
 
 
 if __name__ == '__main__':

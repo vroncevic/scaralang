@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -121,7 +121,7 @@ class TestTangentMacroExpander(TestCase):
         )
         self.expander.expand(instruction=inst, context=context)
         self.assertEqual(context.tool_orient_mode, ToolOrientMode.FIXED)
-        self.assertEqual(context.current_phi, 45.0)
+        self.assertEqual(context.pose.current_phi, 45.0)
 
     def test_calculate_tangent_angle_via_class(self) -> None:
         '''

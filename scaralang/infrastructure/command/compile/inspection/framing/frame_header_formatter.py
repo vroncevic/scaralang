@@ -27,7 +27,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,6 +41,7 @@ class FrameHeaderFormatter:
 
             :methods:
                 | format_header - Formats header delimiters, message, sequence, and length.
+                | get_version - Returns the component version string.
     '''
 
     def format_header(
@@ -60,7 +61,16 @@ class FrameHeaderFormatter:
         '''
         msg_val: int = int(msg_id)
         msg_name: str = msg_id.name
+
         return (
             f'SOF=[AA 55] | MSG=0x{msg_val:02X} ({msg_name}) | '
             f'SEQ={seq_num:03d} | LEN={payload_len:02d} B'
         )
+
+    def get_version(self) -> str:
+        '''
+            Returns the component version string.
+
+            :return: The version string.
+        '''
+        return __version__

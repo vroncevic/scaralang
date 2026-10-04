@@ -24,6 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.dsl.compiler.control_waypoint_descriptor import ControlWaypointDescriptor
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.primitive.control.icontrol_waypoint_builder import IControlWaypointBuilder
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,26 +48,19 @@ class DummyControlWaypointBuilder:
         self,
         *,
         context: ScaraCompilerContext,
-        name: str,
-        command: str,
-        phi: float,
-        speed: float,
+        descriptor: ControlWaypointDescriptor,
     ) -> Waypoint:
         '''
             Dummy implementation of build_waypoint.
         '''
-        _ = context
-        _ = name
-        _ = command
-        _ = phi
-        _ = speed
+        _ = (context, descriptor)
         return Waypoint(x=0.0, y=0.0, z=0.0, phi=0.0, speed=0.0, name='', command='')
 
-
-class IncompleteControlWaypointBuilder:
-    '''
-        Incomplete dummy class missing build_waypoint method.
-    '''
+    def get_version(self) -> str:
+        '''
+            Dummy implementation of get_version.
+        '''
+        return '1.0.3'
 
 
 class TestIControlWaypointBuilder(TestCase):
@@ -91,8 +85,7 @@ class TestIControlWaypointBuilder(TestCase):
         '''
             Verifies non-conforming class fails isinstance check.
         '''
-        builder = IncompleteControlWaypointBuilder()
-        self.assertNotIsInstance(builder, IControlWaypointBuilder)
+        self.assertFalse(isinstance(object(), IControlWaypointBuilder))
 
 
 if __name__ == '__main__':

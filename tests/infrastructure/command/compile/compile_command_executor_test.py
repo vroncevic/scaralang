@@ -27,20 +27,14 @@ from tempfile import NamedTemporaryFile
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.service.dsl.scara_dsl_service_factory import ScaraDslServiceFactory
 from scaralang.infrastructure.command.compile.compile_command_definition import CompileCommandDefinition
-from scaralang.infrastructure.command.compile.compile_command_executor import CompileCommandExecutor
-from scaralang.infrastructure.command.compile.telemetry.compile_telemetry_formatter_factory import CompileTelemetryFormatterFactory
-from scaralang.infrastructure.command.compile.inspection.presentation.program_inspection_presenter_factory import ProgramInspectionPresenterFactory
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
+from scaralang.infrastructure.command.compile.compile_command_executor_factory import CompileCommandExecutorFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,6 +49,7 @@ class TestCompileCommandExecutor(TestCase):
             :methods:
                 | setUp - Initializes fixtures.
                 | tearDown - Cleans up temporary resources.
+                | write_test_script - Writes content to temporary file.
                 | test_compile_missing_file - Verifies handling of missing script.
                 | test_compile_to_file - Verifies compiling to binary output file.
                 | test_compile_verbose - Verifies compiling with verbose output telemetry.
@@ -70,16 +65,7 @@ class TestCompileCommandExecutor(TestCase):
             Sets up test fixtures.
         '''
         self.cmd_def = CompileCommandDefinition()
-        self.executor = CompileCommandExecutor(
-            definition=self.cmd_def,
-            inspection_presenter=ProgramInspectionPresenterFactory.create(),
-            telemetry_formatter=CompileTelemetryFormatterFactory.create(),
-        )
-        self.service = ScaraDslServiceFactory.create_default(
-            frame_builder=BinaryFrameBuilderFactory.create(),
-            frame_parser=BinaryFrameParserFactory.create_default(),
-            payload_unpacker=BinaryPayloadUnpackerFactory.create(),
-        )
+        self.executor = CompileCommandExecutorFactory.create_default()
         self.temp_files: list[str] = []
 
     def tearDown(self) -> None:
@@ -106,7 +92,6 @@ class TestCompileCommandExecutor(TestCase):
         '''
         res = self.executor.execute(
             params={'script': '/nonexistent/file.scara'},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 1)
         self.assertIn('does not exist', str(res.get('stderr', '')))
@@ -121,7 +106,6 @@ class TestCompileCommandExecutor(TestCase):
 
         res = self.executor.execute(
             params={'script': script_path, 'output': bin_path},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 0)
         self.assertTrue(exists(bin_path))
@@ -133,7 +117,6 @@ class TestCompileCommandExecutor(TestCase):
         script_path = self.write_test_script(text='HOME\nMOVE_J X=150.0 Y=50.0 Z=20.0\n')
         res = self.executor.execute(
             params={'script': script_path, 'verbose': True},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 0)
         stdout_text = str(res.get('stdout', ''))
@@ -148,7 +131,6 @@ class TestCompileCommandExecutor(TestCase):
         script_path = self.write_test_script(text='HOME\n')
         res = self.executor.execute(
             params={'script': script_path, 'hex': True},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 0)
         self.assertTrue(len(str(res.get('stdout', ''))) > 0)
@@ -160,7 +142,6 @@ class TestCompileCommandExecutor(TestCase):
         script_path = self.write_test_script(text='HOME\n')
         res = self.executor.execute(
             params={'script': script_path, 'dump_frames': True},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 0)
         self.assertIn('SCARA BINARY FRAME INSPECTION', str(res.get('stdout', '')))
@@ -172,7 +153,6 @@ class TestCompileCommandExecutor(TestCase):
         script_path = self.write_test_script(text='HOME\n')
         res = self.executor.execute(
             params={'script': script_path},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 0)
         self.assertIn('Successfully compiled', str(res.get('stdout', '')))
@@ -184,7 +164,6 @@ class TestCompileCommandExecutor(TestCase):
         script_path = self.write_test_script(text='HOME\n')
         res = self.executor.execute(
             params={'script': script_path, 'output': '/nonexistent_dir/out.bin'},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 1)
         self.assertIn('compile error', str(res.get('stderr', '')))
@@ -193,7 +172,7 @@ class TestCompileCommandExecutor(TestCase):
         '''
             Verifies definition getter.
         '''
-        self.assertEqual(self.executor.get_definition(), self.cmd_def)
+        self.assertEqual(self.executor.get_definition().name, self.cmd_def.name)
 
 
 if __name__ == '__main__':

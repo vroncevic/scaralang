@@ -23,7 +23,6 @@ from __future__ import annotations
 
 from ats_utilities.base.setup.bundle import BaseBundle
 
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
 from scaralang.infrastructure.cli.icli import ICLI
 from scaralang.setup.bundle import ScaralangBundle
 from scaralang.setup.validator import ScaralangBundleValidator
@@ -35,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -66,10 +65,9 @@ class ScaralangBundleRegistry:
         ScaralangBundleDependenciesValidator.validate(dependencies)
 
         base: BaseBundle = (dependencies.get(ScaralangBundleKeys.DEPENDENCY_BASE) if dependencies else None)
-        service: IScaraDslService = (dependencies.get(ScaralangBundleKeys.DEPENDENCY_SERVICE) if dependencies else None)
         cli: ICLI = (dependencies.get(ScaralangBundleKeys.DEPENDENCY_CLI) if dependencies else None)
 
-        bundle: ScaralangBundle = ScaralangBundle(base=base, service=service, cli=cli)
+        bundle: ScaralangBundle = ScaralangBundle(base=base, cli=cli)
         ScaralangBundleValidator.validate(bundle)
 
         return bundle

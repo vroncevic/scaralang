@@ -28,7 +28,12 @@ from unittest import main
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.program import ScaraProgram
+from scaralang.core.model.kinematics.joint_angle_bounds import JointAngleBounds
+from scaralang.core.model.kinematics.link_dimensions import LinkDimensions
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.singularity_margins import SingularityMargins
+from scaralang.core.model.kinematics.speed_limits import SpeedLimits
+from scaralang.core.model.kinematics.vertical_bounds import VerticalBounds
 from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
 from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
 from scaralang.core.service.kinematics.kinematics_service_factory import KinematicsServiceFactory
@@ -39,7 +44,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -63,23 +68,27 @@ class TestScaraCompiler(TestCase):
             Sets up test bounds, validator, and compiler.
         '''
         self.bounds = ScaraBounds(
-            l1=150.0,
-            l2=150.0,
-            z_min=-50.0,
-            z_max=50.0,
-            min_speed=1.0,
-            max_speed=200.0,
-            default_speed=50.0,
-            default_accel=100.0,
-            max_accel=500.0,
-            j1_min_rad=radians(-150.0),
-            j1_max_rad=radians(150.0),
-            j2_min_rad=radians(-150.0),
-            j2_max_rad=radians(150.0),
-            singularity_outer_margin_mm=5.0,
-            singularity_inner_margin_mm=5.0,
-            singularity_theta2_min_rad=radians(5.0),
-            deadzone_r_min=20.0,
+            links=LinkDimensions(l1=150.0, l2=150.0),
+            vertical=VerticalBounds(z_min=-50.0, z_max=50.0),
+            speeds=SpeedLimits(
+                min_speed=1.0,
+                max_speed=200.0,
+                default_speed=50.0,
+                default_accel=100.0,
+                max_accel=500.0,
+            ),
+            joints=JointAngleBounds(
+                j1_min_rad=radians(-150.0),
+                j1_max_rad=radians(150.0),
+                j2_min_rad=radians(-150.0),
+                j2_max_rad=radians(150.0),
+            ),
+            singularity=SingularityMargins(
+                singularity_outer_margin_mm=5.0,
+                singularity_inner_margin_mm=5.0,
+                singularity_theta2_min_rad=radians(5.0),
+                deadzone_r_min=20.0,
+            ),
         )
         kinematics = KinematicsServiceFactory.create(bounds=self.bounds)
         validator = TrajectoryValidatorFactory.create(kinematics=kinematics)
@@ -90,6 +99,12 @@ class TestScaraCompiler(TestCase):
             Verifies structural conformance to IScaraCompiler.
         '''
         self.assertIsInstance(self.compiler, IScaraCompiler)
+
+    def test_get_version(self) -> None:
+        '''
+            Verifies compiler get_version returns semantic version string.
+        '''
+        self.assertEqual(self.compiler.get_version(), '1.0.3')
 
     def test_compile_valid_program(self) -> None:
         '''

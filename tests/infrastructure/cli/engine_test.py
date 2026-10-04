@@ -33,26 +33,15 @@ from ats_utilities.context.factory import ContextBundleFactory
 from ats_utilities.exceptions.ats_type_error import ATSTypeError
 from ats_utilities.exceptions.ats_value_error import ATSValueError
 
-from scaralang.core.service.dsl.scara_dsl_service_factory import ScaraDslServiceFactory
 from scaralang.infrastructure.cli.engine import CLI
 from scaralang.infrastructure.cli.setup.factory import CLIBundleFactory
 from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import (
-    BinaryFrameBuilderFactory,
-)
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import (
-    BinaryFrameParserFactory,
-)
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import (
-    BinaryPayloadUnpackerFactory,
-)
-
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -89,13 +78,8 @@ class TestCLI(TestCase):
                 context_bundle=ContextBundleFactory.create_bundle()
             )
         )
-        service = ScaraDslServiceFactory.create_default(
-            frame_builder=BinaryFrameBuilderFactory.create(),
-            frame_parser=BinaryFrameParserFactory.create_default(),
-            payload_unpacker=BinaryPayloadUnpackerFactory.create()
-        )
         cli_bundle = CLIBundleFactory.create_bundle(
-            options=CLIBundleOptions(service=service, parser=base_bundle.option_manager)
+            options=CLIBundleOptions(parser=base_bundle.option_manager)
         )
         self.cli = CLI(bundle=cli_bundle)
         self.parser = base_bundle.option_manager

@@ -25,14 +25,13 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.infrastructure.command.command_bundle import CommandBundle
-from scaralang.infrastructure.command.info.info_command_definition import InfoCommandDefinition
-from scaralang.infrastructure.command.info.info_command_executor import InfoCommandExecutor
+from scaralang.infrastructure.command.info.info_command_executor_factory import InfoCommandExecutorFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,8 +51,8 @@ class TestCommandBundle(TestCase):
         '''
             Verifies creating CommandBundle instance.
         '''
-        definition = InfoCommandDefinition()
-        executor = InfoCommandExecutor(definition=definition)
+        executor = InfoCommandExecutorFactory.create_default()
+        definition = executor.get_definition()
         bundle = CommandBundle(definition=definition, executor=executor)
         self.assertEqual(bundle.definition, definition)
         self.assertEqual(bundle.executor, executor)

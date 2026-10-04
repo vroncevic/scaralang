@@ -70,7 +70,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -92,7 +92,6 @@
 <span class="sd">                | NACK_FORMAT - Struct format for 2-byte NACK payload.</span>
 <span class="sd">                | CONFIG_MOTOR_FORMAT - Struct format for 2-byte motor config payload.</span>
 <span class="sd">            :methods:</span>
-<span class="sd">                | __init__ - Initializes BinaryPayloadUnpacker instance.</span>
 <span class="sd">                | unpack_tool_cmd - Deserializes 2-byte tool command into (tool_id, state).</span>
 <span class="sd">                | unpack_joint_steps - Deserializes 22-byte joint steps into JointSteps.</span>
 <span class="sd">                | unpack_ack - Deserializes 2-byte ACK into (acked_msg_id, queue_depth).</span>
@@ -105,11 +104,6 @@
     <span class="n">ACK_FORMAT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">BinaryStructFormat</span><span class="o">.</span><span class="n">ACK</span><span class="p">)</span>
     <span class="n">NACK_FORMAT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">BinaryStructFormat</span><span class="o">.</span><span class="n">NACK</span><span class="p">)</span>
     <span class="n">CONFIG_MOTOR_FORMAT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">BinaryStructFormat</span><span class="o">.</span><span class="n">CONFIG_MOTOR</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Initializes BinaryPayloadUnpacker instance.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>

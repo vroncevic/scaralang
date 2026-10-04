@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 from unittest import main
+from unittest.mock import patch
 
 from scaralang.infrastructure.cli.repl.input.irepl_line_reader import IReplLineReader
 from scaralang.infrastructure.cli.repl.input.repl_line_reader import ReplLineReader
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,43 +46,39 @@ class TestReplLineReader(TestCase):
         It defines:
 
             :methods:
-                | test_custom_reader_func - Verifies reading lines via custom callable.
+                | test_read_line - Verifies reading lines via standard input.
                 | test_eof_handling - Verifies None returned when EOFError is raised.
                 | test_keyboard_interrupt_handling - Verifies None returned on KeyboardInterrupt.
                 | test_factory_and_protocol_conformance - Verifies factory and protocol check.
     '''
 
-    def test_custom_reader_func(self) -> None:
-        '''Verifies reading lines via injected callable.'''
-        reader = ReplLineReader(reader_func=lambda prompt: '  MOVE LINE X=100  \n')
+    @patch('builtins.input', return_value='  MOVE LINE X=100  \n')
+    def test_read_line(self, _mock_input: object) -> None:
+        '''Verifies reading lines via standard input.'''
+        reader = ReplLineReader()
         line = reader.read_line()
         self.assertEqual(line, 'MOVE LINE X=100')
 
-    def test_eof_handling(self) -> None:
+    @patch('builtins.input', side_effect=EOFError)
+    def test_eof_handling(self, _mock_input: object) -> None:
         '''Verifies None is returned when EOFError is raised.'''
-        def raise_eof(_: str) -> str:
-            raise EOFError()
-
-        reader = ReplLineReader(reader_func=raise_eof)
+        reader = ReplLineReader()
         self.assertIsNone(reader.read_line())
 
-    def test_keyboard_interrupt_handling(self) -> None:
+    @patch('builtins.input', side_effect=KeyboardInterrupt)
+    def test_keyboard_interrupt_handling(self, _mock_input: object) -> None:
         '''Verifies None is returned when KeyboardInterrupt is raised.'''
-        def raise_interrupt(_: str) -> str:
-            raise KeyboardInterrupt()
-
-        reader = ReplLineReader(reader_func=raise_interrupt)
+        reader = ReplLineReader()
         self.assertIsNone(reader.read_line())
 
     def test_factory_and_protocol_conformance(self) -> None:
         '''Verifies factory creation and runtime protocol check.'''
         reader = ReplLineReaderFactory.create_default()
         self.assertTrue(isinstance(reader, IReplLineReader))
-        custom_reader = ReplLineReaderFactory.create(
-            reader_func=lambda prompt: 'test'
-        )
-        self.assertTrue(isinstance(custom_reader, IReplLineReader))
-        self.assertEqual(ReplLineReaderFactory.get_version(), '1.0.2')
+        created_reader = ReplLineReaderFactory.create()
+        self.assertTrue(isinstance(created_reader, IReplLineReader))
+        self.assertEqual(ReplLineReaderFactory.get_version(), '1.0.3')
+        self.assertEqual(reader.get_version(), '1.0.3')
 
 
 if __name__ == '__main__':

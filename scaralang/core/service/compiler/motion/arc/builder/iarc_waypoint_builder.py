@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,6 +47,7 @@ class IArcWaypointBuilder(Protocol):
 
             :methods:
                 | build_waypoints - Builds interpolated arc coordinates as domain waypoints.
+                | get_version - Gets implementation version string.
     '''
 
     def build_waypoints(
@@ -65,4 +66,11 @@ class IArcWaypointBuilder(Protocol):
             :param speed: Effective feedrate speed in mm/s.
             :param context: Active compiler context with orientation state.
             :return: Tuple of generated Waypoint instances.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Gets implementation version string.
+
+            :return: Version string.
         '''

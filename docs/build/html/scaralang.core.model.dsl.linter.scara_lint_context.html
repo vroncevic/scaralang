@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="scaralang.core.model.dsl.macro package" href="scaralang.core.model.dsl.macro.html" />
-    <link rel="prev" title="scaralang.core.model.dsl.linter package" href="scaralang.core.model.dsl.linter.html" /> 
+    <link rel="prev" title="scaralang.core.model.dsl.linter.lint_tool_state module" href="scaralang.core.model.dsl.linter.lint_tool_state.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
           <a href="scaralang.core.model.dsl.macro.html" title="scaralang.core.model.dsl.macro package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.dsl.linter.html" title="scaralang.core.model.dsl.linter package"
+          <a href="scaralang.core.model.dsl.linter.lint_tool_state.html" title="scaralang.core.model.dsl.linter.lint_tool_state module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -71,7 +71,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.linter.scara_lint_context.</span></span><span class="sig-name descname"><span class="pre">ScaraLintContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_homed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">motion_occurred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pump_on</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valve_on</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.ast.zone_mode.html#scaralang.core.model.dsl.ast.zone_mode.ZoneMode" title="scaralang.core.model.dsl.ast.zone_mode.ZoneMode"><span class="pre">ZoneMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ZoneMode.FINE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">motor_drive_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.motor.motor_drive_mode.html#scaralang.core.model.motor.motor_drive_mode.MotorDriveMode" title="scaralang.core.model.motor.motor_drive_mode.MotorDriveMode"><span class="pre">MotorDriveMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">MotorDriveMode.OPEN_LOOP</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/linter/scara_lint_context.html#ScaraLintContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.linter.scara_lint_context.</span></span><span class="sig-name descname"><span class="pre">ScaraLintContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_homed:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">motion_occurred:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_state:</span> <span class="pre">~scaralang.core.model.dsl.linter.lint_tool_state.LintToolState</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_mode:</span> <span class="pre">~scaralang.core.model.dsl.ast.zone_mode.ZoneMode</span> <span class="pre">=</span> <span class="pre">ZoneMode.FINE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_radius:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_coords:</span> <span class="pre">tuple[float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">...]</span> <span class="pre">=</span> <span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">motor_drive_mode:</span> <span class="pre">~scaralang.core.model.motor.motor_drive_mode.MotorDriveMode</span> <span class="pre">=</span> <span class="pre">MotorDriveMode.OPEN_LOOP</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/linter/scara_lint_context.html#ScaraLintContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Mutable state carrier tracking machine state throughout DSL AST static analysis.</p>
 <p>It defines:</p>
@@ -81,8 +81,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd class="field-odd"><div class="line-block">
 <div class="line">is_homed - Boolean indicating if a calibration/home command was executed.</div>
 <div class="line">motion_occurred - Boolean indicating if any motion instruction was encountered.</div>
-<div class="line">pump_on - Boolean indicating active vacuum pump state.</div>
-<div class="line">valve_on - Boolean indicating active blow-off valve state.</div>
+<div class="line">tool_state - Simulation state of pneumatic actuators (pump and valve).</div>
 <div class="line">zone_mode - Active zone blending mode (FINE or BLEND).</div>
 <div class="line">zone_radius - Active zone blend radius in millimeters.</div>
 <div class="line">last_coords - Coordinate tuple of prior linear move or empty tuple.</div>
@@ -112,13 +111,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.pump_on">
-<span class="sig-name descname"><span class="pre">pump_on</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.pump_on" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.valve_on">
-<span class="sig-name descname"><span class="pre">valve_on</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.valve_on" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.tool_state">
+<span class="sig-name descname"><span class="pre">tool_state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.linter.lint_tool_state.html#scaralang.core.model.dsl.linter.lint_tool_state.LintToolState" title="scaralang.core.model.dsl.linter.lint_tool_state.LintToolState"><span class="pre">LintToolState</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.tool_state" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -151,8 +145,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.last_coords"><code class="docutils literal notranslate"><span class="pre">ScaraLintContext.last_coords</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.motion_occurred"><code class="docutils literal notranslate"><span class="pre">ScaraLintContext.motion_occurred</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.motor_drive_mode"><code class="docutils literal notranslate"><span class="pre">ScaraLintContext.motor_drive_mode</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.pump_on"><code class="docutils literal notranslate"><span class="pre">ScaraLintContext.pump_on</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.valve_on"><code class="docutils literal notranslate"><span class="pre">ScaraLintContext.valve_on</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.tool_state"><code class="docutils literal notranslate"><span class="pre">ScaraLintContext.tool_state</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.zone_mode"><code class="docutils literal notranslate"><span class="pre">ScaraLintContext.zone_mode</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.linter.scara_lint_context.ScaraLintContext.zone_radius"><code class="docutils literal notranslate"><span class="pre">ScaraLintContext.zone_radius</span></code></a></li>
 </ul>
@@ -164,8 +157,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.model.dsl.linter.html"
-                          title="previous chapter">scaralang.core.model.dsl.linter package</a></p>
+    <p class="topless"><a href="scaralang.core.model.dsl.linter.lint_tool_state.html"
+                          title="previous chapter">scaralang.core.model.dsl.linter.lint_tool_state module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -206,7 +199,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="scaralang.core.model.dsl.macro.html" title="scaralang.core.model.dsl.macro package"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.dsl.linter.html" title="scaralang.core.model.dsl.linter package"
+          <a href="scaralang.core.model.dsl.linter.lint_tool_state.html" title="scaralang.core.model.dsl.linter.lint_tool_state module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

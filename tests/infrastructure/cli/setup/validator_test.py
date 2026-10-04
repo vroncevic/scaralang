@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,10 +54,8 @@ class TestCLIBundleValidator(TestCase):
                 | test_validate_success - Verifies validation with valid bundle.
                 | test_validate_none - Verifies error when bundle is None.
                 | test_validate_not_bundle - Verifies error when bundle is not CLIBundle.
-                | test_validate_none_service - Verifies error when service is None.
                 | test_validate_none_parser - Verifies error when parser is None.
                 | test_validate_none_commands - Verifies error when commands is None.
-                | test_validate_invalid_service_type - Verifies error when service has wrong type.
                 | test_validate_invalid_parser_type - Verifies error when parser has wrong type.
                 | test_validate_invalid_commands_type - Verifies error when commands has wrong type.
                 | test_is_valid_success - Verifies is_valid returns True on valid bundle.
@@ -68,7 +66,6 @@ class TestCLIBundleValidator(TestCase):
         '''Prepares valid CLIBundle from factory.'''
         bundle = ScaralangBundleFactory.create_bundle()
         options = CLIBundleOptions(
-            service=bundle.service,
             parser=bundle.base.option_manager
         )
         self.valid_bundle: CLIBundle = CLIBundleFactory.create_bundle(options=options)
@@ -87,20 +84,9 @@ class TestCLIBundleValidator(TestCase):
         with self.assertRaises(ATSTypeError):
             CLIBundleValidator.validate('not_a_bundle')  # type: ignore[arg-type]
 
-    def test_validate_none_service(self) -> None:
-        '''Verifies validate raises ATSValueError when service is None.'''
-        invalid_bundle = CLIBundle(
-            service=None,  # type: ignore[arg-type]
-            parser=self.valid_bundle.parser,
-            commands=self.valid_bundle.commands
-        )
-        with self.assertRaises(ATSValueError):
-            CLIBundleValidator.validate(invalid_bundle)
-
     def test_validate_none_parser(self) -> None:
         '''Verifies validate raises ATSValueError when parser is None.'''
         invalid_bundle = CLIBundle(
-            service=self.valid_bundle.service,
             parser=None,  # type: ignore[arg-type]
             commands=self.valid_bundle.commands
         )
@@ -110,27 +96,15 @@ class TestCLIBundleValidator(TestCase):
     def test_validate_none_commands(self) -> None:
         '''Verifies validate raises ATSValueError when commands is None.'''
         invalid_bundle = CLIBundle(
-            service=self.valid_bundle.service,
             parser=self.valid_bundle.parser,
             commands=None  # type: ignore[arg-type]
         )
         with self.assertRaises(ATSValueError):
             CLIBundleValidator.validate(invalid_bundle)
 
-    def test_validate_invalid_service_type(self) -> None:
-        '''Verifies validate raises ATSTypeError when service has invalid type.'''
-        invalid_bundle = CLIBundle(
-            service='invalid_service_type',  # type: ignore[arg-type]
-            parser=self.valid_bundle.parser,
-            commands=self.valid_bundle.commands
-        )
-        with self.assertRaises(ATSTypeError):
-            CLIBundleValidator.validate(invalid_bundle)
-
     def test_validate_invalid_parser_type(self) -> None:
         '''Verifies validate raises ATSTypeError when parser has invalid type.'''
         invalid_bundle = CLIBundle(
-            service=self.valid_bundle.service,
             parser='invalid_parser_type',  # type: ignore[arg-type]
             commands=self.valid_bundle.commands
         )
@@ -140,7 +114,6 @@ class TestCLIBundleValidator(TestCase):
     def test_validate_invalid_commands_type(self) -> None:
         '''Verifies validate raises ATSTypeError when commands is not a Sequence.'''
         invalid_bundle = CLIBundle(
-            service=self.valid_bundle.service,
             parser=self.valid_bundle.parser,
             commands=12345  # type: ignore[arg-type]
         )

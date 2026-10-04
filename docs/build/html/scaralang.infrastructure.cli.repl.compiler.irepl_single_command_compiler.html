@@ -80,6 +80,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">compile_instruction - Compiles single instruction into step and context.</div>
+<div class="line">update_context - Computes updated session context model from plan and step.</div>
 </div>
 </dd>
 </dl>
@@ -121,6 +122,28 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler.update_context">
+<span class="sig-name descname"><span class="pre">update_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.binary.step.html#scaralang.core.model.dsl.binary.step.Step" title="scaralang.core.model.dsl.binary.step.Step"><span class="pre">Step</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan_waypoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">object</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.repl.repl_session_context.html#scaralang.core.model.repl.repl_session_context.ReplSessionContext" title="scaralang.core.model.repl.repl_session_context.ReplSessionContext"><span class="pre">ReplSessionContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.repl.repl_session_context.html#scaralang.core.model.repl.repl_session_context.ReplSessionContext" title="scaralang.core.model.repl.repl_session_context.ReplSessionContext"><span class="pre">ReplSessionContext</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/compiler/irepl_single_command_compiler.html#IReplSingleCommandCompiler.update_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler.update_context" title="Link to this definition">¶</a></dt>
+<dd><p>Computes updated session context model from plan and step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>line</strong> – Raw DSL instruction line.</p></li>
+<li><p><strong>step</strong> – Compiled binary execution step.</p></li>
+<li><p><strong>plan_waypoints</strong> – Waypoints generated from the plan.</p></li>
+<li><p><strong>context</strong> – Prior active REPL session context.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated ReplSessionContext instance.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -141,6 +164,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler._is_protocol"><code class="docutils literal notranslate"><span class="pre">IReplSingleCommandCompiler._is_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IReplSingleCommandCompiler._is_runtime_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler.compile_instruction"><code class="docutils literal notranslate"><span class="pre">IReplSingleCommandCompiler.compile_instruction()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler.IReplSingleCommandCompiler.update_context"><code class="docutils literal notranslate"><span class="pre">IReplSingleCommandCompiler.update_context()</span></code></a></li>
 </ul>
 </li>
 </ul>

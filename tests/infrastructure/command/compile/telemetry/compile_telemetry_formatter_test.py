@@ -21,8 +21,10 @@ Info
 
 from __future__ import annotations
 
-from unittest import TestCase, main
+from unittest import TestCase
+from unittest import main
 
+from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.infrastructure.command.compile.telemetry.compile_telemetry_formatter import CompileTelemetryFormatter
 from scaralang.infrastructure.command.compile.telemetry.icompile_telemetry_formatter import ICompileTelemetryFormatter
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,6 +50,10 @@ class TestCompileTelemetryFormatter(TestCase):
         '''Verifies structural protocol compliance.'''
         self.assertIsInstance(self.formatter, ICompileTelemetryFormatter)
 
+    def test_get_version(self) -> None:
+        '''Verifies formatter version string retrieval.'''
+        self.assertEqual(self.formatter.get_version(), '1.0.3')
+
     def test_format_telemetry(self) -> None:
         '''Verifies formatting of BinaryProgramTelemetry model.'''
         telemetry = BinaryProgramTelemetry(
@@ -55,10 +61,12 @@ class TestCompileTelemetryFormatter(TestCase):
             compiled_steps=12,
             duration_us=450000,
             duration_s=0.450,
-            peak_j1_steps=1500,
-            peak_j2_steps=900,
-            peak_z_steps=200,
-            peak_j4_steps=50,
+            peak_steps=AxisPeakSteps(
+                peak_j1_steps=1500,
+                peak_j2_steps=900,
+                peak_z_steps=200,
+                peak_j4_steps=50,
+            ),
             total_wire_bytes=240,
         )
         result: str = self.formatter.format_telemetry(telemetry=telemetry)

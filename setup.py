@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'GNU General Public License (GPL)'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -70,7 +70,7 @@ def find_package_data(pkg: str) -> list[str]:
 
 setup(
     name='scaralang',
-    version='1.0.2',
+    version='1.0.3',
     description='SCARA Robotics Domain-Specific Language (DSL) Toolchain, Compiler, and Binary Protocol Codec.',
     author='Vladimir Roncevic',
     author_email='elektron.ronca@gmail.com',

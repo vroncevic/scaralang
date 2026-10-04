@@ -10,6 +10,7 @@ Subpackages
    scaralang.infrastructure.cli.repl.compiler
    scaralang.infrastructure.cli.repl.dispatch
    scaralang.infrastructure.cli.repl.input
+   scaralang.infrastructure.cli.repl.output
    scaralang.infrastructure.cli.repl.presentation
    scaralang.infrastructure.cli.repl.transmission
 

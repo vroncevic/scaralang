@@ -28,18 +28,10 @@ from ats_utilities.base.setup.factory import BaseBundleFactory
 from ats_utilities.base.setup.options import BaseBundleOptions
 from ats_utilities.context.factory import ContextBundleFactory
 
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
-from scaralang.core.service.dsl.scara_dsl_service_factory import ScaraDslServiceFactory
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.core.service.protocol.ibinary_frame_parser import IBinaryFrameParser
-from scaralang.core.service.protocol.ibinary_payload_unpacker import IBinaryPayloadUnpacker
 from scaralang.infrastructure.cli.engine import CLI
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
 from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
 from scaralang.infrastructure.cli.setup.factory import CLIBundleFactory
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
 from scaralang.setup.bundle import ScaralangBundle
 from scaralang.setup.options import ScaralangBundleOptions
 from scaralang.setup.registry import ScaralangBundleRegistry
@@ -51,7 +43,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -99,23 +91,14 @@ class ScaralangBundleFactory:
             )
         )
 
-        frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
-        frame_parser: IBinaryFrameParser = BinaryFrameParserFactory.create_default()
-        payload_unpacker: IBinaryPayloadUnpacker = BinaryPayloadUnpackerFactory.create()
-        dsl_service: IScaraDslService = ScaraDslServiceFactory.create_default(
-            frame_builder=frame_builder,
-            frame_parser=frame_parser,
-            payload_unpacker=payload_unpacker
-        )
-
         cli_bundle: CLIBundle = CLIBundleFactory.create_bundle(
-            options=CLIBundleOptions(service=dsl_service, parser=base_bundle.option_manager)
+            options=CLIBundleOptions(parser=base_bundle.option_manager)
         )
 
         cli: CLI = CLI(bundle=cli_bundle)
 
         return ScaralangBundleRegistry.create_bundle(
-            dependencies=ScaralangBundleDependencies(base=base_bundle, service=dsl_service, cli=cli)
+            dependencies=ScaralangBundleDependencies(base=base_bundle, cli=cli)
         )
 
     @classmethod

@@ -21,13 +21,15 @@ Info
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+
+from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,19 +47,13 @@ class BinaryProgramTelemetry:
                 | compiled_steps - Total number of compiled motion steps.
                 | duration_us - Total estimated execution duration in microseconds.
                 | duration_s - Total estimated execution duration in seconds.
-                | peak_j1_steps - Peak step count for joint 1 axis.
-                | peak_j2_steps - Peak step count for joint 2 axis.
-                | peak_z_steps - Peak step count for linear Z axis.
-                | peak_j4_steps - Peak step count for wrist orientation axis.
+                | peak_steps - Peak axis step counts observed across motion steps.
                 | total_wire_bytes - Total raw byte size of the wire frame stream.
     '''
 
-    source_instructions: int
-    compiled_steps: int
-    duration_us: int
-    duration_s: float
-    peak_j1_steps: int
-    peak_j2_steps: int
-    peak_z_steps: int
-    peak_j4_steps: int
-    total_wire_bytes: int
+    source_instructions: int = 0
+    compiled_steps: int = 0
+    duration_us: int = 0
+    duration_s: float = 0.0
+    peak_steps: AxisPeakSteps = field(default_factory=AxisPeakSteps)
+    total_wire_bytes: int = 0

@@ -42,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,6 +59,8 @@ class TestInstructionPipeline(TestCase):
                 | test_pipeline_unsupported_instruction - Verifies error when no compiler matches.
                 | test_pipeline_factory - Verifies factory instantiates pipeline.
                 | test_pipeline_with_collaborators - Verifies direct collaborator instantiation.
+                | test_pipeline_with_macro_expansion - Verifies macro expansion in pipeline.
+                | test_get_version - Verifies pipeline get_version returns semantic version string.
     '''
 
     def test_pipeline_execution(self) -> None:
@@ -115,7 +117,7 @@ class TestInstructionPipeline(TestCase):
             primitive_compilers=(),
         )
         self.assertIsInstance(pipeline, IInstructionPipeline)
-        self.assertEqual(InstructionPipelineFactory.get_version(), '1.0.2')
+        self.assertEqual(InstructionPipelineFactory.get_version(), '1.0.3')
 
     def test_pipeline_with_collaborators(self) -> None:
         '''Verifies InstructionPipeline instantiation with injected processor.'''
@@ -127,6 +129,12 @@ class TestInstructionPipeline(TestCase):
             processor=processor,
         )
         self.assertIsInstance(pipeline, IInstructionPipeline)
+
+        factory_pipeline = InstructionPipelineFactory.create_with_collaborators(
+            macro_expanders=(),
+            processor=processor,
+        )
+        self.assertIsInstance(factory_pipeline, IInstructionPipeline)
 
     def test_pipeline_with_macro_expansion(self) -> None:
         '''Verifies pipeline expands macro instructions and compiles primitive sub-instructions.'''
@@ -151,6 +159,14 @@ class TestInstructionPipeline(TestCase):
         ]
         waypoints = pipeline.compile_instructions(instructions=instructions)
         self.assertEqual(len(waypoints), 3)
+
+    def test_get_version(self) -> None:
+        '''Verifies pipeline get_version returns semantic version string.'''
+        pipeline = InstructionPipelineFactory.create(
+            macro_expanders=(),
+            primitive_compilers=(),
+        )
+        self.assertEqual(pipeline.get_version(), '1.0.3')
 
 
 if __name__ == '__main__':

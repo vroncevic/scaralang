@@ -21,16 +21,17 @@ Info
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
+from scaralang.core.model.dsl.linter.lint_tool_state import LintToolState
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,8 +47,7 @@ class ScaraLintContext:
             :attributes:
                 | is_homed - Boolean indicating if a calibration/home command was executed.
                 | motion_occurred - Boolean indicating if any motion instruction was encountered.
-                | pump_on - Boolean indicating active vacuum pump state.
-                | valve_on - Boolean indicating active blow-off valve state.
+                | tool_state - Simulation state of pneumatic actuators (pump and valve).
                 | zone_mode - Active zone blending mode (FINE or BLEND).
                 | zone_radius - Active zone blend radius in millimeters.
                 | last_coords - Coordinate tuple of prior linear move or empty tuple.
@@ -56,8 +56,7 @@ class ScaraLintContext:
 
     is_homed: bool = False
     motion_occurred: bool = False
-    pump_on: bool = False
-    valve_on: bool = False
+    tool_state: LintToolState = field(default_factory=LintToolState)
     zone_mode: ZoneMode = ZoneMode.FINE
     zone_radius: float = 0.0
     last_coords: tuple[float, ...] = ()

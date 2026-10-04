@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="scaralang.core.model.dsl.binary.disassembled_frame module" href="scaralang.core.model.dsl.binary.disassembled_frame.html" />
-    <link rel="prev" title="scaralang.core.model.dsl.binary package" href="scaralang.core.model.dsl.binary.html" /> 
+    <link rel="prev" title="scaralang.core.model.dsl.binary.axis_peak_steps module" href="scaralang.core.model.dsl.binary.axis_peak_steps.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
           <a href="scaralang.core.model.dsl.binary.disassembled_frame.html" title="scaralang.core.model.dsl.binary.disassembled_frame module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.dsl.binary.html" title="scaralang.core.model.dsl.binary package"
+          <a href="scaralang.core.model.dsl.binary.axis_peak_steps.html" title="scaralang.core.model.dsl.binary.axis_peak_steps module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -71,7 +71,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.binary.binary_program_telemetry.</span></span><span class="sig-name descname"><span class="pre">BinaryProgramTelemetry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_instructions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiled_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_us</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peak_j1_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peak_j2_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peak_z_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peak_j4_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_wire_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/binary/binary_program_telemetry.html#BinaryProgramTelemetry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.binary.binary_program_telemetry.</span></span><span class="sig-name descname"><span class="pre">BinaryProgramTelemetry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_instructions:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiled_steps:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_us:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_s:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peak_steps:</span> <span class="pre">~scaralang.core.model.dsl.binary.axis_peak_steps.AxisPeakSteps</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_wire_bytes:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/binary/binary_program_telemetry.html#BinaryProgramTelemetry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Execution metrics and telemetry metadata for a compiled binary program.</p>
 <p>It defines:</p>
@@ -83,10 +83,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div class="line">compiled_steps - Total number of compiled motion steps.</div>
 <div class="line">duration_us - Total estimated execution duration in microseconds.</div>
 <div class="line">duration_s - Total estimated execution duration in seconds.</div>
-<div class="line">peak_j1_steps - Peak step count for joint 1 axis.</div>
-<div class="line">peak_j2_steps - Peak step count for joint 2 axis.</div>
-<div class="line">peak_z_steps - Peak step count for linear Z axis.</div>
-<div class="line">peak_j4_steps - Peak step count for wrist orientation axis.</div>
+<div class="line">peak_steps - Peak axis step counts observed across motion steps.</div>
 <div class="line">total_wire_bytes - Total raw byte size of the wire frame stream.</div>
 </div>
 </dd>
@@ -108,23 +105,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_j1_steps">
-<span class="sig-name descname"><span class="pre">peak_j1_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_j1_steps" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_j2_steps">
-<span class="sig-name descname"><span class="pre">peak_j2_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_j2_steps" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_j4_steps">
-<span class="sig-name descname"><span class="pre">peak_j4_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_j4_steps" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_z_steps">
-<span class="sig-name descname"><span class="pre">peak_z_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_z_steps" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_steps">
+<span class="sig-name descname"><span class="pre">peak_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.binary.axis_peak_steps.html#scaralang.core.model.dsl.binary.axis_peak_steps.AxisPeakSteps" title="scaralang.core.model.dsl.binary.axis_peak_steps.AxisPeakSteps"><span class="pre">AxisPeakSteps</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_steps" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -156,10 +138,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.compiled_steps"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.compiled_steps</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.duration_s"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.duration_s</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.duration_us"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.duration_us</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_j1_steps"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.peak_j1_steps</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_j2_steps"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.peak_j2_steps</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_j4_steps"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.peak_j4_steps</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_z_steps"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.peak_z_steps</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.peak_steps"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.peak_steps</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.source_instructions"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.source_instructions</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry.total_wire_bytes"><code class="docutils literal notranslate"><span class="pre">BinaryProgramTelemetry.total_wire_bytes</span></code></a></li>
 </ul>
@@ -171,8 +150,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.model.dsl.binary.html"
-                          title="previous chapter">scaralang.core.model.dsl.binary package</a></p>
+    <p class="topless"><a href="scaralang.core.model.dsl.binary.axis_peak_steps.html"
+                          title="previous chapter">scaralang.core.model.dsl.binary.axis_peak_steps module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -213,7 +192,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="scaralang.core.model.dsl.binary.disassembled_frame.html" title="scaralang.core.model.dsl.binary.disassembled_frame module"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.dsl.binary.html" title="scaralang.core.model.dsl.binary package"
+          <a href="scaralang.core.model.dsl.binary.axis_peak_steps.html" title="scaralang.core.model.dsl.binary.axis_peak_steps module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

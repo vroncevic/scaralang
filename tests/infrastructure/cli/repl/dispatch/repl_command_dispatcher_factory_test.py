@@ -24,6 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.service.info.toolchain_info_provider_factory import ToolchainInfoProviderFactory
 from scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher import IReplCommandDispatcher
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher import ReplCommandDispatcher
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory import ReplCommandDispatcherFactory
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,13 +46,21 @@ class TestReplCommandDispatcherFactory(TestCase):
         It defines:
 
             :methods:
-                | test_create - Verifies factory instantiates dispatcher correctly.
+                | test_create - Verifies factory instantiates dispatcher with injected provider.
+                | test_create_default - Verifies factory instantiates default dispatcher.
                 | test_get_version - Verifies factory returns version string.
     '''
 
     def test_create(self) -> None:
-        '''Verifies factory builds ReplCommandDispatcher instance.'''
-        dispatcher = ReplCommandDispatcherFactory.create()
+        '''Verifies factory builds ReplCommandDispatcher with injected info provider.'''
+        provider = ToolchainInfoProviderFactory.create()
+        dispatcher = ReplCommandDispatcherFactory.create(info_provider=provider)
+        self.assertIsInstance(dispatcher, ReplCommandDispatcher)
+        self.assertIsInstance(dispatcher, IReplCommandDispatcher)
+
+    def test_create_default(self) -> None:
+        '''Verifies factory builds default ReplCommandDispatcher instance.'''
+        dispatcher = ReplCommandDispatcherFactory.create_default()
         self.assertIsInstance(dispatcher, ReplCommandDispatcher)
         self.assertIsInstance(dispatcher, IReplCommandDispatcher)
 

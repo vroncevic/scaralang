@@ -21,13 +21,15 @@ Info
 
 from __future__ import annotations
 
+from scaralang.core.service.info.itoolchain_info_provider import IToolchainInfoProvider
+from scaralang.core.service.info.toolchain_info_provider_factory import ToolchainInfoProviderFactory
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher import ReplCommandDispatcher
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -40,19 +42,37 @@ class ReplCommandDispatcherFactory:
         It defines:
 
             :methods:
-                | create - Builds ReplCommandDispatcher instance.
+                | create - Builds ReplCommandDispatcher with injected info provider.
+                | create_default - Builds ReplCommandDispatcher with default info provider.
                 | get_version - Returns factory version string.
     '''
 
     @classmethod
-    def create(cls) -> ReplCommandDispatcher:
+    def create(
+        cls,
+        *,
+        info_provider: IToolchainInfoProvider,
+    ) -> ReplCommandDispatcher:
         '''
-            Builds and returns a ReplCommandDispatcher instance.
+            Builds and returns a ReplCommandDispatcher instance with injected dependencies.
+
+            :param info_provider: Required injected toolchain info provider.
+            :return: Instantiated ReplCommandDispatcher instance.
+            :exceptions: None.
+        '''
+        return ReplCommandDispatcher(info_provider=info_provider)
+
+    @classmethod
+    def create_default(cls) -> ReplCommandDispatcher:
+        '''
+            Builds and returns a ReplCommandDispatcher default instance.
 
             :return: Instantiated ReplCommandDispatcher instance.
             :exceptions: None.
         '''
-        return ReplCommandDispatcher()
+        return ReplCommandDispatcher(
+            info_provider=ToolchainInfoProviderFactory.create()
+        )
 
     @classmethod
     def get_version(cls) -> str:

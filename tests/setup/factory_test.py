@@ -21,17 +21,21 @@ Info
 
 from __future__ import annotations
 
+from os.path import abspath
+from os.path import dirname
+from os.path import join
 from unittest import TestCase
 from unittest import main
 
 from scaralang.setup.bundle import ScaralangBundle
 from scaralang.setup.factory import ScaralangBundleFactory
+from scaralang.setup.options import ScaralangBundleOptions
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,6 +49,7 @@ class TestScaralangBundleFactory(TestCase):
 
             :methods:
                 | test_create_bundle - Verifies creating initialized bundle.
+                | test_create_bundle_with_options - Verifies bundle creation with options.
                 | test_get_version - Verifies factory version string.
     '''
 
@@ -60,7 +65,23 @@ class TestScaralangBundleFactory(TestCase):
             Verifies factory version returns valid string.
         '''
         version = ScaralangBundleFactory.get_version()
-        self.assertEqual(version, '1.0.2')
+        self.assertEqual(version, '1.0.3')
+
+    def test_create_bundle_with_options(self) -> None:
+        '''
+            Verifies bundle creation with explicit options.
+        '''
+        cfg_path: str = join(
+            dirname(dirname(dirname(abspath(__file__)))),
+            'scaralang', 'infrastructure', 'config', 'scaralang.cfg'
+        )
+        bundle = ScaralangBundleFactory.create_bundle(
+            options=ScaralangBundleOptions(
+                info_file=cfg_path,
+                verbose=True,
+            )
+        )
+        self.assertIsInstance(bundle, ScaralangBundle)
 
 
 if __name__ == '__main__':

@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,6 +44,7 @@ class IFrameStepPresenter(Protocol):
 
             :methods:
                 | present_step - Formats a Step into multi-line wire inspection card.
+                | get_version - Returns the interface protocol version identifier.
     '''
 
     def present_step(self, *, step: Step, index: int) -> str:
@@ -53,4 +54,11 @@ class IFrameStepPresenter(Protocol):
             :param step: Step entity to render.
             :param index: 1-based sequential step index.
             :return: Multi-line formatted card string.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Returns the interface protocol version identifier.
+
+            :return: The protocol version string.
         '''

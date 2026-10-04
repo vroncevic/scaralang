@@ -28,6 +28,7 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
+from scaralang.core.service.parser.commands.config.elbow_config_parser import ElbowConfigParser
 from scaralang.core.service.parser.commands.motion.joint_move_command_parser import JointMoveCommandParser
 from scaralang.core.service.parser.instruction.instruction_line_parser import InstructionLineParser
 
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,6 +53,7 @@ class TestInstructionLineParser(TestCase):
                 | test_parse_line_empty_tokens - Verifies ValueError on empty token slice.
                 | test_parse_line_unknown_command - Verifies ValueError on unregistered command.
                 | test_parse_line_cached_dispatch - Verifies cached handler reuse.
+                | test_parse_line_compound_config - Verifies compound CONFIG command dispatch and caching.
                 | test_properties - Verifies name and handlers properties.
     '''
 
@@ -141,6 +143,22 @@ class TestInstructionLineParser(TestCase):
         parser = InstructionLineParser(handlers=(handler,))
         self.assertEqual(parser.name, 'instruction_line_parser')
         self.assertEqual(parser.handlers, (handler,))
+
+    def test_parse_line_compound_config(self) -> None:
+        '''
+            Verifies compound CONFIG command dispatch and caching.
+        '''
+        handler = ElbowConfigParser()
+        parser = InstructionLineParser(handlers=(handler,))
+        tokens = (
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='CONFIG', line=1, column=1),
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='ELBOW', line=1, column=8),
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='LEFT', line=1, column=14),
+        )
+        inst1 = parser.parse_line(tokens=tokens)
+        inst2 = parser.parse_line(tokens=tokens)
+        self.assertEqual(inst1.command_type, ScaraCommandType.CONFIG_ELBOW)
+        self.assertEqual(inst2.command_type, ScaraCommandType.CONFIG_ELBOW)
 
 
 if __name__ == '__main__':

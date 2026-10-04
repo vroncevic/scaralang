@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -116,8 +116,8 @@ class TestStateCommandCompiler(TestCase):
             context=self.context,
         )
         self.assertEqual(result, ())
-        self.assertEqual(self.context.speed_work, 45.0)
-        self.assertEqual(self.context.current_speed, 45.0)
+        self.assertEqual(self.context.speed.speed_work, 45.0)
+        self.assertEqual(self.context.speed.current_speed, 45.0)
 
         rapid_inst = ScaraInstruction(
             command_type=ScaraCommandType.SPEED,
@@ -133,7 +133,7 @@ class TestStateCommandCompiler(TestCase):
             context=self.context,
         )
         self.assertEqual(result_rapid, ())
-        self.assertEqual(self.context.speed_rapid, 180.0)
+        self.assertEqual(self.context.speed.speed_rapid, 180.0)
 
     def test_compile_accel(self) -> None:
         '''
@@ -150,7 +150,7 @@ class TestStateCommandCompiler(TestCase):
             context=self.context,
         )
         self.assertEqual(result, ())
-        self.assertEqual(self.context.active_accel, 450.0)
+        self.assertEqual(self.context.speed.active_accel, 450.0)
 
     def test_compile_override(self) -> None:
         '''
@@ -167,7 +167,7 @@ class TestStateCommandCompiler(TestCase):
             context=self.context,
         )
         self.assertEqual(result, ())
-        self.assertEqual(self.context.speed_override_pct, 75.0)
+        self.assertEqual(self.context.speed.speed_override_pct, 75.0)
 
     def test_compile_elbow(self) -> None:
         '''
@@ -184,7 +184,7 @@ class TestStateCommandCompiler(TestCase):
             context=self.context,
         )
         self.assertEqual(result, ())
-        self.assertEqual(self.context.elbow_config, ElbowConfig.LEFT)
+        self.assertEqual(self.context.pose.elbow_config, ElbowConfig.LEFT)
 
     def test_compile_zone(self) -> None:
         '''
@@ -204,8 +204,8 @@ class TestStateCommandCompiler(TestCase):
             context=self.context,
         )
         self.assertEqual(result, ())
-        self.assertEqual(self.context.zone_mode, ZoneMode.BLEND)
-        self.assertEqual(self.context.zone_radius, 8.5)
+        self.assertEqual(self.context.blend.zone_mode, ZoneMode.BLEND)
+        self.assertEqual(self.context.blend.zone_radius, 8.5)
 
     def test_compile_unsupported_no_op(self) -> None:
         '''

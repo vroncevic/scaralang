@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -71,8 +71,8 @@ class KinematicsService:
             :param bounds: Injected ScaraBounds instance.
         '''
         self._bounds: Final[ScaraBounds] = bounds
-        self._r_min: Final[float] = abs(bounds.l1 - bounds.l2)
-        self._r_max: Final[float] = bounds.l1 + bounds.l2
+        self._r_min: Final[float] = abs(bounds.links.l1 - bounds.links.l2)
+        self._r_max: Final[float] = bounds.links.l1 + bounds.links.l2
 
     @property
     def bounds(self) -> ScaraBounds:
@@ -113,8 +113,8 @@ class KinematicsService:
             :param elbow_left: True for elbow-left configuration, False for elbow-right.
             :return: Tuple of (theta1, theta2) in radians, or None if mathematically unreachable.
         '''
-        l1: float = self._bounds.l1
-        l2: float = self._bounds.l2
+        l1: float = self._bounds.links.l1
+        l2: float = self._bounds.links.l2
         x: float = point.x
         y: float = point.y
         r_sq: float = x * x + y * y
@@ -148,8 +148,8 @@ class KinematicsService:
             :param theta2: Joint 2 (elbow) angle in radians.
             :return: Tuple of (elbow_point, tool_point) Point2D coordinate instances in mm.
         '''
-        l1: float = self._bounds.l1
-        l2: float = self._bounds.l2
+        l1: float = self._bounds.links.l1
+        l2: float = self._bounds.links.l2
         elbow_x: float = l1 * cos(theta1)
         elbow_y: float = l1 * sin(theta1)
         total_angle: float = theta1 + theta2
@@ -202,11 +202,14 @@ class KinematicsService:
                 f'R_min={self._r_min:.1f} mm (r={r:.1f} mm)'
             )
 
-        if z < self._bounds.z_min - 1e-4 or z > self._bounds.z_max + 1e-4:
+        if (
+            z < self._bounds.vertical.z_min - 1e-4
+            or z > self._bounds.vertical.z_max + 1e-4
+        ):
             return (
                 False,
                 f'Elevation Z={z:.1f} mm is out of range '
-                f'[{self._bounds.z_min:.1f}, {self._bounds.z_max:.1f}] mm'
+                f'[{self._bounds.vertical.z_min:.1f}, {self._bounds.vertical.z_max:.1f}] mm'
             )
 
         return True, 'Point is within Cartesian workspace'
@@ -232,15 +235,21 @@ class KinematicsService:
 
             theta1, theta2 = ik_res
 
-            if theta1 < self._bounds.j1_min_rad or theta1 > self._bounds.j1_max_rad:
+            if (
+                theta1 < self._bounds.joints.j1_min_rad
+                or theta1 > self._bounds.joints.j1_max_rad
+            ):
                 reasons.append(f'J1 angle {degrees(theta1):.1f}° exceeds limit')
                 continue
 
-            if theta2 < self._bounds.j2_min_rad or theta2 > self._bounds.j2_max_rad:
+            if (
+                theta2 < self._bounds.joints.j2_min_rad
+                or theta2 > self._bounds.joints.j2_max_rad
+            ):
                 reasons.append(f'J2 angle {degrees(theta2):.1f}° exceeds limit')
                 continue
 
-            if abs(theta2) < self._bounds.singularity_theta2_min_rad:
+            if abs(theta2) < self._bounds.singularity.singularity_theta2_min_rad:
                 reasons.append('J2 in singularity deadband')
                 continue
 

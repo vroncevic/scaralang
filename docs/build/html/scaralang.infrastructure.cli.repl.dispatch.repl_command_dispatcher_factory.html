@@ -79,7 +79,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">create - Builds ReplCommandDispatcher instance.</div>
+<div class="line">create - Builds ReplCommandDispatcher with injected info provider.</div>
+<div class="line">create_default - Builds ReplCommandDispatcher with default info provider.</div>
 <div class="line">get_version - Returns factory version string.</div>
 </div>
 </dd>
@@ -87,8 +88,25 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory.ReplCommandDispatcherFactory.create">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.html#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher" title="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher"><span class="pre">ReplCommandDispatcher</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher_factory.html#ReplCommandDispatcherFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory.ReplCommandDispatcherFactory.create" title="Link to this definition">¶</a></dt>
-<dd><p>Builds and returns a ReplCommandDispatcher instance.</p>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info_provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.info.itoolchain_info_provider.html#scaralang.core.service.info.itoolchain_info_provider.IToolchainInfoProvider" title="scaralang.core.service.info.itoolchain_info_provider.IToolchainInfoProvider"><span class="pre">IToolchainInfoProvider</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.html#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher" title="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher"><span class="pre">ReplCommandDispatcher</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher_factory.html#ReplCommandDispatcherFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory.ReplCommandDispatcherFactory.create" title="Link to this definition">¶</a></dt>
+<dd><p>Builds and returns a ReplCommandDispatcher instance with injected dependencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>info_provider</strong> – Required injected toolchain info provider.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Instantiated ReplCommandDispatcher instance.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory.ReplCommandDispatcherFactory.create_default">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.html#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher" title="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher"><span class="pre">ReplCommandDispatcher</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher_factory.html#ReplCommandDispatcherFactory.create_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory.ReplCommandDispatcherFactory.create_default" title="Link to this definition">¶</a></dt>
+<dd><p>Builds and returns a ReplCommandDispatcher default instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Instantiated ReplCommandDispatcher instance.</p>
@@ -130,6 +148,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#">scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory module</a><ul>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory.ReplCommandDispatcherFactory"><code class="docutils literal notranslate"><span class="pre">ReplCommandDispatcherFactory</span></code></a><ul>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory.ReplCommandDispatcherFactory.create"><code class="docutils literal notranslate"><span class="pre">ReplCommandDispatcherFactory.create()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory.ReplCommandDispatcherFactory.create_default"><code class="docutils literal notranslate"><span class="pre">ReplCommandDispatcherFactory.create_default()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory.ReplCommandDispatcherFactory.get_version"><code class="docutils literal notranslate"><span class="pre">ReplCommandDispatcherFactory.get_version()</span></code></a></li>
 </ul>
 </li>
