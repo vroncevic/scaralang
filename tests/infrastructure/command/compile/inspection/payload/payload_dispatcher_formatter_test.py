@@ -26,24 +26,12 @@ from unittest import TestCase, main
 
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.infrastructure.command.compile.inspection.framing.hex_stream_formatter import HexStreamFormatter
-from scaralang.infrastructure.command.compile.inspection.payload.ipayload_dispatcher_formatter import (
-    IPayloadDispatcherFormatter,
-)
-from scaralang.infrastructure.command.compile.inspection.payload.joint_steps_payload_formatter import (
-    JointStepsPayloadFormatter,
-)
-from scaralang.infrastructure.command.compile.inspection.payload.payload_dispatcher_formatter import (
-    PayloadDispatcherFormatter,
-)
-from scaralang.infrastructure.command.compile.inspection.payload.tool_command_payload_formatter import (
-    ToolCommandPayloadFormatter,
-)
-from scaralang.infrastructure.communication.protocol.binary.binary_struct_format import (
-    BinaryStructFormat,
-)
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker import (
-    BinaryPayloadUnpacker,
-)
+from scaralang.infrastructure.command.compile.inspection.payload.ipayload_dispatcher_formatter import IPayloadDispatcherFormatter
+from scaralang.infrastructure.command.compile.inspection.payload.joint_steps_payload_formatter import JointStepsPayloadFormatter
+from scaralang.infrastructure.command.compile.inspection.payload.payload_dispatcher_formatter import PayloadDispatcherFormatter
+from scaralang.infrastructure.command.compile.inspection.payload.tool_command_payload_formatter import ToolCommandPayloadFormatter
+from scaralang.infrastructure.communication.protocol.binary.binary_struct_format import BinaryStructFormat
+from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker import BinaryPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'

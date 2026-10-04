@@ -27,9 +27,7 @@ from ats_utilities.exceptions.ats_type_error import ATSTypeError
 from ats_utilities.exceptions.ats_value_error import ATSValueError
 from ats_utilities.option.imanager import IOptionManager
 
-from scaralang.infrastructure.cli.setup.opt_validator import (
-    CLIBundleOptionsValidator,
-)
+from scaralang.infrastructure.cli.setup.opt_validator import CLIBundleOptionsValidator
 from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
 from scaralang.setup.factory import ScaralangBundleFactory
 
