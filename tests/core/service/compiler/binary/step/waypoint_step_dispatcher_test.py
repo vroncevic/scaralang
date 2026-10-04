@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,9 +46,13 @@ class TestWaypointStepDispatcher(TestCase):
         It defines:
 
             :methods:
+                | setUp - Sets up test mocks and dispatcher instance.
                 | test_dispatch_motion_waypoint - Verifies dispatch of motion point.
                 | test_dispatch_command_waypoint - Verifies dispatch of command point.
+                | test_protocol_conformance - Verifies WaypointStepDispatcher satisfies IWaypointStepDispatcher.
+                | test_get_version - Verifies get_version returns valid version string.
     '''
+
 
     def setUp(self) -> None:
         '''Sets up test mocks and dispatcher instance.'''
@@ -96,6 +100,11 @@ class TestWaypointStepDispatcher(TestCase):
     def test_protocol_conformance(self) -> None:
         '''Verifies WaypointStepDispatcher satisfies IWaypointStepDispatcher.'''
         self.assertIsInstance(self.dispatcher, IWaypointStepDispatcher)
+
+    def test_get_version(self) -> None:
+        '''Verifies get_version returns valid version string.'''
+        self.assertEqual(self.dispatcher.get_version(), '1.0.3')
+
 
 
 if __name__ == '__main__':

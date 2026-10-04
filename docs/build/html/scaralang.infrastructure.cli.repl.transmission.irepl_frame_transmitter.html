@@ -82,6 +82,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div class="line">transmit_frame - Transmits binary wire bytes to target or simulation.</div>
 <div class="line">is_dry_run - Checks if transmitter is operating in offline dry-run mode.</div>
 <div class="line">get_endpoint - Returns the configured target endpoint string.</div>
+<div class="line">configure - Updates target endpoint and dry-run mode.</div>
 </div>
 </dd>
 </dl>
@@ -100,6 +101,23 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter._is_runtime_protocol">
 <span class="sig-name descname"><span class="pre">_is_runtime_protocol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter._is_runtime_protocol" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter.configure">
+<span class="sig-name descname"><span class="pre">configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/transmission/irepl_frame_transmitter.html#IReplFrameTransmitter.configure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter.configure" title="Link to this definition">¶</a></dt>
+<dd><p>Configures the transmitter with updated endpoint and dry-run mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – Target connection endpoint identifier.</p></li>
+<li><p><strong>dry_run</strong> – True if running in simulated dry-run mode.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter.get_endpoint">
@@ -165,6 +183,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter._abc_impl"><code class="docutils literal notranslate"><span class="pre">IReplFrameTransmitter._abc_impl</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter._is_protocol"><code class="docutils literal notranslate"><span class="pre">IReplFrameTransmitter._is_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IReplFrameTransmitter._is_runtime_protocol</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter.configure"><code class="docutils literal notranslate"><span class="pre">IReplFrameTransmitter.configure()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter.get_endpoint"><code class="docutils literal notranslate"><span class="pre">IReplFrameTransmitter.get_endpoint()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter.is_dry_run"><code class="docutils literal notranslate"><span class="pre">IReplFrameTransmitter.is_dry_run()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter.IReplFrameTransmitter.transmit_frame"><code class="docutils literal notranslate"><span class="pre">IReplFrameTransmitter.transmit_frame()</span></code></a></li>

@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,14 +45,23 @@ class TestIArcPointCalculator(TestCase):
 
             :methods:
                 | test_protocol_definition - Verifies protocol methods.
+                | test_protocol_runtime_check - Verifies protocol runtime check with non-conforming object.
     '''
 
     def test_protocol_definition(self) -> None:
         '''
-            Verifies that IArcPointCalculator defines required calculate_points method.
+            Verifies that IArcPointCalculator defines required methods.
         '''
         self.assertTrue(issubclass(IArcPointCalculator, Protocol))
         self.assertTrue(hasattr(IArcPointCalculator, 'calculate_points'))
+        self.assertTrue(hasattr(IArcPointCalculator, 'get_version'))
+
+    def test_protocol_runtime_check(self) -> None:
+        '''
+            Verifies non-conforming object fails runtime protocol check.
+        '''
+        self.assertFalse(isinstance(object(), IArcPointCalculator))
+
 
 
 if __name__ == '__main__':

@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -125,7 +125,7 @@ class ControlCommandCompiler:
                         name='HOME',
                         command='<CMD:HOME>',
                         phi=0.0,
-                        speed=context.speed_rapid,
+                        speed=context.speed.speed_rapid,
                     ),
                 ),
             )
@@ -139,8 +139,8 @@ class ControlCommandCompiler:
                     descriptor=ControlWaypointDescriptor(
                         name=f'WAIT_{delay_ms}MS',
                         command=f'<CMD:WAIT#{delay_ms}>',
-                        phi=context.current_phi,
-                        speed=context.current_speed,
+                        phi=context.pose.current_phi,
+                        speed=context.speed.current_speed,
                     ),
                 ),
             )
@@ -162,8 +162,8 @@ class ControlCommandCompiler:
                     descriptor=ControlWaypointDescriptor(
                         name=f'CONFIG_MOTOR_{mode_obj.value}',
                         command=f'<CMD:CONFIG_MOTOR#{mode_obj.value}>',
-                        phi=context.current_phi,
-                        speed=context.current_speed,
+                        phi=context.pose.current_phi,
+                        speed=context.speed.current_speed,
                     ),
                 ),
             )
@@ -174,8 +174,8 @@ class ControlCommandCompiler:
                 descriptor=ControlWaypointDescriptor(
                     name=cmd_type.value,
                     command=f'<CMD:{cmd_type.value}>',
-                    phi=context.current_phi,
-                    speed=context.current_speed,
+                    phi=context.pose.current_phi,
+                    speed=context.speed.current_speed,
                 ),
             ),
         )

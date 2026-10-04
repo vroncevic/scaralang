@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   scaralang.core.model.dsl.linter.lint_tool_state
    scaralang.core.model.dsl.linter.scara_lint_context
 
 Module contents

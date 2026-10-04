@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,6 +50,7 @@ class TestJumpCommandParser(TestCase):
                 | test_properties_and_protocol - Verifies name and protocol conformance.
                 | test_can_parse - Verifies command matching.
                 | test_parse_success - Verifies statement parsing into instruction.
+                | test_parse_with_arch_alias - Verifies ARCH parameter mapping to ARCH_HEIGHT.
     '''
 
     def test_properties_and_protocol(self) -> None:
@@ -87,6 +88,25 @@ class TestJumpCommandParser(TestCase):
         self.assertEqual(instruction.line_number, 1)
         self.assertEqual(instruction.parameters.get('X'), 200)
         self.assertEqual(instruction.parameters.get('Z_ARCH'), 25)
+
+    def test_parse_with_arch_alias(self) -> None:
+        '''
+            Verifies ARCH parameter is mapped to ARCH_HEIGHT when ARCH_HEIGHT is not specified.
+        '''
+        parser = JumpCommandParser()
+        tokens = (
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='JUMP', line=1, column=1),
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='X', line=1, column=6),
+            ScaraToken(token_type=ScaraTokenType.EQUALS, value='=', line=1, column=7),
+            ScaraToken(token_type=ScaraTokenType.NUMBER, value='200', line=1, column=8),
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='ARCH', line=1, column=12),
+            ScaraToken(token_type=ScaraTokenType.EQUALS, value='=', line=1, column=16),
+            ScaraToken(token_type=ScaraTokenType.NUMBER, value='30', line=1, column=17),
+        )
+        instruction = parser.parse(tokens=tokens, line_num=1, raw_text='JUMP X=200 ARCH=30')
+        self.assertEqual(instruction.command_type, ScaraCommandType.JUMP)
+        self.assertEqual(instruction.parameters.get('ARCH_HEIGHT'), 30)
+        self.assertNotIn('ARCH', instruction.parameters)
 
 
 if __name__ == '__main__':

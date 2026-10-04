@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,6 +50,7 @@ class TestCommandCompiler(TestCase):
             :methods:
                 | setUp - Initializes compiler fixture.
                 | test_structural_conformance - Verifies protocol check.
+                | test_get_version - Verifies get_version returns valid version string.
                 | test_compile_pump_command - Tests compiling PUMP command.
                 | test_compile_valve_command - Tests compiling VALVE command.
                 | test_compile_wait_command - Tests compiling WAIT command.
@@ -71,6 +72,13 @@ class TestCommandCompiler(TestCase):
             Verifies structural conformance to ICommandCompiler.
         '''
         self.assertIsInstance(self.compiler, ICommandCompiler)
+
+    def test_get_version(self) -> None:
+        '''
+            Verifies get_version returns valid version string.
+        '''
+        self.assertEqual(self.compiler.get_version(), '1.0.3')
+
 
     def test_compile_pump_command(self) -> None:
         '''

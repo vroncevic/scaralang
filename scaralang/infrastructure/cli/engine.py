@@ -24,11 +24,11 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Final
 
+from ats_utilities.exceptions.ats_type_error import ATSTypeError
+from ats_utilities.exceptions.ats_value_error import ATSValueError
 from ats_utilities.option.imanager import IOptionManager
-from ats_utilities.exceptions import ATSValueError, ATSTypeError
 from ats_utilities.utils.reflection import to_str
 
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
 from scaralang.infrastructure.cli.setup.validator import CLIBundleValidator
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,7 +51,6 @@ class CLI:
         It defines:
 
             :attributes:
-                | _service - SCARA DSL service.
                 | _parser - Argument parser for parsing CLI command args.
                 | _executors - Map of command names to command executor instances.
             :methods:
@@ -61,13 +60,12 @@ class CLI:
                 | __str__ - Returns the CLI as string representation.
     '''
 
-    _service: IScaraDslService
     _parser: IOptionManager
-    _executors: Mapping[str, ICommandExecutor[ICommandDefinition, object, object, object]]
+    _executors: Mapping[str, ICommandExecutor[ICommandDefinition, object, object]]
 
     def __init__(self, bundle: CLIBundle) -> None:
         '''
-            Initializes the CLI with service, parser and commands list.
+            Initializes the CLI with parser and commands list.
 
             :param bundle: Bundle containing CLI adapters.
             :exceptions:
@@ -75,10 +73,9 @@ class CLI:
                 | ATSTypeError:  If bundle attributes have invalid types.
         '''
         CLIBundleValidator.validate(bundle)
-        self._service: Final[IScaraDslService] = bundle.service
         self._parser: Final[IOptionManager] = bundle.parser
         self._executors: Final[
-            Mapping[str, ICommandExecutor[ICommandDefinition, object, object, object]]
+            Mapping[str, ICommandExecutor[ICommandDefinition, object, object]]
         ] = {pair.definition.name: pair.executor for pair in bundle.commands}
         self._parser.register_commands([pair.definition for pair in bundle.commands])
 
@@ -92,7 +89,7 @@ class CLI:
         try:
             command_name, params = self._parser.parse_command()
             executor: (
-                ICommandExecutor[ICommandDefinition, object, object, object] | None
+                ICommandExecutor[ICommandDefinition, object, object] | None
             ) = self._executors.get(command_name)
 
             if executor is None:
@@ -102,7 +99,7 @@ class CLI:
                     'stderr': f'cli::run - command {command_name} not found'
                 }
 
-            return executor.execute(params=params, service=self._service)
+            return executor.execute(params=params)
 
         except (ATSValueError, ATSTypeError) as exc:
             return {'returncode': 1, 'stdout': '', 'stderr': f'cli::run - error: {exc}'}
@@ -117,7 +114,7 @@ class CLI:
             :return: True if initialized, False otherwise.
             :exceptions: None.
         '''
-        return bool(self._service and self._parser and self._executors)
+        return bool(self._parser and self._executors)
 
     def __str__(self) -> str:
         '''

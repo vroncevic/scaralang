@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,6 +51,7 @@ class TestBinaryFrameAssembler(TestCase):
             :methods:
                 | setUp - Initializes assembler fixture.
                 | test_structural_typing - Verifies protocol adherence.
+                | test_name - Verifies assembler name property.
                 | test_assemble_valid_frame - Verifies assembly with valid CRC.
                 | test_assemble_corrupted_crc - Verifies rejection of invalid CRC.
                 | test_assemble_empty_payload - Verifies assembly with zero-length payload.
@@ -137,6 +138,10 @@ class TestBinaryFrameAssembler(TestCase):
             self.assertEqual(frame.seq_num, seq_num)
             self.assertEqual(frame.payload, b'')
             self.assertEqual(frame.crc16, expected_crc)
+
+    def test_name(self) -> None:
+        '''Verifies name property returns assembler identifier.'''
+        self.assertEqual(self.assembler.name, 'binary_frame_assembler')
 
 
 if __name__ == '__main__':

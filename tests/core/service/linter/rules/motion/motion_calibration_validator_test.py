@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,6 +51,7 @@ class TestMotionCalibrationValidator(TestCase):
                 | test_uncalibrated_motion_emits_warning - Verifies UNCALIBRATED_MOTION on unhomed move.
                 | test_homed_motion_no_diagnostic - Verifies no diagnostic when robot is homed.
                 | test_subsequent_motion_no_diagnostic - Verifies no warning after motion occurred.
+                | test_name - Verifies validator name property.
     '''
 
     def test_uncalibrated_motion_emits_warning(self) -> None:
@@ -115,6 +116,13 @@ class TestMotionCalibrationValidator(TestCase):
         )
 
         self.assertEqual(len(diagnostics), 0)
+
+    def test_name(self) -> None:
+        '''
+            Verifies validator name property.
+        '''
+        validator = MotionCalibrationValidator()
+        self.assertEqual(validator.name, 'motion_calibration')
 
 
 if __name__ == '__main__':

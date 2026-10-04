@@ -27,7 +27,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,6 +42,7 @@ class IReplLineReader(Protocol):
 
             :methods:
                 | read_line - Reads a single input line from user or input stream.
+                | get_version - Returns line reader version string.
     '''
 
     def read_line(self, *, prompt: str = 'scaralang> ') -> str | None:
@@ -50,5 +51,13 @@ class IReplLineReader(Protocol):
 
             :param prompt: Prompt string to display.
             :return: The input line stripped of trailing newline, or None on EOF.
+            :exceptions: None.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Returns line reader component version.
+
+            :return: Version string.
             :exceptions: None.
         '''

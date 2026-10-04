@@ -67,13 +67,13 @@
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.scara_compiler_context</span> <span class="kn">import</span> <span class="n">ScaraCompilerContext</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.macro.pallet_definition</span> <span class="kn">import</span> <span class="n">PalletDefinition</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.frame.iframe_transformer</span> <span class="kn">import</span> <span class="n">IFrameTransformer</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.transformation.iframe_transformer</span> <span class="kn">import</span> <span class="n">IFrameTransformer</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -152,8 +152,12 @@
                 <span class="n">dx</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">DX</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)),</span>
                 <span class="n">dy</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">DY</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)),</span>
                 <span class="n">start</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span>
-                    <span class="n">x</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">START_X</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">current_x</span><span class="p">)),</span>
-                    <span class="n">y</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">START_Y</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">current_y</span><span class="p">)),</span>
+                    <span class="n">x</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span>
+                        <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">START_X</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_x</span><span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="n">y</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span>
+                        <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">START_Y</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_y</span><span class="p">)</span>
+                    <span class="p">),</span>
                 <span class="p">),</span>
             <span class="p">)</span>
             <span class="n">context</span><span class="o">.</span><span class="n">pallets</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">pallet_def</span>
@@ -174,11 +178,11 @@
             <span class="n">frame</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">active_frame</span><span class="p">,</span>
             <span class="n">point</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">local_x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">local_y</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">target_z</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">current_z</span><span class="p">))</span>
+        <span class="n">target_z</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_z</span><span class="p">))</span>
 
-        <span class="n">context</span><span class="o">.</span><span class="n">current_x</span> <span class="o">=</span> <span class="n">transformed_point</span><span class="o">.</span><span class="n">x</span>
-        <span class="n">context</span><span class="o">.</span><span class="n">current_y</span> <span class="o">=</span> <span class="n">transformed_point</span><span class="o">.</span><span class="n">y</span>
-        <span class="n">context</span><span class="o">.</span><span class="n">current_z</span> <span class="o">=</span> <span class="n">target_z</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_x</span> <span class="o">=</span> <span class="n">transformed_point</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_y</span> <span class="o">=</span> <span class="n">transformed_point</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_z</span> <span class="o">=</span> <span class="n">target_z</span>
 
         <span class="n">move_inst</span> <span class="o">=</span> <span class="n">ScaraInstruction</span><span class="p">(</span>
             <span class="n">command_type</span><span class="o">=</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">MOVE_L</span><span class="p">,</span>
@@ -192,8 +196,8 @@
                 <span class="n">InstructionParam</span><span class="o">.</span><span class="n">X</span><span class="p">:</span> <span class="n">transformed_point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
                 <span class="n">InstructionParam</span><span class="o">.</span><span class="n">Y</span><span class="p">:</span> <span class="n">transformed_point</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
                 <span class="n">InstructionParam</span><span class="o">.</span><span class="n">Z</span><span class="p">:</span> <span class="n">target_z</span><span class="p">,</span>
-                <span class="n">InstructionParam</span><span class="o">.</span><span class="n">PHI</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">current_phi</span><span class="p">,</span>
-                <span class="n">InstructionParam</span><span class="o">.</span><span class="n">SPEED</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">current_speed</span><span class="p">,</span>
+                <span class="n">InstructionParam</span><span class="o">.</span><span class="n">PHI</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_phi</span><span class="p">,</span>
+                <span class="n">InstructionParam</span><span class="o">.</span><span class="n">SPEED</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">current_speed</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
 

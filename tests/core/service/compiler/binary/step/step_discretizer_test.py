@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,6 +54,8 @@ class TestStepDiscretizer(TestCase):
                 | test_angles_to_steps - Verifies conversion from angles to steps.
                 | test_discretize_waypoint - Verifies Cartesian waypoint discretization.
                 | test_calculate_segment_duration - Verifies segment execution duration calculation.
+                | test_discretize_unreachable_waypoint_raises_value_error - Verifies ValueError on unreachable waypoint.
+                | test_calculate_segment_duration_zero_delta - Verifies default duration when delta is zero.
     '''
 
     def setUp(self) -> None:
@@ -114,6 +116,34 @@ class TestStepDiscretizer(TestCase):
             speed_mm_s=50.0,
         )
         self.assertGreater(duration_us, 0)
+
+    def test_discretize_unreachable_waypoint_raises_value_error(self) -> None:
+        '''
+            Verifies ValueError is raised when waypoint is outside kinematic reach.
+        '''
+        unreachable = Waypoint(
+            x=99999.0,
+            y=99999.0,
+            z=10.0,
+            phi=0.0,
+            speed=50.0,
+        )
+        with self.assertRaises(ValueError):
+            self.discretizer.discretize_waypoint(
+                waypoint=unreachable,
+                prev_angles=(0.0, 0.0, 0.0, 0.0),
+            )
+
+    def test_calculate_segment_duration_zero_delta(self) -> None:
+        '''
+            Verifies duration is 1000 us when start and target steps are identical.
+        '''
+        duration_us = self.discretizer.calculate_segment_duration(
+            current_steps=(100, 100, 100, 100),
+            target_steps=(100, 100, 100, 100),
+            speed_mm_s=50.0,
+        )
+        self.assertEqual(duration_us, 1000)
 
 
 if __name__ == '__main__':

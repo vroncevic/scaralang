@@ -21,14 +21,19 @@ Info
 
 from __future__ import annotations
 
+from scaralang.core.model.kinematics.joint_angle_bounds import JointAngleBounds
+from scaralang.core.model.kinematics.link_dimensions import LinkDimensions
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.singularity_margins import SingularityMargins
+from scaralang.core.model.kinematics.speed_limits import SpeedLimits
 from scaralang.core.model.kinematics.transmission_parameters import TransmissionParameters
+from scaralang.core.model.kinematics.vertical_bounds import VerticalBounds
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,23 +60,27 @@ class DefaultScaraProfile:
             :exceptions: None.
         '''
         return ScaraBounds(
-            l1=150.0,
-            l2=150.0,
-            z_min=-50.0,
-            z_max=50.0,
-            min_speed=1.0,
-            max_speed=200.0,
-            default_speed=50.0,
-            default_accel=100.0,
-            max_accel=500.0,
-            j1_min_rad=-2.61799,
-            j1_max_rad=2.61799,
-            j2_min_rad=-2.61799,
-            j2_max_rad=2.61799,
-            singularity_outer_margin_mm=5.0,
-            singularity_inner_margin_mm=5.0,
-            singularity_theta2_min_rad=0.087266,
-            deadzone_r_min=20.0,
+            links=LinkDimensions(l1=150.0, l2=150.0),
+            vertical=VerticalBounds(z_min=-50.0, z_max=50.0),
+            speeds=SpeedLimits(
+                min_speed=1.0,
+                max_speed=200.0,
+                default_speed=50.0,
+                default_accel=100.0,
+                max_accel=500.0,
+            ),
+            joints=JointAngleBounds(
+                j1_min_rad=-2.61799,
+                j1_max_rad=2.61799,
+                j2_min_rad=-2.61799,
+                j2_max_rad=2.61799,
+            ),
+            singularity=SingularityMargins(
+                singularity_outer_margin_mm=5.0,
+                singularity_inner_margin_mm=5.0,
+                singularity_theta2_min_rad=0.087266,
+                deadzone_r_min=20.0,
+            ),
         )
 
     @classmethod

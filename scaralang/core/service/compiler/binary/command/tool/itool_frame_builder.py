@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,6 +45,7 @@ class IToolFrameBuilder(Protocol):
 
             :methods:
                 | build_tool_frame - Constructs binary frame for pneumatic tool actuation.
+                | get_version - Gets implementation version string.
     '''
 
     def build_tool_frame(
@@ -64,4 +65,11 @@ class IToolFrameBuilder(Protocol):
             :param seq_num: Frame sequence counter.
             :return: Instantiated BinaryFrame.
             :exceptions: None.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Gets implementation version string.
+
+            :return: Version string.
         '''

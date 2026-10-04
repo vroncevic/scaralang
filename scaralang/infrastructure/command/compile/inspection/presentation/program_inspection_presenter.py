@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,6 +47,7 @@ class ProgramInspectionPresenter:
             :methods:
                 | __init__ - Initializes presenter with injected step presenter.
                 | present_program - Generates formatted multi-line program inspection report.
+                | get_version - Returns the component version string.
     '''
 
     _step_presenter: IFrameStepPresenter
@@ -83,4 +84,13 @@ class ProgramInspectionPresenter:
             for idx, step in enumerate(program.steps, start=1)
         ]
         body: str = f'\n{sep}\n'.join(step_cards)
+
         return f'{banner}\n{body}\n{border}'
+
+    def get_version(self) -> str:
+        '''
+            Returns the component version string.
+
+            :return: The version string.
+        '''
+        return __version__

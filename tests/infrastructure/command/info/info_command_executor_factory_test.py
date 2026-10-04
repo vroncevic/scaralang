@@ -24,6 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.service.info.toolchain_info_provider_factory import ToolchainInfoProviderFactory
 from scaralang.infrastructure.command.info.info_command_definition import InfoCommandDefinition
 from scaralang.infrastructure.command.info.info_command_executor import InfoCommandExecutor
 from scaralang.infrastructure.command.info.info_command_executor_factory import InfoCommandExecutorFactory
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,15 +59,17 @@ class TestInfoCommandExecutorFactory(TestCase):
     def test_create_with_collaborators(self) -> None:
         '''Verifies factory builds InfoCommandExecutor with explicit collaborators.'''
         definition = InfoCommandDefinition()
+        service = ToolchainInfoProviderFactory.create_default()
         executor = InfoCommandExecutorFactory.create(
             definition=definition,
+            service=service,
         )
         self.assertIsInstance(executor, InfoCommandExecutor)
 
     def test_get_version(self) -> None:
         '''Verifies factory version returns valid string.'''
         self.assertEqual(
-            InfoCommandExecutorFactory.get_version(), '1.0.2'
+            InfoCommandExecutorFactory.get_version(), '1.0.3'
         )
 
 

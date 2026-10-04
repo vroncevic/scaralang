@@ -29,13 +29,12 @@ from ats_utilities.validation.check_value import not_none
 from ats_utilities.validation.check_type import istype
 
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,21 +64,17 @@ class CLIBundleValidator:
         ctx: str = 'cli_bundle_validator::validate(...)'
         msg_bundle_none: str = 'the CLI bundle must be provided'
         msg_bundle_istype: str = 'the CLI bundle must be an instance of CLIBundle'
-        msg_service_none: str = 'the service must be provided'
         msg_parser_none: str = 'the parser must be provided'
         msg_commands_none: str = 'the commands must be provided'
-        msg_service_istype: str = 'the service must be an instance of IScaraDslService'
         msg_parser_istype: str = 'the parser must be an instance of IOptionManager'
         msg_commands_istype: str = 'the commands must be an instance of Sequence'
 
         not_none(bundle, ctx, msg_bundle_none)
         istype(bundle, CLIBundle, ctx, msg_bundle_istype)
 
-        not_none(bundle.service, ctx, msg_service_none)
         not_none(bundle.parser, ctx, msg_parser_none)
         not_none(bundle.commands, ctx, msg_commands_none)
 
-        istype(bundle.service, IScaraDslService, ctx, msg_service_istype)
         istype(bundle.parser, IOptionManager, ctx, msg_parser_istype)
         istype(bundle.commands, Sequence, ctx, msg_commands_istype)
 
@@ -95,5 +90,6 @@ class CLIBundleValidator:
         try:
             cls.validate(bundle)
             return True
+
         except (ATSValueError, ATSTypeError):
             return False

@@ -66,18 +66,10 @@
 <span class="kn">from</span> <span class="nn">ats_utilities.base.setup.options</span> <span class="kn">import</span> <span class="n">BaseBundleOptions</span>
 <span class="kn">from</span> <span class="nn">ats_utilities.context.factory</span> <span class="kn">import</span> <span class="n">ContextBundleFactory</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.service.dsl.iscara_dsl_service</span> <span class="kn">import</span> <span class="n">IScaraDslService</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.dsl.scara_dsl_service_factory</span> <span class="kn">import</span> <span class="n">ScaraDslServiceFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_frame_builder</span> <span class="kn">import</span> <span class="n">IBinaryFrameBuilder</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_frame_parser</span> <span class="kn">import</span> <span class="n">IBinaryFrameParser</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_payload_unpacker</span> <span class="kn">import</span> <span class="n">IBinaryPayloadUnpacker</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.engine</span> <span class="kn">import</span> <span class="n">CLI</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.setup.bundle</span> <span class="kn">import</span> <span class="n">CLIBundle</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.setup.options</span> <span class="kn">import</span> <span class="n">CLIBundleOptions</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.setup.factory</span> <span class="kn">import</span> <span class="n">CLIBundleFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory</span> <span class="kn">import</span> <span class="n">BinaryFrameBuilderFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory</span> <span class="kn">import</span> <span class="n">BinaryFrameParserFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory</span> <span class="kn">import</span> <span class="n">BinaryPayloadUnpackerFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.setup.bundle</span> <span class="kn">import</span> <span class="n">ScaralangBundle</span>
 <span class="kn">from</span> <span class="nn">scaralang.setup.options</span> <span class="kn">import</span> <span class="n">ScaralangBundleOptions</span>
 <span class="kn">from</span> <span class="nn">scaralang.setup.registry</span> <span class="kn">import</span> <span class="n">ScaralangBundleRegistry</span>
@@ -89,7 +81,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -141,23 +133,14 @@
             <span class="p">)</span>
         <span class="p">)</span>
 
-        <span class="n">frame_builder</span><span class="p">:</span> <span class="n">IBinaryFrameBuilder</span> <span class="o">=</span> <span class="n">BinaryFrameBuilderFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
-        <span class="n">frame_parser</span><span class="p">:</span> <span class="n">IBinaryFrameParser</span> <span class="o">=</span> <span class="n">BinaryFrameParserFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
-        <span class="n">payload_unpacker</span><span class="p">:</span> <span class="n">IBinaryPayloadUnpacker</span> <span class="o">=</span> <span class="n">BinaryPayloadUnpackerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
-        <span class="n">dsl_service</span><span class="p">:</span> <span class="n">IScaraDslService</span> <span class="o">=</span> <span class="n">ScaraDslServiceFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">(</span>
-            <span class="n">frame_builder</span><span class="o">=</span><span class="n">frame_builder</span><span class="p">,</span>
-            <span class="n">frame_parser</span><span class="o">=</span><span class="n">frame_parser</span><span class="p">,</span>
-            <span class="n">payload_unpacker</span><span class="o">=</span><span class="n">payload_unpacker</span>
-        <span class="p">)</span>
-
         <span class="n">cli_bundle</span><span class="p">:</span> <span class="n">CLIBundle</span> <span class="o">=</span> <span class="n">CLIBundleFactory</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span>
-            <span class="n">options</span><span class="o">=</span><span class="n">CLIBundleOptions</span><span class="p">(</span><span class="n">service</span><span class="o">=</span><span class="n">dsl_service</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">base_bundle</span><span class="o">.</span><span class="n">option_manager</span><span class="p">)</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">CLIBundleOptions</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="n">base_bundle</span><span class="o">.</span><span class="n">option_manager</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="n">cli</span><span class="p">:</span> <span class="n">CLI</span> <span class="o">=</span> <span class="n">CLI</span><span class="p">(</span><span class="n">bundle</span><span class="o">=</span><span class="n">cli_bundle</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ScaralangBundleRegistry</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span>
-            <span class="n">dependencies</span><span class="o">=</span><span class="n">ScaralangBundleDependencies</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="n">base_bundle</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="n">dsl_service</span><span class="p">,</span> <span class="n">cli</span><span class="o">=</span><span class="n">cli</span><span class="p">)</span>
+            <span class="n">dependencies</span><span class="o">=</span><span class="n">ScaralangBundleDependencies</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="n">base_bundle</span><span class="p">,</span> <span class="n">cli</span><span class="o">=</span><span class="n">cli</span><span class="p">)</span>
         <span class="p">)</span></div>
 
 

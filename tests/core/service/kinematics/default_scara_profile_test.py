@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,13 +56,13 @@ class TestDefaultScaraProfile(TestCase):
         '''
         bounds: ScaraBounds = DefaultScaraProfile.create_bounds()
         self.assertIsInstance(bounds, ScaraBounds)
-        self.assertEqual(bounds.l1, 150.0)
-        self.assertEqual(bounds.l2, 150.0)
-        self.assertEqual(bounds.z_min, -50.0)
-        self.assertEqual(bounds.z_max, 50.0)
-        self.assertEqual(bounds.default_speed, 50.0)
-        self.assertEqual(bounds.default_accel, 100.0)
-        self.assertEqual(bounds.deadzone_r_min, 20.0)
+        self.assertEqual(bounds.links.l1, 150.0)
+        self.assertEqual(bounds.links.l2, 150.0)
+        self.assertEqual(bounds.vertical.z_min, -50.0)
+        self.assertEqual(bounds.vertical.z_max, 50.0)
+        self.assertEqual(bounds.speeds.default_speed, 50.0)
+        self.assertEqual(bounds.speeds.default_accel, 100.0)
+        self.assertEqual(bounds.singularity.deadzone_r_min, 20.0)
 
     def test_create_transmission(self) -> None:
         '''

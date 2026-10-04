@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,14 +53,12 @@ class TestCLIBundle(TestCase):
         '''Verifies CLIBundle creation and conversion to dict.'''
         bundle = ScaralangBundleFactory.create_bundle()
         options = CLIBundleOptions(
-            service=bundle.service,
             parser=bundle.base.option_manager
         )
         cli_bundle: CLIBundle = CLIBundleFactory.create_bundle(options=options)
         self.assertIsInstance(cli_bundle, CLIBundle)
         bundle_dict = cli_bundle.to_dict()
         self.assertIsInstance(bundle_dict, dict)
-        self.assertIn('service', bundle_dict)
         self.assertIn('parser', bundle_dict)
         self.assertIn('commands', bundle_dict)
 

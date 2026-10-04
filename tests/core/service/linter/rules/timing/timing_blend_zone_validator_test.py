@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,6 +53,7 @@ class TestTimingBlendZoneValidator(TestCase):
                 | test_dwell_during_blend_zone_emits_warning - Verifies dwell in active BLEND emits warning.
                 | test_dwell_during_fine_zone_no_diagnostic - Verifies dwell in FINE mode produces no warning.
                 | test_non_wait_command_no_op - Verifies other commands are ignored.
+                | test_name - Verifies validator name property.
     '''
 
     def test_dwell_during_blend_zone_emits_warning(self) -> None:
@@ -126,6 +127,13 @@ class TestTimingBlendZoneValidator(TestCase):
         )
 
         self.assertEqual(len(diagnostics), 0)
+
+    def test_name(self) -> None:
+        '''
+            Verifies validator name property.
+        '''
+        validator = TimingBlendZoneValidator()
+        self.assertEqual(validator.name, 'timing_blend_zone')
 
 
 if __name__ == '__main__':

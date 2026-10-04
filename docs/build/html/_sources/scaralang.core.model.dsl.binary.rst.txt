@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   scaralang.core.model.dsl.binary.axis_peak_steps
    scaralang.core.model.dsl.binary.binary_program_telemetry
    scaralang.core.model.dsl.binary.disassembled_frame
    scaralang.core.model.dsl.binary.disassembly_summary

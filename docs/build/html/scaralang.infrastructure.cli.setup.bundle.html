@@ -70,7 +70,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.setup.bundle.CLIBundle">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.cli.setup.bundle.</span></span><span class="sig-name descname"><span class="pre">CLIBundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.dsl.iscara_dsl_service.html#scaralang.core.service.dsl.iscara_dsl_service.IScaraDslService" title="scaralang.core.service.dsl.iscara_dsl_service.IScaraDslService"><span class="pre">IScaraDslService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IOptionManager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.infrastructure.command.command_bundle.html#scaralang.infrastructure.command.command_bundle.CommandBundle" title="scaralang.infrastructure.command.command_bundle.CommandBundle"><span class="pre">CommandBundle</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/setup/bundle.html#CLIBundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.setup.bundle.CLIBundle" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.cli.setup.bundle.</span></span><span class="sig-name descname"><span class="pre">CLIBundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IOptionManager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.infrastructure.command.command_bundle.html#scaralang.infrastructure.command.command_bundle.CommandBundle" title="scaralang.infrastructure.command.command_bundle.CommandBundle"><span class="pre">CommandBundle</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/setup/bundle.html#CLIBundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.setup.bundle.CLIBundle" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Defines the CLI bundle.</p>
 <p>It defines:</p>
@@ -78,7 +78,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">service - The service orchestrating the SCARA DSL domain.</div>
 <div class="line">parser - The argument parser for parsing CLI command arguments.</div>
 <div class="line">commands - The sequence of command pairs.</div>
 </div>
@@ -98,11 +97,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.setup.bundle.CLIBundle.parser">
 <span class="sig-name descname"><span class="pre">parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">IOptionManager</span></em><a class="headerlink" href="#scaralang.infrastructure.cli.setup.bundle.CLIBundle.parser" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.infrastructure.cli.setup.bundle.CLIBundle.service">
-<span class="sig-name descname"><span class="pre">service</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.dsl.iscara_dsl_service.html#scaralang.core.service.dsl.iscara_dsl_service.IScaraDslService" title="scaralang.core.service.dsl.iscara_dsl_service.IScaraDslService"><span class="pre">IScaraDslService</span></a></em><a class="headerlink" href="#scaralang.infrastructure.cli.setup.bundle.CLIBundle.service" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -137,7 +131,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.setup.bundle.CLIBundle"><code class="docutils literal notranslate"><span class="pre">CLIBundle</span></code></a><ul>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.setup.bundle.CLIBundle.commands"><code class="docutils literal notranslate"><span class="pre">CLIBundle.commands</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.setup.bundle.CLIBundle.parser"><code class="docutils literal notranslate"><span class="pre">CLIBundle.parser</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.infrastructure.cli.setup.bundle.CLIBundle.service"><code class="docutils literal notranslate"><span class="pre">CLIBundle.service</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.setup.bundle.CLIBundle.to_dict"><code class="docutils literal notranslate"><span class="pre">CLIBundle.to_dict()</span></code></a></li>
 </ul>
 </li>

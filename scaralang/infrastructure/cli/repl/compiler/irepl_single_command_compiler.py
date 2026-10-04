@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,6 +46,7 @@ class IReplSingleCommandCompiler(Protocol):
 
             :methods:
                 | compile_instruction - Compiles single instruction into step and context.
+                | update_context - Computes updated session context model from plan and step.
     '''
 
     def compile_instruction(
@@ -62,4 +63,23 @@ class IReplSingleCommandCompiler(Protocol):
             :return: Tuple of (BinaryFrame, Step, ReplSessionContext).
             :exceptions:
                 | ValueError: If syntax, kinematic limits, or validation checks fail.
+        '''
+
+    def update_context(
+        self,
+        *,
+        line: str,
+        step: Step,
+        plan_waypoints: tuple[object, ...],
+        context: ReplSessionContext,
+    ) -> ReplSessionContext:
+        '''
+            Computes updated session context model from plan and step.
+
+            :param line: Raw DSL instruction line.
+            :param step: Compiled binary execution step.
+            :param plan_waypoints: Waypoints generated from the plan.
+            :param context: Prior active REPL session context.
+            :return: Updated ReplSessionContext instance.
+            :exceptions: None.
         '''

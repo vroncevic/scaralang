@@ -59,7 +59,6 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
 
@@ -67,15 +66,17 @@
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler</span> <span class="kn">import</span> <span class="n">IReplSingleCommandCompiler</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher</span> <span class="kn">import</span> <span class="n">IReplCommandDispatcher</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.input.irepl_line_reader</span> <span class="kn">import</span> <span class="n">IReplLineReader</span>
+<span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.output.irepl_output_writer</span> <span class="kn">import</span> <span class="n">IReplOutputWriter</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter</span> <span class="kn">import</span> <span class="n">IReplResponsePresenter</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter</span> <span class="kn">import</span> <span class="n">IReplFrameTransmitter</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.icommand_definition</span> <span class="kn">import</span> <span class="n">ICommandDefinition</span>
+<span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.repl.repl_command_bundle</span> <span class="kn">import</span> <span class="n">ReplCommandBundle</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -90,59 +91,49 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | definition - The command CLI metadata definition.</span>
-<span class="sd">                | reader - Line reader protocol instance.</span>
-<span class="sd">                | dispatcher - Command dispatcher protocol instance.</span>
-<span class="sd">                | compiler - Single-instruction compiler protocol instance.</span>
-<span class="sd">                | transmitter - Wire frame transmitter protocol instance.</span>
-<span class="sd">                | presenter - Terminal response presenter protocol instance.</span>
-<span class="sd">                | output_func - Optional custom output callable.</span>
+<span class="sd">                | _definition - The command CLI metadata definition.</span>
+<span class="sd">                | _reader - Line reader protocol instance.</span>
+<span class="sd">                | _writer - Output writer protocol instance.</span>
+<span class="sd">                | _dispatcher - Command dispatcher protocol instance.</span>
+<span class="sd">                | _compiler - Single-instruction compiler protocol instance.</span>
+<span class="sd">                | _transmitter - Wire frame transmitter protocol instance.</span>
+<span class="sd">                | _presenter - Terminal response presenter protocol instance.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | __init__ - Initializes the REPL command executor.</span>
 <span class="sd">                | execute - Executes the REPL command from CLI arguments.</span>
 <span class="sd">                | run_session - Executes the REPL read-eval-print loop.</span>
-<span class="sd">                | emit - Emits text to output callable or stdout.</span>
+<span class="sd">                | emit - Emits text to output writer.</span>
 <span class="sd">                | get_definition - Returns the command definition metadata.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span>
-    <span class="n">reader</span><span class="p">:</span> <span class="n">IReplLineReader</span>
-    <span class="n">dispatcher</span><span class="p">:</span> <span class="n">IReplCommandDispatcher</span>
-    <span class="n">compiler</span><span class="p">:</span> <span class="n">IReplSingleCommandCompiler</span>
-    <span class="n">transmitter</span><span class="p">:</span> <span class="n">IReplFrameTransmitter</span>
-    <span class="n">presenter</span><span class="p">:</span> <span class="n">IReplResponsePresenter</span>
-    <span class="n">output_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">_definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span>
+    <span class="n">_reader</span><span class="p">:</span> <span class="n">IReplLineReader</span>
+    <span class="n">_writer</span><span class="p">:</span> <span class="n">IReplOutputWriter</span>
+    <span class="n">_dispatcher</span><span class="p">:</span> <span class="n">IReplCommandDispatcher</span>
+    <span class="n">_compiler</span><span class="p">:</span> <span class="n">IReplSingleCommandCompiler</span>
+    <span class="n">_transmitter</span><span class="p">:</span> <span class="n">IReplFrameTransmitter</span>
+    <span class="n">_presenter</span><span class="p">:</span> <span class="n">IReplResponsePresenter</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span><span class="p">,</span>
-        <span class="n">reader</span><span class="p">:</span> <span class="n">IReplLineReader</span><span class="p">,</span>
-        <span class="n">dispatcher</span><span class="p">:</span> <span class="n">IReplCommandDispatcher</span><span class="p">,</span>
-        <span class="n">compiler</span><span class="p">:</span> <span class="n">IReplSingleCommandCompiler</span><span class="p">,</span>
-        <span class="n">transmitter</span><span class="p">:</span> <span class="n">IReplFrameTransmitter</span><span class="p">,</span>
-        <span class="n">presenter</span><span class="p">:</span> <span class="n">IReplResponsePresenter</span><span class="p">,</span>
-        <span class="n">output_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="n">bundle</span><span class="p">:</span> <span class="n">ReplCommandBundle</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Initializes the REPL command executor with injected collaborators.</span>
 
 <span class="sd">            :param definition: Injected command definition metadata.</span>
-<span class="sd">            :param reader: Injected line reader protocol instance.</span>
-<span class="sd">            :param dispatcher: Injected command dispatcher protocol instance.</span>
-<span class="sd">            :param compiler: Injected single-instruction compiler protocol instance.</span>
-<span class="sd">            :param transmitter: Injected wire frame transmitter protocol instance.</span>
-<span class="sd">            :param presenter: Injected terminal presenter protocol instance.</span>
-<span class="sd">            :param output_func: Injected output emission callable.</span>
+<span class="sd">            :param bundle: Injected collaborator bundle container.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplLineReader</span><span class="p">]</span> <span class="o">=</span> <span class="n">reader</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplCommandDispatcher</span><span class="p">]</span> <span class="o">=</span> <span class="n">dispatcher</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">compiler</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplSingleCommandCompiler</span><span class="p">]</span> <span class="o">=</span> <span class="n">compiler</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transmitter</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplFrameTransmitter</span><span class="p">]</span> <span class="o">=</span> <span class="n">transmitter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">presenter</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplResponsePresenter</span><span class="p">]</span> <span class="o">=</span> <span class="n">presenter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_func</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="n">output_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_definition</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplLineReader</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">reader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplOutputWriter</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">writer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dispatcher</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplCommandDispatcher</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">dispatcher</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplSingleCommandCompiler</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">compiler</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transmitter</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplFrameTransmitter</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">transmitter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_presenter</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IReplResponsePresenter</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">presenter</span>
 
 <div class="viewcode-block" id="ReplCommandExecutor.execute">
 <a class="viewcode-back" href="../../../../../scaralang.infrastructure.command.repl.repl_command_executor.html#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.execute">[docs]</a>
@@ -150,16 +141,22 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">],</span>
-        <span class="n">service</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Executes the REPL subcommand.</span>
 
 <span class="sd">            :param params: Subcommand parameters from CLI parser.</span>
-<span class="sd">            :param service: SCARA DSL service instance.</span>
 <span class="sd">            :return: The result mapping of the subcommand execution.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">raw_endpoint</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;endpoint&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_endpoint</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">raw_endpoint</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="n">dry_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dry_run&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transmitter</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span>
+                <span class="n">endpoint</span><span class="o">=</span><span class="n">raw_endpoint</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span>
+            <span class="p">)</span>
+
         <span class="n">context</span><span class="p">:</span> <span class="n">ReplSessionContext</span> <span class="o">=</span> <span class="n">ReplSessionContext</span><span class="p">()</span>
         <span class="n">code</span><span class="p">,</span> <span class="n">lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_session</span><span class="p">(</span><span class="n">initial_context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
 
@@ -181,13 +178,13 @@
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">output_lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">banner</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">presenter</span><span class="o">.</span><span class="n">present_banner</span><span class="p">()</span>
+        <span class="n">banner</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_presenter</span><span class="o">.</span><span class="n">present_banner</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">banner</span><span class="p">)</span>
         <span class="n">output_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">banner</span><span class="p">)</span>
         <span class="n">context</span><span class="p">:</span> <span class="n">ReplSessionContext</span> <span class="o">=</span> <span class="n">initial_context</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">line</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">read_line</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;scaralang&gt; &#39;</span><span class="p">)</span>
+            <span class="n">line</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="o">.</span><span class="n">read_line</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;scaralang&gt; &#39;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">break</span>
@@ -195,7 +192,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="n">dispatch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span><span class="o">.</span><span class="n">dispatch_line</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+            <span class="n">dispatch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dispatcher</span><span class="o">.</span><span class="n">dispatch_line</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">dispatch</span><span class="o">.</span><span class="n">is_exit</span><span class="p">:</span>
                 <span class="k">break</span>
@@ -208,20 +205,20 @@
                 <span class="k">continue</span>
 
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">_</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">compile_instruction</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="o">.</span><span class="n">compile_instruction</span><span class="p">(</span>
                     <span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span>
                 <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">transmitter</span><span class="o">.</span><span class="n">transmit_frame</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">raw_bytes</span><span class="p">)</span>
-                <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">presenter</span><span class="o">.</span><span class="n">present_success</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_transmitter</span><span class="o">.</span><span class="n">transmit_frame</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">raw_bytes</span><span class="p">)</span>
+                <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_presenter</span><span class="o">.</span><span class="n">present_success</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                 <span class="n">output_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
             <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-                <span class="n">err_msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">presenter</span><span class="o">.</span><span class="n">present_error</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
+                <span class="n">err_msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_presenter</span><span class="o">.</span><span class="n">present_error</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
                 <span class="n">output_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
 
-        <span class="n">exit_msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">presenter</span><span class="o">.</span><span class="n">present_exit</span><span class="p">()</span>
+        <span class="n">exit_msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_presenter</span><span class="o">.</span><span class="n">present_exit</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">exit_msg</span><span class="p">)</span>
         <span class="n">output_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exit_msg</span><span class="p">)</span>
 
@@ -232,12 +229,12 @@
 <a class="viewcode-back" href="../../../../../scaralang.infrastructure.command.repl.repl_command_executor.html#scaralang.infrastructure.command.repl.repl_command_executor.ReplCommandExecutor.emit">[docs]</a>
     <span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Emits output text to configured output function.</span>
+<span class="sd">            Emits output text to configured output writer.</span>
 
 <span class="sd">            :param text: Output text to emit.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_func</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ReplCommandExecutor.get_definition">
@@ -249,7 +246,7 @@
 <span class="sd">            :return: The command definition metadata.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_definition</span></div>
 </div>
 
 </pre></div>

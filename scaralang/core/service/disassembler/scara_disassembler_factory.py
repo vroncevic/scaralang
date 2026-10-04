@@ -21,16 +21,19 @@ Info
 
 from __future__ import annotations
 
+from scaralang.core.service.disassembler.frame_detail_decoder_factory import FrameDetailDecoderFactory
 from scaralang.core.service.disassembler.iframe_detail_decoder import IFrameDetailDecoder
 from scaralang.core.service.disassembler.iscara_disassembler import IScaraDisassembler
 from scaralang.core.service.disassembler.scara_disassembler import ScaraDisassembler
 from scaralang.core.service.protocol.ibinary_frame_parser import IBinaryFrameParser
+from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,6 +47,7 @@ class ScaraDisassemblerFactory:
 
             :methods:
                 | create - Constructs and returns an IScaraDisassembler instance.
+                | create_default - Constructs and returns default IScaraDisassembler instance.
                 | get_version - Returns factory version string.
     '''
 
@@ -61,6 +65,19 @@ class ScaraDisassemblerFactory:
             :param detail_decoder: Frame detail decoder strategy.
             :return: Fully wired IScaraDisassembler instance.
         '''
+        return ScaraDisassembler(parser=parser, detail_decoder=detail_decoder)
+
+    @classmethod
+    def create_default(cls) -> IScaraDisassembler:
+        '''
+            Constructs and returns default IScaraDisassembler instance.
+
+            :return: Fully wired default IScaraDisassembler instance.
+        '''
+        parser = BinaryFrameParserFactory.create_default()
+        unpacker = BinaryPayloadUnpackerFactory.create()
+        detail_decoder = FrameDetailDecoderFactory.create(unpacker=unpacker)
+
         return ScaraDisassembler(parser=parser, detail_decoder=detail_decoder)
 
     @classmethod

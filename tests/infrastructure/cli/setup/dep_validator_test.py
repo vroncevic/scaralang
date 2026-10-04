@@ -28,7 +28,6 @@ from ats_utilities.exceptions.ats_type_error import ATSTypeError
 from ats_utilities.exceptions.ats_value_error import ATSValueError
 from ats_utilities.option.imanager import IOptionManager
 
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
 from scaralang.infrastructure.cli.setup.dep_validator import (
     CLIBundleDependenciesValidator,
 )
@@ -41,7 +40,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -67,12 +66,10 @@ class TestCLIBundleDependenciesValidator(TestCase):
     def setUp(self) -> None:
         '''Prepares valid dependencies from real bundle components.'''
         bundle = ScaralangBundleFactory.create_bundle()
-        self.service: IScaraDslService = bundle.service
         self.parser: IOptionManager = bundle.base.option_manager
         mock_cmd = MagicMock(spec=CommandBundle)
         self.commands: tuple[CommandBundle, ...] = (mock_cmd,)
         self.valid_deps = CLIBundleDependencies(
-            service=self.service,
             parser=self.parser,
             commands=self.commands
         )
@@ -94,7 +91,6 @@ class TestCLIBundleDependenciesValidator(TestCase):
     def test_validate_missing_attribute(self) -> None:
         '''Verifies validate raises ATSValueError when an attribute is None.'''
         invalid_deps = CLIBundleDependencies(
-            service=self.service,
             parser=None,  # type: ignore[arg-type]
             commands=self.commands
         )
@@ -104,7 +100,6 @@ class TestCLIBundleDependenciesValidator(TestCase):
     def test_validate_invalid_type(self) -> None:
         '''Verifies validate raises ATSTypeError when an attribute has invalid type.'''
         invalid_deps = CLIBundleDependencies(
-            service=self.service,
             parser='invalid_parser_type',  # type: ignore[arg-type]
             commands=self.commands
         )

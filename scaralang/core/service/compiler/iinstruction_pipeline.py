@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,6 +47,7 @@ class IInstructionPipeline(Protocol):
 
             :methods:
                 | compile_instructions - Expands and compiles AST instructions into Waypoints.
+                | get_version - Returns the instruction pipeline version string.
     '''
 
     def compile_instructions(
@@ -59,4 +60,11 @@ class IInstructionPipeline(Protocol):
 
             :param instructions: Sequence of AST ScaraInstruction nodes.
             :return: Mutable list of compiled Waypoint instances.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Returns the pipeline version string representation.
+
+            :return: Version string representation.
         '''

@@ -29,7 +29,7 @@ from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
-from scaralang.core.service.compiler.frame.frame_transformer_factory import FrameTransformerFactory
+from scaralang.core.service.transformation.frame_transformer_factory import FrameTransformerFactory
 from scaralang.core.service.compiler.macro.tangent_macro_expander_factory import TangentMacroExpanderFactory
 from scaralang.core.service.compiler.motion.cartesian.cartesian_move_compiler import CartesianMoveCompiler
 from scaralang.core.service.compiler.motion.imotion_sub_compiler import IMotionSubCompiler
@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -124,8 +124,8 @@ class TestCartesianMoveCompiler(TestCase):
         self.assertEqual(wp.y, 80.0)
         self.assertEqual(wp.z, 15.0)
         self.assertEqual(wp.phi, 45.0)
-        self.assertEqual(context.current_x, 120.0)
-        self.assertEqual(context.current_y, 80.0)
+        self.assertEqual(context.pose.current_x, 120.0)
+        self.assertEqual(context.pose.current_y, 80.0)
 
     def test_compile_move_j(self) -> None:
         '''
@@ -151,8 +151,8 @@ class TestCartesianMoveCompiler(TestCase):
             Verifies tool orientation follows motion tangent in TANGENTIAL mode.
         '''
         context = ScaraCompilerContext()
-        context.current_x = 0.0
-        context.current_y = 0.0
+        context.pose.current_x = 0.0
+        context.pose.current_y = 0.0
         context.tool_orient_mode = ToolOrientMode.TANGENTIAL
 
         inst = ScaraInstruction(

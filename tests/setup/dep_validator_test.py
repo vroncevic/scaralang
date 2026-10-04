@@ -28,7 +28,6 @@ from ats_utilities.base.setup.bundle import BaseBundle
 from ats_utilities.exceptions.ats_type_error import ATSTypeError
 from ats_utilities.exceptions.ats_value_error import ATSValueError
 
-from scaralang.core.service.dsl.iscara_dsl_service import IScaraDslService
 from scaralang.setup.dep_validator import ScaralangBundleDependenciesValidator
 from scaralang.setup.dependencies import ScaralangBundleDependencies
 from scaralang.setup.factory import ScaralangBundleFactory
@@ -38,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,7 +64,6 @@ class TestScaralangBundleDependenciesValidator(TestCase):
         bundle = ScaralangBundleFactory.create_bundle()
         deps: ScaralangBundleDependencies = {
             'base': bundle.base,
-            'service': bundle.service,
             'cli': bundle.cli,
         }
         ScaralangBundleDependenciesValidator.validate(dependencies=deps)
@@ -84,7 +82,6 @@ class TestScaralangBundleDependenciesValidator(TestCase):
         '''Verifies validate raises ATSValueError when a required dependency is missing.'''
         incomplete_deps: ScaralangBundleDependencies = {
             'base': MagicMock(spec=BaseBundle),
-            'service': MagicMock(spec=IScaraDslService),
             # 'cli' is missing
         }  # type: ignore[typeddict-item]
         with self.assertRaises(ATSValueError):
@@ -94,7 +91,6 @@ class TestScaralangBundleDependenciesValidator(TestCase):
         '''Verifies validate raises ATSTypeError when dependency has wrong type.'''
         invalid_deps: ScaralangBundleDependencies = {
             'base': MagicMock(spec=BaseBundle),
-            'service': MagicMock(spec=IScaraDslService),
             'cli': 'not_an_icli',  # type: ignore[typeddict-item]
         }
         with self.assertRaises(ATSTypeError):
@@ -105,7 +101,6 @@ class TestScaralangBundleDependenciesValidator(TestCase):
         bundle = ScaralangBundleFactory.create_bundle()
         deps: ScaralangBundleDependencies = {
             'base': bundle.base,
-            'service': bundle.service,
             'cli': bundle.cli,
         }
         self.assertTrue(ScaralangBundleDependenciesValidator.is_valid(dependencies=deps))

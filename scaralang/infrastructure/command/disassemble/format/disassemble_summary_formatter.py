@@ -27,7 +27,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,6 +41,7 @@ class DisassembleSummaryFormatter:
 
             :methods:
                 | format_summary - Renders formatted multi-line disassembly summary report.
+                | get_version - Returns the component version string.
     '''
 
     def format_summary(self, *, summary: DisassemblySummary) -> str:
@@ -62,3 +63,11 @@ class DisassembleSummaryFormatter:
         ]
 
         return '\n'.join(summary_lines)
+
+    def get_version(self) -> str:
+        '''
+            Returns the component version string.
+
+            :return: The version string.
+        '''
+        return __version__

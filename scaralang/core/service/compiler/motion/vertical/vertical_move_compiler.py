@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,7 +47,6 @@ class VerticalMoveCompiler:
             :attributes:
                 | _SUPPORTED - Frozenset of handled ScaraCommandType instances.
             :methods:
-                | __init__ - Initializes vertical move compiler.
                 | can_compile - Checks if command is an APPROACH or RETRACT instruction.
                 | compile - Adjusts height coordinates and appends vertical motion waypoints.
     '''
@@ -56,13 +55,6 @@ class VerticalMoveCompiler:
         ScaraCommandType.APPROACH,
         ScaraCommandType.RETRACT,
     })
-
-    def __init__(self) -> None:
-        '''
-            Initializes VerticalMoveCompiler instance.
-
-            :exceptions: None.
-        '''
 
     def can_compile(self, *, instruction: ScaraInstruction) -> bool:
         '''
@@ -93,20 +85,24 @@ class VerticalMoveCompiler:
         dist: float = float(params.get(InstructionParam.DIST, 10.0))
 
         if cmd_type == ScaraCommandType.APPROACH:
-            spd: float = float(params.get(InstructionParam.SPEED, context.speed_work))
-            target_z: float = max(0.0, context.current_z - dist)
+            spd: float = float(
+                params.get(InstructionParam.SPEED, context.speed.speed_work)
+            )
+            target_z: float = max(0.0, context.pose.current_z - dist)
             name: str = ScaraCommandType.APPROACH.value
         else:
-            spd = float(params.get(InstructionParam.SPEED, context.speed_rapid))
-            target_z = context.current_z + dist
+            spd = float(
+                params.get(InstructionParam.SPEED, context.speed.speed_rapid)
+            )
+            target_z = context.pose.current_z + dist
             name = ScaraCommandType.RETRACT.value
 
-        context.current_z = target_z
+        context.pose.current_z = target_z
         waypoint = Waypoint(
-            x=context.current_x,
-            y=context.current_y,
+            x=context.pose.current_x,
+            y=context.pose.current_y,
             z=target_z,
-            phi=context.current_phi,
+            phi=context.pose.current_phi,
             speed=spd,
             name=name,
             command='',

@@ -8,10 +8,15 @@ Submodules
    :maxdepth: 4
 
    scaralang.core.model.kinematics.elbow_config
+   scaralang.core.model.kinematics.joint_angle_bounds
+   scaralang.core.model.kinematics.link_dimensions
    scaralang.core.model.kinematics.point_2d
    scaralang.core.model.kinematics.point_3d
    scaralang.core.model.kinematics.scara_bounds
+   scaralang.core.model.kinematics.singularity_margins
+   scaralang.core.model.kinematics.speed_limits
    scaralang.core.model.kinematics.transmission_parameters
+   scaralang.core.model.kinematics.vertical_bounds
 
 Module contents
 ---------------

@@ -63,10 +63,11 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.tool_orient_mode</span> <span class="kn">import</span> <span class="n">ToolOrientMode</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.zone_mode</span> <span class="kn">import</span> <span class="n">ZoneMode</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.compiler_blend_state</span> <span class="kn">import</span> <span class="n">CompilerBlendState</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.compiler_pose_state</span> <span class="kn">import</span> <span class="n">CompilerPoseState</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.compiler_speed_state</span> <span class="kn">import</span> <span class="n">CompilerSpeedState</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.macro.pallet_definition</span> <span class="kn">import</span> <span class="n">PalletDefinition</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.macro.work_frame</span> <span class="kn">import</span> <span class="n">WorkFrame</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.elbow_config</span> <span class="kn">import</span> <span class="n">ElbowConfig</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.motor.motor_drive_mode</span> <span class="kn">import</span> <span class="n">MotorDriveMode</span>
 
@@ -74,7 +75,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -90,42 +91,24 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | current_x - Current Cartesian X coordinate in mm.</span>
-<span class="sd">                | current_y - Current Cartesian Y coordinate in mm.</span>
-<span class="sd">                | current_z - Current Cartesian Z coordinate in mm.</span>
-<span class="sd">                | current_phi - Current 4th axis tool orientation in degrees.</span>
-<span class="sd">                | speed_rapid - Default rapid feedrate in mm/s.</span>
-<span class="sd">                | speed_work - Default work feedrate in mm/s.</span>
-<span class="sd">                | current_speed - Active motion feedrate in mm/s.</span>
-<span class="sd">                | active_accel - Active path acceleration in mm/s^2.</span>
-<span class="sd">                | elbow_config - Active elbow kinematic solution (RIGHT or LEFT).</span>
+<span class="sd">                | pose - Stateful Cartesian pose coordinates and elbow configuration.</span>
+<span class="sd">                | speed - Stateful feedrates, accelerations, and overrides.</span>
+<span class="sd">                | blend - Stateful corner zone mode and blend radius.</span>
 <span class="sd">                | active_frame - Active planar work coordinate frame.</span>
 <span class="sd">                | tool_orient_mode - Tool orientation mode (FIXED, TANGENTIAL, JOINT_LOCKED).</span>
-<span class="sd">                | zone_mode - Corner transition mode (FINE or BLEND).</span>
-<span class="sd">                | zone_radius - Corner blend radius in mm.</span>
-<span class="sd">                | speed_override_pct - Global velocity scaling percentage (1-100).</span>
 <span class="sd">                | motor_drive_mode - Active motor actuation mode (OPEN_LOOP or CLOSED_LOOP).</span>
 <span class="sd">                | pallets - Dictionary mapping pallet names to PalletDefinition entities.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">current_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">150.0</span>
-    <span class="n">current_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">current_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span>
-    <span class="n">current_phi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">speed_rapid</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">150.0</span>
-    <span class="n">speed_work</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">40.0</span>
-    <span class="n">current_speed</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">40.0</span>
-    <span class="n">active_accel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">300.0</span>
-    <span class="n">elbow_config</span><span class="p">:</span> <span class="n">ElbowConfig</span> <span class="o">=</span> <span class="n">ElbowConfig</span><span class="o">.</span><span class="n">RIGHT</span>
+    <span class="n">pose</span><span class="p">:</span> <span class="n">CompilerPoseState</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">CompilerPoseState</span><span class="p">)</span>
+    <span class="n">speed</span><span class="p">:</span> <span class="n">CompilerSpeedState</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">CompilerSpeedState</span><span class="p">)</span>
+    <span class="n">blend</span><span class="p">:</span> <span class="n">CompilerBlendState</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">CompilerBlendState</span><span class="p">)</span>
     <span class="n">active_frame</span><span class="p">:</span> <span class="n">WorkFrame</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">WorkFrame</span><span class="p">(</span>
             <span class="n">origin</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">angle_deg</span><span class="o">=</span><span class="mf">0.0</span>
         <span class="p">)</span>
     <span class="p">)</span>
     <span class="n">tool_orient_mode</span><span class="p">:</span> <span class="n">ToolOrientMode</span> <span class="o">=</span> <span class="n">ToolOrientMode</span><span class="o">.</span><span class="n">FIXED</span>
-    <span class="n">zone_mode</span><span class="p">:</span> <span class="n">ZoneMode</span> <span class="o">=</span> <span class="n">ZoneMode</span><span class="o">.</span><span class="n">FINE</span>
-    <span class="n">zone_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">speed_override_pct</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">100.0</span>
     <span class="n">motor_drive_mode</span><span class="p">:</span> <span class="n">MotorDriveMode</span> <span class="o">=</span> <span class="n">MotorDriveMode</span><span class="o">.</span><span class="n">OPEN_LOOP</span>
     <span class="n">pallets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PalletDefinition</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span></div>
 

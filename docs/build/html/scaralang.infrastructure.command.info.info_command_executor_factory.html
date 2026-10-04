@@ -78,8 +78,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">create - Builds InfoCommandExecutor with injected definition.</div>
-<div class="line">create_default - Builds InfoCommandExecutor with default definition.</div>
+<div class="line">create - Builds InfoCommandExecutor with injected definition and service.</div>
+<div class="line">create_default - Builds InfoCommandExecutor with default definition and service.</div>
 <div class="line">get_version - Returns factory version string.</div>
 </div>
 </dd>
@@ -87,11 +87,14 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.info.info_command_executor_factory.InfoCommandExecutorFactory.create">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">definition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.command.icommand_definition.html#scaralang.infrastructure.command.icommand_definition.ICommandDefinition" title="scaralang.infrastructure.command.icommand_definition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.command.info.info_command_executor.html#scaralang.infrastructure.command.info.info_command_executor.InfoCommandExecutor" title="scaralang.infrastructure.command.info.info_command_executor.InfoCommandExecutor"><span class="pre">InfoCommandExecutor</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/command/info/info_command_executor_factory.html#InfoCommandExecutorFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.info.info_command_executor_factory.InfoCommandExecutorFactory.create" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">definition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.command.icommand_definition.html#scaralang.infrastructure.command.icommand_definition.ICommandDefinition" title="scaralang.infrastructure.command.icommand_definition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.info.itoolchain_info_provider.html#scaralang.core.service.info.itoolchain_info_provider.IToolchainInfoProvider" title="scaralang.core.service.info.itoolchain_info_provider.IToolchainInfoProvider"><span class="pre">IToolchainInfoProvider</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.command.info.info_command_executor.html#scaralang.infrastructure.command.info.info_command_executor.InfoCommandExecutor" title="scaralang.infrastructure.command.info.info_command_executor.InfoCommandExecutor"><span class="pre">InfoCommandExecutor</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/command/info/info_command_executor_factory.html#InfoCommandExecutorFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.info.info_command_executor_factory.InfoCommandExecutorFactory.create" title="Link to this definition">¶</a></dt>
 <dd><p>Builds and returns an InfoCommandExecutor with strictly injected definition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>definition</strong> – Required ICommandDefinition protocol instance.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>definition</strong> – Required ICommandDefinition protocol instance.</p></li>
+<li><p><strong>service</strong> – Required IToolchainInfoProvider protocol instance.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Fully wired InfoCommandExecutor instance.</p>
@@ -105,7 +108,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.info.info_command_executor_factory.InfoCommandExecutorFactory.create_default">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.command.info.info_command_executor.html#scaralang.infrastructure.command.info.info_command_executor.InfoCommandExecutor" title="scaralang.infrastructure.command.info.info_command_executor.InfoCommandExecutor"><span class="pre">InfoCommandExecutor</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/command/info/info_command_executor_factory.html#InfoCommandExecutorFactory.create_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.info.info_command_executor_factory.InfoCommandExecutorFactory.create_default" title="Link to this definition">¶</a></dt>
-<dd><p>Builds and returns an InfoCommandExecutor instance with default definition.</p>
+<dd><p>Builds and returns an InfoCommandExecutor instance with default dependencies.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Fully wired InfoCommandExecutor instance.</p>

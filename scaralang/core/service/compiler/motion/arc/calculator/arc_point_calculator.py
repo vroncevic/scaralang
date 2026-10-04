@@ -31,14 +31,14 @@ from scaralang.core.model.dsl.compiler.arc_geometry import ArcGeometry
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.arc_point import ArcPoint
-from scaralang.core.service.compiler.frame.iframe_transformer import IFrameTransformer
+from scaralang.core.service.transformation.iframe_transformer import IFrameTransformer
 from scaralang.core.service.compiler.motion.arc.interpolation.iarc_interpolator import IArcInterpolator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,6 +56,7 @@ class ArcPointCalculator:
             :methods:
                 | __init__ - Initializes calculator with frame transformer and arc interpolator.
                 | calculate_points - Computes transformed endpoints and interpolated coordinates.
+                | get_version - Gets implementation version string.
     '''
 
     _frame_transformer: IFrameTransformer
@@ -93,8 +94,12 @@ class ArcPointCalculator:
         '''
         params = instruction.parameters
         is_cw: bool = instruction.command_type == ScaraCommandType.ARC_CW
-        target_x_raw: float = float(params.get(InstructionParam.X, context.current_x))
-        target_y_raw: float = float(params.get(InstructionParam.Y, context.current_y))
+        target_x_raw: float = float(
+            params.get(InstructionParam.X, context.pose.current_x)
+        )
+        target_y_raw: float = float(
+            params.get(InstructionParam.Y, context.pose.current_y)
+        )
 
         end_point: Point2D = self._frame_transformer.transform_point(
             frame=context.active_frame,
@@ -102,7 +107,7 @@ class ArcPointCalculator:
         )
 
         geometry: ArcGeometry = ArcGeometry(
-            start=Point2D(x=context.current_x, y=context.current_y),
+            start=Point2D(x=context.pose.current_x, y=context.pose.current_y),
             target=end_point,
             offset=Point2D(
                 x=float(params.get(InstructionParam.I, 0.0)),
@@ -115,3 +120,12 @@ class ArcPointCalculator:
         )
 
         return (arc_points, end_point)
+
+    def get_version(self) -> str:
+        '''
+            Gets implementation version string.
+
+            :return: Version string.
+            :exceptions: None.
+        '''
+        return __version__

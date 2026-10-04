@@ -26,6 +26,8 @@ from unittest import main
 
 from scaralang.core.service.compiler.motion.arc.arc_move_compiler import ArcMoveCompiler
 from scaralang.core.service.compiler.motion.arc.arc_move_compiler_factory import ArcMoveCompilerFactory
+from scaralang.core.service.compiler.motion.arc.builder.arc_waypoint_builder_factory import ArcWaypointBuilderFactory
+from scaralang.core.service.compiler.motion.arc.calculator.arc_point_calculator_factory import ArcPointCalculatorFactory
 from scaralang.core.service.compiler.motion.arc.interpolation.arc_interpolator_factory import ArcInterpolatorFactory
 from scaralang.core.service.compiler.motion.arc.interpolation.iarc_interpolator import IArcInterpolator
 
@@ -33,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,6 +50,7 @@ class TestArcMoveCompilerFactory(TestCase):
             :methods:
                 | test_create - Verifies factory returns ArcMoveCompiler instance.
                 | test_create_with_interpolator - Verifies creation with injected interpolator.
+                | test_create_with_collaborators - Verifies creation with injected collaborators.
                 | test_get_version - Verifies factory version string.
     '''
 
@@ -74,6 +77,18 @@ class TestArcMoveCompilerFactory(TestCase):
         '''
         version: str = ArcMoveCompilerFactory.get_version()
         self.assertTrue(bool(version))
+
+    def test_create_with_collaborators(self) -> None:
+        '''
+            Verifies creation with explicitly injected point calculator and waypoint builder.
+        '''
+        calculator = ArcPointCalculatorFactory.create()
+        builder = ArcWaypointBuilderFactory.create()
+        compiler: ArcMoveCompiler = ArcMoveCompilerFactory.create_with_collaborators(
+            point_calculator=calculator,
+            waypoint_builder=builder,
+        )
+        self.assertIsInstance(compiler, ArcMoveCompiler)
 
 
 if __name__ == '__main__':

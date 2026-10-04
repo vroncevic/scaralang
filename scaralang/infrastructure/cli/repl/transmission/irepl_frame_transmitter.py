@@ -27,7 +27,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,6 +44,7 @@ class IReplFrameTransmitter(Protocol):
                 | transmit_frame - Transmits binary wire bytes to target or simulation.
                 | is_dry_run - Checks if transmitter is operating in offline dry-run mode.
                 | get_endpoint - Returns the configured target endpoint string.
+                | configure - Updates target endpoint and dry-run mode.
     '''
 
     def transmit_frame(self, *, raw_bytes: bytes) -> bool:
@@ -68,5 +69,14 @@ class IReplFrameTransmitter(Protocol):
             Returns the configured target endpoint string.
 
             :return: Endpoint string description.
+            :exceptions: None.
+        '''
+
+    def configure(self, *, endpoint: str, dry_run: bool) -> None:
+        '''
+            Configures the transmitter with updated endpoint and dry-run mode.
+
+            :param endpoint: Target connection endpoint identifier.
+            :param dry_run: True if running in simulated dry-run mode.
             :exceptions: None.
         '''

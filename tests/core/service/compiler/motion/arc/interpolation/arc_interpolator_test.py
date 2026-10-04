@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,9 +48,11 @@ class TestArcInterpolator(TestCase):
             :methods:
                 | setUp - Prepares ArcInterpolator test fixture.
                 | test_protocol_conformance - Verifies structural IArcInterpolator conformance.
+                | test_get_version - Verifies get_version returns valid version string.
                 | test_interpolate_zero_radius - Verifies empty result for zero radius arc.
                 | test_interpolate_cw - Verifies clockwise arc segmentation.
                 | test_interpolate_ccw - Verifies counter-clockwise arc segmentation.
+                | test_interpolate_ccw_wrap_around - Verifies CCW arc when angle_end <= angle_start.
                 | test_calculate_point - Verifies public calculate_point coordinate and angle math.
     '''
 
@@ -65,6 +67,13 @@ class TestArcInterpolator(TestCase):
             Verifies structural conformance to IArcInterpolator protocol.
         '''
         self.assertIsInstance(self.interpolator, IArcInterpolator)
+
+    def test_get_version(self) -> None:
+        '''
+            Verifies get_version returns valid version string.
+        '''
+        self.assertEqual(self.interpolator.get_version(), '1.0.3')
+
 
     def test_interpolate_zero_radius(self) -> None:
         '''
@@ -126,6 +135,23 @@ class TestArcInterpolator(TestCase):
         self.assertAlmostEqual(arc_pt.point.x, 50.0, places=4)
         self.assertAlmostEqual(arc_pt.point.y, 0.0, places=4)
         self.assertAlmostEqual(arc_pt.heading_deg, -90.0, places=4)
+
+    def test_interpolate_ccw_wrap_around(self) -> None:
+        '''
+            Verifies CCW arc point interpolation when angle_end <= angle_start.
+        '''
+        geometry = ArcGeometry(
+            start=Point2D(x=0.0, y=100.0),
+            target=Point2D(x=100.0, y=0.0),
+            offset=Point2D(x=0.0, y=-100.0),
+            is_clockwise=False,
+            step_angle_deg=10.0,
+        )
+        points = self.interpolator.interpolate(geometry=geometry)
+        self.assertTrue(len(points) >= 4)
+        last_pt = points[-1]
+        self.assertAlmostEqual(last_pt.point.x, 100.0, places=3)
+        self.assertAlmostEqual(last_pt.point.y, 0.0, places=3)
 
 
 if __name__ == '__main__':

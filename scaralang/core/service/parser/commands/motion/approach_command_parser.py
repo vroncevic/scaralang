@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,15 +45,9 @@ class ApproachCommandParser:
             :attributes:
                 | name - Identifier name of the parser.
             :methods:
-                | __init__ - Initializes ApproachCommandParser instance.
                 | can_parse - Checks whether command is APPROACH.
                 | parse - Parses approach statement tokens into ScaraInstruction.
     '''
-
-    def __init__(self) -> None:
-        '''
-            Initializes ApproachCommandParser instance.
-        '''
 
     @property
     def name(self) -> str:

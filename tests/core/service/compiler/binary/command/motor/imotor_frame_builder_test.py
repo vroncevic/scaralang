@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,6 +60,12 @@ class DummyMotorFrameBuilder:
             crc16=0,
         )
 
+    def get_version(self) -> str:
+        '''
+            Dummy implementation of get_version.
+        '''
+        return '1.0.0'
+
 
 class TestIMotorFrameBuilder(TestCase):
     '''
@@ -83,10 +89,8 @@ class TestIMotorFrameBuilder(TestCase):
         '''
             Verifies that class missing required methods fails protocol check.
         '''
-        class IncompleteBuilder:
-            '''Dummy incomplete builder for negative test.'''
+        self.assertFalse(isinstance(object(), IMotorFrameBuilder))
 
-        self.assertNotIsInstance(IncompleteBuilder(), IMotorFrameBuilder)
 
 
 if __name__ == '__main__':

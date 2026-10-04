@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,6 +47,7 @@ class TestReplFrameTransmitter(TestCase):
             :methods:
                 | test_transmit_frame - Verifies recording and transmitting frames.
                 | test_dry_run_and_endpoint - Verifies endpoint and dry-run query.
+                | test_configure - Verifies reconfiguring endpoint and mode.
                 | test_factory_and_protocol_conformance - Verifies factory and protocol check.
     '''
 
@@ -65,11 +66,18 @@ class TestReplFrameTransmitter(TestCase):
         self.assertEqual(transmitter.get_endpoint(), '127.0.0.1:8080')
         self.assertFalse(transmitter.is_dry_run())
 
+    def test_configure(self) -> None:
+        '''Verifies reconfiguring endpoint and dry-run flag.'''
+        transmitter = ReplFrameTransmitter()
+        transmitter.configure(endpoint='/dev/ttyUSB0', dry_run=False)
+        self.assertEqual(transmitter.get_endpoint(), '/dev/ttyUSB0')
+        self.assertFalse(transmitter.is_dry_run())
+
     def test_factory_and_protocol_conformance(self) -> None:
         '''Verifies factory instantiation and protocol check.'''
         transmitter = ReplFrameTransmitterFactory.create()
         self.assertTrue(isinstance(transmitter, IReplFrameTransmitter))
-        self.assertEqual(ReplFrameTransmitterFactory.get_version(), '1.0.2')
+        self.assertEqual(ReplFrameTransmitterFactory.get_version(), '1.0.3')
 
 
 if __name__ == '__main__':

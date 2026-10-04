@@ -23,7 +23,8 @@ from __future__ import annotations
 
 from os import remove
 from tempfile import NamedTemporaryFile
-from unittest import TestCase, main
+from unittest import TestCase
+from unittest import main
 from unittest.mock import MagicMock
 
 from scaralang.infrastructure.command.export.export_command_definition import ExportCommandDefinition
@@ -33,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,6 +50,7 @@ class TestExportCommandExecutor(TestCase):
                 | test_execute_missing_script - Verifies handling when script file is absent.
                 | test_execute_success_stdout - Verifies successful execution returning stdout.
                 | test_execute_success_file_output - Verifies successful output file writing.
+                | test_execute_error - Verifies handling when export raises an exception.
                 | test_get_definition - Verifies definition getter.
     '''
 
@@ -56,17 +58,17 @@ class TestExportCommandExecutor(TestCase):
         '''Sets up test mocks and executor.'''
         self.cmd_def = ExportCommandDefinition()
         self.mock_dispatcher = MagicMock()
+        self.mock_service = MagicMock()
         self.executor = ExportCommandExecutor(
             definition=self.cmd_def,
+            service=self.mock_service,
             dispatcher=self.mock_dispatcher,
         )
-        self.mock_service = MagicMock()
 
     def test_execute_missing_script(self) -> None:
         '''Verifies error returned when input script does not exist.'''
         res = self.executor.execute(
             params={'script': '/nonexistent/path/script.scara'},
-            service=self.mock_service,
         )
         self.assertEqual(res['returncode'], 1)
         self.assertIn('script file does not exist', str(res['stderr']))
@@ -81,7 +83,6 @@ class TestExportCommandExecutor(TestCase):
             self.mock_dispatcher.export.return_value = 'G00 X100.000 Y50.000 Z0.000'
             res = self.executor.execute(
                 params={'script': tmp_path, 'format': 'gcode'},
-                service=self.mock_service,
             )
             self.assertEqual(res['returncode'], 0)
             self.assertEqual(res['stdout'], 'G00 X100.000 Y50.000 Z0.000')
@@ -106,7 +107,6 @@ class TestExportCommandExecutor(TestCase):
                     'format': 'gcode',
                     'output': tmp_out_path,
                 },
-                service=self.mock_service,
             )
             self.assertEqual(res['returncode'], 0)
             self.assertIn('written to', str(res['stdout']))
@@ -119,7 +119,23 @@ class TestExportCommandExecutor(TestCase):
 
     def test_get_definition(self) -> None:
         '''Verifies get_definition returns the injected definition.'''
-        self.assertEqual(self.executor.get_definition(), self.cmd_def)
+        self.assertEqual(self.executor.get_definition().name, self.cmd_def.name)
+
+    def test_execute_error(self) -> None:
+        '''Verifies handling when export raises an exception.'''
+        with NamedTemporaryFile('w', delete=False, suffix='.scara') as tmp:
+            tmp.write('HOME\n')
+            tmp_path = tmp.name
+
+        try:
+            self.mock_service.compile_script.side_effect = ValueError('Invalid script')
+            res = self.executor.execute(
+                params={'script': tmp_path, 'format': 'gcode'},
+            )
+            self.assertEqual(res['returncode'], 1)
+            self.assertIn('export error: Invalid script', str(res['stderr']))
+        finally:
+            remove(tmp_path)
 
 
 if __name__ == '__main__':

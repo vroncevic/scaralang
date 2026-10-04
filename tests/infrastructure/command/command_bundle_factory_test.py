@@ -22,7 +22,6 @@ Info
 from __future__ import annotations
 
 from unittest import TestCase
-from unittest.mock import MagicMock
 
 from scaralang.infrastructure.command.command_bundle import CommandBundle
 from scaralang.infrastructure.command.command_bundle_factory import CommandBundleFactory
@@ -31,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,10 +42,9 @@ class CommandBundleFactoryTest(TestCase):
     '''
 
     def test_create_commands(self) -> None:
-        '''Verifies all 6 CLI CommandBundle instances are created and wired.'''
-        mock_service = MagicMock()
-        commands = CommandBundleFactory.create_commands(service=mock_service)
-        self.assertEqual(len(commands), 6)
+        '''Verifies all 7 CLI CommandBundle instances are created and wired.'''
+        commands = CommandBundleFactory.create_commands()
+        self.assertEqual(len(commands), 7)
         for cmd in commands:
             self.assertIsInstance(cmd, CommandBundle)
             self.assertIsNotNone(cmd.definition)
@@ -54,4 +52,4 @@ class CommandBundleFactoryTest(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies factory version reporting.'''
-        self.assertEqual(CommandBundleFactory.get_version(), '1.0.2')
+        self.assertEqual(CommandBundleFactory.get_version(), '1.0.3')

@@ -72,7 +72,7 @@ and pallets during compilation.</p>
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.compiler.scara_compiler_context.</span></span><span class="sig-name descname"><span class="pre">ScaraCompilerContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_x:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">150.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_y:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_z:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_phi:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_rapid:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">150.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_work:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">40.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">40.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_accel:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">300.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elbow_config:</span> <span class="pre">~scaralang.core.model.kinematics.elbow_config.ElbowConfig</span> <span class="pre">=</span> <span class="pre">ElbowConfig.RIGHT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_frame:</span> <span class="pre">~scaralang.core.model.dsl.macro.work_frame.WorkFrame</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_orient_mode:</span> <span class="pre">~scaralang.core.model.dsl.ast.tool_orient_mode.ToolOrientMode</span> <span class="pre">=</span> <span class="pre">ToolOrientMode.FIXED</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_mode:</span> <span class="pre">~scaralang.core.model.dsl.ast.zone_mode.ZoneMode</span> <span class="pre">=</span> <span class="pre">ZoneMode.FINE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_radius:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_override_pct:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">motor_drive_mode:</span> <span class="pre">~scaralang.core.model.motor.motor_drive_mode.MotorDriveMode</span> <span class="pre">=</span> <span class="pre">MotorDriveMode.OPEN_LOOP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallets:</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~scaralang.core.model.dsl.macro.pallet_definition.PalletDefinition]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/compiler/scara_compiler_context.html#ScaraCompilerContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.compiler.scara_compiler_context.</span></span><span class="sig-name descname"><span class="pre">ScaraCompilerContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose:</span> <span class="pre">~scaralang.core.model.dsl.compiler.compiler_pose_state.CompilerPoseState</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed:</span> <span class="pre">~scaralang.core.model.dsl.compiler.compiler_speed_state.CompilerSpeedState</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blend:</span> <span class="pre">~scaralang.core.model.dsl.compiler.compiler_blend_state.CompilerBlendState</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_frame:</span> <span class="pre">~scaralang.core.model.dsl.macro.work_frame.WorkFrame</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_orient_mode:</span> <span class="pre">~scaralang.core.model.dsl.ast.tool_orient_mode.ToolOrientMode</span> <span class="pre">=</span> <span class="pre">ToolOrientMode.FIXED</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">motor_drive_mode:</span> <span class="pre">~scaralang.core.model.motor.motor_drive_mode.MotorDriveMode</span> <span class="pre">=</span> <span class="pre">MotorDriveMode.OPEN_LOOP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pallets:</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~scaralang.core.model.dsl.macro.pallet_definition.PalletDefinition]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/compiler/scara_compiler_context.html#ScaraCompilerContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Stateful compiler context tracking coordinate transformation, speeds, pallets, and pose.</p>
 <p>It defines:</p>
@@ -80,20 +80,11 @@ and pallets during compilation.</p>
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">current_x - Current Cartesian X coordinate in mm.</div>
-<div class="line">current_y - Current Cartesian Y coordinate in mm.</div>
-<div class="line">current_z - Current Cartesian Z coordinate in mm.</div>
-<div class="line">current_phi - Current 4th axis tool orientation in degrees.</div>
-<div class="line">speed_rapid - Default rapid feedrate in mm/s.</div>
-<div class="line">speed_work - Default work feedrate in mm/s.</div>
-<div class="line">current_speed - Active motion feedrate in mm/s.</div>
-<div class="line">active_accel - Active path acceleration in mm/s^2.</div>
-<div class="line">elbow_config - Active elbow kinematic solution (RIGHT or LEFT).</div>
+<div class="line">pose - Stateful Cartesian pose coordinates and elbow configuration.</div>
+<div class="line">speed - Stateful feedrates, accelerations, and overrides.</div>
+<div class="line">blend - Stateful corner zone mode and blend radius.</div>
 <div class="line">active_frame - Active planar work coordinate frame.</div>
 <div class="line">tool_orient_mode - Tool orientation mode (FIXED, TANGENTIAL, JOINT_LOCKED).</div>
-<div class="line">zone_mode - Corner transition mode (FINE or BLEND).</div>
-<div class="line">zone_radius - Corner blend radius in mm.</div>
-<div class="line">speed_override_pct - Global velocity scaling percentage (1-100).</div>
 <div class="line">motor_drive_mode - Active motor actuation mode (OPEN_LOOP or CLOSED_LOOP).</div>
 <div class="line">pallets - Dictionary mapping pallet names to PalletDefinition entities.</div>
 </div>
@@ -101,43 +92,13 @@ and pallets during compilation.</p>
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.active_accel">
-<span class="sig-name descname"><span class="pre">active_accel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.active_accel" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.active_frame">
 <span class="sig-name descname"><span class="pre">active_frame</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.macro.work_frame.html#scaralang.core.model.dsl.macro.work_frame.WorkFrame" title="scaralang.core.model.dsl.macro.work_frame.WorkFrame"><span class="pre">WorkFrame</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.active_frame" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_phi">
-<span class="sig-name descname"><span class="pre">current_phi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_phi" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_speed">
-<span class="sig-name descname"><span class="pre">current_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_speed" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_x">
-<span class="sig-name descname"><span class="pre">current_x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_x" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_y">
-<span class="sig-name descname"><span class="pre">current_y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_y" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_z">
-<span class="sig-name descname"><span class="pre">current_z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_z" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.elbow_config">
-<span class="sig-name descname"><span class="pre">elbow_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.elbow_config.html#scaralang.core.model.kinematics.elbow_config.ElbowConfig" title="scaralang.core.model.kinematics.elbow_config.ElbowConfig"><span class="pre">ElbowConfig</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.elbow_config" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.blend">
+<span class="sig-name descname"><span class="pre">blend</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.compiler.compiler_blend_state.html#scaralang.core.model.dsl.compiler.compiler_blend_state.CompilerBlendState" title="scaralang.core.model.dsl.compiler.compiler_blend_state.CompilerBlendState"><span class="pre">CompilerBlendState</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.blend" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -151,33 +112,18 @@ and pallets during compilation.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed_override_pct">
-<span class="sig-name descname"><span class="pre">speed_override_pct</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed_override_pct" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.pose">
+<span class="sig-name descname"><span class="pre">pose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.compiler.compiler_pose_state.html#scaralang.core.model.dsl.compiler.compiler_pose_state.CompilerPoseState" title="scaralang.core.model.dsl.compiler.compiler_pose_state.CompilerPoseState"><span class="pre">CompilerPoseState</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.pose" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed_rapid">
-<span class="sig-name descname"><span class="pre">speed_rapid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed_rapid" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed_work">
-<span class="sig-name descname"><span class="pre">speed_work</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed_work" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed">
+<span class="sig-name descname"><span class="pre">speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.compiler.compiler_speed_state.html#scaralang.core.model.dsl.compiler.compiler_speed_state.CompilerSpeedState" title="scaralang.core.model.dsl.compiler.compiler_speed_state.CompilerSpeedState"><span class="pre">CompilerSpeedState</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.tool_orient_mode">
 <span class="sig-name descname"><span class="pre">tool_orient_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.ast.tool_orient_mode.html#scaralang.core.model.dsl.ast.tool_orient_mode.ToolOrientMode" title="scaralang.core.model.dsl.ast.tool_orient_mode.ToolOrientMode"><span class="pre">ToolOrientMode</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.tool_orient_mode" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.zone_mode">
-<span class="sig-name descname"><span class="pre">zone_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.ast.zone_mode.html#scaralang.core.model.dsl.ast.zone_mode.ZoneMode" title="scaralang.core.model.dsl.ast.zone_mode.ZoneMode"><span class="pre">ZoneMode</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.zone_mode" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.zone_radius">
-<span class="sig-name descname"><span class="pre">zone_radius</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.zone_radius" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -196,22 +142,13 @@ and pallets during compilation.</p>
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.model.dsl.compiler.scara_compiler_context module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.active_accel"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.active_accel</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.active_frame"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.active_frame</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_phi"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.current_phi</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_speed"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.current_speed</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_x"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.current_x</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_y"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.current_y</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.current_z"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.current_z</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.elbow_config"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.elbow_config</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.blend"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.blend</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.motor_drive_mode"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.motor_drive_mode</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.pallets"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.pallets</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed_override_pct"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.speed_override_pct</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed_rapid"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.speed_rapid</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed_work"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.speed_work</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.pose"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.pose</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.speed"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.speed</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.tool_orient_mode"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.tool_orient_mode</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.zone_mode"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.zone_mode</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.compiler.scara_compiler_context.ScaraCompilerContext.zone_radius"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerContext.zone_radius</span></code></a></li>
 </ul>
 </li>
 </ul>

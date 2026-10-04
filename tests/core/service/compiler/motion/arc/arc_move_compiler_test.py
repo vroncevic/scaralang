@@ -26,6 +26,8 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
+from scaralang.core.model.dsl.compiler.compiler_pose_state import CompilerPoseState
+from scaralang.core.model.dsl.compiler.compiler_speed_state import CompilerSpeedState
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.service.compiler.motion.arc.arc_move_compiler import ArcMoveCompiler
 from scaralang.core.service.compiler.motion.arc.arc_move_compiler_factory import ArcMoveCompilerFactory
@@ -34,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,11 +60,15 @@ class TestArcMoveCompiler(TestCase):
         '''
         self.compiler: ArcMoveCompiler = ArcMoveCompilerFactory.create()
         self.context = ScaraCompilerContext(
-            current_x=100.0,
-            current_y=0.0,
-            current_z=10.0,
-            current_phi=0.0,
-            current_speed=50.0,
+            pose=CompilerPoseState(
+                current_x=100.0,
+                current_y=0.0,
+                current_z=10.0,
+                current_phi=0.0,
+            ),
+            speed=CompilerSpeedState(
+                current_speed=50.0,
+            ),
         )
 
     def test_can_compile(self) -> None:
@@ -99,9 +105,9 @@ class TestArcMoveCompiler(TestCase):
             context=self.context,
         )
         self.assertGreater(len(waypoints), 0)
-        self.assertAlmostEqual(self.context.current_x, 0.0)
-        self.assertAlmostEqual(self.context.current_y, 100.0)
-        self.assertAlmostEqual(self.context.current_z, 15.0)
+        self.assertAlmostEqual(self.context.pose.current_x, 0.0)
+        self.assertAlmostEqual(self.context.pose.current_y, 100.0)
+        self.assertAlmostEqual(self.context.pose.current_z, 15.0)
 
 
 if __name__ == '__main__':

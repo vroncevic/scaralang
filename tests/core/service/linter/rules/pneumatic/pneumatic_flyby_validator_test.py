@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,6 +53,7 @@ class TestPneumaticFlybyValidator(TestCase):
             :methods:
                 | test_tool_action_during_blend_emits_warning - Verifies TOOL_IN_FLYBY in active BLEND.
                 | test_tool_action_during_fine_no_diagnostic - Verifies clean execution in FINE mode.
+                | test_name - Verifies validator name property.
     '''
 
     def test_tool_action_during_blend_emits_warning(self) -> None:
@@ -103,6 +104,13 @@ class TestPneumaticFlybyValidator(TestCase):
         )
 
         self.assertEqual(len(diagnostics), 0)
+
+    def test_name(self) -> None:
+        '''
+            Verifies validator name property.
+        '''
+        validator = PneumaticFlybyValidator()
+        self.assertEqual(validator.name, 'pneumatic_flyby')
 
 
 if __name__ == '__main__':

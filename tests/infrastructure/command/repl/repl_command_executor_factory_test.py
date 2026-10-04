@@ -27,18 +27,19 @@ from unittest import main
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler_factory import ReplSingleCommandCompilerFactory
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory import ReplCommandDispatcherFactory
 from scaralang.infrastructure.cli.repl.input.repl_line_reader_factory import ReplLineReaderFactory
+from scaralang.infrastructure.cli.repl.output.repl_output_writer_factory import ReplOutputWriterFactory
 from scaralang.infrastructure.cli.repl.presentation.repl_response_presenter_factory import ReplResponsePresenterFactory
 from scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory import ReplFrameTransmitterFactory
+from scaralang.infrastructure.command.repl.repl_command_bundle import ReplCommandBundle
 from scaralang.infrastructure.command.repl.repl_command_definition import ReplCommandDefinition
 from scaralang.infrastructure.command.repl.repl_command_executor import ReplCommandExecutor
 from scaralang.infrastructure.command.repl.repl_command_executor_factory import ReplCommandExecutorFactory
-from scaralang.setup.factory import ScaralangBundleFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,33 +59,31 @@ class TestReplCommandExecutorFactory(TestCase):
 
     def test_factory_create_default(self) -> None:
         '''Verifies factory instantiates properly configured ReplCommandExecutor.'''
-        bundle = ScaralangBundleFactory.create_bundle()
-        repl_def = ReplCommandDefinition()
-        executor = ReplCommandExecutorFactory.create_default(
-            service=bundle.service, definition=repl_def
-        )
+        executor = ReplCommandExecutorFactory.create_default()
         self.assertIsInstance(executor, ReplCommandExecutor)
         self.assertEqual(executor.get_definition().name, 'repl')
 
     def test_factory_create_with_collaborators(self) -> None:
         '''Verifies factory builds ReplCommandExecutor with explicit collaborators.'''
-        bundle = ScaralangBundleFactory.create_bundle()
         repl_def = ReplCommandDefinition()
-        executor = ReplCommandExecutorFactory.create(
-            definition=repl_def,
+        bundle = ReplCommandBundle(
             reader=ReplLineReaderFactory.create_default(),
-            dispatcher=ReplCommandDispatcherFactory.create(),
-            compiler=ReplSingleCommandCompilerFactory.create(service=bundle.service),
+            dispatcher=ReplCommandDispatcherFactory.create_default(),
+            compiler=ReplSingleCommandCompilerFactory.create_default(),
             transmitter=ReplFrameTransmitterFactory.create(),
             presenter=ReplResponsePresenterFactory.create(),
-            output_func=lambda _: None,
+            writer=ReplOutputWriterFactory.create_default(),
+        )
+        executor = ReplCommandExecutorFactory.create(
+            definition=repl_def,
+            bundle=bundle,
         )
         self.assertIsInstance(executor, ReplCommandExecutor)
         self.assertEqual(executor.get_definition().name, 'repl')
 
     def test_factory_version(self) -> None:
         '''Verifies factory version.'''
-        self.assertEqual(ReplCommandExecutorFactory.get_version(), '1.0.2')
+        self.assertEqual(ReplCommandExecutorFactory.get_version(), '1.0.3')
 
 
 if __name__ == '__main__':

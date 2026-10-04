@@ -82,6 +82,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div class="line">dispatch_line - Routes line to session handlers or flags for DSL.</div>
 <div class="line">format_help - Returns formatted help text for REPL commands and syntax.</div>
 <div class="line">format_status - Returns formatted status text for active session state.</div>
+<div class="line">format_pose - Returns formatted Cartesian pose string.</div>
 </div>
 </dd>
 </dl>
@@ -136,6 +137,23 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher.format_pose">
+<span class="sig-name descname"><span class="pre">format_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.repl.repl_session_context.html#scaralang.core.model.repl.repl_session_context.ReplSessionContext" title="scaralang.core.model.repl.repl_session_context.ReplSessionContext"><span class="pre">ReplSessionContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/dispatch/irepl_command_dispatcher.html#IReplCommandDispatcher.format_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher.format_pose" title="Link to this definition">¶</a></dt>
+<dd><p>Returns formatted Cartesian pose string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> – Active REPL session context model.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Single-line Cartesian pose string.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher.format_status">
 <span class="sig-name descname"><span class="pre">format_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.repl.repl_session_context.html#scaralang.core.model.repl.repl_session_context.ReplSessionContext" title="scaralang.core.model.repl.repl_session_context.ReplSessionContext"><span class="pre">ReplSessionContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/dispatch/irepl_command_dispatcher.html#IReplCommandDispatcher.format_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher.format_status" title="Link to this definition">¶</a></dt>
 <dd><p>Returns formatted status text for active session state.</p>
@@ -173,6 +191,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IReplCommandDispatcher._is_runtime_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher.dispatch_line"><code class="docutils literal notranslate"><span class="pre">IReplCommandDispatcher.dispatch_line()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher.format_help"><code class="docutils literal notranslate"><span class="pre">IReplCommandDispatcher.format_help()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher.format_pose"><code class="docutils literal notranslate"><span class="pre">IReplCommandDispatcher.format_pose()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher.IReplCommandDispatcher.format_status"><code class="docutils literal notranslate"><span class="pre">IReplCommandDispatcher.format_status()</span></code></a></li>
 </ul>
 </li>

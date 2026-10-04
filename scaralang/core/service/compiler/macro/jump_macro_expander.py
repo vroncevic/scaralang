@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -72,16 +72,24 @@ class JumpMacroExpander:
             :return: Tuple of expanded motion instructions.
         '''
         params = instruction.parameters
-        target_x: float = float(params.get(InstructionParam.X, context.current_x))
-        target_y: float = float(params.get(InstructionParam.Y, context.current_y))
+        target_x: float = float(
+            params.get(InstructionParam.X, context.pose.current_x)
+        )
+        target_y: float = float(
+            params.get(InstructionParam.Y, context.pose.current_y)
+        )
         target_z: float = float(params.get(InstructionParam.Z, 0.0))
-        target_phi: float = float(params.get(InstructionParam.PHI, context.current_phi))
+        target_phi: float = float(
+            params.get(InstructionParam.PHI, context.pose.current_phi)
+        )
         arch_height: float = float(
             params.get(InstructionParam.ARCH_HEIGHT, 20.0)
         )
-        speed: float = float(params.get(InstructionParam.SPEED, context.speed_rapid))
+        speed: float = float(
+            params.get(InstructionParam.SPEED, context.speed.speed_rapid)
+        )
 
-        clearance_z = max(context.current_z, target_z) + arch_height
+        clearance_z = max(context.pose.current_z, target_z) + arch_height
         line_num = instruction.line_number
 
         lift_inst = ScaraInstruction(
@@ -89,10 +97,10 @@ class JumpMacroExpander:
             line_number=line_num,
             raw_text=f'# JUMP phase 1 (Lift): Z={clearance_z:.2f}',
             parameters={
-                InstructionParam.X: context.current_x,
-                InstructionParam.Y: context.current_y,
+                InstructionParam.X: context.pose.current_x,
+                InstructionParam.Y: context.pose.current_y,
                 InstructionParam.Z: clearance_z,
-                InstructionParam.PHI: context.current_phi,
+                InstructionParam.PHI: context.pose.current_phi,
                 InstructionParam.SPEED: speed,
             },
         )
@@ -123,9 +131,9 @@ class JumpMacroExpander:
             },
         )
 
-        context.current_x = target_x
-        context.current_y = target_y
-        context.current_z = target_z
-        context.current_phi = target_phi
+        context.pose.current_x = target_x
+        context.pose.current_y = target_y
+        context.pose.current_z = target_z
+        context.pose.current_phi = target_phi
 
         return lift_inst, transit_inst, descend_inst

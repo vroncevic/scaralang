@@ -62,11 +62,11 @@
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
 
+<span class="kn">from</span> <span class="nn">ats_utilities.exceptions.ats_type_error</span> <span class="kn">import</span> <span class="n">ATSTypeError</span>
+<span class="kn">from</span> <span class="nn">ats_utilities.exceptions.ats_value_error</span> <span class="kn">import</span> <span class="n">ATSValueError</span>
 <span class="kn">from</span> <span class="nn">ats_utilities.option.imanager</span> <span class="kn">import</span> <span class="n">IOptionManager</span>
-<span class="kn">from</span> <span class="nn">ats_utilities.exceptions</span> <span class="kn">import</span> <span class="n">ATSValueError</span><span class="p">,</span> <span class="n">ATSTypeError</span>
 <span class="kn">from</span> <span class="nn">ats_utilities.utils.reflection</span> <span class="kn">import</span> <span class="n">to_str</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.service.dsl.iscara_dsl_service</span> <span class="kn">import</span> <span class="n">IScaraDslService</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.setup.bundle</span> <span class="kn">import</span> <span class="n">CLIBundle</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.setup.validator</span> <span class="kn">import</span> <span class="n">CLIBundleValidator</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.icommand_definition</span> <span class="kn">import</span> <span class="n">ICommandDefinition</span>
@@ -76,7 +76,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -91,7 +91,6 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | _service - SCARA DSL service.</span>
 <span class="sd">                | _parser - Argument parser for parsing CLI command args.</span>
 <span class="sd">                | _executors - Map of command names to command executor instances.</span>
 <span class="sd">            :methods:</span>
@@ -101,13 +100,12 @@
 <span class="sd">                | __str__ - Returns the CLI as string representation.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">_service</span><span class="p">:</span> <span class="n">IScaraDslService</span>
     <span class="n">_parser</span><span class="p">:</span> <span class="n">IOptionManager</span>
-    <span class="n">_executors</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ICommandExecutor</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span>
+    <span class="n">_executors</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ICommandExecutor</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bundle</span><span class="p">:</span> <span class="n">CLIBundle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Initializes the CLI with service, parser and commands list.</span>
+<span class="sd">            Initializes the CLI with parser and commands list.</span>
 
 <span class="sd">            :param bundle: Bundle containing CLI adapters.</span>
 <span class="sd">            :exceptions:</span>
@@ -115,10 +113,9 @@
 <span class="sd">                | ATSTypeError:  If bundle attributes have invalid types.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">CLIBundleValidator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">bundle</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IScaraDslService</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">service</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IOptionManager</span><span class="p">]</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">parser</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_executors</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span>
-            <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ICommandExecutor</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span>
+            <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ICommandExecutor</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]</span>
         <span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">pair</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">pair</span><span class="o">.</span><span class="n">executor</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">commands</span><span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">register_commands</span><span class="p">([</span><span class="n">pair</span><span class="o">.</span><span class="n">definition</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">commands</span><span class="p">])</span>
 
@@ -134,7 +131,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">command_name</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">parse_command</span><span class="p">()</span>
             <span class="n">executor</span><span class="p">:</span> <span class="p">(</span>
-                <span class="n">ICommandExecutor</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
+                <span class="n">ICommandExecutor</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
             <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_executors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">command_name</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">executor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -144,7 +141,7 @@
                     <span class="s1">&#39;stderr&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;cli::run - command </span><span class="si">{</span><span class="n">command_name</span><span class="si">}</span><span class="s1"> not found&#39;</span>
                 <span class="p">}</span>
 
-            <span class="k">return</span> <span class="n">executor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">executor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 
         <span class="k">except</span> <span class="p">(</span><span class="n">ATSValueError</span><span class="p">,</span> <span class="n">ATSTypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;returncode&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;stdout&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;stderr&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;cli::run - error: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">}</span>
@@ -162,7 +159,7 @@
 <span class="sd">            :return: True if initialized, False otherwise.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_executors</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parser</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_executors</span><span class="p">)</span></div>
 
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>

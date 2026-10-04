@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from scaralang.core.service.compiler.dsl.iscara_dsl_binary_compiler import IScaraDslBinaryCompiler
+from scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory import ScaraDslBinaryCompilerFactory
 from scaralang.infrastructure.command.compile.compile_command_definition import CompileCommandDefinition
 from scaralang.infrastructure.command.compile.compile_command_executor import CompileCommandExecutor
 from scaralang.infrastructure.command.compile.inspection.presentation.iprogram_inspection_presenter import IProgramInspectionPresenter
@@ -33,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,6 +58,7 @@ class CompileCommandExecutorFactory:
         cls,
         *,
         definition: ICommandDefinition,
+        service: IScaraDslBinaryCompiler,
         inspection_presenter: IProgramInspectionPresenter,
         telemetry_formatter: ICompileTelemetryFormatter,
     ) -> CompileCommandExecutor:
@@ -63,6 +66,7 @@ class CompileCommandExecutorFactory:
             Builds and returns a CompileCommandExecutor with strictly injected dependencies.
 
             :param definition: Required ICommandDefinition protocol instance.
+            :param service: Required IScaraDslBinaryCompiler protocol instance.
             :param inspection_presenter: Required IProgramInspectionPresenter protocol instance.
             :param telemetry_formatter: Required ICompileTelemetryFormatter protocol instance.
             :return: Fully wired CompileCommandExecutor instance.
@@ -70,6 +74,7 @@ class CompileCommandExecutorFactory:
         '''
         return CompileCommandExecutor(
             definition=definition,
+            service=service,
             inspection_presenter=inspection_presenter,
             telemetry_formatter=telemetry_formatter,
         )
@@ -84,6 +89,7 @@ class CompileCommandExecutorFactory:
         '''
         return CompileCommandExecutor(
             definition=CompileCommandDefinition(),
+            service=ScaraDslBinaryCompilerFactory.create_default(),
             inspection_presenter=ProgramInspectionPresenterFactory.create(),
             telemetry_formatter=CompileTelemetryFormatterFactory.create(),
         )

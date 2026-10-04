@@ -25,10 +25,11 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
-from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
+from scaralang.core.model.dsl.compiler.compiler_blend_state import CompilerBlendState
+from scaralang.core.model.dsl.compiler.compiler_pose_state import CompilerPoseState
+from scaralang.core.model.dsl.compiler.compiler_speed_state import CompilerSpeedState
 from scaralang.core.model.dsl.macro.pallet_definition import PalletDefinition
 from scaralang.core.model.dsl.macro.work_frame import WorkFrame
-from scaralang.core.model.kinematics.elbow_config import ElbowConfig
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 
@@ -36,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,41 +51,23 @@ class ScaraCompilerContext:
         It defines:
 
             :attributes:
-                | current_x - Current Cartesian X coordinate in mm.
-                | current_y - Current Cartesian Y coordinate in mm.
-                | current_z - Current Cartesian Z coordinate in mm.
-                | current_phi - Current 4th axis tool orientation in degrees.
-                | speed_rapid - Default rapid feedrate in mm/s.
-                | speed_work - Default work feedrate in mm/s.
-                | current_speed - Active motion feedrate in mm/s.
-                | active_accel - Active path acceleration in mm/s^2.
-                | elbow_config - Active elbow kinematic solution (RIGHT or LEFT).
+                | pose - Stateful Cartesian pose coordinates and elbow configuration.
+                | speed - Stateful feedrates, accelerations, and overrides.
+                | blend - Stateful corner zone mode and blend radius.
                 | active_frame - Active planar work coordinate frame.
                 | tool_orient_mode - Tool orientation mode (FIXED, TANGENTIAL, JOINT_LOCKED).
-                | zone_mode - Corner transition mode (FINE or BLEND).
-                | zone_radius - Corner blend radius in mm.
-                | speed_override_pct - Global velocity scaling percentage (1-100).
                 | motor_drive_mode - Active motor actuation mode (OPEN_LOOP or CLOSED_LOOP).
                 | pallets - Dictionary mapping pallet names to PalletDefinition entities.
     '''
 
-    current_x: float = 150.0
-    current_y: float = 0.0
-    current_z: float = 20.0
-    current_phi: float = 0.0
-    speed_rapid: float = 150.0
-    speed_work: float = 40.0
-    current_speed: float = 40.0
-    active_accel: float = 300.0
-    elbow_config: ElbowConfig = ElbowConfig.RIGHT
+    pose: CompilerPoseState = field(default_factory=CompilerPoseState)
+    speed: CompilerSpeedState = field(default_factory=CompilerSpeedState)
+    blend: CompilerBlendState = field(default_factory=CompilerBlendState)
     active_frame: WorkFrame = field(
         default_factory=lambda: WorkFrame(
             origin=Point2D(x=0.0, y=0.0), angle_deg=0.0
         )
     )
     tool_orient_mode: ToolOrientMode = ToolOrientMode.FIXED
-    zone_mode: ZoneMode = ZoneMode.FINE
-    zone_radius: float = 0.0
-    speed_override_pct: float = 100.0
     motor_drive_mode: MotorDriveMode = MotorDriveMode.OPEN_LOOP
     pallets: dict[str, PalletDefinition] = field(default_factory=dict)

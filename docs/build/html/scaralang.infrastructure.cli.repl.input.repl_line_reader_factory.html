@@ -15,7 +15,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.infrastructure.cli.repl.presentation package" href="scaralang.infrastructure.cli.repl.presentation.html" />
+    <link rel="next" title="scaralang.infrastructure.cli.repl.output package" href="scaralang.infrastructure.cli.repl.output.html" />
     <link rel="prev" title="scaralang.infrastructure.cli.repl.input.repl_line_reader module" href="scaralang.infrastructure.cli.repl.input.repl_line_reader.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,7 +28,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.cli.repl.presentation.html" title="scaralang.infrastructure.cli.repl.presentation package"
+          <a href="scaralang.infrastructure.cli.repl.output.html" title="scaralang.infrastructure.cli.repl.output package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="scaralang.infrastructure.cli.repl.input.repl_line_reader.html" title="scaralang.infrastructure.cli.repl.input.repl_line_reader module"
@@ -79,8 +79,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">create - Builds ReplLineReader with strictly injected reader function.</div>
-<div class="line">create_default - Builds ReplLineReader with standard input reader.</div>
+<div class="line">create - Builds ReplLineReader instance.</div>
+<div class="line">create_default - Builds ReplLineReader default instance.</div>
 <div class="line">get_version - Returns factory version string.</div>
 </div>
 </dd>
@@ -88,17 +88,14 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.input.repl_line_reader_factory.ReplLineReaderFactory.create">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.cli.repl.input.repl_line_reader.html#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader" title="scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader"><span class="pre">ReplLineReader</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/input/repl_line_reader_factory.html#ReplLineReaderFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader_factory.ReplLineReaderFactory.create" title="Link to this definition">¶</a></dt>
-<dd><p>Builds and returns a ReplLineReader with strictly injected reader function.</p>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.cli.repl.input.repl_line_reader.html#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader" title="scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader"><span class="pre">ReplLineReader</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/input/repl_line_reader_factory.html#ReplLineReaderFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader_factory.ReplLineReaderFactory.create" title="Link to this definition">¶</a></dt>
+<dd><p>Builds and returns a ReplLineReader instance.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>reader_func</strong> – Required custom callable taking prompt and returning string.</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Instantiated ReplLineReader instance.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Instantiated ReplLineReader instance.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -106,7 +103,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.input.repl_line_reader_factory.ReplLineReaderFactory.create_default">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.cli.repl.input.repl_line_reader.html#scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader" title="scaralang.infrastructure.cli.repl.input.repl_line_reader.ReplLineReader"><span class="pre">ReplLineReader</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/input/repl_line_reader_factory.html#ReplLineReaderFactory.create_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.input.repl_line_reader_factory.ReplLineReaderFactory.create_default" title="Link to this definition">¶</a></dt>
-<dd><p>Builds and returns a ReplLineReader instance with standard input.</p>
+<dd><p>Builds and returns a ReplLineReader default instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Instantiated ReplLineReader instance.</p>
@@ -164,8 +161,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.infrastructure.cli.repl.presentation.html"
-                          title="next chapter">scaralang.infrastructure.cli.repl.presentation package</a></p>
+    <p class="topless"><a href="scaralang.infrastructure.cli.repl.output.html"
+                          title="next chapter">scaralang.infrastructure.cli.repl.output package</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -198,7 +195,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.cli.repl.presentation.html" title="scaralang.infrastructure.cli.repl.presentation package"
+          <a href="scaralang.infrastructure.cli.repl.output.html" title="scaralang.infrastructure.cli.repl.output package"
              >next</a> |</li>
         <li class="right" >
           <a href="scaralang.infrastructure.cli.repl.input.repl_line_reader.html" title="scaralang.infrastructure.cli.repl.input.repl_line_reader module"

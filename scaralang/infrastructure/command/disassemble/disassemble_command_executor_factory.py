@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from scaralang.core.service.disassembler.iscara_disassembler import IScaraDisassembler
+from scaralang.core.service.disassembler.scara_disassembler_factory import ScaraDisassemblerFactory
 from scaralang.infrastructure.command.disassemble.disassemble_command_definition import DisassembleCommandDefinition
 from scaralang.infrastructure.command.disassemble.disassemble_command_executor import DisassembleCommandExecutor
 from scaralang.infrastructure.command.disassemble.format.disassemble_summary_formatter_factory import DisassembleSummaryFormatterFactory
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,18 +56,21 @@ class DisassembleCommandExecutorFactory:
         cls,
         *,
         definition: ICommandDefinition,
+        service: IScaraDisassembler,
         summary_formatter: IDisassembleSummaryFormatter,
     ) -> DisassembleCommandExecutor:
         '''
             Builds and returns a DisassembleCommandExecutor with strictly injected dependencies.
 
             :param definition: Required ICommandDefinition protocol instance.
+            :param service: Required IScaraDisassembler protocol instance.
             :param summary_formatter: Required IDisassembleSummaryFormatter protocol instance.
             :return: Fully wired DisassembleCommandExecutor instance.
             :exceptions: None.
         '''
         return DisassembleCommandExecutor(
             definition=definition,
+            service=service,
             summary_formatter=summary_formatter,
         )
 
@@ -79,6 +84,7 @@ class DisassembleCommandExecutorFactory:
         '''
         return DisassembleCommandExecutor(
             definition=DisassembleCommandDefinition(),
+            service=ScaraDisassemblerFactory.create_default(),
             summary_formatter=DisassembleSummaryFormatterFactory.create(),
         )
 

@@ -26,8 +26,10 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
+from scaralang.core.model.dsl.compiler.compiler_pose_state import CompilerPoseState
+from scaralang.core.model.dsl.compiler.compiler_speed_state import CompilerSpeedState
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
-from scaralang.core.service.compiler.frame.frame_transformer_factory import FrameTransformerFactory
+from scaralang.core.service.transformation.frame_transformer_factory import FrameTransformerFactory
 from scaralang.core.service.compiler.motion.arc.calculator.arc_point_calculator import ArcPointCalculator
 from scaralang.core.service.compiler.motion.arc.calculator.iarc_point_calculator import IArcPointCalculator
 from scaralang.core.service.compiler.motion.arc.interpolation.arc_interpolator_factory import ArcInterpolatorFactory
@@ -36,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,6 +53,7 @@ class TestArcPointCalculator(TestCase):
             :methods:
                 | setUp - Initializes calculator and mock context.
                 | test_structural_conformance - Verifies protocol check.
+                | test_get_version - Verifies get_version returns valid version string.
                 | test_calculate_points_cw - Verifies clockwise arc calculation.
                 | test_calculate_points_ccw - Verifies counter-clockwise arc calculation.
     '''
@@ -64,11 +67,15 @@ class TestArcPointCalculator(TestCase):
             arc_interpolator=ArcInterpolatorFactory.create(),
         )
         self.context = ScaraCompilerContext(
-            current_x=100.0,
-            current_y=0.0,
-            current_z=10.0,
-            current_phi=0.0,
-            current_speed=50.0,
+            pose=CompilerPoseState(
+                current_x=100.0,
+                current_y=0.0,
+                current_z=10.0,
+                current_phi=0.0,
+            ),
+            speed=CompilerSpeedState(
+                current_speed=50.0,
+            ),
         )
 
     def test_structural_conformance(self) -> None:
@@ -76,6 +83,13 @@ class TestArcPointCalculator(TestCase):
             Verifies structural conformance to IArcPointCalculator.
         '''
         self.assertIsInstance(self.calculator, IArcPointCalculator)
+
+    def test_get_version(self) -> None:
+        '''
+            Verifies get_version returns valid version string.
+        '''
+        self.assertEqual(self.calculator.get_version(), '1.0.3')
+
 
     def test_calculate_points_cw(self) -> None:
         '''

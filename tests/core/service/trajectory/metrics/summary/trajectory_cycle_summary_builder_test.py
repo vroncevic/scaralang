@@ -42,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,17 +74,7 @@ class TestTrajectoryCycleSummaryBuilder(TestCase):
             total_duration_us=0,
             instruction_count=0,
             step_counts=(0, 0, 0, 0),
-            telemetry=BinaryProgramTelemetry(
-                source_instructions=0,
-                compiled_steps=0,
-                duration_us=0,
-                duration_s=0.0,
-                peak_j1_steps=0,
-                peak_j2_steps=0,
-                peak_z_steps=0,
-                peak_j4_steps=0,
-                total_wire_bytes=0,
-            ),
+            telemetry=BinaryProgramTelemetry(),
         )
         report: TrajectoryCycleReport = builder.build_report(plan=plan, program=program)
         self.assertEqual(report.total_duration_us, 0)
@@ -128,11 +118,6 @@ class TestTrajectoryCycleSummaryBuilder(TestCase):
                 compiled_steps=1,
                 duration_us=500000,
                 duration_s=0.5,
-                peak_j1_steps=2000,
-                peak_j2_steps=100,
-                peak_z_steps=50,
-                peak_j4_steps=0,
-                total_wire_bytes=0,
             ),
         )
         report: TrajectoryCycleReport = builder.build_report(plan=plan, program=program)

@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 from unittest import main
+from unittest.mock import MagicMock, patch
 
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
 from scaralang.core.service.parser.lexer.scara_lexer import ScaraLexer
@@ -31,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,6 +53,7 @@ class TestScaraLexer(TestCase):
                 | test_tokenize_multiline - Verifies newline handling across lines.
                 | test_tokenize_mismatch_error - Verifies ValueError on invalid characters.
                 | test_name_property - Verifies name property returns lexer identifier.
+                | test_tokenize_match_without_lastgroup_skipped - Verifies match without lastgroup is skipped.
     '''
 
     def test_tokenize_empty_source(self) -> None:
@@ -171,6 +173,21 @@ class TestScaraLexer(TestCase):
         '''
         lexer = ScaraLexer()
         self.assertEqual(lexer.name, 'scara_lexer')
+
+    def test_tokenize_match_without_lastgroup_skipped(self) -> None:
+        '''
+            Verifies regex match without lastgroup is skipped safely.
+        '''
+        mock_match = MagicMock()
+        mock_match.lastgroup = None
+        mock_regex = MagicMock()
+        mock_regex.finditer.return_value = [mock_match]
+
+        with patch.object(ScaraLexer, '_TOKEN_REGEX', mock_regex):
+            lexer = ScaraLexer()
+            tokens = lexer.tokenize(source='TEST')
+            self.assertEqual(len(tokens), 1)
+            self.assertEqual(tokens[0].token_type, ScaraTokenType.EOF)
 
 
 if __name__ == '__main__':

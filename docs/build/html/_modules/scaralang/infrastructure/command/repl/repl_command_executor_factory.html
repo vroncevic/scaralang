@@ -59,27 +59,22 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
-
-<span class="kn">from</span> <span class="nn">scaralang.core.service.dsl.iscara_dsl_service</span> <span class="kn">import</span> <span class="n">IScaraDslService</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler</span> <span class="kn">import</span> <span class="n">IReplSingleCommandCompiler</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler_factory</span> <span class="kn">import</span> <span class="n">ReplSingleCommandCompilerFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher</span> <span class="kn">import</span> <span class="n">IReplCommandDispatcher</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory</span> <span class="kn">import</span> <span class="n">ReplCommandDispatcherFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.input.irepl_line_reader</span> <span class="kn">import</span> <span class="n">IReplLineReader</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.input.repl_line_reader_factory</span> <span class="kn">import</span> <span class="n">ReplLineReaderFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter</span> <span class="kn">import</span> <span class="n">IReplResponsePresenter</span>
+<span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.output.repl_output_writer_factory</span> <span class="kn">import</span> <span class="n">ReplOutputWriterFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.presentation.repl_response_presenter_factory</span> <span class="kn">import</span> <span class="n">ReplResponsePresenterFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter</span> <span class="kn">import</span> <span class="n">IReplFrameTransmitter</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory</span> <span class="kn">import</span> <span class="n">ReplFrameTransmitterFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.icommand_definition</span> <span class="kn">import</span> <span class="n">ICommandDefinition</span>
+<span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.repl.repl_command_bundle</span> <span class="kn">import</span> <span class="n">ReplCommandBundle</span>
+<span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.repl.repl_command_definition</span> <span class="kn">import</span> <span class="n">ReplCommandDefinition</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.repl.repl_command_executor</span> <span class="kn">import</span> <span class="n">ReplCommandExecutor</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -106,62 +101,41 @@
         <span class="bp">cls</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span><span class="p">,</span>
-        <span class="n">reader</span><span class="p">:</span> <span class="n">IReplLineReader</span><span class="p">,</span>
-        <span class="n">dispatcher</span><span class="p">:</span> <span class="n">IReplCommandDispatcher</span><span class="p">,</span>
-        <span class="n">compiler</span><span class="p">:</span> <span class="n">IReplSingleCommandCompiler</span><span class="p">,</span>
-        <span class="n">transmitter</span><span class="p">:</span> <span class="n">IReplFrameTransmitter</span><span class="p">,</span>
-        <span class="n">presenter</span><span class="p">:</span> <span class="n">IReplResponsePresenter</span><span class="p">,</span>
-        <span class="n">output_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="n">bundle</span><span class="p">:</span> <span class="n">ReplCommandBundle</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ReplCommandExecutor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Builds and returns a ReplCommandExecutor with strictly injected dependencies.</span>
 
 <span class="sd">            :param definition: Required command definition metadata.</span>
-<span class="sd">            :param reader: Required line reader protocol instance.</span>
-<span class="sd">            :param dispatcher: Required command dispatcher protocol instance.</span>
-<span class="sd">            :param compiler: Required single-instruction compiler protocol instance.</span>
-<span class="sd">            :param transmitter: Required wire frame transmitter protocol instance.</span>
-<span class="sd">            :param presenter: Required terminal presenter protocol instance.</span>
-<span class="sd">            :param output_func: Required output emission callable.</span>
+<span class="sd">            :param bundle: Required collaborator bundle protocol container.</span>
 <span class="sd">            :return: Fully wired ReplCommandExecutor instance.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">ReplCommandExecutor</span><span class="p">(</span>
-            <span class="n">definition</span><span class="o">=</span><span class="n">definition</span><span class="p">,</span>
-            <span class="n">reader</span><span class="o">=</span><span class="n">reader</span><span class="p">,</span>
-            <span class="n">dispatcher</span><span class="o">=</span><span class="n">dispatcher</span><span class="p">,</span>
-            <span class="n">compiler</span><span class="o">=</span><span class="n">compiler</span><span class="p">,</span>
-            <span class="n">transmitter</span><span class="o">=</span><span class="n">transmitter</span><span class="p">,</span>
-            <span class="n">presenter</span><span class="o">=</span><span class="n">presenter</span><span class="p">,</span>
-            <span class="n">output_func</span><span class="o">=</span><span class="n">output_func</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">ReplCommandExecutor</span><span class="p">(</span><span class="n">definition</span><span class="o">=</span><span class="n">definition</span><span class="p">,</span> <span class="n">bundle</span><span class="o">=</span><span class="n">bundle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ReplCommandExecutorFactory.create_default">
 <a class="viewcode-back" href="../../../../../scaralang.infrastructure.command.repl.repl_command_executor_factory.html#scaralang.infrastructure.command.repl.repl_command_executor_factory.ReplCommandExecutorFactory.create_default">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">create_default</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">service</span><span class="p">:</span> <span class="n">IScaraDslService</span><span class="p">,</span>
-        <span class="n">definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ReplCommandExecutor</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">create_default</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ReplCommandExecutor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Builds and returns a ReplCommandExecutor instance with default dependencies.</span>
 
-<span class="sd">            :param service: SCARA DSL service instance.</span>
-<span class="sd">            :param definition: Injected command definition metadata.</span>
 <span class="sd">            :return: Fully wired ReplCommandExecutor instance.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">ReplCommandExecutor</span><span class="p">(</span>
-            <span class="n">definition</span><span class="o">=</span><span class="n">definition</span><span class="p">,</span>
+        <span class="n">bundle</span><span class="p">:</span> <span class="n">ReplCommandBundle</span> <span class="o">=</span> <span class="n">ReplCommandBundle</span><span class="p">(</span>
             <span class="n">reader</span><span class="o">=</span><span class="n">ReplLineReaderFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">(),</span>
-            <span class="n">dispatcher</span><span class="o">=</span><span class="n">ReplCommandDispatcherFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(),</span>
-            <span class="n">compiler</span><span class="o">=</span><span class="n">ReplSingleCommandCompilerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">service</span><span class="o">=</span><span class="n">service</span><span class="p">),</span>
+            <span class="n">writer</span><span class="o">=</span><span class="n">ReplOutputWriterFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">(),</span>
+            <span class="n">dispatcher</span><span class="o">=</span><span class="n">ReplCommandDispatcherFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">(),</span>
+            <span class="n">compiler</span><span class="o">=</span><span class="n">ReplSingleCommandCompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">(),</span>
             <span class="n">transmitter</span><span class="o">=</span><span class="n">ReplFrameTransmitterFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(),</span>
             <span class="n">presenter</span><span class="o">=</span><span class="n">ReplResponsePresenterFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(),</span>
-            <span class="n">output_func</span><span class="o">=</span><span class="nb">print</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">definition</span><span class="o">=</span><span class="n">ReplCommandDefinition</span><span class="p">(),</span>
+            <span class="n">bundle</span><span class="o">=</span><span class="n">bundle</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 

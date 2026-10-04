@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,19 +51,19 @@ class ScaraCompilerContextTest(TestCase):
             Verifies default compiler context state.
         '''
         context = ScaraCompilerContext()
-        self.assertAlmostEqual(context.current_x, 150.0)
-        self.assertAlmostEqual(context.current_y, 0.0)
-        self.assertAlmostEqual(context.current_z, 20.0)
-        self.assertAlmostEqual(context.current_phi, 0.0)
-        self.assertAlmostEqual(context.speed_rapid, 150.0)
-        self.assertAlmostEqual(context.speed_work, 40.0)
-        self.assertAlmostEqual(context.current_speed, 40.0)
-        self.assertAlmostEqual(context.active_accel, 300.0)
-        self.assertEqual(context.elbow_config, ElbowConfig.RIGHT)
+        self.assertAlmostEqual(context.pose.current_x, 150.0)
+        self.assertAlmostEqual(context.pose.current_y, 0.0)
+        self.assertAlmostEqual(context.pose.current_z, 20.0)
+        self.assertAlmostEqual(context.pose.current_phi, 0.0)
+        self.assertAlmostEqual(context.speed.speed_rapid, 150.0)
+        self.assertAlmostEqual(context.speed.speed_work, 40.0)
+        self.assertAlmostEqual(context.speed.current_speed, 40.0)
+        self.assertAlmostEqual(context.speed.active_accel, 300.0)
+        self.assertEqual(context.pose.elbow_config, ElbowConfig.RIGHT)
         self.assertEqual(context.tool_orient_mode, ToolOrientMode.FIXED)
-        self.assertEqual(context.zone_mode, ZoneMode.FINE)
-        self.assertAlmostEqual(context.zone_radius, 0.0)
-        self.assertAlmostEqual(context.speed_override_pct, 100.0)
+        self.assertEqual(context.blend.zone_mode, ZoneMode.FINE)
+        self.assertAlmostEqual(context.blend.zone_radius, 0.0)
+        self.assertAlmostEqual(context.speed.speed_override_pct, 100.0)
         self.assertEqual(len(context.pallets), 0)
         self.assertAlmostEqual(context.active_frame.origin.x, 0.0)
         self.assertAlmostEqual(context.active_frame.origin.y, 0.0)
@@ -104,17 +104,17 @@ class ScaraCompilerContextTest(TestCase):
             Verifies mutation of speed, pose, and acceleration settings.
         '''
         context = ScaraCompilerContext()
-        context.current_x = 200.0
-        context.current_y = 50.0
-        context.current_z = 10.0
-        context.current_speed = 80.0
-        context.elbow_config = ElbowConfig.LEFT
+        context.pose.current_x = 200.0
+        context.pose.current_y = 50.0
+        context.pose.current_z = 10.0
+        context.speed.current_speed = 80.0
+        context.pose.elbow_config = ElbowConfig.LEFT
 
-        self.assertAlmostEqual(context.current_x, 200.0)
-        self.assertAlmostEqual(context.current_y, 50.0)
-        self.assertAlmostEqual(context.current_z, 10.0)
-        self.assertAlmostEqual(context.current_speed, 80.0)
-        self.assertEqual(context.elbow_config, ElbowConfig.LEFT)
+        self.assertAlmostEqual(context.pose.current_x, 200.0)
+        self.assertAlmostEqual(context.pose.current_y, 50.0)
+        self.assertAlmostEqual(context.pose.current_z, 10.0)
+        self.assertAlmostEqual(context.speed.current_speed, 80.0)
+        self.assertEqual(context.pose.elbow_config, ElbowConfig.LEFT)
 
 
 if __name__ == '__main__':

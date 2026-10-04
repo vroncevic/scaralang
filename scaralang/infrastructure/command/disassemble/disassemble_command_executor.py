@@ -27,7 +27,7 @@ from typing import Final
 
 from scaralang.core.model.dsl.binary.disassembled_frame import DisassembledFrame
 from scaralang.core.model.dsl.binary.disassembly_summary import DisassemblySummary
-from scaralang.core.service.dsl.iscara_dsl_disassembler import IScaraDslDisassembler
+from scaralang.core.service.disassembler.iscara_disassembler import IScaraDisassembler
 from scaralang.infrastructure.command.disassemble.format.idisassemble_summary_formatter import IDisassembleSummaryFormatter
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
 
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,43 +49,46 @@ class DisassembleCommandExecutor:
         It defines:
 
             :attributes:
-                | definition - The command CLI metadata definition.
+                | _definition - The command CLI metadata definition.
+                | _service - Injected SCARA disassembler service protocol.
                 | _summary_formatter - Injected summary presentation formatter.
             :methods:
                 | execute - Executes the disassemble command.
                 | get_definition - Returns the command definition metadata.
     '''
 
-    definition: ICommandDefinition
+    _definition: ICommandDefinition
+    _service: IScaraDisassembler
     _summary_formatter: IDisassembleSummaryFormatter
 
     def __init__(
         self,
         *,
         definition: ICommandDefinition,
+        service: IScaraDisassembler,
         summary_formatter: IDisassembleSummaryFormatter,
     ) -> None:
         '''
             Initializes the disassemble command executor.
 
             :param definition: The command definition metadata.
+            :param service: Injected SCARA disassembler service protocol.
             :param summary_formatter: Injected summary presentation formatter.
             :exceptions: None.
         '''
-        self.definition: Final[ICommandDefinition] = definition
+        self._definition: Final[ICommandDefinition] = definition
+        self._service: Final[IScaraDisassembler] = service
         self._summary_formatter: Final[IDisassembleSummaryFormatter] = summary_formatter
 
     def execute(
         self,
         *,
         params: Mapping[str, object],
-        service: IScaraDslDisassembler,
     ) -> Mapping[str, object]:
         '''
             Executes the disassemble subcommand.
 
             :param params: Subcommand parameters from CLI parser.
-            :param service: SCARA DSL service instance.
             :return: The result of the subcommand execution.
             :exceptions: None.
         '''
@@ -105,7 +108,13 @@ class DisassembleCommandExecutor:
             with open(file_path, 'rb') as f:
                 data: bytes = f.read()
 
-            disassembled: tuple[DisassembledFrame, ...] = service.disassemble_bytes(data=data)
+            disassembled: tuple[DisassembledFrame, ...]
+
+            if hasattr(self._service, 'disassemble'):
+                disassembled = self._service.disassemble(data=data)
+            else:
+                disassembled = self._service.disassemble_bytes(data=data)
+
             lines: list[str] = [f'Disassembly of {file_path} ({len(disassembled)} frames):']
 
             for item in disassembled:
@@ -115,9 +124,17 @@ class DisassembleCommandExecutor:
                 )
 
             if bool(params.get('summary')):
-                summary: DisassemblySummary = service.calculate_disassembly_summary(
-                    frames=disassembled, byte_count=len(data)
-                )
+                summary: DisassemblySummary
+
+                if hasattr(self._service, 'calculate_summary'):
+                    summary = self._service.calculate_summary(
+                        frames=disassembled, byte_count=len(data)
+                    )
+                else:
+                    summary = self._service.calculate_disassembly_summary(
+                        frames=disassembled, byte_count=len(data)
+                    )
+
                 summary_text: str = self._summary_formatter.format_summary(
                     summary=summary
                 )
@@ -136,4 +153,4 @@ class DisassembleCommandExecutor:
             :return: The command definition metadata.
             :exceptions: None.
         '''
-        return self.definition
+        return self._definition

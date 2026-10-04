@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,16 +46,10 @@ class ShapeDiscretizer:
             :attributes:
                 | name - Identifier name of the shape discretizer.
             :methods:
-                | __init__ - Initializes ShapeDiscretizer instance.
                 | discretize_line - Discretizes straight linear segment.
                 | discretize_circle - Discretizes circular boundary into polygonal waypoints.
                 | discretize_rectangle - Discretizes rectangular boundary into corner waypoints.
     '''
-
-    def __init__(self) -> None:
-        '''
-            Initializes ShapeDiscretizer instance.
-        '''
 
     @property
     def name(self) -> str:

@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,6 +49,7 @@ class TestToolWaypointBuilder(TestCase):
             :methods:
                 | setUp - Prepares test fixtures.
                 | test_protocol_conformance - Verifies IToolWaypointBuilder conformance.
+                | test_get_version - Verifies get_version returns valid version string.
                 | test_build_pump_on - Verifies waypoint construction for PUMP ON.
                 | test_build_pump_off - Verifies waypoint construction for PUMP OFF.
                 | test_build_valve_on - Verifies waypoint construction for VALVE ON.
@@ -61,17 +62,24 @@ class TestToolWaypointBuilder(TestCase):
         '''
         self.builder = ToolWaypointBuilder()
         self.context = ScaraCompilerContext()
-        self.context.current_x = 120.0
-        self.context.current_y = 60.0
-        self.context.current_z = -15.0
-        self.context.current_phi = 45.0
-        self.context.current_speed = 80.0
+        self.context.pose.current_x = 120.0
+        self.context.pose.current_y = 60.0
+        self.context.pose.current_z = -15.0
+        self.context.pose.current_phi = 45.0
+        self.context.speed.current_speed = 80.0
 
     def test_protocol_conformance(self) -> None:
         '''
             Verifies structural conformance to IToolWaypointBuilder.
         '''
         self.assertIsInstance(self.builder, IToolWaypointBuilder)
+
+    def test_get_version(self) -> None:
+        '''
+            Verifies get_version returns valid version string.
+        '''
+        self.assertEqual(self.builder.get_version(), '1.0.3')
+
 
     def test_build_pump_on(self) -> None:
         '''

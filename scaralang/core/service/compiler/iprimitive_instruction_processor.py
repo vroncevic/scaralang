@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,6 +47,7 @@ class IPrimitiveInstructionProcessor(Protocol):
 
             :methods:
                 | process_primitive - Dispatches primitive instruction to matching sub-compiler.
+                | get_version - Returns the processor version string.
     '''
 
     def process_primitive(
@@ -62,4 +63,11 @@ class IPrimitiveInstructionProcessor(Protocol):
             :param context: Active mutable compiler context.
             :return: Tuple of compiled Waypoint instances.
             :exceptions: ValueError if instruction is not handled by any compiler.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Returns the processor version string representation.
+
+            :return: Version string representation.
         '''

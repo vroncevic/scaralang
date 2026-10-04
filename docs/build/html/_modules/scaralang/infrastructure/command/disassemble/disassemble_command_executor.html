@@ -65,7 +65,7 @@
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.disassembled_frame</span> <span class="kn">import</span> <span class="n">DisassembledFrame</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.disassembly_summary</span> <span class="kn">import</span> <span class="n">DisassemblySummary</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.dsl.iscara_dsl_disassembler</span> <span class="kn">import</span> <span class="n">IScaraDslDisassembler</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.disassembler.iscara_disassembler</span> <span class="kn">import</span> <span class="n">IScaraDisassembler</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.disassemble.format.idisassemble_summary_formatter</span> <span class="kn">import</span> <span class="n">IDisassembleSummaryFormatter</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.icommand_definition</span> <span class="kn">import</span> <span class="n">ICommandDefinition</span>
 
@@ -73,7 +73,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -89,30 +89,35 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | definition - The command CLI metadata definition.</span>
+<span class="sd">                | _definition - The command CLI metadata definition.</span>
+<span class="sd">                | _service - Injected SCARA disassembler service protocol.</span>
 <span class="sd">                | _summary_formatter - Injected summary presentation formatter.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | execute - Executes the disassemble command.</span>
 <span class="sd">                | get_definition - Returns the command definition metadata.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span>
+    <span class="n">_definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span>
+    <span class="n">_service</span><span class="p">:</span> <span class="n">IScaraDisassembler</span>
     <span class="n">_summary_formatter</span><span class="p">:</span> <span class="n">IDisassembleSummaryFormatter</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">definition</span><span class="p">:</span> <span class="n">ICommandDefinition</span><span class="p">,</span>
+        <span class="n">service</span><span class="p">:</span> <span class="n">IScaraDisassembler</span><span class="p">,</span>
         <span class="n">summary_formatter</span><span class="p">:</span> <span class="n">IDisassembleSummaryFormatter</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Initializes the disassemble command executor.</span>
 
 <span class="sd">            :param definition: The command definition metadata.</span>
+<span class="sd">            :param service: Injected SCARA disassembler service protocol.</span>
 <span class="sd">            :param summary_formatter: Injected summary presentation formatter.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_definition</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ICommandDefinition</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IScaraDisassembler</span><span class="p">]</span> <span class="o">=</span> <span class="n">service</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_summary_formatter</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IDisassembleSummaryFormatter</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary_formatter</span>
 
 <div class="viewcode-block" id="DisassembleCommandExecutor.execute">
@@ -121,13 +126,11 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">],</span>
-        <span class="n">service</span><span class="p">:</span> <span class="n">IScaraDslDisassembler</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Executes the disassemble subcommand.</span>
 
 <span class="sd">            :param params: Subcommand parameters from CLI parser.</span>
-<span class="sd">            :param service: SCARA DSL service instance.</span>
 <span class="sd">            :return: The result of the subcommand execution.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -147,7 +150,13 @@
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-            <span class="n">disassembled</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">DisassembledFrame</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">disassemble_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">disassembled</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">DisassembledFrame</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="p">,</span> <span class="s1">&#39;disassemble&#39;</span><span class="p">):</span>
+                <span class="n">disassembled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">disassemble</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">disassembled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">disassemble_bytes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
             <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Disassembly of </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">disassembled</span><span class="p">)</span><span class="si">}</span><span class="s1"> frames):&#39;</span><span class="p">]</span>
 
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">disassembled</span><span class="p">:</span>
@@ -157,9 +166,17 @@
                 <span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;summary&#39;</span><span class="p">)):</span>
-                <span class="n">summary</span><span class="p">:</span> <span class="n">DisassemblySummary</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">calculate_disassembly_summary</span><span class="p">(</span>
-                    <span class="n">frames</span><span class="o">=</span><span class="n">disassembled</span><span class="p">,</span> <span class="n">byte_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="n">summary</span><span class="p">:</span> <span class="n">DisassemblySummary</span>
+
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="p">,</span> <span class="s1">&#39;calculate_summary&#39;</span><span class="p">):</span>
+                    <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">calculate_summary</span><span class="p">(</span>
+                        <span class="n">frames</span><span class="o">=</span><span class="n">disassembled</span><span class="p">,</span> <span class="n">byte_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_service</span><span class="o">.</span><span class="n">calculate_disassembly_summary</span><span class="p">(</span>
+                        <span class="n">frames</span><span class="o">=</span><span class="n">disassembled</span><span class="p">,</span> <span class="n">byte_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="p">)</span>
+
                 <span class="n">summary_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_summary_formatter</span><span class="o">.</span><span class="n">format_summary</span><span class="p">(</span>
                     <span class="n">summary</span><span class="o">=</span><span class="n">summary</span>
                 <span class="p">)</span>
@@ -181,7 +198,7 @@
 <span class="sd">            :return: The command definition metadata.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_definition</span></div>
 </div>
 
 </pre></div>

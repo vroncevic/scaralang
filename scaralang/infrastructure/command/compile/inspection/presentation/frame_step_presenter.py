@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,6 +53,7 @@ class FrameStepPresenter:
             :methods:
                 | __init__ - Initializes presenter with collaborating formatters.
                 | present_step - Formats a single step into visual card string.
+                | get_version - Returns the component version string.
     '''
 
     _header_formatter: IFrameHeaderFormatter
@@ -107,3 +108,11 @@ class FrameStepPresenter:
         raw_line: str = f'  - Wire Frame:    {raw_preview} ({len(step.raw_bytes)} bytes)'
 
         return f'{title}\n{hdr_line}\n{payload_lines}\n{trailer_line}\n{raw_line}'
+
+    def get_version(self) -> str:
+        '''
+            Returns the component version string.
+
+            :return: The version string.
+        '''
+        return __version__

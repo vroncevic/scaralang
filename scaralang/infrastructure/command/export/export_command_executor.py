@@ -26,7 +26,7 @@ from os.path import exists
 from typing import Final
 
 from scaralang.core.model.dsl.exporter.export_format import ExportFormat
-from scaralang.core.service.dsl.compilation.iscara_dsl_compiler import IScaraDslCompiler
+from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
 from scaralang.core.service.exporter.iexport_target_dispatcher import IExportTargetDispatcher
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
 
@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,7 +47,8 @@ class ExportCommandExecutor:
         It defines:
 
             :attributes:
-                | definition - The command CLI metadata definition.
+                | _definition - The command CLI metadata definition.
+                | _service - SCARA DSL compiler service protocol instance.
                 | _dispatcher - Trajectory export target dispatcher protocol instance.
             :methods:
                 | __init__ - Initializes the export command executor.
@@ -55,36 +56,38 @@ class ExportCommandExecutor:
                 | get_definition - Returns the command definition metadata.
     '''
 
-    definition: ICommandDefinition
+    _definition: ICommandDefinition
+    _service: IScaraDslCompiler
     _dispatcher: IExportTargetDispatcher
 
     def __init__(
         self,
         *,
         definition: ICommandDefinition,
+        service: IScaraDslCompiler,
         dispatcher: IExportTargetDispatcher,
     ) -> None:
         '''
             Initializes the export command executor.
 
             :param definition: The command definition metadata.
+            :param service: SCARA DSL compiler service protocol instance.
             :param dispatcher: Trajectory export target dispatcher protocol instance.
             :exceptions: None.
         '''
-        self.definition: Final[ICommandDefinition] = definition
+        self._definition: Final[ICommandDefinition] = definition
+        self._service: Final[IScaraDslCompiler] = service
         self._dispatcher: Final[IExportTargetDispatcher] = dispatcher
 
     def execute(
         self,
         *,
         params: Mapping[str, object],
-        service: IScaraDslCompiler,
     ) -> Mapping[str, object]:
         '''
             Executes the export subcommand.
 
             :param params: Subcommand parameters from CLI parser.
-            :param service: SCARA DSL service instance.
             :return: The result of the subcommand execution.
             :exceptions: None.
         '''
@@ -105,7 +108,7 @@ class ExportCommandExecutor:
             format_str: str = str(params.get('format', 'gcode')).upper()
             target_format: ExportFormat = ExportFormat[format_str]
 
-            plan = service.compile_script(source=source_code)
+            plan = self._service.compile_script(source=source_code)
             exported_content: str = self._dispatcher.export(
                 plan=plan, target_format=target_format
             )
@@ -135,4 +138,4 @@ class ExportCommandExecutor:
             :return: The command definition metadata.
             :exceptions: None.
         '''
-        return self.definition
+        return self._definition

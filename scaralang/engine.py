@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -70,7 +70,6 @@ class Scaralang(Base):
             :exceptions: None.
         '''
         self._is_initialized = False
-        self._logger = None
 
         try:
             ScaralangBundleValidator.validate(bundle)
@@ -80,7 +79,6 @@ class Scaralang(Base):
             self._is_initialized = all(
                 component.is_initialized() for component in [
                     bundle.base.option_manager,
-                    bundle.service,
                     self._cli
                 ] if component
             )
@@ -122,13 +120,13 @@ class Scaralang(Base):
                 self._logger.write_log(INFO, '✅ scaralang: done!')
                 return True
 
-            self._logger.write_log(ERROR, '❌ scaralang: engine not initialized!')
+            stdout.write('❌ scaralang: engine not initialized!')
             return False
 
         except (ATSValueError, ATSTypeError) as exc:
-            self._logger.write_log(ERROR, f'❌ scaralang: {exc}!')
+            stdout.write(f'❌ scaralang: {exc}!')
             return False
 
         except (RuntimeError, OSError, ValueError, TypeError, KeyError) as exc:
-            self._logger.write_log(ERROR, f'❌ scaralang unexpected exception: {exc}!')
+            stdout.write(f'❌ scaralang unexpected exception: {exc}!')
             return False

@@ -71,14 +71,20 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.</span></span><span class="sig-name descname"><span class="pre">ReplCommandDispatcher</span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher.html#ReplCommandDispatcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.</span></span><span class="sig-name descname"><span class="pre">ReplCommandDispatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info_provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.info.itoolchain_info_provider.html#scaralang.core.service.info.itoolchain_info_provider.IToolchainInfoProvider" title="scaralang.core.service.info.itoolchain_info_provider.IToolchainInfoProvider"><span class="pre">IToolchainInfoProvider</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher.html#ReplCommandDispatcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Command dispatcher routing user inputs between built-in commands and DSL compilation.</p>
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">_info_provider - Injected toolchain metadata and instruction catalog provider.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">__init__ - Initializes dispatcher with injected info provider.</div>
 <div class="line">dispatch_line - Dispatches line to built-in session handlers or flags for DSL.</div>
 <div class="line">format_help - Returns formatted help text for REPL commands and syntax.</div>
 <div class="line">format_status - Returns formatted status text for active session state.</div>
@@ -87,6 +93,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher._info_provider">
+<span class="sig-name descname"><span class="pre">_info_provider</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.info.itoolchain_info_provider.html#scaralang.core.service.info.itoolchain_info_provider.IToolchainInfoProvider" title="scaralang.core.service.info.itoolchain_info_provider.IToolchainInfoProvider"><span class="pre">IToolchainInfoProvider</span></a></em><a class="headerlink" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher._info_provider" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher.dispatch_line">
 <span class="sig-name descname"><span class="pre">dispatch_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.repl.repl_session_context.html#scaralang.core.model.repl.repl_session_context.ReplSessionContext" title="scaralang.core.model.repl.repl_session_context.ReplSessionContext"><span class="pre">ReplSessionContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.repl.repl_dispatch_result.html#scaralang.core.model.repl.repl_dispatch_result.ReplDispatchResult" title="scaralang.core.model.repl.repl_dispatch_result.ReplDispatchResult"><span class="pre">ReplDispatchResult</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher.html#ReplCommandDispatcher.dispatch_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher.dispatch_line" title="Link to this definition">¶</a></dt>
@@ -171,6 +182,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher module</a><ul>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher"><code class="docutils literal notranslate"><span class="pre">ReplCommandDispatcher</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher._info_provider"><code class="docutils literal notranslate"><span class="pre">ReplCommandDispatcher._info_provider</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher.dispatch_line"><code class="docutils literal notranslate"><span class="pre">ReplCommandDispatcher.dispatch_line()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher.format_help"><code class="docutils literal notranslate"><span class="pre">ReplCommandDispatcher.format_help()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher.ReplCommandDispatcher.format_pose"><code class="docutils literal notranslate"><span class="pre">ReplCommandDispatcher.format_pose()</span></code></a></li>

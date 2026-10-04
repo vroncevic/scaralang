@@ -30,14 +30,14 @@ from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.waypoint import Waypoint
-from scaralang.core.service.compiler.frame.iframe_transformer import IFrameTransformer
+from scaralang.core.service.transformation.iframe_transformer import IFrameTransformer
 from scaralang.core.service.compiler.macro.itangent_macro_expander import ITangentMacroExpander
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -108,11 +108,17 @@ class CartesianMoveCompiler:
             :exceptions: None.
         '''
         params = instruction.parameters
-        raw_x: float = float(params.get(InstructionParam.X, context.current_x))
-        raw_y: float = float(params.get(InstructionParam.Y, context.current_y))
-        target_z: float = float(params.get(InstructionParam.Z, context.current_z))
+        raw_x: float = float(
+            params.get(InstructionParam.X, context.pose.current_x)
+        )
+        raw_y: float = float(
+            params.get(InstructionParam.Y, context.pose.current_y)
+        )
+        target_z: float = float(
+            params.get(InstructionParam.Z, context.pose.current_z)
+        )
         target_spd: float = float(
-            params.get(InstructionParam.SPEED, context.current_speed)
+            params.get(InstructionParam.SPEED, context.speed.current_speed)
         )
 
         target_point: Point2D = self._frame_transformer.transform_point(
@@ -122,14 +128,18 @@ class CartesianMoveCompiler:
 
         if context.tool_orient_mode == ToolOrientMode.TANGENTIAL:
             target_phi: float = self._tangent_helper.calculate_tangent_angle(
-                source=Point2D(x=context.current_x, y=context.current_y),
+                source=Point2D(x=context.pose.current_x, y=context.pose.current_y),
                 target=target_point,
-                fallback_phi=context.current_phi,
+                fallback_phi=context.pose.current_phi,
             )
         else:
-            target_phi = float(params.get(InstructionParam.PHI, context.current_phi))
+            target_phi = float(
+                params.get(InstructionParam.PHI, context.pose.current_phi)
+            )
 
-        effective_spd: float = target_spd * (context.speed_override_pct / 100.0)
+        effective_spd: float = target_spd * (
+            context.speed.speed_override_pct / 100.0
+        )
 
         waypoint = Waypoint(
             x=target_point.x,
@@ -141,9 +151,9 @@ class CartesianMoveCompiler:
             command='',
         )
 
-        context.current_x = target_point.x
-        context.current_y = target_point.y
-        context.current_z = target_z
-        context.current_phi = target_phi
+        context.pose.current_x = target_point.x
+        context.pose.current_y = target_point.y
+        context.pose.current_z = target_z
+        context.pose.current_phi = target_phi
 
         return (waypoint,)

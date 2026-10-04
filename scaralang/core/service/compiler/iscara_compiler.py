@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,6 +45,7 @@ class IScaraCompiler(Protocol):
 
             :methods:
                 | compile - Compiles ScaraProgram into validated ITrajectoryPlan.
+                | get_version - Returns the compiler version string.
     '''
 
     def compile(self, *, program: ScaraProgram) -> ITrajectoryPlan:
@@ -53,4 +54,11 @@ class IScaraCompiler(Protocol):
 
             :param program: Parsed ScaraProgram AST root.
             :return: Validated ITrajectoryPlan instance.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Returns the compiler version string representation.
+
+            :return: Version string representation.
         '''

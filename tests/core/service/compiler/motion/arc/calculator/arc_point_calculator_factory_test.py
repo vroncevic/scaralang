@@ -26,12 +26,14 @@ from unittest import main
 
 from scaralang.core.service.compiler.motion.arc.calculator.arc_point_calculator_factory import ArcPointCalculatorFactory
 from scaralang.core.service.compiler.motion.arc.calculator.iarc_point_calculator import IArcPointCalculator
+from scaralang.core.service.compiler.motion.arc.interpolation.arc_interpolator_factory import ArcInterpolatorFactory
+from scaralang.core.service.transformation.frame_transformer_factory import FrameTransformerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,6 +47,7 @@ class TestArcPointCalculatorFactory(TestCase):
 
             :methods:
                 | test_create - Verifies factory returns IArcPointCalculator.
+                | test_create_with_collaborators - Verifies creation with injected collaborators.
                 | test_get_version - Verifies factory version string.
     '''
 
@@ -61,6 +64,18 @@ class TestArcPointCalculatorFactory(TestCase):
         '''
         version: str = ArcPointCalculatorFactory.get_version()
         self.assertTrue(bool(version))
+
+    def test_create_with_collaborators(self) -> None:
+        '''
+            Verifies creation with explicitly injected frame transformer and interpolator.
+        '''
+        transformer = FrameTransformerFactory.create()
+        interpolator = ArcInterpolatorFactory.create()
+        calculator: IArcPointCalculator = ArcPointCalculatorFactory.create_with_collaborators(
+            frame_transformer=transformer,
+            arc_interpolator=interpolator,
+        )
+        self.assertIsInstance(calculator, IArcPointCalculator)
 
 
 if __name__ == '__main__':

@@ -21,15 +21,13 @@ Info
 
 from __future__ import annotations
 
-from collections.abc import Callable
-
 from scaralang.infrastructure.cli.repl.input.repl_line_reader import ReplLineReader
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,35 +40,30 @@ class ReplLineReaderFactory:
         It defines:
 
             :methods:
-                | create - Builds ReplLineReader with strictly injected reader function.
-                | create_default - Builds ReplLineReader with standard input reader.
+                | create - Builds ReplLineReader instance.
+                | create_default - Builds ReplLineReader default instance.
                 | get_version - Returns factory version string.
     '''
 
     @classmethod
-    def create(
-        cls,
-        *,
-        reader_func: Callable[[str], str],
-    ) -> ReplLineReader:
+    def create(cls) -> ReplLineReader:
         '''
-            Builds and returns a ReplLineReader with strictly injected reader function.
+            Builds and returns a ReplLineReader instance.
 
-            :param reader_func: Required custom callable taking prompt and returning string.
             :return: Instantiated ReplLineReader instance.
             :exceptions: None.
         '''
-        return ReplLineReader(reader_func=reader_func)
+        return ReplLineReader()
 
     @classmethod
     def create_default(cls) -> ReplLineReader:
         '''
-            Builds and returns a ReplLineReader instance with standard input.
+            Builds and returns a ReplLineReader default instance.
 
             :return: Instantiated ReplLineReader instance.
             :exceptions: None.
         '''
-        return ReplLineReader(reader_func=input)
+        return ReplLineReader()
 
     @classmethod
     def get_version(cls) -> str:

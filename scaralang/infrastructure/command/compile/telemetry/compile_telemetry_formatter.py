@@ -27,7 +27,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,6 +41,7 @@ class CompileTelemetryFormatter:
 
             :methods:
                 | format_telemetry - Renders formatted multi-line telemetry report.
+                | get_version - Returns the telemetry formatter version string.
     '''
 
     def format_telemetry(self, *, telemetry: BinaryProgramTelemetry) -> str:
@@ -60,11 +61,20 @@ class CompileTelemetryFormatter:
                 f'({telemetry.duration_us} µs)'
             ),
             (
-                f'  Axis Peak Steps:     J1={telemetry.peak_j1_steps}, '
-                f'J2={telemetry.peak_j2_steps}, Z={telemetry.peak_z_steps}, '
-                f'J4={telemetry.peak_j4_steps}'
+                f'  Axis Peak Steps:     J1={telemetry.peak_steps.peak_j1_steps}, '
+                f'J2={telemetry.peak_steps.peak_j2_steps}, Z={telemetry.peak_steps.peak_z_steps}, '
+                f'J4={telemetry.peak_steps.peak_j4_steps}'
             ),
             f'  Total Wire Bytes:    {telemetry.total_wire_bytes} B',
         ]
 
         return '\n'.join(telemetry_lines)
+
+    def get_version(self) -> str:
+        '''
+            Returns the telemetry formatter version string.
+
+            :return: Version string representation.
+            :exceptions: None.
+        '''
+        return __version__

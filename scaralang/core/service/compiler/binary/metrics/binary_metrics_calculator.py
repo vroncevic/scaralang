@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
+from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.step import Step
 
@@ -30,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -93,9 +94,11 @@ class BinaryMetricsCalculator:
             compiled_steps=len(steps),
             duration_us=total_duration,
             duration_s=duration_s,
-            peak_j1_steps=peak_steps[0],
-            peak_j2_steps=peak_steps[1],
-            peak_z_steps=peak_steps[2],
-            peak_j4_steps=peak_steps[3],
+            peak_steps=AxisPeakSteps(
+                peak_j1_steps=peak_steps[0],
+                peak_j2_steps=peak_steps[1],
+                peak_z_steps=peak_steps[2],
+                peak_j4_steps=peak_steps[3],
+            ),
             total_wire_bytes=len(raw_bytes),
         )

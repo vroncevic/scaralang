@@ -26,20 +26,17 @@ from os.path import exists
 from tempfile import NamedTemporaryFile
 from unittest import TestCase
 from unittest import main
+from unittest.mock import MagicMock
 
-from scaralang.core.service.dsl.scara_dsl_service_factory import ScaraDslServiceFactory
-from scaralang.core.service.linter.diagnostic.scara_diagnostic_formatter_factory import ScaraDiagnosticFormatterFactory
 from scaralang.infrastructure.command.lint.lint_command_definition import LintCommandDefinition
 from scaralang.infrastructure.command.lint.lint_command_executor import LintCommandExecutor
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
+from scaralang.infrastructure.command.lint.lint_command_executor_factory import LintCommandExecutorFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,9 +51,11 @@ class TestLintCommandExecutor(TestCase):
             :methods:
                 | setUp - Initializes fixtures.
                 | tearDown - Cleans up temporary resources.
+                | create_test_file - Creates temporary file helper.
                 | test_lint_missing_file - Verifies handling of non-existent script.
                 | test_lint_clean_script - Verifies clean lint execution on valid script.
                 | test_lint_error_script - Verifies diagnostic errors on conflicting script.
+                | test_lint_error_handling - Verifies handling of lint exceptions.
                 | test_get_definition - Verifies definition retrieval.
     '''
 
@@ -65,16 +64,7 @@ class TestLintCommandExecutor(TestCase):
             Sets up test fixtures.
         '''
         self.cmd_def = LintCommandDefinition()
-        self.formatter = ScaraDiagnosticFormatterFactory.create()
-        self.executor = LintCommandExecutor(
-            definition=self.cmd_def,
-            diagnostic_formatter=self.formatter,
-        )
-        self.service = ScaraDslServiceFactory.create_default(
-            frame_builder=BinaryFrameBuilderFactory.create(),
-            frame_parser=BinaryFrameParserFactory.create_default(),
-            payload_unpacker=BinaryPayloadUnpackerFactory.create(),
-        )
+        self.executor = LintCommandExecutorFactory.create_default()
         self.temp_files: list[str] = []
 
     def tearDown(self) -> None:
@@ -101,7 +91,6 @@ class TestLintCommandExecutor(TestCase):
         '''
         res = self.executor.execute(
             params={'script': '/nonexistent/file.scara'},
-            service=self.service,
         )
         self.assertEqual(res.get('returncode'), 1)
         self.assertIn('does not exist', str(res.get('stderr', '')))
@@ -111,7 +100,7 @@ class TestLintCommandExecutor(TestCase):
             Verifies lint command on valid script.
         '''
         path = self.create_test_file('HOME\nMOVE_J X=150.0 Y=50.0 Z=20.0\nPUMP ON\n')
-        result = self.executor.execute(params={'script': path}, service=self.service)
+        result = self.executor.execute(params={'script': path})
         self.assertEqual(result.get('returncode'), 0)
         self.assertIn('No issues found', str(result.get('stdout', '')))
 
@@ -120,7 +109,7 @@ class TestLintCommandExecutor(TestCase):
             Verifies lint command detects pneumatic conflict error.
         '''
         path = self.create_test_file('HOME\nPUMP ON\nVALVE ON\n')
-        result = self.executor.execute(params={'script': path}, service=self.service)
+        result = self.executor.execute(params={'script': path})
         self.assertEqual(result.get('returncode'), 1)
         self.assertIn('ERROR', str(result.get('stdout', '')))
 
@@ -128,7 +117,23 @@ class TestLintCommandExecutor(TestCase):
         '''
             Verifies definition getter.
         '''
-        self.assertEqual(self.executor.get_definition(), self.cmd_def)
+        self.assertEqual(self.executor.get_definition().name, self.cmd_def.name)
+
+    def test_lint_error_handling(self) -> None:
+        '''
+            Verifies handling when lint service raises an exception.
+        '''
+        mock_service = MagicMock()
+        mock_service.lint_script.side_effect = ValueError('Failed to parse')
+        executor = LintCommandExecutor(
+            definition=self.cmd_def,
+            service=mock_service,
+            diagnostic_formatter=MagicMock(),
+        )
+        path = self.create_test_file('HOME\n')
+        result = executor.execute(params={'script': path})
+        self.assertEqual(result.get('returncode'), 1)
+        self.assertIn('lint error: Failed to parse', str(result.get('stderr', '')))
 
 
 if __name__ == '__main__':

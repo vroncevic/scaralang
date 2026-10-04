@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,7 +46,7 @@ class TestReplLineReaderFactory(TestCase):
 
             :methods:
                 | test_create_default - Verifies factory returns default ReplLineReader.
-                | test_create_with_callable - Verifies factory builds with custom callable.
+                | test_create - Verifies factory builds ReplLineReader instance.
                 | test_get_version - Verifies factory version string.
     '''
 
@@ -56,17 +56,16 @@ class TestReplLineReaderFactory(TestCase):
         self.assertIsInstance(reader, ReplLineReader)
         self.assertIsInstance(reader, IReplLineReader)
 
-    def test_create_with_callable(self) -> None:
-        '''Verifies factory builds ReplLineReader with custom callable.'''
-        reader = ReplLineReaderFactory.create(reader_func=lambda prompt: 'cmd')
+    def test_create(self) -> None:
+        '''Verifies factory builds ReplLineReader instance.'''
+        reader = ReplLineReaderFactory.create()
         self.assertIsInstance(reader, ReplLineReader)
         self.assertIsInstance(reader, IReplLineReader)
-        self.assertEqual(reader.read_line(), 'cmd')
 
     def test_get_version(self) -> None:
         '''Verifies factory version returns valid string.'''
         self.assertEqual(
-            ReplLineReaderFactory.get_version(), '1.0.2'
+            ReplLineReaderFactory.get_version(), '1.0.3'
         )
 
 

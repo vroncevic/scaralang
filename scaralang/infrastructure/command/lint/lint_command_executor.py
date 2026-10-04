@@ -27,7 +27,7 @@ from typing import Final
 
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
-from scaralang.core.service.dsl.iscara_dsl_linter import IScaraDslLinter
+from scaralang.core.service.linter.script.iscara_dsl_linter import IScaraDslLinter
 from scaralang.core.service.linter.diagnostic.iscara_diagnostic_formatter import IScaraDiagnosticFormatter
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
 
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,43 +48,46 @@ class LintCommandExecutor:
         It defines:
 
             :attributes:
-                | definition - The command CLI metadata definition.
+                | _definition - The command CLI metadata definition.
+                | _service - Injected SCARA DSL linter service.
                 | _diagnostic_formatter - Injected diagnostic report formatter.
             :methods:
                 | execute - Executes the lint command.
                 | get_definition - Returns the command definition metadata.
     '''
 
-    definition: ICommandDefinition
+    _definition: ICommandDefinition
+    _service: IScaraDslLinter
     _diagnostic_formatter: IScaraDiagnosticFormatter
 
     def __init__(
         self,
         *,
         definition: ICommandDefinition,
+        service: IScaraDslLinter,
         diagnostic_formatter: IScaraDiagnosticFormatter,
     ) -> None:
         '''
             Initializes the lint command executor.
 
             :param definition: The command definition metadata.
+            :param service: Injected SCARA DSL linter service protocol.
             :param diagnostic_formatter: Injected diagnostic report formatter.
             :exceptions: None.
         '''
-        self.definition: Final[ICommandDefinition] = definition
+        self._definition: Final[ICommandDefinition] = definition
+        self._service: Final[IScaraDslLinter] = service
         self._diagnostic_formatter: Final[IScaraDiagnosticFormatter] = diagnostic_formatter
 
     def execute(
         self,
         *,
         params: Mapping[str, object],
-        service: IScaraDslLinter,
     ) -> Mapping[str, object]:
         '''
             Executes the lint subcommand.
 
             :param params: Subcommand parameters from CLI parser.
-            :param service: SCARA DSL service instance.
             :return: The result of the subcommand execution.
             :exceptions: None.
         '''
@@ -101,7 +104,9 @@ class LintCommandExecutor:
             with open(script_path, 'r', encoding='utf-8') as f:
                 source_code: str = f.read()
 
-            diagnostics: Sequence[ScaraDiagnostic] = service.lint_script(source=source_code)
+            diagnostics: Sequence[ScaraDiagnostic] = self._service.lint_script(
+                source=source_code
+            )
             reports = [
                 self._diagnostic_formatter.format_report(diagnostic=d)
                 for d in diagnostics
@@ -125,4 +130,4 @@ class LintCommandExecutor:
             :return: The command definition metadata.
             :exceptions: None.
         '''
-        return self.definition
+        return self._definition

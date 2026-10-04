@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -101,11 +101,11 @@ class TestVerticalMoveCompiler(TestCase):
             Verifies compile generates valid Waypoint for APPROACH with default speed.
         '''
         context = ScaraCompilerContext()
-        context.current_x = 100.0
-        context.current_y = 50.0
-        context.current_z = 30.0
-        context.current_phi = 15.0
-        context.speed_work = 25.0
+        context.pose.current_x = 100.0
+        context.pose.current_y = 50.0
+        context.pose.current_z = 30.0
+        context.pose.current_phi = 15.0
+        context.speed.speed_work = 25.0
 
         inst = ScaraInstruction(
             command_type=ScaraCommandType.APPROACH,
@@ -122,14 +122,14 @@ class TestVerticalMoveCompiler(TestCase):
         self.assertEqual(wp.phi, 15.0)
         self.assertEqual(wp.speed, 25.0)
         self.assertEqual(wp.name, ScaraCommandType.APPROACH.value)
-        self.assertEqual(context.current_z, 20.0)
+        self.assertEqual(context.pose.current_z, 20.0)
 
     def test_compile_approach_with_speed(self) -> None:
         '''
             Verifies compile handles explicit speed in APPROACH instruction.
         '''
         context = ScaraCompilerContext()
-        context.current_z = 25.0
+        context.pose.current_z = 25.0
         inst = ScaraInstruction(
             command_type=ScaraCommandType.APPROACH,
             parameters={
@@ -143,14 +143,14 @@ class TestVerticalMoveCompiler(TestCase):
         self.assertEqual(len(waypoints), 1)
         self.assertEqual(waypoints[0].z, 20.0)
         self.assertEqual(waypoints[0].speed, 40.0)
-        self.assertEqual(context.current_z, 20.0)
+        self.assertEqual(context.pose.current_z, 20.0)
 
     def test_compile_approach_clamp_zero(self) -> None:
         '''
             Verifies compile clamps z coordinate to zero on excessive approach distance.
         '''
         context = ScaraCompilerContext()
-        context.current_z = 5.0
+        context.pose.current_z = 5.0
         inst = ScaraInstruction(
             command_type=ScaraCommandType.APPROACH,
             parameters={InstructionParam.DIST: 20.0},
@@ -160,18 +160,18 @@ class TestVerticalMoveCompiler(TestCase):
         waypoints = self.compiler.compile(instruction=inst, context=context)
         self.assertEqual(len(waypoints), 1)
         self.assertEqual(waypoints[0].z, 0.0)
-        self.assertEqual(context.current_z, 0.0)
+        self.assertEqual(context.pose.current_z, 0.0)
 
     def test_compile_retract_default(self) -> None:
         '''
             Verifies compile generates valid Waypoint for RETRACT with rapid speed.
         '''
         context = ScaraCompilerContext()
-        context.current_x = 80.0
-        context.current_y = 40.0
-        context.current_z = 10.0
-        context.current_phi = 0.0
-        context.speed_rapid = 100.0
+        context.pose.current_x = 80.0
+        context.pose.current_y = 40.0
+        context.pose.current_z = 10.0
+        context.pose.current_phi = 0.0
+        context.speed.speed_rapid = 100.0
 
         inst = ScaraInstruction(
             command_type=ScaraCommandType.RETRACT,
@@ -188,14 +188,14 @@ class TestVerticalMoveCompiler(TestCase):
         self.assertEqual(wp.phi, 0.0)
         self.assertEqual(wp.speed, 100.0)
         self.assertEqual(wp.name, ScaraCommandType.RETRACT.value)
-        self.assertEqual(context.current_z, 25.0)
+        self.assertEqual(context.pose.current_z, 25.0)
 
     def test_compile_retract_with_speed(self) -> None:
         '''
             Verifies compile handles explicit speed in RETRACT instruction.
         '''
         context = ScaraCompilerContext()
-        context.current_z = 10.0
+        context.pose.current_z = 10.0
         inst = ScaraInstruction(
             command_type=ScaraCommandType.RETRACT,
             parameters={
@@ -209,7 +209,7 @@ class TestVerticalMoveCompiler(TestCase):
         self.assertEqual(len(waypoints), 1)
         self.assertEqual(waypoints[0].z, 20.0)
         self.assertEqual(waypoints[0].speed, 75.0)
-        self.assertEqual(context.current_z, 20.0)
+        self.assertEqual(context.pose.current_z, 20.0)
 
 
 if __name__ == '__main__':

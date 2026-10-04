@@ -59,13 +59,15 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.axis_peak_steps</span> <span class="kn">import</span> <span class="n">AxisPeakSteps</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.2&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -85,22 +87,16 @@
 <span class="sd">                | compiled_steps - Total number of compiled motion steps.</span>
 <span class="sd">                | duration_us - Total estimated execution duration in microseconds.</span>
 <span class="sd">                | duration_s - Total estimated execution duration in seconds.</span>
-<span class="sd">                | peak_j1_steps - Peak step count for joint 1 axis.</span>
-<span class="sd">                | peak_j2_steps - Peak step count for joint 2 axis.</span>
-<span class="sd">                | peak_z_steps - Peak step count for linear Z axis.</span>
-<span class="sd">                | peak_j4_steps - Peak step count for wrist orientation axis.</span>
+<span class="sd">                | peak_steps - Peak axis step counts observed across motion steps.</span>
 <span class="sd">                | total_wire_bytes - Total raw byte size of the wire frame stream.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">source_instructions</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">compiled_steps</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">duration_us</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">duration_s</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">peak_j1_steps</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">peak_j2_steps</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">peak_z_steps</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">peak_j4_steps</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">total_wire_bytes</span><span class="p">:</span> <span class="nb">int</span></div>
+    <span class="n">source_instructions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">compiled_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">duration_us</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">duration_s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">peak_steps</span><span class="p">:</span> <span class="n">AxisPeakSteps</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">AxisPeakSteps</span><span class="p">)</span>
+    <span class="n">total_wire_bytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></div>
 
 </pre></div>
 

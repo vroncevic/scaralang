@@ -25,6 +25,7 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.service.linter.rules.iscara_lint_rule import IScaraLintRule
+from scaralang.core.service.linter.rules.state.motor_mode_validator_factory import MotorModeValidatorFactory
 from scaralang.core.service.linter.rules.state.state_homing_validator_factory import StateHomingValidatorFactory
 from scaralang.core.service.linter.rules.state.state_zone_validator_factory import StateZoneValidatorFactory
 from scaralang.core.service.linter.rules.state.state_lint_rule_factory import StateLintRuleFactory
@@ -33,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,6 +59,7 @@ class TestStateLintRuleFactory(TestCase):
         rule = StateLintRuleFactory.create(
             homing_validator=StateHomingValidatorFactory.create(),
             zone_validator=StateZoneValidatorFactory.create(),
+            motor_mode_validator=MotorModeValidatorFactory.create(),
         )
         self.assertIsInstance(rule, IScaraLintRule)
 
@@ -72,7 +74,7 @@ class TestStateLintRuleFactory(TestCase):
         '''
             Verifies factory returns correct version string.
         '''
-        self.assertEqual(StateLintRuleFactory.get_version(), '1.0.2')
+        self.assertEqual(StateLintRuleFactory.get_version(), '1.0.3')
 
 
 if __name__ == '__main__':

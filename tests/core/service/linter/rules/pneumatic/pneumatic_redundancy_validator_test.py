@@ -30,6 +30,7 @@ from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_code import ScaraDiagnosticCode
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
+from scaralang.core.model.dsl.linter.lint_tool_state import LintToolState
 from scaralang.core.model.dsl.linter.scara_lint_context import ScaraLintContext
 from scaralang.core.service.linter.rules.pneumatic.pneumatic_redundancy_validator import PneumaticRedundancyValidator
 
@@ -37,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,6 +54,7 @@ class TestPneumaticRedundancyValidator(TestCase):
                 | test_redundant_on_emits_warning - Verifies REDUNDANT_TOOL_CMD when tool already ON.
                 | test_redundant_off_emits_warning - Verifies REDUNDANT_TOOL_CMD when tool already OFF.
                 | test_state_transition_no_diagnostic - Verifies clean state change produces no warning.
+                | test_name - Verifies validator name property.
     '''
 
     def test_redundant_on_emits_warning(self) -> None:
@@ -66,7 +68,7 @@ class TestPneumaticRedundancyValidator(TestCase):
             raw_text='PUMP ON',
             parameters={InstructionParam.STATE: PneumaticState.ON},
         )
-        context = ScaraLintContext(pump_on=True)
+        context = ScaraLintContext(tool_state=LintToolState(pump_on=True))
 
         diagnostics = validator.validate(
             instruction=instruction,
@@ -89,7 +91,7 @@ class TestPneumaticRedundancyValidator(TestCase):
             raw_text='VALVE OFF',
             parameters={InstructionParam.STATE: PneumaticState.OFF},
         )
-        context = ScaraLintContext(valve_on=False)
+        context = ScaraLintContext(tool_state=LintToolState(valve_on=False))
 
         diagnostics = validator.validate(
             instruction=instruction,
@@ -112,7 +114,7 @@ class TestPneumaticRedundancyValidator(TestCase):
             raw_text='PUMP ON',
             parameters={InstructionParam.STATE: PneumaticState.ON},
         )
-        context = ScaraLintContext(pump_on=False)
+        context = ScaraLintContext(tool_state=LintToolState(pump_on=False))
 
         diagnostics = validator.validate(
             instruction=instruction,
@@ -120,6 +122,13 @@ class TestPneumaticRedundancyValidator(TestCase):
         )
 
         self.assertEqual(len(diagnostics), 0)
+
+    def test_name(self) -> None:
+        '''
+            Verifies validator name property.
+        '''
+        validator = PneumaticRedundancyValidator()
+        self.assertEqual(validator.name, 'pneumatic_redundancy')
 
 
 if __name__ == '__main__':
