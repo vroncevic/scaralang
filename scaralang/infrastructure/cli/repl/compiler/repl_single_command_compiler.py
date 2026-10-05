@@ -29,14 +29,14 @@ from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.repl.repl_pose_state import ReplPoseState
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
-from scaralang.core.service.compiler.dsl.iscara_dsl_binary_compiler import IScaraDslBinaryCompiler
-from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
+from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
+from scaralang.core.service.compiler.plan.iscara_plan_compiler import IScaraPlanCompiler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,32 +49,32 @@ class ReplSingleCommandCompiler:
         It defines:
 
             :attributes:
-                | _compiler - Injected IScaraDslCompiler protocol instance.
-                | _binary_compiler - Injected IScaraDslBinaryCompiler protocol instance.
+                | _compiler - Injected IScaraPlanCompiler protocol instance.
+                | _binary_compiler - Injected IScaraCompiler protocol instance.
             :methods:
                 | __init__ - Initializes compiler with injected DSL compilers.
                 | compile_instruction - Compiles single instruction and derives updated context.
                 | update_context - Computes updated session context model from plan and step.
     '''
 
-    _compiler: IScaraDslCompiler
-    _binary_compiler: IScaraDslBinaryCompiler
+    _compiler: IScaraPlanCompiler
+    _binary_compiler: IScaraCompiler
 
     def __init__(
         self,
         *,
-        compiler: IScaraDslCompiler,
-        binary_compiler: IScaraDslBinaryCompiler,
+        compiler: IScaraPlanCompiler,
+        binary_compiler: IScaraCompiler,
     ) -> None:
         '''
             Initializes single-line command compiler.
 
-            :param compiler: Injected IScaraDslCompiler protocol instance.
-            :param binary_compiler: Injected IScaraDslBinaryCompiler protocol instance.
+            :param compiler: Injected IScaraPlanCompiler protocol instance.
+            :param binary_compiler: Injected IScaraCompiler protocol instance.
             :exceptions: None.
         '''
-        self._compiler: Final[IScaraDslCompiler] = compiler
-        self._binary_compiler: Final[IScaraDslBinaryCompiler] = binary_compiler
+        self._compiler: Final[IScaraPlanCompiler] = compiler
+        self._binary_compiler: Final[IScaraCompiler] = binary_compiler
 
     def compile_instruction(
         self,

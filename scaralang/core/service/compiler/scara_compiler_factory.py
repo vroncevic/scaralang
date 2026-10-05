@@ -28,9 +28,9 @@ from scaralang.core.service.compiler.binary.metrics.binary_metrics_calculator_fa
 from scaralang.core.service.compiler.binary.motion.motion_compiler_factory import MotionCompilerFactory
 from scaralang.core.service.compiler.binary.step.step_discretizer_factory import StepDiscretizerFactory
 from scaralang.core.service.compiler.binary.step.waypoint_step_dispatcher_factory import WaypointStepDispatcherFactory
-from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
-from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
 from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
+from scaralang.core.service.compiler.plan.iscara_plan_compiler import IScaraPlanCompiler
+from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
 from scaralang.core.service.compiler.scara_compiler import ScaraCompiler
 from scaralang.core.service.kinematics.default_scara_profile import DefaultScaraProfile
 from scaralang.core.service.kinematics.kinematics_service_factory import KinematicsServiceFactory
@@ -41,7 +41,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -63,13 +63,13 @@ class ScaraCompilerFactory:
     def create(
         cls,
         *,
-        compiler: IScaraDslCompiler,
+        compiler: IScaraPlanCompiler,
         binary_compiler: IBinaryCompiler,
     ) -> IScaraCompiler:
         '''
             Instantiates a configured ScaraCompiler service.
 
-            :param compiler: Required IScaraDslCompiler protocol instance.
+            :param compiler: Required IScaraPlanCompiler protocol instance.
             :param binary_compiler: Required IBinaryCompiler protocol instance.
             :return: Fully configured IScaraCompiler protocol instance.
             :exceptions: None.
@@ -113,10 +113,10 @@ class ScaraCompilerFactory:
             step_dispatcher=step_dispatcher,
             metrics_calculator=BinaryMetricsCalculatorFactory.create(),
         )
-        dsl_compiler = ScaraDslCompilerFactory.create_default()
+        plan_compiler = ScaraPlanCompilerFactory.create_default()
 
         return ScaraCompiler(
-            compiler=dsl_compiler,
+            compiler=plan_compiler,
             binary_compiler=binary_compiler,
         )
 

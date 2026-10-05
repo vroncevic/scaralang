@@ -21,17 +21,17 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.compiler.dsl.iscara_dsl_binary_compiler import IScaraDslBinaryCompiler
-from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
-from scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory import ScaraDslBinaryCompilerFactory
-from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
+from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
+from scaralang.core.service.compiler.plan.iscara_plan_compiler import IScaraPlanCompiler
+from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
+from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler import ReplSingleCommandCompiler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,14 +53,14 @@ class ReplSingleCommandCompilerFactory:
     def create(
         cls,
         *,
-        compiler: IScaraDslCompiler,
-        binary_compiler: IScaraDslBinaryCompiler,
+        compiler: IScaraPlanCompiler,
+        binary_compiler: IScaraCompiler,
     ) -> ReplSingleCommandCompiler:
         '''
             Builds and returns a ReplSingleCommandCompiler instance.
 
-            :param compiler: Injected IScaraDslCompiler protocol instance.
-            :param binary_compiler: Injected IScaraDslBinaryCompiler protocol instance.
+            :param compiler: Injected IScaraPlanCompiler protocol instance.
+            :param binary_compiler: Injected IScaraCompiler protocol instance.
             :return: Instantiated ReplSingleCommandCompiler instance.
             :exceptions: None.
         '''
@@ -78,8 +78,8 @@ class ReplSingleCommandCompilerFactory:
             :exceptions: None.
         '''
         return ReplSingleCommandCompiler(
-            compiler=ScaraDslCompilerFactory.create_default(),
-            binary_compiler=ScaraDslBinaryCompilerFactory.create_default(),
+            compiler=ScaraPlanCompilerFactory.create_default(),
+            binary_compiler=ScaraCompilerFactory.create_default(),
         )
 
     @classmethod
