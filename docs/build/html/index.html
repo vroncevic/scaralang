@@ -264,14 +264,6 @@ pip3<span class="w"> </span>install<span class="w"> </span>scaralang
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>step_discretizer_factory.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">       </span>├──<span class="w"> </span>waypoint_step_dispatcher.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>waypoint_step_dispatcher_factory.py
-<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>dsl/
-<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
-<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>iscara_dsl_binary_compiler.py
-<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>iscara_dsl_compiler.py
-<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>scara_dsl_binary_compiler.py
-<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>scara_dsl_binary_compiler_factory.py
-<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>scara_dsl_compiler.py
-<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>scara_dsl_compiler_factory.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>iinstruction_pipeline.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>instruction_pipeline.py
@@ -324,7 +316,10 @@ pip3<span class="w"> </span>install<span class="w"> </span>scaralang
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">       </span>└──<span class="w"> </span>vertical_move_compiler_factory.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>plan/
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>iscara_plan_compiler.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>itrajectory_plan_compiler.py
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>scara_plan_compiler.py
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>scara_plan_compiler_factory.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>trajectory_plan_compiler.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>trajectory_plan_compiler_factory.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>primitive/
@@ -833,7 +828,7 @@ pip3<span class="w"> </span>install<span class="w"> </span>scaralang
 <span class="w">         </span>├──<span class="w"> </span>registry.py
 <span class="w">         </span>└──<span class="w"> </span>validator.py
 
-<span class="w"> </span><span class="m">125</span><span class="w"> </span>directories,<span class="w"> </span><span class="m">595</span><span class="w"> </span>files
+<span class="w"> </span><span class="m">124</span><span class="w"> </span>directories,<span class="w"> </span><span class="m">591</span><span class="w"> </span>files
 </pre></div>
 </div>
 </section>
@@ -1414,9 +1409,9 @@ compile::execute<span class="w"> </span>-<span class="w"> </span>file<span class
 <span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_syntax_error</span> <span class="kn">import</span> <span class="n">ScaraSyntaxError</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_semantic_error</span> <span class="kn">import</span> <span class="n">ScaraSemanticError</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_kinematics_error</span> <span class="kn">import</span> <span class="n">ScaraKinematicsError</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraDslCompilerFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.plan.scara_plan_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraPlanCompilerFactory</span>
 
-<span class="n">compiler</span> <span class="o">=</span> <span class="n">ScaraDslCompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
+<span class="n">compiler</span> <span class="o">=</span> <span class="n">ScaraPlanCompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="n">plan</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile_script</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;MOVE_J X 999.0 Y 999.0 Z 20.0&quot;</span><span class="p">)</span>
@@ -2085,253 +2080,233 @@ compile::execute<span class="w"> </span>-<span class="w"> </span>file<span class
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/dsl/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/dsl/iscara_dsl_binary_compiler.py</p></td>
-<td><p>19</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/dsl/iscara_dsl_compiler.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/iinstruction_pipeline.py</p></td>
 <td><p>17</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/dsl/scara_dsl_binary_compiler.py</p></td>
-<td><p>31</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/dsl/scara_dsl_binary_compiler_factory.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/dsl/scara_dsl_compiler.py</p></td>
-<td><p>42</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/dsl/scara_dsl_compiler_factory.py</p></td>
-<td><p>37</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/iinstruction_pipeline.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/instruction_pipeline.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/instruction_pipeline.py</p></td>
 <td><p>38</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/instruction_pipeline_factory.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/instruction_pipeline_factory.py</p></td>
 <td><p>27</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/iprimitive_instruction_processor.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/iprimitive_instruction_processor.py</p></td>
 <td><p>17</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/iscara_compiler.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/iscara_compiler.py</p></td>
 <td><p>22</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/__init__.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/frame_macro_expander.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/frame_macro_expander.py</p></td>
 <td><p>29</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/frame_macro_expander_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/frame_macro_expander_factory.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/imacro_expander.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/imacro_expander.py</p></td>
 <td><p>16</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/itangent_macro_expander.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/itangent_macro_expander.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/jump_macro_expander.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/jump_macro_expander.py</p></td>
 <td><p>34</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/jump_macro_expander_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/jump_macro_expander_factory.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/pallet_macro_expander.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/pallet_macro_expander.py</p></td>
 <td><p>51</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/pallet_macro_expander_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/pallet_macro_expander_factory.py</p></td>
 <td><p>23</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/tangent_macro_expander.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/tangent_macro_expander.py</p></td>
 <td><p>34</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/macro/tangent_macro_expander_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/macro/tangent_macro_expander_factory.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/__init__.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/__init__.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/arc_move_compiler.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/arc_move_compiler.py</p></td>
 <td><p>40</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/arc_move_compiler_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/arc_move_compiler_factory.py</p></td>
 <td><p>29</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/builder/__init__.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/builder/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/builder/arc_waypoint_builder.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/builder/arc_waypoint_builder.py</p></td>
 <td><p>23</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/builder/arc_waypoint_builder_factory.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/builder/arc_waypoint_builder_factory.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/builder/iarc_waypoint_builder.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/builder/iarc_waypoint_builder.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/calculator/__init__.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/calculator/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/calculator/arc_point_calculator.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/calculator/arc_point_calculator.py</p></td>
 <td><p>37</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/calculator/arc_point_calculator_factory.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/calculator/arc_point_calculator_factory.py</p></td>
 <td><p>28</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/calculator/iarc_point_calculator.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/calculator/iarc_point_calculator.py</p></td>
 <td><p>19</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/interpolation/__init__.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/interpolation/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/interpolation/arc_interpolator.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/interpolation/arc_interpolator.py</p></td>
 <td><p>43</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/interpolation/arc_interpolator_factory.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/interpolation/arc_interpolator_factory.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/arc/interpolation/iarc_interpolator.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/arc/interpolation/iarc_interpolator.py</p></td>
 <td><p>16</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/cartesian/__init__.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/cartesian/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/cartesian/cartesian_move_compiler.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/cartesian/cartesian_move_compiler.py</p></td>
 <td><p>45</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/cartesian/cartesian_move_compiler_factory.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/cartesian/cartesian_move_compiler_factory.py</p></td>
 <td><p>28</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/imotion_sub_compiler.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/imotion_sub_compiler.py</p></td>
 <td><p>17</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/motion_command_compiler.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/motion_command_compiler.py</p></td>
 <td><p>34</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/motion_command_compiler_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/motion_command_compiler_factory.py</p></td>
 <td><p>26</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/vertical/__init__.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/vertical/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/vertical/vertical_move_compiler.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/vertical/vertical_move_compiler.py</p></td>
 <td><p>32</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/compiler/motion/vertical/vertical_move_compiler_factory.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/motion/vertical/vertical_move_compiler_factory.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/compiler/plan/__init__.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/plan/__init__.py</p></td>
 <td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/plan/iscara_plan_compiler.py</p></td>
+<td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
 <tr class="row-even"><td><p>scaralang/core/service/compiler/plan/itrajectory_plan_compiler.py</p></td>
 <td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/compiler/plan/scara_plan_compiler.py</p></td>
+<td><p>44</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/compiler/plan/scara_plan_compiler_factory.py</p></td>
+<td><p>37</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
@@ -4411,7 +4386,7 @@ compile::execute<span class="w"> </span>-<span class="w"> </span>file<span class
 <td><p>100%</p></td>
 </tr>
 <tr class="row-even"><td><p>Total</p></td>
-<td><p>12624</p></td>
+<td><p>12544</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
@@ -4460,15 +4435,15 @@ scarac<span class="w"> </span>repl<span class="w"> </span>--endpoint<span class=
 </section>
 <section id="python-library-api">
 <h3>Python Library API<a class="headerlink" href="#python-library-api" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraDslCompilerFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraDslBinaryCompilerFactory</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.plan.scara_plan_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraPlanCompilerFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.scara_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraCompilerFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.linter.script.scara_script_validator_factory</span> <span class="kn">import</span> <span class="n">ScaraScriptValidatorFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.decompiler.scara_decompiler_factory</span> <span class="kn">import</span> <span class="n">ScaraDecompilerFactory</span>
 
 <span class="c1"># Initialize fine-grained role services via their factories</span>
 <span class="n">validator</span> <span class="o">=</span> <span class="n">ScaraScriptValidatorFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
-<span class="n">compiler</span> <span class="o">=</span> <span class="n">ScaraDslCompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
-<span class="n">binary_compiler</span> <span class="o">=</span> <span class="n">ScaraDslBinaryCompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
+<span class="n">plan_compiler</span> <span class="o">=</span> <span class="n">ScaraPlanCompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
+<span class="n">compiler</span> <span class="o">=</span> <span class="n">ScaraCompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
 <span class="n">decompiler</span> <span class="o">=</span> <span class="n">ScaraDecompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
 
 <span class="c1"># SCARA DSL script to analyze and compile</span>
@@ -4485,13 +4460,13 @@ scarac<span class="w"> </span>repl<span class="w"> </span>--endpoint<span class=
 <span class="n">is_valid</span><span class="p">,</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate_script</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">script</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">is_valid</span><span class="p">:</span>
     <span class="c1"># 2. Compile into validated trajectory plan</span>
-    <span class="n">plan</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile_script</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">script</span><span class="p">)</span>
+    <span class="n">plan</span> <span class="o">=</span> <span class="n">plan_compiler</span><span class="o">.</span><span class="n">compile_script</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">script</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Trajectory plan contains </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">plan</span><span class="o">.</span><span class="n">waypoints</span><span class="p">)</span><span class="si">}</span><span class="s2"> waypoints.&quot;</span><span class="p">)</span>
 
     <span class="c1"># 3. Compile directly to binary program package and raw bytecode</span>
-    <span class="n">binary_prog</span> <span class="o">=</span> <span class="n">binary_compiler</span><span class="o">.</span><span class="n">compile_to_binary</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">script</span><span class="p">)</span>
-    <span class="n">raw_bytes</span> <span class="o">=</span> <span class="n">binary_compiler</span><span class="o">.</span><span class="n">compile_to_bytes</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">script</span><span class="p">)</span>
-    <span class="n">telemetry</span> <span class="o">=</span> <span class="n">binary_compiler</span><span class="o">.</span><span class="n">get_program_telemetry</span><span class="p">(</span><span class="n">program</span><span class="o">=</span><span class="n">binary_prog</span><span class="p">)</span>
+    <span class="n">binary_prog</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile_to_binary</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">script</span><span class="p">)</span>
+    <span class="n">raw_bytes</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile_to_bytes</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">script</span><span class="p">)</span>
+    <span class="n">telemetry</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_program_telemetry</span><span class="p">(</span><span class="n">program</span><span class="o">=</span><span class="n">binary_prog</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generated </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">raw_bytes</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes of binary bytecode.&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total motor steps: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">binary_prog</span><span class="o">.</span><span class="n">steps</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Trajectory execution time: </span><span class="si">{</span><span class="n">telemetry</span><span class="o">.</span><span class="n">duration_s</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>

@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
+from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
 from scaralang.core.service.exporter.scara_exporter_factory import ScaraExporterFactory
 from scaralang.infrastructure.command.export.definition import ExportCommandDefinition
 from scaralang.infrastructure.command.export.error.export_error_handler_factory import ExportErrorHandlerFactory
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,7 +62,7 @@ class TestExportCommandExecutorFactory(TestCase):
         '''Verifies factory builds ExportCommandExecutor with explicit collaborators.'''
         definition = ExportCommandDefinition()
         dispatcher = ScaraExporterFactory.create_default()
-        service = ScaraDslCompilerFactory.create_default()
+        service = ScaraPlanCompilerFactory.create_default()
         error_handler = ExportErrorHandlerFactory.create()
         executor = ExportCommandExecutorFactory.create(
             definition=definition,
@@ -76,7 +76,7 @@ class TestExportCommandExecutorFactory(TestCase):
     def test_get_version(self) -> None:
         '''Verifies factory version returns valid string.'''
         self.assertEqual(
-            ExportCommandExecutorFactory.get_version(), '1.0.4'
+            ExportCommandExecutorFactory.get_version(), '1.0.5'
         )
 
 

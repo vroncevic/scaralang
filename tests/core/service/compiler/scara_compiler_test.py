@@ -28,8 +28,8 @@ from unittest.mock import MagicMock
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
 from scaralang.core.service.compiler.binary.ibinary_compiler import IBinaryCompiler
-from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
 from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
+from scaralang.core.service.compiler.plan.iscara_plan_compiler import IScaraPlanCompiler
 from scaralang.core.service.compiler.scara_compiler import ScaraCompiler
 from scaralang.core.service.trajectory.plan.itrajectory_plan import ITrajectoryPlan
 
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,10 +65,10 @@ class TestScaraCompiler(TestCase):
         '''
             Sets up compiler with mocked collaborators.
         '''
-        self.mock_dsl_compiler = MagicMock(spec=IScaraDslCompiler)
+        self.mock_plan_compiler = MagicMock(spec=IScaraPlanCompiler)
         self.mock_binary_compiler = MagicMock(spec=IBinaryCompiler)
         self.compiler = ScaraCompiler(
-            compiler=self.mock_dsl_compiler,
+            compiler=self.mock_plan_compiler,
             binary_compiler=self.mock_binary_compiler,
         )
 
@@ -82,7 +82,7 @@ class TestScaraCompiler(TestCase):
         '''
             Verifies compiler get_version returns semantic version string.
         '''
-        self.assertEqual(self.compiler.get_version(), '1.0.4')
+        self.assertEqual(self.compiler.get_version(), '1.0.5')
 
     def test_compile(self) -> None:
         '''
@@ -90,12 +90,12 @@ class TestScaraCompiler(TestCase):
         '''
         mock_plan = MagicMock(spec=ITrajectoryPlan)
         mock_program = MagicMock(spec=BinaryProgram)
-        self.mock_dsl_compiler.compile_script.return_value = mock_plan
+        self.mock_plan_compiler.compile_script.return_value = mock_plan
         self.mock_binary_compiler.compile_plan.return_value = mock_program
 
         result = self.compiler.compile(source='HOME\n')
         self.assertEqual(result, mock_program)
-        self.mock_dsl_compiler.compile_script.assert_called_once_with(source='HOME\n')
+        self.mock_plan_compiler.compile_script.assert_called_once_with(source='HOME\n')
         self.mock_binary_compiler.compile_plan.assert_called_once_with(plan=mock_plan)
 
     def test_compile_bytes(self) -> None:
@@ -105,7 +105,7 @@ class TestScaraCompiler(TestCase):
         mock_plan = MagicMock(spec=ITrajectoryPlan)
         mock_program = MagicMock(spec=BinaryProgram)
         mock_program.raw_bytes = b'\x01\x02\x03'
-        self.mock_dsl_compiler.compile_script.return_value = mock_plan
+        self.mock_plan_compiler.compile_script.return_value = mock_plan
         self.mock_binary_compiler.compile_plan.return_value = mock_program
 
         result = self.compiler.compile_bytes(source='HOME\n')
@@ -129,7 +129,7 @@ class TestScaraCompiler(TestCase):
         '''
         mock_plan = MagicMock(spec=ITrajectoryPlan)
         mock_program = MagicMock(spec=BinaryProgram)
-        self.mock_dsl_compiler.compile_script.return_value = mock_plan
+        self.mock_plan_compiler.compile_script.return_value = mock_plan
         self.mock_binary_compiler.compile_plan.return_value = mock_program
 
         result = self.compiler.compile_to_binary(source='MOVE_J X=10\n')
@@ -142,7 +142,7 @@ class TestScaraCompiler(TestCase):
         mock_plan = MagicMock(spec=ITrajectoryPlan)
         mock_program = MagicMock(spec=BinaryProgram)
         mock_program.raw_bytes = b'\xaa\xbb'
-        self.mock_dsl_compiler.compile_script.return_value = mock_plan
+        self.mock_plan_compiler.compile_script.return_value = mock_plan
         self.mock_binary_compiler.compile_plan.return_value = mock_program
 
         result = self.compiler.compile_to_bytes(source='MOVE_J X=10\n')

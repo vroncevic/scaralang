@@ -21,8 +21,8 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
-from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
+from scaralang.core.service.compiler.plan.iscara_plan_compiler import IScaraPlanCompiler
+from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
 from scaralang.core.service.exporter.iscara_exporter import IScaraExporter
 from scaralang.core.service.exporter.scara_exporter_factory import ScaraExporterFactory
 from scaralang.infrastructure.command.export.definition import ExportCommandDefinition
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,7 +58,7 @@ class ExportCommandExecutorFactory:
         cls,
         *,
         definition: ICommandDefinition,
-        service: IScaraDslCompiler,
+        service: IScaraPlanCompiler,
         dispatcher: IScaraExporter,
         error_handler: IExportErrorHandler,
     ) -> ExportCommandExecutor:
@@ -66,7 +66,7 @@ class ExportCommandExecutorFactory:
             Builds and returns an ExportCommandExecutor with strictly injected dependencies.
 
             :param definition: Required ICommandDefinition protocol instance.
-            :param service: Required IScaraDslCompiler protocol instance.
+            :param service: Required IScaraPlanCompiler protocol instance.
             :param dispatcher: Required IScaraExporter protocol instance.
             :param error_handler: Required IExportErrorHandler protocol instance.
             :return: Fully wired ExportCommandExecutor instance.
@@ -89,7 +89,7 @@ class ExportCommandExecutorFactory:
         '''
         return ExportCommandExecutor(
             definition=ExportCommandDefinition(),
-            service=ScaraDslCompilerFactory.create_default(),
+            service=ScaraPlanCompilerFactory.create_default(),
             dispatcher=ScaraExporterFactory.create_default(),
             error_handler=ExportErrorHandlerFactory.create(),
         )

@@ -7,7 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   scaralang.core.service.compiler.plan.iscara_plan_compiler
    scaralang.core.service.compiler.plan.itrajectory_plan_compiler
+   scaralang.core.service.compiler.plan.scara_plan_compiler
+   scaralang.core.service.compiler.plan.scara_plan_compiler_factory
    scaralang.core.service.compiler.plan.trajectory_plan_compiler
    scaralang.core.service.compiler.plan.trajectory_plan_compiler_factory
 

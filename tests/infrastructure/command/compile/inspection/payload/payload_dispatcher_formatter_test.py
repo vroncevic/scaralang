@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -76,7 +76,7 @@ class TestPayloadDispatcherFormatter(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid semantic version.'''
-        self.assertEqual(self.dispatcher.get_version(), '1.0.4')
+        self.assertEqual(self.dispatcher.get_version(), '1.0.5')
 
     def test_format_payload_empty(self) -> None:
         '''Verifies empty payload formatting.'''

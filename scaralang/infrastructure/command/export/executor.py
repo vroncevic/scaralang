@@ -27,7 +27,7 @@ from typing import Final
 
 from scaralang.core.model.dsl.exporter.export_format import ExportFormat
 from scaralang.core.model.exceptions.scara_error import ScaraError
-from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
+from scaralang.core.service.compiler.plan.iscara_plan_compiler import IScaraPlanCompiler
 from scaralang.core.service.exporter.iscara_exporter import IScaraExporter
 from scaralang.infrastructure.command.export.error.iexport_error_handler import IExportErrorHandler
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,7 +50,7 @@ class ExportCommandExecutor:
 
             :attributes:
                 | _definition - The command CLI metadata definition.
-                | _service - SCARA DSL compiler service protocol instance.
+                | _service - SCARA plan compiler service protocol instance.
                 | _dispatcher - Trajectory export target dispatcher protocol instance.
                 | _error_handler - Trajectory export error handler protocol instance.
             :methods:
@@ -60,7 +60,7 @@ class ExportCommandExecutor:
     '''
 
     _definition: ICommandDefinition
-    _service: IScaraDslCompiler
+    _service: IScaraPlanCompiler
     _dispatcher: IScaraExporter
     _error_handler: IExportErrorHandler
 
@@ -68,7 +68,7 @@ class ExportCommandExecutor:
         self,
         *,
         definition: ICommandDefinition,
-        service: IScaraDslCompiler,
+        service: IScaraPlanCompiler,
         dispatcher: IScaraExporter,
         error_handler: IExportErrorHandler,
     ) -> None:
@@ -76,13 +76,13 @@ class ExportCommandExecutor:
             Initializes the export command executor.
 
             :param definition: The command definition metadata.
-            :param service: SCARA DSL compiler service protocol instance.
+            :param service: SCARA plan compiler service protocol instance.
             :param dispatcher: Trajectory export target dispatcher protocol instance.
             :param error_handler: Trajectory export error handler protocol instance.
             :exceptions: None.
         '''
         self._definition: Final[ICommandDefinition] = definition
-        self._service: Final[IScaraDslCompiler] = service
+        self._service: Final[IScaraPlanCompiler] = service
         self._dispatcher: Final[IScaraExporter] = dispatcher
         self._error_handler: Final[IExportErrorHandler] = error_handler
 

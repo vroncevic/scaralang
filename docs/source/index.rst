@@ -265,14 +265,6 @@ Tool structure
          │       │   │       ├── step_discretizer_factory.py
          │       │   │       ├── waypoint_step_dispatcher.py
          │       │   │       └── waypoint_step_dispatcher_factory.py
-         │       │   ├── dsl/
-         │       │   │   ├── __init__.py
-         │       │   │   ├── iscara_dsl_binary_compiler.py
-         │       │   │   ├── iscara_dsl_compiler.py
-         │       │   │   ├── scara_dsl_binary_compiler.py
-         │       │   │   ├── scara_dsl_binary_compiler_factory.py
-         │       │   │   ├── scara_dsl_compiler.py
-         │       │   │   └── scara_dsl_compiler_factory.py
          │       │   ├── iinstruction_pipeline.py
          │       │   ├── __init__.py
          │       │   ├── instruction_pipeline.py
@@ -325,7 +317,10 @@ Tool structure
          │       │   │       └── vertical_move_compiler_factory.py
          │       │   ├── plan/
          │       │   │   ├── __init__.py
+         │       │   │   ├── iscara_plan_compiler.py
          │       │   │   ├── itrajectory_plan_compiler.py
+         │       │   │   ├── scara_plan_compiler.py
+         │       │   │   ├── scara_plan_compiler_factory.py
          │       │   │   ├── trajectory_plan_compiler.py
          │       │   │   └── trajectory_plan_compiler_factory.py
          │       │   ├── primitive/
@@ -834,7 +829,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     125 directories, 595 files
+     124 directories, 591 files
 
 🏗 Architecture & SOLID Principles
 --------------------------------------------------------------------------------
@@ -1346,9 +1341,9 @@ Downstream applications can catch specific domain exceptions for fine-grained er
     from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
     from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
     from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
-    from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
+    from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
 
-    compiler = ScaraDslCompilerFactory.create_default()
+    compiler = ScaraPlanCompilerFactory.create_default()
 
     try:
         plan = compiler.compile_script(source="MOVE_J X 999.0 Y 999.0 Z 20.0")
@@ -1418,15 +1413,15 @@ Python Library API
 
 .. code-block:: python
 
-    from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
-    from scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler_factory import ScaraDslBinaryCompilerFactory
+    from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
+    from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
     from scaralang.core.service.linter.script.scara_script_validator_factory import ScaraScriptValidatorFactory
     from scaralang.core.service.decompiler.scara_decompiler_factory import ScaraDecompilerFactory
 
     # Initialize fine-grained role services via their factories
     validator = ScaraScriptValidatorFactory.create_default()
-    compiler = ScaraDslCompilerFactory.create_default()
-    binary_compiler = ScaraDslBinaryCompilerFactory.create_default()
+    plan_compiler = ScaraPlanCompilerFactory.create_default()
+    compiler = ScaraCompilerFactory.create_default()
     decompiler = ScaraDecompilerFactory.create_default()
 
     # SCARA DSL script to analyze and compile
@@ -1443,13 +1438,13 @@ Python Library API
     is_valid, diagnostics = validator.validate_script(source=script)
     if is_valid:
         # 2. Compile into validated trajectory plan
-        plan = compiler.compile_script(source=script)
+        plan = plan_compiler.compile_script(source=script)
         print(f"Trajectory plan contains {len(plan.waypoints)} waypoints.")
 
         # 3. Compile directly to binary program package and raw bytecode
-        binary_prog = binary_compiler.compile_to_binary(source=script)
-        raw_bytes = binary_compiler.compile_to_bytes(source=script)
-        telemetry = binary_compiler.get_program_telemetry(program=binary_prog)
+        binary_prog = compiler.compile_to_binary(source=script)
+        raw_bytes = compiler.compile_to_bytes(source=script)
+        telemetry = compiler.get_program_telemetry(program=binary_prog)
         print(f"Generated {len(raw_bytes)} bytes of binary bytecode.")
         print(f"Total motor steps: {len(binary_prog.steps)}")
         print(f"Trajectory execution time: {telemetry.duration_s:.2f} s")
