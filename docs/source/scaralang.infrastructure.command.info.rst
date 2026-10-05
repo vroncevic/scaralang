@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.info.info_command_definition
-   scaralang.infrastructure.command.info.info_command_executor
-   scaralang.infrastructure.command.info.info_command_executor_factory
+   scaralang.infrastructure.command.info.definition
+   scaralang.infrastructure.command.info.executor
+   scaralang.infrastructure.command.info.executor_factory
 
 Module contents
 ---------------

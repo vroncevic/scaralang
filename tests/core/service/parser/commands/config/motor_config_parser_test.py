@@ -27,6 +27,7 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.model.motor.axis_mask import AxisMask
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.model.motor.motor_interface_type import MotorInterfaceType
@@ -37,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -143,58 +144,58 @@ class TestMotorConfigParser(TestCase):
         )
 
     def test_parse_syntax_error_too_short(self) -> None:
-        '''Verifies ValueError on short CONFIG tokens.'''
+        '''Verifies ScaraSyntaxError on short CONFIG tokens.'''
         parser = MotorConfigParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='CONFIG', line=1, column=1),
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='MOTOR', line=1, column=8),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='CONFIG MOTOR')
 
     def test_parse_alias_syntax_error_too_short(self) -> None:
-        '''Verifies ValueError on short alias tokens.'''
+        '''Verifies ScaraSyntaxError on short alias tokens.'''
         parser = MotorConfigParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='CONFIG_MOTOR', line=1, column=1),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='CONFIG_MOTOR')
 
     def test_parse_unknown_property(self) -> None:
-        '''Verifies ValueError on unknown property under CONFIG.'''
+        '''Verifies ScaraSyntaxError on unknown property under CONFIG.'''
         parser = MotorConfigParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='CONFIG', line=1, column=1),
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='UNKNOWN', line=1, column=8),
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='CLOSED_LOOP', line=1, column=16),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='CONFIG UNKNOWN CLOSED_LOOP')
 
     def test_parse_unexpected_command(self) -> None:
-        '''Verifies ValueError on non-matching first keyword.'''
+        '''Verifies ScaraSyntaxError on non-matching first keyword.'''
         parser = MotorConfigParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='MOVE_L', line=1, column=1),
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='CLOSED_LOOP', line=1, column=8),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='MOVE_L CLOSED_LOOP')
 
     def test_parse_invalid_drive_mode(self) -> None:
-        '''Verifies ValueError on invalid drive mode keyword.'''
+        '''Verifies ScaraSyntaxError on invalid drive mode keyword.'''
         parser = MotorConfigParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='CONFIG', line=1, column=1),
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='MOTOR', line=1, column=8),
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='TURBO_LOOP', line=1, column=14),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='CONFIG MOTOR TURBO_LOOP')
 
     def test_parse_invalid_interface(self) -> None:
-        '''Verifies ValueError on invalid motor interface keyword.'''
+        '''Verifies ScaraSyntaxError on invalid motor interface keyword.'''
         parser = MotorConfigParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='CONFIG', line=1, column=1),
@@ -202,7 +203,7 @@ class TestMotorConfigParser(TestCase):
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='OPEN_LOOP', line=1, column=14),
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='ETHERNET', line=1, column=24),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='CONFIG MOTOR OPEN_LOOP ETHERNET')
 
 

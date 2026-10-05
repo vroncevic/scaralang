@@ -28,6 +28,7 @@ from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.dsl.macro.pallet_definition import PalletDefinition
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.service.transformation.iframe_transformer import IFrameTransformer
 
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -94,16 +95,27 @@ class PalletMacroExpander:
             :param instruction: Pallet instruction node.
             :param context: Active compiler context.
             :return: Tuple of resulting instructions.
-            :exceptions: KeyError if MOVE_PALLET references undefined pallet name.
+            :exceptions: ScaraSemanticError if PALLET_DEF has non-positive dimensions,
+                         MOVE_PALLET references undefined pallet, or index is out of bounds.
         '''
         params = instruction.parameters
         name: str = str(params.get(InstructionParam.NAME, 'DEFAULT')).upper()
 
         if instruction.command_type == ScaraCommandType.PALLET_DEF:
+            rows = int(params.get(InstructionParam.ROWS, 1))
+            cols = int(params.get(InstructionParam.COLS, 1))
+
+            if rows <= 0 or cols <= 0:
+                raise ScaraSemanticError(
+                    f'Error at line {instruction.line_number}: '
+                    f'Pallet {name!r} rows and cols must be greater than zero, '
+                    f'got rows={rows}, cols={cols}'
+                )
+
             pallet_def = PalletDefinition(
                 name=name,
-                rows=int(params.get(InstructionParam.ROWS, 1)),
-                cols=int(params.get(InstructionParam.COLS, 1)),
+                rows=rows,
+                cols=cols,
                 dx=float(params.get(InstructionParam.DX, 20.0)),
                 dy=float(params.get(InstructionParam.DY, 20.0)),
                 start=Point2D(
@@ -120,13 +132,22 @@ class PalletMacroExpander:
             return ()
 
         if name not in context.pallets:
-            raise KeyError(
+            raise ScaraSemanticError(
                 f'Error at line {instruction.line_number}: '
                 f'Pallet {name!r} is not defined before MOVE_PALLET'
             )
 
         pallet_def = context.pallets[name]
         index = int(params.get(InstructionParam.INDEX, 0))
+        max_cells: int = pallet_def.rows * pallet_def.cols
+
+        if index < 0 or index >= max_cells:
+            raise ScaraSemanticError(
+                f'Error at line {instruction.line_number}: '
+                f'Pallet index {index} out of bounds for pallet {name!r} '
+                f'(capacity: {max_cells} cells, valid range: 0..{max_cells - 1})'
+            )
+
         local_x = pallet_def.start.x + (index % pallet_def.cols) * pallet_def.dx
         local_y = pallet_def.start.y + (index // pallet_def.cols) * pallet_def.dy
         transformed_point = self._frame_transformer.transform_point(

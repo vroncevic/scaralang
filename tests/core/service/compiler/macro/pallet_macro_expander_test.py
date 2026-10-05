@@ -27,6 +27,7 @@ from unittest import main
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.service.transformation.frame_transformer_factory import FrameTransformerFactory
 from scaralang.core.service.compiler.macro.imacro_expander import IMacroExpander
 from scaralang.core.service.compiler.macro.pallet_macro_expander import PalletMacroExpander
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,6 +55,8 @@ class TestPalletMacroExpander(TestCase):
                 | test_expand_pallet_def - Verifies pallet definition registration.
                 | test_expand_move_pallet - Verifies expanding MOVE_PALLET into MOVE_L.
                 | test_expand_move_pallet_undefined - Verifies error on undefined pallet.
+                | test_expand_pallet_def_invalid_dimensions - Verifies error on non-positive rows or cols.
+                | test_expand_move_pallet_out_of_bounds - Verifies error on out-of-bounds cell index.
     '''
 
     def setUp(self) -> None:
@@ -158,7 +161,7 @@ class TestPalletMacroExpander(TestCase):
 
     def test_expand_move_pallet_undefined(self) -> None:
         '''
-            Verifies KeyError is raised when MOVE_PALLET references unknown pallet.
+            Verifies ScaraSemanticError is raised when MOVE_PALLET references unknown pallet.
         '''
         context = ScaraCompilerContext()
         move_inst = ScaraInstruction(
@@ -167,7 +170,43 @@ class TestPalletMacroExpander(TestCase):
             line_number=5,
             raw_text='MOVE_PALLET NAME=UNKNOWN INDEX=0',
         )
-        with self.assertRaises(KeyError):
+        with self.assertRaises(ScaraSemanticError):
+            self.expander.expand(instruction=move_inst, context=context)
+
+    def test_expand_pallet_def_invalid_dimensions(self) -> None:
+        '''
+            Verifies ScaraSemanticError is raised when rows or cols are non-positive.
+        '''
+        context = ScaraCompilerContext()
+        inst = ScaraInstruction(
+            command_type=ScaraCommandType.PALLET_DEF,
+            parameters={'NAME': 'BAD', 'ROWS': 0, 'COLS': 2},
+            line_number=1,
+            raw_text='PALLET_DEF NAME=BAD ROWS=0 COLS=2',
+        )
+        with self.assertRaises(ScaraSemanticError):
+            self.expander.expand(instruction=inst, context=context)
+
+    def test_expand_move_pallet_out_of_bounds(self) -> None:
+        '''
+            Verifies ScaraSemanticError is raised when cell index is out of bounds.
+        '''
+        context = ScaraCompilerContext()
+        def_inst = ScaraInstruction(
+            command_type=ScaraCommandType.PALLET_DEF,
+            parameters={'NAME': 'GRID', 'ROWS': 2, 'COLS': 2},
+            line_number=1,
+            raw_text='PALLET_DEF NAME=GRID ROWS=2 COLS=2',
+        )
+        self.expander.expand(instruction=def_inst, context=context)
+
+        move_inst = ScaraInstruction(
+            command_type=ScaraCommandType.MOVE_PALLET,
+            parameters={'NAME': 'GRID', 'INDEX': 4},
+            line_number=2,
+            raw_text='MOVE_PALLET NAME=GRID INDEX=4',
+        )
+        with self.assertRaises(ScaraSemanticError):
             self.expander.expand(instruction=move_inst, context=context)
 
 

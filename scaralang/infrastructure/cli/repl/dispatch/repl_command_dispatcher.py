@@ -25,13 +25,13 @@ from typing import Final
 
 from scaralang.core.model.repl.repl_dispatch_result import ReplDispatchResult
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
-from scaralang.core.service.info.itoolchain_info_provider import IToolchainInfoProvider
+from scaralang.core.service.info.iscara_info_provider import IScaraInfoProvider
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,12 +53,12 @@ class ReplCommandDispatcher:
                 | format_pose - Returns formatted Cartesian pose string.
     '''
 
-    _info_provider: IToolchainInfoProvider
+    _info_provider: IScaraInfoProvider
 
     def __init__(
         self,
         *,
-        info_provider: IToolchainInfoProvider,
+        info_provider: IScaraInfoProvider,
     ) -> None:
         '''
             Initializes REPL command dispatcher with injected collaborators.
@@ -66,7 +66,7 @@ class ReplCommandDispatcher:
             :param info_provider: Injected toolchain metadata and instruction provider.
             :exceptions: None.
         '''
-        self._info_provider: Final[IToolchainInfoProvider] = info_provider
+        self._info_provider: Final[IScaraInfoProvider] = info_provider
 
     def dispatch_line(
         self,

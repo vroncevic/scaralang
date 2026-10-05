@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,7 +74,7 @@ class TestControlWaypointBuilder(TestCase):
         '''
             Verifies builder get_version returns semantic version string.
         '''
-        self.assertEqual(self.builder.get_version(), '1.0.3')
+        self.assertEqual(self.builder.get_version(), '1.0.4')
 
     def test_build_waypoint_context_defaults(self) -> None:
         '''

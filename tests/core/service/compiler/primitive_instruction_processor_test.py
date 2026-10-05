@@ -28,6 +28,7 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
 from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.service.compiler.iprimitive_instruction_processor import IPrimitiveInstructionProcessor
 from scaralang.core.service.compiler.primitive.iprimitive_compiler import IPrimitiveCompiler
 from scaralang.core.service.compiler.primitive.tool.tool_command_compiler_factory import ToolCommandCompilerFactory
@@ -37,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -76,7 +77,7 @@ class TestPrimitiveInstructionProcessor(TestCase):
         '''
             Verifies processor get_version returns semantic version string.
         '''
-        self.assertEqual(self.processor.get_version(), '1.0.3')
+        self.assertEqual(self.processor.get_version(), '1.0.4')
 
     def test_process_matched_instruction(self) -> None:
         '''
@@ -97,7 +98,7 @@ class TestPrimitiveInstructionProcessor(TestCase):
 
     def test_process_unmatched_instruction(self) -> None:
         '''
-            Verifies that unhandled instruction raises ValueError.
+            Verifies that unhandled instruction raises ScaraSemanticError.
         '''
         instruction = ScaraInstruction(
             command_type=ScaraCommandType.MOVE_L,
@@ -105,7 +106,7 @@ class TestPrimitiveInstructionProcessor(TestCase):
             line_number=2,
             raw_text='MOVE_L X=100 Y=100',
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSemanticError):
             self.processor.process_primitive(
                 instruction=instruction,
                 context=self.context,

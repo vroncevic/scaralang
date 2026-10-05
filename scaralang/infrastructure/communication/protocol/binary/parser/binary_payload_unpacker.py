@@ -24,6 +24,7 @@ from __future__ import annotations
 from struct import unpack
 from typing import ClassVar
 
+from scaralang.core.model.exceptions.scara_protocol_error import ScaraProtocolError
 from scaralang.core.model.motor.axis_mask import AxisMask
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.infrastructure.communication.protocol.binary.binary_struct_format import BinaryStructFormat
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -81,7 +82,13 @@ class BinaryPayloadUnpacker:
 
             :param data: Input raw binary bytes.
             :return: Tuple containing (tool_id, state).
+            :exceptions: ScaraProtocolError if data is less than 2 bytes.
         '''
+        if len(data) < 2:
+            raise ScaraProtocolError(
+                f'TOOL_CMD payload too short: expected at least 2 bytes, got {len(data)}'
+            )
+
         values: tuple[int, int] = unpack(cls.TOOL_CMD_FORMAT, data[:2])
 
         return values[0], bool(values[1])
@@ -94,7 +101,13 @@ class BinaryPayloadUnpacker:
 
             :param data: Input raw binary bytes.
             :return: JointSteps instance.
+            :exceptions: ScaraProtocolError if data is less than 22 bytes.
         '''
+        if len(data) < 22:
+            raise ScaraProtocolError(
+                f'JOINT_STEPS payload too short: expected at least 22 bytes, got {len(data)}'
+            )
+
         values: tuple[int, int, int, int, int, int] = unpack(
             cls.JOINT_STEPS_FORMAT, data[:22]
         )
@@ -115,7 +128,13 @@ class BinaryPayloadUnpacker:
 
             :param data: Input raw binary bytes.
             :return: Tuple containing (acked_message_id, queue_depth).
+            :exceptions: ScaraProtocolError if data is less than 2 bytes.
         '''
+        if len(data) < 2:
+            raise ScaraProtocolError(
+                f'ACK payload too short: expected at least 2 bytes, got {len(data)}'
+            )
+
         values: tuple[int, int] = unpack(cls.ACK_FORMAT, data[:2])
 
         return values[0], values[1]
@@ -127,7 +146,13 @@ class BinaryPayloadUnpacker:
 
             :param data: Input raw binary bytes.
             :return: Tuple containing (rejected_message_id, error_code).
+            :exceptions: ScaraProtocolError if data is less than 2 bytes.
         '''
+        if len(data) < 2:
+            raise ScaraProtocolError(
+                f'NACK payload too short: expected at least 2 bytes, got {len(data)}'
+            )
+
         values: tuple[int, int] = unpack(cls.NACK_FORMAT, data[:2])
 
         return values[0], values[1]

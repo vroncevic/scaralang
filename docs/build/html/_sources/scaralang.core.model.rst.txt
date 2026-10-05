@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    scaralang.core.model.dsl
+   scaralang.core.model.exceptions
    scaralang.core.model.kinematics
    scaralang.core.model.motor
    scaralang.core.model.protocol

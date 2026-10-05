@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scaralang.infrastructure.command.decompile.error.decompile_error_handler &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/classic.css?v=514cf933" />
+    
+    <script src="../../../../../../_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../../index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.command.decompile.error.decompile_error_handler</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scaralang.infrastructure.command.decompile.error.decompile_error_handler</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: UTF-8 -*-</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Module</span>
+<span class="sd">    decompile_error_handler.py</span>
+<span class="sd">Copyright</span>
+<span class="sd">    Copyright (C) 2026 Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;</span>
+<span class="sd">    scaralang is free software: you can redistribute it and/or modify it</span>
+<span class="sd">    under the terms of the GNU General Public License as published by the</span>
+<span class="sd">    Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd">    (at your option) any later version.</span>
+<span class="sd">    scaralang is distributed in the hope that it will be useful, but</span>
+<span class="sd">    WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
+<span class="sd">    See the GNU General Public License for more details.</span>
+<span class="sd">    You should have received a copy of the GNU General Public License along</span>
+<span class="sd">    with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">Info</span>
+<span class="sd">    Defines DecompileErrorHandler providing structured error reporting and exit codes.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_error</span> <span class="kn">import</span> <span class="n">ScaraError</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_export_error</span> <span class="kn">import</span> <span class="n">ScaraExportError</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_kinematics_error</span> <span class="kn">import</span> <span class="n">ScaraKinematicsError</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_protocol_error</span> <span class="kn">import</span> <span class="n">ScaraProtocolError</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_semantic_error</span> <span class="kn">import</span> <span class="n">ScaraSemanticError</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_syntax_error</span> <span class="kn">import</span> <span class="n">ScaraSyntaxError</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.4&#39;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
+
+
+<div class="viewcode-block" id="DecompileErrorHandler">
+<a class="viewcode-back" href="../../../../../../scaralang.infrastructure.command.decompile.error.decompile_error_handler.html#scaralang.infrastructure.command.decompile.error.decompile_error_handler.DecompileErrorHandler">[docs]</a>
+<span class="k">class</span> <span class="nc">DecompileErrorHandler</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Handles diagnostic formatting and exit code resolution for decompile errors.</span>
+
+<span class="sd">        It defines:</span>
+
+<span class="sd">            :methods:</span>
+<span class="sd">                | format_error - Formats structured diagnostic message from an error.</span>
+<span class="sd">                | format_file_missing - Formats missing binary file error message.</span>
+<span class="sd">                | resolve_return_code - Resolves CLI return code for an error.</span>
+<span class="sd">                | get_version - Returns the error handler version string.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="DecompileErrorHandler.format_error">
+<a class="viewcode-back" href="../../../../../../scaralang.infrastructure.command.decompile.error.decompile_error_handler.html#scaralang.infrastructure.command.decompile.error.decompile_error_handler.DecompileErrorHandler.format_error">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Formats structured diagnostic message from a caught exception.</span>
+
+<span class="sd">            :param error: The caught exception.</span>
+<span class="sd">            :return: Formatted error diagnostic string.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">ScaraSyntaxError</span><span class="p">):</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;[SYNTAX] &#39;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">ScaraSemanticError</span><span class="p">):</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;[SEMANTIC] &#39;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">ScaraKinematicsError</span><span class="p">):</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;[KINEMATICS] &#39;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">ScaraProtocolError</span><span class="p">):</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;[PROTOCOL] &#39;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">ScaraExportError</span><span class="p">):</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;[EXPORT] &#39;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">ScaraError</span><span class="p">):</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;[DOMAIN] &#39;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;[IO] &#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;decompile error: </span><span class="si">{</span><span class="n">tag</span><span class="si">}{</span><span class="n">error</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="DecompileErrorHandler.format_file_missing">
+<a class="viewcode-back" href="../../../../../../scaralang.infrastructure.command.decompile.error.decompile_error_handler.html#scaralang.infrastructure.command.decompile.error.decompile_error_handler.DecompileErrorHandler.format_file_missing">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_file_missing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Formats missing binary file error message.</span>
+
+<span class="sd">            :param path: The missing binary file path.</span>
+<span class="sd">            :return: Formatted missing file error string.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;decompile_command_executor: binary file does not exist: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="DecompileErrorHandler.resolve_return_code">
+<a class="viewcode-back" href="../../../../../../scaralang.infrastructure.command.decompile.error.decompile_error_handler.html#scaralang.infrastructure.command.decompile.error.decompile_error_handler.DecompileErrorHandler.resolve_return_code">[docs]</a>
+    <span class="k">def</span> <span class="nf">resolve_return_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Resolves CLI process exit code for an exception.</span>
+
+<span class="sd">            :param error: The caught exception.</span>
+<span class="sd">            :return: Integer exit code.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">error</span>
+        <span class="k">return</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="DecompileErrorHandler.get_version">
+<a class="viewcode-back" href="../../../../../../scaralang.infrastructure.command.decompile.error.decompile_error_handler.html#scaralang.infrastructure.command.decompile.error.decompile_error_handler.DecompileErrorHandler.get_version">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Returns the error handler version string.</span>
+
+<span class="sd">            :return: Version string representation.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">__version__</span></div>
+</div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../../index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.command.decompile.error.decompile_error_handler</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

@@ -59,27 +59,17 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.binary_compiler_factory</span> <span class="kn">import</span> <span class="n">BinaryCompilerFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.command.command_compiler_factory</span> <span class="kn">import</span> <span class="n">CommandCompilerFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.ibinary_compiler</span> <span class="kn">import</span> <span class="n">IBinaryCompiler</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.metrics.binary_metrics_calculator_factory</span> <span class="kn">import</span> <span class="n">BinaryMetricsCalculatorFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.motion.motion_compiler_factory</span> <span class="kn">import</span> <span class="n">MotionCompilerFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.step_discretizer_factory</span> <span class="kn">import</span> <span class="n">StepDiscretizerFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.waypoint_step_dispatcher_factory</span> <span class="kn">import</span> <span class="n">WaypointStepDispatcherFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.iscara_dsl_binary_compiler</span> <span class="kn">import</span> <span class="n">IScaraDslBinaryCompiler</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.iscara_dsl_compiler</span> <span class="kn">import</span> <span class="n">IScaraDslCompiler</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler</span> <span class="kn">import</span> <span class="n">ScaraDslBinaryCompiler</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraDslCompilerFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.default_scara_profile</span> <span class="kn">import</span> <span class="n">DefaultScaraProfile</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.kinematics_service_factory</span> <span class="kn">import</span> <span class="n">KinematicsServiceFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.transmission.joint_step_transmission_converter_factory</span> <span class="kn">import</span> <span class="n">JointStepTransmissionConverterFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory</span> <span class="kn">import</span> <span class="n">BinaryFrameBuilderFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.scara_compiler_factory</span> <span class="kn">import</span> <span class="n">ScaraCompilerFactory</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.4&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -132,38 +122,7 @@
 <span class="sd">            :return: Fully configured IScaraDslBinaryCompiler protocol instance.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">bounds</span> <span class="o">=</span> <span class="n">DefaultScaraProfile</span><span class="o">.</span><span class="n">create_bounds</span><span class="p">()</span>
-        <span class="n">kinematics</span> <span class="o">=</span> <span class="n">KinematicsServiceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
-        <span class="n">transmission</span> <span class="o">=</span> <span class="n">DefaultScaraProfile</span><span class="o">.</span><span class="n">create_transmission</span><span class="p">()</span>
-        <span class="n">frame_builder</span> <span class="o">=</span> <span class="n">BinaryFrameBuilderFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
-
-        <span class="n">transmission_converter</span> <span class="o">=</span> <span class="n">JointStepTransmissionConverterFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">transmission</span><span class="o">=</span><span class="n">transmission</span>
-        <span class="p">)</span>
-        <span class="n">discretizer</span> <span class="o">=</span> <span class="n">StepDiscretizerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">kinematics</span><span class="o">=</span><span class="n">kinematics</span><span class="p">,</span>
-            <span class="n">transmission</span><span class="o">=</span><span class="n">transmission_converter</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">motion_compiler</span> <span class="o">=</span> <span class="n">MotionCompilerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">discretizer</span><span class="o">=</span><span class="n">discretizer</span><span class="p">,</span>
-            <span class="n">frame_builder</span><span class="o">=</span><span class="n">frame_builder</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">step_dispatcher</span> <span class="o">=</span> <span class="n">WaypointStepDispatcherFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">command_compiler</span><span class="o">=</span><span class="n">CommandCompilerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-                <span class="n">frame_builder</span><span class="o">=</span><span class="n">frame_builder</span>
-            <span class="p">),</span>
-            <span class="n">motion_compiler</span><span class="o">=</span><span class="n">motion_compiler</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">binary_compiler</span> <span class="o">=</span> <span class="n">BinaryCompilerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">step_dispatcher</span><span class="o">=</span><span class="n">step_dispatcher</span><span class="p">,</span>
-            <span class="n">metrics_calculator</span><span class="o">=</span><span class="n">BinaryMetricsCalculatorFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(),</span>
-        <span class="p">)</span>
-        <span class="n">dsl_compiler</span> <span class="o">=</span> <span class="n">ScaraDslCompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">ScaraDslBinaryCompiler</span><span class="p">(</span>
-            <span class="n">compiler</span><span class="o">=</span><span class="n">dsl_compiler</span><span class="p">,</span>
-            <span class="n">binary_compiler</span><span class="o">=</span><span class="n">binary_compiler</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">ScaraCompilerFactory</span><span class="o">.</span><span class="n">create_default</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ScaraDslBinaryCompilerFactory.get_version">

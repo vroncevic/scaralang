@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,6 +55,7 @@ class TestBinaryFrameAssembler(TestCase):
                 | test_assemble_valid_frame - Verifies assembly with valid CRC.
                 | test_assemble_corrupted_crc - Verifies rejection of invalid CRC.
                 | test_assemble_empty_payload - Verifies assembly with zero-length payload.
+                | test_assemble_invalid_message_id - Verifies rejection of invalid message ID.
     '''
 
     def setUp(self) -> None:
@@ -142,6 +143,24 @@ class TestBinaryFrameAssembler(TestCase):
     def test_name(self) -> None:
         '''Verifies name property returns assembler identifier.'''
         self.assertEqual(self.assembler.name, 'binary_frame_assembler')
+
+    def test_assemble_invalid_message_id(self) -> None:
+        '''Verifies assembler returns None when message ID is invalid.'''
+        invalid_msg_id: int = 0xFF
+        seq_num: int = 1
+        payload: bytes = b''
+        header: bytes = pack(str(BinaryStructFormat.HEADER), invalid_msg_id, seq_num, 0)
+        expected_crc: int = Crc16Ccitt.calculate(header + payload)
+        crc_lo: int = expected_crc & 0xFF
+        crc_hi: int = (expected_crc >> 8) & 0xFF
+
+        frame = self.assembler.assemble(
+            msg_id=invalid_msg_id,
+            seq_num=seq_num,
+            payload=payload,
+            crc_bytes=(crc_lo, crc_hi),
+        )
+        self.assertIsNone(frame)
 
 
 if __name__ == '__main__':

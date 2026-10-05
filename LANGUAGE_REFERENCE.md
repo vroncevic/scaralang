@@ -1,6 +1,6 @@
 # SCARA Domain-Specific Language (DSL) Specification & Reference Manual
 
-**Version:** 1.0.3  
+**Version:** 1.0.4  
 **Target:** Industrial SCARA Robotic Manipulators  
 **Toolchain:** `scaralang` (`scarac` compiler, decompiler & binary protocol engine)  
 **Author:** Vladimir Roncevic  

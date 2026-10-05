@@ -63,6 +63,8 @@
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction</span> <span class="kn">import</span> <span class="n">ScaraInstruction</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">InstructionParam</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.token.scara_token</span> <span class="kn">import</span> <span class="n">ScaraToken</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_semantic_error</span> <span class="kn">import</span> <span class="n">ScaraSemanticError</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_syntax_error</span> <span class="kn">import</span> <span class="n">ScaraSyntaxError</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.motor.axis_mask</span> <span class="kn">import</span> <span class="n">AxisMask</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.motor.motor_config</span> <span class="kn">import</span> <span class="n">MotorConfig</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.motor.motor_drive_mode</span> <span class="kn">import</span> <span class="n">MotorDriveMode</span>
@@ -73,7 +75,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.4&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -140,7 +142,7 @@
 <span class="sd">            :param line_num: Line number in source code.</span>
 <span class="sd">            :param raw_text: Original statement text.</span>
 <span class="sd">            :return: ScaraInstruction node.</span>
-<span class="sd">            :exceptions: ValueError on invalid motor configuration syntax.</span>
+<span class="sd">            :exceptions: ScaraSyntaxError on invalid motor configuration syntax.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">first_kw</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="n">raw_val</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -148,7 +150,7 @@
 
         <span class="k">if</span> <span class="n">first_kw</span> <span class="o">==</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s1">&#39;Invalid CONFIG syntax at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">. &#39;</span>
                     <span class="sa">f</span><span class="s1">&#39;Expected: CONFIG MOTOR &lt;OPEN_LOOP|CLOSED_LOOP&gt; [INTERFACE]&#39;</span>
                 <span class="p">)</span>
@@ -156,7 +158,7 @@
             <span class="n">sub</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="n">sub</span> <span class="o">!=</span> <span class="s1">&#39;MOTOR&#39;</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s1">&#39;Unknown CONFIG property </span><span class="si">{</span><span class="n">sub</span><span class="si">!r}</span><span class="s1"> at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">&#39;</span>
                 <span class="p">)</span>
 
@@ -167,7 +169,7 @@
 
         <span class="k">elif</span> <span class="n">first_kw</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG_MOTOR</span><span class="p">,</span> <span class="s1">&#39;MOTOR_MODE&#39;</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s1">&#39;Invalid </span><span class="si">{</span><span class="n">first_kw</span><span class="si">}</span><span class="s1"> syntax at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">. &#39;</span>
                     <span class="sa">f</span><span class="s1">&#39;Expected: </span><span class="si">{</span><span class="n">first_kw</span><span class="si">}</span><span class="s1"> &lt;OPEN_LOOP|CLOSED_LOOP&gt; [INTERFACE]&#39;</span>
                 <span class="p">)</span>
@@ -178,14 +180,14 @@
                 <span class="n">raw_iface</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Unexpected command </span><span class="si">{</span><span class="n">first_kw</span><span class="si">!r}</span><span class="s1"> for motor config at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="p">)</span>
 
         <span class="n">norm_val</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">raw_val</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">MotorConfigFactory</span><span class="o">.</span><span class="n">is_valid_drive_mode</span><span class="p">(</span><span class="n">norm_val</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Invalid motor drive mode </span><span class="si">{</span><span class="n">raw_val</span><span class="si">!r}</span><span class="s1"> at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">. &#39;</span>
                 <span class="sa">f</span><span class="s1">&#39;Must be OPEN_LOOP or CLOSED_LOOP&#39;</span>
             <span class="p">)</span>
@@ -197,8 +199,8 @@
                 <span class="n">mode</span><span class="o">=</span><span class="n">drive_mode</span><span class="p">,</span> <span class="n">raw_interface</span><span class="o">=</span><span class="n">raw_iface</span><span class="p">,</span>
             <span class="p">)</span>
 
-        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">ScaraSemanticError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Invalid motor interface </span><span class="si">{</span><span class="n">raw_iface</span><span class="si">!r}</span><span class="s1"> at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">. &#39;</span>
                 <span class="sa">f</span><span class="s1">&#39;Must be STEP_DIR, CAN_BUS, or SERIAL&#39;</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>

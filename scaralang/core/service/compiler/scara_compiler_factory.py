@@ -16,36 +16,32 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Factory instantiating and wiring ScaraCompiler with validators and instruction pipeline.
+    Factory instantiating ScaraCompiler instances.
 '''
 
 from __future__ import annotations
 
-from scaralang.core.service.compiler.iinstruction_pipeline import IInstructionPipeline
-from scaralang.core.service.compiler.instruction_pipeline_factory import InstructionPipelineFactory
+from scaralang.core.service.compiler.binary.binary_compiler_factory import BinaryCompilerFactory
+from scaralang.core.service.compiler.binary.command.command_compiler_factory import CommandCompilerFactory
+from scaralang.core.service.compiler.binary.ibinary_compiler import IBinaryCompiler
+from scaralang.core.service.compiler.binary.metrics.binary_metrics_calculator_factory import BinaryMetricsCalculatorFactory
+from scaralang.core.service.compiler.binary.motion.motion_compiler_factory import MotionCompilerFactory
+from scaralang.core.service.compiler.binary.step.step_discretizer_factory import StepDiscretizerFactory
+from scaralang.core.service.compiler.binary.step.waypoint_step_dispatcher_factory import WaypointStepDispatcherFactory
+from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
+from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
 from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
-from scaralang.core.service.compiler.macro.frame_macro_expander_factory import FrameMacroExpanderFactory
-from scaralang.core.service.compiler.macro.imacro_expander import IMacroExpander
-from scaralang.core.service.compiler.macro.itangent_macro_expander import ITangentMacroExpander
-from scaralang.core.service.compiler.macro.jump_macro_expander_factory import JumpMacroExpanderFactory
-from scaralang.core.service.compiler.macro.pallet_macro_expander_factory import PalletMacroExpanderFactory
-from scaralang.core.service.compiler.macro.tangent_macro_expander_factory import TangentMacroExpanderFactory
-from scaralang.core.service.compiler.motion.arc.interpolation.arc_interpolator_factory import ArcInterpolatorFactory
-from scaralang.core.service.compiler.motion.motion_command_compiler_factory import MotionCommandCompilerFactory
-from scaralang.core.service.compiler.primitive.control.control_command_compiler_factory import ControlCommandCompilerFactory
-from scaralang.core.service.compiler.primitive.iprimitive_compiler import IPrimitiveCompiler
-from scaralang.core.service.compiler.primitive.state.state_command_compiler_factory import StateCommandCompilerFactory
-from scaralang.core.service.compiler.primitive.tool.tool_command_compiler_factory import ToolCommandCompilerFactory
 from scaralang.core.service.compiler.scara_compiler import ScaraCompiler
-from scaralang.core.service.trajectory.plan.itrajectory_plan_factory import ITrajectoryPlanFactory
-from scaralang.core.service.trajectory.plan.trajectory_plan_factory import TrajectoryPlanFactory
-from scaralang.core.service.trajectory.validation.itrajectory_validator import ITrajectoryValidator
+from scaralang.core.service.kinematics.default_scara_profile import DefaultScaraProfile
+from scaralang.core.service.kinematics.kinematics_service_factory import KinematicsServiceFactory
+from scaralang.core.service.kinematics.transmission.joint_step_transmission_converter_factory import JointStepTransmissionConverterFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,13 +49,13 @@ __status__ = 'Updated'
 
 class ScaraCompilerFactory:
     '''
-        Factory providing wired IScaraCompiler instances.
+        Factory providing ScaraCompiler service instances.
 
         It defines:
 
             :methods:
-                | create - Builds and wires ScaraCompiler with collaborators.
-                | create_with_collaborators - Builds ScaraCompiler with injected collaborators.
+                | create - Instantiates ScaraCompiler with injected delegates.
+                | create_default - Instantiates ScaraCompiler with standard defaults.
                 | get_version - Returns factory version string.
     '''
 
@@ -67,67 +63,61 @@ class ScaraCompilerFactory:
     def create(
         cls,
         *,
-        validator: ITrajectoryValidator,
+        compiler: IScaraDslCompiler,
+        binary_compiler: IBinaryCompiler,
     ) -> IScaraCompiler:
         '''
-            Builds and wires ScaraCompiler with internal collaborators.
+            Instantiates a configured ScaraCompiler service.
 
-            :param validator: Injected ITrajectoryValidator instance.
-            :return: IScaraCompiler structural protocol instance.
+            :param compiler: Required IScaraDslCompiler protocol instance.
+            :param binary_compiler: Required IBinaryCompiler protocol instance.
+            :return: Fully configured IScaraCompiler protocol instance.
             :exceptions: None.
         '''
-        active_tangent: ITangentMacroExpander = TangentMacroExpanderFactory.create()
-        active_motion = MotionCommandCompilerFactory.create_with_helpers(
-            tangent_helper=active_tangent,
-            arc_interpolator=ArcInterpolatorFactory.create(),
-        )
-
-        active_expanders: tuple[IMacroExpander, ...] = (
-            JumpMacroExpanderFactory.create(),
-            FrameMacroExpanderFactory.create(),
-            PalletMacroExpanderFactory.create(),
-            active_tangent,
-        )
-
-        active_compilers: tuple[IPrimitiveCompiler, ...] = (
-            StateCommandCompilerFactory.create(),
-            ToolCommandCompilerFactory.create(),
-            ControlCommandCompilerFactory.create(),
-            active_motion,
-        )
-
-        pipeline = InstructionPipelineFactory.create(
-            macro_expanders=active_expanders,
-            primitive_compilers=active_compilers,
-        )
-
         return ScaraCompiler(
-            validator=validator,
-            instruction_pipeline=pipeline,
-            plan_factory=TrajectoryPlanFactory(),
+            compiler=compiler,
+            binary_compiler=binary_compiler,
         )
 
     @classmethod
-    def create_with_collaborators(
-        cls,
-        *,
-        validator: ITrajectoryValidator,
-        instruction_pipeline: IInstructionPipeline,
-        plan_factory: ITrajectoryPlanFactory,
-    ) -> IScaraCompiler:
+    def create_default(cls) -> IScaraCompiler:
         '''
-            Builds ScaraCompiler with injected collaborators.
+            Builds and returns an IScaraCompiler with standard defaults.
 
-            :param validator: Injected ITrajectoryValidator instance.
-            :param instruction_pipeline: Injected IInstructionPipeline instance.
-            :param plan_factory: Injected ITrajectoryPlanFactory instance.
-            :return: IScaraCompiler structural protocol instance.
+            :return: Fully configured IScaraCompiler protocol instance.
             :exceptions: None.
         '''
+        bounds = DefaultScaraProfile.create_bounds()
+        kinematics = KinematicsServiceFactory.create(bounds=bounds)
+        transmission = DefaultScaraProfile.create_transmission()
+        frame_builder = BinaryFrameBuilderFactory.create()
+
+        transmission_converter = JointStepTransmissionConverterFactory.create(
+            transmission=transmission
+        )
+        discretizer = StepDiscretizerFactory.create(
+            kinematics=kinematics,
+            transmission=transmission_converter,
+        )
+        motion_compiler = MotionCompilerFactory.create(
+            discretizer=discretizer,
+            frame_builder=frame_builder,
+        )
+        step_dispatcher = WaypointStepDispatcherFactory.create(
+            command_compiler=CommandCompilerFactory.create(
+                frame_builder=frame_builder
+            ),
+            motion_compiler=motion_compiler,
+        )
+        binary_compiler = BinaryCompilerFactory.create(
+            step_dispatcher=step_dispatcher,
+            metrics_calculator=BinaryMetricsCalculatorFactory.create(),
+        )
+        dsl_compiler = ScaraDslCompilerFactory.create_default()
+
         return ScaraCompiler(
-            validator=validator,
-            instruction_pipeline=instruction_pipeline,
-            plan_factory=plan_factory,
+            compiler=dsl_compiler,
+            binary_compiler=binary_compiler,
         )
 
     @classmethod

@@ -33,6 +33,7 @@ from ats_utilities.context.factory import ContextBundleFactory
 from ats_utilities.exceptions.ats_type_error import ATSTypeError
 from ats_utilities.exceptions.ats_value_error import ATSValueError
 
+from scaralang.core.model.exceptions.scara_error import ScaraError
 from scaralang.infrastructure.cli.engine import CLI
 from scaralang.infrastructure.cli.setup.factory import CLIBundleFactory
 from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
@@ -41,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -66,6 +67,7 @@ class TestCLI(TestCase):
                 | test_cli_run_success - Verifies run() delegating to executor.
                 | test_cli_run_ats_error - Verifies run() handling ATS exceptions.
                 | test_cli_run_unexpected_error - Verifies run() handling unexpected errors.
+                | test_cli_run_scara_error - Verifies run() handling ScaraError.
                 | test_cli_invalid_bundle - Verifies initialization error on invalid bundle.
     '''
 
@@ -120,6 +122,13 @@ class TestCLI(TestCase):
         res = self.cli.run()
         self.assertEqual(res.get('returncode'), 1)
         self.assertIn('Unexpected error', str(res.get('stderr')))
+
+    def test_cli_run_scara_error(self) -> None:
+        '''Verifies run catches ScaraError exceptions and returns error dict.'''
+        self.parser.parse_command = MagicMock(side_effect=ScaraError('Scara domain error'))
+        res = self.cli.run()
+        self.assertEqual(res.get('returncode'), 1)
+        self.assertIn('Scara domain error', str(res.get('stderr')))
 
     def test_cli_invalid_bundle(self) -> None:
         '''Verifies constructor raises ATS exceptions on invalid bundle object.'''

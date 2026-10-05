@@ -25,13 +25,14 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.model.kinematics.elbow_config import ElbowConfig
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -90,24 +91,24 @@ class ElbowConfigParser:
             :param line_num: Line number in source code.
             :param raw_text: Original statement text.
             :return: ScaraInstruction node.
-            :exceptions: ValueError on invalid elbow configuration syntax.
+            :exceptions: ScaraSyntaxError on invalid elbow configuration syntax.
         '''
         if len(tokens) < 3:
-            raise ValueError(
+            raise ScaraSyntaxError(
                 f'Invalid CONFIG syntax at line {line_num}. Expected: CONFIG ELBOW <LEFT|RIGHT>'
             )
 
         sub: str = tokens[1].value.upper()
 
         if sub != 'ELBOW':
-            raise ValueError(
+            raise ScaraSyntaxError(
                 f'Unknown CONFIG property {sub!r} at line {line_num}'
             )
 
         val: str = tokens[2].value.upper()
 
         if val not in (ElbowConfig.LEFT, ElbowConfig.RIGHT):
-            raise ValueError(
+            raise ScaraSyntaxError(
                 f'Invalid elbow configuration {val!r} at line {line_num}. Must be LEFT or RIGHT'
             )
 

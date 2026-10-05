@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from math import cos, pi, sin
 
+from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.circle_geometry import CircleGeometry
 from scaralang.core.model.trajectory.waypoint import Waypoint
@@ -31,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -93,8 +94,18 @@ class ShapeDiscretizer:
 
             :param geometry: CircleGeometry model encapsulating circle parameters.
             :return: List of Waypoint instances.
-            :exceptions: None.
+            :exceptions: ScaraKinematicsError if steps <= 0 or radius <= 0.
         '''
+        if geometry.steps <= 0:
+            raise ScaraKinematicsError(
+                f'Circle discretization steps must be greater than zero, got {geometry.steps}'
+            )
+
+        if geometry.radius <= 0:
+            raise ScaraKinematicsError(
+                f'Circle radius must be greater than zero, got {geometry.radius}'
+            )
+
         pts: list[Waypoint] = []
         center = geometry.center
         radius = geometry.radius

@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   scaralang.infrastructure.command.disassemble.error
    scaralang.infrastructure.command.disassemble.format
 
 Submodules
@@ -15,9 +16,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.disassemble.disassemble_command_definition
-   scaralang.infrastructure.command.disassemble.disassemble_command_executor
-   scaralang.infrastructure.command.disassemble.disassemble_command_executor_factory
+   scaralang.infrastructure.command.disassemble.definition
+   scaralang.infrastructure.command.disassemble.executor
+   scaralang.infrastructure.command.disassemble.executor_factory
 
 Module contents
 ---------------

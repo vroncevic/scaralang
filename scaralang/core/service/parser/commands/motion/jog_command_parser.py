@@ -26,12 +26,13 @@ from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.ast.jog_axis import JogAxis
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -90,12 +91,12 @@ class JogCommandParser:
             :param line_num: Line number in source code.
             :param raw_text: Original statement text.
             :return: ScaraInstruction node.
-            :exceptions: ValueError on missing jog arguments.
+            :exceptions: ScaraSyntaxError on missing or invalid jog arguments.
         '''
         cmd: str = tokens[0].value.upper()
 
         if len(tokens) < 3:
-            raise ValueError(
+            raise ScaraSyntaxError(
                 f'Invalid {cmd} syntax at line {line_num}. Expected: {cmd} <target> <delta>'
             )
 
@@ -103,12 +104,19 @@ class JogCommandParser:
             axis: str = tokens[1].value.upper()
 
             if axis not in (JogAxis.X, JogAxis.Y, JogAxis.Z, JogAxis.PHI):
-                raise ValueError(
+                raise ScaraSyntaxError(
                     f'Invalid jog axis {axis!r} at line {line_num}. '
                     'Expected X, Y, Z, or PHI'
                 )
 
-            step: float = float(tokens[2].value)
+            try:
+                step: float = float(tokens[2].value)
+
+            except ValueError as exc:
+                raise ScaraSyntaxError(
+                    f'Invalid jog step delta {tokens[2].value!r} at line {line_num}. '
+                    'Must be a valid number'
+                ) from exc
 
             return ScaraInstruction(
                 command_type=ScaraCommandType.JOG_AXIS,
@@ -120,8 +128,16 @@ class JogCommandParser:
                 },
             )
 
-        joint_id: int = int(tokens[1].value)
-        deg: float = float(tokens[2].value)
+        try:
+            joint_id: int = int(tokens[1].value)
+            deg: float = float(tokens[2].value)
+
+        except ValueError as exc:
+            raise ScaraSyntaxError(
+                f'Invalid JOG_JOINT arguments at line {line_num}. '
+                f'Expected integer joint ID and numeric degrees, got: '
+                f'{tokens[1].value!r}, {tokens[2].value!r}'
+            ) from exc
 
         return ScaraInstruction(
             command_type=ScaraCommandType.JOG_JOINT,

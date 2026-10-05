@@ -54,21 +54,23 @@
 <span class="sd">    You should have received a copy of the GNU General Public License along</span>
 <span class="sd">    with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 <span class="sd">Info</span>
-<span class="sd">    Defines structural runtime-checkable protocol IScaraCompiler for compiling DSL programs.</span>
+<span class="sd">    Defines structural runtime-checkable protocol IScaraCompiler for compiling</span>
+<span class="sd">    SCARA DSL scripts directly into binary frame packages and byte streams.</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.program</span> <span class="kn">import</span> <span class="n">ScaraProgram</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.binary_program_telemetry</span> <span class="kn">import</span> <span class="n">BinaryProgramTelemetry</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.program</span> <span class="kn">import</span> <span class="n">BinaryProgram</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.trajectory.plan.itrajectory_plan</span> <span class="kn">import</span> <span class="n">ITrajectoryPlan</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.4&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -79,23 +81,94 @@
 <span class="nd">@runtime_checkable</span>
 <span class="k">class</span> <span class="nc">IScaraCompiler</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Structural protocol defining contract for compiling SCARA DSL AST programs into plans.</span>
+<span class="sd">        Structural protocol defining end-to-end SCARA DSL compilation and telemetry.</span>
 
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :methods:</span>
-<span class="sd">                | compile - Compiles ScaraProgram into validated ITrajectoryPlan.</span>
-<span class="sd">                | get_version - Returns the compiler version string.</span>
+<span class="sd">                | compile - Compiles DSL source code into BinaryProgram package.</span>
+<span class="sd">                | compile_bytes - Compiles DSL source code directly into wire byte stream.</span>
+<span class="sd">                | compile_to_binary - Compiles DSL source code into BinaryProgram package.</span>
+<span class="sd">                | compile_to_bytes - Compiles DSL source code into wire byte stream.</span>
+<span class="sd">                | compile_plan - Compiles ITrajectoryPlan into BinaryProgram package.</span>
+<span class="sd">                | get_program_telemetry - Returns execution metrics and telemetry</span>
+<span class="sd">                  for binary program.</span>
+<span class="sd">                | get_version - Returns compiler version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
 <div class="viewcode-block" id="IScaraCompiler.compile">
 <a class="viewcode-back" href="../../../../../scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile">[docs]</a>
-    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">program</span><span class="p">:</span> <span class="n">ScaraProgram</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ITrajectoryPlan</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BinaryProgram</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Compiles a SCARA DSL program into an executable and validated ITrajectoryPlan.</span>
+<span class="sd">            Compiles DSL source code into a binary program package.</span>
 
-<span class="sd">            :param program: Parsed ScaraProgram AST root.</span>
-<span class="sd">            :return: Validated ITrajectoryPlan instance.</span>
+<span class="sd">            :param source: Raw .scara script text.</span>
+<span class="sd">            :return: BinaryProgram package containing packed binary frames.</span>
+<span class="sd">            :exceptions: ValueError if parsing or kinematic validation fails.</span>
+<span class="sd">        &#39;&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="IScaraCompiler.compile_bytes">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_bytes">[docs]</a>
+    <span class="k">def</span> <span class="nf">compile_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Compiles DSL source code directly into a binary wire byte stream.</span>
+
+<span class="sd">            :param source: Raw .scara script text.</span>
+<span class="sd">            :return: Raw byte stream suitable for UART transmission.</span>
+<span class="sd">            :exceptions: ValueError if compilation fails.</span>
+<span class="sd">        &#39;&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="IScaraCompiler.compile_to_binary">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_to_binary">[docs]</a>
+    <span class="k">def</span> <span class="nf">compile_to_binary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BinaryProgram</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Compiles DSL source code into a binary program package.</span>
+
+<span class="sd">            :param source: Raw .scara script text.</span>
+<span class="sd">            :return: BinaryProgram package containing packed binary frames.</span>
+<span class="sd">            :exceptions: ValueError if parsing or validation fails.</span>
+<span class="sd">        &#39;&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="IScaraCompiler.compile_to_bytes">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_to_bytes">[docs]</a>
+    <span class="k">def</span> <span class="nf">compile_to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Compiles DSL source code directly into a binary wire byte stream.</span>
+
+<span class="sd">            :param source: Raw .scara script text.</span>
+<span class="sd">            :return: Raw byte stream suitable for UART transmission.</span>
+<span class="sd">            :exceptions: ValueError if compilation fails.</span>
+<span class="sd">        &#39;&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="IScaraCompiler.compile_plan">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_plan">[docs]</a>
+    <span class="k">def</span> <span class="nf">compile_plan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">plan</span><span class="p">:</span> <span class="n">ITrajectoryPlan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BinaryProgram</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Compiles a validated ITrajectoryPlan into a binary program package.</span>
+
+<span class="sd">            :param plan: Validated ITrajectoryPlan protocol instance.</span>
+<span class="sd">            :return: Validated BinaryProgram domain model.</span>
+<span class="sd">            :exceptions: ValueError if plan contains empty waypoints or invalid geometry.</span>
+<span class="sd">        &#39;&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="IScaraCompiler.get_program_telemetry">
+<a class="viewcode-back" href="../../../../../scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.get_program_telemetry">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_program_telemetry</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">program</span><span class="p">:</span> <span class="n">BinaryProgram</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BinaryProgramTelemetry</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Computes and returns binary program execution metrics and telemetry.</span>
+
+<span class="sd">            :param program: BinaryProgram domain model instance.</span>
+<span class="sd">            :return: BinaryProgramTelemetry metrics domain model.</span>
+<span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span></div>
 
 

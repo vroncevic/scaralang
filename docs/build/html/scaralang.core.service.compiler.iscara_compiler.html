@@ -65,21 +65,28 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 </dd>
-<dt>Info</dt><dd><p>Defines structural runtime-checkable protocol IScaraCompiler for compiling DSL programs.</p>
+<dt>Info</dt><dd><p>Defines structural runtime-checkable protocol IScaraCompiler for compiling
+SCARA DSL scripts directly into binary frame packages and byte streams.</p>
 </dd>
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.compiler.iscara_compiler.</span></span><span class="sig-name descname"><span class="pre">IScaraCompiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/compiler/iscara_compiler.html#IScaraCompiler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
-<p>Structural protocol defining contract for compiling SCARA DSL AST programs into plans.</p>
+<p>Structural protocol defining end-to-end SCARA DSL compilation and telemetry.</p>
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">compile - Compiles ScaraProgram into validated ITrajectoryPlan.</div>
-<div class="line">get_version - Returns the compiler version string.</div>
+<div class="line">compile - Compiles DSL source code into BinaryProgram package.</div>
+<div class="line">compile_bytes - Compiles DSL source code directly into wire byte stream.</div>
+<div class="line">compile_to_binary - Compiles DSL source code into BinaryProgram package.</div>
+<div class="line">compile_to_bytes - Compiles DSL source code into wire byte stream.</div>
+<div class="line">compile_plan - Compiles ITrajectoryPlan into BinaryProgram package.</div>
+<div class="line">get_program_telemetry - Returns execution metrics and telemetry
+for binary program.</div>
+<div class="line">get_version - Returns compiler version string.</div>
 </div>
 </dd>
 </dl>
@@ -101,14 +108,102 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile">
-<span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">program</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.ast.program.html#scaralang.core.model.dsl.ast.program.ScaraProgram" title="scaralang.core.model.dsl.ast.program.ScaraProgram"><span class="pre">ScaraProgram</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.service.trajectory.plan.itrajectory_plan.html#scaralang.core.service.trajectory.plan.itrajectory_plan.ITrajectoryPlan" title="scaralang.core.service.trajectory.plan.itrajectory_plan.ITrajectoryPlan"><span class="pre">ITrajectoryPlan</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/iscara_compiler.html#IScaraCompiler.compile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile" title="Link to this definition">¶</a></dt>
-<dd><p>Compiles a SCARA DSL program into an executable and validated ITrajectoryPlan.</p>
+<span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.dsl.binary.program.html#scaralang.core.model.dsl.binary.program.BinaryProgram" title="scaralang.core.model.dsl.binary.program.BinaryProgram"><span class="pre">BinaryProgram</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/iscara_compiler.html#IScaraCompiler.compile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile" title="Link to this definition">¶</a></dt>
+<dd><p>Compiles DSL source code into a binary program package.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>program</strong> – Parsed ScaraProgram AST root.</p>
+<dd class="field-odd"><p><strong>source</strong> – Raw .scara script text.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Validated ITrajectoryPlan instance.</p>
+<dd class="field-even"><p>BinaryProgram package containing packed binary frames.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValueError if parsing or kinematic validation fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_bytes">
+<span class="sig-name descname"><span class="pre">compile_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/iscara_compiler.html#IScaraCompiler.compile_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_bytes" title="Link to this definition">¶</a></dt>
+<dd><p>Compiles DSL source code directly into a binary wire byte stream.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source</strong> – Raw .scara script text.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Raw byte stream suitable for UART transmission.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValueError if compilation fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_plan">
+<span class="sig-name descname"><span class="pre">compile_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.plan.itrajectory_plan.html#scaralang.core.service.trajectory.plan.itrajectory_plan.ITrajectoryPlan" title="scaralang.core.service.trajectory.plan.itrajectory_plan.ITrajectoryPlan"><span class="pre">ITrajectoryPlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.dsl.binary.program.html#scaralang.core.model.dsl.binary.program.BinaryProgram" title="scaralang.core.model.dsl.binary.program.BinaryProgram"><span class="pre">BinaryProgram</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/iscara_compiler.html#IScaraCompiler.compile_plan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_plan" title="Link to this definition">¶</a></dt>
+<dd><p>Compiles a validated ITrajectoryPlan into a binary program package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>plan</strong> – Validated ITrajectoryPlan protocol instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validated BinaryProgram domain model.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValueError if plan contains empty waypoints or invalid geometry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_to_binary">
+<span class="sig-name descname"><span class="pre">compile_to_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.dsl.binary.program.html#scaralang.core.model.dsl.binary.program.BinaryProgram" title="scaralang.core.model.dsl.binary.program.BinaryProgram"><span class="pre">BinaryProgram</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/iscara_compiler.html#IScaraCompiler.compile_to_binary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_to_binary" title="Link to this definition">¶</a></dt>
+<dd><p>Compiles DSL source code into a binary program package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source</strong> – Raw .scara script text.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BinaryProgram package containing packed binary frames.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValueError if parsing or validation fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_to_bytes">
+<span class="sig-name descname"><span class="pre">compile_to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/iscara_compiler.html#IScaraCompiler.compile_to_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_to_bytes" title="Link to this definition">¶</a></dt>
+<dd><p>Compiles DSL source code directly into a binary wire byte stream.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source</strong> – Raw .scara script text.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Raw byte stream suitable for UART transmission.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ValueError if compilation fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.get_program_telemetry">
+<span class="sig-name descname"><span class="pre">get_program_telemetry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">program</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.binary.program.html#scaralang.core.model.dsl.binary.program.BinaryProgram" title="scaralang.core.model.dsl.binary.program.BinaryProgram"><span class="pre">BinaryProgram</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.dsl.binary.binary_program_telemetry.html#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry" title="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry"><span class="pre">BinaryProgramTelemetry</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/iscara_compiler.html#IScaraCompiler.get_program_telemetry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.get_program_telemetry" title="Link to this definition">¶</a></dt>
+<dd><p>Computes and returns binary program execution metrics and telemetry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>program</strong> – BinaryProgram domain model instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BinaryProgramTelemetry metrics domain model.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -144,6 +239,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler._is_protocol"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler._is_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler._is_runtime_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler.compile()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_bytes"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler.compile_bytes()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_plan"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler.compile_plan()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_to_binary"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler.compile_to_binary()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.compile_to_bytes"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler.compile_to_bytes()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.get_program_telemetry"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler.get_program_telemetry()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler.get_version"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler.get_version()</span></code></a></li>
 </ul>
 </li>

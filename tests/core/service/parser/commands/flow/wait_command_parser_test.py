@@ -28,6 +28,7 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.service.parser.commands.flow.wait_command_parser import WaitCommandParser
 from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
 
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,7 +53,8 @@ class TestWaitCommandParser(TestCase):
                 | test_can_parse - Verifies command matching.
                 | test_parse_wait_success - Verifies WAIT statement parsing.
                 | test_parse_wait_ms_success - Verifies WAIT_MS statement parsing.
-                | test_parse_missing_arg - Verifies ValueError on missing duration.
+                | test_parse_missing_arg - Verifies ScaraSyntaxError on missing duration.
+                | test_parse_invalid_delay - Verifies ScaraSyntaxError on non-numeric duration.
     '''
 
     def test_properties_and_protocol(self) -> None:
@@ -100,14 +102,26 @@ class TestWaitCommandParser(TestCase):
 
     def test_parse_missing_arg(self) -> None:
         '''
-            Verifies ValueError on missing delay argument.
+            Verifies ScaraSyntaxError on missing delay argument.
         '''
         parser = WaitCommandParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='WAIT', line=1, column=1),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='WAIT')
+
+    def test_parse_invalid_delay(self) -> None:
+        '''
+            Verifies ScaraSyntaxError on non-numeric delay argument.
+        '''
+        parser = WaitCommandParser()
+        tokens = (
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='WAIT', line=1, column=1),
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='BAD_MS', line=1, column=6),
+        )
+        with self.assertRaises(ScaraSyntaxError):
+            parser.parse(tokens=tokens, line_num=1, raw_text='WAIT BAD_MS')
 
 
 if __name__ == '__main__':

@@ -29,6 +29,7 @@ from ats_utilities.base.engine import Base
 from ats_utilities.logger.ilogger import ILogger
 from ats_utilities.exceptions import ATSValueError, ATSTypeError
 
+from scaralang.core.model.exceptions.scara_error import ScaraError
 from scaralang.setup.bundle import ScaralangBundle
 from scaralang.setup.validator import ScaralangBundleValidator
 from scaralang.infrastructure.cli.icli import ICLI
@@ -37,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -89,7 +90,9 @@ class Scaralang(Base):
         except (ATSValueError, ATSTypeError) as exc:
             stdout.write(f'❌ scaralang: {exc}!\n')
 
-        except (RuntimeError, OSError, ValueError, TypeError, KeyError) as exc:
+        except (
+            ScaraError, RuntimeError, OSError, ValueError, TypeError, KeyError
+        ) as exc:
             stdout.write(f'❌ scaralang unexpected exception: {exc}!\n')
 
     def process(self, verbose: bool = False) -> bool:
@@ -127,6 +130,8 @@ class Scaralang(Base):
             stdout.write(f'❌ scaralang: {exc}!')
             return False
 
-        except (RuntimeError, OSError, ValueError, TypeError, KeyError) as exc:
+        except (
+            ScaraError, RuntimeError, OSError, ValueError, TypeError, KeyError
+        ) as exc:
             stdout.write(f'❌ scaralang unexpected exception: {exc}!')
             return False

@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -129,7 +129,7 @@ class MotorConfigFactory:
 
             :param mode_val: Raw motor mode string.
             :return: Matching MotorDriveMode enum member.
-            :exceptions: ValueError if raw string is not recognized.
+            :exceptions: ScaraSemanticError if raw string is not recognized.
         '''
         return MotorDriveModeResolver.parse_drive_mode(mode_val)
 
@@ -165,7 +165,7 @@ class MotorConfigFactory:
             :param mode: Actuation drive mode.
             :param raw_interface: Optional raw interface string (e.g. STEP_DIR, CAN_BUS).
             :return: Resolved MotorInterfaceType enum member.
-            :exceptions: ValueError if raw_interface is invalid.
+            :exceptions: ScaraSemanticError if raw_interface is invalid.
         '''
         return MotorInterfaceResolver.resolve_interface_type(
             mode=mode, raw_interface=raw_interface

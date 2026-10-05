@@ -26,13 +26,14 @@ from unittest import main
 from unittest.mock import MagicMock, patch
 
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.service.parser.lexer.scara_lexer import ScaraLexer
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -161,10 +162,10 @@ class TestScaraLexer(TestCase):
 
     def test_tokenize_mismatch_error(self) -> None:
         '''
-            Verifies ValueError on invalid/unexpected character.
+            Verifies ScaraSyntaxError on invalid/unexpected character.
         '''
         lexer = ScaraLexer()
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             lexer.tokenize(source='MOVE @INVALID\n')
 
     def test_name_property(self) -> None:

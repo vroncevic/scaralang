@@ -63,7 +63,8 @@
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.program</span> <span class="kn">import</span> <span class="n">ScaraProgram</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity</span> <span class="kn">import</span> <span class="n">ScaraDiagnosticSeverity</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.iscara_compiler</span> <span class="kn">import</span> <span class="n">IScaraCompiler</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_semantic_error</span> <span class="kn">import</span> <span class="n">ScaraSemanticError</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.plan.itrajectory_plan_compiler</span> <span class="kn">import</span> <span class="n">ITrajectoryPlanCompiler</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.linter.iscara_linter</span> <span class="kn">import</span> <span class="n">IScaraLinter</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.iscara_parser</span> <span class="kn">import</span> <span class="n">IScaraParser</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.trajectory.plan.itrajectory_plan</span> <span class="kn">import</span> <span class="n">ITrajectoryPlan</span>
@@ -72,7 +73,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.4&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -88,7 +89,7 @@
 
 <span class="sd">            :attributes:</span>
 <span class="sd">                | _parser - Injected AST parser protocol instance.</span>
-<span class="sd">                | _compiler - Injected AST compiler protocol instance.</span>
+<span class="sd">                | _compiler - Injected plan compiler protocol instance.</span>
 <span class="sd">                | _linter - Injected static analysis linter protocol instance.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | __init__ - Initializes compiler with injected component protocols.</span>
@@ -98,26 +99,26 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">_parser</span><span class="p">:</span> <span class="n">IScaraParser</span>
-    <span class="n">_compiler</span><span class="p">:</span> <span class="n">IScaraCompiler</span>
+    <span class="n">_compiler</span><span class="p">:</span> <span class="n">ITrajectoryPlanCompiler</span>
     <span class="n">_linter</span><span class="p">:</span> <span class="n">IScaraLinter</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">parser</span><span class="p">:</span> <span class="n">IScaraParser</span><span class="p">,</span>
-        <span class="n">compiler</span><span class="p">:</span> <span class="n">IScaraCompiler</span><span class="p">,</span>
+        <span class="n">compiler</span><span class="p">:</span> <span class="n">ITrajectoryPlanCompiler</span><span class="p">,</span>
         <span class="n">linter</span><span class="p">:</span> <span class="n">IScaraLinter</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Initializes the SCARA DSL compiler with injected subcomponents.</span>
 
 <span class="sd">            :param parser: Required IScaraParser protocol instance.</span>
-<span class="sd">            :param compiler: Required IScaraCompiler protocol instance.</span>
+<span class="sd">            :param compiler: Required ITrajectoryPlanCompiler protocol instance.</span>
 <span class="sd">            :param linter: Required IScaraLinter protocol instance.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IScaraParser</span><span class="p">]</span> <span class="o">=</span> <span class="n">parser</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IScaraCompiler</span><span class="p">]</span> <span class="o">=</span> <span class="n">compiler</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ITrajectoryPlanCompiler</span><span class="p">]</span> <span class="o">=</span> <span class="n">compiler</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_linter</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IScaraLinter</span><span class="p">]</span> <span class="o">=</span> <span class="n">linter</span>
 
 <div class="viewcode-block" id="ScaraDslCompiler.compile_script">
@@ -128,7 +129,7 @@
 
 <span class="sd">            :param source: Raw .scara script text.</span>
 <span class="sd">            :return: Validated ITrajectoryPlan protocol instance.</span>
-<span class="sd">            :exceptions: ValueError if parsing fails or error-severity diagnostics occur.</span>
+<span class="sd">            :exceptions: ScaraSemanticError if parsing fails or error-severity diagnostics occur.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">parsed_program</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 
@@ -137,7 +138,7 @@
 
         <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
             <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Line </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">line</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">]</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">ScaraSemanticError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Validation failed with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span><span class="si">}</span><span class="s1"> error(s):</span><span class="se">\n</span><span class="s1">&#39;</span>
                 <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
             <span class="p">)</span>
@@ -153,14 +154,14 @@
 
 <span class="sd">            :param program: ScaraProgram AST instance to compile.</span>
 <span class="sd">            :return: Validated ITrajectoryPlan protocol instance.</span>
-<span class="sd">            :exceptions: ValueError if error-severity diagnostics occur.</span>
+<span class="sd">            :exceptions: ScaraSemanticError if error-severity diagnostics occur.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">diagnostics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linter</span><span class="o">.</span><span class="n">lint</span><span class="p">(</span><span class="n">program</span><span class="o">=</span><span class="n">program</span><span class="p">)</span>
         <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">diagnostics</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">severity</span> <span class="o">==</span> <span class="n">ScaraDiagnosticSeverity</span><span class="o">.</span><span class="n">ERROR</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
             <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Line </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">line</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">]</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">ScaraSemanticError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Validation failed with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span><span class="si">}</span><span class="s1"> error(s):</span><span class="se">\n</span><span class="s1">&#39;</span>
                 <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
             <span class="p">)</span>

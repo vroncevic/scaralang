@@ -20,9 +20,9 @@ Submodules
    :maxdepth: 4
 
    scaralang.core.service.exporter.export_dispatcher_bundle
-   scaralang.core.service.exporter.export_target_dispatcher
-   scaralang.core.service.exporter.export_target_dispatcher_factory
-   scaralang.core.service.exporter.iexport_target_dispatcher
+   scaralang.core.service.exporter.iscara_exporter
+   scaralang.core.service.exporter.scara_exporter
+   scaralang.core.service.exporter.scara_exporter_factory
 
 Module contents
 ---------------

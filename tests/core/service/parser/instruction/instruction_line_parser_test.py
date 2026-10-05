@@ -28,6 +28,7 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.service.parser.commands.config.elbow_config_parser import ElbowConfigParser
 from scaralang.core.service.parser.commands.motion.joint_move_command_parser import JointMoveCommandParser
 from scaralang.core.service.parser.instruction.instruction_line_parser import InstructionLineParser
@@ -36,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -95,15 +96,15 @@ class TestInstructionLineParser(TestCase):
 
     def test_parse_line_empty_tokens(self) -> None:
         '''
-            Verifies ValueError on empty token slice.
+            Verifies ScaraSyntaxError on empty token slice.
         '''
         parser = InstructionLineParser(handlers=())
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse_line(tokens=())
 
     def test_parse_line_unknown_command(self) -> None:
         '''
-            Verifies ValueError on unregistered command.
+            Verifies ScaraSyntaxError on unregistered command.
         '''
         parser = InstructionLineParser(handlers=())
         tokens = (
@@ -114,7 +115,7 @@ class TestInstructionLineParser(TestCase):
                 column=1,
             ),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse_line(tokens=tokens)
 
     def test_parse_line_cached_dispatch(self) -> None:

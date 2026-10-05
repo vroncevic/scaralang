@@ -65,21 +65,21 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 </dd>
-<dt>Info</dt><dd><p>Factory instantiating and wiring ScaraCompiler with validators and instruction pipeline.</p>
+<dt>Info</dt><dd><p>Factory instantiating ScaraCompiler instances.</p>
 </dd>
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.compiler.scara_compiler_factory.</span></span><span class="sig-name descname"><span class="pre">ScaraCompilerFactory</span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/scara_compiler_factory.html#ScaraCompilerFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Factory providing wired IScaraCompiler instances.</p>
+<p>Factory providing ScaraCompiler service instances.</p>
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">create - Builds and wires ScaraCompiler with collaborators.</div>
-<div class="line">create_with_collaborators - Builds ScaraCompiler with injected collaborators.</div>
+<div class="line">create - Instantiates ScaraCompiler with injected delegates.</div>
+<div class="line">create_default - Instantiates ScaraCompiler with standard defaults.</div>
 <div class="line">get_version - Returns factory version string.</div>
 </div>
 </dd>
@@ -87,14 +87,17 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.validation.itrajectory_validator.html#scaralang.core.service.trajectory.validation.itrajectory_validator.ITrajectoryValidator" title="scaralang.core.service.trajectory.validation.itrajectory_validator.ITrajectoryValidator"><span class="pre">ITrajectoryValidator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler" title="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler"><span class="pre">IScaraCompiler</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/scara_compiler_factory.html#ScaraCompilerFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create" title="Link to this definition">¶</a></dt>
-<dd><p>Builds and wires ScaraCompiler with internal collaborators.</p>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.compiler.dsl.iscara_dsl_compiler.html#scaralang.core.service.compiler.dsl.iscara_dsl_compiler.IScaraDslCompiler" title="scaralang.core.service.compiler.dsl.iscara_dsl_compiler.IScaraDslCompiler"><span class="pre">IScaraDslCompiler</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary_compiler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.compiler.binary.ibinary_compiler.html#scaralang.core.service.compiler.binary.ibinary_compiler.IBinaryCompiler" title="scaralang.core.service.compiler.binary.ibinary_compiler.IBinaryCompiler"><span class="pre">IBinaryCompiler</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler" title="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler"><span class="pre">IScaraCompiler</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/scara_compiler_factory.html#ScaraCompilerFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create" title="Link to this definition">¶</a></dt>
+<dd><p>Instantiates a configured ScaraCompiler service.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>validator</strong> – Injected ITrajectoryValidator instance.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compiler</strong> – Required IScaraDslCompiler protocol instance.</p></li>
+<li><p><strong>binary_compiler</strong> – Required IBinaryCompiler protocol instance.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>IScaraCompiler structural protocol instance.</p>
+<dd class="field-even"><p>Fully configured IScaraCompiler protocol instance.</p>
 </dd>
 <dt class="field-odd">Exceptions<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None.</p>
@@ -103,22 +106,15 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create_with_collaborators">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_with_collaborators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.validation.itrajectory_validator.html#scaralang.core.service.trajectory.validation.itrajectory_validator.ITrajectoryValidator" title="scaralang.core.service.trajectory.validation.itrajectory_validator.ITrajectoryValidator"><span class="pre">ITrajectoryValidator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction_pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.compiler.iinstruction_pipeline.html#scaralang.core.service.compiler.iinstruction_pipeline.IInstructionPipeline" title="scaralang.core.service.compiler.iinstruction_pipeline.IInstructionPipeline"><span class="pre">IInstructionPipeline</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.plan.itrajectory_plan_factory.html#scaralang.core.service.trajectory.plan.itrajectory_plan_factory.ITrajectoryPlanFactory" title="scaralang.core.service.trajectory.plan.itrajectory_plan_factory.ITrajectoryPlanFactory"><span class="pre">ITrajectoryPlanFactory</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler" title="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler"><span class="pre">IScaraCompiler</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/scara_compiler_factory.html#ScaraCompilerFactory.create_with_collaborators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create_with_collaborators" title="Link to this definition">¶</a></dt>
-<dd><p>Builds ScaraCompiler with injected collaborators.</p>
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create_default">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler" title="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler"><span class="pre">IScaraCompiler</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/scara_compiler_factory.html#ScaraCompilerFactory.create_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create_default" title="Link to this definition">¶</a></dt>
+<dd><p>Builds and returns an IScaraCompiler with standard defaults.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>validator</strong> – Injected ITrajectoryValidator instance.</p></li>
-<li><p><strong>instruction_pipeline</strong> – Injected IInstructionPipeline instance.</p></li>
-<li><p><strong>plan_factory</strong> – Injected ITrajectoryPlanFactory instance.</p></li>
-</ul>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Fully configured IScaraCompiler protocol instance.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>IScaraCompiler structural protocol instance.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -154,7 +150,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#">scaralang.core.service.compiler.scara_compiler_factory module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerFactory</span></code></a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerFactory.create()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create_with_collaborators"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerFactory.create_with_collaborators()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.create_default"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerFactory.create_default()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.scara_compiler_factory.ScaraCompilerFactory.get_version"><code class="docutils literal notranslate"><span class="pre">ScaraCompilerFactory.get_version()</span></code></a></li>
 </ul>
 </li>

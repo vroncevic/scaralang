@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from typing import ClassVar
 
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.model.motor.motor_interface_type import MotorInterfaceType
 
@@ -30,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -69,7 +70,7 @@ class MotorInterfaceResolver:
             :param mode: Actuation drive mode.
             :param raw_interface: Optional raw interface string (e.g. STEP_DIR, CAN_BUS).
             :return: Resolved MotorInterfaceType enum member.
-            :exceptions: ValueError if raw_interface is invalid.
+            :exceptions: ScaraSemanticError if raw_interface is invalid.
         '''
         clean: str = raw_interface.strip().upper()
 
@@ -77,7 +78,7 @@ class MotorInterfaceResolver:
             if clean in cls._INTERFACE_LOOKUP:
                 return cls._INTERFACE_LOOKUP[clean]
 
-            raise ValueError(
+            raise ScaraSemanticError(
                 f'Invalid motor interface {raw_interface!r}. '
                 f'Must be one of: {cls.supported_interface_strings()}'
             )

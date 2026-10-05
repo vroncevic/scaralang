@@ -21,27 +21,17 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.compiler.binary.binary_compiler_factory import BinaryCompilerFactory
-from scaralang.core.service.compiler.binary.command.command_compiler_factory import CommandCompilerFactory
 from scaralang.core.service.compiler.binary.ibinary_compiler import IBinaryCompiler
-from scaralang.core.service.compiler.binary.metrics.binary_metrics_calculator_factory import BinaryMetricsCalculatorFactory
-from scaralang.core.service.compiler.binary.motion.motion_compiler_factory import MotionCompilerFactory
-from scaralang.core.service.compiler.binary.step.step_discretizer_factory import StepDiscretizerFactory
-from scaralang.core.service.compiler.binary.step.waypoint_step_dispatcher_factory import WaypointStepDispatcherFactory
 from scaralang.core.service.compiler.dsl.iscara_dsl_binary_compiler import IScaraDslBinaryCompiler
 from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
 from scaralang.core.service.compiler.dsl.scara_dsl_binary_compiler import ScaraDslBinaryCompiler
-from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
-from scaralang.core.service.kinematics.default_scara_profile import DefaultScaraProfile
-from scaralang.core.service.kinematics.kinematics_service_factory import KinematicsServiceFactory
-from scaralang.core.service.kinematics.transmission.joint_step_transmission_converter_factory import JointStepTransmissionConverterFactory
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -87,38 +77,7 @@ class ScaraDslBinaryCompilerFactory:
             :return: Fully configured IScaraDslBinaryCompiler protocol instance.
             :exceptions: None.
         '''
-        bounds = DefaultScaraProfile.create_bounds()
-        kinematics = KinematicsServiceFactory.create(bounds=bounds)
-        transmission = DefaultScaraProfile.create_transmission()
-        frame_builder = BinaryFrameBuilderFactory.create()
-
-        transmission_converter = JointStepTransmissionConverterFactory.create(
-            transmission=transmission
-        )
-        discretizer = StepDiscretizerFactory.create(
-            kinematics=kinematics,
-            transmission=transmission_converter,
-        )
-        motion_compiler = MotionCompilerFactory.create(
-            discretizer=discretizer,
-            frame_builder=frame_builder,
-        )
-        step_dispatcher = WaypointStepDispatcherFactory.create(
-            command_compiler=CommandCompilerFactory.create(
-                frame_builder=frame_builder
-            ),
-            motion_compiler=motion_compiler,
-        )
-        binary_compiler = BinaryCompilerFactory.create(
-            step_dispatcher=step_dispatcher,
-            metrics_calculator=BinaryMetricsCalculatorFactory.create(),
-        )
-        dsl_compiler = ScaraDslCompilerFactory.create_default()
-
-        return ScaraDslBinaryCompiler(
-            compiler=dsl_compiler,
-            binary_compiler=binary_compiler,
-        )
+        return ScaraCompilerFactory.create_default()
 
     @classmethod
     def get_version(cls) -> str:

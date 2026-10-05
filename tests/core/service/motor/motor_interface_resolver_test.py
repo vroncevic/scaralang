@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.model.motor.motor_interface_type import MotorInterfaceType
 from scaralang.core.service.motor.motor_interface_resolver import MotorInterfaceResolver
@@ -31,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -82,8 +83,8 @@ class MotorInterfaceResolverTest(TestCase):
         )
 
     def test_resolve_interface_invalid(self) -> None:
-        '''Verifies ValueError on unrecognized interface strings.'''
-        with self.assertRaises(ValueError):
+        '''Verifies ScaraSemanticError on unrecognized interface strings.'''
+        with self.assertRaises(ScaraSemanticError):
             MotorInterfaceResolver.resolve_interface_type(
                 mode=MotorDriveMode.OPEN_LOOP,
                 raw_interface='ETHERNET',
@@ -98,4 +99,4 @@ class MotorInterfaceResolverTest(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies version reporting.'''
-        self.assertEqual(MotorInterfaceResolver.get_version(), '1.0.3')
+        self.assertEqual(MotorInterfaceResolver.get_version(), '1.0.4')

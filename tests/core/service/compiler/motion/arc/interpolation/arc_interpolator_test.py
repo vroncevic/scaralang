@@ -25,6 +25,7 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.dsl.compiler.arc_geometry import ArcGeometry
+from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.service.compiler.motion.arc.interpolation.arc_interpolator import ArcInterpolator
 from scaralang.core.service.compiler.motion.arc.interpolation.iarc_interpolator import IArcInterpolator
@@ -33,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,7 +50,7 @@ class TestArcInterpolator(TestCase):
                 | setUp - Prepares ArcInterpolator test fixture.
                 | test_protocol_conformance - Verifies structural IArcInterpolator conformance.
                 | test_get_version - Verifies get_version returns valid version string.
-                | test_interpolate_zero_radius - Verifies empty result for zero radius arc.
+                | test_interpolate_zero_radius - Verifies ScaraKinematicsError for zero radius arc.
                 | test_interpolate_cw - Verifies clockwise arc segmentation.
                 | test_interpolate_ccw - Verifies counter-clockwise arc segmentation.
                 | test_interpolate_ccw_wrap_around - Verifies CCW arc when angle_end <= angle_start.
@@ -72,12 +73,12 @@ class TestArcInterpolator(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.interpolator.get_version(), '1.0.3')
+        self.assertEqual(self.interpolator.get_version(), '1.0.4')
 
 
     def test_interpolate_zero_radius(self) -> None:
         '''
-            Verifies empty tuple returned when offset_i and offset_j are zero.
+            Verifies ScaraKinematicsError is raised when offset_i and offset_j are zero.
         '''
         geometry = ArcGeometry(
             start=Point2D(x=10.0, y=10.0),
@@ -85,8 +86,8 @@ class TestArcInterpolator(TestCase):
             offset=Point2D(x=0.0, y=0.0),
             is_clockwise=True,
         )
-        points = self.interpolator.interpolate(geometry=geometry)
-        self.assertEqual(points, ())
+        with self.assertRaises(ScaraKinematicsError):
+            self.interpolator.interpolate(geometry=geometry)
 
     def test_interpolate_cw(self) -> None:
         '''

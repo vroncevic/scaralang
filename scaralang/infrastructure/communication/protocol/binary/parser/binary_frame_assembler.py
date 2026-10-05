@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -91,8 +91,14 @@ class BinaryFrameAssembler:
         if not Crc16Ccitt.verify(header_bytes + payload, rx_crc):
             return None
 
+        try:
+            resolved_msg_id = MessageId(msg_id)
+
+        except ValueError:
+            return None
+
         return BinaryFrame(
-            msg_id=MessageId(msg_id),
+            msg_id=resolved_msg_id,
             seq_num=seq_num,
             payload=payload,
             crc16=rx_crc,

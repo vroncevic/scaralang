@@ -78,6 +78,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">decompile - Decompiles raw binary bytes into SCARA DSL script text.</div>
 <div class="line">decompile_bytes - Decompiles raw binary bytes into SCARA DSL script text.</div>
 <div class="line">decompile_frames - Decompiles tuple of BinaryFrames into SCARA DSL script text.</div>
 <div class="line">get_version - Returns decompiler version string.</div>
@@ -99,6 +100,20 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="sig sig-object py" id="scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler._is_runtime_protocol">
 <span class="sig-name descname"><span class="pre">_is_runtime_protocol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler._is_runtime_protocol" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler.decompile">
+<span class="sig-name descname"><span class="pre">decompile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/decompiler/iscara_decompiler.html#IScaraDecompiler.decompile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler.decompile" title="Link to this definition">¶</a></dt>
+<dd><p>Decompiles contiguous raw binary frame bytes into SCARA DSL script text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – Contiguous binary frame byte sequence.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Reconstructed SCARA DSL script source text.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler.decompile_bytes">
@@ -158,6 +173,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler._abc_impl"><code class="docutils literal notranslate"><span class="pre">IScaraDecompiler._abc_impl</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler._is_protocol"><code class="docutils literal notranslate"><span class="pre">IScaraDecompiler._is_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IScaraDecompiler._is_runtime_protocol</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler.decompile"><code class="docutils literal notranslate"><span class="pre">IScaraDecompiler.decompile()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler.decompile_bytes"><code class="docutils literal notranslate"><span class="pre">IScaraDecompiler.decompile_bytes()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler.decompile_frames"><code class="docutils literal notranslate"><span class="pre">IScaraDecompiler.decompile_frames()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.iscara_decompiler.IScaraDecompiler.get_version"><code class="docutils literal notranslate"><span class="pre">IScaraDecompiler.get_version()</span></code></a></li>
