@@ -15,7 +15,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.core.service.exporter.export_target_dispatcher module" href="scaralang.core.service.exporter.export_target_dispatcher.html" />
+    <link rel="next" title="scaralang.core.service.exporter.iscara_exporter module" href="scaralang.core.service.exporter.iscara_exporter.html" />
     <link rel="prev" title="scaralang.core.service.exporter.svg.svg_trajectory_exporter_factory module" href="scaralang.core.service.exporter.svg.svg_trajectory_exporter_factory.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,7 +28,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.exporter.export_target_dispatcher.html" title="scaralang.core.service.exporter.export_target_dispatcher module"
+          <a href="scaralang.core.service.exporter.iscara_exporter.html" title="scaralang.core.service.exporter.iscara_exporter module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.service.exporter.svg.svg_trajectory_exporter_factory.html" title="scaralang.core.service.exporter.svg.svg_trajectory_exporter_factory module"
@@ -65,14 +65,14 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 </dd>
-<dt>Info</dt><dd><p>Defines collaborator bundle dataclass for ExportTargetDispatcher.</p>
+<dt>Info</dt><dd><p>Defines collaborator bundle dataclass for ScaraExporter.</p>
 </dd>
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.exporter.export_dispatcher_bundle.ExportDispatcherBundle">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.exporter.export_dispatcher_bundle.</span></span><span class="sig-name descname"><span class="pre">ExportDispatcherBundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcode_exporter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.exporter.gcode.igcode_exporter.html#scaralang.core.service.exporter.gcode.igcode_exporter.IGCodeExporter" title="scaralang.core.service.exporter.gcode.igcode_exporter.IGCodeExporter"><span class="pre">IGCodeExporter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_exporter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.exporter.csv.icsv_trajectory_exporter.html#scaralang.core.service.exporter.csv.icsv_trajectory_exporter.ICsvTrajectoryExporter" title="scaralang.core.service.exporter.csv.icsv_trajectory_exporter.ICsvTrajectoryExporter"><span class="pre">ICsvTrajectoryExporter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_exporter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.exporter.json.ijson_trajectory_exporter.html#scaralang.core.service.exporter.json.ijson_trajectory_exporter.IJsonTrajectoryExporter" title="scaralang.core.service.exporter.json.ijson_trajectory_exporter.IJsonTrajectoryExporter"><span class="pre">IJsonTrajectoryExporter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">svg_exporter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.exporter.svg.isvg_trajectory_exporter.html#scaralang.core.service.exporter.svg.isvg_trajectory_exporter.ISvgTrajectoryExporter" title="scaralang.core.service.exporter.svg.isvg_trajectory_exporter.ISvgTrajectoryExporter"><span class="pre">ISvgTrajectoryExporter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scara_exporter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.exporter.scara.iscara_plan_exporter.html#scaralang.core.service.exporter.scara.iscara_plan_exporter.IScaraPlanExporter" title="scaralang.core.service.exporter.scara.iscara_plan_exporter.IScaraPlanExporter"><span class="pre">IScaraPlanExporter</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/exporter/export_dispatcher_bundle.html#ExportDispatcherBundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.export_dispatcher_bundle.ExportDispatcherBundle" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Bundle containing format exporter collaborators required by ExportTargetDispatcher.</p>
+<p>Bundle containing format exporter collaborators required by ScaraExporter.</p>
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
@@ -150,8 +150,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.core.service.exporter.export_target_dispatcher.html"
-                          title="next chapter">scaralang.core.service.exporter.export_target_dispatcher module</a></p>
+    <p class="topless"><a href="scaralang.core.service.exporter.iscara_exporter.html"
+                          title="next chapter">scaralang.core.service.exporter.iscara_exporter module</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -184,7 +184,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.exporter.export_target_dispatcher.html" title="scaralang.core.service.exporter.export_target_dispatcher module"
+          <a href="scaralang.core.service.exporter.iscara_exporter.html" title="scaralang.core.service.exporter.iscara_exporter module"
              >next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.service.exporter.svg.svg_trajectory_exporter_factory.html" title="scaralang.core.service.exporter.svg.svg_trajectory_exporter_factory module"

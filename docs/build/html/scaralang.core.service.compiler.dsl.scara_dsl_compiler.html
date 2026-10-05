@@ -71,7 +71,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.dsl.scara_dsl_compiler.ScaraDslCompiler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.compiler.dsl.scara_dsl_compiler.</span></span><span class="sig-name descname"><span class="pre">ScaraDslCompiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.parser.iscara_parser.html#scaralang.core.service.parser.iscara_parser.IScaraParser" title="scaralang.core.service.parser.iscara_parser.IScaraParser"><span class="pre">IScaraParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler" title="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler"><span class="pre">IScaraCompiler</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">linter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.linter.iscara_linter.html#scaralang.core.service.linter.iscara_linter.IScaraLinter" title="scaralang.core.service.linter.iscara_linter.IScaraLinter"><span class="pre">IScaraLinter</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/compiler/dsl/scara_dsl_compiler.html#ScaraDslCompiler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.dsl.scara_dsl_compiler.ScaraDslCompiler" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.compiler.dsl.scara_dsl_compiler.</span></span><span class="sig-name descname"><span class="pre">ScaraDslCompiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.parser.iscara_parser.html#scaralang.core.service.parser.iscara_parser.IScaraParser" title="scaralang.core.service.parser.iscara_parser.IScaraParser"><span class="pre">IScaraParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.compiler.plan.itrajectory_plan_compiler.html#scaralang.core.service.compiler.plan.itrajectory_plan_compiler.ITrajectoryPlanCompiler" title="scaralang.core.service.compiler.plan.itrajectory_plan_compiler.ITrajectoryPlanCompiler"><span class="pre">ITrajectoryPlanCompiler</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">linter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.linter.iscara_linter.html#scaralang.core.service.linter.iscara_linter.IScaraLinter" title="scaralang.core.service.linter.iscara_linter.IScaraLinter"><span class="pre">IScaraLinter</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/compiler/dsl/scara_dsl_compiler.html#ScaraDslCompiler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.dsl.scara_dsl_compiler.ScaraDslCompiler" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Compiles SCARA DSL source text and AST programs into validated trajectory plans.</p>
 <p>It defines:</p>
@@ -80,7 +80,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">_parser - Injected AST parser protocol instance.</div>
-<div class="line">_compiler - Injected AST compiler protocol instance.</div>
+<div class="line">_compiler - Injected plan compiler protocol instance.</div>
 <div class="line">_linter - Injected static analysis linter protocol instance.</div>
 </div>
 </dd>
@@ -96,7 +96,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </div></blockquote>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.dsl.scara_dsl_compiler.ScaraDslCompiler._compiler">
-<span class="sig-name descname"><span class="pre">_compiler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler" title="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler"><span class="pre">IScaraCompiler</span></a></em><a class="headerlink" href="#scaralang.core.service.compiler.dsl.scara_dsl_compiler.ScaraDslCompiler._compiler" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_compiler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.compiler.plan.itrajectory_plan_compiler.html#scaralang.core.service.compiler.plan.itrajectory_plan_compiler.ITrajectoryPlanCompiler" title="scaralang.core.service.compiler.plan.itrajectory_plan_compiler.ITrajectoryPlanCompiler"><span class="pre">ITrajectoryPlanCompiler</span></a></em><a class="headerlink" href="#scaralang.core.service.compiler.dsl.scara_dsl_compiler.ScaraDslCompiler._compiler" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -121,7 +121,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd class="field-even"><p>Validated ITrajectoryPlan protocol instance.</p>
 </dd>
 <dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ValueError if error-severity diagnostics occur.</p>
+<dd class="field-odd"><p>ScaraSemanticError if error-severity diagnostics occur.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -138,7 +138,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd class="field-even"><p>Validated ITrajectoryPlan protocol instance.</p>
 </dd>
 <dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ValueError if parsing fails or error-severity diagnostics occur.</p>
+<dd class="field-odd"><p>ScaraSemanticError if parsing fails or error-severity diagnostics occur.</p>
 </dd>
 </dl>
 </dd></dl>

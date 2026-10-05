@@ -23,8 +23,8 @@ from __future__ import annotations
 
 from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
 from scaralang.core.service.compiler.dsl.scara_dsl_compiler import ScaraDslCompiler
-from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
-from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
+from scaralang.core.service.compiler.plan.itrajectory_plan_compiler import ITrajectoryPlanCompiler
+from scaralang.core.service.compiler.plan.trajectory_plan_compiler_factory import TrajectoryPlanCompilerFactory
 from scaralang.core.service.kinematics.default_scara_profile import DefaultScaraProfile
 from scaralang.core.service.kinematics.kinematics_service_factory import KinematicsServiceFactory
 from scaralang.core.service.linter.iscara_linter import IScaraLinter
@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,14 +61,14 @@ class ScaraDslCompilerFactory:
         cls,
         *,
         parser: IScaraParser,
-        compiler: IScaraCompiler,
+        compiler: ITrajectoryPlanCompiler,
         linter: IScaraLinter,
     ) -> IScaraDslCompiler:
         '''
             Builds and returns an IScaraDslCompiler instance.
 
             :param parser: Injected IScaraParser protocol instance.
-            :param compiler: Injected IScaraCompiler protocol instance.
+            :param compiler: Injected ITrajectoryPlanCompiler protocol instance.
             :param linter: Injected IScaraLinter protocol instance.
             :return: Configured IScaraDslCompiler protocol instance.
             :exceptions: None.
@@ -91,7 +91,7 @@ class ScaraDslCompilerFactory:
         kinematics = KinematicsServiceFactory.create(bounds=bounds)
         validator = TrajectoryValidatorFactory.create(kinematics=kinematics)
         parser = ScaraParserFactory.create(lexer=ScaraLexerFactory.create())
-        compiler = ScaraCompilerFactory.create(validator=validator)
+        compiler = TrajectoryPlanCompilerFactory.create(validator=validator)
         linter = ScaraLinterFactory.create()
 
         return ScaraDslCompiler(

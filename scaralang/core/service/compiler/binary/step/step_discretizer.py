@@ -24,6 +24,7 @@ from __future__ import annotations
 from math import radians
 from typing import Final
 
+from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.trajectory.waypoint import Waypoint
@@ -34,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -107,7 +108,7 @@ class StepDiscretizer:
             :param waypoint: Target Cartesian Waypoint instance.
             :param prev_angles: Preceding joint angles (th1, th2, z, th4).
             :return: Tuple of (JointSteps model, new joint angles tuple).
-            :exceptions: ValueError if position is unreachable.
+            :exceptions: ScaraKinematicsError if position is unreachable.
         '''
         ik_sol: tuple[float, float] | None = self._kinematics.solve_ik(
             point=Point2D(x=waypoint.x, y=waypoint.y),
@@ -115,7 +116,7 @@ class StepDiscretizer:
         )
 
         if ik_sol is None:
-            raise ValueError(
+            raise ScaraKinematicsError(
                 f'Waypoint ({waypoint.x:.2f}, {waypoint.y:.2f}) is outside kinematic reach.'
             )
 

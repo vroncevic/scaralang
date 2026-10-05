@@ -28,13 +28,14 @@ from unittest.mock import MagicMock
 from scaralang.core.model.dsl.ast.program import ScaraProgram
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.service.compiler.dsl.scara_dsl_compiler import ScaraDslCompiler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -78,7 +79,7 @@ class TestScaraDslCompiler(TestCase):
 
     def test_compile_program_with_errors(self) -> None:
         '''
-            Verifies compile_program raises ValueError when linter finds errors.
+            Verifies compile_program raises ScaraSemanticError when linter finds errors.
         '''
         mock_parser = MagicMock()
         mock_compiler = MagicMock()
@@ -99,7 +100,7 @@ class TestScaraDslCompiler(TestCase):
             compiler=mock_compiler,
             linter=mock_linter,
         )
-        with self.assertRaises(ValueError) as ctx:
+        with self.assertRaises(ScaraSemanticError) as ctx:
             dsl_compiler.compile_program(program=program)
         self.assertIn('Validation failed with', str(ctx.exception))
         self.assertIn('Out of reach', str(ctx.exception))
@@ -140,11 +141,11 @@ class TestScaraDslCompiler(TestCase):
             compiler=mock_compiler,
             linter=mock_linter,
         )
-        self.assertEqual(dsl_compiler.get_version(), '1.0.3')
+        self.assertEqual(dsl_compiler.get_version(), '1.0.4')
 
     def test_compile_script_with_errors(self) -> None:
         '''
-            Verifies compile_script raises ValueError when linter finds errors.
+            Verifies compile_script raises ScaraSemanticError when linter finds errors.
         '''
         mock_parser = MagicMock()
         mock_compiler = MagicMock()
@@ -166,7 +167,7 @@ class TestScaraDslCompiler(TestCase):
             compiler=mock_compiler,
             linter=mock_linter,
         )
-        with self.assertRaises(ValueError) as ctx:
+        with self.assertRaises(ScaraSemanticError) as ctx:
             dsl_compiler.compile_script(source='MOVE X9999 Y9999')
         self.assertIn('Validation failed with', str(ctx.exception))
 

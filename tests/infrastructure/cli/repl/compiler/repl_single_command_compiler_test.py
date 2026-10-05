@@ -25,6 +25,8 @@ from unittest import TestCase
 from unittest import main
 from unittest.mock import MagicMock
 
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.repl.repl_pose_state import ReplPoseState
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
@@ -36,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -100,7 +102,7 @@ class TestReplSingleCommandCompiler(TestCase):
     def test_compile_invalid_instruction(self) -> None:
         '''Verifies exception raised on invalid DSL instruction.'''
         context = ReplSessionContext()
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             self.compiler.compile_instruction(
                 line='INVALID_OPCODE FOO BAR', context=context
             )
@@ -109,10 +111,10 @@ class TestReplSingleCommandCompiler(TestCase):
         '''Verifies factory instantiation and protocol check.'''
         compiler = ReplSingleCommandCompilerFactory.create_default()
         self.assertTrue(isinstance(compiler, IReplSingleCommandCompiler))
-        self.assertEqual(ReplSingleCommandCompilerFactory.get_version(), '1.0.3')
+        self.assertEqual(ReplSingleCommandCompilerFactory.get_version(), '1.0.4')
 
     def test_compile_instruction_no_binary_steps(self) -> None:
-        '''Verifies ValueError when compiled program produces no binary steps.'''
+        '''Verifies ScaraSemanticError when compiled program produces no binary steps.'''
         mock_compiler = MagicMock()
         mock_binary_compiler = MagicMock()
         mock_plan = MagicMock()
@@ -124,7 +126,7 @@ class TestReplSingleCommandCompiler(TestCase):
             compiler=mock_compiler,
             binary_compiler=mock_binary_compiler,
         )
-        with self.assertRaises(ValueError) as ctx:
+        with self.assertRaises(ScaraSemanticError) as ctx:
             single_compiler.compile_instruction(
                 line='HOME', context=ReplSessionContext()
             )

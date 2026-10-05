@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from typing import ClassVar
 
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.model.motor.motor_drive_mode_alias import MotorDriveModeAlias
 from scaralang.core.model.protocol.motor_wire_mode import MotorWireMode
@@ -31,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -68,14 +69,14 @@ class MotorDriveModeResolver:
 
             :param mode_val: Raw motor mode string.
             :return: Matching MotorDriveMode enum member.
-            :exceptions: ValueError if raw string is not recognized.
+            :exceptions: ScaraSemanticError if raw string is not recognized.
         '''
         normalized: str = mode_val.strip().upper()
 
         if normalized in cls._MODE_LOOKUP:
             return cls._MODE_LOOKUP[normalized]
 
-        raise ValueError(
+        raise ScaraSemanticError(
             f'Invalid motor drive mode {mode_val!r}. '
             f'Must be one of: {cls.supported_mode_strings()}'
         )

@@ -169,6 +169,14 @@ Tool structure
          │   │   │       ├── lexer_pattern_kind.py
          │   │   │       ├── scara_token.py
          │   │   │       └── scara_token_type.py
+         │   │   ├── exceptions/
+         │   │   │   ├── __init__.py
+         │   │   │   ├── scara_error.py
+         │   │   │   ├── scara_export_error.py
+         │   │   │   ├── scara_kinematics_error.py
+         │   │   │   ├── scara_protocol_error.py
+         │   │   │   ├── scara_semantic_error.py
+         │   │   │   └── scara_syntax_error.py
          │   │   ├── __init__.py
          │   │   ├── kinematics/
          │   │   │   ├── elbow_config.py
@@ -315,6 +323,11 @@ Tool structure
          │       │   │       ├── __init__.py
          │       │   │       ├── vertical_move_compiler.py
          │       │   │       └── vertical_move_compiler_factory.py
+         │       │   ├── plan/
+         │       │   │   ├── __init__.py
+         │       │   │   ├── itrajectory_plan_compiler.py
+         │       │   │   ├── trajectory_plan_compiler.py
+         │       │   │   └── trajectory_plan_compiler_factory.py
          │       │   ├── primitive/
          │       │   │   ├── control/
          │       │   │   │   ├── control_command_compiler.py
@@ -363,15 +376,13 @@ Tool structure
          │       │   │   ├── icsv_trajectory_exporter.py
          │       │   │   └── __init__.py
          │       │   ├── export_dispatcher_bundle.py
-         │       │   ├── export_target_dispatcher.py
-         │       │   ├── export_target_dispatcher_factory.py
          │       │   ├── gcode/
          │       │   │   ├── gcode_exporter.py
          │       │   │   ├── gcode_exporter_factory.py
          │       │   │   ├── igcode_exporter.py
          │       │   │   └── __init__.py
-         │       │   ├── iexport_target_dispatcher.py
          │       │   ├── __init__.py
+         │       │   ├── iscara_exporter.py
          │       │   ├── json/
          │       │   │   ├── ijson_trajectory_exporter.py
          │       │   │   ├── __init__.py
@@ -384,6 +395,8 @@ Tool structure
          │       │   │   ├── scara_plan_exporter_factory.py
          │       │   │   ├── scara_program_serializer.py
          │       │   │   └── scara_source_generator.py
+         │       │   ├── scara_exporter.py
+         │       │   ├── scara_exporter_factory.py
          │       │   └── svg/
          │       │       ├── __init__.py
          │       │       ├── isvg_trajectory_exporter.py
@@ -391,9 +404,9 @@ Tool structure
          │       │       └── svg_trajectory_exporter_factory.py
          │       ├── info/
          │       │   ├── __init__.py
-         │       │   ├── itoolchain_info_provider.py
-         │       │   ├── toolchain_info_provider.py
-         │       │   └── toolchain_info_provider_factory.py
+         │       │   ├── iscara_info_provider.py
+         │       │   ├── scara_info_provider.py
+         │       │   └── scara_info_provider_factory.py
          │       ├── __init__.py
          │       ├── kinematics/
          │       │   ├── default_scara_profile.py
@@ -673,9 +686,15 @@ Tool structure
          │   │   ├── command_bundle.py
          │   │   ├── command_bundle_factory.py
          │   │   ├── compile/
-         │   │   │   ├── compile_command_definition.py
-         │   │   │   ├── compile_command_executor.py
-         │   │   │   ├── compile_command_executor_factory.py
+         │   │   │   ├── bundle.py
+         │   │   │   ├── definition.py
+         │   │   │   ├── error/
+         │   │   │   │   ├── compile_error_handler.py
+         │   │   │   │   ├── compile_error_handler_factory.py
+         │   │   │   │   ├── icompile_error_handler.py
+         │   │   │   │   └── __init__.py
+         │   │   │   ├── executor.py
+         │   │   │   ├── executor_factory.py
          │   │   │   ├── __init__.py
          │   │   │   ├── inspection/
          │   │   │   │   ├── framing/
@@ -715,14 +734,24 @@ Tool structure
          │   │   │       ├── icompile_telemetry_formatter.py
          │   │   │       └── __init__.py
          │   │   ├── decompile/
-         │   │   │   ├── decompile_command_definition.py
-         │   │   │   ├── decompile_command_executor.py
-         │   │   │   ├── decompile_command_executor_factory.py
+         │   │   │   ├── definition.py
+         │   │   │   ├── error/
+         │   │   │   │   ├── decompile_error_handler.py
+         │   │   │   │   ├── decompile_error_handler_factory.py
+         │   │   │   │   ├── idecompile_error_handler.py
+         │   │   │   │   └── __init__.py
+         │   │   │   ├── executor.py
+         │   │   │   ├── executor_factory.py
          │   │   │   └── __init__.py
          │   │   ├── disassemble/
-         │   │   │   ├── disassemble_command_definition.py
-         │   │   │   ├── disassemble_command_executor.py
-         │   │   │   ├── disassemble_command_executor_factory.py
+         │   │   │   ├── definition.py
+         │   │   │   ├── error/
+         │   │   │   │   ├── disassemble_error_handler.py
+         │   │   │   │   ├── disassemble_error_handler_factory.py
+         │   │   │   │   ├── idisassemble_error_handler.py
+         │   │   │   │   └── __init__.py
+         │   │   │   ├── executor.py
+         │   │   │   ├── executor_factory.py
          │   │   │   ├── format/
          │   │   │   │   ├── disassemble_summary_formatter.py
          │   │   │   │   ├── disassemble_summary_formatter_factory.py
@@ -730,29 +759,39 @@ Tool structure
          │   │   │   │   └── __init__.py
          │   │   │   └── __init__.py
          │   │   ├── export/
-         │   │   │   ├── export_command_definition.py
-         │   │   │   ├── export_command_executor.py
-         │   │   │   ├── export_command_executor_factory.py
+         │   │   │   ├── definition.py
+         │   │   │   ├── error/
+         │   │   │   │   ├── export_error_handler.py
+         │   │   │   │   ├── export_error_handler_factory.py
+         │   │   │   │   ├── iexport_error_handler.py
+         │   │   │   │   └── __init__.py
+         │   │   │   ├── executor.py
+         │   │   │   ├── executor_factory.py
          │   │   │   └── __init__.py
          │   │   ├── icommand_definition.py
          │   │   ├── icommand_executor.py
          │   │   ├── info/
-         │   │   │   ├── info_command_definition.py
-         │   │   │   ├── info_command_executor.py
-         │   │   │   ├── info_command_executor_factory.py
+         │   │   │   ├── definition.py
+         │   │   │   ├── executor.py
+         │   │   │   ├── executor_factory.py
          │   │   │   └── __init__.py
          │   │   ├── __init__.py
          │   │   ├── lint/
-         │   │   │   ├── __init__.py
-         │   │   │   ├── lint_command_definition.py
-         │   │   │   ├── lint_command_executor.py
-         │   │   │   └── lint_command_executor_factory.py
+         │   │   │   ├── definition.py
+         │   │   │   ├── error/
+         │   │   │   │   ├── ilint_error_handler.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── lint_error_handler.py
+         │   │   │   │   └── lint_error_handler_factory.py
+         │   │   │   ├── executor.py
+         │   │   │   ├── executor_factory.py
+         │   │   │   └── __init__.py
          │   │   └── repl/
-         │   │       ├── __init__.py
-         │   │       ├── repl_command_bundle.py
-         │   │       ├── repl_command_definition.py
-         │   │       ├── repl_command_executor.py
-         │   │       └── repl_command_executor_factory.py
+         │   │       ├── bundle.py
+         │   │       ├── definition.py
+         │   │       ├── executor.py
+         │   │       ├── executor_factory.py
+         │   │       └── __init__.py
          │   ├── communication/
          │   │   ├── __init__.py
          │   │   └── protocol/
@@ -795,7 +834,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     118 directories, 563 files
+     125 directories, 595 files
 
 🏗 Architecture & SOLID Principles
 --------------------------------------------------------------------------------
@@ -809,8 +848,8 @@ Tool structure
                    │ Depends on Role Protocols     │
                    ▼                               ▼
     ┌──────────────────────────────┐┌─────────────────────────────┐
-    │     IScaraDslLinter          ││  IScaraDslBinaryCompiler    │
-    │   (Validation & Diagnostics) ││  (Plan / Binary Generation) │
+    │         IScaraLinter         ││        IScaraCompiler       │
+    │  (Validation & Diagnostics)  ││ (Plan & Binary Generation)  │
     └──────────────┬───────────────┘└──────────────┬──────────────┘
                    │                               │
                    ▼                               ▼
@@ -821,7 +860,7 @@ Tool structure
     │  │   (Token Stream)   │ │(Command Parsers)│ │(Macro Expan)│ │
     │  └────────────────────┘ └─────────────────┘ └─────────────┘ │
     │  ┌────────────────────┐ ┌─────────────────┐ ┌─────────────┐ │
-    │  │   BinaryCompiler   │ │ScaraDisassembler│ │ExportDispatc│ │
+    │  │   BinaryCompiler   │ │ScaraDisassembler│ │ScaraExporter│ │
     │  │  (Step Generator)  │ │(Frame Breakdown)│ │(Multi-target│ │
     │  └────────────────────┘ └─────────────────┘ └─────────────┘ │
     └──────────────────────────────┬──────────────────────────────┘
@@ -843,7 +882,7 @@ SOLID Principles Compliance
 * **L — Liskov Substitution Principle (LSP)**:
   Pure structural subtyping via Python ``@runtime_checkable Protocol`` definitions. Concrete classes never inherit from abstract protocols, ensuring complete structural interchangeability.
 * **I — Interface Segregation Principle (ISP)**:
-  Fat facade ``IScaraDslService`` is segregated into focused role protocols (``IScaraDslCompiler``, ``IScaraDslBinaryCompiler``, ``IScaraDslValidator``, ``IScaraDecompiler``, ``IScaraDisassembler``, ``IToolchainInfoProvider``, ``IScaraPlanExporter``). Clients depend strictly on the minimal methods they call.
+  Unified role protocols (``IScaraCompiler``, ``IScaraDecompiler``, ``IScaraDisassembler``, ``IScaraLinter``, ``IScaraParser``, ``IScaraLexer``, ``IScaraExporter``, ``IScaraInfoProvider``). Clients depend strictly on the minimal methods they call.
 * **D — Dependency Inversion Principle (DIP)**:
   High-level domain services and CLI executors depend strictly on abstract protocols, never on concrete implementations. All infrastructure dependencies are injected via constructor Dependency Injection (Zero-Fallback DI).
 
@@ -868,7 +907,8 @@ Every build is validated against 4 strict automated quality gates:
 * **Interactive Motion REPL Console**: Terminal-based interactive console (``scarac repl``) for real-time single-command compilation, inspection, and frame transmission.
 * **Single Source of Truth (SSoT)**: Seamless domain and codec foundation shared between ``scarajectory`` (Desktop Studio), ``scaraemu`` (Digital Twin Simulator), and ``dof2bot/scara`` (RP2040 firmware).
 * **Zero GUI Dependencies**: 100% headless, clean architecture design with zero Tkinter, Qt, or graphics dependencies.
-* **Strict Quality & SOLID Standards**: 100% structural protocol conformance, 99% test coverage, and 10.00 / 10.00 Pylint score.
+* **Strict Quality & SOLID Standards**: 100% structural protocol conformance, 100% test coverage, and 10.00 / 10.00 Pylint score.
+* **Resilient Error Handling & Categorized Diagnostics**: Strongly typed domain exception hierarchy (``ScaraSyntaxError``, ``ScaraSemanticError``, ``ScaraKinematicsError``, ``ScaraProtocolError``, ``ScaraExportError``, ``ScaraIOError``) coupled with dedicated CLI error presentation handlers (``ICompileErrorHandler``, ``IDecompileErrorHandler``, ``IDisassembleErrorHandler``, ``IExportErrorHandler``, ``ILintErrorHandler``) providing clear, category-tagged diagnostics (``[SYNTAX]``, ``[SEMANTIC]``, ``[KINEMATICS]``, ``[PROTOCOL]``, ``[EXPORT]``, ``[IO]``, ``[DOMAIN]``) and zero unhandled tracebacks at the system boundary.
 
 📜 SCARA Domain-Specific Language (DSL) & ``.scara`` Programs
 --------------------------------------------------------------------------------
@@ -1149,6 +1189,177 @@ Binary wire frames generated by **scaralang** stream directly over UART / USB-CD
 
 * **Open-Loop Stepper Mode (TMC2209):** Coordinated microstepping pulses generated by RP2040 PIO hardware state machines driving TMC2209 STEP/DIR stages for ultra-silent operation.
 * **Closed-Loop Stepper Mode (MKS SERVO42D over CAN Bus):** NEMA stepper motors equipped with **MKS SERVO42D** closed-loop modules communicating with the Raspberry Pi Pico over a high-speed differential **CAN bus** (CAN_H / CAN_L). This guarantees 100% elimination of lost steps, hardware PID closed-loop position correction, and real-time following-error telemetry.
+
+🛡️ Error Handling & Diagnostic Architecture
+--------------------------------------------------------------------------------
+
+**scaralang** implements end-to-end, resilient error handling and structured diagnostic reporting based on Clean Architecture principles. It enforces a strict separation between domain-level error contracts, core application validation, and presentation-layer error formatting.
+
+Domain Exception Hierarchy
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+All internal toolchain exceptions inherit from the base domain exception ``ScaraError`` (defined in ``scaralang.core.model.exceptions.scara_error``):
+
+.. code-block:: text
+
+                                      ┌──────────────┐
+                                      │  Exception   │
+                                      └──────┬───────┘
+                                             ▼
+                                      ┌──────────────┐
+                                      │  ScaraError  │
+                                      └──────┬───────┘
+                                             │
+            ┌──────────────┬──────────────┬──┴───────────┬──────────────┬──────────────┐
+            ▼              ▼              ▼              ▼              ▼              ▼
+    ┌──────────────┐┌──────────────┐┌──────────────┐┌──────────────┐┌──────────────┐┌──────────────┐
+    │ ScaraSyntax  ││ScaraSemantic ││ScaraKinematics│ScaraProtocol ││ ScaraExport  ││  ScaraIO     │
+    │    Error     ││    Error     ││    Error     ││    Error     ││    Error     ││    Error     │
+    └──────────────┘└──────────────┘└──────────────┘└──────────────┘└──────────────┘└──────────────┘
+
+.. list-table:: Domain Exception Hierarchy
+   :widths: 22 38 12 28
+   :header-rows: 1
+
+   * - Exception Class
+     - Module
+     - Category
+     - Description
+   * - ``ScaraError``
+     - ``core/model/exceptions/scara_error.py``
+     - ``[DOMAIN]``
+     - Base class for all domain, compiler, and protocol exceptions.
+   * - ``ScaraSyntaxError``
+     - ``core/model/exceptions/scara_syntax_error.py``
+     - ``[SYNTAX]``
+     - Lexer, tokenization, or parser grammar violations.
+   * - ``ScaraSemanticError``
+     - ``core/model/exceptions/scara_semantic_error.py``
+     - ``[SEMANTIC]``
+     - Semantic validation failures (undefined pallet, duplicate definitions).
+   * - ``ScaraKinematicsError``
+     - ``core/model/exceptions/scara_kinematics_error.py``
+     - ``[KINEMATICS]``
+     - Robot workspace, reachability, or mechanical singularity violations.
+   * - ``ScaraProtocolError``
+     - ``core/model/exceptions/scara_protocol_error.py``
+     - ``[PROTOCOL]``
+     - Wire framing, CRC-16 checksum failure, or truncated payload faults.
+   * - ``ScaraExportError``
+     - ``core/model/exceptions/scara_export_error.py``
+     - ``[EXPORT]``
+     - Trajectory export format errors or unsupported targets.
+   * - ``ScaraIOError``
+     - ``core/model/exceptions/scara_io_error.py``
+     - ``[IO]``
+     - File system access failures, missing input files, or permission faults.
+
+Dedicated Command Error Handlers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In accordance with the Single Responsibility Principle (SRP) and Interface Segregation Principle (ISP), each CLI subcommand delegates error categorization, return code determination, and error formatting to a dedicated error handler:
+
+.. list-table:: Dedicated Command Error Handlers
+   :widths: 15 25 30 30
+   :header-rows: 1
+
+   * - Subcommand
+     - Protocol Interface
+     - Concrete Handler
+     - Companion Factory
+   * - ``compile``
+     - ``ICompileErrorHandler``
+     - ``CompileErrorHandler``
+     - ``CompileErrorHandlerFactory``
+   * - ``decompile``
+     - ``IDecompileErrorHandler``
+     - ``DecompileErrorHandler``
+     - ``DecompileErrorHandlerFactory``
+   * - ``disassemble``
+     - ``IDisassembleErrorHandler``
+     - ``DisassembleErrorHandler``
+     - ``DisassembleErrorHandlerFactory``
+   * - ``export``
+     - ``IExportErrorHandler``
+     - ``ExportErrorHandler``
+     - ``ExportErrorHandlerFactory``
+   * - ``lint``
+     - ``ILintErrorHandler``
+     - ``LintErrorHandler``
+     - ``LintErrorHandlerFactory``
+
+Categorized Diagnostics & Formatted Messages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When a command fails, the corresponding error handler captures the domain exception, formats a category-tagged diagnostic message, and sets ``returncode = 1`` without unhandled tracebacks:
+
+* **Syntax Errors (``[SYNTAX]``):**
+
+  .. code-block:: bash
+
+      $ scarac compile --script invalid_syntax.scara
+      [SYNTAX] Line 4: Invalid float literal for parameter 'X': '150.abc'
+
+* **Semantic Errors (``[SEMANTIC]``):**
+
+  .. code-block:: bash
+
+      $ scarac compile --script invalid_pallet.scara
+      [SEMANTIC] Line 12: Referenced pallet 'TRAY1' has not been defined
+
+* **Kinematics Violations (``[KINEMATICS]``):**
+
+  .. code-block:: bash
+
+      $ scarac compile --script out_of_reach.scara
+      [KINEMATICS] Target coordinates (500.0, 300.0) exceed maximum reach of SCARA arm
+
+* **Wire Protocol & Deserialization Errors (``[PROTOCOL]``):**
+
+  .. code-block:: bash
+
+      $ scarac decompile --file corrupted.bin
+      [PROTOCOL] Payload truncated: expected 22 bytes for JOINT_STEPS, got 14 bytes
+
+* **Export Target Errors (``[EXPORT]``):**
+
+  .. code-block:: bash
+
+      $ scarac export --script program.scara --format unsupported --output out.bin
+      [EXPORT] Unsupported export format 'unsupported'
+
+* **File System / Missing Input Errors (``[IO]``):**
+
+  .. code-block:: bash
+
+      $ scarac compile --script missing.scara
+      compile::execute - file not found: missing.scara
+
+Python Library API: Error Handling Example
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Downstream applications can catch specific domain exceptions for fine-grained error recovery:
+
+.. code-block:: python
+
+    from scaralang.core.model.exceptions.scara_error import ScaraError
+    from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
+    from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+    from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
+    from scaralang.core.service.compiler.dsl.scara_dsl_compiler_factory import ScaraDslCompilerFactory
+
+    compiler = ScaraDslCompilerFactory.create_default()
+
+    try:
+        plan = compiler.compile_script(source="MOVE_J X 999.0 Y 999.0 Z 20.0")
+    except ScaraSyntaxError as exc:
+        print(f"Syntax error in script: {exc}")
+    except ScaraKinematicsError as exc:
+        print(f"Target position violates robot kinematic boundaries: {exc}")
+    except ScaraSemanticError as exc:
+        print(f"Semantic rule violation: {exc}")
+    except ScaraError as exc:
+        print(f"General SCARA domain error: {exc}")
 
 📊 Code coverage
 --------------------------------------------------------------------------------

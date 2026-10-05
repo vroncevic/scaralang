@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.core.service.info.scara_info_provider module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.core.service.info.scara_info_provider_factory module" href="scaralang.core.service.info.scara_info_provider_factory.html" />
+    <link rel="prev" title="scaralang.core.service.info.iscara_info_provider module" href="scaralang.core.service.info.iscara_info_provider.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.info.scara_info_provider_factory.html" title="scaralang.core.service.info.scara_info_provider_factory module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.info.iscara_info_provider.html" title="scaralang.core.service.info.iscara_info_provider module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.info.html" accesskey="U">scaralang.core.service.info package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.info.scara_info_provider module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.core.service.info.scara_info_provider">
+<span id="scaralang-core-service-info-scara-info-provider-module"></span><h1>scaralang.core.service.info.scara_info_provider module<a class="headerlink" href="#module-scaralang.core.service.info.scara_info_provider" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>scara_info_provider.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Provides comprehensive toolchain metadata, instruction catalog, and specifications.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.info.scara_info_provider.</span></span><span class="sig-name descname"><span class="pre">ScaraInfoProvider</span></span><a class="reference internal" href="_modules/scaralang/core/service/info/scara_info_provider.html#ScaraInfoProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Provides comprehensive toolchain metadata, instruction catalog, and specifications.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">get_info - Returns formatted toolchain specification lines.</div>
+<div class="line">get_toolchain_info - Returns formatted toolchain specification lines.</div>
+<div class="line">get_supported_instructions - Returns list of supported DSL instruction summaries.</div>
+<div class="line">build_verbose_lines - Returns detailed kinematic bounds and transmission lines.</div>
+<div class="line">get_version - Returns the info provider version string representation.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._EXPORT_FORMATS">
+<span class="sig-name descname"><span class="pre">_EXPORT_FORMATS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('Supported</span> <span class="pre">Export</span> <span class="pre">Formats:',</span> <span class="pre">'</span>&#160; <span class="pre">GCODE</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">RS-274</span> <span class="pre">/</span> <span class="pre">ISO</span> <span class="pre">G-code</span> <span class="pre">format</span> <span class="pre">for</span> <span class="pre">CNC/3D</span> <span class="pre">controllers',</span> <span class="pre">'</span>&#160; <span class="pre">CSV</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Comma-separated</span> <span class="pre">tabular</span> <span class="pre">time-series</span> <span class="pre">trajectory</span> <span class="pre">waypoints',</span> <span class="pre">'</span>&#160; <span class="pre">JSON</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Structured</span> <span class="pre">JSON</span> <span class="pre">AST</span> <span class="pre">and</span> <span class="pre">trajectory</span> <span class="pre">telemetry</span> <span class="pre">format',</span> <span class="pre">'</span>&#160; <span class="pre">SVG</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">2D</span> <span class="pre">vector</span> <span class="pre">graphic</span> <span class="pre">path</span> <span class="pre">visualization</span> <span class="pre">diagram',</span> <span class="pre">'</span>&#160; <span class="pre">SCARA</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Canonical</span> <span class="pre">SCARA</span> <span class="pre">DSL</span> <span class="pre">script</span> <span class="pre">format')</span></em><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._EXPORT_FORMATS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._INSTRUCTIONS">
+<span class="sig-name descname"><span class="pre">_INSTRUCTIONS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('</span>&#160; <span class="pre">---</span> <span class="pre">Motion</span> <span class="pre">Commands</span> <span class="pre">---',</span> <span class="pre">'</span>&#160; <span class="pre">MOVE_L</span> <span class="pre">X</span> <span class="pre">Y</span> <span class="pre">Z</span> <span class="pre">[F]</span> <span class="pre">[MODE]</span>&#160; <span class="pre">-</span> <span class="pre">Linear</span> <span class="pre">Cartesian</span> <span class="pre">motion</span> <span class="pre">interpolation',</span> <span class="pre">'</span>&#160; <span class="pre">MOVE_J</span> <span class="pre">J1</span> <span class="pre">J2</span> <span class="pre">Z</span> <span class="pre">J4</span> <span class="pre">[F]</span>&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Joint</span> <span class="pre">space</span> <span class="pre">point-to-point</span> <span class="pre">motion',</span> <span class="pre">'</span>&#160; <span class="pre">JUMP</span> <span class="pre">X</span> <span class="pre">Y</span> <span class="pre">Z</span> <span class="pre">[H]</span> <span class="pre">[F]</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Gate</span> <span class="pre">motion</span> <span class="pre">(retract,</span> <span class="pre">traverse,</span> <span class="pre">plunge)',</span> <span class="pre">'</span>&#160; <span class="pre">ARC</span> <span class="pre">X</span> <span class="pre">Y</span> <span class="pre">CX</span> <span class="pre">CY</span> <span class="pre">CW/CCW</span> <span class="pre">[F]</span> <span class="pre">-</span> <span class="pre">Circular</span> <span class="pre">arc</span> <span class="pre">interpolation</span> <span class="pre">(CW/CCW)',</span> <span class="pre">'</span>&#160; <span class="pre">APPROACH</span> <span class="pre">Z</span> <span class="pre">[F]</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Relative</span> <span class="pre">downward</span> <span class="pre">vertical</span> <span class="pre">approach</span> <span class="pre">along</span> <span class="pre">Z',</span> <span class="pre">'</span>&#160; <span class="pre">RETRACT</span> <span class="pre">Z</span> <span class="pre">[F]</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Relative</span> <span class="pre">upward</span> <span class="pre">vertical</span> <span class="pre">retract</span> <span class="pre">along</span> <span class="pre">Z',</span> <span class="pre">'</span>&#160; <span class="pre">HOME</span> <span class="pre">[AXIS]</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Multi-axis</span> <span class="pre">homing</span> <span class="pre">sequence</span> <span class="pre">calibration',</span> <span class="pre">'</span>&#160; <span class="pre">JOG_AXIS</span> <span class="pre">AXIS</span> <span class="pre">DIST</span> <span class="pre">[F]</span>&#160;&#160; <span class="pre">-</span> <span class="pre">Relative</span> <span class="pre">manual</span> <span class="pre">Cartesian</span> <span class="pre">axis</span> <span class="pre">jog',</span> <span class="pre">'</span>&#160; <span class="pre">JOG_JOINT</span> <span class="pre">JOINT</span> <span class="pre">DEG</span> <span class="pre">[F]</span>&#160; <span class="pre">-</span> <span class="pre">Relative</span> <span class="pre">manual</span> <span class="pre">joint</span> <span class="pre">rotation</span> <span class="pre">jog',</span> <span class="pre">'</span>&#160; <span class="pre">---</span> <span class="pre">Configuration</span> <span class="pre">Commands</span> <span class="pre">---',</span> <span class="pre">'</span>&#160; <span class="pre">CONFIG</span> <span class="pre">ELBOW</span> <span class="pre">LEFT/RIGHT</span>&#160; <span class="pre">-</span> <span class="pre">Kinematic</span> <span class="pre">elbow</span> <span class="pre">arm</span> <span class="pre">configuration</span> <span class="pre">mode',</span> <span class="pre">'</span>&#160; <span class="pre">CONFIG</span> <span class="pre">MOTOR</span> <span class="pre">OPEN/CLOSED</span> <span class="pre">-</span> <span class="pre">Stepper</span> <span class="pre">motor</span> <span class="pre">actuation</span> <span class="pre">drive</span> <span class="pre">mode',</span> <span class="pre">'</span>&#160; <span class="pre">SPEED</span> <span class="pre">[RAPID/WORK]</span> <span class="pre">F</span>&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Path</span> <span class="pre">feedrate</span> <span class="pre">speed</span> <span class="pre">setting</span> <span class="pre">(mm/s)',</span> <span class="pre">'</span>&#160; <span class="pre">ACCEL</span> <span class="pre">A</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Path</span> <span class="pre">acceleration</span> <span class="pre">setting</span> <span class="pre">(mm/s^2)',</span> <span class="pre">'</span>&#160; <span class="pre">OVERRIDE</span> <span class="pre">P</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Global</span> <span class="pre">speed</span> <span class="pre">override</span> <span class="pre">percentage</span> <span class="pre">(1-200%)',</span> <span class="pre">'</span>&#160; <span class="pre">ZONE</span> <span class="pre">FINE/BLEND</span> <span class="pre">[R]</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Corner</span> <span class="pre">trajectory</span> <span class="pre">blending</span> <span class="pre">mode',</span> <span class="pre">'</span>&#160; <span class="pre">TOOL_ORIENT</span> <span class="pre">FIXED/TANGENT-</span> <span class="pre">End-effector</span> <span class="pre">4th</span> <span class="pre">axis</span> <span class="pre">orientation</span> <span class="pre">mode',</span> <span class="pre">'</span>&#160; <span class="pre">---</span> <span class="pre">Work</span> <span class="pre">Frames</span> <span class="pre">&amp;</span> <span class="pre">Palletization</span> <span class="pre">---',</span> <span class="pre">'</span>&#160; <span class="pre">FRAME</span> <span class="pre">SET</span> <span class="pre">X</span> <span class="pre">Y</span> <span class="pre">THETA</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Define</span> <span class="pre">local</span> <span class="pre">work</span> <span class="pre">coordinate</span> <span class="pre">frame',</span> <span class="pre">'</span>&#160; <span class="pre">FRAME</span> <span class="pre">RESET</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Reset</span> <span class="pre">coordinate</span> <span class="pre">frame</span> <span class="pre">to</span> <span class="pre">base</span> <span class="pre">world</span> <span class="pre">frame',</span> <span class="pre">'</span>&#160; <span class="pre">PALLET</span> <span class="pre">DEF</span> <span class="pre">ID</span> <span class="pre">R</span> <span class="pre">C</span> <span class="pre">DX</span> <span class="pre">DY</span>&#160; <span class="pre">-</span> <span class="pre">Matrix</span> <span class="pre">pallet</span> <span class="pre">layout</span> <span class="pre">definition',</span> <span class="pre">'</span>&#160; <span class="pre">PALLET</span> <span class="pre">MOVE</span> <span class="pre">ID</span> <span class="pre">INDEX</span>&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Move</span> <span class="pre">to</span> <span class="pre">pallet</span> <span class="pre">slot</span> <span class="pre">index',</span> <span class="pre">'</span>&#160; <span class="pre">---</span> <span class="pre">Tools</span> <span class="pre">&amp;</span> <span class="pre">Actuation</span> <span class="pre">---',</span> <span class="pre">'</span>&#160; <span class="pre">PUMP</span> <span class="pre">ON/OFF</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Vacuum</span> <span class="pre">gripper</span> <span class="pre">pump</span> <span class="pre">control',</span> <span class="pre">'</span>&#160; <span class="pre">VALVE</span> <span class="pre">ON/OFF</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Blow-off</span> <span class="pre">vent</span> <span class="pre">valve</span> <span class="pre">control',</span> <span class="pre">'</span>&#160; <span class="pre">TOOL</span> <span class="pre">UP/DOWN</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Pneumatic</span> <span class="pre">tool</span> <span class="pre">cylinder</span> <span class="pre">actuation',</span> <span class="pre">'</span>&#160; <span class="pre">PROBE</span> <span class="pre">Z</span> <span class="pre">[F]</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Tactile</span> <span class="pre">search</span> <span class="pre">probe</span> <span class="pre">until</span> <span class="pre">contact',</span> <span class="pre">'</span>&#160; <span class="pre">---</span> <span class="pre">Flow</span> <span class="pre">Control</span> <span class="pre">&amp;</span> <span class="pre">Safety</span> <span class="pre">---',</span> <span class="pre">'</span>&#160; <span class="pre">WAIT</span> <span class="pre">MS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Dwell</span> <span class="pre">delay</span> <span class="pre">in</span> <span class="pre">milliseconds',</span> <span class="pre">'</span>&#160; <span class="pre">SYNC</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Synchronize</span> <span class="pre">motion</span> <span class="pre">queue</span> <span class="pre">buffer',</span> <span class="pre">'</span>&#160; <span class="pre">HOLD</span> <span class="pre">/</span> <span class="pre">RESUME</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Pause</span> <span class="pre">/</span> <span class="pre">resume</span> <span class="pre">motion</span> <span class="pre">execution',</span> <span class="pre">'</span>&#160; <span class="pre">ENABLE</span> <span class="pre">/</span> <span class="pre">DISABLE</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Energize</span> <span class="pre">/</span> <span class="pre">de-energize</span> <span class="pre">stepper</span> <span class="pre">driver</span> <span class="pre">stages',</span> <span class="pre">'</span>&#160; <span class="pre">ESTOP</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Immediate</span> <span class="pre">emergency</span> <span class="pre">stop')</span></em><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._INSTRUCTIONS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._PROTOCOL_SPECS">
+<span class="sig-name descname"><span class="pre">_PROTOCOL_SPECS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('Binary</span> <span class="pre">Protocol</span> <span class="pre">Specification:',</span> <span class="pre">'</span>&#160; <span class="pre">Frame</span> <span class="pre">Delimiters:</span> <span class="pre">SOF1=0xAA,</span> <span class="pre">SOF2=0x55,</span> <span class="pre">EOF=0x0D',</span> <span class="pre">'</span>&#160; <span class="pre">Integrity</span> <span class="pre">Check:</span>&#160; <span class="pre">CRC-16-CCITT</span> <span class="pre">(poly</span> <span class="pre">0x1021,</span> <span class="pre">init</span> <span class="pre">0xFFFF)',</span> <span class="pre">'</span>&#160; <span class="pre">Header</span> <span class="pre">Format:</span>&#160;&#160;&#160; <span class="pre">&lt;BBB</span> <span class="pre">(msg_id,</span> <span class="pre">seq_num,</span> <span class="pre">payload_len)',</span> <span class="pre">'</span>&#160; <span class="pre">Trailer</span> <span class="pre">Format:</span>&#160;&#160; <span class="pre">&lt;HB</span>&#160; <span class="pre">(crc16,</span> <span class="pre">eof)',</span> <span class="pre">'</span>&#160; <span class="pre">Max</span> <span class="pre">Payload:</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">64</span> <span class="pre">bytes')</span></em><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._PROTOCOL_SPECS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._SUBCOMMANDS">
+<span class="sig-name descname"><span class="pre">_SUBCOMMANDS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('Available</span> <span class="pre">Subcommands:',</span> <span class="pre">'</span>&#160; <span class="pre">compile</span>&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Compiles</span> <span class="pre">.scara</span> <span class="pre">DSL</span> <span class="pre">scripts</span> <span class="pre">into</span> <span class="pre">binary</span> <span class="pre">frame</span> <span class="pre">streams',</span> <span class="pre">'</span>&#160; <span class="pre">decompile</span>&#160;&#160; <span class="pre">-</span> <span class="pre">Reconstructs</span> <span class="pre">.scara</span> <span class="pre">DSL</span> <span class="pre">code</span> <span class="pre">from</span> <span class="pre">binary</span> <span class="pre">frame</span> <span class="pre">files',</span> <span class="pre">'</span>&#160; <span class="pre">disassemble</span> <span class="pre">-</span> <span class="pre">Disassembles</span> <span class="pre">and</span> <span class="pre">inspects</span> <span class="pre">binary</span> <span class="pre">wire</span> <span class="pre">frames</span> <span class="pre">and</span> <span class="pre">opcodes',</span> <span class="pre">'</span>&#160; <span class="pre">export</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Exports</span> <span class="pre">trajectories</span> <span class="pre">into</span> <span class="pre">external</span> <span class="pre">formats</span> <span class="pre">(GCODE,</span> <span class="pre">CSV,</span> <span class="pre">JSON,</span> <span class="pre">SVG,</span> <span class="pre">SCARA)',</span> <span class="pre">'</span>&#160; <span class="pre">lint</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Static</span> <span class="pre">syntax,</span> <span class="pre">semantic,</span> <span class="pre">and</span> <span class="pre">kinematic</span> <span class="pre">validation',</span> <span class="pre">'</span>&#160; <span class="pre">info</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Toolchain</span> <span class="pre">metadata,</span> <span class="pre">instruction</span> <span class="pre">catalog,</span> <span class="pre">and</span> <span class="pre">specifications',</span> <span class="pre">'</span>&#160; <span class="pre">repl</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-</span> <span class="pre">Interactive</span> <span class="pre">Read-Eval-Print</span> <span class="pre">Loop</span> <span class="pre">terminal')</span></em><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._SUBCOMMANDS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.build_verbose_lines">
+<span class="sig-name descname"><span class="pre">build_verbose_lines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/info/scara_info_provider.html#ScaraInfoProvider.build_verbose_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.build_verbose_lines" title="Link to this definition">¶</a></dt>
+<dd><p>Builds detailed kinematic bounds and transmission lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple of formatted verbose specification lines.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_info">
+<span class="sig-name descname"><span class="pre">get_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/info/scara_info_provider.html#ScaraInfoProvider.get_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_info" title="Link to this definition">¶</a></dt>
+<dd><p>Returns toolchain metadata, instruction catalog and protocol specification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>verbose</strong> – Whether to include kinematic bounds details.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple of informative strings.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_supported_instructions">
+<span class="sig-name descname"><span class="pre">get_supported_instructions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/info/scara_info_provider.html#ScaraInfoProvider.get_supported_instructions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_supported_instructions" title="Link to this definition">¶</a></dt>
+<dd><p>Returns list of supported DSL instruction syntax summaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple of supported instruction names and signatures.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_toolchain_info">
+<span class="sig-name descname"><span class="pre">get_toolchain_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/info/scara_info_provider.html#ScaraInfoProvider.get_toolchain_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_toolchain_info" title="Link to this definition">¶</a></dt>
+<dd><p>Returns toolchain metadata, instruction catalog and protocol specification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>verbose</strong> – Whether to include kinematic bounds details.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple of informative strings.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/info/scara_info_provider.html#ScaraInfoProvider.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_version" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the info provider version string representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Semantic version string.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.core.service.info.scara_info_provider module</a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._EXPORT_FORMATS"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider._EXPORT_FORMATS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._INSTRUCTIONS"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider._INSTRUCTIONS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._PROTOCOL_SPECS"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider._PROTOCOL_SPECS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider._SUBCOMMANDS"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider._SUBCOMMANDS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.build_verbose_lines"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider.build_verbose_lines()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_info"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider.get_info()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_supported_instructions"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider.get_supported_instructions()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_toolchain_info"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider.get_toolchain_info()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.info.scara_info_provider.ScaraInfoProvider.get_version"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider.get_version()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.core.service.info.iscara_info_provider.html"
+                          title="previous chapter">scaralang.core.service.info.iscara_info_provider module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.core.service.info.scara_info_provider_factory.html"
+                          title="next chapter">scaralang.core.service.info.scara_info_provider_factory module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.core.service.info.scara_info_provider.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.info.scara_info_provider_factory.html" title="scaralang.core.service.info.scara_info_provider_factory module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.info.iscara_info_provider.html" title="scaralang.core.service.info.iscara_info_provider module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.info.html" >scaralang.core.service.info package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.info.scara_info_provider module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

@@ -29,6 +29,7 @@ from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.service.parser.commands.config.tool_orient_command_parser import ToolOrientCommandParser
 from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
 
@@ -36,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -91,25 +92,25 @@ class TestToolOrientCommandParser(TestCase):
 
     def test_parse_missing_mode(self) -> None:
         '''
-            Verifies ValueError on missing mode.
+            Verifies ScaraSyntaxError on missing mode.
         '''
         parser = ToolOrientCommandParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='TOOL_ORIENT', line=1, column=1),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='TOOL_ORIENT')
 
     def test_parse_invalid_mode(self) -> None:
         '''
-            Verifies ValueError on invalid mode.
+            Verifies ScaraSyntaxError on invalid mode.
         '''
         parser = ToolOrientCommandParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='TOOL_ORIENT', line=1, column=1),
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='INVALID_MODE', line=1, column=13),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='TOOL_ORIENT INVALID_MODE')
 
 

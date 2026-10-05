@@ -62,6 +62,7 @@
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">radians</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
 
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_kinematics_error</span> <span class="kn">import</span> <span class="n">ScaraKinematicsError</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.protocol.joint_steps</span> <span class="kn">import</span> <span class="n">JointSteps</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
@@ -72,7 +73,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.4&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -152,7 +153,7 @@
 <span class="sd">            :param waypoint: Target Cartesian Waypoint instance.</span>
 <span class="sd">            :param prev_angles: Preceding joint angles (th1, th2, z, th4).</span>
 <span class="sd">            :return: Tuple of (JointSteps model, new joint angles tuple).</span>
-<span class="sd">            :exceptions: ValueError if position is unreachable.</span>
+<span class="sd">            :exceptions: ScaraKinematicsError if position is unreachable.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">ik_sol</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">solve_ik</span><span class="p">(</span>
             <span class="n">point</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">waypoint</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">waypoint</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
@@ -160,7 +161,7 @@
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ik_sol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">ScaraKinematicsError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Waypoint (</span><span class="si">{</span><span class="n">waypoint</span><span class="o">.</span><span class="n">x</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">waypoint</span><span class="o">.</span><span class="n">y</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">) is outside kinematic reach.&#39;</span>
             <span class="p">)</span>
 

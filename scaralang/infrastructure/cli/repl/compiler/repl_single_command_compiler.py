@@ -24,6 +24,7 @@ from __future__ import annotations
 from typing import Final
 
 from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.repl.repl_pose_state import ReplPoseState
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -88,13 +89,13 @@ class ReplSingleCommandCompiler:
             :param context: Active REPL session context model.
             :return: Tuple of (BinaryFrame, Step, ReplSessionContext).
             :exceptions:
-                | ValueError: If syntax, kinematic limits, or validation checks fail.
+                | ScaraSemanticError: If no binary steps compiled for line.
         '''
         plan = self._compiler.compile_script(source=line)
         program = self._binary_compiler.compile_plan(plan=plan)
 
         if not program.steps:
-            raise ValueError(f'No binary steps compiled for line: {line}')
+            raise ScaraSemanticError(f'No binary steps compiled for line: {line}')
 
         step: Step = program.steps[-1]
         new_context: ReplSessionContext = self.update_context(

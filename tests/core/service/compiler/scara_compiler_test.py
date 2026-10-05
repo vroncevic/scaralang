@@ -21,30 +21,23 @@ Info
 
 from __future__ import annotations
 
-from math import radians
 from unittest import TestCase
 from unittest import main
+from unittest.mock import MagicMock
 
-from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
-from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.program import ScaraProgram
-from scaralang.core.model.kinematics.joint_angle_bounds import JointAngleBounds
-from scaralang.core.model.kinematics.link_dimensions import LinkDimensions
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.model.kinematics.singularity_margins import SingularityMargins
-from scaralang.core.model.kinematics.speed_limits import SpeedLimits
-from scaralang.core.model.kinematics.vertical_bounds import VerticalBounds
+from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
+from scaralang.core.model.dsl.binary.program import BinaryProgram
+from scaralang.core.service.compiler.binary.ibinary_compiler import IBinaryCompiler
+from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
 from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
-from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
-from scaralang.core.service.kinematics.kinematics_service_factory import KinematicsServiceFactory
+from scaralang.core.service.compiler.scara_compiler import ScaraCompiler
 from scaralang.core.service.trajectory.plan.itrajectory_plan import ITrajectoryPlan
-from scaralang.core.service.trajectory.validation.trajectory_validator_factory import TrajectoryValidatorFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -57,42 +50,27 @@ class TestScaraCompiler(TestCase):
         It defines:
 
             :methods:
-                | setUp - Initializes test bounds and compiler.
+                | setUp - Initializes test compiler with mock collaborators.
                 | test_structural_conformance - Verifies protocol check.
-                | test_compile_valid_program - Tests successful compilation to ITrajectoryPlan.
-                | test_compile_kinematic_failure - Tests exception on unreachable position.
+                | test_compile - Verifies primary compile method.
+                | test_compile_bytes - Verifies compile_bytes method.
+                | test_compile_plan - Verifies plan compilation delegation.
+                | test_compile_to_binary - Verifies compile_to_binary method.
+                | test_compile_to_bytes - Verifies compile_to_bytes method.
+                | test_get_program_telemetry - Verifies telemetry extraction.
+                | test_get_version - Verifies version string.
     '''
 
     def setUp(self) -> None:
         '''
-            Sets up test bounds, validator, and compiler.
+            Sets up compiler with mocked collaborators.
         '''
-        self.bounds = ScaraBounds(
-            links=LinkDimensions(l1=150.0, l2=150.0),
-            vertical=VerticalBounds(z_min=-50.0, z_max=50.0),
-            speeds=SpeedLimits(
-                min_speed=1.0,
-                max_speed=200.0,
-                default_speed=50.0,
-                default_accel=100.0,
-                max_accel=500.0,
-            ),
-            joints=JointAngleBounds(
-                j1_min_rad=radians(-150.0),
-                j1_max_rad=radians(150.0),
-                j2_min_rad=radians(-150.0),
-                j2_max_rad=radians(150.0),
-            ),
-            singularity=SingularityMargins(
-                singularity_outer_margin_mm=5.0,
-                singularity_inner_margin_mm=5.0,
-                singularity_theta2_min_rad=radians(5.0),
-                deadzone_r_min=20.0,
-            ),
+        self.mock_dsl_compiler = MagicMock(spec=IScaraDslCompiler)
+        self.mock_binary_compiler = MagicMock(spec=IBinaryCompiler)
+        self.compiler = ScaraCompiler(
+            compiler=self.mock_dsl_compiler,
+            binary_compiler=self.mock_binary_compiler,
         )
-        kinematics = KinematicsServiceFactory.create(bounds=self.bounds)
-        validator = TrajectoryValidatorFactory.create(kinematics=kinematics)
-        self.compiler = ScaraCompilerFactory.create(validator=validator)
 
     def test_structural_conformance(self) -> None:
         '''
@@ -104,46 +82,82 @@ class TestScaraCompiler(TestCase):
         '''
             Verifies compiler get_version returns semantic version string.
         '''
-        self.assertEqual(self.compiler.get_version(), '1.0.3')
+        self.assertEqual(self.compiler.get_version(), '1.0.4')
 
-    def test_compile_valid_program(self) -> None:
+    def test_compile(self) -> None:
         '''
-            Verifies compiling valid program produces ITrajectoryPlan.
+            Verifies compile delegates to compile_to_binary.
         '''
-        instructions = [
-            ScaraInstruction(
-                command_type=ScaraCommandType.HOME,
-                parameters={},
-                line_number=1,
-                raw_text='HOME',
-            ),
-            ScaraInstruction(
-                command_type=ScaraCommandType.MOVE_J,
-                parameters={'X': 150.0, 'Y': 50.0, 'Z': 20.0, 'PHI': 0.0},
-                line_number=2,
-                raw_text='MOVE_J X=150 Y=50 Z=20 PHI=0',
-            ),
-        ]
-        program = ScaraProgram(instructions=instructions)
-        plan: ITrajectoryPlan = self.compiler.compile(program=program)
-        self.assertIsInstance(plan, ITrajectoryPlan)
-        self.assertGreaterEqual(plan.count, 2)
+        mock_plan = MagicMock(spec=ITrajectoryPlan)
+        mock_program = MagicMock(spec=BinaryProgram)
+        self.mock_dsl_compiler.compile_script.return_value = mock_plan
+        self.mock_binary_compiler.compile_plan.return_value = mock_program
 
-    def test_compile_kinematic_failure(self) -> None:
+        result = self.compiler.compile(source='HOME\n')
+        self.assertEqual(result, mock_program)
+        self.mock_dsl_compiler.compile_script.assert_called_once_with(source='HOME\n')
+        self.mock_binary_compiler.compile_plan.assert_called_once_with(plan=mock_plan)
+
+    def test_compile_bytes(self) -> None:
         '''
-            Verifies that unreachable coordinates trigger validation ValueError.
+            Verifies compile_bytes returns raw bytes from compiled program.
         '''
-        instructions = [
-            ScaraInstruction(
-                command_type=ScaraCommandType.MOVE_J,
-                parameters={'X': 500.0, 'Y': 500.0, 'Z': 0.0, 'PHI': 0.0},
-                line_number=1,
-                raw_text='MOVE_J X=500 Y=500 Z=0 PHI=0',
-            ),
-        ]
-        program = ScaraProgram(instructions=instructions)
-        with self.assertRaises(ValueError):
-            self.compiler.compile(program=program)
+        mock_plan = MagicMock(spec=ITrajectoryPlan)
+        mock_program = MagicMock(spec=BinaryProgram)
+        mock_program.raw_bytes = b'\x01\x02\x03'
+        self.mock_dsl_compiler.compile_script.return_value = mock_plan
+        self.mock_binary_compiler.compile_plan.return_value = mock_program
+
+        result = self.compiler.compile_bytes(source='HOME\n')
+        self.assertEqual(result, b'\x01\x02\x03')
+
+    def test_compile_plan(self) -> None:
+        '''
+            Verifies compile_plan delegates directly to binary compiler.
+        '''
+        mock_plan = MagicMock(spec=ITrajectoryPlan)
+        mock_program = MagicMock(spec=BinaryProgram)
+        self.mock_binary_compiler.compile_plan.return_value = mock_program
+
+        result = self.compiler.compile_plan(plan=mock_plan)
+        self.assertEqual(result, mock_program)
+        self.mock_binary_compiler.compile_plan.assert_called_once_with(plan=mock_plan)
+
+    def test_compile_to_binary(self) -> None:
+        '''
+            Verifies compile_to_binary compiles script to plan and plan to binary.
+        '''
+        mock_plan = MagicMock(spec=ITrajectoryPlan)
+        mock_program = MagicMock(spec=BinaryProgram)
+        self.mock_dsl_compiler.compile_script.return_value = mock_plan
+        self.mock_binary_compiler.compile_plan.return_value = mock_program
+
+        result = self.compiler.compile_to_binary(source='MOVE_J X=10\n')
+        self.assertEqual(result, mock_program)
+
+    def test_compile_to_bytes(self) -> None:
+        '''
+            Verifies compile_to_bytes extracts raw bytes.
+        '''
+        mock_plan = MagicMock(spec=ITrajectoryPlan)
+        mock_program = MagicMock(spec=BinaryProgram)
+        mock_program.raw_bytes = b'\xaa\xbb'
+        self.mock_dsl_compiler.compile_script.return_value = mock_plan
+        self.mock_binary_compiler.compile_plan.return_value = mock_program
+
+        result = self.compiler.compile_to_bytes(source='MOVE_J X=10\n')
+        self.assertEqual(result, b'\xaa\xbb')
+
+    def test_get_program_telemetry(self) -> None:
+        '''
+            Verifies get_program_telemetry extracts telemetry from program.
+        '''
+        mock_program = MagicMock(spec=BinaryProgram)
+        mock_telemetry = MagicMock(spec=BinaryProgramTelemetry)
+        mock_program.telemetry = mock_telemetry
+
+        result = self.compiler.get_program_telemetry(program=mock_program)
+        self.assertEqual(result, mock_telemetry)
 
 
 if __name__ == '__main__':

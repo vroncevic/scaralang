@@ -25,6 +25,7 @@ from struct import pack
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.exceptions.scara_protocol_error import ScaraProtocolError
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.protocol.tool_id import ToolId
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,6 +56,7 @@ class TestBinaryPayloadUnpacker(TestCase):
                 | test_unpack_nack - Verifies unpack_nack.
                 | test_unpack_motor_config - Verifies unpack_motor_config.
                 | test_unpack_motor_config_partial - Verifies partial unpack_motor_config.
+                | test_unpack_truncated_payloads - Verifies ScaraProtocolError on short payloads.
     '''
 
     def test_name_property(self) -> None:
@@ -124,6 +126,22 @@ class TestBinaryPayloadUnpacker(TestCase):
         mode_empty, axes_empty = BinaryPayloadUnpacker.unpack_motor_config(b'')
         self.assertEqual(mode_empty, 0)
         self.assertEqual(axes_empty, 0x0F)
+
+    def test_unpack_truncated_payloads(self) -> None:
+        '''
+            Verifies ScaraProtocolError is raised when payloads are shorter than required.
+        '''
+        with self.assertRaises(ScaraProtocolError):
+            BinaryPayloadUnpacker.unpack_tool_cmd(b'\x01')
+
+        with self.assertRaises(ScaraProtocolError):
+            BinaryPayloadUnpacker.unpack_joint_steps(b'\x00' * 21)
+
+        with self.assertRaises(ScaraProtocolError):
+            BinaryPayloadUnpacker.unpack_ack(b'\x01')
+
+        with self.assertRaises(ScaraProtocolError):
+            BinaryPayloadUnpacker.unpack_nack(b'\x01')
 
 
 if __name__ == '__main__':

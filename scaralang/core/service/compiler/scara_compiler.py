@@ -16,25 +16,24 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Implementation of IScaraCompiler transforming SCARA DSL programs
-    into validated trajectory plans.
+    Implementation of IScaraCompiler orchestrating DSL parsing and binary frame compilation.
 '''
 
 from __future__ import annotations
 
 from typing import Final
 
-from scaralang.core.model.dsl.ast.program import ScaraProgram
-from scaralang.core.service.compiler.iinstruction_pipeline import IInstructionPipeline
+from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
+from scaralang.core.model.dsl.binary.program import BinaryProgram
+from scaralang.core.service.compiler.binary.ibinary_compiler import IBinaryCompiler
+from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
 from scaralang.core.service.trajectory.plan.itrajectory_plan import ITrajectoryPlan
-from scaralang.core.service.trajectory.plan.itrajectory_plan_factory import ITrajectoryPlanFactory
-from scaralang.core.service.trajectory.validation.itrajectory_validator import ITrajectoryValidator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,67 +41,109 @@ __status__ = 'Updated'
 
 class ScaraCompiler:
     '''
-        Compiler orchestrator coordinating instruction pipeline and kinematic validation.
+        Compiler service implementing binary frame compilation and telemetry for SCARA DSL.
 
         It defines:
 
             :attributes:
-                | _validator - Kinematic reachability validator.
-                | _plan_factory - Factory producing ITrajectoryPlan instances.
-                | _instruction_pipeline - Pipeline compiling AST instructions into Waypoints.
+                | _compiler - DSL script compiler protocol instance.
+                | _binary_compiler - Trajectory plan to binary compiler protocol instance.
             :methods:
                 | __init__ - Initializes compiler with injected collaborators.
-                | compile - Compiles Program into validated TrajectoryPlan.
-                | get_version - Returns the compiler version string.
+                | compile - Compiles DSL source text into BinaryProgram package.
+                | compile_bytes - Compiles DSL source code into raw UART byte stream.
+                | compile_plan - Compiles ITrajectoryPlan into BinaryProgram package.
+                | compile_to_binary - Compiles DSL source text into BinaryProgram package.
+                | compile_to_bytes - Compiles DSL code directly to raw UART byte stream.
+                | get_program_telemetry - Returns execution metrics and telemetry
+                  for binary program.
+                | get_version - Returns compiler version string.
     '''
 
-    _validator: ITrajectoryValidator
-    _plan_factory: ITrajectoryPlanFactory
-    _instruction_pipeline: IInstructionPipeline
+    _compiler: IScaraDslCompiler
+    _binary_compiler: IBinaryCompiler
 
     def __init__(
         self,
         *,
-        validator: ITrajectoryValidator,
-        instruction_pipeline: IInstructionPipeline,
-        plan_factory: ITrajectoryPlanFactory,
+        compiler: IScaraDslCompiler,
+        binary_compiler: IBinaryCompiler,
     ) -> None:
         '''
-            Initializes ScaraCompiler with injected components.
+            Initializes ScaraCompiler with required compiler delegates.
 
-            :param validator: Injected ITrajectoryValidator instance.
-            :param instruction_pipeline: Injected IInstructionPipeline component.
-            :param plan_factory: Injected ITrajectoryPlanFactory component.
+            :param compiler: Required IScaraDslCompiler protocol instance.
+            :param binary_compiler: Required IBinaryCompiler protocol instance.
             :exceptions: None.
         '''
-        self._validator: Final[ITrajectoryValidator] = validator
-        self._instruction_pipeline: Final[IInstructionPipeline] = instruction_pipeline
-        self._plan_factory: Final[ITrajectoryPlanFactory] = plan_factory
+        self._compiler: Final[IScaraDslCompiler] = compiler
+        self._binary_compiler: Final[IBinaryCompiler] = binary_compiler
 
-    def compile(self, *, program: ScaraProgram) -> ITrajectoryPlan:
+    def compile(self, *, source: str) -> BinaryProgram:
         '''
-            Compiles a SCARA DSL program into an executable and validated ITrajectoryPlan.
+            Compiles DSL source code into a binary program package.
 
-            :param program: Parsed ScaraProgram AST root.
-            :return: Validated ITrajectoryPlan instance.
-            :exceptions: ValueError if kinematic validation fails.
+            :param source: Raw .scara script text.
+            :return: BinaryProgram package containing packed binary frames.
+            :exceptions: ValueError if parsing or validation fails.
         '''
-        waypoints = self._instruction_pipeline.compile_instructions(
-            instructions=program.instructions
-        )
+        return self.compile_to_binary(source=source)
 
-        plan = self._plan_factory.create()
-        plan.set_waypoints(waypoints)
+    def compile_bytes(self, *, source: str) -> bytes:
+        '''
+            Compiles DSL source code directly into a binary wire byte stream.
 
-        is_valid, messages = self._validator.validate_plan(plan=plan)
+            :param source: Raw .scara script text.
+            :return: Raw byte stream suitable for UART transmission.
+            :exceptions: ValueError if compilation fails.
+        '''
+        return self.compile_to_bytes(source=source)
 
-        if not is_valid:
-            err_msg = '; '.join(messages)
-            raise ValueError(
-                f'Compilation failed kinematic validation: {err_msg}'
-            )
+    def compile_plan(self, *, plan: ITrajectoryPlan) -> BinaryProgram:
+        '''
+            Compiles a validated ITrajectoryPlan into a binary program package.
 
-        return plan
+            :param plan: Validated ITrajectoryPlan protocol instance.
+            :return: Validated BinaryProgram domain model.
+            :exceptions: ValueError if plan contains empty waypoints or invalid geometry.
+        '''
+        return self._binary_compiler.compile_plan(plan=plan)
+
+    def compile_to_binary(self, *, source: str) -> BinaryProgram:
+        '''
+            Compiles DSL source code into a binary program package.
+
+            :param source: Raw .scara script text.
+            :return: BinaryProgram package containing packed binary frames.
+            :exceptions: ValueError if parsing or validation fails.
+        '''
+        plan: ITrajectoryPlan = self._compiler.compile_script(source=source)
+        return self._binary_compiler.compile_plan(plan=plan)
+
+    def compile_to_bytes(self, *, source: str) -> bytes:
+        '''
+            Compiles DSL source code directly into a binary wire byte stream.
+
+            :param source: Raw .scara script text.
+            :return: Raw byte stream suitable for UART transmission.
+            :exceptions: ValueError if compilation fails.
+        '''
+        program: BinaryProgram = self.compile_to_binary(source=source)
+        return program.raw_bytes
+
+    def get_program_telemetry(
+        self,
+        *,
+        program: BinaryProgram
+    ) -> BinaryProgramTelemetry:
+        '''
+            Computes and returns binary program execution metrics and telemetry.
+
+            :param program: BinaryProgram domain model instance.
+            :return: BinaryProgramTelemetry metrics domain model.
+            :exceptions: None.
+        '''
+        return program.telemetry
 
     def get_version(self) -> str:
         '''

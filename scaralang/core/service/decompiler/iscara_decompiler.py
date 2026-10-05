@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,10 +43,19 @@ class IScaraDecompiler(Protocol):
         It defines:
 
             :methods:
+                | decompile - Decompiles raw binary bytes into SCARA DSL script text.
                 | decompile_bytes - Decompiles raw binary bytes into SCARA DSL script text.
                 | decompile_frames - Decompiles tuple of BinaryFrames into SCARA DSL script text.
                 | get_version - Returns decompiler version string.
     '''
+
+    def decompile(self, *, data: bytes) -> str:
+        '''
+            Decompiles contiguous raw binary frame bytes into SCARA DSL script text.
+
+            :param data: Contiguous binary frame byte sequence.
+            :return: Reconstructed SCARA DSL script source text.
+        '''
 
     def decompile_bytes(self, *, data: bytes) -> str:
         '''

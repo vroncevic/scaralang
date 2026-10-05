@@ -26,6 +26,7 @@ from typing import ClassVar, Final
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.binary.parsed_command_token import ParsedCommandToken
 from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.protocol.tool_id import ToolId
@@ -38,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -115,7 +116,7 @@ class CommandCompiler:
             :param seq_num: Cyclic sequence counter.
             :param line_num: Source line index.
             :return: Compiled Step.
-            :exceptions: None.
+            :exceptions: ScaraSemanticError on unsupported command name.
         '''
         token: ParsedCommandToken = self._token_parser.parse(command=command)
         frame: BinaryFrame
@@ -163,9 +164,8 @@ class CommandCompiler:
                 )
 
             case _:
-                frame = self._frame_builder.build_system_cmd(
-                    msg_id=MessageId.CMD_PING,
-                    seq_num=seq_num,
+                raise ScaraSemanticError(
+                    f'Unsupported command: {token.cmd_name} at line {line_num}'
                 )
 
         raw_bytes: bytes = self._frame_builder.pack_frame(frame=frame)

@@ -24,6 +24,7 @@ from __future__ import annotations
 from math import atan2, ceil, cos, degrees, hypot, pi, radians, sin
 
 from scaralang.core.model.dsl.compiler.arc_geometry import ArcGeometry
+from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.arc_point import ArcPoint
 
@@ -31,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,7 +62,7 @@ class ArcInterpolator:
 
             :param geometry: ArcGeometry describing arc coordinates and orientation.
             :return: Tuple of ArcPoint instances.
-            :exceptions: None.
+            :exceptions: ScaraKinematicsError if arc radius is zero or less than 1e-4.
         '''
         center = Point2D(
             x=geometry.start.x + geometry.offset.x,
@@ -70,7 +71,7 @@ class ArcInterpolator:
         radius = hypot(geometry.offset.x, geometry.offset.y)
 
         if radius < 1e-4:
-            return ()
+            raise ScaraKinematicsError('Arc radius must be greater than zero')
 
         angle_start = atan2(
             geometry.start.y - center.y, geometry.start.x - center.x

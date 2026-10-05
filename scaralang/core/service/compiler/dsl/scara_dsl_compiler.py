@@ -25,7 +25,8 @@ from typing import Final
 
 from scaralang.core.model.dsl.ast.program import ScaraProgram
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
-from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+from scaralang.core.service.compiler.plan.itrajectory_plan_compiler import ITrajectoryPlanCompiler
 from scaralang.core.service.linter.iscara_linter import IScaraLinter
 from scaralang.core.service.parser.iscara_parser import IScaraParser
 from scaralang.core.service.trajectory.plan.itrajectory_plan import ITrajectoryPlan
@@ -34,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,7 +49,7 @@ class ScaraDslCompiler:
 
             :attributes:
                 | _parser - Injected AST parser protocol instance.
-                | _compiler - Injected AST compiler protocol instance.
+                | _compiler - Injected plan compiler protocol instance.
                 | _linter - Injected static analysis linter protocol instance.
             :methods:
                 | __init__ - Initializes compiler with injected component protocols.
@@ -58,26 +59,26 @@ class ScaraDslCompiler:
     '''
 
     _parser: IScaraParser
-    _compiler: IScaraCompiler
+    _compiler: ITrajectoryPlanCompiler
     _linter: IScaraLinter
 
     def __init__(
         self,
         *,
         parser: IScaraParser,
-        compiler: IScaraCompiler,
+        compiler: ITrajectoryPlanCompiler,
         linter: IScaraLinter,
     ) -> None:
         '''
             Initializes the SCARA DSL compiler with injected subcomponents.
 
             :param parser: Required IScaraParser protocol instance.
-            :param compiler: Required IScaraCompiler protocol instance.
+            :param compiler: Required ITrajectoryPlanCompiler protocol instance.
             :param linter: Required IScaraLinter protocol instance.
             :exceptions: None.
         '''
         self._parser: Final[IScaraParser] = parser
-        self._compiler: Final[IScaraCompiler] = compiler
+        self._compiler: Final[ITrajectoryPlanCompiler] = compiler
         self._linter: Final[IScaraLinter] = linter
 
     def compile_script(self, *, source: str) -> ITrajectoryPlan:
@@ -86,7 +87,7 @@ class ScaraDslCompiler:
 
             :param source: Raw .scara script text.
             :return: Validated ITrajectoryPlan protocol instance.
-            :exceptions: ValueError if parsing fails or error-severity diagnostics occur.
+            :exceptions: ScaraSemanticError if parsing fails or error-severity diagnostics occur.
         '''
         parsed_program = self._parser.parse(source=source)
 
@@ -95,7 +96,7 @@ class ScaraDslCompiler:
 
         if errors:
             messages = [f'Line {d.line}: {d.message}' for d in errors]
-            raise ValueError(
+            raise ScaraSemanticError(
                 f'Validation failed with {len(errors)} error(s):\n'
                 + '\n'.join(messages)
             )
@@ -108,14 +109,14 @@ class ScaraDslCompiler:
 
             :param program: ScaraProgram AST instance to compile.
             :return: Validated ITrajectoryPlan protocol instance.
-            :exceptions: ValueError if error-severity diagnostics occur.
+            :exceptions: ScaraSemanticError if error-severity diagnostics occur.
         '''
         diagnostics = self._linter.lint(program=program)
         errors = [d for d in diagnostics if d.severity == ScaraDiagnosticSeverity.ERROR]
 
         if errors:
             messages = [f'Line {d.line}: {d.message}' for d in errors]
-            raise ValueError(
+            raise ScaraSemanticError(
                 f'Validation failed with {len(errors)} error(s):\n'
                 + '\n'.join(messages)
             )

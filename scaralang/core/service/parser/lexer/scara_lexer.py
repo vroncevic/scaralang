@@ -28,12 +28,13 @@ from typing import ClassVar
 from scaralang.core.model.dsl.token.lexer_pattern_kind import LexerPatternKind
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -91,7 +92,7 @@ class ScaraLexer:
 
             :param source: Raw source code string.
             :return: Immutable tuple of ScaraToken tokens.
-            :exceptions: ValueError if an illegal/unrecognized character is encountered.
+            :exceptions: ScaraSyntaxError if an illegal/unrecognized character is encountered.
         '''
         tokens: list[ScaraToken] = []
         lines: list[str] = source.splitlines()
@@ -113,7 +114,7 @@ class ScaraLexer:
                     continue
 
                 if pattern_kind is LexerPatternKind.MISMATCH:
-                    raise ValueError(
+                    raise ScaraSyntaxError(
                         f'Syntax error: Unexpected character {val!r} '
                         f'at line {line_idx}, column {col}'
                     )

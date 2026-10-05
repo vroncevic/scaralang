@@ -15,7 +15,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.infrastructure.command.compile.inspection package" href="scaralang.infrastructure.command.compile.inspection.html" />
+    <link rel="next" title="scaralang.infrastructure.command.compile.error package" href="scaralang.infrastructure.command.compile.error.html" />
     <link rel="prev" title="scaralang.infrastructure.command package" href="scaralang.infrastructure.command.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,7 +28,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.command.compile.inspection.html" title="scaralang.infrastructure.command.compile.inspection package"
+          <a href="scaralang.infrastructure.command.compile.error.html" title="scaralang.infrastructure.command.compile.error package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="scaralang.infrastructure.command.html" title="scaralang.infrastructure.command package"
@@ -53,6 +53,25 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.compile.error.html">scaralang.infrastructure.command.compile.error package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.error.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.error.compile_error_handler.html">scaralang.infrastructure.command.compile.error.compile_error_handler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.compile.error.compile_error_handler.html#scaralang.infrastructure.command.compile.error.compile_error_handler.CompileErrorHandler"><code class="docutils literal notranslate"><span class="pre">CompileErrorHandler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.error.compile_error_handler_factory.html">scaralang.infrastructure.command.compile.error.compile_error_handler_factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.compile.error.compile_error_handler_factory.html#scaralang.infrastructure.command.compile.error.compile_error_handler_factory.CompileErrorHandlerFactory"><code class="docutils literal notranslate"><span class="pre">CompileErrorHandlerFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.error.icompile_error_handler.html">scaralang.infrastructure.command.compile.error.icompile_error_handler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.compile.error.icompile_error_handler.html#scaralang.infrastructure.command.compile.error.icompile_error_handler.ICompileErrorHandler"><code class="docutils literal notranslate"><span class="pre">ICompileErrorHandler</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.error.html#module-scaralang.infrastructure.command.compile.error">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.compile.inspection.html">scaralang.infrastructure.command.compile.inspection package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.inspection.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.inspection.framing.html">scaralang.infrastructure.command.compile.inspection.framing package</a><ul>
@@ -101,32 +120,43 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_definition.html">scaralang.infrastructure.command.compile.compile_command_definition module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_definition.html#scaralang.infrastructure.command.compile.compile_command_definition.CompileCommandDefinition"><code class="docutils literal notranslate"><span class="pre">CompileCommandDefinition</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_definition.html#scaralang.infrastructure.command.compile.compile_command_definition.CompileCommandDefinition.help_text"><code class="docutils literal notranslate"><span class="pre">CompileCommandDefinition.help_text</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_definition.html#scaralang.infrastructure.command.compile.compile_command_definition.CompileCommandDefinition.name"><code class="docutils literal notranslate"><span class="pre">CompileCommandDefinition.name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_definition.html#scaralang.infrastructure.command.compile.compile_command_definition.CompileCommandDefinition.options"><code class="docutils literal notranslate"><span class="pre">CompileCommandDefinition.options</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.compile.bundle.html">scaralang.infrastructure.command.compile.bundle module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.bundle.html#scaralang.infrastructure.command.compile.bundle.CompileCommandBundle"><code class="docutils literal notranslate"><span class="pre">CompileCommandBundle</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.bundle.html#scaralang.infrastructure.command.compile.bundle.CompileCommandBundle.compiler"><code class="docutils literal notranslate"><span class="pre">CompileCommandBundle.compiler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.bundle.html#scaralang.infrastructure.command.compile.bundle.CompileCommandBundle.error_handler"><code class="docutils literal notranslate"><span class="pre">CompileCommandBundle.error_handler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.bundle.html#scaralang.infrastructure.command.compile.bundle.CompileCommandBundle.inspection_presenter"><code class="docutils literal notranslate"><span class="pre">CompileCommandBundle.inspection_presenter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.bundle.html#scaralang.infrastructure.command.compile.bundle.CompileCommandBundle.telemetry_formatter"><code class="docutils literal notranslate"><span class="pre">CompileCommandBundle.telemetry_formatter</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor.html">scaralang.infrastructure.command.compile.compile_command_executor module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor.html#scaralang.infrastructure.command.compile.compile_command_executor.CompileCommandExecutor"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor.html#scaralang.infrastructure.command.compile.compile_command_executor.CompileCommandExecutor._definition"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor._definition</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor.html#scaralang.infrastructure.command.compile.compile_command_executor.CompileCommandExecutor._inspection_presenter"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor._inspection_presenter</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor.html#scaralang.infrastructure.command.compile.compile_command_executor.CompileCommandExecutor._service"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor._service</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor.html#scaralang.infrastructure.command.compile.compile_command_executor.CompileCommandExecutor._telemetry_formatter"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor._telemetry_formatter</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor.html#scaralang.infrastructure.command.compile.compile_command_executor.CompileCommandExecutor.execute"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor.execute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor.html#scaralang.infrastructure.command.compile.compile_command_executor.CompileCommandExecutor.get_definition"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor.get_definition()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.compile.definition.html">scaralang.infrastructure.command.compile.definition module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.definition.html#scaralang.infrastructure.command.compile.definition.CompileCommandDefinition"><code class="docutils literal notranslate"><span class="pre">CompileCommandDefinition</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.definition.html#scaralang.infrastructure.command.compile.definition.CompileCommandDefinition.help_text"><code class="docutils literal notranslate"><span class="pre">CompileCommandDefinition.help_text</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.definition.html#scaralang.infrastructure.command.compile.definition.CompileCommandDefinition.name"><code class="docutils literal notranslate"><span class="pre">CompileCommandDefinition.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.definition.html#scaralang.infrastructure.command.compile.definition.CompileCommandDefinition.options"><code class="docutils literal notranslate"><span class="pre">CompileCommandDefinition.options</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor_factory.html">scaralang.infrastructure.command.compile.compile_command_executor_factory module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor_factory.html#scaralang.infrastructure.command.compile.compile_command_executor_factory.CompileCommandExecutorFactory"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutorFactory</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor_factory.html#scaralang.infrastructure.command.compile.compile_command_executor_factory.CompileCommandExecutorFactory.create"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutorFactory.create()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor_factory.html#scaralang.infrastructure.command.compile.compile_command_executor_factory.CompileCommandExecutorFactory.create_default"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutorFactory.create_default()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.compile_command_executor_factory.html#scaralang.infrastructure.command.compile.compile_command_executor_factory.CompileCommandExecutorFactory.get_version"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutorFactory.get_version()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor.html">scaralang.infrastructure.command.compile.executor module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor.html#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor.html#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._compiler"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor._compiler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor.html#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._definition"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor._definition</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor.html#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._error_handler"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor._error_handler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor.html#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._inspection_presenter"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor._inspection_presenter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor.html#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._telemetry_formatter"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor._telemetry_formatter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor.html#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor.execute"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor.execute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor.html#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor.get_definition"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutor.get_definition()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor_factory.html">scaralang.infrastructure.command.compile.executor_factory module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor_factory.html#scaralang.infrastructure.command.compile.executor_factory.CompileCommandExecutorFactory"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutorFactory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor_factory.html#scaralang.infrastructure.command.compile.executor_factory.CompileCommandExecutorFactory.create"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutorFactory.create()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor_factory.html#scaralang.infrastructure.command.compile.executor_factory.CompileCommandExecutorFactory.create_default"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutorFactory.create_default()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.compile.executor_factory.html#scaralang.infrastructure.command.compile.executor_factory.CompileCommandExecutorFactory.get_version"><code class="docutils literal notranslate"><span class="pre">CompileCommandExecutorFactory.get_version()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -183,8 +213,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.infrastructure.command.compile.inspection.html"
-                          title="next chapter">scaralang.infrastructure.command.compile.inspection package</a></p>
+    <p class="topless"><a href="scaralang.infrastructure.command.compile.error.html"
+                          title="next chapter">scaralang.infrastructure.command.compile.error package</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -217,7 +247,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.command.compile.inspection.html" title="scaralang.infrastructure.command.compile.inspection package"
+          <a href="scaralang.infrastructure.command.compile.error.html" title="scaralang.infrastructure.command.compile.error package"
              >next</a> |</li>
         <li class="right" >
           <a href="scaralang.infrastructure.command.html" title="scaralang.infrastructure.command package"

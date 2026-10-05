@@ -25,12 +25,13 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -89,16 +90,24 @@ class WaitCommandParser:
             :param line_num: Line number in source code.
             :param raw_text: Original statement text.
             :return: ScaraInstruction node.
-            :exceptions: ValueError on missing millisecond delay argument.
+            :exceptions: ScaraSyntaxError on missing millisecond delay argument.
         '''
         cmd: str = tokens[0].value.upper()
 
         if len(tokens) < 2:
-            raise ValueError(
+            raise ScaraSyntaxError(
                 f'Missing millisecond argument for {cmd} at line {line_num}'
             )
 
-        ms_val: float = float(tokens[1].value)
+        try:
+            ms_val: float = float(tokens[1].value)
+
+        except ValueError as exc:
+            raise ScaraSyntaxError(
+                f'Invalid millisecond delay {tokens[1].value!r} at line {line_num}. '
+                'Must be a valid number'
+            ) from exc
+
         params: dict[str, object] = {InstructionParam.MS: ms_val}
 
         return ScaraInstruction(

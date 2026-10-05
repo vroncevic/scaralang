@@ -26,12 +26,13 @@ from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -87,21 +88,27 @@ class SpeedConfigParser:
             :param line_num: Line number in source code.
             :param raw_text: Original statement text.
             :return: ScaraInstruction node.
-            :exceptions: ValueError on invalid speed syntax or unknown mode.
+            :exceptions: ScaraSyntaxError on invalid speed syntax, unknown mode, or non-numeric value.
         '''
         if len(tokens) < 3:
-            raise ValueError(
+            raise ScaraSyntaxError(
                 f'Invalid SPEED syntax at line {line_num}. Expected: SPEED <RAPID|WORK> <val>'
             )
 
         mode: str = tokens[1].value.upper()
 
         if mode not in (SpeedMode.RAPID, SpeedMode.WORK):
-            raise ValueError(
+            raise ScaraSyntaxError(
                 f'Invalid speed mode {mode!r} at line {line_num}. Expected RAPID or WORK'
             )
 
-        val: float = float(tokens[2].value)
+        try:
+            val: float = float(tokens[2].value)
+
+        except ValueError as exc:
+            raise ScaraSyntaxError(
+                f'Invalid speed value {tokens[2].value!r} at line {line_num}. Expected numeric'
+            ) from exc
 
         return ScaraInstruction(
             command_type=ScaraCommandType.SPEED,

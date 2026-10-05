@@ -28,13 +28,17 @@ from unittest.mock import MagicMock
 from scaralang.core.model.dsl.ast.program import ScaraProgram
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
+from scaralang.core.model.exceptions.scara_error import ScaraError
+from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.service.linter.script.scara_script_validator import ScaraScriptValidator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,8 +54,15 @@ class TestScaraScriptValidator(TestCase):
                 | test_validate_script_success - Verifies validation pass with valid script.
                 | test_validate_script_lint_error - Verifies validation failure on lint errors.
                 | test_validate_script_syntax_error - Verifies validation failure on parser error.
+                | test_validate_script_domain_syntax - Verifies failure on ScaraSyntaxError.
+                | test_validate_script_domain_kinematics - Verifies failure on ScaraKinematicsError.
                 | test_lint_script_success - Verifies linting returns diagnostics.
                 | test_lint_script_syntax_error - Verifies linting catches syntax exception.
+                | test_lint_script_scara_syntax - Verifies SYNTAX_ERROR on ScaraSyntaxError.
+                | test_lint_script_scara_semantic - Verifies SEMANTIC_ERROR on ScaraSemanticError.
+                | test_lint_script_scara_kinematics - Verifies KINEMATICS_ERROR on kinematic error.
+                | test_lint_script_scara_error - Verifies SYNTAX_ERROR on generic ScaraError.
+                | test_get_version - Verifies version string retrieval.
     '''
 
     def test_validate_script_success(self) -> None:
@@ -171,6 +182,120 @@ class TestScaraScriptValidator(TestCase):
         self.assertEqual(diagnostics[0].code, 'SYNTAX_ERROR')
         self.assertEqual(diagnostics[0].severity, ScaraDiagnosticSeverity.ERROR)
 
+    def test_validate_script_domain_syntax(self) -> None:
+        '''
+            Verifies validate_script fails gracefully on ScaraSyntaxError.
+        '''
+        mock_parser = MagicMock()
+        mock_compiler = MagicMock()
+        mock_linter = MagicMock()
+        mock_parser.parse.side_effect = ScaraSyntaxError('Syntax token failure at line 1')
+
+        validator = ScaraScriptValidator(
+            parser=mock_parser,
+            compiler=mock_compiler,
+            linter=mock_linter,
+        )
+        is_valid, messages = validator.validate_script(source='INVALID')
+        self.assertFalse(is_valid)
+        self.assertTrue(any('Syntax token failure' in m for m in messages))
+
+    def test_validate_script_domain_kinematics(self) -> None:
+        '''
+            Verifies validate_script fails gracefully on ScaraKinematicsError.
+        '''
+        mock_parser = MagicMock()
+        mock_compiler = MagicMock()
+        mock_linter = MagicMock()
+        mock_parser.parse.return_value = ScaraProgram(instructions=())
+        mock_linter.lint.return_value = ()
+        mock_compiler.compile.side_effect = ScaraKinematicsError('Unreachable point')
+
+        validator = ScaraScriptValidator(
+            parser=mock_parser,
+            compiler=mock_compiler,
+            linter=mock_linter,
+        )
+        is_valid, messages = validator.validate_script(source='MOVE X999 Y999 Z0')
+        self.assertFalse(is_valid)
+        self.assertTrue(any('Unreachable point' in m for m in messages))
+
+    def test_lint_script_scara_syntax(self) -> None:
+        '''
+            Verifies lint_script assigns SYNTAX_ERROR for ScaraSyntaxError.
+        '''
+        mock_parser = MagicMock()
+        mock_compiler = MagicMock()
+        mock_linter = MagicMock()
+        mock_parser.parse.side_effect = ScaraSyntaxError('Bad token sequence')
+
+        validator = ScaraScriptValidator(
+            parser=mock_parser,
+            compiler=mock_compiler,
+            linter=mock_linter,
+        )
+        diagnostics = validator.lint_script(source='BAD')
+        self.assertEqual(len(diagnostics), 1)
+        self.assertEqual(diagnostics[0].code, 'SYNTAX_ERROR')
+        self.assertEqual(diagnostics[0].severity, ScaraDiagnosticSeverity.ERROR)
+
+    def test_lint_script_scara_semantic(self) -> None:
+        '''
+            Verifies lint_script assigns SEMANTIC_ERROR for ScaraSemanticError.
+        '''
+        mock_parser = MagicMock()
+        mock_compiler = MagicMock()
+        mock_linter = MagicMock()
+        mock_parser.parse.side_effect = ScaraSemanticError('Undefined pallet PAL1')
+
+        validator = ScaraScriptValidator(
+            parser=mock_parser,
+            compiler=mock_compiler,
+            linter=mock_linter,
+        )
+        diagnostics = validator.lint_script(source='MOVE_PALLET PAL1')
+        self.assertEqual(len(diagnostics), 1)
+        self.assertEqual(diagnostics[0].code, 'SEMANTIC_ERROR')
+        self.assertEqual(diagnostics[0].severity, ScaraDiagnosticSeverity.ERROR)
+
+    def test_lint_script_scara_kinematics(self) -> None:
+        '''
+            Verifies lint_script assigns KINEMATICS_ERROR for ScaraKinematicsError.
+        '''
+        mock_parser = MagicMock()
+        mock_compiler = MagicMock()
+        mock_linter = MagicMock()
+        mock_parser.parse.side_effect = ScaraKinematicsError('Singularity deadband')
+
+        validator = ScaraScriptValidator(
+            parser=mock_parser,
+            compiler=mock_compiler,
+            linter=mock_linter,
+        )
+        diagnostics = validator.lint_script(source='MOVE X0 Y0 Z0')
+        self.assertEqual(len(diagnostics), 1)
+        self.assertEqual(diagnostics[0].code, 'KINEMATICS_ERROR')
+        self.assertEqual(diagnostics[0].severity, ScaraDiagnosticSeverity.ERROR)
+
+    def test_lint_script_scara_error(self) -> None:
+        '''
+            Verifies lint_script falls back to SYNTAX_ERROR for base ScaraError.
+        '''
+        mock_parser = MagicMock()
+        mock_compiler = MagicMock()
+        mock_linter = MagicMock()
+        mock_parser.parse.side_effect = ScaraError('Generic domain error')
+
+        validator = ScaraScriptValidator(
+            parser=mock_parser,
+            compiler=mock_compiler,
+            linter=mock_linter,
+        )
+        diagnostics = validator.lint_script(source='GENERIC')
+        self.assertEqual(len(diagnostics), 1)
+        self.assertEqual(diagnostics[0].code, 'SYNTAX_ERROR')
+        self.assertEqual(diagnostics[0].severity, ScaraDiagnosticSeverity.ERROR)
+
     def test_get_version(self) -> None:
         '''
             Verifies validator get_version method returns semantic version string.
@@ -183,7 +308,7 @@ class TestScaraScriptValidator(TestCase):
             compiler=mock_compiler,
             linter=mock_linter,
         )
-        self.assertEqual(validator.get_version(), '1.0.3')
+        self.assertEqual(validator.get_version(), '1.0.4')
 
 
 if __name__ == '__main__':

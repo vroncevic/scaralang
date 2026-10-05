@@ -22,19 +22,19 @@ Info
 from __future__ import annotations
 
 from scaralang.infrastructure.command.command_bundle import CommandBundle
-from scaralang.infrastructure.command.compile.compile_command_executor_factory import CompileCommandExecutorFactory
-from scaralang.infrastructure.command.decompile.decompile_command_executor_factory import DecompileCommandExecutorFactory
-from scaralang.infrastructure.command.disassemble.disassemble_command_executor_factory import DisassembleCommandExecutorFactory
-from scaralang.infrastructure.command.export.export_command_executor_factory import ExportCommandExecutorFactory
-from scaralang.infrastructure.command.info.info_command_executor_factory import InfoCommandExecutorFactory
-from scaralang.infrastructure.command.lint.lint_command_executor_factory import LintCommandExecutorFactory
-from scaralang.infrastructure.command.repl.repl_command_executor_factory import ReplCommandExecutorFactory
+from scaralang.infrastructure.command.compile.executor_factory import CompileCommandExecutorFactory
+from scaralang.infrastructure.command.decompile.executor_factory import DecompileCommandExecutorFactory
+from scaralang.infrastructure.command.disassemble.executor_factory import DisassembleCommandExecutorFactory
+from scaralang.infrastructure.command.export.executor_factory import ExportCommandExecutorFactory
+from scaralang.infrastructure.command.info.executor_factory import InfoCommandExecutorFactory
+from scaralang.infrastructure.command.lint.executor_factory import LintCommandExecutorFactory
+from scaralang.infrastructure.command.repl.executor_factory import ReplCommandExecutorFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

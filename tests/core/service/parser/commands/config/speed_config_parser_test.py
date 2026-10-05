@@ -29,6 +29,7 @@ from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.service.parser.commands.config.speed_config_parser import SpeedConfigParser
 from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
 
@@ -36,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,8 +53,9 @@ class TestSpeedConfigParser(TestCase):
                 | test_properties_and_protocol - Verifies name and protocol conformance.
                 | test_can_parse - Verifies command matching.
                 | test_parse_success - Verifies statement parsing into instruction.
-                | test_parse_invalid_syntax - Verifies ValueError on missing parameters.
-                | test_parse_invalid_mode - Verifies ValueError on invalid speed mode.
+                | test_parse_invalid_syntax - Verifies ScaraSyntaxError on missing parameters.
+                | test_parse_invalid_mode - Verifies ScaraSyntaxError on invalid speed mode.
+                | test_parse_invalid_value - Verifies ScaraSyntaxError on non-numeric speed value.
     '''
 
     def test_properties_and_protocol(self) -> None:
@@ -89,18 +91,18 @@ class TestSpeedConfigParser(TestCase):
 
     def test_parse_invalid_syntax(self) -> None:
         '''
-            Verifies ValueError on short tokens.
+            Verifies ScaraSyntaxError on short tokens.
         '''
         parser = SpeedConfigParser()
         tokens = (
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='SPEED', line=1, column=1),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='SPEED')
 
     def test_parse_invalid_mode(self) -> None:
         '''
-            Verifies ValueError on invalid speed mode.
+            Verifies ScaraSyntaxError on invalid speed mode.
         '''
         parser = SpeedConfigParser()
         tokens = (
@@ -108,8 +110,21 @@ class TestSpeedConfigParser(TestCase):
             ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='TURBO', line=1, column=7),
             ScaraToken(token_type=ScaraTokenType.NUMBER, value='100.0', line=1, column=13),
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSyntaxError):
             parser.parse(tokens=tokens, line_num=1, raw_text='SPEED TURBO 100.0')
+
+    def test_parse_invalid_value(self) -> None:
+        '''
+            Verifies ScaraSyntaxError on non-numeric speed value.
+        '''
+        parser = SpeedConfigParser()
+        tokens = (
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='SPEED', line=1, column=1),
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='WORK', line=1, column=7),
+            ScaraToken(token_type=ScaraTokenType.IDENTIFIER, value='BAD_VAL', line=1, column=12),
+        )
+        with self.assertRaises(ScaraSyntaxError):
+            parser.parse(tokens=tokens, line_num=1, raw_text='SPEED WORK BAD_VAL')
 
 
 if __name__ == '__main__':

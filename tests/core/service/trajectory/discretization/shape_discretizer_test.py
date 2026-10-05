@@ -24,6 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.circle_geometry import CircleGeometry
 from scaralang.core.service.trajectory.discretization.ishape_discretizer import IShapeDiscretizer
@@ -33,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,6 +52,8 @@ class TestShapeDiscretizer(TestCase):
                 | test_discretize_circle - Verifies circular boundary discretization.
                 | test_discretize_rectangle - Verifies rectangular boundary discretization.
                 | test_name_property - Verifies name property returns expected identifier.
+                | test_discretize_circle_invalid_steps - Verifies error on non-positive steps.
+                | test_discretize_circle_invalid_radius - Verifies error on non-positive radius.
     '''
 
     def setUp(self) -> None:
@@ -109,6 +112,30 @@ class TestShapeDiscretizer(TestCase):
     def test_name_property(self) -> None:
         '''Verify name property returns correct identifier.'''
         self.assertEqual(self.discretizer.name, 'shape_discretizer')
+
+    def test_discretize_circle_invalid_steps(self) -> None:
+        '''Verify ScaraKinematicsError on non-positive steps.'''
+        geom = CircleGeometry(
+            center=Point2D(x=50.0, y=50.0),
+            radius=20.0,
+            steps=0,
+            z=5.0,
+            speed=30.0,
+        )
+        with self.assertRaises(ScaraKinematicsError):
+            self.discretizer.discretize_circle(geometry=geom)
+
+    def test_discretize_circle_invalid_radius(self) -> None:
+        '''Verify ScaraKinematicsError on non-positive radius.'''
+        geom = CircleGeometry(
+            center=Point2D(x=50.0, y=50.0),
+            radius=-5.0,
+            steps=8,
+            z=5.0,
+            speed=30.0,
+        )
+        with self.assertRaises(ScaraKinematicsError):
+            self.discretizer.discretize_circle(geometry=geom)
 
 
 if __name__ == '__main__':

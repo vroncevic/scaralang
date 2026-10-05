@@ -24,6 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.binary.step.istep_discretizer import IStepDiscretizer
@@ -36,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,7 +55,7 @@ class TestStepDiscretizer(TestCase):
                 | test_angles_to_steps - Verifies conversion from angles to steps.
                 | test_discretize_waypoint - Verifies Cartesian waypoint discretization.
                 | test_calculate_segment_duration - Verifies segment execution duration calculation.
-                | test_discretize_unreachable_waypoint_raises_value_error - Verifies ValueError on unreachable waypoint.
+                | test_discretize_unreachable_waypoint_raises_kinematics_error - Verifies ScaraKinematicsError on unreachable waypoint.
                 | test_calculate_segment_duration_zero_delta - Verifies default duration when delta is zero.
     '''
 
@@ -117,9 +118,9 @@ class TestStepDiscretizer(TestCase):
         )
         self.assertGreater(duration_us, 0)
 
-    def test_discretize_unreachable_waypoint_raises_value_error(self) -> None:
+    def test_discretize_unreachable_waypoint_raises_kinematics_error(self) -> None:
         '''
-            Verifies ValueError is raised when waypoint is outside kinematic reach.
+            Verifies ScaraKinematicsError is raised when waypoint is outside kinematic reach.
         '''
         unreachable = Waypoint(
             x=99999.0,
@@ -128,7 +129,7 @@ class TestStepDiscretizer(TestCase):
             phi=0.0,
             speed=50.0,
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraKinematicsError):
             self.discretizer.discretize_waypoint(
                 waypoint=unreachable,
                 prev_angles=(0.0, 0.0, 0.0, 0.0),

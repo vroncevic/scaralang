@@ -21,15 +21,15 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.info.itoolchain_info_provider import IToolchainInfoProvider
-from scaralang.core.service.info.toolchain_info_provider_factory import ToolchainInfoProviderFactory
+from scaralang.core.service.info.iscara_info_provider import IScaraInfoProvider
+from scaralang.core.service.info.scara_info_provider_factory import ScaraInfoProviderFactory
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher import ReplCommandDispatcher
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,7 +51,7 @@ class ReplCommandDispatcherFactory:
     def create(
         cls,
         *,
-        info_provider: IToolchainInfoProvider,
+        info_provider: IScaraInfoProvider,
     ) -> ReplCommandDispatcher:
         '''
             Builds and returns a ReplCommandDispatcher instance with injected dependencies.
@@ -71,7 +71,7 @@ class ReplCommandDispatcherFactory:
             :exceptions: None.
         '''
         return ReplCommandDispatcher(
-            info_provider=ToolchainInfoProviderFactory.create()
+            info_provider=ScaraInfoProviderFactory.create()
         )
 
     @classmethod

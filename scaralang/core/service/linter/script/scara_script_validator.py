@@ -25,7 +25,10 @@ from typing import Final
 
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
-from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
+from scaralang.core.model.exceptions.scara_error import ScaraError
+from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+from scaralang.core.service.compiler.plan.itrajectory_plan_compiler import ITrajectoryPlanCompiler
 from scaralang.core.service.linter.iscara_linter import IScaraLinter
 from scaralang.core.service.parser.iscara_parser import IScaraParser
 
@@ -33,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,7 +50,7 @@ class ScaraScriptValidator:
 
             :attributes:
                 | _parser - Injected AST parser protocol instance.
-                | _compiler - Injected AST compiler protocol instance.
+                | _compiler - Injected plan compiler protocol instance.
                 | _linter - Injected static analysis linter protocol instance.
             :methods:
                 | __init__ - Initializes validator with injected component protocols.
@@ -57,26 +60,26 @@ class ScaraScriptValidator:
     '''
 
     _parser: IScaraParser
-    _compiler: IScaraCompiler
+    _compiler: ITrajectoryPlanCompiler
     _linter: IScaraLinter
 
     def __init__(
         self,
         *,
         parser: IScaraParser,
-        compiler: IScaraCompiler,
+        compiler: ITrajectoryPlanCompiler,
         linter: IScaraLinter,
     ) -> None:
         '''
             Initializes ScaraScriptValidator with injected component protocols.
 
             :param parser: Injected IScaraParser protocol instance.
-            :param compiler: Injected IScaraCompiler protocol instance.
+            :param compiler: Injected ITrajectoryPlanCompiler protocol instance.
             :param linter: Injected IScaraLinter protocol instance.
             :exceptions: None.
         '''
         self._parser: Final[IScaraParser] = parser
-        self._compiler: Final[IScaraCompiler] = compiler
+        self._compiler: Final[ITrajectoryPlanCompiler] = compiler
         self._linter: Final[IScaraLinter] = linter
 
     def validate_script(self, *, source: str) -> tuple[bool, list[str]]:
@@ -117,7 +120,7 @@ class ScaraScriptValidator:
 
             return True, messages
 
-        except (ValueError, TypeError, KeyError) as exc:
+        except (ScaraError, ValueError, TypeError, KeyError) as exc:
             messages.append(f'Validation failed: {exc}')
             return False, messages
 
@@ -133,10 +136,16 @@ class ScaraScriptValidator:
             program = self._parser.parse(source=source)
             return self._linter.lint(program=program)
 
-        except (ValueError, TypeError, KeyError) as exc:
+        except (ScaraError, ValueError, TypeError, KeyError) as exc:
+            code: str = 'SYNTAX_ERROR'
+            if isinstance(exc, ScaraSemanticError):
+                code = 'SEMANTIC_ERROR'
+            elif isinstance(exc, ScaraKinematicsError):
+                code = 'KINEMATICS_ERROR'
+
             return (
                 ScaraDiagnostic(
-                    code='SYNTAX_ERROR',
+                    code=code,
                     severity=ScaraDiagnosticSeverity.ERROR,
                     message=str(exc),
                     line=1,

@@ -1,15 +1,23 @@
 scaralang.infrastructure.command.decompile package
 ==================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.infrastructure.command.decompile.error
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.decompile.decompile_command_definition
-   scaralang.infrastructure.command.decompile.decompile_command_executor
-   scaralang.infrastructure.command.decompile.decompile_command_executor_factory
+   scaralang.infrastructure.command.decompile.definition
+   scaralang.infrastructure.command.decompile.executor
+   scaralang.infrastructure.command.decompile.executor_factory
 
 Module contents
 ---------------

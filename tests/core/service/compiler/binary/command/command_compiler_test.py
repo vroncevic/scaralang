@@ -25,6 +25,7 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.service.compiler.binary.command.command_compiler_factory import CommandCompilerFactory
 from scaralang.core.service.compiler.binary.command.icommand_compiler import ICommandCompiler
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,7 +56,7 @@ class TestCommandCompiler(TestCase):
                 | test_compile_valve_command - Tests compiling VALVE command.
                 | test_compile_wait_command - Tests compiling WAIT command.
                 | test_compile_system_command - Tests compiling HOME system command.
-                | test_compile_unknown_command - Tests fallback to CMD_PING.
+                | test_compile_unknown_command - Tests ScaraSemanticError on unknown command.
     '''
 
     def setUp(self) -> None:
@@ -77,7 +78,7 @@ class TestCommandCompiler(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.compiler.get_version(), '1.0.3')
+        self.assertEqual(self.compiler.get_version(), '1.0.4')
 
 
     def test_compile_pump_command(self) -> None:
@@ -146,15 +147,14 @@ class TestCommandCompiler(TestCase):
 
     def test_compile_unknown_command(self) -> None:
         '''
-            Verifies fallback unknown command generates CMD_PING.
+            Verifies unknown command raises ScaraSemanticError.
         '''
-        step: Step = self.compiler.compile_command_step(
-            command='<CMD:UNKNOWN>',
-            seq_num=6,
-            line_num=15,
-        )
-        self.assertEqual(step.frame.msg_id, MessageId.CMD_PING)
-        self.assertEqual(step.frame.seq_num, 6)
+        with self.assertRaises(ScaraSemanticError):
+            self.compiler.compile_command_step(
+                command='<CMD:UNKNOWN>',
+                seq_num=6,
+                line_num=15,
+            )
 
 
 if __name__ == '__main__':

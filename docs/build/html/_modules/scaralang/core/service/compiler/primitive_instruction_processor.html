@@ -64,6 +64,7 @@
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction</span> <span class="kn">import</span> <span class="n">ScaraInstruction</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.scara_compiler_context</span> <span class="kn">import</span> <span class="n">ScaraCompilerContext</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_semantic_error</span> <span class="kn">import</span> <span class="n">ScaraSemanticError</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.primitive.iprimitive_compiler</span> <span class="kn">import</span> <span class="n">IPrimitiveCompiler</span>
 
@@ -71,7 +72,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.4&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -122,7 +123,7 @@
 <span class="sd">            :param instruction: ScaraInstruction node to process.</span>
 <span class="sd">            :param context: Active mutable compiler context.</span>
 <span class="sd">            :return: Tuple of compiled Waypoint instances.</span>
-<span class="sd">            :exceptions: ValueError if instruction is not handled by any compiler.</span>
+<span class="sd">            :exceptions: ScaraSemanticError if instruction is not handled by any compiler.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">compiler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_primitive_compilers</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">compiler</span><span class="o">.</span><span class="n">can_compile</span><span class="p">(</span><span class="n">instruction</span><span class="o">=</span><span class="n">instruction</span><span class="p">):</span>
@@ -131,7 +132,7 @@
                     <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
                 <span class="p">)</span>
 
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="k">raise</span> <span class="n">ScaraSemanticError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;Unsupported or unhandled instruction: </span><span class="si">{</span><span class="n">instruction</span><span class="o">.</span><span class="n">command_type</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="p">)</span></div>
 

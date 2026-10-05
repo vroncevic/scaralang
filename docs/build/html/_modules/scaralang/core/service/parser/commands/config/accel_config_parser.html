@@ -63,12 +63,13 @@
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction</span> <span class="kn">import</span> <span class="n">ScaraInstruction</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">InstructionParam</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.token.scara_token</span> <span class="kn">import</span> <span class="n">ScaraToken</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_syntax_error</span> <span class="kn">import</span> <span class="n">ScaraSyntaxError</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.3&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.4&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -131,14 +132,21 @@
 <span class="sd">            :param line_num: Line number in source code.</span>
 <span class="sd">            :param raw_text: Original statement text.</span>
 <span class="sd">            :return: ScaraInstruction node.</span>
-<span class="sd">            :exceptions: ValueError on missing acceleration value.</span>
+<span class="sd">            :exceptions: ScaraSyntaxError on missing acceleration value.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Missing argument for ACCEL at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="p">)</span>
 
-        <span class="n">accel_val</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">accel_val</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid acceleration value </span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="si">!r}</span><span class="s1"> at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">. &#39;</span>
+                <span class="s1">&#39;Must be a valid number&#39;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
 
         <span class="k">return</span> <span class="n">ScaraInstruction</span><span class="p">(</span>
             <span class="n">command_type</span><span class="o">=</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">ACCEL</span><span class="p">,</span>

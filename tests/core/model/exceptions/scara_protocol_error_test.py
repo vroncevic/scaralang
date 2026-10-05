@@ -1,0 +1,58 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    scara_protocol_error_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for ScaraProtocolError exception model.
+'''
+
+from __future__ import annotations
+
+from unittest import TestCase, main
+
+from scaralang.core.model.exceptions.scara_error import ScaraError
+from scaralang.core.model.exceptions.scara_protocol_error import ScaraProtocolError
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.4'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class TestScaraProtocolError(TestCase):
+    '''Unit tests validating ScaraProtocolError inheritance and message propagation.'''
+
+    def test_instantiation(self) -> None:
+        '''Verify exception instantiation and string representation.'''
+        err = ScaraProtocolError('CRC16 checksum mismatch in wire frame')
+        self.assertEqual(str(err), 'CRC16 checksum mismatch in wire frame')
+        self.assertIsInstance(err, ScaraError)
+        self.assertIsInstance(err, Exception)
+
+    def test_raising_and_catching(self) -> None:
+        '''Verify raising and catching as ScaraProtocolError and ScaraError.'''
+        with self.assertRaises(ScaraError) as ctx:
+            raise ScaraProtocolError('Unknown binary frame delimiter')
+        self.assertIsInstance(ctx.exception, ScaraProtocolError)
+        self.assertEqual(str(ctx.exception), 'Unknown binary frame delimiter')
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,162 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    executor_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for ExportCommandExecutor class.
+'''
+
+from __future__ import annotations
+
+from os import remove
+from tempfile import NamedTemporaryFile
+from unittest import TestCase
+from unittest import main
+from unittest.mock import MagicMock
+
+from scaralang.core.model.exceptions.scara_export_error import ScaraExportError
+from scaralang.infrastructure.command.export.definition import ExportCommandDefinition
+from scaralang.infrastructure.command.export.error.export_error_handler_factory import ExportErrorHandlerFactory
+from scaralang.infrastructure.command.export.executor import ExportCommandExecutor
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.4'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class TestExportCommandExecutor(TestCase):
+    '''
+        Test cases verifying ExportCommandExecutor.
+
+        It defines:
+
+            :methods:
+                | test_execute_missing_script - Verifies handling when script file is absent.
+                | test_execute_success_stdout - Verifies successful execution returning stdout.
+                | test_execute_success_file_output - Verifies successful output file writing.
+                | test_execute_error - Verifies handling when export raises an exception.
+                | test_execute_domain_error - Verifies handling of domain exception.
+                | test_get_definition - Verifies definition getter.
+    '''
+
+    def setUp(self) -> None:
+        '''Sets up test mocks and executor.'''
+        self.cmd_def = ExportCommandDefinition()
+        self.mock_dispatcher = MagicMock()
+        self.mock_service = MagicMock()
+        self.executor = ExportCommandExecutor(
+            definition=self.cmd_def,
+            service=self.mock_service,
+            dispatcher=self.mock_dispatcher,
+            error_handler=ExportErrorHandlerFactory.create(),
+        )
+
+    def test_execute_missing_script(self) -> None:
+        '''Verifies error returned when input script does not exist.'''
+        res = self.executor.execute(
+            params={'script': '/nonexistent/path/script.scara'},
+        )
+        self.assertEqual(res['returncode'], 1)
+        self.assertIn('script file does not exist', str(res['stderr']))
+
+    def test_execute_success_stdout(self) -> None:
+        '''Verifies export output emitted to stdout.'''
+        with NamedTemporaryFile('w', delete=False, suffix='.scara') as tmp:
+            tmp.write('HOME\nMOVE_J X=100.0 Y=50.0 Z=0.0\n')
+            tmp_path = tmp.name
+
+        try:
+            self.mock_dispatcher.export.return_value = 'G00 X100.000 Y50.000 Z0.000'
+            res = self.executor.execute(
+                params={'script': tmp_path, 'format': 'gcode'},
+            )
+            self.assertEqual(res['returncode'], 0)
+            self.assertEqual(res['stdout'], 'G00 X100.000 Y50.000 Z0.000')
+            self.mock_dispatcher.export.assert_called_once()
+        finally:
+            remove(tmp_path)
+
+    def test_execute_success_file_output(self) -> None:
+        '''Verifies export output written to destination file.'''
+        with NamedTemporaryFile('w', delete=False, suffix='.scara') as tmp_in:
+            tmp_in.write('HOME\n')
+            tmp_in_path = tmp_in.name
+
+        with NamedTemporaryFile('w', delete=False, suffix='.gcode') as tmp_out:
+            tmp_out_path = tmp_out.name
+
+        try:
+            self.mock_dispatcher.export.return_value = 'G21\nG90\n'
+            res = self.executor.execute(
+                params={
+                    'script': tmp_in_path,
+                    'format': 'gcode',
+                    'output': tmp_out_path,
+                },
+            )
+            self.assertEqual(res['returncode'], 0)
+            self.assertIn('written to', str(res['stdout']))
+            with open(tmp_out_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            self.assertEqual(content, 'G21\nG90\n')
+        finally:
+            remove(tmp_in_path)
+            remove(tmp_out_path)
+
+    def test_get_definition(self) -> None:
+        '''Verifies get_definition returns the injected definition.'''
+        self.assertEqual(self.executor.get_definition().name, self.cmd_def.name)
+
+    def test_execute_error(self) -> None:
+        '''Verifies handling when export raises an exception.'''
+        with NamedTemporaryFile('w', delete=False, suffix='.scara') as tmp:
+            tmp.write('HOME\n')
+            tmp_path = tmp.name
+
+        try:
+            self.mock_service.compile_script.side_effect = ValueError('Invalid script')
+            res = self.executor.execute(
+                params={'script': tmp_path, 'format': 'gcode'},
+            )
+            self.assertEqual(res['returncode'], 1)
+            self.assertIn('export error: Invalid script', str(res['stderr']))
+        finally:
+            remove(tmp_path)
+
+    def test_execute_domain_error(self) -> None:
+        '''Verifies handling and structured formatting of domain ScaraExportError.'''
+        with NamedTemporaryFile('w', delete=False, suffix='.scara') as tmp:
+            tmp.write('HOME\n')
+            tmp_path = tmp.name
+
+        try:
+            self.mock_service.compile_script.side_effect = ScaraExportError('unsupported exporter')
+            res = self.executor.execute(
+                params={'script': tmp_path, 'format': 'gcode'},
+            )
+            self.assertEqual(res['returncode'], 1)
+            self.assertIn('export error: [EXPORT] unsupported exporter', str(res['stderr']))
+        finally:
+            remove(tmp_path)
+
+
+if __name__ == '__main__':
+    main()

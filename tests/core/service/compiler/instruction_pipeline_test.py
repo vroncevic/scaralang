@@ -29,6 +29,7 @@ from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.service.compiler.iinstruction_pipeline import IInstructionPipeline
 from scaralang.core.service.compiler.instruction_pipeline import InstructionPipeline
 from scaralang.core.service.compiler.instruction_pipeline_factory import InstructionPipelineFactory
@@ -42,7 +43,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -94,7 +95,7 @@ class TestInstructionPipeline(TestCase):
         self.assertEqual(waypoints[0].command, '<CMD:PUMP#1>')
 
     def test_pipeline_unsupported_instruction(self) -> None:
-        '''Verifies ValueError on unhandled instruction.'''
+        '''Verifies ScaraSemanticError on unhandled instruction.'''
         pipeline = InstructionPipelineFactory.create(
             macro_expanders=(),
             primitive_compilers=(),
@@ -107,7 +108,7 @@ class TestInstructionPipeline(TestCase):
                 raw_text='HOME',
             ),
         ]
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ScaraSemanticError):
             pipeline.compile_instructions(instructions=instructions)
 
     def test_pipeline_factory(self) -> None:
@@ -117,7 +118,7 @@ class TestInstructionPipeline(TestCase):
             primitive_compilers=(),
         )
         self.assertIsInstance(pipeline, IInstructionPipeline)
-        self.assertEqual(InstructionPipelineFactory.get_version(), '1.0.3')
+        self.assertEqual(InstructionPipelineFactory.get_version(), '1.0.4')
 
     def test_pipeline_with_collaborators(self) -> None:
         '''Verifies InstructionPipeline instantiation with injected processor.'''
@@ -166,7 +167,7 @@ class TestInstructionPipeline(TestCase):
             macro_expanders=(),
             primitive_compilers=(),
         )
-        self.assertEqual(pipeline.get_version(), '1.0.3')
+        self.assertEqual(pipeline.get_version(), '1.0.4')
 
 
 if __name__ == '__main__':

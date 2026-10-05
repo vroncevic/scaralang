@@ -25,17 +25,16 @@ from unittest import TestCase
 from unittest import main
 from unittest.mock import MagicMock
 
+from scaralang.core.service.compiler.binary.ibinary_compiler import IBinaryCompiler
+from scaralang.core.service.compiler.dsl.iscara_dsl_compiler import IScaraDslCompiler
 from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
 from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
-from scaralang.core.service.kinematics.default_scara_profile import DefaultScaraProfile
-from scaralang.core.service.kinematics.kinematics_service_factory import KinematicsServiceFactory
-from scaralang.core.service.trajectory.validation.trajectory_validator_factory import TrajectoryValidatorFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,40 +47,28 @@ class TestScaraCompilerFactory(TestCase):
         It defines:
 
             :methods:
-                | setUp - Prepares validator fixture.
-                | test_create - Verifies factory returns IScaraCompiler.
-                | test_create_with_collaborators - Verifies creation with collaborators.
+                | test_create - Verifies factory returns IScaraCompiler with injected delegates.
+                | test_create_default - Verifies default factory construction.
                 | test_get_version - Verifies factory version string.
     '''
 
-    def setUp(self) -> None:
-        '''
-            Sets up validator fixture.
-        '''
-        bounds = DefaultScaraProfile.create_bounds()
-        kinematics = KinematicsServiceFactory.create(bounds=bounds)
-        self.validator = TrajectoryValidatorFactory.create(kinematics=kinematics)
-
     def test_create(self) -> None:
         '''
-            Verifies factory produces IScaraCompiler instance.
+            Verifies factory produces IScaraCompiler instance with collaborators.
         '''
+        mock_dsl_compiler = MagicMock(spec=IScaraDslCompiler)
+        mock_binary_compiler = MagicMock(spec=IBinaryCompiler)
         compiler: IScaraCompiler = ScaraCompilerFactory.create(
-            validator=self.validator
+            compiler=mock_dsl_compiler,
+            binary_compiler=mock_binary_compiler,
         )
         self.assertIsInstance(compiler, IScaraCompiler)
 
-    def test_create_with_collaborators(self) -> None:
+    def test_create_default(self) -> None:
         '''
-            Verifies factory produces IScaraCompiler with injected collaborators.
+            Verifies factory produces default IScaraCompiler instance.
         '''
-        mock_pipeline = MagicMock()
-        mock_plan_factory = MagicMock()
-        compiler: IScaraCompiler = ScaraCompilerFactory.create_with_collaborators(
-            validator=self.validator,
-            instruction_pipeline=mock_pipeline,
-            plan_factory=mock_plan_factory,
-        )
+        compiler: IScaraCompiler = ScaraCompilerFactory.create_default()
         self.assertIsInstance(compiler, IScaraCompiler)
 
     def test_get_version(self) -> None:

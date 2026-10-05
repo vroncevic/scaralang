@@ -25,6 +25,8 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
+from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.model.motor.axis_mask import AxisMask
 from scaralang.core.model.motor.motor_config import MotorConfig
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
@@ -35,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -95,7 +97,7 @@ class MotorConfigParser:
             :param line_num: Line number in source code.
             :param raw_text: Original statement text.
             :return: ScaraInstruction node.
-            :exceptions: ValueError on invalid motor configuration syntax.
+            :exceptions: ScaraSyntaxError on invalid motor configuration syntax.
         '''
         first_kw: str = tokens[0].value.upper()
         raw_val: str = ''
@@ -103,7 +105,7 @@ class MotorConfigParser:
 
         if first_kw == ScaraCommandType.CONFIG:
             if len(tokens) < 3:
-                raise ValueError(
+                raise ScaraSyntaxError(
                     f'Invalid CONFIG syntax at line {line_num}. '
                     f'Expected: CONFIG MOTOR <OPEN_LOOP|CLOSED_LOOP> [INTERFACE]'
                 )
@@ -111,7 +113,7 @@ class MotorConfigParser:
             sub: str = tokens[1].value.upper()
 
             if sub != 'MOTOR':
-                raise ValueError(
+                raise ScaraSyntaxError(
                     f'Unknown CONFIG property {sub!r} at line {line_num}'
                 )
 
@@ -122,7 +124,7 @@ class MotorConfigParser:
 
         elif first_kw in (ScaraCommandType.CONFIG_MOTOR, 'MOTOR_MODE'):
             if len(tokens) < 2:
-                raise ValueError(
+                raise ScaraSyntaxError(
                     f'Invalid {first_kw} syntax at line {line_num}. '
                     f'Expected: {first_kw} <OPEN_LOOP|CLOSED_LOOP> [INTERFACE]'
                 )
@@ -133,14 +135,14 @@ class MotorConfigParser:
                 raw_iface = tokens[2].value.upper()
 
         else:
-            raise ValueError(
+            raise ScaraSyntaxError(
                 f'Unexpected command {first_kw!r} for motor config at line {line_num}'
             )
 
         norm_val: str = raw_val.strip().upper()
 
         if not MotorConfigFactory.is_valid_drive_mode(norm_val):
-            raise ValueError(
+            raise ScaraSyntaxError(
                 f'Invalid motor drive mode {raw_val!r} at line {line_num}. '
                 f'Must be OPEN_LOOP or CLOSED_LOOP'
             )
@@ -152,8 +154,8 @@ class MotorConfigParser:
                 mode=drive_mode, raw_interface=raw_iface,
             )
 
-        except ValueError as exc:
-            raise ValueError(
+        except (ScaraSemanticError, ValueError, KeyError) as exc:
+            raise ScaraSyntaxError(
                 f'Invalid motor interface {raw_iface!r} at line {line_num}. '
                 f'Must be STEP_DIR, CAN_BUS, or SERIAL'
             ) from exc
