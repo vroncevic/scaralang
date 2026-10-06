@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.5'
+__version__ = '1.0.6'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -79,7 +79,7 @@ class TestCompileCommandExecutorFactory(TestCase):
     def test_get_version(self) -> None:
         '''Verifies factory version returns valid string.'''
         self.assertEqual(
-            CompileCommandExecutorFactory.get_version(), '1.0.5'
+            CompileCommandExecutorFactory.get_version(), '1.0.6'
         )
 
 
