@@ -42,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.5'
+__version__ = '1.0.6'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -66,6 +66,7 @@ class TestKinematicsService(TestCase):
                 | test_is_joint_reachable - Tests angular joint limits and singularity deadband.
                 | test_is_joint_reachable_singularity - Tests reachability rejection in singularity deadband.
                 | test_is_joint_reachable_j2_limit - Tests reachability rejection on J2 angular limit.
+                | test_reach_radii_deadzone_override - Tests deadzone_r_min overriding r_min.
     '''
 
     def setUp(self) -> None:
@@ -249,6 +250,28 @@ class TestKinematicsService(TestCase):
         reachable, reasons = service.is_joint_reachable(Point2D(x=200.0, y=0.0))
         self.assertFalse(reachable)
         self.assertTrue(any('J2 angle' in r for r in reasons))
+
+    def test_reach_radii_deadzone_override(self) -> None:
+        '''
+            Verifies that r_min is determined by deadzone_r_min when it exceeds link length difference.
+        '''
+        deadzone_bounds = ScaraBounds(
+            links=self.bounds.links,
+            vertical=self.bounds.vertical,
+            speeds=self.bounds.speeds,
+            joints=self.bounds.joints,
+            singularity=SingularityMargins(
+                singularity_outer_margin_mm=5.0,
+                singularity_inner_margin_mm=5.0,
+                singularity_theta2_min_rad=radians(5.0),
+                deadzone_r_min=86.08,
+            ),
+        )
+        service = KinematicsService(bounds=deadzone_bounds)
+        self.assertAlmostEqual(service.r_min, 86.08)
+        in_ws, msg = service.is_in_workspace(Point3D(x=50.0, y=50.0, z=10.0))
+        self.assertFalse(in_ws)
+        self.assertIn('inside deadzone', msg)
 
 
 if __name__ == '__main__':
