@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scaralang.core.service.trajectory.avoidance.dead_zone_validator &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/classic.css?v=514cf933" />
+    
+    <script src="../../../../../../_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../../index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.trajectory.avoidance.dead_zone_validator</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scaralang.core.service.trajectory.avoidance.dead_zone_validator</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: UTF-8 -*-</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Module</span>
+<span class="sd">    dead_zone_validator.py</span>
+<span class="sd">Copyright</span>
+<span class="sd">    Copyright (C) 2026 Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;</span>
+<span class="sd">    scaralang is free software: you can redistribute it and/or modify it</span>
+<span class="sd">    under the terms of the GNU General Public License as published by the</span>
+<span class="sd">    Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd">    (at your option) any later version.</span>
+<span class="sd">    scaralang is distributed in the hope that it will be useful, but</span>
+<span class="sd">    WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
+<span class="sd">    See the GNU General Public License for more details.</span>
+<span class="sd">    You should have received a copy of the GNU General Public License along</span>
+<span class="sd">    with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">Info</span>
+<span class="sd">    Implementation of dead zone boundary and line segment traversal validator.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">hypot</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
+
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
+<span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.7&#39;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
+
+
+<div class="viewcode-block" id="DeadZoneValidator">
+<a class="viewcode-back" href="../../../../../../scaralang.core.service.trajectory.avoidance.dead_zone_validator.html#scaralang.core.service.trajectory.avoidance.dead_zone_validator.DeadZoneValidator">[docs]</a>
+<span class="k">class</span> <span class="nc">DeadZoneValidator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Validates Cartesian coordinates and linear path segments against dead zone limits.</span>
+
+<span class="sd">        It defines:</span>
+
+<span class="sd">            :attributes:</span>
+<span class="sd">                | _dead_zone_radius - Mechanical inner singularity dead zone radius in mm.</span>
+<span class="sd">            :methods:</span>
+<span class="sd">                | __init__ - Initializes validator with dead zone radial threshold.</span>
+<span class="sd">                | is_point_in_dead_zone - Checks if coordinates fall inside the dead zone.</span>
+<span class="sd">                | is_segment_crossing_dead_zone - Checks if line segment traverses dead zone.</span>
+<span class="sd">                | get_dead_zone_radius - Returns active dead zone radius in mm.</span>
+<span class="sd">                | get_version - Returns validator component version string.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">_dead_zone_radius</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dead_zone_radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Initializes dead zone validator with mechanical radial threshold.</span>
+
+<span class="sd">            :param dead_zone_radius: Mechanical inner dead zone radius in mm.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dead_zone_radius</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">dead_zone_radius</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DeadZoneValidator.is_point_in_dead_zone">
+<a class="viewcode-back" href="../../../../../../scaralang.core.service.trajectory.avoidance.dead_zone_validator.html#scaralang.core.service.trajectory.avoidance.dead_zone_validator.DeadZoneValidator.is_point_in_dead_zone">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_point_in_dead_zone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Determines whether the given 2D coordinates reside inside the dead zone.</span>
+
+<span class="sd">            :param x: Cartesian X coordinate in mm.</span>
+<span class="sd">            :param y: Cartesian Y coordinate in mm.</span>
+<span class="sd">            :return: True if inside the dead zone, False otherwise.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">hypot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dead_zone_radius</span></div>
+
+
+<div class="viewcode-block" id="DeadZoneValidator.is_segment_crossing_dead_zone">
+<a class="viewcode-back" href="../../../../../../scaralang.core.service.trajectory.avoidance.dead_zone_validator.html#scaralang.core.service.trajectory.avoidance.dead_zone_validator.DeadZoneValidator.is_segment_crossing_dead_zone">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_segment_crossing_dead_zone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">:</span> <span class="n">Point2D</span><span class="p">,</span> <span class="n">p2</span><span class="p">:</span> <span class="n">Point2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Determines whether the linear segment between p1 and p2 traverses the dead zone.</span>
+
+<span class="sd">            :param p1: Start coordinate Point2D in mm.</span>
+<span class="sd">            :param p2: End coordinate Point2D in mm.</span>
+<span class="sd">            :return: True if the segment traverses the dead zone, False otherwise.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_point_in_dead_zone</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p1</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_point_in_dead_zone</span><span class="p">(</span><span class="n">p2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p2</span><span class="o">.</span><span class="n">y</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">dx</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">dy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">p1</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">seg_len_sq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">dy</span>
+
+        <span class="k">if</span> <span class="n">seg_len_sq</span> <span class="o">&lt;</span> <span class="mf">1e-9</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">t</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">+</span> <span class="n">p1</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">dy</span><span class="p">)</span> <span class="o">/</span> <span class="n">seg_len_sq</span>
+        <span class="n">t_clamped</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
+        <span class="n">closest_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">t_clamped</span> <span class="o">*</span> <span class="n">dx</span>
+        <span class="n">closest_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">t_clamped</span> <span class="o">*</span> <span class="n">dy</span>
+
+        <span class="k">return</span> <span class="n">hypot</span><span class="p">(</span><span class="n">closest_x</span><span class="p">,</span> <span class="n">closest_y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dead_zone_radius</span></div>
+
+
+<div class="viewcode-block" id="DeadZoneValidator.get_dead_zone_radius">
+<a class="viewcode-back" href="../../../../../../scaralang.core.service.trajectory.avoidance.dead_zone_validator.html#scaralang.core.service.trajectory.avoidance.dead_zone_validator.DeadZoneValidator.get_dead_zone_radius">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_dead_zone_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Returns the active mechanical dead zone radial threshold in mm.</span>
+
+<span class="sd">            :return: Dead zone radius in mm.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dead_zone_radius</span></div>
+
+
+<div class="viewcode-block" id="DeadZoneValidator.get_version">
+<a class="viewcode-back" href="../../../../../../scaralang.core.service.trajectory.avoidance.dead_zone_validator.html#scaralang.core.service.trajectory.avoidance.dead_zone_validator.DeadZoneValidator.get_version">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Returns validator component version string representation.</span>
+
+<span class="sd">            :return: Version string representation.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">__version__</span></div>
+</div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../../index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.trajectory.avoidance.dead_zone_validator</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

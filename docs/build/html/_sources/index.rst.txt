@@ -566,6 +566,14 @@ Tool structure
          │       │   ├── ibinary_payload_unpacker.py
          │       │   └── __init__.py
          │       ├── trajectory/
+         │       │   ├── avoidance/
+         │       │   │   ├── dead_zone_bypass_planner.py
+         │       │   │   ├── dead_zone_bypass_planner_factory.py
+         │       │   │   ├── dead_zone_validator.py
+         │       │   │   ├── dead_zone_validator_factory.py
+         │       │   │   ├── idead_zone_bypass_planner.py
+         │       │   │   ├── idead_zone_validator.py
+         │       │   │   └── __init__.py
          │       │   ├── discretization/
          │       │   │   ├── __init__.py
          │       │   │   ├── ishape_discretizer.py
@@ -829,7 +837,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     124 directories, 591 files
+     125 directories, 598 files
 
 🏗 Architecture & SOLID Principles
 --------------------------------------------------------------------------------

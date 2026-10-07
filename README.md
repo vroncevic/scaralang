@@ -586,6 +586,14 @@ Tool structure
          │       │   ├── ibinary_payload_unpacker.py
          │       │   └── __init__.py
          │       ├── trajectory/
+         │       │   ├── avoidance/
+         │       │   │   ├── dead_zone_bypass_planner.py
+         │       │   │   ├── dead_zone_bypass_planner_factory.py
+         │       │   │   ├── dead_zone_validator.py
+         │       │   │   ├── dead_zone_validator_factory.py
+         │       │   │   ├── idead_zone_bypass_planner.py
+         │       │   │   ├── idead_zone_validator.py
+         │       │   │   └── __init__.py
          │       │   ├── discretization/
          │       │   │   ├── __init__.py
          │       │   │   ├── ishape_discretizer.py
@@ -849,7 +857,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     124 directories, 591 files
+     125 directories, 598 files
 ```
 </details>
 
@@ -1567,6 +1575,13 @@ except ScaraError as exc:
 | `scaralang/core/service/protocol/ibinary_frame_parser.py` | 18 | 0 | 100%|
 | `scaralang/core/service/protocol/ibinary_payload_unpacker.py` | 20 | 0 | 100%|
 | `scaralang/core/service/trajectory/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/avoidance/__init__.py` | 9 | 0 | 100%|
+| `scaralang/core/service/trajectory/avoidance/dead_zone_bypass_planner.py` | 14 | 0 | 100%|
+| `scaralang/core/service/trajectory/avoidance/dead_zone_bypass_planner_factory.py` | 13 | 0 | 100%|
+| `scaralang/core/service/trajectory/avoidance/dead_zone_validator.py` | 35 | 0 | 100%|
+| `scaralang/core/service/trajectory/avoidance/dead_zone_validator_factory.py` | 31 | 0 | 100%|
+| `scaralang/core/service/trajectory/avoidance/idead_zone_bypass_planner.py` | 12 | 0 | 100%|
+| `scaralang/core/service/trajectory/avoidance/idead_zone_validator.py` | 17 | 0 | 100%|
 | `scaralang/core/service/trajectory/discretization/__init__.py` | 9 | 0 | 100%|
 | `scaralang/core/service/trajectory/discretization/ishape_discretizer.py` | 20 | 0 | 100%|
 | `scaralang/core/service/trajectory/discretization/shape_discretizer.py` | 39 | 0 | 100%|
@@ -1775,7 +1790,7 @@ except ScaraError as exc:
 | `scaralang/setup/options.py` | 13 | 0 | 100%|
 | `scaralang/setup/registry.py` | 28 | 0 | 100%|
 | `scaralang/setup/validator.py` | 38 | 0 | 100%|
-| **Total** | 12544 | 0 | 100% |
+| **Total** | 12675 | 0 | 100% |
 
 </details>
 
