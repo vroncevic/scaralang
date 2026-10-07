@@ -565,6 +565,14 @@ pip3<span class="w"> </span>install<span class="w"> </span>scaralang
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>ibinary_payload_unpacker.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>└──<span class="w"> </span>__init__.py
 <span class="w">     </span>│<span class="w">       </span>├──<span class="w"> </span>trajectory/
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>avoidance/
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>dead_zone_bypass_planner.py
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>dead_zone_bypass_planner_factory.py
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>dead_zone_validator.py
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>dead_zone_validator_factory.py
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>idead_zone_bypass_planner.py
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>idead_zone_validator.py
+<span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>__init__.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>├──<span class="w"> </span>discretization/
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>__init__.py
 <span class="w">     </span>│<span class="w">       </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>ishape_discretizer.py
@@ -828,7 +836,7 @@ pip3<span class="w"> </span>install<span class="w"> </span>scaralang
 <span class="w">         </span>├──<span class="w"> </span>registry.py
 <span class="w">         </span>└──<span class="w"> </span>validator.py
 
-<span class="w"> </span><span class="m">124</span><span class="w"> </span>directories,<span class="w"> </span><span class="m">591</span><span class="w"> </span>files
+<span class="w"> </span><span class="m">125</span><span class="w"> </span>directories,<span class="w"> </span><span class="m">598</span><span class="w"> </span>files
 </pre></div>
 </div>
 </section>
@@ -3345,1048 +3353,1083 @@ compile::execute<span class="w"> </span>-<span class="w"> </span>file<span class
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/discretization/__init__.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/avoidance/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/discretization/ishape_discretizer.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/discretization/shape_discretizer.py</p></td>
-<td><p>39</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/discretization/shape_discretizer_factory.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/bottleneck/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/bottleneck/imotion_bottleneck_detector.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/bottleneck/motion_bottleneck_detector.py</p></td>
-<td><p>33</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/bottleneck/motion_bottleneck_detector_factory.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/cycle/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/cycle/cycle_time_calculator.py</p></td>
-<td><p>40</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/cycle/cycle_time_calculator_factory.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/cycle/icycle_time_calculator.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/profile/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/profile/axis_speed_profile_analyzer.py</p></td>
-<td><p>45</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/profile/axis_speed_profile_analyzer_factory.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/profile/iaxis_speed_profile_analyzer.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/summary/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/summary/itrajectory_cycle_summary_builder.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/summary/trajectory_cycle_summary_builder.py</p></td>
-<td><p>35</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/summary/trajectory_cycle_summary_builder_factory.py</p></td>
-<td><p>21</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/trajectory_metrics.py</p></td>
-<td><p>40</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/plan/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/plan/itrajectory_mutable.py</p></td>
-<td><p>21</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/plan/itrajectory_plan.py</p></td>
-<td><p>13</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/plan/itrajectory_plan_factory.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/plan/itrajectory_read_only.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/plan/trajectory_plan.py</p></td>
-<td><p>42</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/plan/trajectory_plan_factory.py</p></td>
-<td><p>21</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/feedrate/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/feedrate/feedrate_validator.py</p></td>
-<td><p>25</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/feedrate/feedrate_validator_factory.py</p></td>
-<td><p>19</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/feedrate/ifeedrate_validator.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/itrajectory_validator.py</p></td>
-<td><p>28</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/plan/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/plan/itrajectory_plan_validator.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/plan/trajectory_plan_validator.py</p></td>
-<td><p>44</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/plan/trajectory_plan_validator_factory.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/trajectory_validator.py</p></td>
-<td><p>46</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/trajectory_validator_factory.py</p></td>
-<td><p>28</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/waypoint/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/waypoint/iwaypoint_validator.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/waypoint/waypoint_validator.py</p></td>
-<td><p>33</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/waypoint/waypoint_validator_factory.py</p></td>
-<td><p>19</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/transformation/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/transformation/frame_transformer.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/core/service/transformation/frame_transformer_factory.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/core/service/transformation/iframe_transformer.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/engine.py</p></td>
-<td><p>60</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/engine.py</p></td>
-<td><p>43</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/icli.py</p></td>
-<td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/compiler/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/compiler/irepl_single_command_compiler.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/compiler/repl_single_command_compiler.py</p></td>
-<td><p>51</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/compiler/repl_single_command_compiler_factory.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/dispatch/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/dispatch/irepl_command_dispatcher.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher.py</p></td>
-<td><p>50</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher_factory.py</p></td>
-<td><p>22</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/input/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/input/irepl_line_reader.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/avoidance/dead_zone_bypass_planner.py</p></td>
 <td><p>14</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/input/repl_line_reader.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/input/repl_line_reader_factory.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/output/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/output/irepl_output_writer.py</p></td>
-<td><p>14</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/output/repl_output_writer.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/output/repl_output_writer_factory.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/presentation/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/presentation/irepl_response_presenter.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/presentation/repl_response_presenter.py</p></td>
-<td><p>25</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/presentation/repl_response_presenter_factory.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/transmission/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/transmission/irepl_frame_transmitter.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter.py</p></td>
-<td><p>30</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter_factory.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/bundle.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/dep_validator.py</p></td>
-<td><p>37</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/dependencies.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/factory.py</p></td>
-<td><p>25</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/keys.py</p></td>
-<td><p>23</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/opt_validator.py</p></td>
-<td><p>35</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/options.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/avoidance/dead_zone_bypass_planner_factory.py</p></td>
 <td><p>13</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/registry.py</p></td>
-<td><p>29</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/avoidance/dead_zone_validator.py</p></td>
+<td><p>35</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/validator.py</p></td>
-<td><p>38</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/command_bundle.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/command_bundle_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/avoidance/dead_zone_validator_factory.py</p></td>
 <td><p>31</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/__init__.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/avoidance/idead_zone_bypass_planner.py</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/avoidance/idead_zone_validator.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/discretization/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/bundle.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/discretization/ishape_discretizer.py</p></td>
 <td><p>20</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/definition.py</p></td>
-<td><p>24</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/discretization/shape_discretizer.py</p></td>
+<td><p>39</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/error/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/error/compile_error_handler.py</p></td>
-<td><p>40</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/error/compile_error_handler_factory.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/error/icompile_error_handler.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/executor.py</p></td>
-<td><p>60</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/executor_factory.py</p></td>
-<td><p>28</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/frame_header_formatter.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/frame_header_formatter_factory.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/frame_trailer_formatter.py</p></td>
-<td><p>14</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/frame_trailer_formatter_factory.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/hex_stream_formatter.py</p></td>
-<td><p>19</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/hex_stream_formatter_factory.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/iframe_header_formatter.py</p></td>
-<td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/iframe_trailer_formatter.py</p></td>
-<td><p>14</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/ihex_stream_formatter.py</p></td>
-<td><p>14</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/ijoint_steps_payload_formatter.py</p></td>
-<td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/ipayload_dispatcher_formatter.py</p></td>
-<td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/itool_command_payload_formatter.py</p></td>
-<td><p>14</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/joint_steps_payload_formatter.py</p></td>
-<td><p>25</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/joint_steps_payload_formatter_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/discretization/shape_discretizer_factory.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/payload_dispatcher_formatter.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/bottleneck/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/bottleneck/imotion_bottleneck_detector.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/bottleneck/motion_bottleneck_detector.py</p></td>
+<td><p>33</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/bottleneck/motion_bottleneck_detector_factory.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/cycle/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/cycle/cycle_time_calculator.py</p></td>
+<td><p>40</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/cycle/cycle_time_calculator_factory.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/cycle/icycle_time_calculator.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/profile/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/profile/axis_speed_profile_analyzer.py</p></td>
 <td><p>45</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/payload_dispatcher_formatter_factory.py</p></td>
-<td><p>25</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/tool_command_payload_formatter.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/tool_command_payload_formatter_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/profile/axis_speed_profile_analyzer_factory.py</p></td>
 <td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/__init__.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/profile/iaxis_speed_profile_analyzer.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/summary/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/frame_step_presenter.py</p></td>
-<td><p>36</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/summary/itrajectory_cycle_summary_builder.py</p></td>
+<td><p>18</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/frame_step_presenter_factory.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/summary/trajectory_cycle_summary_builder.py</p></td>
+<td><p>35</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/metrics/summary/trajectory_cycle_summary_builder_factory.py</p></td>
 <td><p>21</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/iframe_step_presenter.py</p></td>
-<td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/iprogram_inspection_presenter.py</p></td>
-<td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/program_inspection_presenter.py</p></td>
-<td><p>27</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/program_inspection_presenter_factory.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/telemetry/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/telemetry/compile_telemetry_formatter.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/telemetry/compile_telemetry_formatter_factory.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/telemetry/icompile_telemetry_formatter.py</p></td>
-<td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/decompile/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/decompile/definition.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/decompile/error/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/decompile/error/decompile_error_handler.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/metrics/trajectory_metrics.py</p></td>
 <td><p>40</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/decompile/error/decompile_error_handler_factory.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/decompile/error/idecompile_error_handler.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/decompile/executor.py</p></td>
-<td><p>44</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/decompile/executor_factory.py</p></td>
-<td><p>26</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/__init__.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/plan/__init__.py</p></td>
 <td><p>9</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/definition.py</p></td>
-<td><p>24</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/plan/itrajectory_mutable.py</p></td>
+<td><p>21</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/error/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/error/disassemble_error_handler.py</p></td>
-<td><p>40</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/error/disassemble_error_handler_factory.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/error/idisassemble_error_handler.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/executor.py</p></td>
-<td><p>55</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/executor_factory.py</p></td>
-<td><p>28</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/format/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/format/disassemble_summary_formatter.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/format/disassemble_summary_formatter_factory.py</p></td>
-<td><p>17</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/format/idisassemble_summary_formatter.py</p></td>
-<td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/export/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/export/definition.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/export/error/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/export/error/export_error_handler.py</p></td>
-<td><p>40</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/export/error/export_error_handler_factory.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/export/error/iexport_error_handler.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/export/executor.py</p></td>
-<td><p>52</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/export/executor_factory.py</p></td>
-<td><p>28</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/icommand_definition.py</p></td>
-<td><p>14</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/icommand_executor.py</p></td>
-<td><p>14</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/info/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/info/definition.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/info/executor.py</p></td>
-<td><p>25</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/info/executor_factory.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/lint/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/lint/definition.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/lint/error/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/lint/error/ilint_error_handler.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/lint/error/lint_error_handler.py</p></td>
-<td><p>40</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/lint/error/lint_error_handler_factory.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/lint/executor.py</p></td>
-<td><p>46</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/lint/executor_factory.py</p></td>
-<td><p>28</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/repl/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/repl/bundle.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/repl/definition.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/command/repl/executor.py</p></td>
-<td><p>83</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/command/repl/executor_factory.py</p></td>
-<td><p>30</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/communication/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/binary_struct_format.py</p></td>
-<td><p>23</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/builder/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/builder/binary_frame_builder.py</p></td>
-<td><p>56</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/builder/binary_frame_builder_factory.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/checksum/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/checksum/crc16_ccitt.py</p></td>
-<td><p>30</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_assembler.py</p></td>
-<td><p>30</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_assembler_factory.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_parser.py</p></td>
-<td><p>91</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_parser_factory.py</p></td>
-<td><p>26</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_payload_unpacker.py</p></td>
-<td><p>56</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_payload_unpacker_factory.py</p></td>
-<td><p>18</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/ibinary_frame_assembler.py</p></td>
-<td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/parser_state.py</p></td>
-<td><p>20</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/setup/__init__.py</p></td>
-<td><p>9</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/setup/bundle.py</p></td>
-<td><p>19</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/setup/dep_validator.py</p></td>
-<td><p>36</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/setup/dependencies.py</p></td>
-<td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/setup/factory.py</p></td>
-<td><p>38</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/setup/keys.py</p></td>
-<td><p>24</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-even"><td><p>scaralang/setup/opt_validator.py</p></td>
-<td><p>34</p></td>
-<td><p>0</p></td>
-<td><p>100%</p></td>
-</tr>
-<tr class="row-odd"><td><p>scaralang/setup/options.py</p></td>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/plan/itrajectory_plan.py</p></td>
 <td><p>13</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>scaralang/setup/registry.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/plan/itrajectory_plan_factory.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/plan/itrajectory_read_only.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/plan/trajectory_plan.py</p></td>
+<td><p>42</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/plan/trajectory_plan_factory.py</p></td>
+<td><p>21</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/feedrate/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/feedrate/feedrate_validator.py</p></td>
+<td><p>25</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/feedrate/feedrate_validator_factory.py</p></td>
+<td><p>19</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/feedrate/ifeedrate_validator.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/itrajectory_validator.py</p></td>
 <td><p>28</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-odd"><td><p>scaralang/setup/validator.py</p></td>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/plan/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/plan/itrajectory_plan_validator.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/plan/trajectory_plan_validator.py</p></td>
+<td><p>44</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/plan/trajectory_plan_validator_factory.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/trajectory_validator.py</p></td>
+<td><p>46</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/trajectory_validator_factory.py</p></td>
+<td><p>28</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/waypoint/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/waypoint/iwaypoint_validator.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/trajectory/validation/waypoint/waypoint_validator.py</p></td>
+<td><p>33</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/trajectory/validation/waypoint/waypoint_validator_factory.py</p></td>
+<td><p>19</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/transformation/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/transformation/frame_transformer.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/core/service/transformation/frame_transformer_factory.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/core/service/transformation/iframe_transformer.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/engine.py</p></td>
+<td><p>60</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/engine.py</p></td>
+<td><p>43</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/icli.py</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/compiler/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/compiler/irepl_single_command_compiler.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/compiler/repl_single_command_compiler.py</p></td>
+<td><p>51</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/compiler/repl_single_command_compiler_factory.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/dispatch/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/dispatch/irepl_command_dispatcher.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher.py</p></td>
+<td><p>50</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/dispatch/repl_command_dispatcher_factory.py</p></td>
+<td><p>22</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/input/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/input/irepl_line_reader.py</p></td>
+<td><p>14</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/input/repl_line_reader.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/input/repl_line_reader_factory.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/output/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/output/irepl_output_writer.py</p></td>
+<td><p>14</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/output/repl_output_writer.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/output/repl_output_writer_factory.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/presentation/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/presentation/irepl_response_presenter.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/presentation/repl_response_presenter.py</p></td>
+<td><p>25</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/presentation/repl_response_presenter_factory.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/transmission/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/transmission/irepl_frame_transmitter.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter.py</p></td>
+<td><p>30</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/repl/transmission/repl_frame_transmitter_factory.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/bundle.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/dep_validator.py</p></td>
+<td><p>37</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/dependencies.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/factory.py</p></td>
+<td><p>25</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/keys.py</p></td>
+<td><p>23</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/opt_validator.py</p></td>
+<td><p>35</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/options.py</p></td>
+<td><p>13</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/cli/setup/registry.py</p></td>
+<td><p>29</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/cli/setup/validator.py</p></td>
 <td><p>38</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>
-<tr class="row-even"><td><p>Total</p></td>
-<td><p>12544</p></td>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/command_bundle.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/command_bundle_factory.py</p></td>
+<td><p>31</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/bundle.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/definition.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/error/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/error/compile_error_handler.py</p></td>
+<td><p>40</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/error/compile_error_handler_factory.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/error/icompile_error_handler.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/executor.py</p></td>
+<td><p>60</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/executor_factory.py</p></td>
+<td><p>28</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/frame_header_formatter.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/frame_header_formatter_factory.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/frame_trailer_formatter.py</p></td>
+<td><p>14</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/frame_trailer_formatter_factory.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/hex_stream_formatter.py</p></td>
+<td><p>19</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/hex_stream_formatter_factory.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/iframe_header_formatter.py</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/framing/iframe_trailer_formatter.py</p></td>
+<td><p>14</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/framing/ihex_stream_formatter.py</p></td>
+<td><p>14</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/ijoint_steps_payload_formatter.py</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/ipayload_dispatcher_formatter.py</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/itool_command_payload_formatter.py</p></td>
+<td><p>14</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/joint_steps_payload_formatter.py</p></td>
+<td><p>25</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/joint_steps_payload_formatter_factory.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/payload_dispatcher_formatter.py</p></td>
+<td><p>45</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/payload_dispatcher_formatter_factory.py</p></td>
+<td><p>25</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/payload/tool_command_payload_formatter.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/payload/tool_command_payload_formatter_factory.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/frame_step_presenter.py</p></td>
+<td><p>36</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/frame_step_presenter_factory.py</p></td>
+<td><p>21</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/iframe_step_presenter.py</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/iprogram_inspection_presenter.py</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/program_inspection_presenter.py</p></td>
+<td><p>27</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/inspection/presentation/program_inspection_presenter_factory.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/telemetry/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/telemetry/compile_telemetry_formatter.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/compile/telemetry/compile_telemetry_formatter_factory.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/compile/telemetry/icompile_telemetry_formatter.py</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/decompile/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/decompile/definition.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/decompile/error/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/decompile/error/decompile_error_handler.py</p></td>
+<td><p>40</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/decompile/error/decompile_error_handler_factory.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/decompile/error/idecompile_error_handler.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/decompile/executor.py</p></td>
+<td><p>44</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/decompile/executor_factory.py</p></td>
+<td><p>26</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/definition.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/error/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/error/disassemble_error_handler.py</p></td>
+<td><p>40</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/error/disassemble_error_handler_factory.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/error/idisassemble_error_handler.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/executor.py</p></td>
+<td><p>55</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/executor_factory.py</p></td>
+<td><p>28</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/format/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/format/disassemble_summary_formatter.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/disassemble/format/disassemble_summary_formatter_factory.py</p></td>
+<td><p>17</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/disassemble/format/idisassemble_summary_formatter.py</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/export/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/export/definition.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/export/error/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/export/error/export_error_handler.py</p></td>
+<td><p>40</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/export/error/export_error_handler_factory.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/export/error/iexport_error_handler.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/export/executor.py</p></td>
+<td><p>52</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/export/executor_factory.py</p></td>
+<td><p>28</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/icommand_definition.py</p></td>
+<td><p>14</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/icommand_executor.py</p></td>
+<td><p>14</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/info/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/info/definition.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/info/executor.py</p></td>
+<td><p>25</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/info/executor_factory.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/lint/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/lint/definition.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/lint/error/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/lint/error/ilint_error_handler.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/lint/error/lint_error_handler.py</p></td>
+<td><p>40</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/lint/error/lint_error_handler_factory.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/lint/executor.py</p></td>
+<td><p>46</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/lint/executor_factory.py</p></td>
+<td><p>28</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/repl/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/repl/bundle.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/repl/definition.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/command/repl/executor.py</p></td>
+<td><p>83</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/command/repl/executor_factory.py</p></td>
+<td><p>30</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/communication/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/binary_struct_format.py</p></td>
+<td><p>23</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/builder/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/builder/binary_frame_builder.py</p></td>
+<td><p>56</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/builder/binary_frame_builder_factory.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/checksum/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/checksum/crc16_ccitt.py</p></td>
+<td><p>30</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_assembler.py</p></td>
+<td><p>30</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_assembler_factory.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_parser.py</p></td>
+<td><p>91</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_parser_factory.py</p></td>
+<td><p>26</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_payload_unpacker.py</p></td>
+<td><p>56</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/binary_payload_unpacker_factory.py</p></td>
+<td><p>18</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/ibinary_frame_assembler.py</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/infrastructure/communication/protocol/binary/parser/parser_state.py</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/setup/__init__.py</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/setup/bundle.py</p></td>
+<td><p>19</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/setup/dep_validator.py</p></td>
+<td><p>36</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/setup/dependencies.py</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/setup/factory.py</p></td>
+<td><p>38</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/setup/keys.py</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/setup/opt_validator.py</p></td>
+<td><p>34</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/setup/options.py</p></td>
+<td><p>13</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>scaralang/setup/registry.py</p></td>
+<td><p>28</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-even"><td><p>scaralang/setup/validator.py</p></td>
+<td><p>38</p></td>
+<td><p>0</p></td>
+<td><p>100%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Total</p></td>
+<td><p>12675</p></td>
 <td><p>0</p></td>
 <td><p>100%</p></td>
 </tr>

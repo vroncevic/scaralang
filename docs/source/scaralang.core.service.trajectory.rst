@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   scaralang.core.service.trajectory.avoidance
    scaralang.core.service.trajectory.discretization
    scaralang.core.service.trajectory.metrics
    scaralang.core.service.trajectory.plan
