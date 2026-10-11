@@ -7,7 +7,10 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   scaralang.core.service.kinematics.profile
+   scaralang.core.service.kinematics.solver
    scaralang.core.service.kinematics.transmission
+   scaralang.core.service.kinematics.workspace
 
 Submodules
 ----------
@@ -15,7 +18,6 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.kinematics.default_scara_profile
    scaralang.core.service.kinematics.ikinematics_service
    scaralang.core.service.kinematics.kinematics_service
    scaralang.core.service.kinematics.kinematics_service_factory

@@ -1,0 +1,88 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    dependencies_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for FrameDependencies dataclass.
+'''
+
+from __future__ import annotations
+
+from dataclasses import FrozenInstanceError
+from unittest import TestCase
+from unittest import main
+from unittest.mock import MagicMock
+
+from scaralang.core.service.decompiler.frame.dependencies import FrameDependencies
+from scaralang.core.service.kinematics.iservice import IKinematicsService
+from scaralang.core.service.kinematics.transmission.iconverter import IJointStepTransmissionConverter
+from scaralang.core.service.protocol.ibinary_payload_unpacker import IBinaryPayloadUnpacker
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.8'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class TestFrameDependencies(TestCase):
+    '''
+        Test cases verifying FrameDependencies dataclass.
+
+        It defines:
+
+            :methods:
+                | test_initialization - Verifies attributes are preserved.
+                | test_immutability - Verifies frozen immutability constraint.
+    '''
+
+    def test_initialization(self) -> None:
+        '''
+            Verifies FrameDependencies fields are properly assigned.
+        '''
+        mock_kinematics = MagicMock(spec=IKinematicsService)
+        mock_transmission = MagicMock(spec=IJointStepTransmissionConverter)
+        mock_unpacker = MagicMock(spec=IBinaryPayloadUnpacker)
+        deps = FrameDependencies(
+            kinematics=mock_kinematics,
+            transmission=mock_transmission,
+            unpacker=mock_unpacker,
+        )
+        self.assertIs(deps.kinematics, mock_kinematics)
+        self.assertIs(deps.transmission, mock_transmission)
+        self.assertIs(deps.unpacker, mock_unpacker)
+
+    def test_immutability(self) -> None:
+        '''
+            Verifies that modifying attributes raises FrozenInstanceError.
+        '''
+        mock_kinematics = MagicMock(spec=IKinematicsService)
+        mock_transmission = MagicMock(spec=IJointStepTransmissionConverter)
+        mock_unpacker = MagicMock(spec=IBinaryPayloadUnpacker)
+        deps = FrameDependencies(
+            kinematics=mock_kinematics,
+            transmission=mock_transmission,
+            unpacker=mock_unpacker,
+        )
+        with self.assertRaises(FrozenInstanceError):
+            deps.kinematics = mock_kinematics  # type: ignore[misc]
+
+
+if __name__ == '__main__':
+    main()

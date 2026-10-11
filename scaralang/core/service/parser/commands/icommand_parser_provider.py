@@ -23,13 +23,13 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.icommand_parser_provides import ICommandParserProvides
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -38,21 +38,21 @@ __status__ = 'Updated'
 @runtime_checkable
 class ICommandParserProvider(Protocol):
     '''
-        Protocol contract for domain factories providing command parser handlers.
+        Protocol contract for domain factories providing command parser containers.
 
         It defines:
 
             :methods:
-                | create_handlers - Instantiates and returns domain command parser handlers.
+                | create - Instantiates and returns domain command parser provides container.
                 | get_version - Returns provider component version string.
     '''
 
     @classmethod
-    def create_handlers(cls) -> tuple[ICommandParser, ...]:
+    def create(cls) -> ICommandParserProvides:
         '''
-            Builds and returns a tuple of domain command parser handlers.
+            Builds and returns domain command parser provides container.
 
-            :return: Tuple of ICommandParser protocol instances.
+            :return: ICommandParserProvides protocol instance.
             :exceptions: None.
         '''
 

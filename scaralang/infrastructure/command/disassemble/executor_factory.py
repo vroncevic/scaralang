@@ -21,8 +21,7 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.disassembler.iscara_disassembler import IScaraDisassembler
-from scaralang.core.service.disassembler.scara_disassembler_factory import ScaraDisassemblerFactory
+from scaralang.core.service.disassembler.idisassembler import IScaraDisassembler
 from scaralang.infrastructure.command.disassemble.definition import DisassembleCommandDefinition
 from scaralang.infrastructure.command.disassemble.error.disassemble_error_handler_factory import DisassembleErrorHandlerFactory
 from scaralang.infrastructure.command.disassemble.error.idisassemble_error_handler import IDisassembleErrorHandler
@@ -30,12 +29,13 @@ from scaralang.infrastructure.command.disassemble.executor import DisassembleCom
 from scaralang.infrastructure.command.disassemble.format.disassemble_summary_formatter_factory import DisassembleSummaryFormatterFactory
 from scaralang.infrastructure.command.disassemble.format.idisassemble_summary_formatter import IDisassembleSummaryFormatter
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
+from scaralang.infrastructure.disassembler.factory import DefaultDisassemblerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -89,7 +89,7 @@ class DisassembleCommandExecutorFactory:
         '''
         return DisassembleCommandExecutor(
             definition=DisassembleCommandDefinition(),
-            service=ScaraDisassemblerFactory.create_default(),
+            service=DefaultDisassemblerFactory.create(),
             summary_formatter=DisassembleSummaryFormatterFactory.create(),
             error_handler=DisassembleErrorHandlerFactory.create(),
         )

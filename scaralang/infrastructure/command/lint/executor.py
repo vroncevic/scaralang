@@ -28,8 +28,8 @@ from typing import Final
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
 from scaralang.core.model.exceptions.scara_error import ScaraError
-from scaralang.core.service.linter.diagnostic.iscara_diagnostic_formatter import IScaraDiagnosticFormatter
-from scaralang.core.service.linter.script.iscara_dsl_linter import IScaraDslLinter
+from scaralang.core.service.linter.diagnostic.iformatter import IDiagnosticFormatter
+from scaralang.core.service.linter.script.ilinter import IScriptLinter
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
 from scaralang.infrastructure.command.lint.error.ilint_error_handler import ILintErrorHandler
 
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,16 +60,16 @@ class LintCommandExecutor:
     '''
 
     _definition: ICommandDefinition
-    _service: IScaraDslLinter
-    _diagnostic_formatter: IScaraDiagnosticFormatter
+    _service: IScriptLinter
+    _diagnostic_formatter: IDiagnosticFormatter
     _error_handler: ILintErrorHandler
 
     def __init__(
         self,
         *,
         definition: ICommandDefinition,
-        service: IScaraDslLinter,
-        diagnostic_formatter: IScaraDiagnosticFormatter,
+        service: IScriptLinter,
+        diagnostic_formatter: IDiagnosticFormatter,
         error_handler: ILintErrorHandler,
     ) -> None:
         '''
@@ -82,8 +82,8 @@ class LintCommandExecutor:
             :exceptions: None.
         '''
         self._definition: Final[ICommandDefinition] = definition
-        self._service: Final[IScaraDslLinter] = service
-        self._diagnostic_formatter: Final[IScaraDiagnosticFormatter] = diagnostic_formatter
+        self._service: Final[IScriptLinter] = service
+        self._diagnostic_formatter: Final[IDiagnosticFormatter] = diagnostic_formatter
         self._error_handler: Final[ILintErrorHandler] = error_handler
 
     def execute(

@@ -24,17 +24,17 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.service.decompiler.scara_decompiler_factory import ScaraDecompilerFactory
 from scaralang.infrastructure.command.decompile.definition import DecompileCommandDefinition
 from scaralang.infrastructure.command.decompile.error.decompile_error_handler_factory import DecompileErrorHandlerFactory
 from scaralang.infrastructure.command.decompile.executor import DecompileCommandExecutor
 from scaralang.infrastructure.command.decompile.executor_factory import DecompileCommandExecutorFactory
+from scaralang.infrastructure.decompiler.factory import DefaultDecompilerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,7 +60,7 @@ class TestDecompileCommandExecutorFactory(TestCase):
     def test_create_with_collaborators(self) -> None:
         '''Verifies factory builds DecompileCommandExecutor with explicit collaborators.'''
         definition = DecompileCommandDefinition()
-        service = ScaraDecompilerFactory.create_default()
+        service = DefaultDecompilerFactory.create()
         error_handler = DecompileErrorHandlerFactory.create()
         executor = DecompileCommandExecutorFactory.create(
             definition=definition,
@@ -72,7 +72,7 @@ class TestDecompileCommandExecutorFactory(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies factory version returns valid string.'''
-        self.assertEqual(DecompileCommandExecutorFactory.get_version(), '1.0.7')
+        self.assertEqual(DecompileCommandExecutorFactory.get_version(), '1.0.8')
 
 
 if __name__ == '__main__':

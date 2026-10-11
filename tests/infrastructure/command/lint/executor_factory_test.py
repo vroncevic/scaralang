@@ -24,18 +24,18 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.service.linter.diagnostic.scara_diagnostic_formatter_factory import ScaraDiagnosticFormatterFactory
-from scaralang.core.service.linter.script.scara_script_validator_factory import ScaraScriptValidatorFactory
+from scaralang.core.service.linter.diagnostic.factory import DiagnosticFactory
 from scaralang.infrastructure.command.lint.definition import LintCommandDefinition
 from scaralang.infrastructure.command.lint.error.lint_error_handler_factory import LintErrorHandlerFactory
 from scaralang.infrastructure.command.lint.executor import LintCommandExecutor
 from scaralang.infrastructure.command.lint.executor_factory import LintCommandExecutorFactory
+from scaralang.infrastructure.linter.script.factory import DefaultScriptLinterFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,8 +61,8 @@ class TestLintCommandExecutorFactory(TestCase):
     def test_create_with_collaborators(self) -> None:
         '''Verifies factory builds LintCommandExecutor with explicit collaborators.'''
         definition = LintCommandDefinition()
-        formatter = ScaraDiagnosticFormatterFactory.create()
-        service = ScaraScriptValidatorFactory.create_default()
+        formatter = DiagnosticFactory.create().formatter
+        service = DefaultScriptLinterFactory.create().linter
         error_handler = LintErrorHandlerFactory.create()
         executor = LintCommandExecutorFactory.create(
             definition=definition,
@@ -76,7 +76,7 @@ class TestLintCommandExecutorFactory(TestCase):
     def test_get_version(self) -> None:
         '''Verifies factory version returns valid string.'''
         self.assertEqual(
-            LintCommandExecutorFactory.get_version(), '1.0.7'
+            LintCommandExecutorFactory.get_version(), '1.0.8'
         )
 
 

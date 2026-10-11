@@ -24,8 +24,10 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
-from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
+from unittest.mock import MagicMock
+
+from scaralang.core.service.compiler.icompiler import IScaraCompiler
+from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
 from scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler import IReplSingleCommandCompiler
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler import ReplSingleCommandCompiler
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler_factory import ReplSingleCommandCompilerFactory
@@ -34,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,8 +57,8 @@ class TestReplSingleCommandCompilerFactory(TestCase):
     def test_create(self) -> None:
         '''Verifies factory builds ReplSingleCommandCompiler instance with collaborators.'''
         compiler = ReplSingleCommandCompilerFactory.create(
-            compiler=ScaraPlanCompilerFactory.create_default(),
-            binary_compiler=ScaraCompilerFactory.create_default(),
+            compiler=MagicMock(spec=IScriptPlanCompiler),
+            binary_compiler=MagicMock(spec=IScaraCompiler),
         )
         self.assertIsInstance(compiler, ReplSingleCommandCompiler)
         self.assertIsInstance(compiler, IReplSingleCommandCompiler)

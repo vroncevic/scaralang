@@ -21,21 +21,21 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.linter.diagnostic.iscara_diagnostic_formatter import IScaraDiagnosticFormatter
-from scaralang.core.service.linter.diagnostic.scara_diagnostic_formatter_factory import ScaraDiagnosticFormatterFactory
-from scaralang.core.service.linter.script.iscara_dsl_linter import IScaraDslLinter
-from scaralang.core.service.linter.script.scara_script_validator_factory import ScaraScriptValidatorFactory
+from scaralang.core.service.linter.diagnostic.factory import DiagnosticFactory
+from scaralang.core.service.linter.diagnostic.iformatter import IDiagnosticFormatter
+from scaralang.core.service.linter.script.ilinter import IScriptLinter
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
 from scaralang.infrastructure.command.lint.definition import LintCommandDefinition
 from scaralang.infrastructure.command.lint.error.ilint_error_handler import ILintErrorHandler
 from scaralang.infrastructure.command.lint.error.lint_error_handler_factory import LintErrorHandlerFactory
 from scaralang.infrastructure.command.lint.executor import LintCommandExecutor
+from scaralang.infrastructure.linter.script.factory import DefaultScriptLinterFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,16 +58,16 @@ class LintCommandExecutorFactory:
         cls,
         *,
         definition: ICommandDefinition,
-        service: IScaraDslLinter,
-        diagnostic_formatter: IScaraDiagnosticFormatter,
+        service: IScriptLinter,
+        diagnostic_formatter: IDiagnosticFormatter,
         error_handler: ILintErrorHandler,
     ) -> LintCommandExecutor:
         '''
             Builds and returns a LintCommandExecutor with strictly injected dependencies.
 
             :param definition: Required ICommandDefinition protocol instance.
-            :param service: Required IScaraDslLinter protocol instance.
-            :param diagnostic_formatter: Required IScaraDiagnosticFormatter protocol instance.
+            :param service: Required IScriptLinter protocol instance.
+            :param diagnostic_formatter: Required IDiagnosticFormatter protocol instance.
             :param error_handler: Required ILintErrorHandler protocol instance.
             :return: Fully wired LintCommandExecutor instance.
             :exceptions: None.
@@ -89,8 +89,8 @@ class LintCommandExecutorFactory:
         '''
         return LintCommandExecutor(
             definition=LintCommandDefinition(),
-            service=ScaraScriptValidatorFactory.create_default(),
-            diagnostic_formatter=ScaraDiagnosticFormatterFactory.create(),
+            service=DefaultScriptLinterFactory.create().linter,
+            diagnostic_formatter=DiagnosticFactory.create().formatter,
             error_handler=LintErrorHandlerFactory.create(),
         )
 

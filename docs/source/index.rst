@@ -179,6 +179,7 @@ Tool structure
          │   │   │   └── scara_syntax_error.py
          │   │   ├── __init__.py
          │   │   ├── kinematics/
+         │   │   │   ├── cartesian_pose.py
          │   │   │   ├── elbow_config.py
          │   │   │   ├── __init__.py
          │   │   │   ├── joint_angle_bounds.py
@@ -215,6 +216,7 @@ Tool structure
          │   │       ├── arc_point.py
          │   │       ├── axis_peak_metric.py
          │   │       ├── bottleneck_incident.py
+         │   │       ├── bypass_arc_geometry.py
          │   │       ├── circle_geometry.py
          │   │       ├── __init__.py
          │   │       ├── trajectory_cycle_report.py
@@ -223,343 +225,475 @@ Tool structure
          │   └── service/
          │       ├── compiler/
          │       │   ├── binary/
-         │       │   │   ├── binary_compiler.py
-         │       │   │   ├── binary_compiler_factory.py
          │       │   │   ├── command/
-         │       │   │   │   ├── command_compiler.py
-         │       │   │   │   ├── command_compiler_factory.py
-         │       │   │   │   ├── icommand_compiler.py
-         │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── motor/
-         │       │   │   │   │   ├── imotor_frame_builder.py
-         │       │   │   │   │   ├── __init__.py
-         │       │   │   │   │   ├── motor_frame_builder.py
-         │       │   │   │   │   └── motor_frame_builder_factory.py
-         │       │   │   │   ├── tokens/
-         │       │   │   │   │   ├── command_token_parser.py
-         │       │   │   │   │   ├── command_token_parser_factory.py
-         │       │   │   │   │   ├── icommand_token_parser.py
+         │       │   │   │   ├── actuator/
+         │       │   │   │   │   ├── builder.py
+         │       │   │   │   │   ├── dependencies.py
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── ibuilder.py
          │       │   │   │   │   └── __init__.py
+         │       │   │   │   ├── compiler.py
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── icompiler.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   ├── tokens/
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── iparser.py
+         │       │   │   │   │   └── parser.py
          │       │   │   │   └── tool/
-         │       │   │   │       ├── __init__.py
-         │       │   │   │       ├── itool_frame_builder.py
-         │       │   │   │       ├── tool_frame_builder.py
-         │       │   │   │       └── tool_frame_builder_factory.py
-         │       │   │   ├── ibinary_compiler.py
+         │       │   │   │       ├── builder.py
+         │       │   │   │       ├── dependencies.py
+         │       │   │   │       ├── factory.py
+         │       │   │   │       ├── ibuilder.py
+         │       │   │   │       └── __init__.py
+         │       │   │   ├── compiler.py
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── icompiler.py
          │       │   │   ├── __init__.py
          │       │   │   ├── metrics/
-         │       │   │   │   ├── binary_metrics_calculator.py
-         │       │   │   │   ├── binary_metrics_calculator_factory.py
-         │       │   │   │   ├── ibinary_metrics_calculator.py
+         │       │   │   │   ├── calculator.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── icalculator.py
          │       │   │   │   └── __init__.py
          │       │   │   ├── motion/
-         │       │   │   │   ├── imotion_compiler.py
+         │       │   │   │   ├── compiler.py
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── icompiler.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── motion_compiler.py
-         │       │   │   │   └── motion_compiler_factory.py
+         │       │   │   │   └── provides.py
+         │       │   │   ├── provides.py
          │       │   │   └── step/
-         │       │   │       ├── __init__.py
-         │       │   │       ├── istep_discretizer.py
-         │       │   │       ├── iwaypoint_step_dispatcher.py
-         │       │   │       ├── step_discretizer.py
-         │       │   │       ├── step_discretizer_factory.py
-         │       │   │       ├── waypoint_step_dispatcher.py
-         │       │   │       └── waypoint_step_dispatcher_factory.py
-         │       │   ├── iinstruction_pipeline.py
+         │       │   │       ├── discretizer/
+         │       │   │       │   ├── dependencies.py
+         │       │   │       │   ├── discretizer.py
+         │       │   │       │   ├── factory.py
+         │       │   │       │   ├── idiscretizer.py
+         │       │   │       │   └── __init__.py
+         │       │   │       ├── dispatcher/
+         │       │   │       │   ├── dependencies.py
+         │       │   │       │   ├── dispatcher.py
+         │       │   │       │   ├── factory.py
+         │       │   │       │   ├── idispatcher.py
+         │       │   │       │   └── __init__.py
+         │       │   │       └── __init__.py
+         │       │   ├── compiler.py
+         │       │   ├── dependencies.py
+         │       │   ├── factory.py
+         │       │   ├── icompiler.py
          │       │   ├── __init__.py
-         │       │   ├── instruction_pipeline.py
-         │       │   ├── instruction_pipeline_factory.py
-         │       │   ├── iprimitive_instruction_processor.py
-         │       │   ├── iscara_compiler.py
-         │       │   ├── macro/
-         │       │   │   ├── frame_macro_expander.py
-         │       │   │   ├── frame_macro_expander_factory.py
-         │       │   │   ├── imacro_expander.py
+         │       │   ├── instruction/
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── itangent_macro_expander.py
-         │       │   │   ├── jump_macro_expander.py
-         │       │   │   ├── jump_macro_expander_factory.py
-         │       │   │   ├── pallet_macro_expander.py
-         │       │   │   ├── pallet_macro_expander_factory.py
-         │       │   │   ├── tangent_macro_expander.py
-         │       │   │   └── tangent_macro_expander_factory.py
-         │       │   ├── motion/
-         │       │   │   ├── arc/
-         │       │   │   │   ├── arc_move_compiler.py
-         │       │   │   │   ├── arc_move_compiler_factory.py
-         │       │   │   │   ├── builder/
-         │       │   │   │   │   ├── arc_waypoint_builder.py
-         │       │   │   │   │   ├── arc_waypoint_builder_factory.py
-         │       │   │   │   │   ├── iarc_waypoint_builder.py
-         │       │   │   │   │   └── __init__.py
-         │       │   │   │   ├── calculator/
-         │       │   │   │   │   ├── arc_point_calculator.py
-         │       │   │   │   │   ├── arc_point_calculator_factory.py
-         │       │   │   │   │   ├── iarc_point_calculator.py
-         │       │   │   │   │   └── __init__.py
+         │       │   │   ├── pipeline/
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── factory.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   └── interpolation/
-         │       │   │   │       ├── arc_interpolator.py
-         │       │   │   │       ├── arc_interpolator_factory.py
-         │       │   │   │       ├── iarc_interpolator.py
-         │       │   │   │       └── __init__.py
-         │       │   │   ├── cartesian/
-         │       │   │   │   ├── cartesian_move_compiler.py
-         │       │   │   │   ├── cartesian_move_compiler_factory.py
+         │       │   │   │   ├── ipipeline.py
+         │       │   │   │   └── pipeline.py
+         │       │   │   ├── processor/
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── iprocessor.py
+         │       │   │   │   └── processor.py
+         │       │   │   └── provides.py
+         │       │   ├── macro/
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── frame/
+         │       │   │   │   ├── expander.py
+         │       │   │   │   ├── factory.py
          │       │   │   │   └── __init__.py
-         │       │   │   ├── imotion_sub_compiler.py
+         │       │   │   ├── iexpander.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── motion_command_compiler.py
-         │       │   │   ├── motion_command_compiler_factory.py
-         │       │   │   └── vertical/
-         │       │   │       ├── __init__.py
-         │       │   │       ├── vertical_move_compiler.py
-         │       │   │       └── vertical_move_compiler_factory.py
+         │       │   │   ├── jump/
+         │       │   │   │   ├── expander.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   └── __init__.py
+         │       │   │   ├── pallet/
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── expander.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   └── __init__.py
+         │       │   │   ├── provides.py
+         │       │   │   └── tangent/
+         │       │   │       ├── expander.py
+         │       │   │       ├── factory.py
+         │       │   │       └── __init__.py
          │       │   ├── plan/
+         │       │   │   ├── ast/
+         │       │   │   │   ├── compiler.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── icompiler.py
+         │       │   │   │   └── __init__.py
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── iscara_plan_compiler.py
-         │       │   │   ├── itrajectory_plan_compiler.py
-         │       │   │   ├── scara_plan_compiler.py
-         │       │   │   ├── scara_plan_compiler_factory.py
-         │       │   │   ├── trajectory_plan_compiler.py
-         │       │   │   └── trajectory_plan_compiler_factory.py
+         │       │   │   ├── provides.py
+         │       │   │   └── script/
+         │       │   │       ├── compiler.py
+         │       │   │       ├── dependencies.py
+         │       │   │       ├── factory.py
+         │       │   │       ├── icompiler.py
+         │       │   │       └── __init__.py
          │       │   ├── primitive/
          │       │   │   ├── control/
-         │       │   │   │   ├── control_command_compiler.py
-         │       │   │   │   ├── control_command_compiler_factory.py
-         │       │   │   │   ├── control_waypoint_builder.py
-         │       │   │   │   ├── control_waypoint_builder_factory.py
-         │       │   │   │   ├── icontrol_waypoint_builder.py
-         │       │   │   │   └── __init__.py
-         │       │   │   ├── __init__.py
-         │       │   │   ├── iprimitive_compiler.py
-         │       │   │   ├── state/
+         │       │   │   │   ├── compiler.py
+         │       │   │   │   ├── factory.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── state_command_compiler.py
-         │       │   │   │   └── state_command_compiler_factory.py
+         │       │   │   │   └── waypoint/
+         │       │   │   │       ├── builder.py
+         │       │   │   │       ├── factory.py
+         │       │   │   │       ├── ibuilder.py
+         │       │   │   │       └── __init__.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── icompiler.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── motion/
+         │       │   │   │   ├── arc/
+         │       │   │   │   │   ├── calculator/
+         │       │   │   │   │   │   ├── calculator.py
+         │       │   │   │   │   │   ├── factory.py
+         │       │   │   │   │   │   ├── icalculator.py
+         │       │   │   │   │   │   └── __init__.py
+         │       │   │   │   │   ├── compiler.py
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── interpolation/
+         │       │   │   │   │   │   ├── factory.py
+         │       │   │   │   │   │   ├── iinterpolator.py
+         │       │   │   │   │   │   ├── __init__.py
+         │       │   │   │   │   │   └── interpolator.py
+         │       │   │   │   │   └── waypoint/
+         │       │   │   │   │       ├── builder.py
+         │       │   │   │   │       ├── factory.py
+         │       │   │   │   │       ├── ibuilder.py
+         │       │   │   │   │       └── __init__.py
+         │       │   │   │   ├── cartesian/
+         │       │   │   │   │   ├── compiler.py
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── itangent_heading_calculator.py
+         │       │   │   │   │   ├── tangent_heading_calculator.py
+         │       │   │   │   │   └── tangent_heading_calculator_factory.py
+         │       │   │   │   ├── compiler.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── isub_compiler.py
+         │       │   │   │   └── vertical/
+         │       │   │   │       ├── compiler.py
+         │       │   │   │       ├── factory.py
+         │       │   │   │       └── __init__.py
+         │       │   │   ├── provides.py
+         │       │   │   ├── state/
+         │       │   │   │   ├── compiler.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   └── __init__.py
          │       │   │   └── tool/
+         │       │   │       ├── compiler.py
+         │       │   │       ├── factory.py
          │       │   │       ├── __init__.py
-         │       │   │       ├── itool_waypoint_builder.py
-         │       │   │       ├── tool_command_compiler.py
-         │       │   │       ├── tool_command_compiler_factory.py
-         │       │   │       ├── tool_waypoint_builder.py
-         │       │   │       └── tool_waypoint_builder_factory.py
-         │       │   ├── primitive_instruction_processor.py
-         │       │   ├── primitive_instruction_processor_factory.py
-         │       │   ├── scara_compiler.py
-         │       │   └── scara_compiler_factory.py
+         │       │   │       └── waypoint/
+         │       │   │           ├── builder.py
+         │       │   │           ├── factory.py
+         │       │   │           ├── ibuilder.py
+         │       │   │           └── __init__.py
+         │       │   └── provides.py
          │       ├── decompiler/
-         │       │   ├── frame_decompiler.py
-         │       │   ├── frame_decompiler_factory.py
-         │       │   ├── iframe_decompiler.py
+         │       │   ├── decompiler.py
+         │       │   ├── dependencies.py
+         │       │   ├── factory.py
+         │       │   ├── frame/
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── frame.py
+         │       │   │   ├── iframe.py
+         │       │   │   ├── __init__.py
+         │       │   │   └── provides.py
+         │       │   ├── idecompiler.py
          │       │   ├── __init__.py
-         │       │   ├── iscara_decompiler.py
-         │       │   ├── scara_decompiler.py
-         │       │   └── scara_decompiler_factory.py
+         │       │   └── provides.py
          │       ├── disassembler/
-         │       │   ├── frame_detail_decoder.py
-         │       │   ├── frame_detail_decoder_factory.py
-         │       │   ├── iframe_detail_decoder.py
+         │       │   ├── dependencies.py
+         │       │   ├── disassembler.py
+         │       │   ├── factory.py
+         │       │   ├── frame/
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── frame.py
+         │       │   │   ├── iframe.py
+         │       │   │   ├── __init__.py
+         │       │   │   └── provides.py
+         │       │   ├── idisassembler.py
          │       │   ├── __init__.py
-         │       │   ├── iscara_disassembler.py
-         │       │   ├── scara_disassembler.py
-         │       │   └── scara_disassembler_factory.py
+         │       │   └── provides.py
          │       ├── exporter/
          │       │   ├── csv/
-         │       │   │   ├── csv_trajectory_exporter.py
-         │       │   │   ├── csv_trajectory_exporter_factory.py
-         │       │   │   ├── icsv_trajectory_exporter.py
+         │       │   │   ├── exporter.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── iexporter.py
          │       │   │   └── __init__.py
-         │       │   ├── export_dispatcher_bundle.py
+         │       │   ├── dependencies.py
+         │       │   ├── exporter.py
+         │       │   ├── factory.py
          │       │   ├── gcode/
-         │       │   │   ├── gcode_exporter.py
-         │       │   │   ├── gcode_exporter_factory.py
-         │       │   │   ├── igcode_exporter.py
+         │       │   │   ├── exporter.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── iexporter.py
          │       │   │   └── __init__.py
+         │       │   ├── iexporter.py
          │       │   ├── __init__.py
-         │       │   ├── iscara_exporter.py
          │       │   ├── json/
-         │       │   │   ├── ijson_trajectory_exporter.py
-         │       │   │   ├── __init__.py
-         │       │   │   ├── json_trajectory_exporter.py
-         │       │   │   └── json_trajectory_exporter_factory.py
+         │       │   │   ├── exporter.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── iexporter.py
+         │       │   │   └── __init__.py
+         │       │   ├── provides.py
          │       │   ├── scara/
+         │       │   │   ├── exporter.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── iexporter.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── iscara_plan_exporter.py
-         │       │   │   ├── scara_plan_exporter.py
-         │       │   │   ├── scara_plan_exporter_factory.py
-         │       │   │   ├── scara_program_serializer.py
-         │       │   │   └── scara_source_generator.py
-         │       │   ├── scara_exporter.py
-         │       │   ├── scara_exporter_factory.py
+         │       │   │   ├── serializer.py
+         │       │   │   └── source_generator.py
          │       │   └── svg/
-         │       │       ├── __init__.py
-         │       │       ├── isvg_trajectory_exporter.py
-         │       │       ├── svg_trajectory_exporter.py
-         │       │       └── svg_trajectory_exporter_factory.py
+         │       │       ├── exporter.py
+         │       │       ├── factory.py
+         │       │       ├── iexporter.py
+         │       │       └── __init__.py
          │       ├── info/
+         │       │   ├── factory.py
+         │       │   ├── iinfo.py
+         │       │   ├── info.py
          │       │   ├── __init__.py
-         │       │   ├── iscara_info_provider.py
-         │       │   ├── scara_info_provider.py
-         │       │   └── scara_info_provider_factory.py
+         │       │   └── provides.py
          │       ├── __init__.py
          │       ├── kinematics/
-         │       │   ├── default_scara_profile.py
-         │       │   ├── ikinematics_service.py
+         │       │   ├── dependencies.py
+         │       │   ├── factory.py
          │       │   ├── __init__.py
-         │       │   ├── kinematics_service.py
-         │       │   ├── kinematics_service_factory.py
-         │       │   └── transmission/
-         │       │       ├── ijoint_step_transmission_converter.py
-         │       │       ├── __init__.py
-         │       │       ├── joint_step_transmission_converter.py
-         │       │       └── joint_step_transmission_converter_factory.py
+         │       │   ├── iservice.py
+         │       │   ├── profile/
+         │       │   │   ├── default_scara_profile.py
+         │       │   │   └── __init__.py
+         │       │   ├── provides.py
+         │       │   ├── service.py
+         │       │   ├── solver/
+         │       │   │   ├── factory.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── isolver.py
+         │       │   │   └── solver.py
+         │       │   ├── transmission/
+         │       │   │   ├── converter.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── iconverter.py
+         │       │   │   └── __init__.py
+         │       │   └── workspace/
+         │       │       ├── evaluator.py
+         │       │       ├── factory.py
+         │       │       ├── ievaluator.py
+         │       │       └── __init__.py
          │       ├── linter/
          │       │   ├── diagnostic/
+         │       │   │   ├── factory.py
+         │       │   │   ├── formatter.py
+         │       │   │   ├── iformatter.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── iscara_diagnostic_formatter.py
-         │       │   │   ├── scara_diagnostic_formatter.py
-         │       │   │   └── scara_diagnostic_formatter_factory.py
+         │       │   │   └── provides.py
+         │       │   ├── factory.py
+         │       │   ├── ilinter.py
          │       │   ├── __init__.py
-         │       │   ├── iscara_linter.py
+         │       │   ├── linter.py
+         │       │   ├── provides.py
          │       │   ├── rules/
          │       │   │   ├── __init__.py
-         │       │   │   ├── iscara_lint_rule.py
+         │       │   │   ├── irule.py
          │       │   │   ├── motion/
-         │       │   │   │   ├── imotion_calibration_validator.py
-         │       │   │   │   ├── imotion_duplicate_validator.py
+         │       │   │   │   ├── calibration/
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── ivalidator.py
+         │       │   │   │   │   └── validator.py
+         │       │   │   │   ├── duplicate/
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── ivalidator.py
+         │       │   │   │   │   └── validator.py
+         │       │   │   │   ├── factory.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── motion_calibration_validator.py
-         │       │   │   │   ├── motion_calibration_validator_factory.py
-         │       │   │   │   ├── motion_duplicate_validator.py
-         │       │   │   │   ├── motion_duplicate_validator_factory.py
-         │       │   │   │   ├── motion_lint_rule.py
-         │       │   │   │   └── motion_lint_rule_factory.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   └── rule.py
          │       │   │   ├── pneumatic/
+         │       │   │   │   ├── conflict/
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── ivalidator.py
+         │       │   │   │   │   └── validator.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── flyby/
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── ivalidator.py
+         │       │   │   │   │   └── validator.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── ipneumatic_conflict_validator.py
-         │       │   │   │   ├── ipneumatic_flyby_validator.py
-         │       │   │   │   ├── ipneumatic_redundancy_validator.py
-         │       │   │   │   ├── pneumatic_conflict_validator.py
-         │       │   │   │   ├── pneumatic_conflict_validator_factory.py
-         │       │   │   │   ├── pneumatic_flyby_validator.py
-         │       │   │   │   ├── pneumatic_flyby_validator_factory.py
-         │       │   │   │   ├── pneumatic_lint_rule.py
-         │       │   │   │   ├── pneumatic_lint_rule_factory.py
-         │       │   │   │   ├── pneumatic_redundancy_validator.py
-         │       │   │   │   └── pneumatic_redundancy_validator_factory.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   ├── redundancy/
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── ivalidator.py
+         │       │   │   │   │   └── validator.py
+         │       │   │   │   └── rule.py
          │       │   │   ├── state/
-         │       │   │   │   ├── imotor_mode_validator.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── homing/
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── ivalidator.py
+         │       │   │   │   │   └── validator.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── istate_homing_validator.py
-         │       │   │   │   ├── istate_zone_validator.py
-         │       │   │   │   ├── motor_mode_validator.py
-         │       │   │   │   ├── motor_mode_validator_factory.py
-         │       │   │   │   ├── state_homing_validator.py
-         │       │   │   │   ├── state_homing_validator_factory.py
-         │       │   │   │   ├── state_lint_rule.py
-         │       │   │   │   ├── state_lint_rule_factory.py
-         │       │   │   │   ├── state_zone_validator.py
-         │       │   │   │   └── state_zone_validator_factory.py
+         │       │   │   │   ├── mode/
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── ivalidator.py
+         │       │   │   │   │   └── validator.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   ├── rule.py
+         │       │   │   │   └── zone/
+         │       │   │   │       ├── factory.py
+         │       │   │   │       ├── __init__.py
+         │       │   │   │       ├── ivalidator.py
+         │       │   │   │       └── validator.py
          │       │   │   └── timing/
+         │       │   │       ├── blend_zone/
+         │       │   │       │   ├── factory.py
+         │       │   │       │   ├── __init__.py
+         │       │   │       │   ├── ivalidator.py
+         │       │   │       │   └── validator.py
+         │       │   │       ├── dwell/
+         │       │   │       │   ├── factory.py
+         │       │   │       │   ├── __init__.py
+         │       │   │       │   ├── ivalidator.py
+         │       │   │       │   └── validator.py
+         │       │   │       ├── factory.py
          │       │   │       ├── __init__.py
-         │       │   │       ├── itiming_blend_zone_validator.py
-         │       │   │       ├── itiming_dwell_validator.py
-         │       │   │       ├── timing_blend_zone_validator.py
-         │       │   │       ├── timing_blend_zone_validator_factory.py
-         │       │   │       ├── timing_dwell_validator.py
-         │       │   │       ├── timing_dwell_validator_factory.py
-         │       │   │       ├── timing_lint_rule.py
-         │       │   │       └── timing_lint_rule_factory.py
-         │       │   ├── scara_linter.py
-         │       │   ├── scara_linter_factory.py
-         │       │   └── script/
+         │       │   │       ├── provides.py
+         │       │   │       └── rule.py
+         │       │   ├── script/
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── ilinter.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── linter.py
+         │       │   │   └── provides.py
+         │       │   └── validator/
+         │       │       ├── dependencies.py
+         │       │       ├── factory.py
          │       │       ├── __init__.py
-         │       │       ├── iscara_dsl_linter.py
-         │       │       ├── iscara_dsl_validator.py
-         │       │       ├── scara_script_validator.py
-         │       │       └── scara_script_validator_factory.py
+         │       │       ├── ivalidator.py
+         │       │       ├── provides.py
+         │       │       └── validator.py
          │       ├── motor/
+         │       │   ├── drive_mode_resolver.py
+         │       │   ├── factory.py
          │       │   ├── __init__.py
-         │       │   ├── motor_config_factory.py
-         │       │   ├── motor_drive_mode_resolver.py
-         │       │   ├── motor_interface_resolver.py
-         │       │   └── motor_wire_mode_converter.py
+         │       │   ├── interface_resolver.py
+         │       │   └── wire_mode_converter.py
          │       ├── parser/
          │       │   ├── commands/
          │       │   │   ├── config/
-         │       │   │   │   ├── accel_config_parser.py
-         │       │   │   │   ├── config_command_parser_factory.py
-         │       │   │   │   ├── elbow_config_parser.py
+         │       │   │   │   ├── accel.py
+         │       │   │   │   ├── elbow.py
+         │       │   │   │   ├── factory.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── motor_config_parser.py
-         │       │   │   │   ├── override_config_parser.py
-         │       │   │   │   ├── speed_config_parser.py
-         │       │   │   │   ├── tool_orient_command_parser.py
-         │       │   │   │   └── zone_command_parser.py
+         │       │   │   │   ├── motor.py
+         │       │   │   │   ├── override.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   ├── speed.py
+         │       │   │   │   ├── syntax.py
+         │       │   │   │   ├── tool_orient.py
+         │       │   │   │   └── zone.py
          │       │   │   ├── flow/
-         │       │   │   │   ├── disable_command_parser.py
-         │       │   │   │   ├── enable_command_parser.py
-         │       │   │   │   ├── estop_command_parser.py
-         │       │   │   │   ├── flow_command_parser_factory.py
-         │       │   │   │   ├── hold_command_parser.py
+         │       │   │   │   ├── disable.py
+         │       │   │   │   ├── enable.py
+         │       │   │   │   ├── estop.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── hold.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── resume_command_parser.py
-         │       │   │   │   ├── sync_command_parser.py
-         │       │   │   │   └── wait_command_parser.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   ├── resume.py
+         │       │   │   │   ├── sync.py
+         │       │   │   │   └── wait.py
          │       │   │   ├── frame/
-         │       │   │   │   ├── frame_command_parser_factory.py
-         │       │   │   │   ├── frame_reset_command_parser.py
-         │       │   │   │   ├── frame_set_command_parser.py
-         │       │   │   │   └── __init__.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   ├── reset.py
+         │       │   │   │   └── set.py
          │       │   │   ├── icommand_parser.py
          │       │   │   ├── icommand_parser_provider.py
+         │       │   │   ├── icommand_parser_provides.py
          │       │   │   ├── __init__.py
          │       │   │   ├── macro/
+         │       │   │   │   ├── factory.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── jump_command_parser.py
-         │       │   │   │   ├── macro_command_parser_factory.py
-         │       │   │   │   ├── pallet_def_command_parser.py
-         │       │   │   │   └── pallet_move_command_parser.py
+         │       │   │   │   ├── jump.py
+         │       │   │   │   ├── pallet_def.py
+         │       │   │   │   ├── pallet_move.py
+         │       │   │   │   └── provides.py
          │       │   │   ├── motion/
-         │       │   │   │   ├── approach_command_parser.py
-         │       │   │   │   ├── arc_command_parser.py
-         │       │   │   │   ├── home_command_parser.py
+         │       │   │   │   ├── approach.py
+         │       │   │   │   ├── arc.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── home.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── jog_command_parser.py
-         │       │   │   │   ├── joint_move_command_parser.py
-         │       │   │   │   ├── linear_move_command_parser.py
-         │       │   │   │   ├── motion_command_parser_factory.py
-         │       │   │   │   ├── probe_command_parser.py
-         │       │   │   │   └── retract_command_parser.py
+         │       │   │   │   ├── jog_axis.py
+         │       │   │   │   ├── jog_joint.py
+         │       │   │   │   ├── joint.py
+         │       │   │   │   ├── linear.py
+         │       │   │   │   ├── probe.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   └── retract.py
          │       │   │   ├── parameter/
-         │       │   │   │   ├── __init__.py
-         │       │   │   │   └── parameter_extractor.py
+         │       │   │   │   ├── extractor.py
+         │       │   │   │   └── __init__.py
          │       │   │   └── tool/
+         │       │   │       ├── factory.py
          │       │   │       ├── __init__.py
-         │       │   │       ├── pump_command_parser.py
-         │       │   │       ├── tool_command_parser.py
-         │       │   │       ├── tool_command_parser_factory.py
-         │       │   │       └── valve_command_parser.py
+         │       │   │       ├── provides.py
+         │       │   │       ├── pump.py
+         │       │   │       ├── tool.py
+         │       │   │       └── valve.py
+         │       │   ├── dependencies.py
+         │       │   ├── factory.py
          │       │   ├── __init__.py
          │       │   ├── instruction/
-         │       │   │   ├── iinstruction_line_parser.py
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── instruction_line_parser.py
-         │       │   │   └── instruction_line_parser_factory.py
-         │       │   ├── iscara_parser.py
+         │       │   │   ├── iparser.py
+         │       │   │   ├── parser.py
+         │       │   │   └── provides.py
+         │       │   ├── iparser.py
          │       │   ├── lexer/
+         │       │   │   ├── factory.py
+         │       │   │   ├── ilexer.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── iscara_lexer.py
-         │       │   │   ├── scara_lexer.py
-         │       │   │   └── scara_lexer_factory.py
-         │       │   ├── scara_parser.py
-         │       │   ├── scara_parser_factory.py
+         │       │   │   ├── lexer.py
+         │       │   │   └── provides.py
+         │       │   ├── parser.py
+         │       │   ├── provides.py
          │       │   └── splitter/
+         │       │       ├── factory.py
          │       │       ├── __init__.py
-         │       │       ├── itoken_line_splitter.py
-         │       │       ├── token_line_splitter.py
-         │       │       └── token_line_splitter_factory.py
+         │       │       ├── isplitter.py
+         │       │       ├── provides.py
+         │       │       └── splitter.py
          │       ├── protocol/
          │       │   ├── ibinary_frame_builder.py
          │       │   ├── ibinary_frame_parser.py
@@ -567,75 +701,123 @@ Tool structure
          │       │   └── __init__.py
          │       ├── trajectory/
          │       │   ├── avoidance/
-         │       │   │   ├── dead_zone_bypass_planner.py
-         │       │   │   ├── dead_zone_bypass_planner_factory.py
-         │       │   │   ├── dead_zone_validator.py
-         │       │   │   ├── dead_zone_validator_factory.py
-         │       │   │   ├── idead_zone_bypass_planner.py
-         │       │   │   ├── idead_zone_validator.py
-         │       │   │   └── __init__.py
-         │       │   ├── discretization/
+         │       │   │   ├── bypass/
+         │       │   │   │   ├── arc/
+         │       │   │   │   │   ├── calculator.py
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── icalculator.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   └── provides.py
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── planner/
+         │       │   │   │   │   ├── dependencies.py
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── iplanner.py
+         │       │   │   │   │   ├── planner.py
+         │       │   │   │   │   └── provides.py
+         │       │   │   │   └── provides.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── ishape_discretizer.py
-         │       │   │   ├── shape_discretizer.py
-         │       │   │   └── shape_discretizer_factory.py
+         │       │   │   ├── router/
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── irouter.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   └── router.py
+         │       │   │   ├── shape/
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── iplanner.py
+         │       │   │   │   ├── planner.py
+         │       │   │   │   └── provides.py
+         │       │   │   └── validation/
+         │       │   │       ├── factory.py
+         │       │   │       ├── __init__.py
+         │       │   │       ├── ivalidator.py
+         │       │   │       ├── provides.py
+         │       │   │       └── validator.py
+         │       │   ├── discretization/
+         │       │   │   ├── discretizer.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── idiscretizer.py
+         │       │   │   ├── __init__.py
+         │       │   │   └── provides.py
          │       │   ├── __init__.py
          │       │   ├── metrics/
          │       │   │   ├── bottleneck/
-         │       │   │   │   ├── imotion_bottleneck_detector.py
+         │       │   │   │   ├── detector.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── idetector.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── motion_bottleneck_detector.py
-         │       │   │   │   └── motion_bottleneck_detector_factory.py
+         │       │   │   │   └── provides.py
          │       │   │   ├── cycle/
-         │       │   │   │   ├── cycle_time_calculator.py
-         │       │   │   │   ├── cycle_time_calculator_factory.py
-         │       │   │   │   ├── icycle_time_calculator.py
-         │       │   │   │   └── __init__.py
-         │       │   │   ├── __init__.py
-         │       │   │   ├── profile/
-         │       │   │   │   ├── axis_speed_profile_analyzer.py
-         │       │   │   │   ├── axis_speed_profile_analyzer_factory.py
-         │       │   │   │   ├── iaxis_speed_profile_analyzer.py
-         │       │   │   │   └── __init__.py
-         │       │   │   ├── summary/
+         │       │   │   │   ├── calculator.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── icalculator.py
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── itrajectory_cycle_summary_builder.py
-         │       │   │   │   ├── trajectory_cycle_summary_builder.py
-         │       │   │   │   └── trajectory_cycle_summary_builder_factory.py
-         │       │   │   └── trajectory_metrics.py
-         │       │   ├── plan/
+         │       │   │   │   └── provides.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── imetrics.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── itrajectory_mutable.py
-         │       │   │   ├── itrajectory_plan.py
-         │       │   │   ├── itrajectory_plan_factory.py
-         │       │   │   ├── itrajectory_read_only.py
-         │       │   │   ├── trajectory_plan.py
-         │       │   │   └── trajectory_plan_factory.py
+         │       │   │   ├── metrics.py
+         │       │   │   ├── profile/
+         │       │   │   │   ├── analyzer.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── ianalyzer.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   └── provides.py
+         │       │   │   ├── provides.py
+         │       │   │   └── summary/
+         │       │   │       ├── builder.py
+         │       │   │       ├── dependencies.py
+         │       │   │       ├── factory.py
+         │       │   │       ├── ibuilder.py
+         │       │   │       ├── __init__.py
+         │       │   │       └── provides.py
+         │       │   ├── plan/
+         │       │   │   ├── factory.py
+         │       │   │   ├── imutable.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── iplan.py
+         │       │   │   ├── iread_only.py
+         │       │   │   ├── plan.py
+         │       │   │   └── provides.py
          │       │   └── validation/
+         │       │       ├── dependencies.py
+         │       │       ├── factory.py
          │       │       ├── feedrate/
-         │       │       │   ├── feedrate_validator.py
-         │       │       │   ├── feedrate_validator_factory.py
-         │       │       │   ├── ifeedrate_validator.py
-         │       │       │   └── __init__.py
-         │       │       ├── __init__.py
-         │       │       ├── itrajectory_validator.py
-         │       │       ├── plan/
+         │       │       │   ├── factory.py
          │       │       │   ├── __init__.py
-         │       │       │   ├── itrajectory_plan_validator.py
-         │       │       │   ├── trajectory_plan_validator.py
-         │       │       │   └── trajectory_plan_validator_factory.py
-         │       │       ├── trajectory_validator.py
-         │       │       ├── trajectory_validator_factory.py
+         │       │       │   ├── ivalidator.py
+         │       │       │   ├── provides.py
+         │       │       │   └── validator.py
+         │       │       ├── __init__.py
+         │       │       ├── ivalidator.py
+         │       │       ├── plan/
+         │       │       │   ├── dependencies.py
+         │       │       │   ├── factory.py
+         │       │       │   ├── __init__.py
+         │       │       │   ├── ivalidator.py
+         │       │       │   ├── provides.py
+         │       │       │   └── validator.py
+         │       │       ├── provides.py
+         │       │       ├── validator.py
          │       │       └── waypoint/
+         │       │           ├── factory.py
          │       │           ├── __init__.py
-         │       │           ├── iwaypoint_validator.py
-         │       │           ├── waypoint_validator.py
-         │       │           └── waypoint_validator_factory.py
+         │       │           ├── ivalidator.py
+         │       │           ├── provides.py
+         │       │           └── validator.py
          │       └── transformation/
-         │           ├── frame_transformer.py
-         │           ├── frame_transformer_factory.py
-         │           ├── iframe_transformer.py
-         │           └── __init__.py
+         │           ├── factory.py
+         │           ├── __init__.py
+         │           ├── itransformer.py
+         │           ├── provides.py
+         │           └── transformer.py
          ├── engine.py
          ├── infrastructure/
          │   ├── cli/
@@ -819,10 +1001,74 @@ Tool structure
          │   │       │       ├── __init__.py
          │   │       │       └── parser_state.py
          │   │       └── __init__.py
+         │   ├── compiler/
+         │   │   ├── factory.py
+         │   │   └── __init__.py
          │   ├── config/
          │   │   ├── scaralang.cfg
          │   │   └── scaralang.logo
-         │   └── __init__.py
+         │   ├── decompiler/
+         │   │   ├── factory.py
+         │   │   └── __init__.py
+         │   ├── disassembler/
+         │   │   ├── factory.py
+         │   │   └── __init__.py
+         │   ├── exporter/
+         │   │   ├── factory.py
+         │   │   └── __init__.py
+         │   ├── info/
+         │   │   ├── factory.py
+         │   │   └── __init__.py
+         │   ├── __init__.py
+         │   ├── kinematics/
+         │   │   ├── factory.py
+         │   │   └── __init__.py
+         │   ├── linter/
+         │   │   ├── __init__.py
+         │   │   ├── script/
+         │   │   │   ├── factory.py
+         │   │   │   └── __init__.py
+         │   │   └── validator/
+         │   │       ├── factory.py
+         │   │       └── __init__.py
+         │   ├── parser/
+         │   │   ├── factory.py
+         │   │   ├── __init__.py
+         │   │   └── instruction/
+         │   │       ├── factory.py
+         │   │       └── __init__.py
+         │   └── trajectory/
+         │       ├── avoidance/
+         │       │   ├── bypass/
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
+         │       │   │   └── __init__.py
+         │       │   ├── __init__.py
+         │       │   ├── router/
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
+         │       │   │   └── __init__.py
+         │       │   ├── shape/
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
+         │       │   │   └── __init__.py
+         │       │   └── validation/
+         │       │       ├── dependencies.py
+         │       │       ├── factory.py
+         │       │       └── __init__.py
+         │       ├── discretization/
+         │       │   ├── factory.py
+         │       │   └── __init__.py
+         │       ├── __init__.py
+         │       ├── metrics/
+         │       │   ├── factory.py
+         │       │   └── __init__.py
+         │       ├── plan/
+         │       │   ├── factory.py
+         │       │   └── __init__.py
+         │       └── validation/
+         │           ├── factory.py
+         │           └── __init__.py
          ├── __init__.py
          ├── py.typed
          └── setup/
@@ -837,7 +1083,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     125 directories, 598 files
+     181 directories, 788 files
 
 🏗 Architecture & SOLID Principles
 --------------------------------------------------------------------------------
@@ -856,24 +1102,28 @@ Tool structure
     └──────────────┬───────────────┘└──────────────┬──────────────┘
                    │                               │
                    ▼                               ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                    Application Services                     │
-    │  ┌────────────────────┐ ┌─────────────────┐ ┌─────────────┐ │
-    │  │     ScaraLexer     │ │   ScaraParser   │ │ScaraCompiler│ │
-    │  │   (Token Stream)   │ │(Command Parsers)│ │(Macro Expan)│ │
-    │  └────────────────────┘ └─────────────────┘ └─────────────┘ │
-    │  ┌────────────────────┐ ┌─────────────────┐ ┌─────────────┐ │
-    │  │   BinaryCompiler   │ │ScaraDisassembler│ │ScaraExporter│ │
-    │  │  (Step Generator)  │ │(Frame Breakdown)│ │(Multi-target│ │
-    │  └────────────────────┘ └─────────────────┘ └─────────────┘ │
-    └──────────────────────────────┬──────────────────────────────┘
-                                   │ Operates on Pure Models
-                                   ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                     Pure Domain Models                      │
-    │    (ScaraProgram, BinaryProgram, Waypoint, DisassemblySum,  │
-    │     InstructionParam, ScaraCommandType, MessageId, Zone)    │
-    └─────────────────────────────────────────────────────────────┘
+    ┌────────────────────────────────────────────────────────────────────────┐
+    │                         Application Services                           │
+    │  ┌──────────────────┐   ┌────────────────────┐   ┌──────────────────┐  │
+    │  │    ScaraLexer    │   │    ScaraParser     │   │  ScaraCompiler   │  │
+    │  │  (Token Stream)  │   │ (Command Parsers)  │   │ (Macro Expander) │  │
+    │  └──────────────────┘   └────────────────────┘   └──────────────────┘  │
+    │  ┌──────────────────┐   ┌────────────────────┐   ┌──────────────────┐  │
+    │  │KinematicsService │   │SafeTrajectoryRouter│   │  BinaryCompiler  │  │
+    │  │ (Solver+Bounds)  │   │  (Bypass & Avoid)  │   │ (Step Generator) │  │
+    │  └──────────────────┘   └────────────────────┘   └──────────────────┘  │
+    │  ┌──────────────────┐   ┌────────────────────┐                         │
+    │  │ScaraDisassembler │   │   ScaraExporter    │                         │
+    │  │ (Frame Decoder)  │   │ (Multi-target Exp) │                         │
+    │  └──────────────────┘   └────────────────────┘                         │
+    └───────────────────────────────────┬────────────────────────────────────┘
+                                        │ Operates on Pure Models
+                                        ▼
+    ┌────────────────────────────────────────────────────────────────────────┐
+    │                          Pure Domain Models                            │
+    │       (ScaraProgram, BinaryProgram, Waypoint, BypassArcGeometry,       │
+    │        CircleGeometry, ScaraBounds, InstructionParam, MessageId)       │
+    └────────────────────────────────────────────────────────────────────────┘
 
 SOLID Principles Compliance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -945,6 +1195,52 @@ Every build is validated against 4 strict automated quality gates:
     │      BinaryProgram      │
     │(Wire Frames & Bytecode) │
     └─────────────────────────┘
+
+Dead Zone Avoidance & Safe Trajectory Routing Pipeline
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When generating continuous trajectories or executing Cartesian linear moves (``MOVE_L``), paths that intersect the inner annular physical dead zone (:math:`R_{\min} \approx 77.6\text{ mm}` for default SCARA geometry) are automatically detected and rerouted via tangent arc geometry:
+
+.. code-block:: text
+
+                           ┌──────────────────────────┐
+                           │   ISafeTrajectoryRouter  │
+                           │  (Segment P1 -> P2 Move) │
+                           └────────────┬─────────────┘
+                                        │
+                                        ▼
+                           ┌──────────────────────────┐
+                           │   IDeadZoneValidator     │
+                           │ (Annular & Line Check)   │
+                           └────────────┬─────────────┘
+                                        │
+                     Intersects R_min?  │
+                        ┌───────────────┴───────────────┐
+                    No  │                               │ Yes
+                        ▼                               ▼
+             ┌─────────────────────┐        ┌─────────────────────────────┐
+             │ Direct Linear Move  │        │   IDeadZoneBypassPlanner    │
+             │   (P1 -> P2 Path)   │        │   (Selects Safe Bypass)     │
+             └─────────────────────┘        └──────────────┬──────────────┘
+                                                           │
+                                                           ▼
+                                            ┌─────────────────────────────┐
+                                            │    ITangentArcCalculator    │
+                                            │ (Computes BypassArcGeometry)│
+                                            └──────────────┬──────────────┘
+                                                           │
+                                                           ▼
+                                            ┌─────────────────────────────┐
+                                            │   IAvoidanceShapePlanner    │
+                                            │  (Discretizes Safe Arc)     │
+                                            └──────────────┬──────────────┘
+                                                           │
+                                                           ▼
+                                            ┌─────────────────────────────┐
+                                            │  Safe Composite Trajectory  │
+                                            │  (P1 -> Tangent -> Arc ->   │
+                                            │        Tangent -> P2)       │
+                                            └─────────────────────────────┘
 
 SCARA DSL Instruction Reference
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

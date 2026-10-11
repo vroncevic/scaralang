@@ -28,7 +28,7 @@ from typing import Final
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
 from scaralang.core.model.exceptions.scara_error import ScaraError
-from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
+from scaralang.core.service.compiler.icompiler import IScaraCompiler
 from scaralang.infrastructure.command.compile.bundle import CompileCommandBundle
 from scaralang.infrastructure.command.compile.error.icompile_error_handler import ICompileErrorHandler
 from scaralang.infrastructure.command.compile.telemetry.icompile_telemetry_formatter import ICompileTelemetryFormatter
@@ -39,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

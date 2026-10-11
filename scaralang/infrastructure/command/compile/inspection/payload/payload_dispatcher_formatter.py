@@ -26,7 +26,7 @@ from typing import Final
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.protocol.message_id import MessageId
-from scaralang.core.service.motor.motor_config_factory import MotorConfigFactory
+from scaralang.core.service.motor.wire_mode_converter import WireModeConverter
 from scaralang.core.service.protocol.ibinary_payload_unpacker import IBinaryPayloadUnpacker
 from scaralang.infrastructure.command.compile.inspection.framing.ihex_stream_formatter import IHexStreamFormatter
 from scaralang.infrastructure.command.compile.inspection.payload.ijoint_steps_payload_formatter import IJointStepsPayloadFormatter
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -107,7 +107,7 @@ class PayloadDispatcherFormatter:
 
         if msg_id == MessageId.CMD_CONFIG_MOTOR:
             mode_int, axes = self._unpacker.unpack_motor_config(payload)
-            mode: MotorDriveMode = MotorConfigFactory.from_wire_mode(mode_int)
+            mode: MotorDriveMode = WireModeConverter.from_wire_mode(mode_int)
             return f'  - Motor Mode:    {mode.value} (axes=0x{axes:02X})'
 
         if payload:

@@ -27,8 +27,8 @@ from typing import Final
 
 from scaralang.core.model.dsl.exporter.export_format import ExportFormat
 from scaralang.core.model.exceptions.scara_error import ScaraError
-from scaralang.core.service.compiler.plan.iscara_plan_compiler import IScaraPlanCompiler
-from scaralang.core.service.exporter.iscara_exporter import IScaraExporter
+from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
+from scaralang.core.service.exporter.iexporter import IScaraExporter
 from scaralang.infrastructure.command.export.error.iexport_error_handler import IExportErrorHandler
 from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
 
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,7 +60,7 @@ class ExportCommandExecutor:
     '''
 
     _definition: ICommandDefinition
-    _service: IScaraPlanCompiler
+    _service: IScriptPlanCompiler
     _dispatcher: IScaraExporter
     _error_handler: IExportErrorHandler
 
@@ -68,7 +68,7 @@ class ExportCommandExecutor:
         self,
         *,
         definition: ICommandDefinition,
-        service: IScaraPlanCompiler,
+        service: IScriptPlanCompiler,
         dispatcher: IScaraExporter,
         error_handler: IExportErrorHandler,
     ) -> None:
@@ -82,7 +82,7 @@ class ExportCommandExecutor:
             :exceptions: None.
         '''
         self._definition: Final[ICommandDefinition] = definition
-        self._service: Final[IScaraPlanCompiler] = service
+        self._service: Final[IScriptPlanCompiler] = service
         self._dispatcher: Final[IScaraExporter] = dispatcher
         self._error_handler: Final[IExportErrorHandler] = error_handler
 

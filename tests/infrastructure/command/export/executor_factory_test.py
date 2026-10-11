@@ -22,20 +22,20 @@ Info
 from __future__ import annotations
 
 from unittest import TestCase
-from unittest import main
+from unittest.mock import MagicMock
 
-from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
-from scaralang.core.service.exporter.scara_exporter_factory import ScaraExporterFactory
+from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
 from scaralang.infrastructure.command.export.definition import ExportCommandDefinition
 from scaralang.infrastructure.command.export.error.export_error_handler_factory import ExportErrorHandlerFactory
 from scaralang.infrastructure.command.export.executor import ExportCommandExecutor
 from scaralang.infrastructure.command.export.executor_factory import ExportCommandExecutorFactory
+from scaralang.infrastructure.exporter.factory import DefaultExporterFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,8 +61,8 @@ class TestExportCommandExecutorFactory(TestCase):
     def test_create_with_collaborators(self) -> None:
         '''Verifies factory builds ExportCommandExecutor with explicit collaborators.'''
         definition = ExportCommandDefinition()
-        dispatcher = ScaraExporterFactory.create_default()
-        service = ScaraPlanCompilerFactory.create_default()
+        dispatcher = DefaultExporterFactory.create()
+        service = MagicMock(spec=IScriptPlanCompiler)
         error_handler = ExportErrorHandlerFactory.create()
         executor = ExportCommandExecutorFactory.create(
             definition=definition,
@@ -76,9 +76,5 @@ class TestExportCommandExecutorFactory(TestCase):
     def test_get_version(self) -> None:
         '''Verifies factory version returns valid string.'''
         self.assertEqual(
-            ExportCommandExecutorFactory.get_version(), '1.0.7'
+            ExportCommandExecutorFactory.get_version(), '1.0.8'
         )
-
-
-if __name__ == '__main__':
-    main()
