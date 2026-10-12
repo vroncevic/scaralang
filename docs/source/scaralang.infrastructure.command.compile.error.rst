@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.compile.error.compile_error_handler
-   scaralang.infrastructure.command.compile.error.compile_error_handler_factory
-   scaralang.infrastructure.command.compile.error.icompile_error_handler
+   scaralang.infrastructure.command.compile.error.factory
+   scaralang.infrastructure.command.compile.error.handler
+   scaralang.infrastructure.command.compile.error.ihandler
+   scaralang.infrastructure.command.compile.error.provides
 
 Module contents
 ---------------

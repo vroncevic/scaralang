@@ -26,7 +26,7 @@ from typing import TypedDict
 
 from ats_utilities.option.imanager import IOptionManager
 
-from scaralang.infrastructure.command.command_bundle import CommandBundle
+from scaralang.infrastructure.command.bundle import CommandBundle
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'

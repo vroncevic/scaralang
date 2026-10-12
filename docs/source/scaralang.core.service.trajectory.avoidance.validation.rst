@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.avoidance.validation.dead_zone_validator
-   scaralang.core.service.trajectory.avoidance.validation.dead_zone_validator_factory
-   scaralang.core.service.trajectory.avoidance.validation.idead_zone_validator
+   scaralang.core.service.trajectory.avoidance.validation.factory
+   scaralang.core.service.trajectory.avoidance.validation.ivalidator
+   scaralang.core.service.trajectory.avoidance.validation.provides
+   scaralang.core.service.trajectory.avoidance.validation.validator
 
 Module contents
 ---------------

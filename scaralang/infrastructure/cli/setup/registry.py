@@ -25,7 +25,7 @@ from collections.abc import Sequence
 
 from ats_utilities.option.imanager import IOptionManager
 
-from scaralang.infrastructure.command.command_bundle import CommandBundle
+from scaralang.infrastructure.command.bundle import CommandBundle
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
 from scaralang.infrastructure.cli.setup.validator import CLIBundleValidator
 from scaralang.infrastructure.cli.setup.keys import CLIBundleKeys

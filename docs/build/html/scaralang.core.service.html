@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.core.service package &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.core.service.compiler package" href="scaralang.core.service.compiler.html" />
+    <link rel="prev" title="scaralang.core.model.trajectory.waypoint module" href="scaralang.core.model.trajectory.waypoint.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.compiler.html" title="scaralang.core.service.compiler package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.trajectory.waypoint.html" title="scaralang.core.model.trajectory.waypoint module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" accesskey="U">scaralang.core package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="scaralang-core-service-package">
+<h1>scaralang.core.service package<a class="headerlink" href="#scaralang-core-service-package" title="Link to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.compiler.html">scaralang.core.service.compiler package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.compiler.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.binary.html">scaralang.core.service.compiler.binary package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.binary.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.binary.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.binary.html#module-scaralang.core.service.compiler.binary">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.instruction.html">scaralang.core.service.compiler.instruction package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.instruction.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.instruction.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.instruction.html#module-scaralang.core.service.compiler.instruction">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.macro.html">scaralang.core.service.compiler.macro package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.macro.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.macro.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.macro.html#module-scaralang.core.service.compiler.macro">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.plan.html">scaralang.core.service.compiler.plan package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.plan.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.plan.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.plan.html#module-scaralang.core.service.compiler.plan">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.primitive.html">scaralang.core.service.compiler.primitive package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.primitive.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.primitive.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.primitive.html#module-scaralang.core.service.compiler.primitive">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.compiler.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.compiler.html">scaralang.core.service.compiler.compiler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.compiler.html#scaralang.core.service.compiler.compiler.ScaraCompiler"><code class="docutils literal notranslate"><span class="pre">ScaraCompiler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.dependencies.html">scaralang.core.service.compiler.dependencies module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.dependencies.html#scaralang.core.service.compiler.dependencies.CompilerDependencies"><code class="docutils literal notranslate"><span class="pre">CompilerDependencies</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.factory.html">scaralang.core.service.compiler.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.factory.html#scaralang.core.service.compiler.factory.CompilerFactory"><code class="docutils literal notranslate"><span class="pre">CompilerFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.icompiler.html">scaralang.core.service.compiler.icompiler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.icompiler.html#scaralang.core.service.compiler.icompiler.IScaraCompiler"><code class="docutils literal notranslate"><span class="pre">IScaraCompiler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.compiler.provides.html">scaralang.core.service.compiler.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.compiler.provides.html#scaralang.core.service.compiler.provides.CompilerProvides"><code class="docutils literal notranslate"><span class="pre">CompilerProvides</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.compiler.html#module-scaralang.core.service.compiler">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.decompiler.html">scaralang.core.service.decompiler package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.decompiler.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.decompiler.frame.html">scaralang.core.service.decompiler.frame package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.decompiler.frame.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.decompiler.frame.html#module-scaralang.core.service.decompiler.frame">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.decompiler.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.decompiler.decompiler.html">scaralang.core.service.decompiler.decompiler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.decompiler.decompiler.html#scaralang.core.service.decompiler.decompiler.ScaraDecompiler"><code class="docutils literal notranslate"><span class="pre">ScaraDecompiler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.decompiler.dependencies.html">scaralang.core.service.decompiler.dependencies module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.decompiler.dependencies.html#scaralang.core.service.decompiler.dependencies.DecompilerDependencies"><code class="docutils literal notranslate"><span class="pre">DecompilerDependencies</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.decompiler.factory.html">scaralang.core.service.decompiler.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.decompiler.factory.html#scaralang.core.service.decompiler.factory.DecompilerFactory"><code class="docutils literal notranslate"><span class="pre">DecompilerFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.decompiler.idecompiler.html">scaralang.core.service.decompiler.idecompiler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.decompiler.idecompiler.html#scaralang.core.service.decompiler.idecompiler.IScaraDecompiler"><code class="docutils literal notranslate"><span class="pre">IScaraDecompiler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.decompiler.provides.html">scaralang.core.service.decompiler.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.decompiler.provides.html#scaralang.core.service.decompiler.provides.DecompilerProvides"><code class="docutils literal notranslate"><span class="pre">DecompilerProvides</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.decompiler.html#module-scaralang.core.service.decompiler">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.disassembler.html">scaralang.core.service.disassembler package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.disassembler.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.disassembler.frame.html">scaralang.core.service.disassembler.frame package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.disassembler.frame.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.disassembler.frame.html#module-scaralang.core.service.disassembler.frame">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.disassembler.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.disassembler.dependencies.html">scaralang.core.service.disassembler.dependencies module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.disassembler.dependencies.html#scaralang.core.service.disassembler.dependencies.DisassemblerDependencies"><code class="docutils literal notranslate"><span class="pre">DisassemblerDependencies</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.disassembler.disassembler.html">scaralang.core.service.disassembler.disassembler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.disassembler.disassembler.html#scaralang.core.service.disassembler.disassembler.ScaraDisassembler"><code class="docutils literal notranslate"><span class="pre">ScaraDisassembler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.disassembler.factory.html">scaralang.core.service.disassembler.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.disassembler.factory.html#scaralang.core.service.disassembler.factory.DisassemblerFactory"><code class="docutils literal notranslate"><span class="pre">DisassemblerFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.disassembler.idisassembler.html">scaralang.core.service.disassembler.idisassembler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.disassembler.idisassembler.html#scaralang.core.service.disassembler.idisassembler.IScaraDisassembler"><code class="docutils literal notranslate"><span class="pre">IScaraDisassembler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.disassembler.provides.html">scaralang.core.service.disassembler.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.disassembler.provides.html#scaralang.core.service.disassembler.provides.DisassemblerProvides"><code class="docutils literal notranslate"><span class="pre">DisassemblerProvides</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.disassembler.html#module-scaralang.core.service.disassembler">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.exporter.html">scaralang.core.service.exporter package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.exporter.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.csv.html">scaralang.core.service.exporter.csv package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.csv.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.csv.html#module-scaralang.core.service.exporter.csv">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.gcode.html">scaralang.core.service.exporter.gcode package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.gcode.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.gcode.html#module-scaralang.core.service.exporter.gcode">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.json.html">scaralang.core.service.exporter.json package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.json.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.json.html#module-scaralang.core.service.exporter.json">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.scara.html">scaralang.core.service.exporter.scara package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.scara.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.scara.html#module-scaralang.core.service.exporter.scara">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.svg.html">scaralang.core.service.exporter.svg package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.svg.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.svg.html#module-scaralang.core.service.exporter.svg">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.exporter.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.dependencies.html">scaralang.core.service.exporter.dependencies module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.dependencies.html#scaralang.core.service.exporter.dependencies.ExporterDependencies"><code class="docutils literal notranslate"><span class="pre">ExporterDependencies</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.exporter.html">scaralang.core.service.exporter.exporter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.exporter.html#scaralang.core.service.exporter.exporter.ScaraExporter"><code class="docutils literal notranslate"><span class="pre">ScaraExporter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.factory.html">scaralang.core.service.exporter.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.factory.html#scaralang.core.service.exporter.factory.ExporterFactory"><code class="docutils literal notranslate"><span class="pre">ExporterFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.iexporter.html">scaralang.core.service.exporter.iexporter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.iexporter.html#scaralang.core.service.exporter.iexporter.IScaraExporter"><code class="docutils literal notranslate"><span class="pre">IScaraExporter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.exporter.provides.html">scaralang.core.service.exporter.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.exporter.provides.html#scaralang.core.service.exporter.provides.ExporterProvides"><code class="docutils literal notranslate"><span class="pre">ExporterProvides</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.exporter.html#module-scaralang.core.service.exporter">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.info.html">scaralang.core.service.info package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.info.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.info.factory.html">scaralang.core.service.info.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.info.factory.html#scaralang.core.service.info.factory.InfoFactory"><code class="docutils literal notranslate"><span class="pre">InfoFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.info.iinfo.html">scaralang.core.service.info.iinfo module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.info.iinfo.html#scaralang.core.service.info.iinfo.IScaraInfoProvider"><code class="docutils literal notranslate"><span class="pre">IScaraInfoProvider</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.info.info.html">scaralang.core.service.info.info module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.info.info.html#scaralang.core.service.info.info.ScaraInfoProvider"><code class="docutils literal notranslate"><span class="pre">ScaraInfoProvider</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.info.provides.html">scaralang.core.service.info.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.info.provides.html#scaralang.core.service.info.provides.InfoProvides"><code class="docutils literal notranslate"><span class="pre">InfoProvides</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.info.html#module-scaralang.core.service.info">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.kinematics.html">scaralang.core.service.kinematics package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.kinematics.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.kinematics.profile.html">scaralang.core.service.kinematics.profile package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.profile.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.profile.html#module-scaralang.core.service.kinematics.profile">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.kinematics.solver.html">scaralang.core.service.kinematics.solver package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.solver.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.solver.html#module-scaralang.core.service.kinematics.solver">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.kinematics.transmission.html">scaralang.core.service.kinematics.transmission package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.transmission.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.transmission.html#module-scaralang.core.service.kinematics.transmission">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.kinematics.workspace.html">scaralang.core.service.kinematics.workspace package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.workspace.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.workspace.html#module-scaralang.core.service.kinematics.workspace">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.kinematics.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.kinematics.dependencies.html">scaralang.core.service.kinematics.dependencies module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.dependencies.html#scaralang.core.service.kinematics.dependencies.KinematicsDependencies"><code class="docutils literal notranslate"><span class="pre">KinematicsDependencies</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.kinematics.factory.html">scaralang.core.service.kinematics.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.factory.html#scaralang.core.service.kinematics.factory.KinematicsFactory"><code class="docutils literal notranslate"><span class="pre">KinematicsFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.kinematics.iservice.html">scaralang.core.service.kinematics.iservice module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.iservice.html#scaralang.core.service.kinematics.iservice.IKinematicsService"><code class="docutils literal notranslate"><span class="pre">IKinematicsService</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.kinematics.provides.html">scaralang.core.service.kinematics.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.provides.html#scaralang.core.service.kinematics.provides.KinematicsProvides"><code class="docutils literal notranslate"><span class="pre">KinematicsProvides</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.kinematics.service.html">scaralang.core.service.kinematics.service module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.kinematics.service.html#scaralang.core.service.kinematics.service.KinematicsService"><code class="docutils literal notranslate"><span class="pre">KinematicsService</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.kinematics.html#module-scaralang.core.service.kinematics">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.linter.html">scaralang.core.service.linter package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.linter.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.linter.diagnostic.html">scaralang.core.service.linter.diagnostic package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.diagnostic.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.diagnostic.html#module-scaralang.core.service.linter.diagnostic">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.linter.rules.html">scaralang.core.service.linter.rules package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.rules.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.rules.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.rules.html#module-scaralang.core.service.linter.rules">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.linter.script.html">scaralang.core.service.linter.script package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.script.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.script.html#module-scaralang.core.service.linter.script">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.linter.validator.html">scaralang.core.service.linter.validator package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.validator.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.validator.html#module-scaralang.core.service.linter.validator">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.linter.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.linter.factory.html">scaralang.core.service.linter.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.factory.html#scaralang.core.service.linter.factory.LinterFactory"><code class="docutils literal notranslate"><span class="pre">LinterFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.linter.ilinter.html">scaralang.core.service.linter.ilinter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.ilinter.html#scaralang.core.service.linter.ilinter.ILinter"><code class="docutils literal notranslate"><span class="pre">ILinter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.linter.linter.html">scaralang.core.service.linter.linter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.linter.html#scaralang.core.service.linter.linter.Linter"><code class="docutils literal notranslate"><span class="pre">Linter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.linter.provides.html">scaralang.core.service.linter.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.linter.provides.html#scaralang.core.service.linter.provides.LinterProvides"><code class="docutils literal notranslate"><span class="pre">LinterProvides</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.linter.html#module-scaralang.core.service.linter">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.motor.html">scaralang.core.service.motor package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.motor.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.drive_mode_resolver.html">scaralang.core.service.motor.drive_mode_resolver module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.motor.drive_mode_resolver.html#scaralang.core.service.motor.drive_mode_resolver.DriveModeResolver"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.factory.html">scaralang.core.service.motor.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.motor.factory.html#scaralang.core.service.motor.factory.MotorFactory"><code class="docutils literal notranslate"><span class="pre">MotorFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.interface_resolver.html">scaralang.core.service.motor.interface_resolver module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.motor.interface_resolver.html#scaralang.core.service.motor.interface_resolver.InterfaceResolver"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.wire_mode_converter.html">scaralang.core.service.motor.wire_mode_converter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.motor.wire_mode_converter.html#scaralang.core.service.motor.wire_mode_converter.WireModeConverter"><code class="docutils literal notranslate"><span class="pre">WireModeConverter</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.motor.html#module-scaralang.core.service.motor">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.parser.html">scaralang.core.service.parser package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.parser.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.commands.html">scaralang.core.service.parser.commands package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.html#module-scaralang.core.service.parser.commands">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.instruction.html">scaralang.core.service.parser.instruction package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.instruction.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.instruction.html#module-scaralang.core.service.parser.instruction">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.lexer.html">scaralang.core.service.parser.lexer package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.lexer.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.lexer.html#module-scaralang.core.service.parser.lexer">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.splitter.html">scaralang.core.service.parser.splitter package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.splitter.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.splitter.html#module-scaralang.core.service.parser.splitter">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.parser.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.dependencies.html">scaralang.core.service.parser.dependencies module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.dependencies.html#scaralang.core.service.parser.dependencies.ParserDependencies"><code class="docutils literal notranslate"><span class="pre">ParserDependencies</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.factory.html">scaralang.core.service.parser.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.factory.html#scaralang.core.service.parser.factory.ParserFactory"><code class="docutils literal notranslate"><span class="pre">ParserFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.iparser.html">scaralang.core.service.parser.iparser module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.iparser.html#scaralang.core.service.parser.iparser.IScaraParser"><code class="docutils literal notranslate"><span class="pre">IScaraParser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.parser.html">scaralang.core.service.parser.parser module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.parser.html#scaralang.core.service.parser.parser.ScaraParser"><code class="docutils literal notranslate"><span class="pre">ScaraParser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.provides.html">scaralang.core.service.parser.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.provides.html#scaralang.core.service.parser.provides.ParserProvides"><code class="docutils literal notranslate"><span class="pre">ParserProvides</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.parser.html#module-scaralang.core.service.parser">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.protocol.html">scaralang.core.service.protocol package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.protocol.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_frame_builder.html">scaralang.core.service.protocol.ibinary_frame_builder module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_frame_builder.html#scaralang.core.service.protocol.ibinary_frame_builder.IBinaryFrameBuilder"><code class="docutils literal notranslate"><span class="pre">IBinaryFrameBuilder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_frame_parser.html">scaralang.core.service.protocol.ibinary_frame_parser module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_frame_parser.html#scaralang.core.service.protocol.ibinary_frame_parser.IBinaryFrameParser"><code class="docutils literal notranslate"><span class="pre">IBinaryFrameParser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_payload_unpacker.html">scaralang.core.service.protocol.ibinary_payload_unpacker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_payload_unpacker.html#scaralang.core.service.protocol.ibinary_payload_unpacker.IBinaryPayloadUnpacker"><code class="docutils literal notranslate"><span class="pre">IBinaryPayloadUnpacker</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.protocol.html#module-scaralang.core.service.protocol">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.trajectory.html">scaralang.core.service.trajectory package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.trajectory.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.trajectory.avoidance.html">scaralang.core.service.trajectory.avoidance package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.avoidance.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.avoidance.html#module-scaralang.core.service.trajectory.avoidance">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.trajectory.discretization.html">scaralang.core.service.trajectory.discretization package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.discretization.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.discretization.html#module-scaralang.core.service.trajectory.discretization">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.trajectory.metrics.html">scaralang.core.service.trajectory.metrics package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.metrics.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.metrics.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.metrics.html#module-scaralang.core.service.trajectory.metrics">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.trajectory.plan.html">scaralang.core.service.trajectory.plan package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.plan.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.plan.html#module-scaralang.core.service.trajectory.plan">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.trajectory.validation.html">scaralang.core.service.trajectory.validation package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.validation.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.validation.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.trajectory.validation.html#module-scaralang.core.service.trajectory.validation">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.trajectory.html#module-scaralang.core.service.trajectory">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.transformation.html">scaralang.core.service.transformation package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.transformation.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.transformation.factory.html">scaralang.core.service.transformation.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.transformation.factory.html#scaralang.core.service.transformation.factory.TransformationFactory"><code class="docutils literal notranslate"><span class="pre">TransformationFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.transformation.itransformer.html">scaralang.core.service.transformation.itransformer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.transformation.itransformer.html#scaralang.core.service.transformation.itransformer.ITransformer"><code class="docutils literal notranslate"><span class="pre">ITransformer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.transformation.provides.html">scaralang.core.service.transformation.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.transformation.provides.html#scaralang.core.service.transformation.provides.TransformationProvides"><code class="docutils literal notranslate"><span class="pre">TransformationProvides</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.transformation.transformer.html">scaralang.core.service.transformation.transformer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.transformation.transformer.html#scaralang.core.service.transformation.transformer.FrameTransformer"><code class="docutils literal notranslate"><span class="pre">FrameTransformer</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.transformation.html#module-scaralang.core.service.transformation">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-scaralang.core.service">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scaralang.core.service" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>Module</dt><dd><p>__init__.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>scaralang.core.service package initialization.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.core.service package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#module-scaralang.core.service">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.core.model.trajectory.waypoint.html"
+                          title="previous chapter">scaralang.core.model.trajectory.waypoint module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.core.service.compiler.html"
+                          title="next chapter">scaralang.core.service.compiler package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.core.service.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.compiler.html" title="scaralang.core.service.compiler package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.trajectory.waypoint.html" title="scaralang.core.model.trajectory.waypoint module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

@@ -18,9 +18,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.binary.binary_compiler
-   scaralang.core.service.compiler.binary.binary_compiler_factory
-   scaralang.core.service.compiler.binary.ibinary_compiler
+   scaralang.core.service.compiler.binary.compiler
+   scaralang.core.service.compiler.binary.dependencies
+   scaralang.core.service.compiler.binary.factory
+   scaralang.core.service.compiler.binary.icompiler
+   scaralang.core.service.compiler.binary.provides
 
 Module contents
 ---------------

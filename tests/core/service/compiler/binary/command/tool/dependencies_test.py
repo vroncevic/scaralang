@@ -26,7 +26,7 @@ from unittest import main
 
 from scaralang.core.service.compiler.binary.command.tool.dependencies import ToolDependencies
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -53,7 +53,7 @@ class TestToolDependencies(TestCase):
         '''
             Verifies attributes on ToolDependencies.
         '''
-        frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         deps = ToolDependencies(frame_builder=frame_builder)
         self.assertIs(deps.frame_builder, frame_builder)
 
@@ -61,7 +61,7 @@ class TestToolDependencies(TestCase):
         '''
             Verifies ToolDependencies is frozen.
         '''
-        frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         deps = ToolDependencies(frame_builder=frame_builder)
         with self.assertRaises(AttributeError):
             deps.frame_builder = frame_builder  # type: ignore

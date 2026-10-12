@@ -1,17 +1,22 @@
 scaralang.core.service.compiler.primitive.control package
 =========================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.compiler.primitive.control.waypoint
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.primitive.control.control_command_compiler
-   scaralang.core.service.compiler.primitive.control.control_command_compiler_factory
-   scaralang.core.service.compiler.primitive.control.control_waypoint_builder
-   scaralang.core.service.compiler.primitive.control.control_waypoint_builder_factory
-   scaralang.core.service.compiler.primitive.control.icontrol_waypoint_builder
+   scaralang.core.service.compiler.primitive.control.compiler
+   scaralang.core.service.compiler.primitive.control.factory
 
 Module contents
 ---------------

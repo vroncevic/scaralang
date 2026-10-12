@@ -10,6 +10,15 @@ Subpackages
    scaralang.infrastructure.cli
    scaralang.infrastructure.command
    scaralang.infrastructure.communication
+   scaralang.infrastructure.compiler
+   scaralang.infrastructure.decompiler
+   scaralang.infrastructure.disassembler
+   scaralang.infrastructure.exporter
+   scaralang.infrastructure.info
+   scaralang.infrastructure.kinematics
+   scaralang.infrastructure.linter
+   scaralang.infrastructure.parser
+   scaralang.infrastructure.trajectory
 
 Module contents
 ---------------

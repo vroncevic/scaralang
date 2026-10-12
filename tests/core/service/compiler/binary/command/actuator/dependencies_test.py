@@ -26,7 +26,7 @@ from unittest import main
 
 from scaralang.core.service.compiler.binary.command.actuator.dependencies import ActuatorDependencies
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -53,7 +53,7 @@ class TestActuatorDependencies(TestCase):
         '''
             Verifies attributes on ActuatorDependencies.
         '''
-        frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         deps = ActuatorDependencies(frame_builder=frame_builder)
         self.assertIs(deps.frame_builder, frame_builder)
 
@@ -61,7 +61,7 @@ class TestActuatorDependencies(TestCase):
         '''
             Verifies ActuatorDependencies is frozen.
         '''
-        frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         deps = ActuatorDependencies(frame_builder=frame_builder)
         with self.assertRaises(AttributeError):
             deps.frame_builder = frame_builder  # type: ignore

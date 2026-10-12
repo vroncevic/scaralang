@@ -43,7 +43,7 @@ from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 from scaralang.core.service.linter.factory import LinterFactory
 from scaralang.infrastructure.parser.factory import DefaultParserFactory
 from scaralang.infrastructure.trajectory.validation.factory import DefaultValidationFactory
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -76,7 +76,7 @@ class DefaultCompilerFactory:
         '''
         kinematics = DefaultKinematicsFactory.create().service
         transmission = DefaultScaraProfile.create_transmission()
-        frame_builder = BinaryFrameBuilderFactory.create()
+        frame_builder = BuilderFactory.create().builder
 
         transmission_converter = JointStepTransmissionConverterFactory.create(
             transmission=transmission

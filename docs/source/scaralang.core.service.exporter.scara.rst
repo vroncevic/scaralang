@@ -7,11 +7,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.exporter.scara.iscara_plan_exporter
-   scaralang.core.service.exporter.scara.scara_plan_exporter
-   scaralang.core.service.exporter.scara.scara_plan_exporter_factory
-   scaralang.core.service.exporter.scara.scara_program_serializer
-   scaralang.core.service.exporter.scara.scara_source_generator
+   scaralang.core.service.exporter.scara.exporter
+   scaralang.core.service.exporter.scara.factory
+   scaralang.core.service.exporter.scara.iexporter
+   scaralang.core.service.exporter.scara.serializer
+   scaralang.core.service.exporter.scara.source_generator
 
 Module contents
 ---------------

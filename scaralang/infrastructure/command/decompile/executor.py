@@ -27,8 +27,9 @@ from typing import Final
 
 from scaralang.core.model.exceptions.scara_error import ScaraError
 from scaralang.core.service.decompiler.idecompiler import IScaraDecompiler
-from scaralang.infrastructure.command.decompile.error.idecompile_error_handler import IDecompileErrorHandler
-from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
+from scaralang.infrastructure.command.decompile.dependencies import DecompileDependencies
+from scaralang.infrastructure.command.decompile.error.ihandler import IDecompileErrorHandler
+from scaralang.infrastructure.command.idefinition import ICommandDefinition
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -64,20 +65,18 @@ class DecompileCommandExecutor:
         self,
         *,
         definition: ICommandDefinition,
-        service: IScaraDecompiler,
-        error_handler: IDecompileErrorHandler,
+        dependencies: DecompileDependencies,
     ) -> None:
         '''
             Initializes the decompile command executor.
 
             :param definition: The command definition metadata.
-            :param service: Injected SCARA decompiler service protocol.
-            :param error_handler: Injected decompile error handler protocol.
+            :param dependencies: Injected collaborator dependencies bundle.
             :exceptions: None.
         '''
         self._definition: Final[ICommandDefinition] = definition
-        self._service: Final[IScaraDecompiler] = service
-        self._error_handler: Final[IDecompileErrorHandler] = error_handler
+        self._service: Final[IScaraDecompiler] = dependencies.service
+        self._error_handler: Final[IDecompileErrorHandler] = dependencies.error_handler
 
     def execute(
         self,

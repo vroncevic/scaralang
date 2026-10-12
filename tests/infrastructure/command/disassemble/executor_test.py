@@ -29,11 +29,12 @@ from unittest import main
 from unittest.mock import MagicMock
 
 from scaralang.core.model.exceptions.scara_protocol_error import ScaraProtocolError
-from scaralang.infrastructure.command.compile.executor_factory import CompileCommandExecutorFactory
+from scaralang.infrastructure.command.compile.factory import CompileFactory
 from scaralang.infrastructure.command.disassemble.definition import DisassembleCommandDefinition
-from scaralang.infrastructure.command.disassemble.error.disassemble_error_handler_factory import DisassembleErrorHandlerFactory
+from scaralang.infrastructure.command.disassemble.dependencies import DisassembleDependencies
+from scaralang.infrastructure.command.disassemble.error.factory import ErrorFactory
 from scaralang.infrastructure.command.disassemble.executor import DisassembleCommandExecutor
-from scaralang.infrastructure.command.disassemble.executor_factory import DisassembleCommandExecutorFactory
+from scaralang.infrastructure.command.disassemble.factory import DisassembleFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -69,7 +70,7 @@ class TestDisassembleCommandExecutor(TestCase):
             Sets up test fixtures.
         '''
         self.cmd_def = DisassembleCommandDefinition()
-        self.executor = DisassembleCommandExecutorFactory.create_default()
+        self.executor = DisassembleFactory.create().executor
         self.temp_files: list[str] = []
 
     def tearDown(self) -> None:
@@ -108,7 +109,7 @@ class TestDisassembleCommandExecutor(TestCase):
         bin_path = script_path + '.bin'
         self.temp_files.append(bin_path)
 
-        compile_exec = CompileCommandExecutorFactory.create_default()
+        compile_exec = CompileFactory.create().executor
         compile_exec.execute(
             params={'script': script_path, 'output': bin_path},
         )
@@ -128,7 +129,7 @@ class TestDisassembleCommandExecutor(TestCase):
         bin_path = script_path + '.bin'
         self.temp_files.append(bin_path)
 
-        compile_exec = CompileCommandExecutorFactory.create_default()
+        compile_exec = CompileFactory.create().executor
         compile_exec.execute(
             params={'script': script_path, 'output': bin_path},
         )
@@ -157,11 +158,14 @@ class TestDisassembleCommandExecutor(TestCase):
         mock_service.calculate_disassembly_summary.return_value = MagicMock()
         mock_formatter = MagicMock()
         mock_formatter.format_summary.return_value = 'Mock Summary'
-        executor = DisassembleCommandExecutor(
-            definition=MagicMock(),
+        deps = DisassembleDependencies(
             service=mock_service,
             summary_formatter=mock_formatter,
-            error_handler=DisassembleErrorHandlerFactory.create(),
+            error_handler=ErrorFactory.create().handler,
+        )
+        executor = DisassembleCommandExecutor(
+            definition=MagicMock(),
+            dependencies=deps,
         )
         with NamedTemporaryFile(mode='wb', delete=False) as f:
             f.write(b'1234')
@@ -177,11 +181,14 @@ class TestDisassembleCommandExecutor(TestCase):
         '''
         mock_service = MagicMock(spec=['disassemble_bytes'])
         mock_service.disassemble_bytes.side_effect = ValueError('Corrupted data')
-        executor = DisassembleCommandExecutor(
-            definition=MagicMock(),
+        deps = DisassembleDependencies(
             service=mock_service,
             summary_formatter=MagicMock(),
-            error_handler=DisassembleErrorHandlerFactory.create(),
+            error_handler=ErrorFactory.create().handler,
+        )
+        executor = DisassembleCommandExecutor(
+            definition=MagicMock(),
+            dependencies=deps,
         )
         with NamedTemporaryFile(mode='wb', delete=False) as f:
             f.write(b'1234')
@@ -197,11 +204,14 @@ class TestDisassembleCommandExecutor(TestCase):
         '''
         mock_service = MagicMock(spec=['disassemble'])
         mock_service.disassemble.side_effect = ScaraProtocolError('invalid frame size')
-        executor = DisassembleCommandExecutor(
-            definition=MagicMock(),
+        deps = DisassembleDependencies(
             service=mock_service,
             summary_formatter=MagicMock(),
-            error_handler=DisassembleErrorHandlerFactory.create(),
+            error_handler=ErrorFactory.create().handler,
+        )
+        executor = DisassembleCommandExecutor(
+            definition=MagicMock(),
+            dependencies=deps,
         )
         with NamedTemporaryFile(mode='wb', delete=False) as f:
             f.write(b'1234')

@@ -18,9 +18,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.kinematics.ikinematics_service
-   scaralang.core.service.kinematics.kinematics_service
-   scaralang.core.service.kinematics.kinematics_service_factory
+   scaralang.core.service.kinematics.dependencies
+   scaralang.core.service.kinematics.factory
+   scaralang.core.service.kinematics.iservice
+   scaralang.core.service.kinematics.provides
+   scaralang.core.service.kinematics.service
 
 Module contents
 ---------------

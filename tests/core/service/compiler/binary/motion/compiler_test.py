@@ -36,7 +36,7 @@ from scaralang.core.service.compiler.binary.step.discretizer.idiscretizer import
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
 from scaralang.core.service.kinematics.transmission.factory import JointStepTransmissionConverterFactory
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
 __author__ = 'Vladimir Roncevic'
@@ -74,7 +74,7 @@ class TestMotionCompiler(TestCase):
                 transmission=transmission,
             )
         )
-        frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         deps = MotionDependencies(
             discretizer=discretizer,
             frame_builder=frame_builder,

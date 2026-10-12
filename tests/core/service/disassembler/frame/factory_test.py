@@ -28,7 +28,7 @@ from scaralang.core.service.disassembler.frame.dependencies import FrameDependen
 from scaralang.core.service.disassembler.frame.factory import FrameFactory
 from scaralang.core.service.disassembler.frame.iframe import IFrameDetailDecoder
 from scaralang.core.service.disassembler.frame.provides import FrameProvides
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.factory import UnpackerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -45,7 +45,7 @@ class TestFrameFactory(TestCase):
 
     def test_create(self) -> None:
         '''Verifies factory creates configured FrameProvides instance with IFrameDetailDecoder.'''
-        unpacker = BinaryPayloadUnpackerFactory.create()
+        unpacker = UnpackerFactory.create().unpacker
         dependencies = FrameDependencies(unpacker=unpacker)
         provides: FrameProvides = FrameFactory.create(dependencies=dependencies)
         self.assertIsInstance(provides, FrameProvides)

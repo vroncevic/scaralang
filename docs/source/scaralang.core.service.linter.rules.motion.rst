@@ -1,20 +1,24 @@
 scaralang.core.service.linter.rules.motion package
 ==================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.linter.rules.motion.calibration
+   scaralang.core.service.linter.rules.motion.duplicate
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.linter.rules.motion.imotion_calibration_validator
-   scaralang.core.service.linter.rules.motion.imotion_duplicate_validator
-   scaralang.core.service.linter.rules.motion.motion_calibration_validator
-   scaralang.core.service.linter.rules.motion.motion_calibration_validator_factory
-   scaralang.core.service.linter.rules.motion.motion_duplicate_validator
-   scaralang.core.service.linter.rules.motion.motion_duplicate_validator_factory
-   scaralang.core.service.linter.rules.motion.motion_lint_rule
-   scaralang.core.service.linter.rules.motion.motion_lint_rule_factory
+   scaralang.core.service.linter.rules.motion.factory
+   scaralang.core.service.linter.rules.motion.provides
+   scaralang.core.service.linter.rules.motion.rule
 
 Module contents
 ---------------

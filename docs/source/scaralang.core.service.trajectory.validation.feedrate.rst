@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.validation.feedrate.feedrate_validator
-   scaralang.core.service.trajectory.validation.feedrate.feedrate_validator_factory
-   scaralang.core.service.trajectory.validation.feedrate.ifeedrate_validator
+   scaralang.core.service.trajectory.validation.feedrate.factory
+   scaralang.core.service.trajectory.validation.feedrate.ivalidator
+   scaralang.core.service.trajectory.validation.feedrate.provides
+   scaralang.core.service.trajectory.validation.feedrate.validator
 
 Module contents
 ---------------

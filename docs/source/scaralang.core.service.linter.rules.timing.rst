@@ -1,20 +1,24 @@
 scaralang.core.service.linter.rules.timing package
 ==================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.linter.rules.timing.blend_zone
+   scaralang.core.service.linter.rules.timing.dwell
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.linter.rules.timing.itiming_blend_zone_validator
-   scaralang.core.service.linter.rules.timing.itiming_dwell_validator
-   scaralang.core.service.linter.rules.timing.timing_blend_zone_validator
-   scaralang.core.service.linter.rules.timing.timing_blend_zone_validator_factory
-   scaralang.core.service.linter.rules.timing.timing_dwell_validator
-   scaralang.core.service.linter.rules.timing.timing_dwell_validator_factory
-   scaralang.core.service.linter.rules.timing.timing_lint_rule
-   scaralang.core.service.linter.rules.timing.timing_lint_rule_factory
+   scaralang.core.service.linter.rules.timing.factory
+   scaralang.core.service.linter.rules.timing.provides
+   scaralang.core.service.linter.rules.timing.rule
 
 Module contents
 ---------------

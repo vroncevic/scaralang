@@ -29,8 +29,8 @@ from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.service.disassembler.frame.frame import FrameDetailDecoder
 from scaralang.core.service.disassembler.frame.iframe import IFrameDetailDecoder
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker import BinaryPayloadUnpacker
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.unpacker import BinaryPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -82,8 +82,8 @@ class TestFrameDetailDecoder(TestCase):
 
     def test_decode_joint_steps(self) -> None:
         '''Verifies decoding joint steps frames.'''
-        builder = BinaryFrameBuilderFactory.create()
-        frame = builder.build_joint_move(
+        builder = BuilderFactory.create().builder
+        frame: BinaryFrame = builder.build_joint_move(
             seq_num=1,
             steps=JointSteps(
                 target_j1_steps=100,

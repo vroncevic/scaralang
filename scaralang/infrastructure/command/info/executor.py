@@ -25,7 +25,7 @@ from collections.abc import Mapping
 from typing import Final
 
 from scaralang.core.service.info.iinfo import IScaraInfoProvider
-from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
+from scaralang.infrastructure.command.idefinition import ICommandDefinition
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'

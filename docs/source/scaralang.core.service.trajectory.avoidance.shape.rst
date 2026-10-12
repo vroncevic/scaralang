@@ -7,9 +7,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.avoidance.shape.avoidance_shape_planner
-   scaralang.core.service.trajectory.avoidance.shape.avoidance_shape_planner_factory
-   scaralang.core.service.trajectory.avoidance.shape.iavoidance_shape_planner
+   scaralang.core.service.trajectory.avoidance.shape.dependencies
+   scaralang.core.service.trajectory.avoidance.shape.factory
+   scaralang.core.service.trajectory.avoidance.shape.iplanner
+   scaralang.core.service.trajectory.avoidance.shape.planner
+   scaralang.core.service.trajectory.avoidance.shape.provides
 
 Module contents
 ---------------

@@ -30,7 +30,7 @@ from scaralang.core.model.protocol.tool_id import ToolId
 from scaralang.core.service.compiler.binary.command.tool.builder import ToolFrameBuilder
 from scaralang.core.service.compiler.binary.command.tool.ibuilder import IToolFrameBuilder
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -58,7 +58,7 @@ class TestToolFrameBuilder(TestCase):
 
     def setUp(self) -> None:
         '''Sets up frame builder and tool frame builder fixtures.'''
-        self.frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        self.frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         self.tool_builder = ToolFrameBuilder(frame_builder=self.frame_builder)
 
     def test_structural_conformance(self) -> None:

@@ -7,9 +7,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.avoidance.router.isafe_trajectory_router
-   scaralang.core.service.trajectory.avoidance.router.safe_trajectory_router
-   scaralang.core.service.trajectory.avoidance.router.safe_trajectory_router_factory
+   scaralang.core.service.trajectory.avoidance.router.dependencies
+   scaralang.core.service.trajectory.avoidance.router.factory
+   scaralang.core.service.trajectory.avoidance.router.irouter
+   scaralang.core.service.trajectory.avoidance.router.provides
+   scaralang.core.service.trajectory.avoidance.router.router
 
 Module contents
 ---------------

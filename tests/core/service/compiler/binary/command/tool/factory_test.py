@@ -28,7 +28,7 @@ from scaralang.core.service.compiler.binary.command.tool.dependencies import Too
 from scaralang.core.service.compiler.binary.command.tool.factory import ToolFrameBuilderFactory
 from scaralang.core.service.compiler.binary.command.tool.ibuilder import IToolFrameBuilder
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -53,7 +53,7 @@ class TestToolFrameBuilderFactory(TestCase):
 
     def test_create(self) -> None:
         '''Verifies create returns conforming IToolFrameBuilder instance.'''
-        frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         deps = ToolDependencies(frame_builder=frame_builder)
         tool_builder = ToolFrameBuilderFactory.create(dependencies=deps)
         self.assertIsInstance(tool_builder, IToolFrameBuilder)

@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.parser.commands.frame.frame_command_parser_factory
-   scaralang.core.service.parser.commands.frame.frame_reset_command_parser
-   scaralang.core.service.parser.commands.frame.frame_set_command_parser
+   scaralang.core.service.parser.commands.frame.factory
+   scaralang.core.service.parser.commands.frame.provides
+   scaralang.core.service.parser.commands.frame.reset
+   scaralang.core.service.parser.commands.frame.set
 
 Module contents
 ---------------

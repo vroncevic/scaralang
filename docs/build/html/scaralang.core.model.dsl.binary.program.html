@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.core.model.dsl.binary.program module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.core.model.dsl.binary.step module" href="scaralang.core.model.dsl.binary.step.html" />
+    <link rel="prev" title="scaralang.core.model.dsl.binary.parsed_command_token module" href="scaralang.core.model.dsl.binary.parsed_command_token.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.dsl.binary.step.html" title="scaralang.core.model.dsl.binary.step module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.dsl.binary.parsed_command_token.html" title="scaralang.core.model.dsl.binary.parsed_command_token module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.model.html" >scaralang.core.model package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.model.dsl.html" >scaralang.core.model.dsl package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.model.dsl.binary.html" accesskey="U">scaralang.core.model.dsl.binary package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.model.dsl.binary.program module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.core.model.dsl.binary.program">
+<span id="scaralang-core-model-dsl-binary-program-module"></span><h1>scaralang.core.model.dsl.binary.program module<a class="headerlink" href="#module-scaralang.core.model.dsl.binary.program" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>program.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Defines immutable BinaryProgram model representing compiled binary stream payload.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.program.BinaryProgram">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.binary.program.</span></span><span class="sig-name descname"><span class="pre">BinaryProgram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.binary.step.html#scaralang.core.model.dsl.binary.step.Step" title="scaralang.core.model.dsl.binary.step.Step"><span class="pre">Step</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_duration_us</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">telemetry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.binary.binary_program_telemetry.html#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry" title="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry"><span class="pre">BinaryProgramTelemetry</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/binary/program.html#BinaryProgram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.binary.program.BinaryProgram" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Compiled binary program payload container.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">steps - Tuple of binary execution steps.</div>
+<div class="line">raw_bytes - Packed byte sequence for wire streaming.</div>
+<div class="line">total_duration_us - Total estimated execution duration in microseconds.</div>
+<div class="line">instruction_count - Total number of compiled instructions.</div>
+<div class="line">step_counts - Tuple of step counts per joint axis.</div>
+<div class="line">telemetry - Execution metrics and telemetry metadata.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.program.BinaryProgram.instruction_count">
+<span class="sig-name descname"><span class="pre">instruction_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.instruction_count" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.program.BinaryProgram.raw_bytes">
+<span class="sig-name descname"><span class="pre">raw_bytes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bytes</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.raw_bytes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.program.BinaryProgram.step_counts">
+<span class="sig-name descname"><span class="pre">step_counts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.step_counts" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.program.BinaryProgram.steps">
+<span class="sig-name descname"><span class="pre">steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.binary.step.html#scaralang.core.model.dsl.binary.step.Step" title="scaralang.core.model.dsl.binary.step.Step"><span class="pre">Step</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.steps" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.program.BinaryProgram.telemetry">
+<span class="sig-name descname"><span class="pre">telemetry</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.binary.binary_program_telemetry.html#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry" title="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry"><span class="pre">BinaryProgramTelemetry</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.telemetry" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.program.BinaryProgram.total_duration_us">
+<span class="sig-name descname"><span class="pre">total_duration_us</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.total_duration_us" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.core.model.dsl.binary.program module</a><ul>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.program.BinaryProgram"><code class="docutils literal notranslate"><span class="pre">BinaryProgram</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.instruction_count"><code class="docutils literal notranslate"><span class="pre">BinaryProgram.instruction_count</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.raw_bytes"><code class="docutils literal notranslate"><span class="pre">BinaryProgram.raw_bytes</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.step_counts"><code class="docutils literal notranslate"><span class="pre">BinaryProgram.step_counts</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.steps"><code class="docutils literal notranslate"><span class="pre">BinaryProgram.steps</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.telemetry"><code class="docutils literal notranslate"><span class="pre">BinaryProgram.telemetry</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.program.BinaryProgram.total_duration_us"><code class="docutils literal notranslate"><span class="pre">BinaryProgram.total_duration_us</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.core.model.dsl.binary.parsed_command_token.html"
+                          title="previous chapter">scaralang.core.model.dsl.binary.parsed_command_token module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.core.model.dsl.binary.step.html"
+                          title="next chapter">scaralang.core.model.dsl.binary.step module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.core.model.dsl.binary.program.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.dsl.binary.step.html" title="scaralang.core.model.dsl.binary.step module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.dsl.binary.parsed_command_token.html" title="scaralang.core.model.dsl.binary.parsed_command_token module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.model.html" >scaralang.core.model package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.model.dsl.html" >scaralang.core.model.dsl package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.model.dsl.binary.html" >scaralang.core.model.dsl.binary package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.model.dsl.binary.program module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

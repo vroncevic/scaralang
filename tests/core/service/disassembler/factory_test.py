@@ -31,8 +31,7 @@ from scaralang.core.service.disassembler.frame.factory import FrameFactory
 from scaralang.core.service.disassembler.frame.provides import FrameProvides
 from scaralang.core.service.disassembler.idisassembler import IScaraDisassembler
 from scaralang.core.service.disassembler.provides import DisassemblerProvides
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.factory import ParserFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -49,11 +48,12 @@ class TestDisassemblerFactory(TestCase):
 
     def test_create(self) -> None:
         '''Verifies factory creates configured DisassemblerProvides instance with IScaraDisassembler.'''
-        unpacker = BinaryPayloadUnpackerFactory.create()
+        parser_provides = ParserFactory.create()
+        unpacker = parser_provides.unpacker
         frame_provides: FrameProvides = FrameFactory.create(
             dependencies=FrameDependencies(unpacker=unpacker)
         )
-        parser = BinaryFrameParserFactory.create_default()
+        parser = parser_provides.parser
         dependencies = DisassemblerDependencies(
             parser=parser,
             detail_decoder=frame_provides.decoder,

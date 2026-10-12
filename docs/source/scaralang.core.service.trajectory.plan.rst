@@ -7,12 +7,12 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.plan.itrajectory_mutable
-   scaralang.core.service.trajectory.plan.itrajectory_plan
-   scaralang.core.service.trajectory.plan.itrajectory_plan_factory
-   scaralang.core.service.trajectory.plan.itrajectory_read_only
-   scaralang.core.service.trajectory.plan.trajectory_plan
-   scaralang.core.service.trajectory.plan.trajectory_plan_factory
+   scaralang.core.service.trajectory.plan.factory
+   scaralang.core.service.trajectory.plan.imutable
+   scaralang.core.service.trajectory.plan.iplan
+   scaralang.core.service.trajectory.plan.iread_only
+   scaralang.core.service.trajectory.plan.plan
+   scaralang.core.service.trajectory.plan.provides
 
 Module contents
 ---------------

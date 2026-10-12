@@ -7,7 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.parser.commands.parameter.parameter_extractor
+   scaralang.core.service.parser.commands.parameter.extractor
 
 Module contents
 ---------------

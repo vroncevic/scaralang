@@ -33,8 +33,7 @@ from scaralang.core.service.decompiler.idecompiler import IScaraDecompiler
 from scaralang.core.service.decompiler.provides import DecompilerProvides
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
 from scaralang.core.service.kinematics.transmission.factory import JointStepTransmissionConverterFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.factory import ParserFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
 __author__ = 'Vladimir Roncevic'
@@ -56,7 +55,8 @@ class TestDecompilerFactory(TestCase):
         transmission = JointStepTransmissionConverterFactory.create(
             transmission=DefaultScaraProfile.create_transmission()
         )
-        unpacker = BinaryPayloadUnpackerFactory.create()
+        parser_provides = ParserFactory.create()
+        unpacker = parser_provides.unpacker
         frame_provides: FrameProvides = FrameFactory.create(
             dependencies=FrameDependencies(
                 kinematics=kinematics,
@@ -64,7 +64,7 @@ class TestDecompilerFactory(TestCase):
                 unpacker=unpacker,
             )
         )
-        parser = BinaryFrameParserFactory.create()
+        parser = parser_provides.parser
         dependencies = DecompilerDependencies(
             parser=parser,
             frame_decompiler=frame_provides.decompiler,

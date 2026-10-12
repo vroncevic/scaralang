@@ -30,7 +30,7 @@ from scaralang.core.model.protocol.motor_wire_mode import MotorWireMode
 from scaralang.core.service.compiler.binary.command.actuator.builder import ActuatorFrameBuilder
 from scaralang.core.service.compiler.binary.command.actuator.ibuilder import IActuatorFrameBuilder
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -60,7 +60,7 @@ class TestActuatorFrameBuilder(TestCase):
 
     def setUp(self) -> None:
         '''Sets up frame builder and actuator frame builder fixtures.'''
-        self.frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        self.frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         self.actuator_builder = ActuatorFrameBuilder(frame_builder=self.frame_builder)
 
     def test_structural_conformance(self) -> None:

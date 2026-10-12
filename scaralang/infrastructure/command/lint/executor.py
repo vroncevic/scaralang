@@ -30,8 +30,9 @@ from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraD
 from scaralang.core.model.exceptions.scara_error import ScaraError
 from scaralang.core.service.linter.diagnostic.iformatter import IDiagnosticFormatter
 from scaralang.core.service.linter.script.ilinter import IScriptLinter
-from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
-from scaralang.infrastructure.command.lint.error.ilint_error_handler import ILintErrorHandler
+from scaralang.infrastructure.command.idefinition import ICommandDefinition
+from scaralang.infrastructure.command.lint.dependencies import LintDependencies
+from scaralang.infrastructure.command.lint.error.ihandler import ILintErrorHandler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -68,23 +69,21 @@ class LintCommandExecutor:
         self,
         *,
         definition: ICommandDefinition,
-        service: IScriptLinter,
-        diagnostic_formatter: IDiagnosticFormatter,
-        error_handler: ILintErrorHandler,
+        dependencies: LintDependencies,
     ) -> None:
         '''
             Initializes the lint command executor.
 
             :param definition: The command definition metadata.
-            :param service: Injected SCARA DSL linter service protocol.
-            :param diagnostic_formatter: Injected diagnostic report formatter.
-            :param error_handler: Injected lint error handler protocol.
+            :param dependencies: Collaborator dependencies bundle for linting.
             :exceptions: None.
         '''
         self._definition: Final[ICommandDefinition] = definition
-        self._service: Final[IScriptLinter] = service
-        self._diagnostic_formatter: Final[IDiagnosticFormatter] = diagnostic_formatter
-        self._error_handler: Final[ILintErrorHandler] = error_handler
+        self._service: Final[IScriptLinter] = dependencies.service
+        self._diagnostic_formatter: Final[IDiagnosticFormatter] = (
+            dependencies.diagnostic_formatter
+        )
+        self._error_handler: Final[ILintErrorHandler] = dependencies.error_handler
 
     def execute(
         self,

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.core.model.dsl.ast.instruction_param module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.core.model.dsl.ast.jog_axis module" href="scaralang.core.model.dsl.ast.jog_axis.html" />
+    <link rel="prev" title="scaralang.core.model.dsl.ast.instruction module" href="scaralang.core.model.dsl.ast.instruction.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.dsl.ast.jog_axis.html" title="scaralang.core.model.dsl.ast.jog_axis module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.dsl.ast.instruction.html" title="scaralang.core.model.dsl.ast.instruction module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.model.html" >scaralang.core.model package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.model.dsl.html" >scaralang.core.model.dsl package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.model.dsl.ast.html" accesskey="U">scaralang.core.model.dsl.ast package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.model.dsl.ast.instruction_param module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.core.model.dsl.ast.instruction_param">
+<span id="scaralang-core-model-dsl-ast-instruction-param-module"></span><h1>scaralang.core.model.dsl.ast.instruction_param module<a class="headerlink" href="#module-scaralang.core.model.dsl.ast.instruction_param" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>instruction_param.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Defines InstructionParam enumeration representing standardized AST parameter keys.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.ast.instruction_param.</span></span><span class="sig-name descname"><span class="pre">InstructionParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/ast/instruction_param.html#InstructionParam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<p>Enumeration of standardized parameter keys used in ScaraInstruction parameter dictionaries.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">X - Target Cartesian X coordinate.</div>
+<div class="line">Y - Target Cartesian Y coordinate.</div>
+<div class="line">Z - Target Cartesian vertical Z coordinate.</div>
+<div class="line">PHI - Wrist heading orientation angle in degrees.</div>
+<div class="line">RZ - Rotation angle around Z axis.</div>
+<div class="line">I - Arc center X offset.</div>
+<div class="line">J - Arc center Y offset.</div>
+<div class="line">R - Corner rounding or arc radius.</div>
+<div class="line">RADIUS - Corner rounding or arc radius alias.</div>
+<div class="line">SPEED - Motion feedrate speed.</div>
+<div class="line">ACCEL - Path acceleration.</div>
+<div class="line">MODE - Operation mode setting (speed, zone, or tool orientation).</div>
+<div class="line">MOTOR_MODE - Stepper motor actuation drive mode setting.</div>
+<div class="line">INTERFACE - Actuator communication interface setting.</div>
+<div class="line">AXIS_MASK - Bitmask of target joints or axes.</div>
+<div class="line">ELBOW - Arm kinematic elbow configuration.</div>
+<div class="line">STATE - Actuator or end-effector binary position/state.</div>
+<div class="line">MS - Time duration in milliseconds.</div>
+<div class="line">PERCENT - Override percentage value.</div>
+<div class="line">AXIS - Cartesian jog axis identifier.</div>
+<div class="line">STEP - Distance or step increment.</div>
+<div class="line">JOINT - Robotic joint index.</div>
+<div class="line">DEG - Joint rotation angle in degrees.</div>
+<div class="line">ROWS - Pallet matrix row count.</div>
+<div class="line">COLS - Pallet matrix column count.</div>
+<div class="line">ROW_PITCH - Distance between pallet rows.</div>
+<div class="line">COL_PITCH - Distance between pallet columns.</div>
+<div class="line">NAME - Named identifier reference.</div>
+<div class="line">INDEX - Linear item index in pallet.</div>
+<div class="line">ROW - Zero-based pallet row index.</div>
+<div class="line">COL - Zero-based pallet column index.</div>
+<div class="line">APPROACH_Z - Relative vertical approach height.</div>
+<div class="line">RETRACT_Z - Relative vertical retract height.</div>
+<div class="line">CLEARANCE - Safe transit clearance height.</div>
+<div class="line">ARCH_HEIGHT - Parabolic arch travel height.</div>
+<div class="line">TIMEOUT - Maximum wait duration before timeout.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ACCEL">
+<span class="sig-name descname"><span class="pre">ACCEL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ACCEL'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ACCEL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ANGLE">
+<span class="sig-name descname"><span class="pre">ANGLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ANGLE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ANGLE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.APPROACH_Z">
+<span class="sig-name descname"><span class="pre">APPROACH_Z</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'APPROACH_Z'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.APPROACH_Z" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ARCH">
+<span class="sig-name descname"><span class="pre">ARCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ARCH'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ARCH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ARCH_HEIGHT">
+<span class="sig-name descname"><span class="pre">ARCH_HEIGHT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ARCH_HEIGHT'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ARCH_HEIGHT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.AXIS">
+<span class="sig-name descname"><span class="pre">AXIS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AXIS'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.AXIS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.AXIS_MASK">
+<span class="sig-name descname"><span class="pre">AXIS_MASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AXIS_MASK'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.AXIS_MASK" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.CLEARANCE">
+<span class="sig-name descname"><span class="pre">CLEARANCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CLEARANCE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.CLEARANCE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.COL">
+<span class="sig-name descname"><span class="pre">COL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'COL'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.COL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.COLS">
+<span class="sig-name descname"><span class="pre">COLS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'COLS'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.COLS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.COL_PITCH">
+<span class="sig-name descname"><span class="pre">COL_PITCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'COL_PITCH'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.COL_PITCH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DEG">
+<span class="sig-name descname"><span class="pre">DEG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DEG'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DEG" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DIST">
+<span class="sig-name descname"><span class="pre">DIST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DIST'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DIST" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DX">
+<span class="sig-name descname"><span class="pre">DX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DX'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DY">
+<span class="sig-name descname"><span class="pre">DY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DY'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DY" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ELBOW">
+<span class="sig-name descname"><span class="pre">ELBOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ELBOW'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ELBOW" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.I">
+<span class="sig-name descname"><span class="pre">I</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'I'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.I" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.INDEX">
+<span class="sig-name descname"><span class="pre">INDEX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'INDEX'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.INTERFACE">
+<span class="sig-name descname"><span class="pre">INTERFACE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'INTERFACE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.INTERFACE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.J">
+<span class="sig-name descname"><span class="pre">J</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'J'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.J" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.JOINT">
+<span class="sig-name descname"><span class="pre">JOINT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'JOINT'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.JOINT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.MODE">
+<span class="sig-name descname"><span class="pre">MODE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MODE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.MODE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.MOTOR_MODE">
+<span class="sig-name descname"><span class="pre">MOTOR_MODE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MOTOR_MODE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.MOTOR_MODE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.MS">
+<span class="sig-name descname"><span class="pre">MS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MS'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.MS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NAME'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.PERCENT">
+<span class="sig-name descname"><span class="pre">PERCENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PERCENT'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.PERCENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.PHI">
+<span class="sig-name descname"><span class="pre">PHI</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PHI'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.PHI" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.R">
+<span class="sig-name descname"><span class="pre">R</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'R'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.R" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.RADIUS">
+<span class="sig-name descname"><span class="pre">RADIUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RADIUS'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.RADIUS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.RETRACT_Z">
+<span class="sig-name descname"><span class="pre">RETRACT_Z</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RETRACT_Z'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.RETRACT_Z" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ROW">
+<span class="sig-name descname"><span class="pre">ROW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ROW'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ROW" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ROWS">
+<span class="sig-name descname"><span class="pre">ROWS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ROWS'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ROWS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ROW_PITCH">
+<span class="sig-name descname"><span class="pre">ROW_PITCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ROW_PITCH'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ROW_PITCH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.RZ">
+<span class="sig-name descname"><span class="pre">RZ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RZ'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.RZ" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.SPEED">
+<span class="sig-name descname"><span class="pre">SPEED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SPEED'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.SPEED" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.START_X">
+<span class="sig-name descname"><span class="pre">START_X</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'START_X'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.START_X" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.START_Y">
+<span class="sig-name descname"><span class="pre">START_Y</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'START_Y'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.START_Y" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.STATE">
+<span class="sig-name descname"><span class="pre">STATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'STATE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.STATE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.STEP">
+<span class="sig-name descname"><span class="pre">STEP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'STEP'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.STEP" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.TIMEOUT">
+<span class="sig-name descname"><span class="pre">TIMEOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'TIMEOUT'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.TIMEOUT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.X">
+<span class="sig-name descname"><span class="pre">X</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'X'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.X" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Y">
+<span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Y'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Y" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Z">
+<span class="sig-name descname"><span class="pre">Z</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Z'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Z" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Z_DOWN">
+<span class="sig-name descname"><span class="pre">Z_DOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Z_DOWN'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Z_DOWN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Z_UP">
+<span class="sig-name descname"><span class="pre">Z_UP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Z_UP'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Z_UP" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.core.model.dsl.ast.instruction_param module</a><ul>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam"><code class="docutils literal notranslate"><span class="pre">InstructionParam</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ACCEL"><code class="docutils literal notranslate"><span class="pre">InstructionParam.ACCEL</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ANGLE"><code class="docutils literal notranslate"><span class="pre">InstructionParam.ANGLE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.APPROACH_Z"><code class="docutils literal notranslate"><span class="pre">InstructionParam.APPROACH_Z</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ARCH"><code class="docutils literal notranslate"><span class="pre">InstructionParam.ARCH</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ARCH_HEIGHT"><code class="docutils literal notranslate"><span class="pre">InstructionParam.ARCH_HEIGHT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.AXIS"><code class="docutils literal notranslate"><span class="pre">InstructionParam.AXIS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.AXIS_MASK"><code class="docutils literal notranslate"><span class="pre">InstructionParam.AXIS_MASK</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.CLEARANCE"><code class="docutils literal notranslate"><span class="pre">InstructionParam.CLEARANCE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.COL"><code class="docutils literal notranslate"><span class="pre">InstructionParam.COL</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.COLS"><code class="docutils literal notranslate"><span class="pre">InstructionParam.COLS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.COL_PITCH"><code class="docutils literal notranslate"><span class="pre">InstructionParam.COL_PITCH</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DEG"><code class="docutils literal notranslate"><span class="pre">InstructionParam.DEG</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DIST"><code class="docutils literal notranslate"><span class="pre">InstructionParam.DIST</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DX"><code class="docutils literal notranslate"><span class="pre">InstructionParam.DX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.DY"><code class="docutils literal notranslate"><span class="pre">InstructionParam.DY</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ELBOW"><code class="docutils literal notranslate"><span class="pre">InstructionParam.ELBOW</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.I"><code class="docutils literal notranslate"><span class="pre">InstructionParam.I</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.INDEX"><code class="docutils literal notranslate"><span class="pre">InstructionParam.INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.INTERFACE"><code class="docutils literal notranslate"><span class="pre">InstructionParam.INTERFACE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.J"><code class="docutils literal notranslate"><span class="pre">InstructionParam.J</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.JOINT"><code class="docutils literal notranslate"><span class="pre">InstructionParam.JOINT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.MODE"><code class="docutils literal notranslate"><span class="pre">InstructionParam.MODE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.MOTOR_MODE"><code class="docutils literal notranslate"><span class="pre">InstructionParam.MOTOR_MODE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.MS"><code class="docutils literal notranslate"><span class="pre">InstructionParam.MS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.NAME"><code class="docutils literal notranslate"><span class="pre">InstructionParam.NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.PERCENT"><code class="docutils literal notranslate"><span class="pre">InstructionParam.PERCENT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.PHI"><code class="docutils literal notranslate"><span class="pre">InstructionParam.PHI</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.R"><code class="docutils literal notranslate"><span class="pre">InstructionParam.R</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.RADIUS"><code class="docutils literal notranslate"><span class="pre">InstructionParam.RADIUS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.RETRACT_Z"><code class="docutils literal notranslate"><span class="pre">InstructionParam.RETRACT_Z</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ROW"><code class="docutils literal notranslate"><span class="pre">InstructionParam.ROW</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ROWS"><code class="docutils literal notranslate"><span class="pre">InstructionParam.ROWS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.ROW_PITCH"><code class="docutils literal notranslate"><span class="pre">InstructionParam.ROW_PITCH</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.RZ"><code class="docutils literal notranslate"><span class="pre">InstructionParam.RZ</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.SPEED"><code class="docutils literal notranslate"><span class="pre">InstructionParam.SPEED</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.START_X"><code class="docutils literal notranslate"><span class="pre">InstructionParam.START_X</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.START_Y"><code class="docutils literal notranslate"><span class="pre">InstructionParam.START_Y</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.STATE"><code class="docutils literal notranslate"><span class="pre">InstructionParam.STATE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.STEP"><code class="docutils literal notranslate"><span class="pre">InstructionParam.STEP</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.TIMEOUT"><code class="docutils literal notranslate"><span class="pre">InstructionParam.TIMEOUT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.X"><code class="docutils literal notranslate"><span class="pre">InstructionParam.X</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Y"><code class="docutils literal notranslate"><span class="pre">InstructionParam.Y</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Z"><code class="docutils literal notranslate"><span class="pre">InstructionParam.Z</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Z_DOWN"><code class="docutils literal notranslate"><span class="pre">InstructionParam.Z_DOWN</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.InstructionParam.Z_UP"><code class="docutils literal notranslate"><span class="pre">InstructionParam.Z_UP</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.core.model.dsl.ast.instruction.html"
+                          title="previous chapter">scaralang.core.model.dsl.ast.instruction module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.core.model.dsl.ast.jog_axis.html"
+                          title="next chapter">scaralang.core.model.dsl.ast.jog_axis module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.core.model.dsl.ast.instruction_param.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.dsl.ast.jog_axis.html" title="scaralang.core.model.dsl.ast.jog_axis module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.model.dsl.ast.instruction.html" title="scaralang.core.model.dsl.ast.instruction module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.model.html" >scaralang.core.model package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.model.dsl.html" >scaralang.core.model.dsl package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.model.dsl.ast.html" >scaralang.core.model.dsl.ast package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.model.dsl.ast.instruction_param module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

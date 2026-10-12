@@ -30,8 +30,8 @@ from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory 
 from scaralang.infrastructure.cli.repl.input.repl_line_reader_factory import ReplLineReaderFactory
 from scaralang.infrastructure.cli.repl.presentation.repl_response_presenter_factory import ReplResponsePresenterFactory
 from scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory import ReplFrameTransmitterFactory
-from scaralang.infrastructure.command.repl.bundle import ReplCommandBundle
 from scaralang.infrastructure.command.repl.definition import ReplCommandDefinition
+from scaralang.infrastructure.command.repl.dependencies import ReplDependencies
 from scaralang.infrastructure.command.repl.executor import ReplCommandExecutor
 
 __author__ = 'Vladimir Roncevic'
@@ -81,7 +81,7 @@ class TestReplCommandExecutor(TestCase):
         writer = MagicMock()
         writer.write.side_effect = captured.append
 
-        bundle = ReplCommandBundle(
+        dependencies = ReplDependencies(
             reader=reader,
             writer=writer,
             dispatcher=dispatcher,
@@ -91,7 +91,7 @@ class TestReplCommandExecutor(TestCase):
         )
         executor = ReplCommandExecutor(
             definition=self.definition,
-            bundle=bundle,
+            dependencies=dependencies,
         )
 
         result = executor.execute(params={})
@@ -120,7 +120,7 @@ class TestReplCommandExecutor(TestCase):
         writer = MagicMock()
         writer.write.side_effect = captured.append
 
-        bundle = ReplCommandBundle(
+        dependencies = ReplDependencies(
             reader=reader,
             writer=writer,
             dispatcher=dispatcher,
@@ -130,7 +130,7 @@ class TestReplCommandExecutor(TestCase):
         )
         executor = ReplCommandExecutor(
             definition=self.definition,
-            bundle=bundle,
+            dependencies=dependencies,
         )
 
         result = executor.execute(params={})
@@ -147,7 +147,7 @@ class TestReplCommandExecutor(TestCase):
         transmitter = ReplFrameTransmitterFactory.create()
         presenter = ReplResponsePresenterFactory.create()
 
-        bundle = ReplCommandBundle(
+        dependencies = ReplDependencies(
             reader=reader,
             writer=MagicMock(),
             dispatcher=dispatcher,
@@ -157,7 +157,7 @@ class TestReplCommandExecutor(TestCase):
         )
         executor = ReplCommandExecutor(
             definition=self.definition,
-            bundle=bundle,
+            dependencies=dependencies,
         )
         self.assertEqual(executor.get_definition().name, 'repl')
 
@@ -170,7 +170,7 @@ class TestReplCommandExecutor(TestCase):
         transmitter = ReplFrameTransmitterFactory.create()
         presenter = ReplResponsePresenterFactory.create()
 
-        bundle = ReplCommandBundle(
+        dependencies = ReplDependencies(
             reader=reader,
             writer=MagicMock(),
             dispatcher=dispatcher,
@@ -180,7 +180,7 @@ class TestReplCommandExecutor(TestCase):
         )
         executor = ReplCommandExecutor(
             definition=self.definition,
-            bundle=bundle,
+            dependencies=dependencies,
         )
         executor.execute(params={'endpoint': '/dev/ttyUSB1', 'dry_run': False})
         self.assertEqual(transmitter.get_endpoint(), '/dev/ttyUSB1')
@@ -191,7 +191,7 @@ class TestReplCommandExecutor(TestCase):
         lines: list[str | None] = ['', None]
         reader = MagicMock()
         reader.read_line.side_effect = lines
-        bundle = ReplCommandBundle(
+        dependencies = ReplDependencies(
             reader=reader,
             writer=MagicMock(),
             dispatcher=ReplCommandDispatcherFactory.create_default(),
@@ -201,7 +201,7 @@ class TestReplCommandExecutor(TestCase):
         )
         executor = ReplCommandExecutor(
             definition=self.definition,
-            bundle=bundle,
+            dependencies=dependencies,
         )
         result = executor.execute(params={})
         self.assertEqual(result['returncode'], 0)

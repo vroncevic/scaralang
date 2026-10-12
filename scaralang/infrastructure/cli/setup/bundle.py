@@ -27,7 +27,7 @@ from dataclasses import dataclass
 from ats_utilities.option.imanager import IOptionManager
 from ats_utilities.utils.reflection import instance_to_dict
 
-from scaralang.infrastructure.command.command_bundle import CommandBundle
+from scaralang.infrastructure.command.bundle import CommandBundle
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'

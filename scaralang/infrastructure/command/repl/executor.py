@@ -32,8 +32,8 @@ from scaralang.infrastructure.cli.repl.input.irepl_line_reader import IReplLineR
 from scaralang.infrastructure.cli.repl.output.irepl_output_writer import IReplOutputWriter
 from scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter import IReplResponsePresenter
 from scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter import IReplFrameTransmitter
-from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
-from scaralang.infrastructure.command.repl.bundle import ReplCommandBundle
+from scaralang.infrastructure.command.idefinition import ICommandDefinition
+from scaralang.infrastructure.command.repl.dependencies import ReplDependencies
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -79,22 +79,22 @@ class ReplCommandExecutor:
         self,
         *,
         definition: ICommandDefinition,
-        bundle: ReplCommandBundle,
+        dependencies: ReplDependencies,
     ) -> None:
         '''
             Initializes the REPL command executor with injected collaborators.
 
             :param definition: Injected command definition metadata.
-            :param bundle: Injected collaborator bundle container.
+            :param dependencies: Injected collaborator dependencies container.
             :exceptions: None.
         '''
         self._definition: Final[ICommandDefinition] = definition
-        self._reader: Final[IReplLineReader] = bundle.reader
-        self._writer: Final[IReplOutputWriter] = bundle.writer
-        self._dispatcher: Final[IReplCommandDispatcher] = bundle.dispatcher
-        self._compiler: Final[IReplSingleCommandCompiler] = bundle.compiler
-        self._transmitter: Final[IReplFrameTransmitter] = bundle.transmitter
-        self._presenter: Final[IReplResponsePresenter] = bundle.presenter
+        self._reader: Final[IReplLineReader] = dependencies.reader
+        self._writer: Final[IReplOutputWriter] = dependencies.writer
+        self._dispatcher: Final[IReplCommandDispatcher] = dependencies.dispatcher
+        self._compiler: Final[IReplSingleCommandCompiler] = dependencies.compiler
+        self._transmitter: Final[IReplFrameTransmitter] = dependencies.transmitter
+        self._presenter: Final[IReplResponsePresenter] = dependencies.presenter
 
     def execute(
         self,

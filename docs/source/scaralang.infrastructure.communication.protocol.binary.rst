@@ -17,7 +17,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.communication.protocol.binary.binary_struct_format
+   scaralang.infrastructure.communication.protocol.binary.struct_format
 
 Module contents
 ---------------

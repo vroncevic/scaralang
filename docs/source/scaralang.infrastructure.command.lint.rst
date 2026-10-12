@@ -16,8 +16,10 @@ Submodules
    :maxdepth: 4
 
    scaralang.infrastructure.command.lint.definition
+   scaralang.infrastructure.command.lint.dependencies
    scaralang.infrastructure.command.lint.executor
-   scaralang.infrastructure.command.lint.executor_factory
+   scaralang.infrastructure.command.lint.factory
+   scaralang.infrastructure.command.lint.provides
 
 Module contents
 ---------------

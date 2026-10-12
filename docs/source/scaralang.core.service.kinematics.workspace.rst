@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.kinematics.workspace.iworkspace_bounds_evaluator
-   scaralang.core.service.kinematics.workspace.workspace_bounds_evaluator
-   scaralang.core.service.kinematics.workspace.workspace_bounds_evaluator_factory
+   scaralang.core.service.kinematics.workspace.evaluator
+   scaralang.core.service.kinematics.workspace.factory
+   scaralang.core.service.kinematics.workspace.ievaluator
 
 Module contents
 ---------------

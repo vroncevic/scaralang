@@ -7,10 +7,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.repl.bundle
    scaralang.infrastructure.command.repl.definition
+   scaralang.infrastructure.command.repl.dependencies
    scaralang.infrastructure.command.repl.executor
-   scaralang.infrastructure.command.repl.executor_factory
+   scaralang.infrastructure.command.repl.factory
+   scaralang.infrastructure.command.repl.provides
 
 Module contents
 ---------------

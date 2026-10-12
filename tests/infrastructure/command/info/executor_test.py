@@ -56,9 +56,7 @@ class TestInfoCommandExecutor(TestCase):
             Sets up executor and service fixtures.
         '''
         self.cmd_def = InfoCommandDefinition()
-        self.service: IScaraInfoProvider = (
-            DefaultInfoFactory.create()
-        )
+        self.service: IScaraInfoProvider = DefaultInfoFactory.create()
         self.executor = InfoCommandExecutor(
             definition=self.cmd_def,
             service=self.service,

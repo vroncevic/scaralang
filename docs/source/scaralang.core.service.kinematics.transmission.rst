@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.kinematics.transmission.ijoint_step_transmission_converter
-   scaralang.core.service.kinematics.transmission.joint_step_transmission_converter
-   scaralang.core.service.kinematics.transmission.joint_step_transmission_converter_factory
+   scaralang.core.service.kinematics.transmission.converter
+   scaralang.core.service.kinematics.transmission.factory
+   scaralang.core.service.kinematics.transmission.iconverter
 
 Module contents
 ---------------

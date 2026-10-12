@@ -32,8 +32,8 @@ from ats_utilities.utils.reflection import to_str
 from scaralang.core.model.exceptions.scara_error import ScaraError
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
 from scaralang.infrastructure.cli.setup.validator import CLIBundleValidator
-from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
-from scaralang.infrastructure.command.icommand_executor import ICommandExecutor
+from scaralang.infrastructure.command.idefinition import ICommandDefinition
+from scaralang.infrastructure.command.iexecutor import ICommandExecutor
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'

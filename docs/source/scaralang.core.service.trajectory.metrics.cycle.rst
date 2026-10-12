@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.metrics.cycle.cycle_time_calculator
-   scaralang.core.service.trajectory.metrics.cycle.cycle_time_calculator_factory
-   scaralang.core.service.trajectory.metrics.cycle.icycle_time_calculator
+   scaralang.core.service.trajectory.metrics.cycle.calculator
+   scaralang.core.service.trajectory.metrics.cycle.factory
+   scaralang.core.service.trajectory.metrics.cycle.icalculator
+   scaralang.core.service.trajectory.metrics.cycle.provides
 
 Module contents
 ---------------

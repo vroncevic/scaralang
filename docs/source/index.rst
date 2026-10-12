@@ -868,138 +868,197 @@ Tool structure
          │   │       ├── registry.py
          │   │       └── validator.py
          │   ├── command/
-         │   │   ├── command_bundle.py
-         │   │   ├── command_bundle_factory.py
+         │   │   ├── bundle.py
          │   │   ├── compile/
-         │   │   │   ├── bundle.py
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── compile_error_handler.py
-         │   │   │   │   ├── compile_error_handler_factory.py
-         │   │   │   │   ├── icompile_error_handler.py
-         │   │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
+         │   │   │   ├── factory.py
          │   │   │   ├── __init__.py
          │   │   │   ├── inspection/
          │   │   │   │   ├── framing/
-         │   │   │   │   │   ├── frame_header_formatter.py
-         │   │   │   │   │   ├── frame_header_formatter_factory.py
-         │   │   │   │   │   ├── frame_trailer_formatter.py
-         │   │   │   │   │   ├── frame_trailer_formatter_factory.py
-         │   │   │   │   │   ├── hex_stream_formatter.py
-         │   │   │   │   │   ├── hex_stream_formatter_factory.py
-         │   │   │   │   │   ├── iframe_header_formatter.py
-         │   │   │   │   │   ├── iframe_trailer_formatter.py
-         │   │   │   │   │   ├── ihex_stream_formatter.py
-         │   │   │   │   │   └── __init__.py
+         │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   ├── header/
+         │   │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   │   ├── formatter.py
+         │   │   │   │   │   │   ├── iformatter.py
+         │   │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   │   └── provides.py
+         │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   ├── provides.py
+         │   │   │   │   │   └── trailer/
+         │   │   │   │   │       ├── factory.py
+         │   │   │   │   │       ├── formatter.py
+         │   │   │   │   │       ├── iformatter.py
+         │   │   │   │   │       ├── __init__.py
+         │   │   │   │   │       └── provides.py
+         │   │   │   │   ├── hex/
+         │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   ├── formatter.py
+         │   │   │   │   │   ├── iformatter.py
+         │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   └── provides.py
          │   │   │   │   ├── __init__.py
          │   │   │   │   ├── payload/
-         │   │   │   │   │   ├── ijoint_steps_payload_formatter.py
+         │   │   │   │   │   ├── dispatch/
+         │   │   │   │   │   │   ├── dependencies.py
+         │   │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   │   ├── formatter.py
+         │   │   │   │   │   │   ├── iformatter.py
+         │   │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   │   └── provides.py
+         │   │   │   │   │   ├── factory.py
          │   │   │   │   │   ├── __init__.py
-         │   │   │   │   │   ├── ipayload_dispatcher_formatter.py
-         │   │   │   │   │   ├── itool_command_payload_formatter.py
-         │   │   │   │   │   ├── joint_steps_payload_formatter.py
-         │   │   │   │   │   ├── joint_steps_payload_formatter_factory.py
-         │   │   │   │   │   ├── payload_dispatcher_formatter.py
-         │   │   │   │   │   ├── payload_dispatcher_formatter_factory.py
-         │   │   │   │   │   ├── tool_command_payload_formatter.py
-         │   │   │   │   │   └── tool_command_payload_formatter_factory.py
+         │   │   │   │   │   ├── joint/
+         │   │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   │   ├── formatter.py
+         │   │   │   │   │   │   ├── iformatter.py
+         │   │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   │   └── provides.py
+         │   │   │   │   │   ├── provides.py
+         │   │   │   │   │   └── tool/
+         │   │   │   │   │       ├── factory.py
+         │   │   │   │   │       ├── formatter.py
+         │   │   │   │   │       ├── iformatter.py
+         │   │   │   │   │       ├── __init__.py
+         │   │   │   │   │       └── provides.py
          │   │   │   │   └── presentation/
-         │   │   │   │       ├── frame_step_presenter.py
-         │   │   │   │       ├── frame_step_presenter_factory.py
-         │   │   │   │       ├── iframe_step_presenter.py
+         │   │   │   │       ├── factory.py
          │   │   │   │       ├── __init__.py
-         │   │   │   │       ├── iprogram_inspection_presenter.py
-         │   │   │   │       ├── program_inspection_presenter.py
-         │   │   │   │       └── program_inspection_presenter_factory.py
+         │   │   │   │       ├── program/
+         │   │   │   │       │   ├── factory.py
+         │   │   │   │       │   ├── __init__.py
+         │   │   │   │       │   ├── ipresenter.py
+         │   │   │   │       │   ├── presenter.py
+         │   │   │   │       │   └── provides.py
+         │   │   │   │       ├── provides.py
+         │   │   │   │       └── step/
+         │   │   │   │           ├── dependencies.py
+         │   │   │   │           ├── factory.py
+         │   │   │   │           ├── __init__.py
+         │   │   │   │           ├── ipresenter.py
+         │   │   │   │           ├── presenter.py
+         │   │   │   │           └── provides.py
+         │   │   │   ├── provides.py
          │   │   │   └── telemetry/
-         │   │   │       ├── compile_telemetry_formatter.py
-         │   │   │       ├── compile_telemetry_formatter_factory.py
-         │   │   │       ├── icompile_telemetry_formatter.py
-         │   │   │       └── __init__.py
+         │   │   │       ├── factory.py
+         │   │   │       ├── formatter.py
+         │   │   │       ├── iformatter.py
+         │   │   │       ├── __init__.py
+         │   │   │       └── provides.py
          │   │   ├── decompile/
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── decompile_error_handler.py
-         │   │   │   │   ├── decompile_error_handler_factory.py
-         │   │   │   │   ├── idecompile_error_handler.py
-         │   │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
-         │   │   │   └── __init__.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
          │   │   ├── disassemble/
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── disassemble_error_handler.py
-         │   │   │   │   ├── disassemble_error_handler_factory.py
-         │   │   │   │   ├── idisassemble_error_handler.py
-         │   │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
+         │   │   │   ├── factory.py
          │   │   │   ├── format/
-         │   │   │   │   ├── disassemble_summary_formatter.py
-         │   │   │   │   ├── disassemble_summary_formatter_factory.py
-         │   │   │   │   ├── idisassemble_summary_formatter.py
-         │   │   │   │   └── __init__.py
-         │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── formatter.py
+         │   │   │   │   ├── iformatter.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
          │   │   ├── export/
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── export_error_handler.py
-         │   │   │   │   ├── export_error_handler_factory.py
-         │   │   │   │   ├── iexport_error_handler.py
-         │   │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
-         │   │   │   └── __init__.py
-         │   │   ├── icommand_definition.py
-         │   │   ├── icommand_executor.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
+         │   │   ├── factory.py
+         │   │   ├── idefinition.py
+         │   │   ├── iexecutor.py
          │   │   ├── info/
          │   │   │   ├── definition.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
-         │   │   │   └── __init__.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
          │   │   ├── __init__.py
          │   │   ├── lint/
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── ilint_error_handler.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
          │   │   │   │   ├── __init__.py
-         │   │   │   │   ├── lint_error_handler.py
-         │   │   │   │   └── lint_error_handler_factory.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
-         │   │   │   └── __init__.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
+         │   │   ├── provides.py
          │   │   └── repl/
-         │   │       ├── bundle.py
          │   │       ├── definition.py
+         │   │       ├── dependencies.py
          │   │       ├── executor.py
-         │   │       ├── executor_factory.py
-         │   │       └── __init__.py
+         │   │       ├── factory.py
+         │   │       ├── __init__.py
+         │   │       └── provides.py
          │   ├── communication/
          │   │   ├── __init__.py
          │   │   └── protocol/
          │   │       ├── binary/
-         │   │       │   ├── binary_struct_format.py
          │   │       │   ├── builder/
-         │   │       │   │   ├── binary_frame_builder.py
-         │   │       │   │   ├── binary_frame_builder_factory.py
-         │   │       │   │   └── __init__.py
+         │   │       │   │   ├── builder.py
+         │   │       │   │   ├── factory.py
+         │   │       │   │   ├── __init__.py
+         │   │       │   │   └── provides.py
          │   │       │   ├── checksum/
          │   │       │   │   ├── crc16_ccitt.py
          │   │       │   │   └── __init__.py
          │   │       │   ├── __init__.py
-         │   │       │   └── parser/
-         │   │       │       ├── binary_frame_assembler.py
-         │   │       │       ├── binary_frame_assembler_factory.py
-         │   │       │       ├── binary_frame_parser.py
-         │   │       │       ├── binary_frame_parser_factory.py
-         │   │       │       ├── binary_payload_unpacker.py
-         │   │       │       ├── binary_payload_unpacker_factory.py
-         │   │       │       ├── ibinary_frame_assembler.py
-         │   │       │       ├── __init__.py
-         │   │       │       └── parser_state.py
+         │   │       │   ├── parser/
+         │   │       │   │   ├── assembler/
+         │   │       │   │   │   ├── assembler.py
+         │   │       │   │   │   ├── factory.py
+         │   │       │   │   │   ├── iassembler.py
+         │   │       │   │   │   ├── __init__.py
+         │   │       │   │   │   └── provides.py
+         │   │       │   │   ├── factory.py
+         │   │       │   │   ├── __init__.py
+         │   │       │   │   ├── parser.py
+         │   │       │   │   ├── provides.py
+         │   │       │   │   ├── state.py
+         │   │       │   │   └── unpacker/
+         │   │       │   │       ├── factory.py
+         │   │       │   │       ├── __init__.py
+         │   │       │   │       ├── provides.py
+         │   │       │   │       └── unpacker.py
+         │   │       │   └── struct_format.py
          │   │       └── __init__.py
          │   ├── compiler/
          │   │   ├── factory.py
@@ -1083,7 +1142,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     181 directories, 788 files
+     191 directories, 837 files
 
 🏗 Architecture & SOLID Principles
 --------------------------------------------------------------------------------
@@ -1645,12 +1704,12 @@ Downstream applications can catch specific domain exceptions for fine-grained er
     from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
     from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
     from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
-    from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
+    from scaralang.infrastructure.compiler.factory import DefaultCompilerFactory
 
-    compiler = ScaraPlanCompilerFactory.create_default()
+    compiler = DefaultCompilerFactory.create()
 
     try:
-        plan = compiler.compile_script(source="MOVE_J X 999.0 Y 999.0 Z 20.0")
+        plan = compiler.compile_to_binary(source="MOVE_J X 999.0 Y 999.0 Z 20.0")
     except ScaraSyntaxError as exc:
         print(f"Syntax error in script: {exc}")
     except ScaraKinematicsError as exc:
@@ -1717,16 +1776,14 @@ Python Library API
 
 .. code-block:: python
 
-    from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
-    from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
-    from scaralang.core.service.linter.script.scara_script_validator_factory import ScaraScriptValidatorFactory
-    from scaralang.core.service.decompiler.scara_decompiler_factory import ScaraDecompilerFactory
+    from scaralang.infrastructure.compiler.factory import DefaultCompilerFactory
+    from scaralang.infrastructure.decompiler.factory import DefaultDecompilerFactory
+    from scaralang.infrastructure.linter.validator.factory import DefaultScriptValidatorFactory
 
-    # Initialize fine-grained role services via their factories
-    validator = ScaraScriptValidatorFactory.create_default()
-    plan_compiler = ScaraPlanCompilerFactory.create_default()
-    compiler = ScaraCompilerFactory.create_default()
-    decompiler = ScaraDecompilerFactory.create_default()
+    # Initialize fine-grained role services via their default infrastructure factories
+    validator = DefaultScriptValidatorFactory.create().validator
+    compiler = DefaultCompilerFactory.create()
+    decompiler = DefaultDecompilerFactory.create()
 
     # SCARA DSL script to analyze and compile
     script = """HOME
@@ -1740,12 +1797,9 @@ Python Library API
 
     # 1. Validate syntax and kinematics
     is_valid, diagnostics = validator.validate_script(source=script)
-    if is_valid:
-        # 2. Compile into validated trajectory plan
-        plan = plan_compiler.compile_script(source=script)
-        print(f"Trajectory plan contains {len(plan.waypoints)} waypoints.")
 
-        # 3. Compile directly to binary program package and raw bytecode
+    if is_valid:
+        # 2. Compile directly to binary program package and raw bytecode
         binary_prog = compiler.compile_to_binary(source=script)
         raw_bytes = compiler.compile_to_bytes(source=script)
         telemetry = compiler.get_program_telemetry(program=binary_prog)
@@ -1753,7 +1807,7 @@ Python Library API
         print(f"Total motor steps: {len(binary_prog.steps)}")
         print(f"Trajectory execution time: {telemetry.duration_s:.2f} s")
 
-        # 4. Decompile binary bytecode back into high-level SCARA DSL script
+        # 3. Decompile binary bytecode back into high-level SCARA DSL script
         decompiled_script = decompiler.decompile_bytes(data=raw_bytes)
         print("Decompiled script:")
         print(decompiled_script)

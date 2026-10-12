@@ -33,9 +33,8 @@ from scaralang.core.service.decompiler.frame.provides import FrameProvides
 from scaralang.core.service.decompiler.idecompiler import IScaraDecompiler
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
 from scaralang.core.service.kinematics.transmission.factory import JointStepTransmissionConverterFactory
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.factory import ParserFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
 __author__ = 'Vladimir Roncevic'
@@ -57,7 +56,8 @@ class TestScaraDecompiler(TestCase):
         transmission = JointStepTransmissionConverterFactory.create(
             transmission=DefaultScaraProfile.create_transmission()
         )
-        unpacker = BinaryPayloadUnpackerFactory.create()
+        parser_provides = ParserFactory.create()
+        unpacker = parser_provides.unpacker
         frame_provides: FrameProvides = FrameFactory.create(
             dependencies=FrameDependencies(
                 kinematics=kinematics,
@@ -65,7 +65,7 @@ class TestScaraDecompiler(TestCase):
                 unpacker=unpacker,
             )
         )
-        parser = BinaryFrameParserFactory.create()
+        parser = parser_provides.parser
         self.decompiler: ScaraDecompiler = ScaraDecompiler(
             parser=parser,
             frame_decompiler=frame_provides.decompiler,
@@ -100,8 +100,8 @@ class TestScaraDecompiler(TestCase):
 
     def test_decompile_bytes_roundtrip(self) -> None:
         '''Verifies building wire bytes and decompiling back to DSL script.'''
-        builder = BinaryFrameBuilderFactory.create()
-        frame = builder.build_system_cmd(msg_id=MessageId.CMD_HOME, seq_num=1)
+        builder = BuilderFactory.create().builder
+        frame: BinaryFrame = builder.build_system_cmd(msg_id=MessageId.CMD_HOME, seq_num=1)
         raw_bytes: bytes = builder.pack_frame(frame=frame)
         script: str = self.decompiler.decompile_bytes(data=raw_bytes)
         self.assertIn('HOME', script)
@@ -109,8 +109,8 @@ class TestScaraDecompiler(TestCase):
 
     def test_decompile_primary_method(self) -> None:
         '''Verifies decompile primary method delegates to decompile_bytes.'''
-        builder = BinaryFrameBuilderFactory.create()
-        frame = builder.build_system_cmd(msg_id=MessageId.CMD_HOME, seq_num=1)
+        builder = BuilderFactory.create().builder
+        frame: BinaryFrame = builder.build_system_cmd(msg_id=MessageId.CMD_HOME, seq_num=1)
         raw_bytes: bytes = builder.pack_frame(frame=frame)
         script: str = self.decompiler.decompile(data=raw_bytes)
         self.assertIn('HOME', script)

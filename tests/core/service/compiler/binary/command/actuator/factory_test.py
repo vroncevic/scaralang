@@ -28,7 +28,7 @@ from scaralang.core.service.compiler.binary.command.actuator.dependencies import
 from scaralang.core.service.compiler.binary.command.actuator.factory import ActuatorFrameBuilderFactory
 from scaralang.core.service.compiler.binary.command.actuator.ibuilder import IActuatorFrameBuilder
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -53,7 +53,7 @@ class TestActuatorFrameBuilderFactory(TestCase):
 
     def test_create(self) -> None:
         '''Verifies create returns conforming IActuatorFrameBuilder instance.'''
-        frame_builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         deps = ActuatorDependencies(frame_builder=frame_builder)
         actuator_builder = ActuatorFrameBuilderFactory.create(dependencies=deps)
         self.assertIsInstance(actuator_builder, IActuatorFrameBuilder)

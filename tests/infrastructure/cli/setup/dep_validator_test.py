@@ -30,7 +30,7 @@ from ats_utilities.option.imanager import IOptionManager
 
 from scaralang.infrastructure.cli.setup.dep_validator import CLIBundleDependenciesValidator
 from scaralang.infrastructure.cli.setup.dependencies import CLIBundleDependencies
-from scaralang.infrastructure.command.command_bundle import CommandBundle
+from scaralang.infrastructure.command.bundle import CommandBundle
 from scaralang.setup.factory import ScaralangBundleFactory
 
 

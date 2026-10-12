@@ -889,138 +889,197 @@ Tool structure
          │   │       ├── registry.py
          │   │       └── validator.py
          │   ├── command/
-         │   │   ├── command_bundle.py
-         │   │   ├── command_bundle_factory.py
+         │   │   ├── bundle.py
          │   │   ├── compile/
-         │   │   │   ├── bundle.py
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── compile_error_handler.py
-         │   │   │   │   ├── compile_error_handler_factory.py
-         │   │   │   │   ├── icompile_error_handler.py
-         │   │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
+         │   │   │   ├── factory.py
          │   │   │   ├── __init__.py
          │   │   │   ├── inspection/
          │   │   │   │   ├── framing/
-         │   │   │   │   │   ├── frame_header_formatter.py
-         │   │   │   │   │   ├── frame_header_formatter_factory.py
-         │   │   │   │   │   ├── frame_trailer_formatter.py
-         │   │   │   │   │   ├── frame_trailer_formatter_factory.py
-         │   │   │   │   │   ├── hex_stream_formatter.py
-         │   │   │   │   │   ├── hex_stream_formatter_factory.py
-         │   │   │   │   │   ├── iframe_header_formatter.py
-         │   │   │   │   │   ├── iframe_trailer_formatter.py
-         │   │   │   │   │   ├── ihex_stream_formatter.py
-         │   │   │   │   │   └── __init__.py
+         │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   ├── header/
+         │   │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   │   ├── formatter.py
+         │   │   │   │   │   │   ├── iformatter.py
+         │   │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   │   └── provides.py
+         │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   ├── provides.py
+         │   │   │   │   │   └── trailer/
+         │   │   │   │   │       ├── factory.py
+         │   │   │   │   │       ├── formatter.py
+         │   │   │   │   │       ├── iformatter.py
+         │   │   │   │   │       ├── __init__.py
+         │   │   │   │   │       └── provides.py
+         │   │   │   │   ├── hex/
+         │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   ├── formatter.py
+         │   │   │   │   │   ├── iformatter.py
+         │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   └── provides.py
          │   │   │   │   ├── __init__.py
          │   │   │   │   ├── payload/
-         │   │   │   │   │   ├── ijoint_steps_payload_formatter.py
+         │   │   │   │   │   ├── dispatch/
+         │   │   │   │   │   │   ├── dependencies.py
+         │   │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   │   ├── formatter.py
+         │   │   │   │   │   │   ├── iformatter.py
+         │   │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   │   └── provides.py
+         │   │   │   │   │   ├── factory.py
          │   │   │   │   │   ├── __init__.py
-         │   │   │   │   │   ├── ipayload_dispatcher_formatter.py
-         │   │   │   │   │   ├── itool_command_payload_formatter.py
-         │   │   │   │   │   ├── joint_steps_payload_formatter.py
-         │   │   │   │   │   ├── joint_steps_payload_formatter_factory.py
-         │   │   │   │   │   ├── payload_dispatcher_formatter.py
-         │   │   │   │   │   ├── payload_dispatcher_formatter_factory.py
-         │   │   │   │   │   ├── tool_command_payload_formatter.py
-         │   │   │   │   │   └── tool_command_payload_formatter_factory.py
+         │   │   │   │   │   ├── joint/
+         │   │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   │   ├── formatter.py
+         │   │   │   │   │   │   ├── iformatter.py
+         │   │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   │   └── provides.py
+         │   │   │   │   │   ├── provides.py
+         │   │   │   │   │   └── tool/
+         │   │   │   │   │       ├── factory.py
+         │   │   │   │   │       ├── formatter.py
+         │   │   │   │   │       ├── iformatter.py
+         │   │   │   │   │       ├── __init__.py
+         │   │   │   │   │       └── provides.py
          │   │   │   │   └── presentation/
-         │   │   │   │       ├── frame_step_presenter.py
-         │   │   │   │       ├── frame_step_presenter_factory.py
-         │   │   │   │       ├── iframe_step_presenter.py
+         │   │   │   │       ├── factory.py
          │   │   │   │       ├── __init__.py
-         │   │   │   │       ├── iprogram_inspection_presenter.py
-         │   │   │   │       ├── program_inspection_presenter.py
-         │   │   │   │       └── program_inspection_presenter_factory.py
+         │   │   │   │       ├── program/
+         │   │   │   │       │   ├── factory.py
+         │   │   │   │       │   ├── __init__.py
+         │   │   │   │       │   ├── ipresenter.py
+         │   │   │   │       │   ├── presenter.py
+         │   │   │   │       │   └── provides.py
+         │   │   │   │       ├── provides.py
+         │   │   │   │       └── step/
+         │   │   │   │           ├── dependencies.py
+         │   │   │   │           ├── factory.py
+         │   │   │   │           ├── __init__.py
+         │   │   │   │           ├── ipresenter.py
+         │   │   │   │           ├── presenter.py
+         │   │   │   │           └── provides.py
+         │   │   │   ├── provides.py
          │   │   │   └── telemetry/
-         │   │   │       ├── compile_telemetry_formatter.py
-         │   │   │       ├── compile_telemetry_formatter_factory.py
-         │   │   │       ├── icompile_telemetry_formatter.py
-         │   │   │       └── __init__.py
+         │   │   │       ├── factory.py
+         │   │   │       ├── formatter.py
+         │   │   │       ├── iformatter.py
+         │   │   │       ├── __init__.py
+         │   │   │       └── provides.py
          │   │   ├── decompile/
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── decompile_error_handler.py
-         │   │   │   │   ├── decompile_error_handler_factory.py
-         │   │   │   │   ├── idecompile_error_handler.py
-         │   │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
-         │   │   │   └── __init__.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
          │   │   ├── disassemble/
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── disassemble_error_handler.py
-         │   │   │   │   ├── disassemble_error_handler_factory.py
-         │   │   │   │   ├── idisassemble_error_handler.py
-         │   │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
+         │   │   │   ├── factory.py
          │   │   │   ├── format/
-         │   │   │   │   ├── disassemble_summary_formatter.py
-         │   │   │   │   ├── disassemble_summary_formatter_factory.py
-         │   │   │   │   ├── idisassemble_summary_formatter.py
-         │   │   │   │   └── __init__.py
-         │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── formatter.py
+         │   │   │   │   ├── iformatter.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
          │   │   ├── export/
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── export_error_handler.py
-         │   │   │   │   ├── export_error_handler_factory.py
-         │   │   │   │   ├── iexport_error_handler.py
-         │   │   │   │   └── __init__.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
-         │   │   │   └── __init__.py
-         │   │   ├── icommand_definition.py
-         │   │   ├── icommand_executor.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
+         │   │   ├── factory.py
+         │   │   ├── idefinition.py
+         │   │   ├── iexecutor.py
          │   │   ├── info/
          │   │   │   ├── definition.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
-         │   │   │   └── __init__.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
          │   │   ├── __init__.py
          │   │   ├── lint/
          │   │   │   ├── definition.py
+         │   │   │   ├── dependencies.py
          │   │   │   ├── error/
-         │   │   │   │   ├── ilint_error_handler.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── handler.py
+         │   │   │   │   ├── ihandler.py
          │   │   │   │   ├── __init__.py
-         │   │   │   │   ├── lint_error_handler.py
-         │   │   │   │   └── lint_error_handler_factory.py
+         │   │   │   │   └── provides.py
          │   │   │   ├── executor.py
-         │   │   │   ├── executor_factory.py
-         │   │   │   └── __init__.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
+         │   │   ├── provides.py
          │   │   └── repl/
-         │   │       ├── bundle.py
          │   │       ├── definition.py
+         │   │       ├── dependencies.py
          │   │       ├── executor.py
-         │   │       ├── executor_factory.py
-         │   │       └── __init__.py
+         │   │       ├── factory.py
+         │   │       ├── __init__.py
+         │   │       └── provides.py
          │   ├── communication/
          │   │   ├── __init__.py
          │   │   └── protocol/
          │   │       ├── binary/
-         │   │       │   ├── binary_struct_format.py
          │   │       │   ├── builder/
-         │   │       │   │   ├── binary_frame_builder.py
-         │   │       │   │   ├── binary_frame_builder_factory.py
-         │   │       │   │   └── __init__.py
+         │   │       │   │   ├── builder.py
+         │   │       │   │   ├── factory.py
+         │   │       │   │   ├── __init__.py
+         │   │       │   │   └── provides.py
          │   │       │   ├── checksum/
          │   │       │   │   ├── crc16_ccitt.py
          │   │       │   │   └── __init__.py
          │   │       │   ├── __init__.py
-         │   │       │   └── parser/
-         │   │       │       ├── binary_frame_assembler.py
-         │   │       │       ├── binary_frame_assembler_factory.py
-         │   │       │       ├── binary_frame_parser.py
-         │   │       │       ├── binary_frame_parser_factory.py
-         │   │       │       ├── binary_payload_unpacker.py
-         │   │       │       ├── binary_payload_unpacker_factory.py
-         │   │       │       ├── ibinary_frame_assembler.py
-         │   │       │       ├── __init__.py
-         │   │       │       └── parser_state.py
+         │   │       │   ├── parser/
+         │   │       │   │   ├── assembler/
+         │   │       │   │   │   ├── assembler.py
+         │   │       │   │   │   ├── factory.py
+         │   │       │   │   │   ├── iassembler.py
+         │   │       │   │   │   ├── __init__.py
+         │   │       │   │   │   └── provides.py
+         │   │       │   │   ├── factory.py
+         │   │       │   │   ├── __init__.py
+         │   │       │   │   ├── parser.py
+         │   │       │   │   ├── provides.py
+         │   │       │   │   ├── state.py
+         │   │       │   │   └── unpacker/
+         │   │       │   │       ├── factory.py
+         │   │       │   │       ├── __init__.py
+         │   │       │   │       ├── provides.py
+         │   │       │   │       └── unpacker.py
+         │   │       │   └── struct_format.py
          │   │       └── __init__.py
          │   ├── compiler/
          │   │   ├── factory.py
@@ -1104,7 +1163,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     181 directories, 788 files
+     191 directories, 837 files
 ```
 </details>
 
@@ -1468,12 +1527,12 @@ from scaralang.core.model.exceptions.scara_error import ScaraError
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
-from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
+from scaralang.infrastructure.compiler.factory import DefaultCompilerFactory
 
-compiler = ScaraPlanCompilerFactory.create_default()
+compiler = DefaultCompilerFactory.create()
 
 try:
-    plan = compiler.compile_script(source="MOVE_J X 999.0 Y 999.0 Z 20.0")
+    plan = compiler.compile_to_binary(source="MOVE_J X 999.0 Y 999.0 Z 20.0")
 except ScaraSyntaxError as exc:
     print(f"Syntax error in script: {exc}")
 except ScaraKinematicsError as exc:
@@ -2108,121 +2167,170 @@ except ScaraError as exc:
 | `scaralang/infrastructure/cli/setup/bundle.py` | 20 | 0 | 100%|
 | `scaralang/infrastructure/cli/setup/dep_validator.py` | 37 | 0 | 100%|
 | `scaralang/infrastructure/cli/setup/dependencies.py` | 16 | 0 | 100%|
-| `scaralang/infrastructure/cli/setup/factory.py` | 25 | 0 | 100%|
+| `scaralang/infrastructure/cli/setup/factory.py` | 26 | 0 | 100%|
 | `scaralang/infrastructure/cli/setup/keys.py` | 23 | 0 | 100%|
 | `scaralang/infrastructure/cli/setup/opt_validator.py` | 35 | 0 | 100%|
 | `scaralang/infrastructure/cli/setup/options.py` | 13 | 0 | 100%|
 | `scaralang/infrastructure/cli/setup/registry.py` | 29 | 0 | 100%|
 | `scaralang/infrastructure/cli/setup/validator.py` | 38 | 0 | 100%|
 | `scaralang/infrastructure/command/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/command_bundle.py` | 16 | 0 | 100%|
-| `scaralang/infrastructure/command/command_bundle_factory.py` | 31 | 0 | 100%|
+| `scaralang/infrastructure/command/bundle.py` | 16 | 0 | 100%|
 | `scaralang/infrastructure/command/compile/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/bundle.py` | 20 | 0 | 100%|
 | `scaralang/infrastructure/command/compile/definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/dependencies.py` | 20 | 0 | 100%|
 | `scaralang/infrastructure/command/compile/error/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/error/compile_error_handler.py` | 40 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/error/compile_error_handler_factory.py` | 20 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/error/icompile_error_handler.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/error/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/error/handler.py` | 40 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/error/ihandler.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/error/provides.py` | 14 | 0 | 100%|
 | `scaralang/infrastructure/command/compile/executor.py` | 60 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/executor_factory.py` | 28 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/factory.py` | 33 | 0 | 100%|
 | `scaralang/infrastructure/command/compile/inspection/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/command/compile/inspection/framing/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/framing/frame_header_formatter.py` | 17 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/framing/frame_header_formatter_factory.py` | 17 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/framing/frame_trailer_formatter.py` | 14 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/framing/frame_trailer_formatter_factory.py` | 17 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/framing/hex_stream_formatter.py` | 19 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/framing/hex_stream_formatter_factory.py` | 17 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/framing/iframe_header_formatter.py` | 15 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/framing/iframe_trailer_formatter.py` | 14 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/framing/ihex_stream_formatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/factory.py` | 23 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/header/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/header/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/header/formatter.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/header/iformatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/header/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/provides.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/trailer/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/trailer/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/trailer/formatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/trailer/iformatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/framing/trailer/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/hex/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/hex/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/hex/formatter.py` | 21 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/hex/iformatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/hex/provides.py` | 14 | 0 | 100%|
 | `scaralang/infrastructure/command/compile/inspection/payload/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/payload/ijoint_steps_payload_formatter.py` | 15 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/payload/ipayload_dispatcher_formatter.py` | 15 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/payload/itool_command_payload_formatter.py` | 14 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/payload/joint_steps_payload_formatter.py` | 25 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/payload/joint_steps_payload_formatter_factory.py` | 18 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/payload/payload_dispatcher_formatter.py` | 45 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/payload/payload_dispatcher_formatter_factory.py` | 25 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/payload/tool_command_payload_formatter.py` | 24 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/payload/tool_command_payload_formatter_factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/dispatch/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/dispatch/dependencies.py` | 20 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/dispatch/factory.py` | 19 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/dispatch/formatter.py` | 46 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/dispatch/iformatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/dispatch/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/factory.py` | 32 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/joint/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/joint/factory.py` | 21 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/joint/formatter.py` | 25 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/joint/iformatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/joint/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/provides.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/tool/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/tool/factory.py` | 21 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/tool/formatter.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/tool/iformatter.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/payload/tool/provides.py` | 14 | 0 | 100%|
 | `scaralang/infrastructure/command/compile/inspection/presentation/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/presentation/frame_step_presenter.py` | 36 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/presentation/frame_step_presenter_factory.py` | 21 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/presentation/iframe_step_presenter.py` | 15 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/presentation/iprogram_inspection_presenter.py` | 15 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/presentation/program_inspection_presenter.py` | 27 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/inspection/presentation/program_inspection_presenter_factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/factory.py` | 34 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/program/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/program/factory.py` | 19 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/program/ipresenter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/program/presenter.py` | 27 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/program/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/provides.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/step/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/step/dependencies.py` | 20 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/step/factory.py` | 19 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/step/ipresenter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/step/presenter.py` | 37 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/inspection/presentation/step/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/provides.py` | 16 | 0 | 100%|
 | `scaralang/infrastructure/command/compile/telemetry/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/telemetry/compile_telemetry_formatter.py` | 16 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/telemetry/compile_telemetry_formatter_factory.py` | 17 | 0 | 100%|
-| `scaralang/infrastructure/command/compile/telemetry/icompile_telemetry_formatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/telemetry/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/telemetry/formatter.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/telemetry/iformatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/compile/telemetry/provides.py` | 14 | 0 | 100%|
 | `scaralang/infrastructure/command/decompile/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/command/decompile/definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/decompile/dependencies.py` | 16 | 0 | 100%|
 | `scaralang/infrastructure/command/decompile/error/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/decompile/error/decompile_error_handler.py` | 40 | 0 | 100%|
-| `scaralang/infrastructure/command/decompile/error/decompile_error_handler_factory.py` | 20 | 0 | 100%|
-| `scaralang/infrastructure/command/decompile/error/idecompile_error_handler.py` | 16 | 0 | 100%|
-| `scaralang/infrastructure/command/decompile/executor.py` | 44 | 0 | 100%|
-| `scaralang/infrastructure/command/decompile/executor_factory.py` | 26 | 0 | 100%|
+| `scaralang/infrastructure/command/decompile/error/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/decompile/error/handler.py` | 40 | 0 | 100%|
+| `scaralang/infrastructure/command/decompile/error/ihandler.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/decompile/error/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/decompile/executor.py` | 45 | 0 | 100%|
+| `scaralang/infrastructure/command/decompile/factory.py` | 27 | 0 | 100%|
+| `scaralang/infrastructure/command/decompile/provides.py` | 16 | 0 | 100%|
 | `scaralang/infrastructure/command/disassemble/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/command/disassemble/definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/dependencies.py` | 18 | 0 | 100%|
 | `scaralang/infrastructure/command/disassemble/error/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/disassemble/error/disassemble_error_handler.py` | 40 | 0 | 100%|
-| `scaralang/infrastructure/command/disassemble/error/disassemble_error_handler_factory.py` | 20 | 0 | 100%|
-| `scaralang/infrastructure/command/disassemble/error/idisassemble_error_handler.py` | 16 | 0 | 100%|
-| `scaralang/infrastructure/command/disassemble/executor.py` | 55 | 0 | 100%|
-| `scaralang/infrastructure/command/disassemble/executor_factory.py` | 28 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/error/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/error/handler.py` | 40 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/error/ihandler.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/error/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/executor.py` | 56 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/factory.py` | 30 | 0 | 100%|
 | `scaralang/infrastructure/command/disassemble/format/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/disassemble/format/disassemble_summary_formatter.py` | 16 | 0 | 100%|
-| `scaralang/infrastructure/command/disassemble/format/disassemble_summary_formatter_factory.py` | 17 | 0 | 100%|
-| `scaralang/infrastructure/command/disassemble/format/idisassemble_summary_formatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/format/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/format/formatter.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/format/iformatter.py` | 15 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/format/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/disassemble/provides.py` | 16 | 0 | 100%|
 | `scaralang/infrastructure/command/export/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/command/export/definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/export/dependencies.py` | 18 | 0 | 100%|
 | `scaralang/infrastructure/command/export/error/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/export/error/export_error_handler.py` | 40 | 0 | 100%|
-| `scaralang/infrastructure/command/export/error/export_error_handler_factory.py` | 20 | 0 | 100%|
-| `scaralang/infrastructure/command/export/error/iexport_error_handler.py` | 16 | 0 | 100%|
-| `scaralang/infrastructure/command/export/executor.py` | 52 | 0 | 100%|
-| `scaralang/infrastructure/command/export/executor_factory.py` | 36 | 0 | 100%|
-| `scaralang/infrastructure/command/icommand_definition.py` | 14 | 0 | 100%|
-| `scaralang/infrastructure/command/icommand_executor.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/export/error/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/export/error/handler.py` | 40 | 0 | 100%|
+| `scaralang/infrastructure/command/export/error/ihandler.py` | 17 | 0 | 100%|
+| `scaralang/infrastructure/command/export/error/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/export/executor.py` | 53 | 0 | 100%|
+| `scaralang/infrastructure/command/export/factory.py` | 36 | 0 | 100%|
+| `scaralang/infrastructure/command/export/provides.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/factory.py` | 40 | 0 | 100%|
+| `scaralang/infrastructure/command/idefinition.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/iexecutor.py` | 14 | 0 | 100%|
 | `scaralang/infrastructure/command/info/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/command/info/definition.py` | 24 | 0 | 100%|
 | `scaralang/infrastructure/command/info/executor.py` | 25 | 0 | 100%|
-| `scaralang/infrastructure/command/info/executor_factory.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/info/factory.py` | 22 | 0 | 100%|
+| `scaralang/infrastructure/command/info/provides.py` | 16 | 0 | 100%|
 | `scaralang/infrastructure/command/lint/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/command/lint/definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/dependencies.py` | 18 | 0 | 100%|
 | `scaralang/infrastructure/command/lint/error/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/lint/error/ilint_error_handler.py` | 16 | 0 | 100%|
-| `scaralang/infrastructure/command/lint/error/lint_error_handler.py` | 40 | 0 | 100%|
-| `scaralang/infrastructure/command/lint/error/lint_error_handler_factory.py` | 20 | 0 | 100%|
-| `scaralang/infrastructure/command/lint/executor.py` | 46 | 0 | 100%|
-| `scaralang/infrastructure/command/lint/executor_factory.py` | 28 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/error/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/error/handler.py` | 40 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/error/ihandler.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/error/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/executor.py` | 47 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/factory.py` | 28 | 0 | 100%|
+| `scaralang/infrastructure/command/lint/provides.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/command/provides.py` | 14 | 0 | 100%|
 | `scaralang/infrastructure/command/repl/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/command/repl/bundle.py` | 24 | 0 | 100%|
 | `scaralang/infrastructure/command/repl/definition.py` | 24 | 0 | 100%|
+| `scaralang/infrastructure/command/repl/dependencies.py` | 24 | 0 | 100%|
 | `scaralang/infrastructure/command/repl/executor.py` | 83 | 0 | 100%|
-| `scaralang/infrastructure/command/repl/executor_factory.py` | 30 | 0 | 100%|
+| `scaralang/infrastructure/command/repl/factory.py` | 29 | 0 | 100%|
+| `scaralang/infrastructure/command/repl/provides.py` | 16 | 0 | 100%|
 | `scaralang/infrastructure/communication/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/communication/protocol/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/communication/protocol/binary/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/binary_struct_format.py` | 23 | 0 | 100%|
 | `scaralang/infrastructure/communication/protocol/binary/builder/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/builder/binary_frame_builder.py` | 56 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/builder/binary_frame_builder_factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/builder/builder.py` | 56 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/builder/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/builder/provides.py` | 14 | 0 | 100%|
 | `scaralang/infrastructure/communication/protocol/binary/checksum/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/communication/protocol/binary/checksum/crc16_ccitt.py` | 30 | 0 | 100%|
 | `scaralang/infrastructure/communication/protocol/binary/parser/__init__.py` | 9 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_assembler.py` | 30 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_assembler_factory.py` | 18 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_parser.py` | 91 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/parser/binary_frame_parser_factory.py` | 26 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/parser/binary_payload_unpacker.py` | 56 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/parser/binary_payload_unpacker_factory.py` | 18 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/parser/ibinary_frame_assembler.py` | 16 | 0 | 100%|
-| `scaralang/infrastructure/communication/protocol/binary/parser/parser_state.py` | 20 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/assembler/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/assembler/assembler.py` | 30 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/assembler/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/assembler/iassembler.py` | 16 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/assembler/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/factory.py` | 25 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/parser.py` | 90 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/provides.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/state.py` | 20 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/unpacker/__init__.py` | 9 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/unpacker/factory.py` | 18 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/unpacker/provides.py` | 14 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/parser/unpacker/unpacker.py` | 56 | 0 | 100%|
+| `scaralang/infrastructure/communication/protocol/binary/struct_format.py` | 23 | 0 | 100%|
 | `scaralang/infrastructure/compiler/__init__.py` | 9 | 0 | 100%|
 | `scaralang/infrastructure/compiler/factory.py` | 52 | 0 | 100%|
 | `scaralang/infrastructure/decompiler/__init__.py` | 9 | 0 | 100%|
@@ -2276,7 +2384,7 @@ except ScaraError as exc:
 | `scaralang/setup/options.py` | 13 | 0 | 100%|
 | `scaralang/setup/registry.py` | 28 | 0 | 100%|
 | `scaralang/setup/validator.py` | 38 | 0 | 100%|
-| **Total** | 15446 | 0 | 100% |
+| **Total** | 16198 | 0 | 100% |
 
 </details>
 
@@ -2331,16 +2439,14 @@ scarac repl --endpoint dry-run
 ##### Python Library API
 
 ```python
-from scaralang.core.service.compiler.plan.scara_plan_compiler_factory import ScaraPlanCompilerFactory
-from scaralang.core.service.compiler.scara_compiler_factory import ScaraCompilerFactory
-from scaralang.core.service.linter.script.scara_script_validator_factory import ScaraScriptValidatorFactory
-from scaralang.core.service.decompiler.scara_decompiler_factory import ScaraDecompilerFactory
+from scaralang.infrastructure.compiler.factory import DefaultCompilerFactory
+from scaralang.infrastructure.decompiler.factory import DefaultDecompilerFactory
+from scaralang.infrastructure.linter.validator.factory import DefaultScriptValidatorFactory
 
-# Initialize fine-grained role services via their factories
-validator = ScaraScriptValidatorFactory.create_default()
-plan_compiler = ScaraPlanCompilerFactory.create_default()
-compiler = ScaraCompilerFactory.create_default()
-decompiler = ScaraDecompilerFactory.create_default()
+# Initialize fine-grained role services via their default infrastructure factories
+validator = DefaultScriptValidatorFactory.create().validator
+compiler = DefaultCompilerFactory.create()
+decompiler = DefaultDecompilerFactory.create()
 
 # SCARA DSL script to analyze and compile
 script = """HOME
@@ -2354,12 +2460,9 @@ PUMP OFF
 
 # 1. Validate syntax and kinematics
 is_valid, diagnostics = validator.validate_script(source=script)
-if is_valid:
-    # 2. Compile into validated trajectory plan
-    plan = plan_compiler.compile_script(source=script)
-    print(f"Trajectory plan contains {len(plan.waypoints)} waypoints.")
 
-    # 3. Compile directly to binary program package and raw bytecode
+if is_valid:
+    # 2. Compile directly to binary program package and raw bytecode
     binary_prog = compiler.compile_to_binary(source=script)
     raw_bytes = compiler.compile_to_bytes(source=script)
     telemetry = compiler.get_program_telemetry(program=binary_prog)
@@ -2367,7 +2470,7 @@ if is_valid:
     print(f"Total motor steps: {len(binary_prog.steps)}")
     print(f"Trajectory execution time: {telemetry.duration_s:.2f} s")
 
-    # 4. Decompile binary bytecode back into high-level SCARA DSL script
+    # 3. Decompile binary bytecode back into high-level SCARA DSL script
     decompiled_script = decompiler.decompile_bytes(data=raw_bytes)
     print("Decompiled script:")
     print(decompiled_script)

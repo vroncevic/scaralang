@@ -35,9 +35,8 @@ from scaralang.core.service.disassembler.frame.provides import FrameProvides
 from scaralang.core.service.disassembler.idisassembler import IScaraDisassembler
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
 from scaralang.core.service.protocol.ibinary_frame_parser import IBinaryFrameParser
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory import BinaryFrameParserFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker import BinaryPayloadUnpacker
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.parser.factory import ParserFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
@@ -54,16 +53,16 @@ class TestScaraDisassembler(TestCase):
 
     def setUp(self) -> None:
         '''Initializes parser, decoder, builder, and disassembler fixtures.'''
-        self.parser: IBinaryFrameParser = BinaryFrameParserFactory.create_default()
-        self.unpacker: BinaryPayloadUnpacker = BinaryPayloadUnpacker()
+        parser_provides = ParserFactory.create()
+        self.parser: IBinaryFrameParser = parser_provides.parser
         frame_provides: FrameProvides = FrameFactory.create(
-            dependencies=FrameDependencies(unpacker=self.unpacker)
+            dependencies=FrameDependencies(unpacker=parser_provides.unpacker)
         )
         self.disassembler: ScaraDisassembler = ScaraDisassembler(
             parser=self.parser,
             detail_decoder=frame_provides.decoder,
         )
-        self.builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        self.builder: IBinaryFrameBuilder = BuilderFactory.create().builder
 
     def test_implements_protocol(self) -> None:
         '''Verifies structural protocol conformance.'''
