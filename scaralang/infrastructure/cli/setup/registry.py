@@ -25,7 +25,7 @@ from collections.abc import Sequence
 
 from ats_utilities.option.imanager import IOptionManager
 
-from scaralang.infrastructure.command.command_bundle import CommandBundle
+from scaralang.infrastructure.command.bundle import CommandBundle
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
 from scaralang.infrastructure.cli.setup.validator import CLIBundleValidator
 from scaralang.infrastructure.cli.setup.keys import CLIBundleKeys
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

@@ -28,18 +28,18 @@ from typing import Final
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
 from scaralang.core.model.exceptions.scara_error import ScaraError
-from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
-from scaralang.infrastructure.command.compile.bundle import CompileCommandBundle
-from scaralang.infrastructure.command.compile.error.icompile_error_handler import ICompileErrorHandler
-from scaralang.infrastructure.command.compile.telemetry.icompile_telemetry_formatter import ICompileTelemetryFormatter
-from scaralang.infrastructure.command.compile.inspection.presentation.iprogram_inspection_presenter import IProgramInspectionPresenter
-from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
+from scaralang.core.service.compiler.icompiler import IScaraCompiler
+from scaralang.infrastructure.command.compile.dependencies import CompileDependencies
+from scaralang.infrastructure.command.compile.error.ihandler import ICompileErrorHandler
+from scaralang.infrastructure.command.compile.telemetry.iformatter import ICompileTelemetryFormatter
+from scaralang.infrastructure.command.compile.inspection.presentation.program.ipresenter import IProgramInspectionPresenter
+from scaralang.infrastructure.command.idefinition import ICommandDefinition
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -72,20 +72,24 @@ class CompileCommandExecutor:
         self,
         *,
         definition: ICommandDefinition,
-        bundle: CompileCommandBundle,
+        dependencies: CompileDependencies,
     ) -> None:
         '''
             Initializes the compile command executor.
 
             :param definition: The command definition metadata.
-            :param bundle: Injected collaborator bundle.
+            :param dependencies: Injected collaborator dependencies bundle.
             :exceptions: None.
         '''
         self._definition: Final[ICommandDefinition] = definition
-        self._compiler: Final[IScaraCompiler] = bundle.compiler
-        self._inspection_presenter: Final[IProgramInspectionPresenter] = bundle.inspection_presenter
-        self._telemetry_formatter: Final[ICompileTelemetryFormatter] = bundle.telemetry_formatter
-        self._error_handler: Final[ICompileErrorHandler] = bundle.error_handler
+        self._compiler: Final[IScaraCompiler] = dependencies.compiler
+        self._inspection_presenter: Final[IProgramInspectionPresenter] = (
+            dependencies.inspection_presenter
+        )
+        self._telemetry_formatter: Final[ICompileTelemetryFormatter] = (
+            dependencies.telemetry_formatter
+        )
+        self._error_handler: Final[ICompileErrorHandler] = dependencies.error_handler
 
     def execute(
         self,

@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.lint.error.ilint_error_handler
-   scaralang.infrastructure.command.lint.error.lint_error_handler
-   scaralang.infrastructure.command.lint.error.lint_error_handler_factory
+   scaralang.infrastructure.command.lint.error.factory
+   scaralang.infrastructure.command.lint.error.handler
+   scaralang.infrastructure.command.lint.error.ihandler
+   scaralang.infrastructure.command.lint.error.provides
 
 Module contents
 ---------------

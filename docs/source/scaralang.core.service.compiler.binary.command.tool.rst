@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.binary.command.tool.itool_frame_builder
-   scaralang.core.service.compiler.binary.command.tool.tool_frame_builder
-   scaralang.core.service.compiler.binary.command.tool.tool_frame_builder_factory
+   scaralang.core.service.compiler.binary.command.tool.builder
+   scaralang.core.service.compiler.binary.command.tool.dependencies
+   scaralang.core.service.compiler.binary.command.tool.factory
+   scaralang.core.service.compiler.binary.command.tool.ibuilder
 
 Module contents
 ---------------

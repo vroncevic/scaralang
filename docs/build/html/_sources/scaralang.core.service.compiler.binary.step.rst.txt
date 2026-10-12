@@ -1,18 +1,14 @@
 scaralang.core.service.compiler.binary.step package
 ===================================================
 
-Submodules
-----------
+Subpackages
+-----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.binary.step.istep_discretizer
-   scaralang.core.service.compiler.binary.step.iwaypoint_step_dispatcher
-   scaralang.core.service.compiler.binary.step.step_discretizer
-   scaralang.core.service.compiler.binary.step.step_discretizer_factory
-   scaralang.core.service.compiler.binary.step.waypoint_step_dispatcher
-   scaralang.core.service.compiler.binary.step.waypoint_step_dispatcher_factory
+   scaralang.core.service.compiler.binary.step.discretizer
+   scaralang.core.service.compiler.binary.step.dispatcher
 
 Module contents
 ---------------

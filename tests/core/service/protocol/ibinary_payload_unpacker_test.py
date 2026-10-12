@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+# pylint: disable=assignment-from-no-return
 
 '''
 Module
@@ -27,14 +28,14 @@ from unittest import main
 
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.service.protocol.ibinary_payload_unpacker import IBinaryPayloadUnpacker
-from scaralang.infrastructure.communication.protocol.binary.binary_struct_format import BinaryStructFormat
-from scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory import BinaryPayloadUnpackerFactory
+from scaralang.infrastructure.communication.protocol.binary.struct_format import BinaryStructFormat
+from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.factory import UnpackerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,21 +60,21 @@ class TestIBinaryPayloadUnpacker(TestCase):
         '''
             Verifies that factory creates an instance satisfying IBinaryPayloadUnpacker.
         '''
-        unpacker = BinaryPayloadUnpackerFactory.create()
+        unpacker = UnpackerFactory.create().unpacker
         self.assertIsInstance(unpacker, IBinaryPayloadUnpacker)
 
     def test_name_property(self) -> None:
         '''
             Verifies that name property returns expected identifier.
         '''
-        unpacker = BinaryPayloadUnpackerFactory.create()
+        unpacker = UnpackerFactory.create().unpacker
         self.assertEqual(unpacker.name, 'binary_payload_unpacker')
 
     def test_unpack_tool_cmd(self) -> None:
         '''
             Verifies tool command payload unpacking through protocol contract.
         '''
-        unpacker: IBinaryPayloadUnpacker = BinaryPayloadUnpackerFactory.create()
+        unpacker: IBinaryPayloadUnpacker = UnpackerFactory.create().unpacker
         raw_payload = pack(str(BinaryStructFormat.TOOL_CMD), 1, 1)
         tool_id, state = unpacker.unpack_tool_cmd(data=raw_payload)
         self.assertEqual(tool_id, 1)
@@ -83,7 +84,7 @@ class TestIBinaryPayloadUnpacker(TestCase):
         '''
             Verifies ACK payload unpacking through protocol contract.
         '''
-        unpacker: IBinaryPayloadUnpacker = BinaryPayloadUnpackerFactory.create()
+        unpacker: IBinaryPayloadUnpacker = UnpackerFactory.create().unpacker
         raw_payload = pack(str(BinaryStructFormat.ACK), 10, 4)
         msg_id, queue_depth = unpacker.unpack_ack(data=raw_payload)
         self.assertEqual(msg_id, 10)
@@ -93,7 +94,7 @@ class TestIBinaryPayloadUnpacker(TestCase):
         '''
             Verifies NACK payload unpacking through protocol contract.
         '''
-        unpacker: IBinaryPayloadUnpacker = BinaryPayloadUnpackerFactory.create()
+        unpacker: IBinaryPayloadUnpacker = UnpackerFactory.create().unpacker
         raw_payload = pack(str(BinaryStructFormat.NACK), 20, 2)
         msg_id, error_code = unpacker.unpack_nack(data=raw_payload)
         self.assertEqual(msg_id, 20)
@@ -103,7 +104,7 @@ class TestIBinaryPayloadUnpacker(TestCase):
         '''
             Verifies joint steps payload unpacking through protocol contract.
         '''
-        unpacker: IBinaryPayloadUnpacker = BinaryPayloadUnpackerFactory.create()
+        unpacker: IBinaryPayloadUnpacker = UnpackerFactory.create().unpacker
         raw_payload = pack(
             str(BinaryStructFormat.JOINT_STEPS),
             100, 200, 300, 400, 500, 600,
@@ -121,7 +122,7 @@ class TestIBinaryPayloadUnpacker(TestCase):
         '''
             Verifies motor config payload unpacking through protocol contract.
         '''
-        unpacker: IBinaryPayloadUnpacker = BinaryPayloadUnpackerFactory.create()
+        unpacker: IBinaryPayloadUnpacker = UnpackerFactory.create().unpacker
         raw_payload = pack(str(BinaryStructFormat.CONFIG_MOTOR), 1, 0x0F)
         mode, axis_mask = unpacker.unpack_motor_config(data=raw_payload)
         self.assertEqual(mode, 1)

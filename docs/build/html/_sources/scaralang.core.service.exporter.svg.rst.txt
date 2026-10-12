@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.exporter.svg.isvg_trajectory_exporter
-   scaralang.core.service.exporter.svg.svg_trajectory_exporter
-   scaralang.core.service.exporter.svg.svg_trajectory_exporter_factory
+   scaralang.core.service.exporter.svg.exporter
+   scaralang.core.service.exporter.svg.factory
+   scaralang.core.service.exporter.svg.iexporter
 
 Module contents
 ---------------

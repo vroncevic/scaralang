@@ -18,7 +18,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.metrics.trajectory_metrics
+   scaralang.core.service.trajectory.metrics.factory
+   scaralang.core.service.trajectory.metrics.imetrics
+   scaralang.core.service.trajectory.metrics.metrics
+   scaralang.core.service.trajectory.metrics.provides
 
 Module contents
 ---------------

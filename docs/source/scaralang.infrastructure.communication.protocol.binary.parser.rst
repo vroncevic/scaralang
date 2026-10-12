@@ -1,20 +1,25 @@
 scaralang.infrastructure.communication.protocol.binary.parser package
 =====================================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.infrastructure.communication.protocol.binary.parser.assembler
+   scaralang.infrastructure.communication.protocol.binary.parser.unpacker
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler
-   scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory
-   scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser
-   scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory
-   scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker
-   scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory
-   scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler
-   scaralang.infrastructure.communication.protocol.binary.parser.parser_state
+   scaralang.infrastructure.communication.protocol.binary.parser.factory
+   scaralang.infrastructure.communication.protocol.binary.parser.parser
+   scaralang.infrastructure.communication.protocol.binary.parser.provides
+   scaralang.infrastructure.communication.protocol.binary.parser.state
 
 Module contents
 ---------------

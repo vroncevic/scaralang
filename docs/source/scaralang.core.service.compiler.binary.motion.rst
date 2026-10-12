@@ -7,9 +7,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.binary.motion.imotion_compiler
-   scaralang.core.service.compiler.binary.motion.motion_compiler
-   scaralang.core.service.compiler.binary.motion.motion_compiler_factory
+   scaralang.core.service.compiler.binary.motion.compiler
+   scaralang.core.service.compiler.binary.motion.dependencies
+   scaralang.core.service.compiler.binary.motion.factory
+   scaralang.core.service.compiler.binary.motion.icompiler
+   scaralang.core.service.compiler.binary.motion.provides
 
 Module contents
 ---------------

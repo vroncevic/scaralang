@@ -1,18 +1,25 @@
 scaralang.core.service.disassembler package
 ===========================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.disassembler.frame
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.disassembler.frame_detail_decoder
-   scaralang.core.service.disassembler.frame_detail_decoder_factory
-   scaralang.core.service.disassembler.iframe_detail_decoder
-   scaralang.core.service.disassembler.iscara_disassembler
-   scaralang.core.service.disassembler.scara_disassembler
-   scaralang.core.service.disassembler.scara_disassembler_factory
+   scaralang.core.service.disassembler.dependencies
+   scaralang.core.service.disassembler.disassembler
+   scaralang.core.service.disassembler.factory
+   scaralang.core.service.disassembler.idisassembler
+   scaralang.core.service.disassembler.provides
 
 Module contents
 ---------------

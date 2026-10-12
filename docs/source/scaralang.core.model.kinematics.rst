@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   scaralang.core.model.kinematics.cartesian_pose
    scaralang.core.model.kinematics.elbow_config
    scaralang.core.model.kinematics.joint_angle_bounds
    scaralang.core.model.kinematics.link_dimensions

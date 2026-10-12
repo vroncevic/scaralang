@@ -15,7 +15,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.core.service.parser.instruction package" href="scaralang.core.service.parser.instruction.html" />
+    <link rel="next" title="scaralang.core.service.parser.commands.icommand_parser_provides module" href="scaralang.core.service.parser.commands.icommand_parser_provides.html" />
     <link rel="prev" title="scaralang.core.service.parser.commands.icommand_parser module" href="scaralang.core.service.parser.commands.icommand_parser.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,7 +28,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.parser.instruction.html" title="scaralang.core.service.parser.instruction package"
+          <a href="scaralang.core.service.parser.commands.icommand_parser_provides.html" title="scaralang.core.service.parser.commands.icommand_parser_provides module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.service.parser.commands.icommand_parser.html" title="scaralang.core.service.parser.commands.icommand_parser module"
@@ -73,13 +73,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.parser.commands.icommand_parser_provider.</span></span><span class="sig-name descname"><span class="pre">ICommandParserProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/icommand_parser_provider.html#ICommandParserProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
-<p>Protocol contract for domain factories providing command parser handlers.</p>
+<p>Protocol contract for domain factories providing command parser containers.</p>
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">create_handlers - Instantiates and returns domain command parser handlers.</div>
+<div class="line">create - Instantiates and returns domain command parser provides container.</div>
 <div class="line">get_version - Returns provider component version string.</div>
 </div>
 </dd>
@@ -101,12 +101,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider.create_handlers">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_handlers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/icommand_parser_provider.html#ICommandParserProvider.create_handlers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider.create_handlers" title="Link to this definition">¶</a></dt>
-<dd><p>Builds and returns a tuple of domain command parser handlers.</p>
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser_provides.html#scaralang.core.service.parser.commands.icommand_parser_provides.ICommandParserProvides" title="scaralang.core.service.parser.commands.icommand_parser_provides.ICommandParserProvides"><span class="pre">ICommandParserProvides</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/icommand_parser_provider.html#ICommandParserProvider.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider.create" title="Link to this definition">¶</a></dt>
+<dd><p>Builds and returns domain command parser provides container.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple of ICommandParser protocol instances.</p>
+<dd class="field-odd"><p>ICommandParserProvides protocol instance.</p>
 </dd>
 <dt class="field-even">Exceptions<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
@@ -147,7 +147,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider._abc_impl"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvider._abc_impl</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider._is_protocol"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvider._is_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvider._is_runtime_protocol</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider.create_handlers"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvider.create_handlers()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider.create"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvider.create()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider.get_version"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvider.get_version()</span></code></a></li>
 </ul>
 </li>
@@ -163,8 +163,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.core.service.parser.instruction.html"
-                          title="next chapter">scaralang.core.service.parser.instruction package</a></p>
+    <p class="topless"><a href="scaralang.core.service.parser.commands.icommand_parser_provides.html"
+                          title="next chapter">scaralang.core.service.parser.commands.icommand_parser_provides module</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -197,7 +197,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.parser.instruction.html" title="scaralang.core.service.parser.instruction package"
+          <a href="scaralang.core.service.parser.commands.icommand_parser_provides.html" title="scaralang.core.service.parser.commands.icommand_parser_provides module"
              >next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.service.parser.commands.icommand_parser.html" title="scaralang.core.service.parser.commands.icommand_parser module"

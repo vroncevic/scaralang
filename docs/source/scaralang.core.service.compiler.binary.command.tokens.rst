@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.binary.command.tokens.command_token_parser
-   scaralang.core.service.compiler.binary.command.tokens.command_token_parser_factory
-   scaralang.core.service.compiler.binary.command.tokens.icommand_token_parser
+   scaralang.core.service.compiler.binary.command.tokens.factory
+   scaralang.core.service.compiler.binary.command.tokens.iparser
+   scaralang.core.service.compiler.binary.command.tokens.parser
 
 Module contents
 ---------------

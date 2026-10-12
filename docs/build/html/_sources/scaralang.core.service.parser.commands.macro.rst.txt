@@ -7,10 +7,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.parser.commands.macro.jump_command_parser
-   scaralang.core.service.parser.commands.macro.macro_command_parser_factory
-   scaralang.core.service.parser.commands.macro.pallet_def_command_parser
-   scaralang.core.service.parser.commands.macro.pallet_move_command_parser
+   scaralang.core.service.parser.commands.macro.factory
+   scaralang.core.service.parser.commands.macro.jump
+   scaralang.core.service.parser.commands.macro.pallet_def
+   scaralang.core.service.parser.commands.macro.pallet_move
+   scaralang.core.service.parser.commands.macro.provides
 
 Module contents
 ---------------

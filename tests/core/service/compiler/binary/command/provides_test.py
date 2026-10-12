@@ -1,0 +1,103 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    provides_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for CommandProvides container.
+'''
+
+from __future__ import annotations
+
+from unittest import TestCase
+from unittest import main
+
+from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.service.compiler.binary.command.icompiler import ICommandCompiler
+from scaralang.core.service.compiler.binary.command.provides import CommandProvides
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.8'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class DummyCommandCompiler:
+    '''
+        Dummy class implementing ICommandCompiler for container verification.
+    '''
+
+    def compile_command_step(
+        self,
+        *,
+        command: str,
+        seq_num: int,
+        line_num: int,
+    ) -> Step:
+        '''
+            Dummy implementation of compile_command_step.
+        '''
+        _ = (command, seq_num, line_num)
+        return Step(
+            frame=None,  # type: ignore
+            raw_bytes=b'',
+            duration_us=0,
+            target_steps=(0, 0, 0, 0),
+            description='',
+            line_number=0,
+        )
+
+    def get_version(self) -> str:
+        '''
+            Dummy implementation of get_version.
+        '''
+        return '1.0.0'
+
+
+class TestCommandProvides(TestCase):
+    '''
+        Test cases verifying CommandProvides container.
+
+        It defines:
+
+            :methods:
+                | test_attributes - Verifies attributes encapsulation.
+                | test_immutability - Verifies frozen dataclass behavior.
+    '''
+
+    def test_attributes(self) -> None:
+        '''
+            Verifies attributes on CommandProvides.
+        '''
+        compiler: ICommandCompiler = DummyCommandCompiler()
+        provides = CommandProvides(compiler=compiler)
+        self.assertIs(provides.compiler, compiler)
+
+    def test_immutability(self) -> None:
+        '''
+            Verifies CommandProvides is frozen.
+        '''
+        compiler: ICommandCompiler = DummyCommandCompiler()
+        provides = CommandProvides(compiler=compiler)
+        with self.assertRaises(AttributeError):
+            provides.compiler = compiler  # type: ignore
+
+
+if __name__ == '__main__':
+    main()

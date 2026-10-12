@@ -9,7 +9,8 @@ Submodules
 
    scaralang.infrastructure.command.info.definition
    scaralang.infrastructure.command.info.executor
-   scaralang.infrastructure.command.info.executor_factory
+   scaralang.infrastructure.command.info.factory
+   scaralang.infrastructure.command.info.provides
 
 Module contents
 ---------------

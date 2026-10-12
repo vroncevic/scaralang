@@ -29,17 +29,18 @@ from unittest import main
 from unittest.mock import MagicMock
 
 from scaralang.core.model.exceptions.scara_protocol_error import ScaraProtocolError
-from scaralang.infrastructure.command.compile.executor_factory import CompileCommandExecutorFactory
+from scaralang.infrastructure.command.compile.factory import CompileFactory
 from scaralang.infrastructure.command.decompile.definition import DecompileCommandDefinition
-from scaralang.infrastructure.command.decompile.error.decompile_error_handler_factory import DecompileErrorHandlerFactory
+from scaralang.infrastructure.command.decompile.dependencies import DecompileDependencies
+from scaralang.infrastructure.command.decompile.error.factory import ErrorFactory
 from scaralang.infrastructure.command.decompile.executor import DecompileCommandExecutor
-from scaralang.infrastructure.command.decompile.executor_factory import DecompileCommandExecutorFactory
+from scaralang.infrastructure.command.decompile.factory import DecompileFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -68,7 +69,7 @@ class TestDecompileCommandExecutor(TestCase):
             Sets up test fixtures.
         '''
         self.cmd_def = DecompileCommandDefinition()
-        self.executor = DecompileCommandExecutorFactory.create_default()
+        self.executor = DecompileFactory.create().executor
         self.temp_files: list[str] = []
 
     def tearDown(self) -> None:
@@ -107,7 +108,7 @@ class TestDecompileCommandExecutor(TestCase):
         bin_path = script_path + '.bin'
         self.temp_files.append(bin_path)
 
-        compile_exec = CompileCommandExecutorFactory.create_default()
+        compile_exec = CompileFactory.create().executor
         compile_exec.execute(
             params={'script': script_path, 'output': bin_path},
         )
@@ -128,7 +129,7 @@ class TestDecompileCommandExecutor(TestCase):
         self.temp_files.append(bin_path)
         self.temp_files.append(out_script_path)
 
-        compile_exec = CompileCommandExecutorFactory.create_default()
+        compile_exec = CompileFactory.create().executor
         compile_exec.execute(
             params={'script': script_path, 'output': bin_path},
         )
@@ -169,10 +170,13 @@ class TestDecompileCommandExecutor(TestCase):
         '''
         mock_service = MagicMock()
         mock_service.decompile.side_effect = ScaraProtocolError('corrupted frame')
+        deps = DecompileDependencies(
+            service=mock_service,
+            error_handler=ErrorFactory.create().handler,
+        )
         executor = DecompileCommandExecutor(
             definition=self.cmd_def,
-            service=mock_service,
-            error_handler=DecompileErrorHandlerFactory.create(),
+            dependencies=deps,
         )
         with NamedTemporaryFile(mode='wb', suffix='.bin', delete=False) as f:
             f.write(b'\x00\x01')

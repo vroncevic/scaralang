@@ -29,14 +29,15 @@ from unittest.mock import MagicMock
 
 from scaralang.core.model.exceptions.scara_export_error import ScaraExportError
 from scaralang.infrastructure.command.export.definition import ExportCommandDefinition
-from scaralang.infrastructure.command.export.error.export_error_handler_factory import ExportErrorHandlerFactory
+from scaralang.infrastructure.command.export.dependencies import ExportDependencies
+from scaralang.infrastructure.command.export.error.factory import ErrorFactory
 from scaralang.infrastructure.command.export.executor import ExportCommandExecutor
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,11 +63,14 @@ class TestExportCommandExecutor(TestCase):
         self.cmd_def = ExportCommandDefinition()
         self.mock_dispatcher = MagicMock()
         self.mock_service = MagicMock()
-        self.executor = ExportCommandExecutor(
-            definition=self.cmd_def,
+        deps = ExportDependencies(
             service=self.mock_service,
             dispatcher=self.mock_dispatcher,
-            error_handler=ExportErrorHandlerFactory.create(),
+            error_handler=ErrorFactory.create().handler,
+        )
+        self.executor = ExportCommandExecutor(
+            definition=self.cmd_def,
+            dependencies=deps,
         )
 
     def test_execute_missing_script(self) -> None:

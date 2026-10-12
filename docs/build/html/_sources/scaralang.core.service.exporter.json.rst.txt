@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.exporter.json.ijson_trajectory_exporter
-   scaralang.core.service.exporter.json.json_trajectory_exporter
-   scaralang.core.service.exporter.json.json_trajectory_exporter_factory
+   scaralang.core.service.exporter.json.exporter
+   scaralang.core.service.exporter.json.factory
+   scaralang.core.service.exporter.json.iexporter
 
 Module contents
 ---------------

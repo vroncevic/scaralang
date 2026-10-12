@@ -7,8 +7,8 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.primitive.state.state_command_compiler
-   scaralang.core.service.compiler.primitive.state.state_command_compiler_factory
+   scaralang.core.service.compiler.primitive.state.compiler
+   scaralang.core.service.compiler.primitive.state.factory
 
 Module contents
 ---------------

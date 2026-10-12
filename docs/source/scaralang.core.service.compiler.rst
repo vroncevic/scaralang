@@ -8,8 +8,8 @@ Subpackages
    :maxdepth: 4
 
    scaralang.core.service.compiler.binary
+   scaralang.core.service.compiler.instruction
    scaralang.core.service.compiler.macro
-   scaralang.core.service.compiler.motion
    scaralang.core.service.compiler.plan
    scaralang.core.service.compiler.primitive
 
@@ -19,15 +19,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.iinstruction_pipeline
-   scaralang.core.service.compiler.instruction_pipeline
-   scaralang.core.service.compiler.instruction_pipeline_factory
-   scaralang.core.service.compiler.iprimitive_instruction_processor
-   scaralang.core.service.compiler.iscara_compiler
-   scaralang.core.service.compiler.primitive_instruction_processor
-   scaralang.core.service.compiler.primitive_instruction_processor_factory
-   scaralang.core.service.compiler.scara_compiler
-   scaralang.core.service.compiler.scara_compiler_factory
+   scaralang.core.service.compiler.compiler
+   scaralang.core.service.compiler.dependencies
+   scaralang.core.service.compiler.factory
+   scaralang.core.service.compiler.icompiler
+   scaralang.core.service.compiler.provides
 
 Module contents
 ---------------

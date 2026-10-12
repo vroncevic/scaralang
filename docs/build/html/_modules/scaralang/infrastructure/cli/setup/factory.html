@@ -65,13 +65,14 @@
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.setup.opt_validator</span> <span class="kn">import</span> <span class="n">CLIBundleOptionsValidator</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.setup.options</span> <span class="kn">import</span> <span class="n">CLIBundleOptions</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.cli.setup.registry</span> <span class="kn">import</span> <span class="n">CLIBundleRegistry</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.command_bundle_factory</span> <span class="kn">import</span> <span class="n">CommandBundleFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.factory</span> <span class="kn">import</span> <span class="n">CommandFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.infrastructure.command.provides</span> <span class="kn">import</span> <span class="n">CommandProvides</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.7&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -101,15 +102,14 @@
 <span class="sd">            :return: The CLI bundle.</span>
 <span class="sd">            :exceptions:</span>
 <span class="sd">                | ATSValueError: If options fail validation.</span>
-<span class="sd">                | ATSTypeError:  If options have incorrect types.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">CLIBundleOptionsValidator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
-        <span class="n">commands</span> <span class="o">=</span> <span class="n">CommandBundleFactory</span><span class="o">.</span><span class="n">create_commands</span><span class="p">()</span>
+        <span class="n">command_provides</span><span class="p">:</span> <span class="n">CommandProvides</span> <span class="o">=</span> <span class="n">CommandFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">CLIBundleRegistry</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span>
             <span class="n">dependencies</span><span class="o">=</span><span class="n">CLIBundleDependencies</span><span class="p">(</span>
                 <span class="n">parser</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="n">CLIBundleKeys</span><span class="o">.</span><span class="n">OPTION_PARSER</span><span class="p">],</span>
-                <span class="n">commands</span><span class="o">=</span><span class="n">commands</span>
+                <span class="n">commands</span><span class="o">=</span><span class="n">command_provides</span><span class="o">.</span><span class="n">commands</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 

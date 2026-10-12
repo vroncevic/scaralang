@@ -28,13 +28,13 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.infrastructure.command.compile.definition import CompileCommandDefinition
-from scaralang.infrastructure.command.compile.executor_factory import CompileCommandExecutorFactory
+from scaralang.infrastructure.command.compile.factory import CompileFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -67,7 +67,7 @@ class TestCompileCommandExecutor(TestCase):
             Sets up test fixtures.
         '''
         self.cmd_def = CompileCommandDefinition()
-        self.executor = CompileCommandExecutorFactory.create_default()
+        self.executor = CompileFactory.create().executor
         self.temp_files: list[str] = []
 
     def tearDown(self) -> None:

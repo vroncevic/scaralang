@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="scaralang.infrastructure.command.decompile.error package" href="scaralang.infrastructure.command.decompile.error.html" />
-    <link rel="prev" title="scaralang.infrastructure.command.compile.executor_factory module" href="scaralang.infrastructure.command.compile.executor_factory.html" /> 
+    <link rel="prev" title="scaralang.infrastructure.command.compile.provides module" href="scaralang.infrastructure.command.compile.provides.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
           <a href="scaralang.infrastructure.command.decompile.error.html" title="scaralang.infrastructure.command.decompile.error package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.command.compile.executor_factory.html" title="scaralang.infrastructure.command.compile.executor_factory module"
+          <a href="scaralang.infrastructure.command.compile.provides.html" title="scaralang.infrastructure.command.compile.provides module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -55,16 +55,20 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.html">scaralang.infrastructure.command.decompile.error package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.decompile_error_handler.html">scaralang.infrastructure.command.decompile.error.decompile_error_handler module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.decompile_error_handler.html#scaralang.infrastructure.command.decompile.error.decompile_error_handler.DecompileErrorHandler"><code class="docutils literal notranslate"><span class="pre">DecompileErrorHandler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.factory.html">scaralang.infrastructure.command.decompile.error.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.factory.html#scaralang.infrastructure.command.decompile.error.factory.ErrorFactory"><code class="docutils literal notranslate"><span class="pre">ErrorFactory</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.decompile_error_handler_factory.html">scaralang.infrastructure.command.decompile.error.decompile_error_handler_factory module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.decompile_error_handler_factory.html#scaralang.infrastructure.command.decompile.error.decompile_error_handler_factory.DecompileErrorHandlerFactory"><code class="docutils literal notranslate"><span class="pre">DecompileErrorHandlerFactory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.handler.html">scaralang.infrastructure.command.decompile.error.handler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.handler.html#scaralang.infrastructure.command.decompile.error.handler.DecompileErrorHandler"><code class="docutils literal notranslate"><span class="pre">DecompileErrorHandler</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.idecompile_error_handler.html">scaralang.infrastructure.command.decompile.error.idecompile_error_handler module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.idecompile_error_handler.html#scaralang.infrastructure.command.decompile.error.idecompile_error_handler.IDecompileErrorHandler"><code class="docutils literal notranslate"><span class="pre">IDecompileErrorHandler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.ihandler.html">scaralang.infrastructure.command.decompile.error.ihandler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.ihandler.html#scaralang.infrastructure.command.decompile.error.ihandler.IDecompileErrorHandler"><code class="docutils literal notranslate"><span class="pre">IDecompileErrorHandler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.provides.html">scaralang.infrastructure.command.decompile.error.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.command.decompile.error.provides.html#scaralang.infrastructure.command.decompile.error.provides.ErrorProvides"><code class="docutils literal notranslate"><span class="pre">ErrorProvides</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -88,6 +92,14 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.decompile.dependencies.html">scaralang.infrastructure.command.decompile.dependencies module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.decompile.dependencies.html#scaralang.infrastructure.command.decompile.dependencies.DecompileDependencies"><code class="docutils literal notranslate"><span class="pre">DecompileDependencies</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.dependencies.html#scaralang.infrastructure.command.decompile.dependencies.DecompileDependencies.error_handler"><code class="docutils literal notranslate"><span class="pre">DecompileDependencies.error_handler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.dependencies.html#scaralang.infrastructure.command.decompile.dependencies.DecompileDependencies.service"><code class="docutils literal notranslate"><span class="pre">DecompileDependencies.service</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.decompile.executor.html">scaralang.infrastructure.command.decompile.executor module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.decompile.executor.html#scaralang.infrastructure.command.decompile.executor.DecompileCommandExecutor"><code class="docutils literal notranslate"><span class="pre">DecompileCommandExecutor</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.executor.html#scaralang.infrastructure.command.decompile.executor.DecompileCommandExecutor._definition"><code class="docutils literal notranslate"><span class="pre">DecompileCommandExecutor._definition</span></code></a></li>
@@ -99,11 +111,18 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.decompile.executor_factory.html">scaralang.infrastructure.command.decompile.executor_factory module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.decompile.executor_factory.html#scaralang.infrastructure.command.decompile.executor_factory.DecompileCommandExecutorFactory"><code class="docutils literal notranslate"><span class="pre">DecompileCommandExecutorFactory</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.executor_factory.html#scaralang.infrastructure.command.decompile.executor_factory.DecompileCommandExecutorFactory.create"><code class="docutils literal notranslate"><span class="pre">DecompileCommandExecutorFactory.create()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.executor_factory.html#scaralang.infrastructure.command.decompile.executor_factory.DecompileCommandExecutorFactory.create_default"><code class="docutils literal notranslate"><span class="pre">DecompileCommandExecutorFactory.create_default()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.executor_factory.html#scaralang.infrastructure.command.decompile.executor_factory.DecompileCommandExecutorFactory.get_version"><code class="docutils literal notranslate"><span class="pre">DecompileCommandExecutorFactory.get_version()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.decompile.factory.html">scaralang.infrastructure.command.decompile.factory module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.decompile.factory.html#scaralang.infrastructure.command.decompile.factory.DecompileFactory"><code class="docutils literal notranslate"><span class="pre">DecompileFactory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.factory.html#scaralang.infrastructure.command.decompile.factory.DecompileFactory.create"><code class="docutils literal notranslate"><span class="pre">DecompileFactory.create()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.factory.html#scaralang.infrastructure.command.decompile.factory.DecompileFactory.get_version"><code class="docutils literal notranslate"><span class="pre">DecompileFactory.get_version()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.command.decompile.provides.html">scaralang.infrastructure.command.decompile.provides module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.command.decompile.provides.html#scaralang.infrastructure.command.decompile.provides.DecompileProvides"><code class="docutils literal notranslate"><span class="pre">DecompileProvides</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.provides.html#scaralang.infrastructure.command.decompile.provides.DecompileProvides.definition"><code class="docutils literal notranslate"><span class="pre">DecompileProvides.definition</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.command.decompile.provides.html#scaralang.infrastructure.command.decompile.provides.DecompileProvides.executor"><code class="docutils literal notranslate"><span class="pre">DecompileProvides.executor</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -155,8 +174,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.infrastructure.command.compile.executor_factory.html"
-                          title="previous chapter">scaralang.infrastructure.command.compile.executor_factory module</a></p>
+    <p class="topless"><a href="scaralang.infrastructure.command.compile.provides.html"
+                          title="previous chapter">scaralang.infrastructure.command.compile.provides module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -197,7 +216,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="scaralang.infrastructure.command.decompile.error.html" title="scaralang.infrastructure.command.decompile.error package"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.command.compile.executor_factory.html" title="scaralang.infrastructure.command.compile.executor_factory module"
+          <a href="scaralang.infrastructure.command.compile.provides.html" title="scaralang.infrastructure.command.compile.provides module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

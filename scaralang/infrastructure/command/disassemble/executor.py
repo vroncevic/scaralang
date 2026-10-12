@@ -28,16 +28,17 @@ from typing import Final
 from scaralang.core.model.dsl.binary.disassembled_frame import DisassembledFrame
 from scaralang.core.model.dsl.binary.disassembly_summary import DisassemblySummary
 from scaralang.core.model.exceptions.scara_error import ScaraError
-from scaralang.core.service.disassembler.iscara_disassembler import IScaraDisassembler
-from scaralang.infrastructure.command.disassemble.error.idisassemble_error_handler import IDisassembleErrorHandler
-from scaralang.infrastructure.command.disassemble.format.idisassemble_summary_formatter import IDisassembleSummaryFormatter
-from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
+from scaralang.core.service.disassembler.idisassembler import IScaraDisassembler
+from scaralang.infrastructure.command.disassemble.dependencies import DisassembleDependencies
+from scaralang.infrastructure.command.disassemble.error.ihandler import IDisassembleErrorHandler
+from scaralang.infrastructure.command.disassemble.format.iformatter import IDisassembleSummaryFormatter
+from scaralang.infrastructure.command.idefinition import ICommandDefinition
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -69,23 +70,19 @@ class DisassembleCommandExecutor:
         self,
         *,
         definition: ICommandDefinition,
-        service: IScaraDisassembler,
-        summary_formatter: IDisassembleSummaryFormatter,
-        error_handler: IDisassembleErrorHandler,
+        dependencies: DisassembleDependencies,
     ) -> None:
         '''
             Initializes the disassemble command executor.
 
             :param definition: The command definition metadata.
-            :param service: Injected SCARA disassembler service protocol.
-            :param summary_formatter: Injected summary presentation formatter.
-            :param error_handler: Injected disassemble error handler protocol.
+            :param dependencies: Injected collaborator dependencies bundle.
             :exceptions: None.
         '''
         self._definition: Final[ICommandDefinition] = definition
-        self._service: Final[IScaraDisassembler] = service
-        self._summary_formatter: Final[IDisassembleSummaryFormatter] = summary_formatter
-        self._error_handler: Final[IDisassembleErrorHandler] = error_handler
+        self._service: Final[IScaraDisassembler] = dependencies.service
+        self._summary_formatter: Final[IDisassembleSummaryFormatter] = dependencies.summary_formatter
+        self._error_handler: Final[IDisassembleErrorHandler] = dependencies.error_handler
 
     def execute(
         self,

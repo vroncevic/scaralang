@@ -15,7 +15,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler module" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.html" />
+    <link rel="next" title="scaralang.infrastructure.communication.protocol.binary.parser.assembler package" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.html" />
     <link rel="prev" title="scaralang.infrastructure.communication.protocol.binary.checksum.crc16_ccitt module" href="scaralang.infrastructure.communication.protocol.binary.checksum.crc16_ccitt.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,7 +28,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.html" title="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler module"
+          <a href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.html" title="scaralang.infrastructure.communication.protocol.binary.parser.assembler package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="scaralang.infrastructure.communication.protocol.binary.checksum.crc16_ccitt.html" title="scaralang.infrastructure.communication.protocol.binary.checksum.crc16_ccitt module"
@@ -51,106 +51,109 @@
             
   <section id="scaralang-infrastructure-communication-protocol-binary-parser-package">
 <h1>scaralang.infrastructure.communication.protocol.binary.parser package<a class="headerlink" href="#scaralang-infrastructure-communication-protocol-binary-parser-package" title="Link to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.html">scaralang.infrastructure.communication.protocol.binary.parser.assembler package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.assembler.html">scaralang.infrastructure.communication.protocol.binary.parser.assembler.assembler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.assembler.assembler.BinaryFrameAssembler"><code class="docutils literal notranslate"><span class="pre">BinaryFrameAssembler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.factory.html">scaralang.infrastructure.communication.protocol.binary.parser.assembler.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.factory.html#scaralang.infrastructure.communication.protocol.binary.parser.assembler.factory.AssemblerFactory"><code class="docutils literal notranslate"><span class="pre">AssemblerFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.iassembler.html">scaralang.infrastructure.communication.protocol.binary.parser.assembler.iassembler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.iassembler.html#scaralang.infrastructure.communication.protocol.binary.parser.assembler.iassembler.IBinaryFrameAssembler"><code class="docutils literal notranslate"><span class="pre">IBinaryFrameAssembler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.provides.html">scaralang.infrastructure.communication.protocol.binary.parser.assembler.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.provides.html#scaralang.infrastructure.communication.protocol.binary.parser.assembler.provides.AssemblerProvides"><code class="docutils literal notranslate"><span class="pre">AssemblerProvides</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.html#module-scaralang.infrastructure.communication.protocol.binary.parser.assembler">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.unpacker.html">scaralang.infrastructure.communication.protocol.binary.parser.unpacker package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.unpacker.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.unpacker.factory.html">scaralang.infrastructure.communication.protocol.binary.parser.unpacker.factory module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.unpacker.factory.html#scaralang.infrastructure.communication.protocol.binary.parser.unpacker.factory.UnpackerFactory"><code class="docutils literal notranslate"><span class="pre">UnpackerFactory</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.unpacker.provides.html">scaralang.infrastructure.communication.protocol.binary.parser.unpacker.provides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.unpacker.provides.html#scaralang.infrastructure.communication.protocol.binary.parser.unpacker.provides.UnpackerProvides"><code class="docutils literal notranslate"><span class="pre">UnpackerProvides</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.unpacker.unpacker.html">scaralang.infrastructure.communication.protocol.binary.parser.unpacker.unpacker module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.unpacker.unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.unpacker.unpacker.BinaryPayloadUnpacker"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.unpacker.html#module-scaralang.infrastructure.communication.protocol.binary.parser.unpacker">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.html">scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.BinaryFrameAssembler"><code class="docutils literal notranslate"><span class="pre">BinaryFrameAssembler</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.BinaryFrameAssembler.HEADER_FORMAT"><code class="docutils literal notranslate"><span class="pre">BinaryFrameAssembler.HEADER_FORMAT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.BinaryFrameAssembler.assemble"><code class="docutils literal notranslate"><span class="pre">BinaryFrameAssembler.assemble()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.BinaryFrameAssembler.name"><code class="docutils literal notranslate"><span class="pre">BinaryFrameAssembler.name</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.factory.html">scaralang.infrastructure.communication.protocol.binary.parser.factory module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.factory.html#scaralang.infrastructure.communication.protocol.binary.parser.factory.ParserFactory"><code class="docutils literal notranslate"><span class="pre">ParserFactory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.factory.html#scaralang.infrastructure.communication.protocol.binary.parser.factory.ParserFactory.create"><code class="docutils literal notranslate"><span class="pre">ParserFactory.create()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.factory.html#scaralang.infrastructure.communication.protocol.binary.parser.factory.ParserFactory.get_version"><code class="docutils literal notranslate"><span class="pre">ParserFactory.get_version()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory.html">scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory.BinaryFrameAssemblerFactory"><code class="docutils literal notranslate"><span class="pre">BinaryFrameAssemblerFactory</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory.BinaryFrameAssemblerFactory.create"><code class="docutils literal notranslate"><span class="pre">BinaryFrameAssemblerFactory.create()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler_factory.BinaryFrameAssemblerFactory.get_version"><code class="docutils literal notranslate"><span class="pre">BinaryFrameAssemblerFactory.get_version()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html">scaralang.infrastructure.communication.protocol.binary.parser.parser module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser.EOF"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.EOF</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser.MAX_PAYLOAD_LEN"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.MAX_PAYLOAD_LEN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser.SOF1"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.SOF1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser.SOF2"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.SOF2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser._assembler"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._assembler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser._crc_bytes"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._crc_bytes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser._msg_id"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._msg_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser._payload_buffer"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._payload_buffer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser._payload_len"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._payload_len</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser._seq_num"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._seq_num</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser._state"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser.feed_byte"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.feed_byte()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser.feed_bytes"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.feed_bytes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser.get_state"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.get_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser.name"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser.html#scaralang.infrastructure.communication.protocol.binary.parser.parser.BinaryFrameParser.reset"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.reset()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html">scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser.EOF"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.EOF</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser.MAX_PAYLOAD_LEN"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.MAX_PAYLOAD_LEN</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser.SOF1"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.SOF1</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser.SOF2"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.SOF2</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser._assembler"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._assembler</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser._crc_bytes"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._crc_bytes</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser._msg_id"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._msg_id</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser._payload_buffer"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._payload_buffer</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser._payload_len"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._payload_len</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser._seq_num"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._seq_num</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser._state"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser._state</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser.feed_byte"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.feed_byte()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser.feed_bytes"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.feed_bytes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser.get_state"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.get_state()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser.name"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser.BinaryFrameParser.reset"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParser.reset()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.provides.html">scaralang.infrastructure.communication.protocol.binary.parser.provides module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.provides.html#scaralang.infrastructure.communication.protocol.binary.parser.provides.ParserProvides"><code class="docutils literal notranslate"><span class="pre">ParserProvides</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.provides.html#scaralang.infrastructure.communication.protocol.binary.parser.provides.ParserProvides.assembler"><code class="docutils literal notranslate"><span class="pre">ParserProvides.assembler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.provides.html#scaralang.infrastructure.communication.protocol.binary.parser.provides.ParserProvides.parser"><code class="docutils literal notranslate"><span class="pre">ParserProvides.parser</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.provides.html#scaralang.infrastructure.communication.protocol.binary.parser.provides.ParserProvides.unpacker"><code class="docutils literal notranslate"><span class="pre">ParserProvides.unpacker</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.html">scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.BinaryFrameParserFactory"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParserFactory</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.BinaryFrameParserFactory.create"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParserFactory.create()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.BinaryFrameParserFactory.create_default"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParserFactory.create_default()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.BinaryFrameParserFactory.create_with_assembler"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParserFactory.create_with_assembler()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_parser_factory.BinaryFrameParserFactory.get_version"><code class="docutils literal notranslate"><span class="pre">BinaryFrameParserFactory.get_version()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html">scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.ACK_FORMAT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.ACK_FORMAT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.CONFIG_MOTOR_FORMAT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.CONFIG_MOTOR_FORMAT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.JOINT_STEPS_FORMAT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.JOINT_STEPS_FORMAT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.NACK_FORMAT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.NACK_FORMAT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.TOOL_CMD_FORMAT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.TOOL_CMD_FORMAT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.name"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.unpack_ack"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.unpack_ack()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.unpack_joint_steps"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.unpack_joint_steps()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.unpack_motor_config"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.unpack_motor_config()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.unpack_nack"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.unpack_nack()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker.BinaryPayloadUnpacker.unpack_tool_cmd"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpacker.unpack_tool_cmd()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory.html">scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory.BinaryPayloadUnpackerFactory"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpackerFactory</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory.BinaryPayloadUnpackerFactory.create"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpackerFactory.create()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory.html#scaralang.infrastructure.communication.protocol.binary.parser.binary_payload_unpacker_factory.BinaryPayloadUnpackerFactory.get_version"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadUnpackerFactory.get_version()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.html">scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.IBinaryFrameAssembler"><code class="docutils literal notranslate"><span class="pre">IBinaryFrameAssembler</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.IBinaryFrameAssembler._abc_impl"><code class="docutils literal notranslate"><span class="pre">IBinaryFrameAssembler._abc_impl</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.IBinaryFrameAssembler._is_protocol"><code class="docutils literal notranslate"><span class="pre">IBinaryFrameAssembler._is_protocol</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.IBinaryFrameAssembler._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IBinaryFrameAssembler._is_runtime_protocol</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.IBinaryFrameAssembler.assemble"><code class="docutils literal notranslate"><span class="pre">IBinaryFrameAssembler.assemble()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.html#scaralang.infrastructure.communication.protocol.binary.parser.ibinary_frame_assembler.IBinaryFrameAssembler.name"><code class="docutils literal notranslate"><span class="pre">IBinaryFrameAssembler.name</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html">scaralang.infrastructure.communication.protocol.binary.parser.parser_state module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState"><code class="docutils literal notranslate"><span class="pre">ParserState</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState.READ_CRC_HI"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_CRC_HI</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState.READ_CRC_LO"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_CRC_LO</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState.READ_EOF"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_EOF</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState.READ_MSG_ID"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_MSG_ID</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState.READ_PAYLOAD"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_PAYLOAD</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState.READ_PAYLOAD_LEN"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_PAYLOAD_LEN</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState.READ_SEQ_NUM"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_SEQ_NUM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState.SEARCH_SOF1"><code class="docutils literal notranslate"><span class="pre">ParserState.SEARCH_SOF1</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.parser_state.html#scaralang.infrastructure.communication.protocol.binary.parser.parser_state.ParserState.SEARCH_SOF2"><code class="docutils literal notranslate"><span class="pre">ParserState.SEARCH_SOF2</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html">scaralang.infrastructure.communication.protocol.binary.parser.state module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState"><code class="docutils literal notranslate"><span class="pre">ParserState</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState.READ_CRC_HI"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_CRC_HI</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState.READ_CRC_LO"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_CRC_LO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState.READ_EOF"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_EOF</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState.READ_MSG_ID"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_MSG_ID</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState.READ_PAYLOAD"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_PAYLOAD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState.READ_PAYLOAD_LEN"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_PAYLOAD_LEN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState.READ_SEQ_NUM"><code class="docutils literal notranslate"><span class="pre">ParserState.READ_SEQ_NUM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState.SEARCH_SOF1"><code class="docutils literal notranslate"><span class="pre">ParserState.SEARCH_SOF1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.infrastructure.communication.protocol.binary.parser.state.html#scaralang.infrastructure.communication.protocol.binary.parser.state.ParserState.SEARCH_SOF2"><code class="docutils literal notranslate"><span class="pre">ParserState.SEARCH_SOF2</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -192,6 +195,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <h3><a href="index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">scaralang.infrastructure.communication.protocol.binary.parser package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-scaralang.infrastructure.communication.protocol.binary.parser">Module contents</a></li>
 </ul>
@@ -206,8 +210,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.html"
-                          title="next chapter">scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler module</a></p>
+    <p class="topless"><a href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.html"
+                          title="next chapter">scaralang.infrastructure.communication.protocol.binary.parser.assembler package</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -240,7 +244,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler.html" title="scaralang.infrastructure.communication.protocol.binary.parser.binary_frame_assembler module"
+          <a href="scaralang.infrastructure.communication.protocol.binary.parser.assembler.html" title="scaralang.infrastructure.communication.protocol.binary.parser.assembler package"
              >next</a> |</li>
         <li class="right" >
           <a href="scaralang.infrastructure.communication.protocol.binary.checksum.crc16_ccitt.html" title="scaralang.infrastructure.communication.protocol.binary.checksum.crc16_ccitt module"

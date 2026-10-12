@@ -7,15 +7,17 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.parser.commands.motion.approach_command_parser
-   scaralang.core.service.parser.commands.motion.arc_command_parser
-   scaralang.core.service.parser.commands.motion.home_command_parser
-   scaralang.core.service.parser.commands.motion.jog_command_parser
-   scaralang.core.service.parser.commands.motion.joint_move_command_parser
-   scaralang.core.service.parser.commands.motion.linear_move_command_parser
-   scaralang.core.service.parser.commands.motion.motion_command_parser_factory
-   scaralang.core.service.parser.commands.motion.probe_command_parser
-   scaralang.core.service.parser.commands.motion.retract_command_parser
+   scaralang.core.service.parser.commands.motion.approach
+   scaralang.core.service.parser.commands.motion.arc
+   scaralang.core.service.parser.commands.motion.factory
+   scaralang.core.service.parser.commands.motion.home
+   scaralang.core.service.parser.commands.motion.jog_axis
+   scaralang.core.service.parser.commands.motion.jog_joint
+   scaralang.core.service.parser.commands.motion.joint
+   scaralang.core.service.parser.commands.motion.linear
+   scaralang.core.service.parser.commands.motion.probe
+   scaralang.core.service.parser.commands.motion.provides
+   scaralang.core.service.parser.commands.motion.retract
 
 Module contents
 ---------------

@@ -21,10 +21,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.command_bundle
-   scaralang.infrastructure.command.command_bundle_factory
-   scaralang.infrastructure.command.icommand_definition
-   scaralang.infrastructure.command.icommand_executor
+   scaralang.infrastructure.command.bundle
+   scaralang.infrastructure.command.factory
+   scaralang.infrastructure.command.idefinition
+   scaralang.infrastructure.command.iexecutor
+   scaralang.infrastructure.command.provides
 
 Module contents
 ---------------

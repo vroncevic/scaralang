@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.parser.splitter.itoken_line_splitter
-   scaralang.core.service.parser.splitter.token_line_splitter
-   scaralang.core.service.parser.splitter.token_line_splitter_factory
+   scaralang.core.service.parser.splitter.factory
+   scaralang.core.service.parser.splitter.isplitter
+   scaralang.core.service.parser.splitter.provides
+   scaralang.core.service.parser.splitter.splitter
 
 Module contents
 ---------------

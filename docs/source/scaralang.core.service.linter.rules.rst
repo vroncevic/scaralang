@@ -18,7 +18,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.linter.rules.iscara_lint_rule
+   scaralang.core.service.linter.rules.irule
 
 Module contents
 ---------------

@@ -23,6 +23,7 @@ Submodules
 
    scaralang.core.service.parser.commands.icommand_parser
    scaralang.core.service.parser.commands.icommand_parser_provider
+   scaralang.core.service.parser.commands.icommand_parser_provides
 
 Module contents
 ---------------

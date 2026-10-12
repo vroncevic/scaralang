@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.binary.metrics.binary_metrics_calculator
-   scaralang.core.service.compiler.binary.metrics.binary_metrics_calculator_factory
-   scaralang.core.service.compiler.binary.metrics.ibinary_metrics_calculator
+   scaralang.core.service.compiler.binary.metrics.calculator
+   scaralang.core.service.compiler.binary.metrics.factory
+   scaralang.core.service.compiler.binary.metrics.icalculator
 
 Module contents
 ---------------

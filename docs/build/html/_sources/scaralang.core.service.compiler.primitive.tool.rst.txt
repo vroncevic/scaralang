@@ -1,17 +1,22 @@
 scaralang.core.service.compiler.primitive.tool package
 ======================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.compiler.primitive.tool.waypoint
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.primitive.tool.itool_waypoint_builder
-   scaralang.core.service.compiler.primitive.tool.tool_command_compiler
-   scaralang.core.service.compiler.primitive.tool.tool_command_compiler_factory
-   scaralang.core.service.compiler.primitive.tool.tool_waypoint_builder
-   scaralang.core.service.compiler.primitive.tool.tool_waypoint_builder_factory
+   scaralang.core.service.compiler.primitive.tool.compiler
+   scaralang.core.service.compiler.primitive.tool.factory
 
 Module contents
 ---------------

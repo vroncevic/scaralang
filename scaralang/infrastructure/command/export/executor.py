@@ -27,16 +27,17 @@ from typing import Final
 
 from scaralang.core.model.dsl.exporter.export_format import ExportFormat
 from scaralang.core.model.exceptions.scara_error import ScaraError
-from scaralang.core.service.compiler.plan.iscara_plan_compiler import IScaraPlanCompiler
-from scaralang.core.service.exporter.iscara_exporter import IScaraExporter
-from scaralang.infrastructure.command.export.error.iexport_error_handler import IExportErrorHandler
-from scaralang.infrastructure.command.icommand_definition import ICommandDefinition
+from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
+from scaralang.core.service.exporter.iexporter import IScaraExporter
+from scaralang.infrastructure.command.export.dependencies import ExportDependencies
+from scaralang.infrastructure.command.export.error.ihandler import IExportErrorHandler
+from scaralang.infrastructure.command.idefinition import ICommandDefinition
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,7 +61,7 @@ class ExportCommandExecutor:
     '''
 
     _definition: ICommandDefinition
-    _service: IScaraPlanCompiler
+    _service: IScriptPlanCompiler
     _dispatcher: IScaraExporter
     _error_handler: IExportErrorHandler
 
@@ -68,23 +69,19 @@ class ExportCommandExecutor:
         self,
         *,
         definition: ICommandDefinition,
-        service: IScaraPlanCompiler,
-        dispatcher: IScaraExporter,
-        error_handler: IExportErrorHandler,
+        dependencies: ExportDependencies,
     ) -> None:
         '''
             Initializes the export command executor.
 
             :param definition: The command definition metadata.
-            :param service: SCARA plan compiler service protocol instance.
-            :param dispatcher: Trajectory export target dispatcher protocol instance.
-            :param error_handler: Trajectory export error handler protocol instance.
+            :param dependencies: Injected collaborator dependencies bundle.
             :exceptions: None.
         '''
         self._definition: Final[ICommandDefinition] = definition
-        self._service: Final[IScaraPlanCompiler] = service
-        self._dispatcher: Final[IScaraExporter] = dispatcher
-        self._error_handler: Final[IExportErrorHandler] = error_handler
+        self._service: Final[IScriptPlanCompiler] = dependencies.service
+        self._dispatcher: Final[IScaraExporter] = dependencies.dispatcher
+        self._error_handler: Final[IExportErrorHandler] = dependencies.error_handler
 
     def execute(
         self,

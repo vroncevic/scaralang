@@ -7,9 +7,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.metrics.summary.itrajectory_cycle_summary_builder
-   scaralang.core.service.trajectory.metrics.summary.trajectory_cycle_summary_builder
-   scaralang.core.service.trajectory.metrics.summary.trajectory_cycle_summary_builder_factory
+   scaralang.core.service.trajectory.metrics.summary.builder
+   scaralang.core.service.trajectory.metrics.summary.dependencies
+   scaralang.core.service.trajectory.metrics.summary.factory
+   scaralang.core.service.trajectory.metrics.summary.ibuilder
+   scaralang.core.service.trajectory.metrics.summary.provides
 
 Module contents
 ---------------

@@ -10,6 +10,7 @@ Submodules
    scaralang.core.model.trajectory.arc_point
    scaralang.core.model.trajectory.axis_peak_metric
    scaralang.core.model.trajectory.bottleneck_incident
+   scaralang.core.model.trajectory.bypass_arc_geometry
    scaralang.core.model.trajectory.circle_geometry
    scaralang.core.model.trajectory.trajectory_cycle_report
    scaralang.core.model.trajectory.validation_result

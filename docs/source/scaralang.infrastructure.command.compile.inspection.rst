@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    scaralang.infrastructure.command.compile.inspection.framing
+   scaralang.infrastructure.command.compile.inspection.hex
    scaralang.infrastructure.command.compile.inspection.payload
    scaralang.infrastructure.command.compile.inspection.presentation
 

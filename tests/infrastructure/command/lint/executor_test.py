@@ -29,16 +29,18 @@ from unittest import main
 from unittest.mock import MagicMock
 
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
+from scaralang.core.service.linter.diagnostic.factory import DiagnosticFactory
 from scaralang.infrastructure.command.lint.definition import LintCommandDefinition
-from scaralang.infrastructure.command.lint.error.lint_error_handler_factory import LintErrorHandlerFactory
+from scaralang.infrastructure.command.lint.dependencies import LintDependencies
+from scaralang.infrastructure.command.lint.error.factory import ErrorFactory
 from scaralang.infrastructure.command.lint.executor import LintCommandExecutor
-from scaralang.infrastructure.command.lint.executor_factory import LintCommandExecutorFactory
+from scaralang.infrastructure.linter.script.factory import DefaultScriptLinterFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -67,7 +69,15 @@ class TestLintCommandExecutor(TestCase):
             Sets up test fixtures.
         '''
         self.cmd_def = LintCommandDefinition()
-        self.executor = LintCommandExecutorFactory.create_default()
+        deps = LintDependencies(
+            service=DefaultScriptLinterFactory.create().linter,
+            diagnostic_formatter=DiagnosticFactory.create().formatter,
+            error_handler=ErrorFactory.create().handler,
+        )
+        self.executor = LintCommandExecutor(
+            definition=self.cmd_def,
+            dependencies=deps,
+        )
         self.temp_files: list[str] = []
 
     def tearDown(self) -> None:
@@ -128,11 +138,14 @@ class TestLintCommandExecutor(TestCase):
         '''
         mock_service = MagicMock()
         mock_service.lint_script.side_effect = ValueError('Failed to parse')
-        executor = LintCommandExecutor(
-            definition=self.cmd_def,
+        deps = LintDependencies(
             service=mock_service,
             diagnostic_formatter=MagicMock(),
-            error_handler=LintErrorHandlerFactory.create(),
+            error_handler=ErrorFactory.create().handler,
+        )
+        executor = LintCommandExecutor(
+            definition=self.cmd_def,
+            dependencies=deps,
         )
         path = self.create_test_file('HOME\n')
         result = executor.execute(params={'script': path})
@@ -145,11 +158,14 @@ class TestLintCommandExecutor(TestCase):
         '''
         mock_service = MagicMock()
         mock_service.lint_script.side_effect = ScaraSyntaxError('invalid keyword')
-        executor = LintCommandExecutor(
-            definition=self.cmd_def,
+        deps = LintDependencies(
             service=mock_service,
             diagnostic_formatter=MagicMock(),
-            error_handler=LintErrorHandlerFactory.create(),
+            error_handler=ErrorFactory.create().handler,
+        )
+        executor = LintCommandExecutor(
+            definition=self.cmd_def,
+            dependencies=deps,
         )
         path = self.create_test_file('HOME\n')
         result = executor.execute(params={'script': path})

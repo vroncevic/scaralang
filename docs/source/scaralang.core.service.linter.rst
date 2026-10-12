@@ -10,6 +10,7 @@ Subpackages
    scaralang.core.service.linter.diagnostic
    scaralang.core.service.linter.rules
    scaralang.core.service.linter.script
+   scaralang.core.service.linter.validator
 
 Submodules
 ----------
@@ -17,9 +18,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.linter.iscara_linter
-   scaralang.core.service.linter.scara_linter
-   scaralang.core.service.linter.scara_linter_factory
+   scaralang.core.service.linter.factory
+   scaralang.core.service.linter.ilinter
+   scaralang.core.service.linter.linter
+   scaralang.core.service.linter.provides
 
 Module contents
 ---------------

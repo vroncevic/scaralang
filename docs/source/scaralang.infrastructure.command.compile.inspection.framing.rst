@@ -1,21 +1,23 @@
 scaralang.infrastructure.command.compile.inspection.framing package
 ===================================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.infrastructure.command.compile.inspection.framing.header
+   scaralang.infrastructure.command.compile.inspection.framing.trailer
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.compile.inspection.framing.frame_header_formatter
-   scaralang.infrastructure.command.compile.inspection.framing.frame_header_formatter_factory
-   scaralang.infrastructure.command.compile.inspection.framing.frame_trailer_formatter
-   scaralang.infrastructure.command.compile.inspection.framing.frame_trailer_formatter_factory
-   scaralang.infrastructure.command.compile.inspection.framing.hex_stream_formatter
-   scaralang.infrastructure.command.compile.inspection.framing.hex_stream_formatter_factory
-   scaralang.infrastructure.command.compile.inspection.framing.iframe_header_formatter
-   scaralang.infrastructure.command.compile.inspection.framing.iframe_trailer_formatter
-   scaralang.infrastructure.command.compile.inspection.framing.ihex_stream_formatter
+   scaralang.infrastructure.command.compile.inspection.framing.factory
+   scaralang.infrastructure.command.compile.inspection.framing.provides
 
 Module contents
 ---------------

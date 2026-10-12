@@ -7,8 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder
-   scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory
+   scaralang.infrastructure.communication.protocol.binary.builder.builder
+   scaralang.infrastructure.communication.protocol.binary.builder.factory
+   scaralang.infrastructure.communication.protocol.binary.builder.provides
 
 Module contents
 ---------------

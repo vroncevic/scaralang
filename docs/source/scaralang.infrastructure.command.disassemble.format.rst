@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.disassemble.format.disassemble_summary_formatter
-   scaralang.infrastructure.command.disassemble.format.disassemble_summary_formatter_factory
-   scaralang.infrastructure.command.disassemble.format.idisassemble_summary_formatter
+   scaralang.infrastructure.command.disassemble.format.factory
+   scaralang.infrastructure.command.disassemble.format.formatter
+   scaralang.infrastructure.command.disassemble.format.iformatter
+   scaralang.infrastructure.command.disassemble.format.provides
 
 Module contents
 ---------------

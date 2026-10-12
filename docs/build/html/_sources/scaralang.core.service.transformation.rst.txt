@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.transformation.frame_transformer
-   scaralang.core.service.transformation.frame_transformer_factory
-   scaralang.core.service.transformation.iframe_transformer
+   scaralang.core.service.transformation.factory
+   scaralang.core.service.transformation.itransformer
+   scaralang.core.service.transformation.provides
+   scaralang.core.service.transformation.transformer
 
 Module contents
 ---------------

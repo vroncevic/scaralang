@@ -15,8 +15,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.infrastructure.command.compile.executor_factory module" href="scaralang.infrastructure.command.compile.executor_factory.html" />
-    <link rel="prev" title="scaralang.infrastructure.command.compile.definition module" href="scaralang.infrastructure.command.compile.definition.html" /> 
+    <link rel="next" title="scaralang.infrastructure.command.compile.factory module" href="scaralang.infrastructure.command.compile.factory.html" />
+    <link rel="prev" title="scaralang.infrastructure.command.compile.dependencies module" href="scaralang.infrastructure.command.compile.dependencies.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -28,10 +28,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.command.compile.executor_factory.html" title="scaralang.infrastructure.command.compile.executor_factory module"
+          <a href="scaralang.infrastructure.command.compile.factory.html" title="scaralang.infrastructure.command.compile.factory module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.command.compile.definition.html" title="scaralang.infrastructure.command.compile.definition module"
+          <a href="scaralang.infrastructure.command.compile.dependencies.html" title="scaralang.infrastructure.command.compile.dependencies module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -70,7 +70,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.compile.executor.CompileCommandExecutor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.command.compile.executor.</span></span><span class="sig-name descname"><span class="pre">CompileCommandExecutor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">definition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.command.icommand_definition.html#scaralang.infrastructure.command.icommand_definition.ICommandDefinition" title="scaralang.infrastructure.command.icommand_definition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.command.compile.bundle.html#scaralang.infrastructure.command.compile.bundle.CompileCommandBundle" title="scaralang.infrastructure.command.compile.bundle.CompileCommandBundle"><span class="pre">CompileCommandBundle</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/command/compile/executor.html#CompileCommandExecutor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.command.compile.executor.</span></span><span class="sig-name descname"><span class="pre">CompileCommandExecutor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">definition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.command.idefinition.html#scaralang.infrastructure.command.idefinition.ICommandDefinition" title="scaralang.infrastructure.command.idefinition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.infrastructure.command.compile.dependencies.html#scaralang.infrastructure.command.compile.dependencies.CompileDependencies" title="scaralang.infrastructure.command.compile.dependencies.CompileDependencies"><span class="pre">CompileDependencies</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/command/compile/executor.html#CompileCommandExecutor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Command executor strategy for compiling .scara scripts into binary frame streams.</p>
 <p>It defines:</p>
@@ -95,27 +95,27 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </div></blockquote>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._compiler">
-<span class="sig-name descname"><span class="pre">_compiler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.compiler.iscara_compiler.html#scaralang.core.service.compiler.iscara_compiler.IScaraCompiler" title="scaralang.core.service.compiler.iscara_compiler.IScaraCompiler"><span class="pre">IScaraCompiler</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._compiler" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_compiler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.compiler.icompiler.html#scaralang.core.service.compiler.icompiler.IScaraCompiler" title="scaralang.core.service.compiler.icompiler.IScaraCompiler"><span class="pre">IScaraCompiler</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._compiler" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._definition">
-<span class="sig-name descname"><span class="pre">_definition</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.icommand_definition.html#scaralang.infrastructure.command.icommand_definition.ICommandDefinition" title="scaralang.infrastructure.command.icommand_definition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._definition" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_definition</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.idefinition.html#scaralang.infrastructure.command.idefinition.ICommandDefinition" title="scaralang.infrastructure.command.idefinition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._definition" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._error_handler">
-<span class="sig-name descname"><span class="pre">_error_handler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.compile.error.icompile_error_handler.html#scaralang.infrastructure.command.compile.error.icompile_error_handler.ICompileErrorHandler" title="scaralang.infrastructure.command.compile.error.icompile_error_handler.ICompileErrorHandler"><span class="pre">ICompileErrorHandler</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._error_handler" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_error_handler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.compile.error.ihandler.html#scaralang.infrastructure.command.compile.error.ihandler.ICompileErrorHandler" title="scaralang.infrastructure.command.compile.error.ihandler.ICompileErrorHandler"><span class="pre">ICompileErrorHandler</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._error_handler" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._inspection_presenter">
-<span class="sig-name descname"><span class="pre">_inspection_presenter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.compile.inspection.presentation.iprogram_inspection_presenter.html#scaralang.infrastructure.command.compile.inspection.presentation.iprogram_inspection_presenter.IProgramInspectionPresenter" title="scaralang.infrastructure.command.compile.inspection.presentation.iprogram_inspection_presenter.IProgramInspectionPresenter"><span class="pre">IProgramInspectionPresenter</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._inspection_presenter" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_inspection_presenter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.compile.inspection.presentation.program.ipresenter.html#scaralang.infrastructure.command.compile.inspection.presentation.program.ipresenter.IProgramInspectionPresenter" title="scaralang.infrastructure.command.compile.inspection.presentation.program.ipresenter.IProgramInspectionPresenter"><span class="pre">IProgramInspectionPresenter</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._inspection_presenter" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._telemetry_formatter">
-<span class="sig-name descname"><span class="pre">_telemetry_formatter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.compile.telemetry.icompile_telemetry_formatter.html#scaralang.infrastructure.command.compile.telemetry.icompile_telemetry_formatter.ICompileTelemetryFormatter" title="scaralang.infrastructure.command.compile.telemetry.icompile_telemetry_formatter.ICompileTelemetryFormatter"><span class="pre">ICompileTelemetryFormatter</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._telemetry_formatter" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_telemetry_formatter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.infrastructure.command.compile.telemetry.iformatter.html#scaralang.infrastructure.command.compile.telemetry.iformatter.ICompileTelemetryFormatter" title="scaralang.infrastructure.command.compile.telemetry.iformatter.ICompileTelemetryFormatter"><span class="pre">ICompileTelemetryFormatter</span></a></em><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor._telemetry_formatter" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -134,7 +134,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.infrastructure.command.compile.executor.CompileCommandExecutor.get_definition">
-<span class="sig-name descname"><span class="pre">get_definition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.command.icommand_definition.html#scaralang.infrastructure.command.icommand_definition.ICommandDefinition" title="scaralang.infrastructure.command.icommand_definition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/command/compile/executor.html#CompileCommandExecutor.get_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor.get_definition" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_definition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.infrastructure.command.idefinition.html#scaralang.infrastructure.command.idefinition.ICommandDefinition" title="scaralang.infrastructure.command.idefinition.ICommandDefinition"><span class="pre">ICommandDefinition</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/command/compile/executor.html#CompileCommandExecutor.get_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.command.compile.executor.CompileCommandExecutor.get_definition" title="Link to this definition">¶</a></dt>
 <dd><p>Returns the command definition metadata.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -175,13 +175,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.infrastructure.command.compile.definition.html"
-                          title="previous chapter">scaralang.infrastructure.command.compile.definition module</a></p>
+    <p class="topless"><a href="scaralang.infrastructure.command.compile.dependencies.html"
+                          title="previous chapter">scaralang.infrastructure.command.compile.dependencies module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.infrastructure.command.compile.executor_factory.html"
-                          title="next chapter">scaralang.infrastructure.command.compile.executor_factory module</a></p>
+    <p class="topless"><a href="scaralang.infrastructure.command.compile.factory.html"
+                          title="next chapter">scaralang.infrastructure.command.compile.factory module</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -214,10 +214,10 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.command.compile.executor_factory.html" title="scaralang.infrastructure.command.compile.executor_factory module"
+          <a href="scaralang.infrastructure.command.compile.factory.html" title="scaralang.infrastructure.command.compile.factory module"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.infrastructure.command.compile.definition.html" title="scaralang.infrastructure.command.compile.definition module"
+          <a href="scaralang.infrastructure.command.compile.dependencies.html" title="scaralang.infrastructure.command.compile.dependencies module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

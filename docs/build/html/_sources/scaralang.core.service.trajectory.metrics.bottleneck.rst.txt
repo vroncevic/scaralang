@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.metrics.bottleneck.imotion_bottleneck_detector
-   scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector
-   scaralang.core.service.trajectory.metrics.bottleneck.motion_bottleneck_detector_factory
+   scaralang.core.service.trajectory.metrics.bottleneck.detector
+   scaralang.core.service.trajectory.metrics.bottleneck.factory
+   scaralang.core.service.trajectory.metrics.bottleneck.idetector
+   scaralang.core.service.trajectory.metrics.bottleneck.provides
 
 Module contents
 ---------------

@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+# pylint: disable=assignment-from-no-return
 
 '''
 Module
@@ -27,13 +28,13 @@ from unittest import main
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.binary_frame_builder_factory import BinaryFrameBuilderFactory
+from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,21 +56,21 @@ class TestIBinaryFrameBuilder(TestCase):
         '''
             Verifies that factory creates an instance satisfying IBinaryFrameBuilder.
         '''
-        builder = BinaryFrameBuilderFactory.create()
+        builder = BuilderFactory.create().builder
         self.assertIsInstance(builder, IBinaryFrameBuilder)
 
     def test_name_property(self) -> None:
         '''
             Verifies that name property returns expected identifier.
         '''
-        builder = BinaryFrameBuilderFactory.create()
+        builder = BuilderFactory.create().builder
         self.assertEqual(builder.name, 'binary_frame_builder')
 
     def test_build_and_pack_frame(self) -> None:
         '''
             Verifies frame construction and wire byte packing through protocol contract.
         '''
-        builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         frame = builder.build_frame(msg_id=MessageId.CMD_HOME, seq_num=1)
         self.assertIsInstance(frame, BinaryFrame)
         self.assertEqual(frame.msg_id, MessageId.CMD_HOME)
@@ -83,7 +84,7 @@ class TestIBinaryFrameBuilder(TestCase):
         '''
             Verifies motor configuration frame construction through protocol contract.
         '''
-        builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         frame = builder.build_motor_config_cmd(seq_num=2, mode=1, axis_mask=0x0F)
         self.assertIsInstance(frame, BinaryFrame)
         self.assertEqual(frame.msg_id, MessageId.CMD_CONFIG_MOTOR)
@@ -94,7 +95,7 @@ class TestIBinaryFrameBuilder(TestCase):
         '''
             Verifies wait command frame construction through protocol contract.
         '''
-        builder: IBinaryFrameBuilder = BinaryFrameBuilderFactory.create()
+        builder: IBinaryFrameBuilder = BuilderFactory.create().builder
         frame = builder.build_wait_cmd(delay_ms=250, seq_num=5)
         self.assertIsInstance(frame, BinaryFrame)
         self.assertEqual(frame.msg_id, MessageId.CMD_WAIT)

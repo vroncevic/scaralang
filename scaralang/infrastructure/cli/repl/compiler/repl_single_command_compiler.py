@@ -29,14 +29,14 @@ from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.repl.repl_pose_state import ReplPoseState
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
-from scaralang.core.service.compiler.iscara_compiler import IScaraCompiler
-from scaralang.core.service.compiler.plan.iscara_plan_compiler import IScaraPlanCompiler
+from scaralang.core.service.compiler.icompiler import IScaraCompiler
+from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,7 +49,7 @@ class ReplSingleCommandCompiler:
         It defines:
 
             :attributes:
-                | _compiler - Injected IScaraPlanCompiler protocol instance.
+                | _compiler - Injected IScriptPlanCompiler protocol instance.
                 | _binary_compiler - Injected IScaraCompiler protocol instance.
             :methods:
                 | __init__ - Initializes compiler with injected DSL compilers.
@@ -57,23 +57,23 @@ class ReplSingleCommandCompiler:
                 | update_context - Computes updated session context model from plan and step.
     '''
 
-    _compiler: IScaraPlanCompiler
+    _compiler: IScriptPlanCompiler
     _binary_compiler: IScaraCompiler
 
     def __init__(
         self,
         *,
-        compiler: IScaraPlanCompiler,
+        compiler: IScriptPlanCompiler,
         binary_compiler: IScaraCompiler,
     ) -> None:
         '''
             Initializes single-line command compiler.
 
-            :param compiler: Injected IScaraPlanCompiler protocol instance.
+            :param compiler: Injected IScriptPlanCompiler protocol instance.
             :param binary_compiler: Injected IScaraCompiler protocol instance.
             :exceptions: None.
         '''
-        self._compiler: Final[IScaraPlanCompiler] = compiler
+        self._compiler: Final[IScriptPlanCompiler] = compiler
         self._binary_compiler: Final[IScaraCompiler] = binary_compiler
 
     def compile_instruction(

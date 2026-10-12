@@ -17,8 +17,10 @@ Submodules
    :maxdepth: 4
 
    scaralang.infrastructure.command.disassemble.definition
+   scaralang.infrastructure.command.disassemble.dependencies
    scaralang.infrastructure.command.disassemble.executor
-   scaralang.infrastructure.command.disassemble.executor_factory
+   scaralang.infrastructure.command.disassemble.factory
+   scaralang.infrastructure.command.disassemble.provides
 
 Module contents
 ---------------

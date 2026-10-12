@@ -16,8 +16,10 @@ Submodules
    :maxdepth: 4
 
    scaralang.infrastructure.command.decompile.definition
+   scaralang.infrastructure.command.decompile.dependencies
    scaralang.infrastructure.command.decompile.executor
-   scaralang.infrastructure.command.decompile.executor_factory
+   scaralang.infrastructure.command.decompile.factory
+   scaralang.infrastructure.command.decompile.provides
 
 Module contents
 ---------------

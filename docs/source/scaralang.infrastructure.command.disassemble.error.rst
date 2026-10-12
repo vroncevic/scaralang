@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.disassemble.error.disassemble_error_handler
-   scaralang.infrastructure.command.disassemble.error.disassemble_error_handler_factory
-   scaralang.infrastructure.command.disassemble.error.idisassemble_error_handler
+   scaralang.infrastructure.command.disassemble.error.factory
+   scaralang.infrastructure.command.disassemble.error.handler
+   scaralang.infrastructure.command.disassemble.error.ihandler
+   scaralang.infrastructure.command.disassemble.error.provides
 
 Module contents
 ---------------

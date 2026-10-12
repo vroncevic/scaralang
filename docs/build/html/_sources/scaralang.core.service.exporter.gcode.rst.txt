@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.exporter.gcode.gcode_exporter
-   scaralang.core.service.exporter.gcode.gcode_exporter_factory
-   scaralang.core.service.exporter.gcode.igcode_exporter
+   scaralang.core.service.exporter.gcode.exporter
+   scaralang.core.service.exporter.gcode.factory
+   scaralang.core.service.exporter.gcode.iexporter
 
 Module contents
 ---------------

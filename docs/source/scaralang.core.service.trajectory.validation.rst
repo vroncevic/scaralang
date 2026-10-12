@@ -17,9 +17,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.validation.itrajectory_validator
-   scaralang.core.service.trajectory.validation.trajectory_validator
-   scaralang.core.service.trajectory.validation.trajectory_validator_factory
+   scaralang.core.service.trajectory.validation.dependencies
+   scaralang.core.service.trajectory.validation.factory
+   scaralang.core.service.trajectory.validation.ivalidator
+   scaralang.core.service.trajectory.validation.provides
+   scaralang.core.service.trajectory.validation.validator
 
 Module contents
 ---------------

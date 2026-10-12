@@ -7,10 +7,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.linter.script.iscara_dsl_linter
-   scaralang.core.service.linter.script.iscara_dsl_validator
-   scaralang.core.service.linter.script.scara_script_validator
-   scaralang.core.service.linter.script.scara_script_validator_factory
+   scaralang.core.service.linter.script.dependencies
+   scaralang.core.service.linter.script.factory
+   scaralang.core.service.linter.script.ilinter
+   scaralang.core.service.linter.script.linter
+   scaralang.core.service.linter.script.provides
 
 Module contents
 ---------------

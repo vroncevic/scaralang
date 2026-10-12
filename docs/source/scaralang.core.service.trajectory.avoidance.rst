@@ -1,18 +1,16 @@
 scaralang.core.service.trajectory.avoidance package
 ===================================================
 
-Submodules
-----------
+Subpackages
+-----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.avoidance.dead_zone_bypass_planner
-   scaralang.core.service.trajectory.avoidance.dead_zone_bypass_planner_factory
-   scaralang.core.service.trajectory.avoidance.dead_zone_validator
-   scaralang.core.service.trajectory.avoidance.dead_zone_validator_factory
-   scaralang.core.service.trajectory.avoidance.idead_zone_bypass_planner
-   scaralang.core.service.trajectory.avoidance.idead_zone_validator
+   scaralang.core.service.trajectory.avoidance.bypass
+   scaralang.core.service.trajectory.avoidance.router
+   scaralang.core.service.trajectory.avoidance.shape
+   scaralang.core.service.trajectory.avoidance.validation
 
 Module contents
 ---------------

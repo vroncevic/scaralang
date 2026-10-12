@@ -18,9 +18,11 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.parser.iscara_parser
-   scaralang.core.service.parser.scara_parser
-   scaralang.core.service.parser.scara_parser_factory
+   scaralang.core.service.parser.dependencies
+   scaralang.core.service.parser.factory
+   scaralang.core.service.parser.iparser
+   scaralang.core.service.parser.parser
+   scaralang.core.service.parser.provides
 
 Module contents
 ---------------

@@ -1,0 +1,148 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    discretizer.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Implementation of IShapeDiscretizer discretizing geometric contours into waypoints.
+'''
+
+from __future__ import annotations
+
+from math import cos, pi, sin
+
+from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
+from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.trajectory.circle_geometry import CircleGeometry
+from scaralang.core.model.trajectory.waypoint import Waypoint
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.8'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class ShapeDiscretizer:
+    '''
+        Service discretizing 2D geometric CAD shapes into discrete waypoint trajectories.
+
+        It defines:
+
+            :attributes:
+                | name - Identifier name of the shape discretizer.
+            :methods:
+                | discretize_line - Discretizes straight linear segment.
+                | discretize_circle - Discretizes circular boundary into polygonal waypoints.
+                | discretize_rectangle - Discretizes rectangular boundary into corner waypoints.
+    '''
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the shape discretizer identifier name.
+
+            :return: Discretizer name string.
+        '''
+        return 'shape_discretizer'
+
+    def discretize_line(
+        self,
+        p1: Point2D,
+        p2: Point2D,
+        *,
+        z: float,
+        speed: float,
+    ) -> list[Waypoint]:
+        '''
+            Generates start and end waypoints of straight linear segment.
+
+            :param p1: Start coordinate Point2D in mm.
+            :param p2: End coordinate Point2D in mm.
+            :param z: Z vertical height coordinate in mm.
+            :param speed: Feedrate speed in mm/s.
+            :return: List of Waypoint instances.
+            :exceptions: None.
+        '''
+        return [
+            Waypoint(x=p1.x, y=p1.y, z=z, speed=speed),
+            Waypoint(x=p2.x, y=p2.y, z=z, speed=speed),
+        ]
+
+    def discretize_circle(
+        self,
+        *,
+        geometry: CircleGeometry,
+    ) -> list[Waypoint]:
+        '''
+            Generates circle perimeter waypoints.
+
+            :param geometry: CircleGeometry model encapsulating circle parameters.
+            :return: List of Waypoint instances.
+            :exceptions: ScaraKinematicsError if steps <= 0 or radius <= 0.
+        '''
+        if geometry.steps <= 0:
+            raise ScaraKinematicsError(
+                f'Circle discretization steps must be greater than zero, got {geometry.steps}'
+            )
+
+        if geometry.radius <= 0:
+            raise ScaraKinematicsError(
+                f'Circle radius must be greater than zero, got {geometry.radius}'
+            )
+
+        pts: list[Waypoint] = []
+        center = geometry.center
+        radius = geometry.radius
+        steps = geometry.steps
+        z = geometry.z
+        speed = geometry.speed
+
+        for i in range(steps + 1):
+            angle: float = 2.0 * pi * (i / steps)
+            px: float = center.x + radius * cos(angle)
+            py: float = center.y + radius * sin(angle)
+            pts.append(Waypoint(x=px, y=py, z=z, speed=speed))
+
+        return pts
+
+    def discretize_rectangle(
+        self,
+        p1: Point2D,
+        p2: Point2D,
+        *,
+        z: float,
+        speed: float,
+    ) -> list[Waypoint]:
+        '''
+            Generates corner waypoints of closed rectangular boundary.
+
+            :param p1: Initial corner coordinate Point2D in mm.
+            :param p2: Opposite corner coordinate Point2D in mm.
+            :param z: Z vertical height coordinate in mm.
+            :param speed: Feedrate speed in mm/s.
+            :return: List of Waypoint instances.
+            :exceptions: None.
+        '''
+        return [
+            Waypoint(x=p1.x, y=p1.y, z=z, speed=speed),
+            Waypoint(x=p2.x, y=p1.y, z=z, speed=speed),
+            Waypoint(x=p2.x, y=p2.y, z=z, speed=speed),
+            Waypoint(x=p1.x, y=p2.y, z=z, speed=speed),
+            Waypoint(x=p1.x, y=p1.y, z=z, speed=speed),
+        ]

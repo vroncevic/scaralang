@@ -27,13 +27,14 @@ from scaralang.infrastructure.cli.setup.keys import CLIBundleKeys
 from scaralang.infrastructure.cli.setup.opt_validator import CLIBundleOptionsValidator
 from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
 from scaralang.infrastructure.cli.setup.registry import CLIBundleRegistry
-from scaralang.infrastructure.command.command_bundle_factory import CommandBundleFactory
+from scaralang.infrastructure.command.factory import CommandFactory
+from scaralang.infrastructure.command.provides import CommandProvides
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,15 +60,14 @@ class CLIBundleFactory:
             :return: The CLI bundle.
             :exceptions:
                 | ATSValueError: If options fail validation.
-                | ATSTypeError:  If options have incorrect types.
         '''
         CLIBundleOptionsValidator.validate(options)
-        commands = CommandBundleFactory.create_commands()
+        command_provides: CommandProvides = CommandFactory.create()
 
         return CLIBundleRegistry.create_bundle(
             dependencies=CLIBundleDependencies(
                 parser=options[CLIBundleKeys.OPTION_PARSER],
-                commands=commands
+                commands=command_provides.commands
             )
         )
 

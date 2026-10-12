@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.validation.waypoint.iwaypoint_validator
-   scaralang.core.service.trajectory.validation.waypoint.waypoint_validator
-   scaralang.core.service.trajectory.validation.waypoint.waypoint_validator_factory
+   scaralang.core.service.trajectory.validation.waypoint.factory
+   scaralang.core.service.trajectory.validation.waypoint.ivalidator
+   scaralang.core.service.trajectory.validation.waypoint.provides
+   scaralang.core.service.trajectory.validation.waypoint.validator
 
 Module contents
 ---------------

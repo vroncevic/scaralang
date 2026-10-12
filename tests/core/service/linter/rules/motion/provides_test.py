@@ -1,0 +1,65 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    provides_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for MotionProvides dataclass container.
+'''
+
+from __future__ import annotations
+
+from unittest import TestCase, main
+from unittest.mock import MagicMock
+
+from scaralang.core.service.linter.rules.irule import ILintRule
+from scaralang.core.service.linter.rules.motion.calibration.ivalidator import ICalibrationValidator
+from scaralang.core.service.linter.rules.motion.duplicate.ivalidator import IDuplicateValidator
+from scaralang.core.service.linter.rules.motion.provides import MotionProvides
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.8'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class TestMotionProvides(TestCase):
+    '''
+        Validates MotionProvides immutability and attribute accessibility.
+    '''
+
+    def test_container_attributes(self) -> None:
+        '''
+            Verifies provides container properly stores and exposes provided contracts.
+        '''
+        mock_rule = MagicMock(spec=ILintRule)
+        mock_cal = MagicMock(spec=ICalibrationValidator)
+        mock_dup = MagicMock(spec=IDuplicateValidator)
+        provides = MotionProvides(
+            rule=mock_rule,
+            calibration_validator=mock_cal,
+            duplicate_validator=mock_dup,
+        )
+        self.assertIs(provides.rule, mock_rule)
+        self.assertIs(provides.calibration_validator, mock_cal)
+        self.assertIs(provides.duplicate_validator, mock_dup)
+
+
+if __name__ == '__main__':
+    main()

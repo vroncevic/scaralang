@@ -16,8 +16,10 @@ Submodules
    :maxdepth: 4
 
    scaralang.infrastructure.command.export.definition
+   scaralang.infrastructure.command.export.dependencies
    scaralang.infrastructure.command.export.executor
-   scaralang.infrastructure.command.export.executor_factory
+   scaralang.infrastructure.command.export.factory
+   scaralang.infrastructure.command.export.provides
 
 Module contents
 ---------------

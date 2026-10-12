@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.info.iscara_info_provider
-   scaralang.core.service.info.scara_info_provider
-   scaralang.core.service.info.scara_info_provider_factory
+   scaralang.core.service.info.factory
+   scaralang.core.service.info.iinfo
+   scaralang.core.service.info.info
+   scaralang.core.service.info.provides
 
 Module contents
 ---------------

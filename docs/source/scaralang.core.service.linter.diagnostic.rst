@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.linter.diagnostic.iscara_diagnostic_formatter
-   scaralang.core.service.linter.diagnostic.scara_diagnostic_formatter
-   scaralang.core.service.linter.diagnostic.scara_diagnostic_formatter_factory
+   scaralang.core.service.linter.diagnostic.factory
+   scaralang.core.service.linter.diagnostic.formatter
+   scaralang.core.service.linter.diagnostic.iformatter
+   scaralang.core.service.linter.diagnostic.provides
 
 Module contents
 ---------------

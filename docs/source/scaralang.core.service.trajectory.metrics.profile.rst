@@ -7,9 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.trajectory.metrics.profile.axis_speed_profile_analyzer
-   scaralang.core.service.trajectory.metrics.profile.axis_speed_profile_analyzer_factory
-   scaralang.core.service.trajectory.metrics.profile.iaxis_speed_profile_analyzer
+   scaralang.core.service.trajectory.metrics.profile.analyzer
+   scaralang.core.service.trajectory.metrics.profile.factory
+   scaralang.core.service.trajectory.metrics.profile.ianalyzer
+   scaralang.core.service.trajectory.metrics.profile.provides
 
 Module contents
 ---------------

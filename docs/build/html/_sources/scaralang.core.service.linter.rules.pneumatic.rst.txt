@@ -1,23 +1,25 @@
 scaralang.core.service.linter.rules.pneumatic package
 =====================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.linter.rules.pneumatic.conflict
+   scaralang.core.service.linter.rules.pneumatic.flyby
+   scaralang.core.service.linter.rules.pneumatic.redundancy
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.linter.rules.pneumatic.ipneumatic_conflict_validator
-   scaralang.core.service.linter.rules.pneumatic.ipneumatic_flyby_validator
-   scaralang.core.service.linter.rules.pneumatic.ipneumatic_redundancy_validator
-   scaralang.core.service.linter.rules.pneumatic.pneumatic_conflict_validator
-   scaralang.core.service.linter.rules.pneumatic.pneumatic_conflict_validator_factory
-   scaralang.core.service.linter.rules.pneumatic.pneumatic_flyby_validator
-   scaralang.core.service.linter.rules.pneumatic.pneumatic_flyby_validator_factory
-   scaralang.core.service.linter.rules.pneumatic.pneumatic_lint_rule
-   scaralang.core.service.linter.rules.pneumatic.pneumatic_lint_rule_factory
-   scaralang.core.service.linter.rules.pneumatic.pneumatic_redundancy_validator
-   scaralang.core.service.linter.rules.pneumatic.pneumatic_redundancy_validator_factory
+   scaralang.core.service.linter.rules.pneumatic.factory
+   scaralang.core.service.linter.rules.pneumatic.provides
+   scaralang.core.service.linter.rules.pneumatic.rule
 
 Module contents
 ---------------

@@ -1,18 +1,24 @@
 scaralang.core.service.compiler.plan package
 ============================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.compiler.plan.ast
+   scaralang.core.service.compiler.plan.script
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.compiler.plan.iscara_plan_compiler
-   scaralang.core.service.compiler.plan.itrajectory_plan_compiler
-   scaralang.core.service.compiler.plan.scara_plan_compiler
-   scaralang.core.service.compiler.plan.scara_plan_compiler_factory
-   scaralang.core.service.compiler.plan.trajectory_plan_compiler
-   scaralang.core.service.compiler.plan.trajectory_plan_compiler_factory
+   scaralang.core.service.compiler.plan.dependencies
+   scaralang.core.service.compiler.plan.factory
+   scaralang.core.service.compiler.plan.provides
 
 Module contents
 ---------------

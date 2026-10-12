@@ -1,18 +1,23 @@
 scaralang.infrastructure.command.compile.inspection.presentation package
 ========================================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.infrastructure.command.compile.inspection.presentation.program
+   scaralang.infrastructure.command.compile.inspection.presentation.step
+
 Submodules
 ----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.command.compile.inspection.presentation.frame_step_presenter
-   scaralang.infrastructure.command.compile.inspection.presentation.frame_step_presenter_factory
-   scaralang.infrastructure.command.compile.inspection.presentation.iframe_step_presenter
-   scaralang.infrastructure.command.compile.inspection.presentation.iprogram_inspection_presenter
-   scaralang.infrastructure.command.compile.inspection.presentation.program_inspection_presenter
-   scaralang.infrastructure.command.compile.inspection.presentation.program_inspection_presenter_factory
+   scaralang.infrastructure.command.compile.inspection.presentation.factory
+   scaralang.infrastructure.command.compile.inspection.presentation.provides
 
 Module contents
 ---------------
