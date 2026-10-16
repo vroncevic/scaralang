@@ -82,7 +82,14 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">None.</div>
+<div class="line">MIN_RADIUS - Minimum allowable radius threshold for circular arc.</div>
+<div class="line">TWO_PI - Full circle revolution angle in radians (2*pi).</div>
+<div class="line">HALF_PI - Quarter circle quadrant angle in radians (pi/2).</div>
+<div class="line">MIN_STEP_ANGLE_DEG - Minimum step discretization angle in degrees.</div>
+<div class="line">MIN_SEGMENTS - Minimum number of discrete arc segments.</div>
+<div class="line">START_SEGMENT_INDEX - Initial index for segment generation loop.</div>
+<div class="line">HALF_CIRCLE_DEG - Half revolution angle in degrees.</div>
+<div class="line">FULL_CIRCLE_DEG - Full revolution angle in degrees.</div>
 </div>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
@@ -94,6 +101,46 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.FULL_CIRCLE_DEG">
+<span class="sig-name descname"><span class="pre">FULL_CIRCLE_DEG</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">360.0</span></em><a class="headerlink" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.FULL_CIRCLE_DEG" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.HALF_CIRCLE_DEG">
+<span class="sig-name descname"><span class="pre">HALF_CIRCLE_DEG</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">180.0</span></em><a class="headerlink" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.HALF_CIRCLE_DEG" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.HALF_PI">
+<span class="sig-name descname"><span class="pre">HALF_PI</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.5707963267948966</span></em><a class="headerlink" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.HALF_PI" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.MIN_RADIUS">
+<span class="sig-name descname"><span class="pre">MIN_RADIUS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0001</span></em><a class="headerlink" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.MIN_RADIUS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.MIN_SEGMENTS">
+<span class="sig-name descname"><span class="pre">MIN_SEGMENTS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.MIN_SEGMENTS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.MIN_STEP_ANGLE_DEG">
+<span class="sig-name descname"><span class="pre">MIN_STEP_ANGLE_DEG</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.MIN_STEP_ANGLE_DEG" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.START_SEGMENT_INDEX">
+<span class="sig-name descname"><span class="pre">START_SEGMENT_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.START_SEGMENT_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.TWO_PI">
+<span class="sig-name descname"><span class="pre">TWO_PI</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6.283185307179586</span></em><a class="headerlink" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.TWO_PI" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.calculate_point">
 <span class="sig-name descname"><span class="pre">calculate_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_clockwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.trajectory.arc_point.html#scaralang.core.model.trajectory.arc_point.ArcPoint" title="scaralang.core.model.trajectory.arc_point.ArcPoint"><span class="pre">ArcPoint</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/primitive/motion/arc/interpolation/interpolator.html#ArcInterpolator.calculate_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.calculate_point" title="Link to this definition">¶</a></dt>
@@ -163,6 +210,14 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.FULL_CIRCLE_DEG"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.FULL_CIRCLE_DEG</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.HALF_CIRCLE_DEG"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.HALF_CIRCLE_DEG</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.HALF_PI"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.HALF_PI</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.MIN_RADIUS"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.MIN_RADIUS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.MIN_SEGMENTS"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.MIN_SEGMENTS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.MIN_STEP_ANGLE_DEG"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.MIN_STEP_ANGLE_DEG</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.START_SEGMENT_INDEX"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.START_SEGMENT_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.TWO_PI"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.TWO_PI</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.calculate_point"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.calculate_point()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.get_version"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.get_version()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.interpolate"><code class="docutils literal notranslate"><span class="pre">ArcInterpolator.interpolate()</span></code></a></li>

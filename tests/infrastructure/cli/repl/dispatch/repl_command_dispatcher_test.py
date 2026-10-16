@@ -24,8 +24,11 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
+from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
 from scaralang.core.model.repl.repl_pose_state import ReplPoseState
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
+from scaralang.core.service.repl.context.factory import ReplSessionContextFactory
 from scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher import IReplCommandDispatcher
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher import ReplCommandDispatcher
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory import ReplCommandDispatcherFactory
@@ -34,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -64,7 +67,7 @@ class TestReplCommandDispatcher(TestCase):
 
     def test_empty_line(self) -> None:
         '''Verifies empty line returns handled with empty message.'''
-        context = ReplSessionContext()
+        context = ReplSessionContextFactory.create()
         res = self.dispatcher.dispatch_line(line='   ', context=context)
         self.assertTrue(res.is_handled)
         self.assertFalse(res.is_exit)
@@ -72,7 +75,7 @@ class TestReplCommandDispatcher(TestCase):
 
     def test_exit_commands(self) -> None:
         '''Verifies exit, quit and :q terminate session.'''
-        context = ReplSessionContext()
+        context = ReplSessionContextFactory.create()
         for cmd in ('exit', 'QUIT', '  :q '):
             res = self.dispatcher.dispatch_line(line=cmd, context=context)
             self.assertTrue(res.is_exit)
@@ -80,7 +83,7 @@ class TestReplCommandDispatcher(TestCase):
 
     def test_help_commands(self) -> None:
         '''Verifies help and ? display manual.'''
-        context = ReplSessionContext()
+        context = ReplSessionContextFactory.create()
         res = self.dispatcher.dispatch_line(line='help', context=context)
         self.assertFalse(res.is_exit)
         self.assertTrue(res.is_handled)
@@ -90,7 +93,7 @@ class TestReplCommandDispatcher(TestCase):
 
     def test_clear_commands(self) -> None:
         '''Verifies clear and cls emit ANSI clear sequence.'''
-        context = ReplSessionContext()
+        context = ReplSessionContextFactory.create()
         for cmd in ('clear', 'CLEAR', 'cls', '  cls '):
             res = self.dispatcher.dispatch_line(line=cmd, context=context)
             self.assertFalse(res.is_exit)
@@ -99,7 +102,7 @@ class TestReplCommandDispatcher(TestCase):
 
     def test_info_commands(self) -> None:
         '''Verifies info, specs, and verbose options return toolchain report.'''
-        context = ReplSessionContext()
+        context = ReplSessionContextFactory.create()
         for cmd in ('info', 'specs', 'catalog', 'info -v', 'info verbose'):
             res = self.dispatcher.dispatch_line(line=cmd, context=context)
             self.assertFalse(res.is_exit)
@@ -109,7 +112,17 @@ class TestReplCommandDispatcher(TestCase):
     def test_status_and_pose_commands(self) -> None:
         '''Verifies status and pose commands report coordinates and states.'''
         context = ReplSessionContext(
-            pose=ReplPoseState(current_x=120.5, current_y=80.0, current_z=10.0)
+            pose=ReplPoseState(
+                current_x=120.5,
+                current_y=80.0,
+                current_z=10.0,
+                current_theta4=0.0,
+            ),
+            elbow_left=False,
+            speed_mode=SpeedMode.WORK,
+            zone_mode=ZoneMode.FINE,
+            pump_active=False,
+            valve_active=False,
         )
         status_res = self.dispatcher.dispatch_line(line='status', context=context)
         self.assertTrue(status_res.is_handled)
@@ -123,7 +136,7 @@ class TestReplCommandDispatcher(TestCase):
 
     def test_unhandled_dsl_line(self) -> None:
         '''Verifies motion instruction lines are not handled as built-in.'''
-        context = ReplSessionContext()
+        context = ReplSessionContextFactory.create()
         res = self.dispatcher.dispatch_line(
             line='MOVE LINE X=100 Y=100 Z=0 SPEED=100', context=context
         )
@@ -134,7 +147,7 @@ class TestReplCommandDispatcher(TestCase):
         '''Verifies factory instantiation and structural protocol typing.'''
         dispatcher = ReplCommandDispatcherFactory.create_default()
         self.assertTrue(isinstance(dispatcher, IReplCommandDispatcher))
-        self.assertEqual(ReplCommandDispatcherFactory.get_version(), '1.0.8')
+        self.assertEqual(ReplCommandDispatcherFactory.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

@@ -60,23 +60,27 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">degrees</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Literal</span>
 
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.command_type</span> <span class="kn">import</span> <span class="n">ScaraCommandType</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">ScaraInstructionParam</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.pneumatic_state</span> <span class="kn">import</span> <span class="n">PneumaticState</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.motor.motor_drive_mode</span> <span class="kn">import</span> <span class="n">MotorDriveMode</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.protocol.binary_frame</span> <span class="kn">import</span> <span class="n">BinaryFrame</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.protocol.joint_steps</span> <span class="kn">import</span> <span class="n">JointSteps</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.protocol.message_id</span> <span class="kn">import</span> <span class="n">MessageId</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.iservice</span> <span class="kn">import</span> <span class="n">IKinematicsService</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.planar.isolver</span> <span class="kn">import</span> <span class="n">IPlanarKinematicsSolver</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.transmission.iconverter</span> <span class="kn">import</span> <span class="n">IJointStepTransmissionConverter</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.motor.wire_mode_converter</span> <span class="kn">import</span> <span class="n">WireModeConverter</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_payload_unpacker</span> <span class="kn">import</span> <span class="n">IBinaryPayloadUnpacker</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_actuator_payload_unpacker</span> <span class="kn">import</span> <span class="n">IBinaryActuatorPayloadUnpacker</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_motion_payload_unpacker</span> <span class="kn">import</span> <span class="n">IBinaryMotionPayloadUnpacker</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -91,37 +95,63 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | _kinematics - Injected kinematics calculation service.</span>
+<span class="sd">                | _WAIT_PAYLOAD_SIZE - Slicing length for 32-bit millisecond dwell.</span>
+<span class="sd">                | _OVERRIDE_PAYLOAD_SIZE - Minimum payload bytes for speed override.</span>
+<span class="sd">                | _JOG_PAYLOAD_SIZE - Minimum payload bytes for joint jog command.</span>
+<span class="sd">                | _BYTE_ORDER - Endianness encoding for wire payload integers.</span>
+<span class="sd">                | _JOINT_INDEX_OFFSET - Index offset translating 0-indexed to 1-indexed joints.</span>
+<span class="sd">                | _SIMPLE_COMMANDS - Mapping of parameterless MessageIds to DSL commands.</span>
+<span class="sd">                | _planar - Injected planar kinematics solver.</span>
 <span class="sd">                | _transmission - Injected joint step conversion strategy.</span>
-<span class="sd">                | _unpacker - Injected binary payload deserialization adapter.</span>
+<span class="sd">                | _motion_unpacker - Injected motion payload unpacker strategy.</span>
+<span class="sd">                | _actuator_unpacker - Injected actuator payload unpacker strategy.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | __init__ - Initializes frame decompiler with injected collaborators.</span>
 <span class="sd">                | decompile_frame - Decodes single BinaryFrame into a SCARA DSL command string.</span>
 <span class="sd">                | get_version - Returns the frame decompiler version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">_kinematics</span><span class="p">:</span> <span class="n">IKinematicsService</span>
+    <span class="n">_WAIT_PAYLOAD_SIZE</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">_OVERRIDE_PAYLOAD_SIZE</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">_JOG_PAYLOAD_SIZE</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">_BYTE_ORDER</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;little&#39;</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;little&#39;</span>
+    <span class="n">_JOINT_INDEX_OFFSET</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">_SIMPLE_COMMANDS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_HOME</span><span class="p">:</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">HOME</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_ENABLE</span><span class="p">:</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">ENABLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_DISABLE</span><span class="p">:</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">DISABLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_ESTOP</span><span class="p">:</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">ESTOP</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_HOLD</span><span class="p">:</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">HOLD</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_RESUME</span><span class="p">:</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">RESUME</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">_planar</span><span class="p">:</span> <span class="n">IPlanarKinematicsSolver</span>
     <span class="n">_transmission</span><span class="p">:</span> <span class="n">IJointStepTransmissionConverter</span>
-    <span class="n">_unpacker</span><span class="p">:</span> <span class="n">IBinaryPayloadUnpacker</span>
+    <span class="n">_motion_unpacker</span><span class="p">:</span> <span class="n">IBinaryMotionPayloadUnpacker</span>
+    <span class="n">_actuator_unpacker</span><span class="p">:</span> <span class="n">IBinaryActuatorPayloadUnpacker</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">kinematics</span><span class="p">:</span> <span class="n">IKinematicsService</span><span class="p">,</span>
+        <span class="n">planar</span><span class="p">:</span> <span class="n">IPlanarKinematicsSolver</span><span class="p">,</span>
         <span class="n">transmission</span><span class="p">:</span> <span class="n">IJointStepTransmissionConverter</span><span class="p">,</span>
-        <span class="n">unpacker</span><span class="p">:</span> <span class="n">IBinaryPayloadUnpacker</span><span class="p">,</span>
+        <span class="n">motion_unpacker</span><span class="p">:</span> <span class="n">IBinaryMotionPayloadUnpacker</span><span class="p">,</span>
+        <span class="n">actuator_unpacker</span><span class="p">:</span> <span class="n">IBinaryActuatorPayloadUnpacker</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Initializes frame decompiler with kinematics, transmission, and unpacker.</span>
+<span class="sd">            Initializes frame decompiler with planar solver, transmission, and unpackers.</span>
 
-<span class="sd">            :param kinematics: Required IKinematicsService implementation.</span>
+<span class="sd">            :param planar: Required IPlanarKinematicsSolver implementation.</span>
 <span class="sd">            :param transmission: Required IJointStepTransmissionConverter implementation.</span>
-<span class="sd">            :param unpacker: Required IBinaryPayloadUnpacker implementation.</span>
+<span class="sd">            :param motion_unpacker: Required IBinaryMotionPayloadUnpacker implementation.</span>
+<span class="sd">            :param actuator_unpacker: Required IBinaryActuatorPayloadUnpacker implementation.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IKinematicsService</span><span class="p">]</span> <span class="o">=</span> <span class="n">kinematics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_planar</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IPlanarKinematicsSolver</span><span class="p">]</span> <span class="o">=</span> <span class="n">planar</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transmission</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IJointStepTransmissionConverter</span><span class="p">]</span> <span class="o">=</span> <span class="n">transmission</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_unpacker</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IBinaryPayloadUnpacker</span><span class="p">]</span> <span class="o">=</span> <span class="n">unpacker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_motion_unpacker</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IBinaryMotionPayloadUnpacker</span><span class="p">]</span> <span class="o">=</span> <span class="n">motion_unpacker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_actuator_unpacker</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IBinaryActuatorPayloadUnpacker</span><span class="p">]</span> <span class="o">=</span> <span class="n">actuator_unpacker</span>
 
 <div class="viewcode-block" id="FrameDecompiler.decompile_frame">
 <a class="viewcode-back" href="../../../../../../scaralang.core.service.decompiler.frame.frame.html#scaralang.core.service.decompiler.frame.frame.FrameDecompiler.decompile_frame">[docs]</a>
@@ -134,53 +164,70 @@
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">msg_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">msg_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">msg_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_SIMPLE_COMMANDS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_SIMPLE_COMMANDS</span><span class="p">[</span><span class="n">msg_id</span><span class="p">]</span>
+
         <span class="n">result</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
         <span class="k">match</span> <span class="n">msg_id</span><span class="p">:</span>
-            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_HOME</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;HOME&#39;</span>
-            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_ENABLE</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;ENABLE&#39;</span>
-            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_DISABLE</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;DISABLE&#39;</span>
-            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_ESTOP</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;ESTOP&#39;</span>
-            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_HOLD</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;HOLD&#39;</span>
-            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_RESUME</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;RESUME&#39;</span>
             <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_TOOL_PUMP</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;PUMP ON&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpacker</span><span class="o">.</span><span class="n">unpack_tool_cmd</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;PUMP OFF&#39;</span>
+                <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">PneumaticState</span><span class="o">.</span><span class="n">ON</span><span class="o">.</span><span class="n">value</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_actuator_unpacker</span><span class="o">.</span><span class="n">unpack_tool_cmd</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">else</span> <span class="n">PneumaticState</span><span class="o">.</span><span class="n">OFF</span><span class="o">.</span><span class="n">value</span>
+                <span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">PUMP</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s1">&#39;</span>
+
             <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_TOOL_VALVE</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;VALVE ON&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpacker</span><span class="o">.</span><span class="n">unpack_tool_cmd</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;VALVE OFF&#39;</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">PneumaticState</span><span class="o">.</span><span class="n">ON</span><span class="o">.</span><span class="n">value</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_actuator_unpacker</span><span class="o">.</span><span class="n">unpack_tool_cmd</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">else</span> <span class="n">PneumaticState</span><span class="o">.</span><span class="n">OFF</span><span class="o">.</span><span class="n">value</span>
+                <span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">VALVE</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s1">&#39;</span>
+
             <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_WAIT</span><span class="p">:</span>
-                <span class="n">delay_ms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">[:</span><span class="mi">4</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;little&#39;</span><span class="p">)</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;WAIT </span><span class="si">{</span><span class="n">delay_ms</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_OVERRIDE</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;OVERRIDE </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">delay_ms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span>
+                    <span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_WAIT_PAYLOAD_SIZE</span><span class="p">],</span>
+                    <span class="n">byteorder</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_BYTE_ORDER</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">WAIT</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">delay_ms</span><span class="si">}</span><span class="s1">&#39;</span>
+
+            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_OVERRIDE</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_OVERRIDE_PAYLOAD_SIZE</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">OVERRIDE</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s1">&#39;</span>
+
             <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_CONFIG_MOTOR</span><span class="p">:</span>
                 <span class="n">mode</span><span class="p">:</span> <span class="n">MotorDriveMode</span> <span class="o">=</span> <span class="n">WireModeConverter</span><span class="o">.</span><span class="n">from_wire_mode</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_unpacker</span><span class="o">.</span><span class="n">unpack_motor_config</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_actuator_unpacker</span><span class="o">.</span><span class="n">unpack_motor_config</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="p">)</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;CONFIG MOTOR </span><span class="si">{</span><span class="n">mode</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> MOTOR </span><span class="si">{</span><span class="n">mode</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+
             <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_MOVE_JOINT_STEPS</span><span class="p">:</span>
-                <span class="n">steps</span><span class="p">:</span> <span class="n">JointSteps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpacker</span><span class="o">.</span><span class="n">unpack_joint_steps</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
+                <span class="n">steps</span><span class="p">:</span> <span class="n">JointSteps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_motion_unpacker</span><span class="o">.</span><span class="n">unpack_joint_steps</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
                 <span class="n">angles</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transmission</span><span class="o">.</span><span class="n">steps_to_angles</span><span class="p">(</span>
                     <span class="n">steps</span><span class="o">.</span><span class="n">target_j1_steps</span><span class="p">,</span>
                     <span class="n">steps</span><span class="o">.</span><span class="n">target_j2_steps</span><span class="p">,</span>
                     <span class="n">steps</span><span class="o">.</span><span class="n">target_z_steps</span><span class="p">,</span>
                     <span class="n">steps</span><span class="o">.</span><span class="n">target_j4_steps</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="n">point2d</span><span class="p">:</span> <span class="n">Point2D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">solve_fk</span><span class="p">(</span><span class="n">angles</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">angles</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">point2d</span><span class="p">:</span> <span class="n">Point2D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_planar</span><span class="o">.</span><span class="n">solve_fk_2d</span><span class="p">(</span><span class="n">angles</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">angles</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;MOVE_L X </span><span class="si">{</span><span class="n">point2d</span><span class="o">.</span><span class="n">x</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> Y </span><span class="si">{</span><span class="n">point2d</span><span class="o">.</span><span class="n">y</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> Z </span><span class="si">{</span><span class="n">angles</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> &#39;</span>
-                    <span class="sa">f</span><span class="s1">&#39;PHI </span><span class="si">{</span><span class="n">degrees</span><span class="p">(</span><span class="n">angles</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">MOVE_L</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">point2d</span><span class="o">.</span><span class="n">x</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">point2d</span><span class="o">.</span><span class="n">y</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">Z</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">angles</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">PHI</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">degrees</span><span class="p">(</span><span class="n">angles</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span>
                 <span class="p">)</span>
-            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_JOG_JOINT</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+
+            <span class="k">case</span> <span class="n">MessageId</span><span class="o">.</span><span class="n">CMD_JOG_JOINT</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_JOG_PAYLOAD_SIZE</span><span class="p">:</span>
                 <span class="n">step_delta</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span>
-                    <span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;little&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_JOG_PAYLOAD_SIZE</span><span class="p">],</span>
+                    <span class="n">byteorder</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_BYTE_ORDER</span><span class="p">,</span>
+                    <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;JOG_JOINT J</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">step_delta</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">joint_num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_JOINT_INDEX_OFFSET</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">JOG_JOINT</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> J</span><span class="si">{</span><span class="n">joint_num</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">step_delta</span><span class="si">}</span><span class="s1">&#39;</span>
 
         <span class="k">return</span> <span class="n">result</span></div>
 

@@ -27,15 +27,16 @@ from unittest import main
 from unittest.mock import MagicMock
 
 from scaralang.core.service.decompiler.frame.dependencies import FrameDependencies
-from scaralang.core.service.kinematics.iservice import IKinematicsService
+from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
 from scaralang.core.service.kinematics.transmission.iconverter import IJointStepTransmissionConverter
-from scaralang.core.service.protocol.ibinary_payload_unpacker import IBinaryPayloadUnpacker
+from scaralang.core.service.protocol.ibinary_actuator_payload_unpacker import IBinaryActuatorPayloadUnpacker
+from scaralang.core.service.protocol.ibinary_motion_payload_unpacker import IBinaryMotionPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,33 +56,42 @@ class TestFrameDependencies(TestCase):
     def test_initialization(self) -> None:
         '''
             Verifies FrameDependencies fields are properly assigned.
+
+            :exceptions: None.
         '''
-        mock_kinematics = MagicMock(spec=IKinematicsService)
+        mock_planar = MagicMock(spec=IPlanarKinematicsSolver)
         mock_transmission = MagicMock(spec=IJointStepTransmissionConverter)
-        mock_unpacker = MagicMock(spec=IBinaryPayloadUnpacker)
+        mock_motion = MagicMock(spec=IBinaryMotionPayloadUnpacker)
+        mock_actuator = MagicMock(spec=IBinaryActuatorPayloadUnpacker)
         deps = FrameDependencies(
-            kinematics=mock_kinematics,
+            planar=mock_planar,
             transmission=mock_transmission,
-            unpacker=mock_unpacker,
+            motion_unpacker=mock_motion,
+            actuator_unpacker=mock_actuator,
         )
-        self.assertIs(deps.kinematics, mock_kinematics)
+        self.assertIs(deps.planar, mock_planar)
         self.assertIs(deps.transmission, mock_transmission)
-        self.assertIs(deps.unpacker, mock_unpacker)
+        self.assertIs(deps.motion_unpacker, mock_motion)
+        self.assertIs(deps.actuator_unpacker, mock_actuator)
 
     def test_immutability(self) -> None:
         '''
             Verifies that modifying attributes raises FrozenInstanceError.
+
+            :exceptions: None.
         '''
-        mock_kinematics = MagicMock(spec=IKinematicsService)
+        mock_planar = MagicMock(spec=IPlanarKinematicsSolver)
         mock_transmission = MagicMock(spec=IJointStepTransmissionConverter)
-        mock_unpacker = MagicMock(spec=IBinaryPayloadUnpacker)
+        mock_motion = MagicMock(spec=IBinaryMotionPayloadUnpacker)
+        mock_actuator = MagicMock(spec=IBinaryActuatorPayloadUnpacker)
         deps = FrameDependencies(
-            kinematics=mock_kinematics,
+            planar=mock_planar,
             transmission=mock_transmission,
-            unpacker=mock_unpacker,
+            motion_unpacker=mock_motion,
+            actuator_unpacker=mock_actuator,
         )
         with self.assertRaises(FrozenInstanceError):
-            deps.kinematics = mock_kinematics  # type: ignore[misc]
+            deps.planar = mock_planar  # type: ignore[misc]
 
 
 if __name__ == '__main__':

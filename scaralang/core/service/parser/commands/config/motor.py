@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
@@ -40,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,16 +55,20 @@ class MotorParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | PARSED_COMMANDS - Handled command keywords tuple.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command matches CONFIG_MOTOR or MOTOR_MODE.
                 | parse - Parses CONFIG MOTOR statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes MotorParser.'''
-        self._name: str = 'motor_parser'
+    NAME: ClassVar[str] = 'motor_parser'
+    PARSED_COMMANDS: ClassVar[tuple[ScaraCommandType, str, str]] = (
+        ScaraCommandType.CONFIG_MOTOR,
+        'CONFIG_MOTOR',
+        'MOTOR_MODE',
+    )
 
     @property
     def name(self) -> str:
@@ -71,7 +77,7 @@ class MotorParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -80,11 +86,7 @@ class MotorParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name in (
-            ScaraCommandType.CONFIG_MOTOR,
-            'CONFIG_MOTOR',
-            'MOTOR_MODE',
-        )
+        return command_name in self.PARSED_COMMANDS
 
     def parse(
         self,
@@ -139,8 +141,8 @@ class MotorParser:
             line_number=line_num,
             raw_text=raw_text,
             parameters={
-                InstructionParam.MODE: motor_config.mode.value,
-                InstructionParam.INTERFACE: motor_config.interface_type.value,
-                InstructionParam.AXIS_MASK: motor_config.axis_mask.value,
+                ScaraInstructionParam.MODE: motor_config.mode.value,
+                ScaraInstructionParam.INTERFACE: motor_config.interface_type.value,
+                ScaraInstructionParam.AXIS_MASK: motor_config.axis_mask.value,
             },
         )

@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    scaralang.core.service.compiler.binary
+   scaralang.core.service.compiler.context
    scaralang.core.service.compiler.instruction
    scaralang.core.service.compiler.macro
    scaralang.core.service.compiler.plan

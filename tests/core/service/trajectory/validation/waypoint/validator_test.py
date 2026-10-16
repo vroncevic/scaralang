@@ -27,7 +27,7 @@ from unittest.mock import MagicMock
 
 from scaralang.core.model.trajectory.validation_result import ValidationResult
 from scaralang.core.model.trajectory.waypoint import Waypoint
-from scaralang.core.service.kinematics.iservice import IKinematicsService
+from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 from scaralang.core.service.trajectory.validation.waypoint.validator import WaypointValidator
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,12 +60,12 @@ class TestWaypointValidator(TestCase):
 
     def setUp(self) -> None:
         '''
-            Sets up test fixture with KinematicsService and WaypointValidator.
+            Sets up test fixture with WorkspaceBoundsEvaluator and WaypointValidator.
         '''
-        kinematics: IKinematicsService = (
-            DefaultKinematicsFactory.create().service
+        workspace: IWorkspaceBoundsEvaluator = (
+            DefaultKinematicsFactory.create().workspace
         )
-        self.validator = WaypointValidator(kinematics=kinematics)
+        self.validator = WaypointValidator(workspace=workspace)
 
     def test_validator_name(self) -> None:
         '''
@@ -77,7 +77,7 @@ class TestWaypointValidator(TestCase):
         '''
             Verifies that a valid reachable waypoint passes validation.
         '''
-        wp = Waypoint(x=150.0, y=100.0, z=0.0, speed=50.0)
+        wp = Waypoint(x=150.0, y=100.0, z=0.0, phi=0.0, speed=50.0, name='', command='')
         res: ValidationResult = self.validator.validate_point(wp)
         self.assertTrue(res.is_valid)
 
@@ -85,7 +85,7 @@ class TestWaypointValidator(TestCase):
         '''
             Verifies that a waypoint with Z out of bounds fails validation.
         '''
-        wp = Waypoint(x=150.0, y=100.0, z=200.0, speed=50.0)
+        wp = Waypoint(x=150.0, y=100.0, z=200.0, phi=0.0, speed=50.0, name='', command='')
         res: ValidationResult = self.validator.validate_point(wp)
         self.assertFalse(res.is_valid)
 
@@ -93,7 +93,7 @@ class TestWaypointValidator(TestCase):
         '''
             Verifies that a waypoint beyond arm reach fails validation.
         '''
-        wp = Waypoint(x=600.0, y=600.0, z=0.0, speed=50.0)
+        wp = Waypoint(x=600.0, y=600.0, z=0.0, phi=0.0, speed=50.0, name='', command='')
         res: ValidationResult = self.validator.validate_point(wp)
         self.assertFalse(res.is_valid)
 
@@ -101,7 +101,7 @@ class TestWaypointValidator(TestCase):
         '''
             Verifies that a waypoint violating joint angular limits fails validation.
         '''
-        wp = Waypoint(x=299.8, y=0.0, z=10.0, speed=50.0)
+        wp = Waypoint(x=299.8, y=0.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
         res: ValidationResult = self.validator.validate_point(wp)
         self.assertFalse(res.is_valid)
         self.assertIn('violates joint limits', res.message)
@@ -110,14 +110,14 @@ class TestWaypointValidator(TestCase):
         '''
             Verifies that a point causing mathematical reach failure returns unreachable message.
         '''
-        mock_kinematics = MagicMock(spec=IKinematicsService)
-        mock_kinematics.is_in_workspace.return_value = (True, 'in workspace')
-        mock_kinematics.is_joint_reachable.return_value = (
+        mock_workspace = MagicMock(spec=IWorkspaceBoundsEvaluator)
+        mock_workspace.is_in_workspace.return_value = (True, 'in workspace')
+        mock_workspace.is_joint_reachable.return_value = (
             False, ['Mathematically unreachable (cos_q2 > 1.0)']
         )
-        validator = WaypointValidator(kinematics=mock_kinematics)
+        validator = WaypointValidator(workspace=mock_workspace)
         res: ValidationResult = validator.validate_point(
-            Waypoint(x=100.0, y=100.0, z=10.0, speed=50.0)
+            Waypoint(x=100.0, y=100.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
         )
         self.assertFalse(res.is_valid)
         self.assertIn('is kinematically unreachable', res.message)
@@ -126,12 +126,12 @@ class TestWaypointValidator(TestCase):
         '''
             Verifies fallback message when reasons list is empty.
         '''
-        mock_kinematics = MagicMock(spec=IKinematicsService)
-        mock_kinematics.is_in_workspace.return_value = (True, 'in workspace')
-        mock_kinematics.is_joint_reachable.return_value = (False, [])
-        validator = WaypointValidator(kinematics=mock_kinematics)
+        mock_workspace = MagicMock(spec=IWorkspaceBoundsEvaluator)
+        mock_workspace.is_in_workspace.return_value = (True, 'in workspace')
+        mock_workspace.is_joint_reachable.return_value = (False, [])
+        validator = WaypointValidator(workspace=mock_workspace)
         res: ValidationResult = validator.validate_point(
-            Waypoint(x=100.0, y=100.0, z=10.0, speed=50.0)
+            Waypoint(x=100.0, y=100.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
         )
         self.assertFalse(res.is_valid)
         self.assertIn('Joint limits exceeded', res.message)

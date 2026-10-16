@@ -26,18 +26,19 @@ from unittest import main
 
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
 from scaralang.core.service.kinematics.dependencies import KinematicsDependencies
+from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
 from scaralang.core.service.kinematics.factory import KinematicsFactory
-from scaralang.core.service.kinematics.iservice import IKinematicsService
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
 from scaralang.core.service.kinematics.provides import KinematicsProvides
-from scaralang.core.service.kinematics.solver.isolver import IKinematicsSolver
+from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,10 +63,11 @@ class TestKinematicsFactory(TestCase):
             dependencies=dependencies
         )
         self.assertIsInstance(provides, KinematicsProvides)
-        self.assertIsInstance(provides.service, IKinematicsService)
-        self.assertIsInstance(provides.solver, IKinematicsSolver)
+        self.assertIsInstance(provides.envelope, IWorkspaceEnvelope)
+        self.assertIsInstance(provides.planar, IPlanarKinematicsSolver)
+        self.assertIsInstance(provides.spatial, ISpatialKinematicsSolver)
         self.assertIsInstance(provides.workspace, IWorkspaceBoundsEvaluator)
-        self.assertEqual(provides.service.bounds, bounds)
+        self.assertEqual(provides.envelope.bounds, bounds)
 
     def test_get_version(self) -> None:
         '''Verifies factory version string is present.'''

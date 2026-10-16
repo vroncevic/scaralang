@@ -25,19 +25,17 @@ from typing import Final
 
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
 from scaralang.core.service.compiler.binary.dependencies import BinaryDependencies
 from scaralang.core.service.compiler.binary.metrics.icalculator import IMetricsCalculator
-from scaralang.core.service.compiler.binary.step.dispatcher.idispatcher import (
-    IWaypointStepDispatcher
-)
+from scaralang.core.service.compiler.binary.step.dispatcher.idispatcher import IWaypointStepDispatcher
 from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -83,7 +81,7 @@ class BinaryCompiler:
             :return: Compiled BinaryProgram containing binary frames and byte stream.
             :exceptions: None.
         '''
-        steps: tuple[Step, ...] = self._step_dispatcher.dispatch_steps(
+        steps: tuple[BinaryStep, ...] = self._step_dispatcher.dispatch_steps(
             waypoints=plan.waypoints
         )
         duration_us, step_counts = self._metrics_calculator.calculate_metrics(

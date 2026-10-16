@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -69,9 +69,9 @@ class TestTrajectoryPlan(TestCase):
     def test_add_and_count(self) -> None:
         '''Tests adding waypoints and count property.'''
         self.assertEqual(self.plan.count, 0)
-        p1 = Waypoint(x=0.0, y=0.0, z=20.0, phi=0.0, speed=40.0)
-        p2 = Waypoint(x=40.0, y=0.0, z=20.0, phi=0.0, speed=40.0)
-        p3 = Waypoint(x=40.0, y=30.0, z=20.0, phi=0.0, speed=40.0)
+        p1 = Waypoint(x=0.0, y=0.0, z=20.0, phi=0.0, speed=40.0, name='', command='')
+        p2 = Waypoint(x=40.0, y=0.0, z=20.0, phi=0.0, speed=40.0, name='', command='')
+        p3 = Waypoint(x=40.0, y=30.0, z=20.0, phi=0.0, speed=40.0, name='', command='')
 
         self.plan.add_point(p1)
         self.plan.add_point(p2)
@@ -82,9 +82,9 @@ class TestTrajectoryPlan(TestCase):
 
     def test_insert_point(self) -> None:
         '''Tests inserting a waypoint at a specific index.'''
-        p1 = Waypoint(x=10.0, y=10.0, z=0.0, phi=0.0, speed=10.0)
-        p2 = Waypoint(x=30.0, y=30.0, z=0.0, phi=0.0, speed=10.0)
-        p_mid = Waypoint(x=20.0, y=20.0, z=0.0, phi=0.0, speed=10.0)
+        p1 = Waypoint(x=10.0, y=10.0, z=0.0, phi=0.0, speed=10.0, name='', command='')
+        p2 = Waypoint(x=30.0, y=30.0, z=0.0, phi=0.0, speed=10.0, name='', command='')
+        p_mid = Waypoint(x=20.0, y=20.0, z=0.0, phi=0.0, speed=10.0, name='', command='')
 
         self.plan.add_point(p1)
         self.plan.add_point(p2)
@@ -95,11 +95,11 @@ class TestTrajectoryPlan(TestCase):
 
     def test_update_and_remove(self) -> None:
         '''Tests updating and removing waypoint elements.'''
-        p1 = Waypoint(x=10.0, y=10.0, z=0.0, phi=0.0, speed=10.0)
-        p2 = Waypoint(x=20.0, y=20.0, z=0.0, phi=0.0, speed=10.0)
+        p1 = Waypoint(x=10.0, y=10.0, z=0.0, phi=0.0, speed=10.0, name='', command='')
+        p2 = Waypoint(x=20.0, y=20.0, z=0.0, phi=0.0, speed=10.0, name='', command='')
         self.plan.set_waypoints([p1, p2])
 
-        p1_mod = Waypoint(x=15.0, y=15.0, z=0.0, phi=0.0, speed=10.0)
+        p1_mod = Waypoint(x=15.0, y=15.0, z=0.0, phi=0.0, speed=10.0, name='', command='')
         updated = self.plan.update_point(0, p1_mod)
         self.assertTrue(updated)
         self.assertEqual(self.plan.waypoints[0].x, 15.0)
@@ -117,7 +117,7 @@ class TestTrajectoryPlan(TestCase):
 
     def test_clear(self) -> None:
         '''Tests clearing all waypoints.'''
-        p1 = Waypoint(x=10.0, y=10.0, z=0.0, speed=10.0)
+        p1 = Waypoint(x=10.0, y=10.0, z=0.0, phi=0.0, speed=10.0, name='', command='')
         self.plan.add_point(p1)
         self.plan.clear()
         self.assertEqual(self.plan.count, 0)

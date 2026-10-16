@@ -22,18 +22,19 @@ Info
 from __future__ import annotations
 
 from math import degrees, hypot
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.service.kinematics.solver.isolver import IKinematicsSolver
+from scaralang.core.model.kinematics.scara_joints_2d import ScaraJoints2D
+from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,19 +48,21 @@ class WorkspaceBoundsEvaluator:
 
             :attributes:
                 | _bounds - Robot ScaraBounds containing link lengths, limits, and margins.
-                | _solver - Injected analytical kinematics solver collaborator.
+                | _planar - Injected planar kinematics solver collaborator.
                 | _r_min - Minimum annular reach distance from origin in mm.
                 | _r_max - Maximum annular reach distance from origin in mm.
             :methods:
-                | __init__ - Initializes evaluator with robot bounds and kinematics solver.
+                | __init__ - Initializes evaluator with robot bounds and planar solver.
                 | is_in_workspace - Checks whether coordinates fall within annular envelope.
                 | is_joint_reachable - Evaluates if position is reachable within joint limits.
                 | get_bounds - Returns active ScaraBounds instance.
                 | get_version - Returns evaluator component version string.
     '''
 
+    _EPSILON: ClassVar[float] = 1e-4
+
     _bounds: ScaraBounds
-    _solver: IKinematicsSolver
+    _planar: IPlanarKinematicsSolver
     _r_min: float
     _r_max: float
 
@@ -67,17 +70,17 @@ class WorkspaceBoundsEvaluator:
         self,
         *,
         bounds: ScaraBounds,
-        solver: IKinematicsSolver,
+        planar: IPlanarKinematicsSolver,
     ) -> None:
         '''
-            Initializes workspace bounds evaluator with bounds and kinematics solver.
+            Initializes workspace bounds evaluator with bounds and planar solver.
 
             :param bounds: Injected ScaraBounds model instance.
-            :param solver: Injected IKinematicsSolver protocol collaborator.
+            :param planar: Injected IPlanarKinematicsSolver protocol collaborator.
             :exceptions: None.
         '''
         self._bounds: Final[ScaraBounds] = bounds
-        self._solver: Final[IKinematicsSolver] = solver
+        self._planar: Final[IPlanarKinematicsSolver] = planar
         self._r_min: Final[float] = max(
             abs(bounds.links.l1 - bounds.links.l2),
             bounds.singularity.deadzone_r_min,
@@ -100,14 +103,14 @@ class WorkspaceBoundsEvaluator:
         z: float = point.z
         r: float = hypot(x, y)
 
-        if r > self._r_max + 1e-4:
+        if r > self._r_max + self._EPSILON:
             return (
                 False,
                 f'Point ({x:.1f}, {y:.1f}) exceeds maximum reach '
                 f'R_max={self._r_max:.1f} mm (r={r:.1f} mm)'
             )
 
-        if r < self._r_min - 1e-4:
+        if r < self._r_min - self._EPSILON:
             return (
                 False,
                 f'Point ({x:.1f}, {y:.1f}) is inside deadzone '
@@ -115,8 +118,8 @@ class WorkspaceBoundsEvaluator:
             )
 
         if (
-            z < self._bounds.vertical.z_min - 1e-4
-            or z > self._bounds.vertical.z_max + 1e-4
+            z < self._bounds.vertical.z_min - self._EPSILON
+            or z > self._bounds.vertical.z_max + self._EPSILON
         ):
             return (
                 False,
@@ -141,13 +144,16 @@ class WorkspaceBoundsEvaluator:
         reachable_any: bool = False
 
         for elbow_left in (False, True):
-            ik_res = self._solver.solve_ik(point=point, elbow_left=elbow_left)
+            ik_res: ScaraJoints2D = self._planar.solve_ik_2d(
+                point=point, elbow_left=elbow_left
+            )
 
-            if ik_res is None:
+            if not ik_res.reachable:
                 reasons.append('Mathematically unreachable (cos_q2 > 1.0)')
                 continue
 
-            theta1, theta2 = ik_res
+            theta1: float = ik_res.theta1
+            theta2: float = ik_res.theta2
 
             if (
                 theta1 < self._bounds.joints.j1_min_rad

@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -97,8 +97,7 @@ class DisassembleCommandExecutor:
             :exceptions: None.
         '''
         try:
-            raw_file = params.get('file')
-            file_path: str = str(raw_file) if isinstance(raw_file, str) else ''
+            file_path: str = str(params.get('file') or '')
 
             if not file_path or not exists(file_path):
                 return {
@@ -143,7 +142,20 @@ class DisassembleCommandExecutor:
                 lines.append('')
                 lines.append(summary_text)
 
-            return {'returncode': 0, 'stdout': '\n'.join(lines), 'stderr': ''}
+            disasm_text: str = '\n'.join(lines)
+            output_path: str = str(params.get('output') or '')
+
+            if output_path:
+                with open(output_path, 'w', encoding='utf-8') as out_file:
+                    out_file.write(f'{disasm_text}\n')
+
+                return {
+                    'returncode': 0,
+                    'stdout': f'Disassembled {len(disassembled)} frames to {output_path}',
+                    'stderr': '',
+                }
+
+            return {'returncode': 0, 'stdout': disasm_text, 'stderr': ''}
 
         except (ScaraError, OSError, ValueError, TypeError, KeyError) as exc:
             return {

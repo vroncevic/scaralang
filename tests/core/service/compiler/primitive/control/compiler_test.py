@@ -26,8 +26,8 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.service.compiler.primitive.control.compiler import ControlCommandCompiler
 from scaralang.core.service.compiler.primitive.control.waypoint.factory import ControlWaypointBuilderFactory
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -66,7 +66,7 @@ class TestControlCommandCompiler(TestCase):
         '''
         builder = ControlWaypointBuilderFactory.create()
         self.compiler = ControlCommandCompiler(waypoint_builder=builder)
-        self.context = ScaraCompilerContext()
+        self.context = CompilerContextFactory.create()
 
     def test_protocol_conformance(self) -> None:
         '''
@@ -132,7 +132,7 @@ class TestControlCommandCompiler(TestCase):
         '''
         inst = ScaraInstruction(
             command_type=ScaraCommandType.WAIT_MS,
-            parameters={InstructionParam.MS: 500.0},
+            parameters={ScaraInstructionParam.MS: 500.0},
             line_number=2,
             raw_text='WAIT_MS 500',
         )
@@ -176,7 +176,7 @@ class TestControlCommandCompiler(TestCase):
         '''
         inst = ScaraInstruction(
             command_type=ScaraCommandType.CONFIG_MOTOR,
-            parameters={InstructionParam.MODE: 'CLOSED_LOOP'},
+            parameters={ScaraInstructionParam.MODE: 'CLOSED_LOOP'},
             line_number=3,
             raw_text='CONFIG MOTOR CLOSED_LOOP',
         )

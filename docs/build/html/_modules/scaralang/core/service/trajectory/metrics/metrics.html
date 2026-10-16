@@ -61,6 +61,7 @@
 
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">hypot</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
 
@@ -68,7 +69,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -82,12 +83,20 @@
 
 <span class="sd">        It defines:</span>
 
+<span class="sd">            :attributes:</span>
+<span class="sd">                | MIN_WAYPOINTS_COUNT - Minimum waypoints threshold to calculate trajectory metrics.</span>
+<span class="sd">                | ZERO_METRIC - Base zero floating point distance and duration metric.</span>
+<span class="sd">                | MIN_SPEED_MM_S - Minimum valid feedrate divisor in mm/s.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | distance_between - Computes 3D Euclidean distance between two waypoints.</span>
 <span class="sd">                | radial_distance - Calculates planar radial distance from robot base.</span>
 <span class="sd">                | calculate_distance - Computes total 3D Cartesian distance along the path.</span>
 <span class="sd">                | calculate_duration - Computes estimated execution duration based on speeds.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">MIN_WAYPOINTS_COUNT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">ZERO_METRIC</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">MIN_SPEED_MM_S</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
 
 <div class="viewcode-block" id="TrajectoryMetrics.distance_between">
 <a class="viewcode-back" href="../../../../../../scaralang.core.service.trajectory.metrics.metrics.html#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.distance_between">[docs]</a>
@@ -130,10 +139,10 @@
 <span class="sd">            :param waypoints: Sequence of waypoints.</span>
 <span class="sd">            :return: Cumulative distance in mm.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">waypoints</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">waypoints</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">MIN_WAYPOINTS_COUNT</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ZERO_METRIC</span>
 
-        <span class="n">total</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">total</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ZERO_METRIC</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">waypoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">total</span> <span class="o">+=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">distance_between</span><span class="p">(</span><span class="n">waypoints</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">waypoints</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
@@ -151,14 +160,14 @@
 <span class="sd">            :param waypoints: Sequence of waypoints.</span>
 <span class="sd">            :return: Estimated duration in seconds.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">waypoints</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">waypoints</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">MIN_WAYPOINTS_COUNT</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ZERO_METRIC</span>
 
-        <span class="n">total_sec</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">total_sec</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ZERO_METRIC</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">waypoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">dist</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">distance_between</span><span class="p">(</span><span class="n">waypoints</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">waypoints</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
-            <span class="n">spd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">waypoints</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">speed</span><span class="p">)</span>
+            <span class="n">spd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">MIN_SPEED_MM_S</span><span class="p">,</span> <span class="n">waypoints</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">speed</span><span class="p">)</span>
             <span class="n">total_sec</span> <span class="o">+=</span> <span class="n">dist</span> <span class="o">/</span> <span class="n">spd</span>
 
         <span class="k">return</span> <span class="n">total_sec</span></div>

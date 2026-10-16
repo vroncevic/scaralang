@@ -80,6 +80,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">NAME - Canonical component identifier name.</div>
+<div class="line">MIN_WAYPOINTS_COUNT - Minimum waypoints threshold to form path segments.</div>
+<div class="line">ZERO_DISTANCE - Base zero distance in millimeters.</div>
+<div class="line">ZERO_DURATION - Base zero duration in microseconds.</div>
+<div class="line">MIN_SPEED_MM_S - Minimum valid feedrate divisor in mm/s.</div>
+<div class="line">MICROSECONDS_PER_SECOND - Microseconds scaling factor per second.</div>
 <div class="line">name - Identifier name of the cycle time calculator.</div>
 </div>
 </dd>
@@ -92,6 +98,36 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.MICROSECONDS_PER_SECOND">
+<span class="sig-name descname"><span class="pre">MICROSECONDS_PER_SECOND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000000.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.MICROSECONDS_PER_SECOND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.MIN_SPEED_MM_S">
+<span class="sig-name descname"><span class="pre">MIN_SPEED_MM_S</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.MIN_SPEED_MM_S" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.MIN_WAYPOINTS_COUNT">
+<span class="sig-name descname"><span class="pre">MIN_WAYPOINTS_COUNT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.MIN_WAYPOINTS_COUNT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cycle_time_calculator'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.ZERO_DISTANCE">
+<span class="sig-name descname"><span class="pre">ZERO_DISTANCE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.ZERO_DISTANCE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.ZERO_DURATION">
+<span class="sig-name descname"><span class="pre">ZERO_DURATION</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.ZERO_DURATION" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.calculate_distance">
 <span class="sig-name descname"><span class="pre">calculate_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.plan.iplan.html#scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan" title="scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan"><span class="pre">ITrajectoryPlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/metrics/cycle/calculator.html#CycleTimeCalculator.calculate_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.calculate_distance" title="Link to this definition">¶</a></dt>
@@ -164,6 +200,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.trajectory.metrics.cycle.calculator module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.MICROSECONDS_PER_SECOND"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator.MICROSECONDS_PER_SECOND</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.MIN_SPEED_MM_S"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator.MIN_SPEED_MM_S</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.MIN_WAYPOINTS_COUNT"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator.MIN_WAYPOINTS_COUNT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.NAME"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator.NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.ZERO_DISTANCE"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator.ZERO_DISTANCE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.ZERO_DURATION"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator.ZERO_DURATION</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.calculate_distance"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator.calculate_distance()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.calculate_duration"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator.calculate_duration()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.cycle.calculator.CycleTimeCalculator.name"><code class="docutils literal notranslate"><span class="pre">CycleTimeCalculator.name</span></code></a></li>

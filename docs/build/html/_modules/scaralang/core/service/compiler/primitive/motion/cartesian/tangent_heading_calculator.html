@@ -60,6 +60,7 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">atan2</span><span class="p">,</span> <span class="n">degrees</span><span class="p">,</span> <span class="n">hypot</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
 
@@ -67,7 +68,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -81,10 +82,14 @@
 
 <span class="sd">        It defines:</span>
 
+<span class="sd">            :attributes:</span>
+<span class="sd">                | MIN_DISPLACEMENT - Minimum displacement threshold to recalculate heading angle.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | calculate_tangent_angle - Calculates orientation angle in degrees.</span>
 <span class="sd">                | get_version - Gets implementation version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">MIN_DISPLACEMENT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-4</span>
 
 <div class="viewcode-block" id="TangentHeadingCalculator.calculate_tangent_angle">
 <a class="viewcode-back" href="../../../../../../../../scaralang.core.service.compiler.primitive.motion.cartesian.tangent_heading_calculator.html#scaralang.core.service.compiler.primitive.motion.cartesian.tangent_heading_calculator.TangentHeadingCalculator.calculate_tangent_angle">[docs]</a>
@@ -107,7 +112,7 @@
         <span class="n">delta_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">source</span><span class="o">.</span><span class="n">x</span>
         <span class="n">delta_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">source</span><span class="o">.</span><span class="n">y</span>
 
-        <span class="k">if</span> <span class="n">hypot</span><span class="p">(</span><span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">hypot</span><span class="p">(</span><span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">MIN_DISPLACEMENT</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">fallback_phi</span>
 
         <span class="k">return</span> <span class="n">degrees</span><span class="p">(</span><span class="n">atan2</span><span class="p">(</span><span class="n">delta_y</span><span class="p">,</span> <span class="n">delta_x</span><span class="p">))</span></div>

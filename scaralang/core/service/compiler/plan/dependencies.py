@@ -25,13 +25,13 @@ from dataclasses import dataclass
 
 from scaralang.core.service.linter.ilinter import ILinter
 from scaralang.core.service.parser.iparser import IScaraParser
-from scaralang.core.service.trajectory.validation.ivalidator import ITrajectoryValidator
+from scaralang.core.service.trajectory.validation.plan.ivalidator import ITrajectoryPlanValidator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,11 +45,11 @@ class PlanDependencies:
         It defines:
 
             :attributes:
-                | validator - Injected kinematic trajectory validator protocol.
+                | validator - Injected kinematic trajectory plan validator protocol.
                 | parser - Injected AST parser protocol.
                 | linter - Injected static analysis linter protocol.
     '''
 
-    validator: ITrajectoryValidator
+    validator: ITrajectoryPlanValidator
     parser: IScaraParser
     linter: ILinter

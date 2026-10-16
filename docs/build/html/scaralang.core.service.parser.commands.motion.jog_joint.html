@@ -78,13 +78,26 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">attributes<span class="colon">:</span></dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line">_name - Component identification name.</div>
-</div>
+<dt class="field-odd">cvar NAME<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Component identification name.</p>
 </dd>
-<dt class="field-even">methods<span class="colon">:</span></dt>
-<dd class="field-even"><div class="line-block">
+<dt class="field-even">cvar MIN_TOKENS<span class="colon">:</span></dt>
+<dd class="field-even"><p>Minimum required tokens for JOG_JOINT instruction.</p>
+</dd>
+<dt class="field-odd">cvar CMD_INDEX<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Index of command token in sequence.</p>
+</dd>
+<dt class="field-even">cvar JOINT_INDEX<span class="colon">:</span></dt>
+<dd class="field-even"><p>Index of joint ID argument.</p>
+</dd>
+<dt class="field-odd">cvar VAL_INDEX<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Index of degree rotation value argument.</p>
+</dd>
+<dt class="field-even">cvar PARSED_COMMAND<span class="colon">:</span></dt>
+<dd class="field-even"><p>Target command keyword string.</p>
+</dd>
+<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
 <div class="line">name - Property returning component name.</div>
 <div class="line">can_parse - Checks whether command is JOG_JOINT.</div>
 <div class="line">parse - Parses JOG_JOINT statement tokens into ScaraInstruction.</div>
@@ -92,6 +105,36 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.CMD_INDEX">
+<span class="sig-name descname"><span class="pre">CMD_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.CMD_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.JOINT_INDEX">
+<span class="sig-name descname"><span class="pre">JOINT_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.JOINT_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.MIN_TOKENS">
+<span class="sig-name descname"><span class="pre">MIN_TOKENS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.MIN_TOKENS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'jog_joint_parser'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.PARSED_COMMAND">
+<span class="sig-name descname"><span class="pre">PARSED_COMMAND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'JOG_JOINT'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.PARSED_COMMAND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.VAL_INDEX">
+<span class="sig-name descname"><span class="pre">VAL_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.VAL_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.can_parse">
 <span class="sig-name descname"><span class="pre">can_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/motion/jog_joint.html#JogJointParser.can_parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.can_parse" title="Link to this definition">¶</a></dt>
@@ -154,6 +197,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.parser.commands.motion.jog_joint module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser"><code class="docutils literal notranslate"><span class="pre">JogJointParser</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.CMD_INDEX"><code class="docutils literal notranslate"><span class="pre">JogJointParser.CMD_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.JOINT_INDEX"><code class="docutils literal notranslate"><span class="pre">JogJointParser.JOINT_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.MIN_TOKENS"><code class="docutils literal notranslate"><span class="pre">JogJointParser.MIN_TOKENS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.NAME"><code class="docutils literal notranslate"><span class="pre">JogJointParser.NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.PARSED_COMMAND"><code class="docutils literal notranslate"><span class="pre">JogJointParser.PARSED_COMMAND</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.VAL_INDEX"><code class="docutils literal notranslate"><span class="pre">JogJointParser.VAL_INDEX</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.can_parse"><code class="docutils literal notranslate"><span class="pre">JogJointParser.can_parse()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.name"><code class="docutils literal notranslate"><span class="pre">JogJointParser.name</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.jog_joint.JogJointParser.parse"><code class="docutils literal notranslate"><span class="pre">JogJointParser.parse()</span></code></a></li>

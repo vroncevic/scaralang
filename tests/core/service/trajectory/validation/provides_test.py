@@ -28,7 +28,6 @@ from scaralang.core.service.trajectory.validation.feedrate.factory import Feedra
 from scaralang.core.service.trajectory.validation.plan.dependencies import PlanDependencies
 from scaralang.core.service.trajectory.validation.plan.factory import PlanFactory
 from scaralang.core.service.trajectory.validation.provides import ValidationProvides
-from scaralang.core.service.trajectory.validation.validator import TrajectoryValidator
 from scaralang.core.service.trajectory.validation.waypoint.factory import WaypointFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
@@ -36,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,43 +53,41 @@ class TestValidationProvides(TestCase):
     '''
 
     def test_bundle_initialization(self) -> None:
-        '''Verifies bundle holds provided trajectory validator instance.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        wp_val = WaypointFactory.create(kinematics=kinematics).validator
-        fr_val = FeedrateFactory.create(bounds=kinematics.bounds).validator
+        '''Verifies bundle holds provided role validator instances.'''
+        kinematics = DefaultKinematicsFactory.create()
+        wp_val = WaypointFactory.create(workspace=kinematics.workspace).validator
+        fr_val = FeedrateFactory.create(bounds=kinematics.envelope.bounds).validator
         plan_deps = PlanDependencies(
             waypoint_validator=wp_val,
             feedrate_validator=fr_val,
         )
         plan_val = PlanFactory.create(dependencies=plan_deps).validator
-        validator = TrajectoryValidator(
-            kinematics=kinematics,
-            waypoint_validator=wp_val,
-            feedrate_validator=fr_val,
-            plan_validator=plan_val,
+        bundle = ValidationProvides(
+            waypoint=wp_val,
+            feedrate=fr_val,
+            plan=plan_val,
         )
-        bundle = ValidationProvides(validator=validator)
-        self.assertIs(bundle.validator, validator)
+        self.assertIs(bundle.waypoint, wp_val)
+        self.assertIs(bundle.feedrate, fr_val)
+        self.assertIs(bundle.plan, plan_val)
 
     def test_bundle_immutability(self) -> None:
         '''Verifies frozen dataclass rejects attribute mutations.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        wp_val = WaypointFactory.create(kinematics=kinematics).validator
-        fr_val = FeedrateFactory.create(bounds=kinematics.bounds).validator
+        kinematics = DefaultKinematicsFactory.create()
+        wp_val = WaypointFactory.create(workspace=kinematics.workspace).validator
+        fr_val = FeedrateFactory.create(bounds=kinematics.envelope.bounds).validator
         plan_deps = PlanDependencies(
             waypoint_validator=wp_val,
             feedrate_validator=fr_val,
         )
         plan_val = PlanFactory.create(dependencies=plan_deps).validator
-        validator = TrajectoryValidator(
-            kinematics=kinematics,
-            waypoint_validator=wp_val,
-            feedrate_validator=fr_val,
-            plan_validator=plan_val,
+        bundle = ValidationProvides(
+            waypoint=wp_val,
+            feedrate=fr_val,
+            plan=plan_val,
         )
-        bundle = ValidationProvides(validator=validator)
         with self.assertRaises(FrozenInstanceError):
-            bundle.validator = validator  # type: ignore[misc]
+            bundle.waypoint = wp_val  # type: ignore[misc]
 
 
 if __name__ == '__main__':

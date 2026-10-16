@@ -71,7 +71,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.decompiler.frame.frame.</span></span><span class="sig-name descname"><span class="pre">FrameDecompiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kinematics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.kinematics.iservice.html#scaralang.core.service.kinematics.iservice.IKinematicsService" title="scaralang.core.service.kinematics.iservice.IKinematicsService"><span class="pre">IKinematicsService</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">transmission</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.kinematics.transmission.iconverter.html#scaralang.core.service.kinematics.transmission.iconverter.IJointStepTransmissionConverter" title="scaralang.core.service.kinematics.transmission.iconverter.IJointStepTransmissionConverter"><span class="pre">IJointStepTransmissionConverter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">unpacker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_payload_unpacker.html#scaralang.core.service.protocol.ibinary_payload_unpacker.IBinaryPayloadUnpacker" title="scaralang.core.service.protocol.ibinary_payload_unpacker.IBinaryPayloadUnpacker"><span class="pre">IBinaryPayloadUnpacker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/decompiler/frame/frame.html#FrameDecompiler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.decompiler.frame.frame.</span></span><span class="sig-name descname"><span class="pre">FrameDecompiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.kinematics.solver.planar.isolver.html#scaralang.core.service.kinematics.solver.planar.isolver.IPlanarKinematicsSolver" title="scaralang.core.service.kinematics.solver.planar.isolver.IPlanarKinematicsSolver"><span class="pre">IPlanarKinematicsSolver</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">transmission</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.kinematics.transmission.iconverter.html#scaralang.core.service.kinematics.transmission.iconverter.IJointStepTransmissionConverter" title="scaralang.core.service.kinematics.transmission.iconverter.IJointStepTransmissionConverter"><span class="pre">IJointStepTransmissionConverter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">motion_unpacker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_motion_payload_unpacker.html#scaralang.core.service.protocol.ibinary_motion_payload_unpacker.IBinaryMotionPayloadUnpacker" title="scaralang.core.service.protocol.ibinary_motion_payload_unpacker.IBinaryMotionPayloadUnpacker"><span class="pre">IBinaryMotionPayloadUnpacker</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">actuator_unpacker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_actuator_payload_unpacker.html#scaralang.core.service.protocol.ibinary_actuator_payload_unpacker.IBinaryActuatorPayloadUnpacker" title="scaralang.core.service.protocol.ibinary_actuator_payload_unpacker.IBinaryActuatorPayloadUnpacker"><span class="pre">IBinaryActuatorPayloadUnpacker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/decompiler/frame/frame.html#FrameDecompiler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Service translating single binary protocol frames into SCARA DSL script commands.</p>
 <p>It defines:</p>
@@ -79,9 +79,16 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">_kinematics - Injected kinematics calculation service.</div>
+<div class="line">_WAIT_PAYLOAD_SIZE - Slicing length for 32-bit millisecond dwell.</div>
+<div class="line">_OVERRIDE_PAYLOAD_SIZE - Minimum payload bytes for speed override.</div>
+<div class="line">_JOG_PAYLOAD_SIZE - Minimum payload bytes for joint jog command.</div>
+<div class="line">_BYTE_ORDER - Endianness encoding for wire payload integers.</div>
+<div class="line">_JOINT_INDEX_OFFSET - Index offset translating 0-indexed to 1-indexed joints.</div>
+<div class="line">_SIMPLE_COMMANDS - Mapping of parameterless MessageIds to DSL commands.</div>
+<div class="line">_planar - Injected planar kinematics solver.</div>
 <div class="line">_transmission - Injected joint step conversion strategy.</div>
-<div class="line">_unpacker - Injected binary payload deserialization adapter.</div>
+<div class="line">_motion_unpacker - Injected motion payload unpacker strategy.</div>
+<div class="line">_actuator_unpacker - Injected actuator payload unpacker strategy.</div>
 </div>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
@@ -94,18 +101,53 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._kinematics">
-<span class="sig-name descname"><span class="pre">_kinematics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.kinematics.iservice.html#scaralang.core.service.kinematics.iservice.IKinematicsService" title="scaralang.core.service.kinematics.iservice.IKinematicsService"><span class="pre">IKinematicsService</span></a></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._kinematics" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._BYTE_ORDER">
+<span class="sig-name descname"><span class="pre">_BYTE_ORDER</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'little'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'big'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'little'</span></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._BYTE_ORDER" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._JOG_PAYLOAD_SIZE">
+<span class="sig-name descname"><span class="pre">_JOG_PAYLOAD_SIZE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._JOG_PAYLOAD_SIZE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._JOINT_INDEX_OFFSET">
+<span class="sig-name descname"><span class="pre">_JOINT_INDEX_OFFSET</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._JOINT_INDEX_OFFSET" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._OVERRIDE_PAYLOAD_SIZE">
+<span class="sig-name descname"><span class="pre">_OVERRIDE_PAYLOAD_SIZE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._OVERRIDE_PAYLOAD_SIZE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._SIMPLE_COMMANDS">
+<span class="sig-name descname"><span class="pre">_SIMPLE_COMMANDS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{MessageId.CMD_ENABLE:</span> <span class="pre">'ENABLE',</span> <span class="pre">MessageId.CMD_DISABLE:</span> <span class="pre">'DISABLE',</span> <span class="pre">MessageId.CMD_ESTOP:</span> <span class="pre">'ESTOP',</span> <span class="pre">MessageId.CMD_HOME:</span> <span class="pre">'HOME',</span> <span class="pre">MessageId.CMD_HOLD:</span> <span class="pre">'HOLD',</span> <span class="pre">MessageId.CMD_RESUME:</span> <span class="pre">'RESUME'}</span></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._SIMPLE_COMMANDS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._WAIT_PAYLOAD_SIZE">
+<span class="sig-name descname"><span class="pre">_WAIT_PAYLOAD_SIZE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._WAIT_PAYLOAD_SIZE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._actuator_unpacker">
+<span class="sig-name descname"><span class="pre">_actuator_unpacker</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ibinary_actuator_payload_unpacker.html#scaralang.core.service.protocol.ibinary_actuator_payload_unpacker.IBinaryActuatorPayloadUnpacker" title="scaralang.core.service.protocol.ibinary_actuator_payload_unpacker.IBinaryActuatorPayloadUnpacker"><span class="pre">IBinaryActuatorPayloadUnpacker</span></a></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._actuator_unpacker" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._motion_unpacker">
+<span class="sig-name descname"><span class="pre">_motion_unpacker</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ibinary_motion_payload_unpacker.html#scaralang.core.service.protocol.ibinary_motion_payload_unpacker.IBinaryMotionPayloadUnpacker" title="scaralang.core.service.protocol.ibinary_motion_payload_unpacker.IBinaryMotionPayloadUnpacker"><span class="pre">IBinaryMotionPayloadUnpacker</span></a></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._motion_unpacker" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._planar">
+<span class="sig-name descname"><span class="pre">_planar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.kinematics.solver.planar.isolver.html#scaralang.core.service.kinematics.solver.planar.isolver.IPlanarKinematicsSolver" title="scaralang.core.service.kinematics.solver.planar.isolver.IPlanarKinematicsSolver"><span class="pre">IPlanarKinematicsSolver</span></a></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._planar" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._transmission">
 <span class="sig-name descname"><span class="pre">_transmission</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.kinematics.transmission.iconverter.html#scaralang.core.service.kinematics.transmission.iconverter.IJointStepTransmissionConverter" title="scaralang.core.service.kinematics.transmission.iconverter.IJointStepTransmissionConverter"><span class="pre">IJointStepTransmissionConverter</span></a></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._transmission" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.decompiler.frame.frame.FrameDecompiler._unpacker">
-<span class="sig-name descname"><span class="pre">_unpacker</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ibinary_payload_unpacker.html#scaralang.core.service.protocol.ibinary_payload_unpacker.IBinaryPayloadUnpacker" title="scaralang.core.service.protocol.ibinary_payload_unpacker.IBinaryPayloadUnpacker"><span class="pre">IBinaryPayloadUnpacker</span></a></em><a class="headerlink" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._unpacker" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -155,9 +197,16 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.decompiler.frame.frame module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._kinematics"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._kinematics</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._BYTE_ORDER"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._BYTE_ORDER</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._JOG_PAYLOAD_SIZE"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._JOG_PAYLOAD_SIZE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._JOINT_INDEX_OFFSET"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._JOINT_INDEX_OFFSET</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._OVERRIDE_PAYLOAD_SIZE"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._OVERRIDE_PAYLOAD_SIZE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._SIMPLE_COMMANDS"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._SIMPLE_COMMANDS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._WAIT_PAYLOAD_SIZE"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._WAIT_PAYLOAD_SIZE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._actuator_unpacker"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._actuator_unpacker</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._motion_unpacker"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._motion_unpacker</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._planar"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._planar</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._transmission"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._transmission</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler._unpacker"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler._unpacker</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler.decompile_frame"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler.decompile_frame()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.decompiler.frame.frame.FrameDecompiler.get_version"><code class="docutils literal notranslate"><span class="pre">FrameDecompiler.get_version()</span></code></a></li>
 </ul>

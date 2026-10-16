@@ -22,8 +22,7 @@ Info
 from __future__ import annotations
 
 from dataclasses import FrozenInstanceError
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
 from scaralang.core.model.dsl.binary.disassembly_summary import DisassemblySummary
 
@@ -31,17 +30,23 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 class TestDisassemblySummary(TestCase):
-    '''Unit tests verifying DisassemblySummary attributes and immutability.'''
+    '''
+        Unit tests verifying DisassemblySummary attributes and immutability.
+    '''
 
     def test_instantiation_and_attributes(self) -> None:
-        '''Verifies DisassemblySummary fields are assigned correctly.'''
+        '''
+            Verifies DisassemblySummary fields are assigned correctly.
+
+            :exceptions: None.
+        '''
         summary = DisassemblySummary(
             total_bytes=128,
             decoded_frames=4,
@@ -58,7 +63,11 @@ class TestDisassemblySummary(TestCase):
         self.assertEqual(summary.system_frames, 0)
 
     def test_immutability(self) -> None:
-        '''Verifies DisassemblySummary is frozen and cannot be mutated.'''
+        '''
+            Verifies DisassemblySummary is frozen and cannot be mutated.
+
+            :exceptions: None.
+        '''
         summary = DisassemblySummary(
             total_bytes=64,
             decoded_frames=2,
@@ -68,7 +77,7 @@ class TestDisassemblySummary(TestCase):
             system_frames=0,
         )
         with self.assertRaises(FrozenInstanceError):
-            summary.total_bytes = 256  # type: ignore[misc]
+            summary.total_bytes = 256
 
 
 if __name__ == '__main__':

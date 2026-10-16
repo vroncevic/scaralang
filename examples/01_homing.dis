@@ -1,0 +1,3 @@
+Disassembly of examples/01_homing.bin (2 frames):
+[0000] SEQ=000 MSG=CMD_ENABLE           | ENABLE
+[0001] SEQ=001 MSG=CMD_HOME             | HOME

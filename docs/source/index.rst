@@ -142,11 +142,11 @@ Tool structure
          │   │   │   ├── compiler/
          │   │   │   │   ├── arc_geometry.py
          │   │   │   │   ├── compiler_blend_state.py
+         │   │   │   │   ├── compiler_context.py
          │   │   │   │   ├── compiler_pose_state.py
          │   │   │   │   ├── compiler_speed_state.py
          │   │   │   │   ├── control_waypoint_descriptor.py
-         │   │   │   │   ├── __init__.py
-         │   │   │   │   └── scara_compiler_context.py
+         │   │   │   │   └── __init__.py
          │   │   │   ├── diagnostic/
          │   │   │   │   ├── __init__.py
          │   │   │   │   ├── scara_diagnostic.py
@@ -158,8 +158,8 @@ Tool structure
          │   │   │   ├── __init__.py
          │   │   │   ├── linter/
          │   │   │   │   ├── __init__.py
-         │   │   │   │   ├── lint_tool_state.py
-         │   │   │   │   └── scara_lint_context.py
+         │   │   │   │   ├── lint_context.py
+         │   │   │   │   └── lint_tool_state.py
          │   │   │   ├── macro/
          │   │   │   │   ├── __init__.py
          │   │   │   │   ├── pallet_definition.py
@@ -179,14 +179,21 @@ Tool structure
          │   │   │   └── scara_syntax_error.py
          │   │   ├── __init__.py
          │   │   ├── kinematics/
+         │   │   │   ├── axis_name.py
          │   │   │   ├── cartesian_pose.py
          │   │   │   ├── elbow_config.py
+         │   │   │   ├── ik_status.py
          │   │   │   ├── __init__.py
          │   │   │   ├── joint_angle_bounds.py
+         │   │   │   ├── joint_angles.py
+         │   │   │   ├── joint_step_coordinates.py
          │   │   │   ├── link_dimensions.py
          │   │   │   ├── point_2d.py
          │   │   │   ├── point_3d.py
          │   │   │   ├── scara_bounds.py
+         │   │   │   ├── scara_joints.py
+         │   │   │   ├── scara_joints_2d.py
+         │   │   │   ├── scara_joints_3d.py
          │   │   │   ├── singularity_margins.py
          │   │   │   ├── speed_limits.py
          │   │   │   ├── transmission_parameters.py
@@ -201,11 +208,14 @@ Tool structure
          │   │   ├── protocol/
          │   │   │   ├── binary_delimiter.py
          │   │   │   ├── binary_frame.py
+         │   │   │   ├── binary_payload_size.py
          │   │   │   ├── error_code.py
          │   │   │   ├── __init__.py
          │   │   │   ├── joint_steps.py
+         │   │   │   ├── manipulator_status.py
          │   │   │   ├── message_id.py
          │   │   │   ├── motor_wire_mode.py
+         │   │   │   ├── move_event_type.py
          │   │   │   └── tool_id.py
          │   │   ├── repl/
          │   │   │   ├── __init__.py
@@ -218,6 +228,7 @@ Tool structure
          │   │       ├── bottleneck_incident.py
          │   │       ├── bypass_arc_geometry.py
          │   │       ├── circle_geometry.py
+         │   │       ├── constraint_type.py
          │   │       ├── __init__.py
          │   │       ├── trajectory_cycle_report.py
          │   │       ├── validation_result.py
@@ -233,6 +244,7 @@ Tool structure
          │       │   │   │   │   ├── ibuilder.py
          │       │   │   │   │   └── __init__.py
          │       │   │   │   ├── compiler.py
+         │       │   │   │   ├── compiler_dependencies.py
          │       │   │   │   ├── dependencies.py
          │       │   │   │   ├── factory.py
          │       │   │   │   ├── icompiler.py
@@ -280,8 +292,16 @@ Tool structure
          │       │   │       │   ├── factory.py
          │       │   │       │   ├── idispatcher.py
          │       │   │       │   └── __init__.py
+         │       │   │       ├── duration/
+         │       │   │       │   ├── calculator.py
+         │       │   │       │   ├── factory.py
+         │       │   │       │   ├── icalculator.py
+         │       │   │       │   └── __init__.py
          │       │   │       └── __init__.py
          │       │   ├── compiler.py
+         │       │   ├── context/
+         │       │   │   ├── factory.py
+         │       │   │   └── __init__.py
          │       │   ├── dependencies.py
          │       │   ├── factory.py
          │       │   ├── icompiler.py
@@ -424,6 +444,13 @@ Tool structure
          │       │   ├── disassembler.py
          │       │   ├── factory.py
          │       │   ├── frame/
+         │       │   │   ├── decoder/
+         │       │   │   │   ├── actuator_decoder.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── idecoder.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── joint_steps_decoder.py
+         │       │   │   │   └── system_decoder.py
          │       │   │   ├── dependencies.py
          │       │   │   ├── factory.py
          │       │   │   ├── frame.py
@@ -458,6 +485,11 @@ Tool structure
          │       │   ├── scara/
          │       │   │   ├── exporter.py
          │       │   │   ├── factory.py
+         │       │   │   ├── formatter/
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── formatter.py
+         │       │   │   │   ├── iformatter.py
+         │       │   │   │   └── __init__.py
          │       │   │   ├── iexporter.py
          │       │   │   ├── __init__.py
          │       │   │   ├── serializer.py
@@ -476,30 +508,50 @@ Tool structure
          │       ├── __init__.py
          │       ├── kinematics/
          │       │   ├── dependencies.py
+         │       │   ├── envelope/
+         │       │   │   ├── envelope.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── ienvelope.py
+         │       │   │   └── __init__.py
          │       │   ├── factory.py
          │       │   ├── __init__.py
-         │       │   ├── iservice.py
          │       │   ├── profile/
          │       │   │   ├── default_scara_profile.py
+         │       │   │   ├── factory.py
          │       │   │   └── __init__.py
          │       │   ├── provides.py
-         │       │   ├── service.py
          │       │   ├── solver/
-         │       │   │   ├── factory.py
          │       │   │   ├── __init__.py
-         │       │   │   ├── isolver.py
-         │       │   │   └── solver.py
+         │       │   │   ├── planar/
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── isolver.py
+         │       │   │   │   └── solver.py
+         │       │   │   └── spatial/
+         │       │   │       ├── factory.py
+         │       │   │       ├── __init__.py
+         │       │   │       ├── isolver.py
+         │       │   │       └── solver.py
          │       │   ├── transmission/
          │       │   │   ├── converter.py
          │       │   │   ├── factory.py
          │       │   │   ├── iconverter.py
          │       │   │   └── __init__.py
          │       │   └── workspace/
+         │       │       ├── boundary/
+         │       │       │   ├── factory.py
+         │       │       │   ├── __init__.py
+         │       │       │   ├── iservice.py
+         │       │       │   ├── provides.py
+         │       │       │   └── service.py
          │       │       ├── evaluator.py
          │       │       ├── factory.py
          │       │       ├── ievaluator.py
          │       │       └── __init__.py
          │       ├── linter/
+         │       │   ├── context/
+         │       │   │   ├── factory.py
+         │       │   │   └── __init__.py
          │       │   ├── diagnostic/
          │       │   │   ├── factory.py
          │       │   │   ├── formatter.py
@@ -695,9 +747,22 @@ Tool structure
          │       │       ├── provides.py
          │       │       └── splitter.py
          │       ├── protocol/
-         │       │   ├── ibinary_frame_builder.py
+         │       │   ├── ibinary_actuator_frame_builder.py
+         │       │   ├── ibinary_actuator_payload_unpacker.py
+         │       │   ├── ibinary_frame_codec.py
+         │       │   ├── ibinary_frame_packer.py
          │       │   ├── ibinary_frame_parser.py
-         │       │   ├── ibinary_payload_unpacker.py
+         │       │   ├── ibinary_motion_frame_builder.py
+         │       │   ├── ibinary_motion_payload_unpacker.py
+         │       │   ├── ibinary_response_builder.py
+         │       │   ├── ibinary_response_payload_unpacker.py
+         │       │   ├── ibinary_system_frame_builder.py
+         │       │   ├── ibinary_system_payload_unpacker.py
+         │       │   └── __init__.py
+         │       ├── repl/
+         │       │   ├── context/
+         │       │   │   ├── factory.py
+         │       │   │   └── __init__.py
          │       │   └── __init__.py
          │       ├── trajectory/
          │       │   ├── avoidance/
@@ -741,11 +806,27 @@ Tool structure
          │       │   │       ├── provides.py
          │       │   │       └── validator.py
          │       │   ├── discretization/
-         │       │   │   ├── discretizer.py
+         │       │   │   ├── circle/
+         │       │   │   │   ├── circle.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── icircle.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   └── provides.py
          │       │   │   ├── factory.py
-         │       │   │   ├── idiscretizer.py
          │       │   │   ├── __init__.py
-         │       │   │   └── provides.py
+         │       │   │   ├── line/
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── iline.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── line.py
+         │       │   │   │   └── provides.py
+         │       │   │   ├── provides.py
+         │       │   │   └── rectangle/
+         │       │   │       ├── factory.py
+         │       │   │       ├── __init__.py
+         │       │   │       ├── irectangle.py
+         │       │   │       ├── provides.py
+         │       │   │       └── rectangle.py
          │       │   ├── __init__.py
          │       │   ├── metrics/
          │       │   │   ├── bottleneck/
@@ -796,7 +877,6 @@ Tool structure
          │       │       │   ├── provides.py
          │       │       │   └── validator.py
          │       │       ├── __init__.py
-         │       │       ├── ivalidator.py
          │       │       ├── plan/
          │       │       │   ├── dependencies.py
          │       │       │   ├── factory.py
@@ -805,7 +885,6 @@ Tool structure
          │       │       │   ├── provides.py
          │       │       │   └── validator.py
          │       │       ├── provides.py
-         │       │       ├── validator.py
          │       │       └── waypoint/
          │       │           ├── factory.py
          │       │           ├── __init__.py
@@ -1028,42 +1107,14 @@ Tool structure
          │   │       ├── factory.py
          │   │       ├── __init__.py
          │   │       └── provides.py
-         │   ├── communication/
-         │   │   ├── __init__.py
-         │   │   └── protocol/
-         │   │       ├── binary/
-         │   │       │   ├── builder/
-         │   │       │   │   ├── builder.py
-         │   │       │   │   ├── factory.py
-         │   │       │   │   ├── __init__.py
-         │   │       │   │   └── provides.py
-         │   │       │   ├── checksum/
-         │   │       │   │   ├── crc16_ccitt.py
-         │   │       │   │   └── __init__.py
-         │   │       │   ├── __init__.py
-         │   │       │   ├── parser/
-         │   │       │   │   ├── assembler/
-         │   │       │   │   │   ├── assembler.py
-         │   │       │   │   │   ├── factory.py
-         │   │       │   │   │   ├── iassembler.py
-         │   │       │   │   │   ├── __init__.py
-         │   │       │   │   │   └── provides.py
-         │   │       │   │   ├── factory.py
-         │   │       │   │   ├── __init__.py
-         │   │       │   │   ├── parser.py
-         │   │       │   │   ├── provides.py
-         │   │       │   │   ├── state.py
-         │   │       │   │   └── unpacker/
-         │   │       │   │       ├── factory.py
-         │   │       │   │       ├── __init__.py
-         │   │       │   │       ├── provides.py
-         │   │       │   │       └── unpacker.py
-         │   │       │   └── struct_format.py
-         │   │       └── __init__.py
          │   ├── compiler/
+         │   │   ├── binary/
+         │   │   │   ├── factory.py
+         │   │   │   └── __init__.py
          │   │   ├── factory.py
          │   │   └── __init__.py
          │   ├── config/
+         │   │   ├── scara_geometry_scheme.json
          │   │   ├── scaralang.cfg
          │   │   └── scaralang.logo
          │   ├── decompiler/
@@ -1096,6 +1147,68 @@ Tool structure
          │   │   └── instruction/
          │   │       ├── factory.py
          │   │       └── __init__.py
+         │   ├── protocol/
+         │   │   ├── ascii/
+         │   │   │   ├── classifier/
+         │   │   │   │   ├── classifier.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── iclassifier.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── templates/
+         │   │   │       ├── factory.py
+         │   │   │       ├── __init__.py
+         │   │   │       ├── itemplates.py
+         │   │   │       ├── provides.py
+         │   │   │       └── templates.py
+         │   │   ├── binary/
+         │   │   │   ├── builder/
+         │   │   │   │   ├── actuator.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── motion.py
+         │   │   │   │   ├── packer.py
+         │   │   │   │   ├── provides.py
+         │   │   │   │   └── system.py
+         │   │   │   ├── checksum/
+         │   │   │   │   ├── crc16_ccitt.py
+         │   │   │   │   └── __init__.py
+         │   │   │   ├── codec/
+         │   │   │   │   ├── codec.py
+         │   │   │   │   ├── dependencies.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
+         │   │   │   ├── __init__.py
+         │   │   │   ├── parser/
+         │   │   │   │   ├── assembler/
+         │   │   │   │   │   ├── assembler.py
+         │   │   │   │   │   ├── factory.py
+         │   │   │   │   │   ├── iassembler.py
+         │   │   │   │   │   ├── __init__.py
+         │   │   │   │   │   └── provides.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── parser.py
+         │   │   │   │   ├── provides.py
+         │   │   │   │   ├── state.py
+         │   │   │   │   └── unpacker/
+         │   │   │   │       ├── actuator.py
+         │   │   │   │       ├── factory.py
+         │   │   │   │       ├── __init__.py
+         │   │   │   │       ├── motion.py
+         │   │   │   │       ├── provides.py
+         │   │   │   │       ├── response.py
+         │   │   │   │       └── system.py
+         │   │   │   ├── response/
+         │   │   │   │   ├── builder.py
+         │   │   │   │   ├── dependencies.py
+         │   │   │   │   ├── factory.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── provides.py
+         │   │   │   └── struct_format.py
+         │   │   └── __init__.py
          │   └── trajectory/
          │       ├── avoidance/
          │       │   ├── bypass/
@@ -1142,47 +1255,47 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     191 directories, 837 files
+     210 directories, 931 files
 
 🏗 Architecture & SOLID Principles
 --------------------------------------------------------------------------------
 
 .. code-block:: text
 
-    ┌─────────────────────────────────────────────────────────────┐
-    │                   CLI / Inbound Adapters                    │
-    │        (Compile, Disassemble, Lint, Info, Export, REPL)     │
-    └──────────────┬───────────────────────────────┬──────────────┘
-                   │ Depends on Role Protocols     │
-                   ▼                               ▼
-    ┌──────────────────────────────┐┌─────────────────────────────┐
-    │         IScaraLinter         ││        IScaraCompiler       │
-    │  (Validation & Diagnostics)  ││ (Plan & Binary Generation)  │
-    └──────────────┬───────────────┘└──────────────┬──────────────┘
-                   │                               │
-                   ▼                               ▼
-    ┌────────────────────────────────────────────────────────────────────────┐
-    │                         Application Services                           │
-    │  ┌──────────────────┐   ┌────────────────────┐   ┌──────────────────┐  │
-    │  │    ScaraLexer    │   │    ScaraParser     │   │  ScaraCompiler   │  │
-    │  │  (Token Stream)  │   │ (Command Parsers)  │   │ (Macro Expander) │  │
-    │  └──────────────────┘   └────────────────────┘   └──────────────────┘  │
-    │  ┌──────────────────┐   ┌────────────────────┐   ┌──────────────────┐  │
-    │  │KinematicsService │   │SafeTrajectoryRouter│   │  BinaryCompiler  │  │
-    │  │ (Solver+Bounds)  │   │  (Bypass & Avoid)  │   │ (Step Generator) │  │
-    │  └──────────────────┘   └────────────────────┘   └──────────────────┘  │
-    │  ┌──────────────────┐   ┌────────────────────┐                         │
-    │  │ScaraDisassembler │   │   ScaraExporter    │                         │
-    │  │ (Frame Decoder)  │   │ (Multi-target Exp) │                         │
-    │  └──────────────────┘   └────────────────────┘                         │
-    └───────────────────────────────────┬────────────────────────────────────┘
-                                        │ Operates on Pure Models
-                                        ▼
-    ┌────────────────────────────────────────────────────────────────────────┐
-    │                          Pure Domain Models                            │
-    │       (ScaraProgram, BinaryProgram, Waypoint, BypassArcGeometry,       │
-    │        CircleGeometry, ScaraBounds, InstructionParam, MessageId)       │
-    └────────────────────────────────────────────────────────────────────────┘
+             ┌────────────────────────────────────────────────────────────────────────┐
+             │                         CLI / Inbound Adapters                         │
+             │        (Compile, Decompile, Disassemble, Lint, Info, Export, REPL)     │
+             └──────┬─────────────────────────────────────────────────────┬───────────┘
+                    │                Depends on Role Protocols            │
+                    ▼                                                     ▼
+       ┌─────────────────────────┐┌─────────────────────────┐┌─────────────────────────┐
+       │      IScaraLinter       ││     IScaraCompiler      ││    IScaraDecompiler     │
+       │(Validation/Diagnostics) ││(Plan/Binary Generation) ││ (Forward Kinematics/FK) │
+       └────────────┬────────────┘└────────────┬────────────┘└────────────┬────────────┘
+                    │                          │                          │
+                    ▼                          ▼                          ▼
+  ┌────────────────────────────────────────────────────────────────────────────────────┐
+  │                                Application Services                                │
+  │  ┌──────────────────┐   ┌────────────────────┐   ┌──────────────────────────────┐  │
+  │  │    ScaraLexer    │   │    ScaraParser     │   │        ScaraCompiler         │  │
+  │  │  (Token Stream)  │   │ (Command Parsers)  │   │       (Macro Expander)       │  │
+  │  └──────────────────┘   └────────────────────┘   └──────────────────────────────┘  │
+  │  ┌──────────────────┐   ┌────────────────────┐   ┌──────────────────────────────┐  │
+  │  │KinematicsService │   │SafeTrajectoryRouter│   │        BinaryCompiler        │  │
+  │  │ (Solver + Bounds)│   │  (Bypass & Avoid)  │   │       (Step Generator)       │  │
+  │  └──────────────────┘   └────────────────────┘   └──────────────────────────────┘  │
+  │  ┌──────────────────┐   ┌────────────────────┐   ┌──────────────────────────────┐  │
+  │  │ScaraDisassembler │   │   ScaraExporter    │   │       ScaraDecompiler        │  │
+  │  │ (Frame Decoder)  │   │ (Multi-target Exp) │   │     (FK Pose Recovery)       │  │
+  │  └──────────────────┘   └────────────────────┘   └──────────────────────────────┘  │
+  └─────────────────────────────────────────┬──────────────────────────────────────────┘
+                                            │ Operates on Pure Models
+                                            ▼
+  ┌────────────────────────────────────────────────────────────────────────────────────┐
+  │                                Pure Domain Models                                  │
+  │      (ScaraProgram, BinaryProgram, Waypoint, CartesianPose, ScaraJoints,           │
+  │       BypassArcGeometry, CircleGeometry, ScaraBounds, InstructionParam, MessageId) │
+  └────────────────────────────────────────────────────────────────────────────────────┘
 
 SOLID Principles Compliance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1225,35 +1338,36 @@ Every build is validated against 4 strict automated quality gates:
 📜 SCARA Domain-Specific Language (DSL) & ``.scara`` Programs
 --------------------------------------------------------------------------------
 
-**scaralang** includes a dedicated, industrial-grade Domain-Specific Language designed specifically for SCARA robotic manipulators. Programs are written in plain text files with the ``.scara`` extension and compiled into validated Cartesian trajectories via a clean AST pipeline:
+**scaralang** includes a dedicated, industrial-grade Domain-Specific Language designed specifically for SCARA robotic manipulators. Programs are written in plain text files with the ``.scara`` extension and compiled into validated Cartesian trajectories via a clean AST pipeline, with full bidirectional decompilation back from binary bytecode:
 
 .. code-block:: text
 
-    ┌─────────────────────────┐
-    │      .scara Source      │
-    └────────────┬────────────┘
-      ScaraLexer │
-                 ▼
-    ┌─────────────────────────┐
-    │      Token Stream       │
-    └────────────┬────────────┘
-     ScaraParser │
-                 ▼
-    ┌─────────────────────────┐
-    │       Abstract AST      │
-    └────────────┬────────────┘
-   ScaraCompiler │ (Macros + Kinematics) 
-                 ▼
-    ┌─────────────────────────┐
-    │      TrajectoryPlan     │
-    │(Waypoints & Discretize) │
-    └────────────┬────────────┘
-  BinaryCompiler │ (Step Discretization)
-                 ▼
-    ┌─────────────────────────┐
-    │      BinaryProgram      │
-    │(Wire Frames & Bytecode) │
-    └─────────────────────────┘
+         ┌─────────────────────────┐                      ┌─────────────────────────┐
+         │      .scara Source      │                      │    Decompiled Source    │
+         │ (High-level DSL Script) │                      │ (_decompiled.scara DSL) │
+         └────────────┬────────────┘                      └────────────▲────────────┘
+           ScaraLexer │                                                │ ScaraDecompiler
+                      ▼                                                │ (Reconstructed
+         ┌─────────────────────────┐                                   │  Cartesian Poses)
+         │      Token Stream       │                                   │
+         └────────────┬────────────┘                      ┌────────────┴────────────┐
+          ScaraParser │                                   │    Forward Kinematics   │
+                      ▼                                   │    (solve_fk: s -> X)   │
+         ┌─────────────────────────┐                      └────────────▲────────────┘
+         │       Abstract AST      │                                   │ BinaryParser /
+         └────────────┬────────────┘                                   │ Frame Unpacker
+       ScaraCompiler  │ (Macros + Kinematics)                          │
+                      ▼                                                │
+      ┌───────────────────────────────┐                                │
+      │        TrajectoryPlan         │                                │
+      │  (Waypoints & Discretization) │                                │
+      └───────────────┬───────────────┘                                │
+       BinaryCompiler │ (Step Discretization)                          │
+                      ▼                                                │
+         ┌─────────────────────────┐                                   │
+         │      BinaryProgram      │───────────────────────────────────┘
+         │ (Wire Frames & Bytecode)│          Bidirectional Round-Trip
+         └─────────────────────────┘
 
 Dead Zone Avoidance & Safe Trajectory Routing Pipeline
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1484,6 +1598,62 @@ Example ``.scara`` Program: Industrial Pick & Place
     RETRACT DIST 30.0
     HOME
 
+Verification Scripts & Examples (``examples/`` & ``run.sh``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The repository includes a comprehensive test and validation suite in ``examples/`` covering all motion primitives, coordinate frames, macro operations, and pneumatic controls:
+
+.. list-table:: Industrial Verification Suite
+   :widths: 30 40 30
+   :header-rows: 1
+
+   * - Script
+     - Domain Feature
+     - Output Artifacts
+   * - ``01_homing.scara``
+     - Multi-axis homing sequence
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``02_linear_motion.scara``
+     - Linear Cartesian path interpolation (``MOVE_L``)
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``03_joint_rapid.scara``
+     - Rapid joint point-to-point motion (``MOVE_J``)
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``04_circular_arc.scara``
+     - Clockwise / counter-clockwise arcs (``ARC_CW`` / ``ARC_CCW``)
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``05_jump_arch.scara``
+     - Parabolic arch pick-and-place transfer (``JUMP``)
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``06_pneumatics.scara``
+     - End-effector vacuum pump & blow-off valve control
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``07_approach_retract.scara``
+     - Vertical tool descent and safe retract (``APPROACH`` / ``RETRACT``)
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``08_work_frames.scara``
+     - Workpiece coordinate frame offsets (``FRAME USER`` / ``FRAME BASE``)
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``09_pallet_matrix.scara``
+     - Grid pallet matrix indexing (``PALLET_DEF`` / ``MOVE_PALLET``)
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``10_tangent_orientation.scara``
+     - Automatic 4th-axis tool yaw tangent orientation
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``11_zone_blending.scara``
+     - Corner tolerance continuous path smoothing (``ZONE``)
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+   * - ``12_industrial_pick_place.scara``
+     - Complete industrial assembly & palletizing cycle
+     - ``.bin``, ``.dis``, ``_decompiled.scara``
+
+To validate compilation, decompiler round-trip, and disassembly across all examples in a single pass:
+
+.. code-block:: bash
+
+    # Execute automated batch compiler / decompiler verification
+    bash run.sh
+
 📡 SCARA Binary Wire Protocol & Codec
 --------------------------------------------------------------------------------
 
@@ -1492,19 +1662,20 @@ All binary wire communication between **scaralang**, **scarajectory**, **scaraem
 Frame Header & Wire Format
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Each binary frame consists of a 4-byte header, variable payload, and 2-byte CRC-16-CCITT checksum:
+Each binary wire frame consists of a 5-byte header, variable payload (0 to 64 bytes), and a 3-byte trailer (CRC-16-CCITT and EOF delimiter ``0x0D``):
 
 .. code-block:: text
 
-    ┌──────────────┬──────────────┬──────────────┬──────────────────┬──────────────┐
-    │  SOF1 (0xAA) │  SOF2 (0x55) │  Msg ID (1B) │  Payload Len (1B)│ Payload (NB) │ ... CRC16 (2B)
-    └──────────────┴──────────────┴──────────────┴──────────────────┴──────────────┘
+    ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬──────────────────┬──────────────┬──────────────┐
+    │  SOF1 (0xAA) │  SOF2 (0x55) │  Msg ID (1B) │   SEQ (1B)   │  Length (1B) │   Payload (NB)   │  CRC16 (2B)  │  EOF (0x0D)  │
+    └──────────────┴──────────────┴──────────────┴──────────────┴──────────────┴──────────────────┴──────────────┴──────────────┘
+    │<─────────────── 5-Byte Wire Header ──────────────────────>│  0..64 Bytes │<───── 3-Byte Wire Trailer ──────>│
 
 Message Types & Payload Structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table:: Binary Message Types
-   :widths: 15 20 35 30
+   :widths: 12 25 38 25
    :header-rows: 1
 
    * - Message ID
@@ -1512,33 +1683,121 @@ Message Types & Payload Structure
      - Payload Structure
      - Description
    * - ``0x01``
-     - ``JOINT_STEPS``
-     - ``Step[n]`` (8 bytes per step: ΔS1, ΔS2, ΔS3, ΔS4)
-     - Coordinated stepper motor joint step block.
-   * - ``0x02``
-     - ``TOOL_COMMAND``
-     - ``ToolId (1B), Action (1B), Param (2B)``
-     - End-effector actuator trigger (vacuum, gripper, valve).
+     - ``CMD_MOVE_JOINT_STEPS``
+     - ``j1..j4 (16B), duration_us (4B), feed (2B)`` (22B)
+     - Coordinated stepper motor joint step block with duration and feedrate.
    * - ``0x03``
-     - ``ESTOP``
+     - ``CMD_ENABLE``
      - Empty (``0 bytes``)
-     - Immediate hardware emergency stop.
+     - Energize stepper motor driver stages (holding torque).
    * - ``0x04``
-     - ``PAUSE``
+     - ``CMD_DISABLE``
      - Empty (``0 bytes``)
-     - Pause execution / feed hold.
+     - De-energize motor driver stages (free movement).
    * - ``0x05``
-     - ``RESUME``
+     - ``CMD_ESTOP``
      - Empty (``0 bytes``)
-     - Resume paused trajectory execution.
+     - Immediate hardware emergency stop and motion abort.
    * - ``0x06``
-     - ``HEARTBEAT``
-     - ``Sequence (4B), Status (1B)``
-     - Real-time link health and operational state beacon.
+     - ``CMD_HOME``
+     - Empty (``0 bytes``)
+     - Execute multi-axis homing sequence (Z -> J2 -> J1).
    * - ``0x07``
-     - ``SYNC``
-     - ``Timestamp (4B)``
-     - Clock synchronization and timestamp alignment.
+     - ``CMD_HOLD``
+     - Empty (``0 bytes``)
+     - Trajectory feed hold / pause motion execution.
+   * - ``0x08``
+     - ``CMD_RESUME``
+     - Empty (``0 bytes``)
+     - Resume suspended motion execution.
+   * - ``0x09``
+     - ``CMD_JOG_JOINT``
+     - ``joint_id (1B), dir (1B), steps (2B)`` (4B)
+     - Incremental single joint rotational/linear jog.
+   * - ``0x0A``
+     - ``CMD_SETPOS_STEPS``
+     - ``s1, s2, s3, s4 (16B)``
+     - Force absolute step register position without motion.
+   * - ``0x0B``
+     - ``CMD_TOOL_PUMP``
+     - ``tool_id (1B), state (1B)`` (2B)
+     - Vacuum suction pump actuation (``ON``/``OFF``).
+   * - ``0x0C``
+     - ``CMD_TOOL_VALVE``
+     - ``tool_id (1B), state (1B)`` (2B)
+     - Pneumatic blow-off release valve actuation (``ON``/``OFF``).
+   * - ``0x0D``
+     - ``CMD_WAIT``
+     - ``delay_ms (4B)``
+     - Dwell delay execution for specified milliseconds.
+   * - ``0x0E``
+     - ``CMD_OVERRIDE``
+     - ``percent (1B: 10..200)``
+     - Dynamically scale path execution velocity in real time.
+   * - ``0x0F``
+     - ``CMD_CONFIG_MOTOR``
+     - ``motor_mode (1B), axis_mask (1B)`` (2B)
+     - Select open-loop TMC2209 or closed-loop MKS SERVO42D.
+   * - ``0x20``
+     - ``CMD_GET_STATUS``
+     - Empty (``0 bytes``)
+     - Query consolidated robot status and motion flags.
+   * - ``0x21``
+     - ``CMD_GET_STEPS``
+     - Empty (``0 bytes``)
+     - Query current absolute joint step counters.
+   * - ``0x22``
+     - ``CMD_GET_DIAGNOSTICS``
+     - Empty (``0 bytes``)
+     - Query extended controller diagnostics and memory stats.
+   * - ``0x23``
+     - ``CMD_CLEAR_FAULT``
+     - Empty (``0 bytes``)
+     - Reset latched hardware fault condition.
+   * - ``0x24``
+     - ``CMD_PING``
+     - ``timestamp_ms (4B)``
+     - Real-time link health and latency measurement ping.
+   * - ``0x30``
+     - ``CMD_BOOTLOADER``
+     - Empty (``0 bytes``)
+     - Reboot controller into USB BOOTSEL firmware update mode.
+   * - ``0x80``
+     - ``RESP_ACK``
+     - ``acked_id (1B), q_count (1B)`` (2B)
+     - Positive command acknowledgment from robot controller.
+   * - ``0x81``
+     - ``RESP_NACK``
+     - ``rejected_id (1B), error_code (1B)`` (2B)
+     - Negative command rejection with hardware error code.
+   * - ``0x82``
+     - ``RESP_STATUS``
+     - ``state, substate, flags (3B), s1..s4 (16B)`` (19B)
+     - Real-time consolidated robot status and coordinates.
+   * - ``0x83``
+     - ``RESP_STEPS``
+     - ``s1, s2, s3, s4 (16B)``
+     - Current absolute joint step positions for all 4 axes.
+   * - ``0x84``
+     - ``RESP_PONG``
+     - ``echo_timestamp_ms (4B)``
+     - Heartbeat keepalive reply with round-trip timestamp.
+   * - ``0x85``
+     - ``RESP_MOVE_EVENT``
+     - ``event_type (1B), step_index (4B)`` (5B)
+     - Trajectory waypoint start/complete execution notification.
+   * - ``0x86``
+     - ``RESP_HOMING_EVENT``
+     - ``axis_mask (1B), status (1B)`` (2B)
+     - Multi-axis limit switch trigger event notification.
+   * - ``0x88``
+     - ``RESP_DIAGNOSTICS``
+     - Extended 56-byte payload
+     - System diagnostics (CPU, free RAM, temperature, drops).
+   * - ``0x89``
+     - ``RESP_FAULT_EVENT``
+     - ``fault_code (2B), axis (1B), info (1B)`` (4B)
+     - Critical hardware fault alert.
 
 Hardware Execution & Motor Actuation Targets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

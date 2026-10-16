@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from math import hypot, sqrt
+from typing import ClassVar
 
 from scaralang.core.model.trajectory.waypoint import Waypoint
 
@@ -30,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,12 +43,20 @@ class TrajectoryMetrics:
 
         It defines:
 
+            :attributes:
+                | MIN_WAYPOINTS_COUNT - Minimum waypoints threshold to calculate trajectory metrics.
+                | ZERO_METRIC - Base zero floating point distance and duration metric.
+                | MIN_SPEED_MM_S - Minimum valid feedrate divisor in mm/s.
             :methods:
                 | distance_between - Computes 3D Euclidean distance between two waypoints.
                 | radial_distance - Calculates planar radial distance from robot base.
                 | calculate_distance - Computes total 3D Cartesian distance along the path.
                 | calculate_duration - Computes estimated execution duration based on speeds.
     '''
+
+    MIN_WAYPOINTS_COUNT: ClassVar[int] = 2
+    ZERO_METRIC: ClassVar[float] = 0.0
+    MIN_SPEED_MM_S: ClassVar[float] = 1.0
 
     @classmethod
     def distance_between(cls, p1: Waypoint, p2: Waypoint) -> float:
@@ -82,10 +91,10 @@ class TrajectoryMetrics:
             :param waypoints: Sequence of waypoints.
             :return: Cumulative distance in mm.
         '''
-        if len(waypoints) < 2:
-            return 0.0
+        if len(waypoints) < cls.MIN_WAYPOINTS_COUNT:
+            return cls.ZERO_METRIC
 
-        total: float = 0.0
+        total: float = cls.ZERO_METRIC
 
         for i in range(len(waypoints) - 1):
             total += cls.distance_between(waypoints[i], waypoints[i + 1])
@@ -100,14 +109,14 @@ class TrajectoryMetrics:
             :param waypoints: Sequence of waypoints.
             :return: Estimated duration in seconds.
         '''
-        if len(waypoints) < 2:
-            return 0.0
+        if len(waypoints) < cls.MIN_WAYPOINTS_COUNT:
+            return cls.ZERO_METRIC
 
-        total_sec: float = 0.0
+        total_sec: float = cls.ZERO_METRIC
 
         for i in range(len(waypoints) - 1):
             dist: float = cls.distance_between(waypoints[i], waypoints[i + 1])
-            spd: float = max(1.0, waypoints[i + 1].speed)
+            spd: float = max(cls.MIN_SPEED_MM_S, waypoints[i + 1].speed)
             total_sec += dist / spd
 
         return total_sec

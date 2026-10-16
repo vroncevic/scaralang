@@ -23,6 +23,8 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
+from scaralang.core.model.kinematics.joint_angles import JointAngles
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.binary.step.discretizer.idiscretizer import IStepDiscretizer
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,17 +55,17 @@ class DummyStepDiscretizer:
         theta2_rad: float,
         z_mm: float,
         theta4_rad: float,
-    ) -> tuple[int, int, int, int]:
+    ) -> JointStepCoordinates:
         '''Dummy implementation of angles_to_steps.'''
         _ = (theta1_rad, theta2_rad, z_mm, theta4_rad)
-        return (0, 0, 0, 0)
+        return JointStepCoordinates(j1=0, j2=0, z=0, j4=0)
 
     def discretize_waypoint(
         self,
         *,
         waypoint: Waypoint,
-        prev_angles: tuple[float, float, float, float],
-    ) -> tuple[JointSteps, tuple[float, float, float, float]]:
+        prev_angles: JointAngles,
+    ) -> tuple[JointSteps, JointAngles]:
         '''Dummy implementation of discretize_waypoint.'''
         _ = (waypoint, prev_angles)
         steps = JointSteps(
@@ -74,18 +76,7 @@ class DummyStepDiscretizer:
             duration_us=1000,
             feedrate_scale=100,
         )
-        return steps, (0.0, 0.0, 0.0, 0.0)
-
-    def calculate_segment_duration(
-        self,
-        *,
-        current_steps: tuple[int, int, int, int],
-        target_steps: tuple[int, int, int, int],
-        speed_mm_s: float,
-    ) -> int:
-        '''Dummy implementation of calculate_segment_duration.'''
-        _ = (current_steps, target_steps, speed_mm_s)
-        return 1000
+        return steps, JointAngles(theta1=0.0, theta2=0.0, z=0.0, theta4=0.0)
 
     def get_version(self) -> str:
         '''Dummy implementation of get_version.'''

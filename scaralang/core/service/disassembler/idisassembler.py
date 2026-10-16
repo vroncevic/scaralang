@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -63,7 +63,6 @@ class IScaraDisassembler(Protocol):
             :param frame: BinaryFrame instance to disassemble.
             :param index: Sequence zero-based position index.
             :return: Decoded DisassembledFrame domain model.
-            :exceptions: None.
         '''
 
     def disassemble(self, *, data: bytes) -> tuple[DisassembledFrame, ...]:
@@ -72,7 +71,6 @@ class IScaraDisassembler(Protocol):
 
             :param data: Contiguous binary bytes containing one or more frames.
             :return: Tuple of decoded DisassembledFrame domain models.
-            :exceptions: None.
         '''
 
     def calculate_summary(
@@ -87,7 +85,6 @@ class IScaraDisassembler(Protocol):
             :param frames: Decoded DisassembledFrame domain models.
             :param byte_count: Total raw bytes parsed from binary source.
             :return: Computed DisassemblySummary domain model.
-            :exceptions: None.
         '''
 
     def get_version(self) -> str:
@@ -95,5 +92,4 @@ class IScaraDisassembler(Protocol):
             Returns the disassembler version string representation.
 
             :return: Semantic version string.
-            :exceptions: None.
         '''

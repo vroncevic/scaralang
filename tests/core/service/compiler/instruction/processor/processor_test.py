@@ -25,9 +25,9 @@ from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.service.compiler.instruction.processor.iprocessor import IPrimitiveInstructionProcessor
 from scaralang.core.service.compiler.instruction.processor.processor import PrimitiveInstructionProcessor
@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -66,7 +66,7 @@ class TestPrimitiveInstructionProcessor(TestCase):
         self.processor = PrimitiveInstructionProcessor(
             primitive_compilers=[self.compiler]
         )
-        self.context = ScaraCompilerContext()
+        self.context = CompilerContextFactory.create()
 
     def test_structural_conformance(self) -> None:
         '''
@@ -78,7 +78,7 @@ class TestPrimitiveInstructionProcessor(TestCase):
         '''
             Verifies processor get_version returns semantic version string.
         '''
-        self.assertEqual(self.processor.get_version(), '1.0.8')
+        self.assertEqual(self.processor.get_version(), '1.0.9')
 
     def test_process_matched_instruction(self) -> None:
         '''
@@ -86,7 +86,7 @@ class TestPrimitiveInstructionProcessor(TestCase):
         '''
         instruction = ScaraInstruction(
             command_type=ScaraCommandType.PUMP,
-            parameters={InstructionParam.STATE: PneumaticState.ON},
+            parameters={ScaraInstructionParam.STATE: PneumaticState.ON},
             line_number=1,
             raw_text='PUMP ON',
         )
@@ -103,7 +103,7 @@ class TestPrimitiveInstructionProcessor(TestCase):
         '''
         instruction = ScaraInstruction(
             command_type=ScaraCommandType.MOVE_L,
-            parameters={InstructionParam.X: 100.0, InstructionParam.Y: 100.0},
+            parameters={ScaraInstructionParam.X: 100.0, ScaraInstructionParam.Y: 100.0},
             line_number=2,
             raw_text='MOVE_L X=100 Y=100',
         )

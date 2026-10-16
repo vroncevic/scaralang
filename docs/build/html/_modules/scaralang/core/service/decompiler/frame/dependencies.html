@@ -61,15 +61,16 @@
 
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.iservice</span> <span class="kn">import</span> <span class="n">IKinematicsService</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.planar.isolver</span> <span class="kn">import</span> <span class="n">IPlanarKinematicsSolver</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.transmission.iconverter</span> <span class="kn">import</span> <span class="n">IJointStepTransmissionConverter</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_payload_unpacker</span> <span class="kn">import</span> <span class="n">IBinaryPayloadUnpacker</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_actuator_payload_unpacker</span> <span class="kn">import</span> <span class="n">IBinaryActuatorPayloadUnpacker</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.protocol.ibinary_motion_payload_unpacker</span> <span class="kn">import</span> <span class="n">IBinaryMotionPayloadUnpacker</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -85,15 +86,17 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | kinematics - Injected kinematics calculation service.</span>
+<span class="sd">                | planar - Injected planar kinematics solver.</span>
 <span class="sd">                | transmission - Injected joint step conversion strategy.</span>
-<span class="sd">                | unpacker - Injected binary payload deserialization adapter.</span>
+<span class="sd">                | motion_unpacker - Injected motion payload unpacker strategy.</span>
+<span class="sd">                | actuator_unpacker - Injected actuator payload unpacker strategy.</span>
 <span class="sd">            :methods: None.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">kinematics</span><span class="p">:</span> <span class="n">IKinematicsService</span>
+    <span class="n">planar</span><span class="p">:</span> <span class="n">IPlanarKinematicsSolver</span>
     <span class="n">transmission</span><span class="p">:</span> <span class="n">IJointStepTransmissionConverter</span>
-    <span class="n">unpacker</span><span class="p">:</span> <span class="n">IBinaryPayloadUnpacker</span></div>
+    <span class="n">motion_unpacker</span><span class="p">:</span> <span class="n">IBinaryMotionPayloadUnpacker</span>
+    <span class="n">actuator_unpacker</span><span class="p">:</span> <span class="n">IBinaryActuatorPayloadUnpacker</span></div>
 
 </pre></div>
 

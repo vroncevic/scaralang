@@ -16,7 +16,7 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Unit tests for JointStepTransmissionConverterFactory.
+    Unit tests for TransmissionFactory.
 '''
 
 from __future__ import annotations
@@ -25,22 +25,22 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.kinematics.transmission_parameters import TransmissionParameters
-from scaralang.core.service.kinematics.transmission.factory import JointStepTransmissionConverterFactory
+from scaralang.core.service.kinematics.transmission.factory import TransmissionFactory
 from scaralang.core.service.kinematics.transmission.iconverter import IJointStepTransmissionConverter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
-class TestJointStepTransmissionConverterFactory(TestCase):
+class TestTransmissionFactory(TestCase):
     '''
-        Test cases verifying JointStepTransmissionConverterFactory instantiation.
+        Test cases verifying TransmissionFactory instantiation.
 
         It defines:
 
@@ -59,16 +59,14 @@ class TestJointStepTransmissionConverterFactory(TestCase):
             gear_ratio_j4=1.0,
             leadscrew_pitch_z=8.0,
         )
-        converter: IJointStepTransmissionConverter = (
-            JointStepTransmissionConverterFactory.create(
-                transmission=transmission
-            )
+        converter: IJointStepTransmissionConverter = TransmissionFactory.create(
+            transmission=transmission
         )
         self.assertIsInstance(converter, IJointStepTransmissionConverter)
 
     def test_get_version(self) -> None:
         '''Verifies factory version string is non-empty.'''
-        version: str = JointStepTransmissionConverterFactory.get_version()
+        version: str = TransmissionFactory.get_version()
         self.assertTrue(bool(version))
 
 

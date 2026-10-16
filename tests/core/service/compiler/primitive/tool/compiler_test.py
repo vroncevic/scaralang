@@ -26,9 +26,9 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.service.compiler.primitive.icompiler import IPrimitiveCompiler
 from scaralang.core.service.compiler.primitive.tool.compiler import ToolCommandCompiler
 from scaralang.core.service.compiler.primitive.tool.waypoint.factory import ToolWaypointBuilderFactory
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,7 +65,7 @@ class TestToolCommandCompiler(TestCase):
         '''
         builder = ToolWaypointBuilderFactory.create()
         self.compiler = ToolCommandCompiler(waypoint_builder=builder)
-        self.context = ScaraCompilerContext()
+        self.context = CompilerContextFactory.create()
 
     def test_protocol_conformance(self) -> None:
         '''
@@ -77,7 +77,7 @@ class TestToolCommandCompiler(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.compiler.get_version(), '1.0.8')
+        self.assertEqual(self.compiler.get_version(), '1.0.9')
 
     def test_can_compile(self) -> None:
         '''
@@ -85,13 +85,13 @@ class TestToolCommandCompiler(TestCase):
         '''
         pump_inst = ScaraInstruction(
             command_type=ScaraCommandType.PUMP,
-            parameters={InstructionParam.STATE: PneumaticState.ON},
+            parameters={ScaraInstructionParam.STATE: PneumaticState.ON},
             line_number=1,
             raw_text='PUMP ON',
         )
         valve_inst = ScaraInstruction(
             command_type=ScaraCommandType.VALVE,
-            parameters={InstructionParam.STATE: PneumaticState.OFF},
+            parameters={ScaraInstructionParam.STATE: PneumaticState.OFF},
             line_number=2,
             raw_text='VALVE OFF',
         )
@@ -111,7 +111,7 @@ class TestToolCommandCompiler(TestCase):
         '''
         inst = ScaraInstruction(
             command_type=ScaraCommandType.PUMP,
-            parameters={InstructionParam.STATE: PneumaticState.ON},
+            parameters={ScaraInstructionParam.STATE: PneumaticState.ON},
             line_number=1,
             raw_text='PUMP ON',
         )
@@ -129,7 +129,7 @@ class TestToolCommandCompiler(TestCase):
         '''
         inst = ScaraInstruction(
             command_type=ScaraCommandType.VALVE,
-            parameters={InstructionParam.STATE: PneumaticState.OFF},
+            parameters={ScaraInstructionParam.STATE: PneumaticState.OFF},
             line_number=1,
             raw_text='VALVE OFF',
         )

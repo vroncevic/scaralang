@@ -20,10 +20,11 @@ Info
 '''
 
 from __future__ import annotations
+from typing import ClassVar
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 
@@ -31,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,17 +44,24 @@ class JogJointParser:
 
         It defines:
 
-            :attributes:
-                | _name - Component identification name.
+            :cvar NAME: Component identification name.
+            :cvar MIN_TOKENS: Minimum required tokens for JOG_JOINT instruction.
+            :cvar CMD_INDEX: Index of command token in sequence.
+            :cvar JOINT_INDEX: Index of joint ID argument.
+            :cvar VAL_INDEX: Index of degree rotation value argument.
+            :cvar PARSED_COMMAND: Target command keyword string.
             :methods:
                 | name - Property returning component name.
                 | can_parse - Checks whether command is JOG_JOINT.
                 | parse - Parses JOG_JOINT statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes JogJointParser.'''
-        self._name: str = 'jog_joint_parser'
+    NAME: ClassVar[str] = 'jog_joint_parser'
+    MIN_TOKENS: ClassVar[int] = 3
+    CMD_INDEX: ClassVar[int] = 0
+    JOINT_INDEX: ClassVar[int] = 1
+    VAL_INDEX: ClassVar[int] = 2
+    PARSED_COMMAND: ClassVar[str] = ScaraCommandType.JOG_JOINT
 
     @property
     def name(self) -> str:
@@ -62,7 +70,7 @@ class JogJointParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -71,7 +79,7 @@ class JogJointParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name == ScaraCommandType.JOG_JOINT
+        return command_name == self.PARSED_COMMAND
 
     def parse(
         self,
@@ -89,30 +97,30 @@ class JogJointParser:
             :return: ScaraInstruction node.
             :exceptions: ScaraSyntaxError on missing or invalid jog joint arguments.
         '''
-        cmd: str = tokens[0].value.upper()
+        cmd: str = tokens[self.CMD_INDEX].value.upper()
 
-        if len(tokens) < 3:
+        if len(tokens) < self.MIN_TOKENS:
             raise ScaraSyntaxError(
                 f'Invalid {cmd} syntax at line {line_num}. Expected: {cmd} <joint> <delta>'
             )
 
         try:
-            joint_id: int = int(tokens[1].value)
-            deg: float = float(tokens[2].value)
+            joint_id: int = int(tokens[self.JOINT_INDEX].value)
+            deg: float = float(tokens[self.VAL_INDEX].value)
 
         except ValueError as exc:
             raise ScaraSyntaxError(
                 f'Invalid JOG_JOINT arguments at line {line_num}. '
                 'Expected integer joint ID and numeric degrees, got: '
-                f'{tokens[1].value!r}, {tokens[2].value!r}'
+                f'{tokens[self.JOINT_INDEX].value!r}, {tokens[self.VAL_INDEX].value!r}'
             ) from exc
 
         return ScaraInstruction(
-            command_type=ScaraCommandType.JOG_JOINT,
+            command_type=self.PARSED_COMMAND,
             line_number=line_num,
             raw_text=raw_text,
             parameters={
-                InstructionParam.JOINT: joint_id,
-                InstructionParam.DEG: deg,
+                ScaraInstructionParam.JOINT: joint_id,
+                ScaraInstructionParam.DEG: deg,
             },
         )

@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,11 +54,11 @@ class TestIScaraCompiler(TestCase):
         self.assertTrue(issubclass(IScaraCompiler, Protocol))
         self.assertTrue(hasattr(IScaraCompiler, 'compile'))
         self.assertTrue(hasattr(IScaraCompiler, 'compile_bytes'))
-        self.assertTrue(hasattr(IScaraCompiler, 'compile_to_binary'))
-        self.assertTrue(hasattr(IScaraCompiler, 'compile_to_bytes'))
-        self.assertTrue(hasattr(IScaraCompiler, 'compile_plan'))
-        self.assertTrue(hasattr(IScaraCompiler, 'get_program_telemetry'))
         self.assertTrue(hasattr(IScaraCompiler, 'get_version'))
+        self.assertFalse(hasattr(IScaraCompiler, 'compile_to_binary'))
+        self.assertFalse(hasattr(IScaraCompiler, 'compile_to_bytes'))
+        self.assertFalse(hasattr(IScaraCompiler, 'compile_plan'))
+        self.assertFalse(hasattr(IScaraCompiler, 'get_program_telemetry'))
 
 
 if __name__ == '__main__':

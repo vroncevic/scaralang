@@ -25,6 +25,7 @@ from math import pi
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.kinematics.transmission_parameters import TransmissionParameters
 from scaralang.core.service.kinematics.transmission.converter import JointStepTransmissionConverter
 from scaralang.core.service.kinematics.transmission.iconverter import IJointStepTransmissionConverter
@@ -33,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -86,13 +87,13 @@ class TestJointStepTransmissionConverter(TestCase):
 
     def test_angles_to_steps(self) -> None:
         '''Verifies conversion from continuous joint angles to integer motor steps.'''
-        steps: tuple[int, int, int, int] = self.converter.angles_to_steps(
+        steps: JointStepCoordinates = self.converter.angles_to_steps(
             0.0, 0.0, 10.0, 0.0
         )
-        self.assertEqual(steps[0], 0)
-        self.assertEqual(steps[1], 0)
-        self.assertEqual(steps[2], 4000)
-        self.assertEqual(steps[3], 0)
+        self.assertEqual(steps.j1, 0)
+        self.assertEqual(steps.j2, 0)
+        self.assertEqual(steps.z, 4000)
+        self.assertEqual(steps.j4, 0)
 
     def test_steps_to_angles(self) -> None:
         '''Verifies conversion from motor steps to continuous joint angles.'''
@@ -111,11 +112,11 @@ class TestJointStepTransmissionConverter(TestCase):
         orig_z: float = 25.5
         orig_th4: float = 1.2
 
-        steps: tuple[int, int, int, int] = self.converter.angles_to_steps(
+        steps: JointStepCoordinates = self.converter.angles_to_steps(
             orig_th1, orig_th2, orig_z, orig_th4
         )
         recovered: tuple[float, float, float, float] = self.converter.steps_to_angles(
-            *steps
+            steps.j1, steps.j2, steps.z, steps.j4
         )
 
         self.assertAlmostEqual(recovered[0], orig_th1, places=3)

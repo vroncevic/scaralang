@@ -23,17 +23,20 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.axis_name import AxisName
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.trajectory.bottleneck_incident import BottleneckIncident
+from scaralang.core.model.trajectory.constraint_type import ConstraintType
 from scaralang.core.service.trajectory.metrics.bottleneck.detector import MotionBottleneckDetector
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,18 +65,18 @@ class TestMotionBottleneckDetector(TestCase):
             payload=b'\x00' * 16,
             crc16=0,
         )
-        stationary_step = Step(
+        stationary_step = BinaryStep(
             frame=frame,
             raw_bytes=b'',
             duration_us=10000,
-            target_steps=(0, 0, 0, 0),
+            target_steps=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
             description='idle',
             line_number=1,
         )
         incident = detector.detect_step_bottleneck(
             step=stationary_step,
             step_index=0,
-            prev_coords=(0, 0, 0, 0),
+            prev_coords=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
         )
         self.assertIsNone(incident)
 
@@ -86,19 +89,19 @@ class TestMotionBottleneckDetector(TestCase):
             payload=b'\x00' * 16,
             crc16=0,
         )
-        step_one = Step(
+        step_one = BinaryStep(
             frame=frame,
             raw_bytes=b'',
             duration_us=50000,
-            target_steps=(5000, 50, 100, 10),
+            target_steps=JointStepCoordinates(j1=5000, j2=50, z=100, j4=10),
             description='s1',
             line_number=1,
         )
-        step_two = Step(
+        step_two = BinaryStep(
             frame=frame,
             raw_bytes=b'',
             duration_us=5000,
-            target_steps=(5000, 50, 2000, 10),
+            target_steps=JointStepCoordinates(j1=5000, j2=50, z=2000, j4=10),
             description='s2',
             line_number=2,
         )
@@ -106,10 +109,10 @@ class TestMotionBottleneckDetector(TestCase):
             steps=(step_one, step_two)
         )
         self.assertEqual(len(incidents), 2)
-        self.assertEqual(incidents[0].limiting_axis, 'J1')
-        self.assertEqual(incidents[0].constraint_type, 'VELOCITY')
-        self.assertEqual(incidents[1].limiting_axis, 'Z')
-        self.assertEqual(incidents[1].constraint_type, 'ACCELERATION')
+        self.assertEqual(incidents[0].limiting_axis, AxisName.J1)
+        self.assertEqual(incidents[0].constraint_type, ConstraintType.VELOCITY)
+        self.assertEqual(incidents[1].limiting_axis, AxisName.Z)
+        self.assertEqual(incidents[1].constraint_type, ConstraintType.ACCELERATION)
 
 
 if __name__ == '__main__':

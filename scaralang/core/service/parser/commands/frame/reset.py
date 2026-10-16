@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
@@ -29,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,16 +44,16 @@ class FrameResetParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | PARSED_COMMAND - Handled command type.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is FRAME_RESET.
                 | parse - Parses FRAME_RESET statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes FrameResetParser.'''
-        self._name: str = 'frame_reset_parser'
+    NAME: ClassVar[str] = 'frame_reset_parser'
+    PARSED_COMMAND: ClassVar[ScaraCommandType] = ScaraCommandType.FRAME_RESET
 
     @property
     def name(self) -> str:
@@ -60,7 +62,7 @@ class FrameResetParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -69,7 +71,7 @@ class FrameResetParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name == ScaraCommandType.FRAME_RESET
+        return command_name == self.PARSED_COMMAND
 
     def parse(
         self,
@@ -89,7 +91,7 @@ class FrameResetParser:
         _ = tokens
 
         return ScaraInstruction(
-            command_type=ScaraCommandType.FRAME_RESET,
+            command_type=self.PARSED_COMMAND,
             line_number=line_num,
             raw_text=raw_text,
             parameters={},

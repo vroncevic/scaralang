@@ -23,11 +23,13 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
+
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,7 +56,7 @@ class IJointStepTransmissionConverter(Protocol):
         theta2_rad: float,
         z_mm: float,
         theta4_rad: float
-    ) -> tuple[int, int, int, int]:
+    ) -> JointStepCoordinates:
         '''
             Converts joint angles and linear Z travel into discrete motor steps.
 
@@ -62,7 +64,7 @@ class IJointStepTransmissionConverter(Protocol):
             :param theta2_rad: Elbow joint angle in radians.
             :param z_mm: Linear vertical travel in millimeters.
             :param theta4_rad: Wrist joint angle in radians.
-            :return: Tuple of (j1, j2, z, j4) integer microsteps.
+            :return: JointStepCoordinates containing (j1, j2, z, j4) microsteps.
         '''
 
     def steps_to_angles(

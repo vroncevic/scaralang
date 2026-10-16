@@ -28,14 +28,15 @@ from unittest.mock import MagicMock
 from scaralang.core.service.compiler.binary.step.discretizer.dependencies import DiscretizerDependencies
 from scaralang.core.service.compiler.binary.step.discretizer.factory import StepDiscretizerFactory
 from scaralang.core.service.compiler.binary.step.discretizer.idiscretizer import IStepDiscretizer
-from scaralang.core.service.kinematics.iservice import IKinematicsService
+from scaralang.core.service.compiler.binary.step.duration.icalculator import ISegmentDurationCalculator
+from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
 from scaralang.core.service.kinematics.transmission.iconverter import IJointStepTransmissionConverter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,19 +54,29 @@ class TestStepDiscretizerFactory(TestCase):
     '''
 
     def test_create_with_dependencies(self) -> None:
-        '''Verifies factory returns IStepDiscretizer instance.'''
-        mock_kinematics = MagicMock(spec=IKinematicsService)
+        '''
+            Verifies factory returns IStepDiscretizer instance.
+
+            :exceptions: None.
+        '''
+        mock_spatial = MagicMock(spec=ISpatialKinematicsSolver)
         mock_transmission = MagicMock(spec=IJointStepTransmissionConverter)
+        mock_duration = MagicMock(spec=ISegmentDurationCalculator)
         deps = DiscretizerDependencies(
-            kinematics=mock_kinematics,
+            spatial=mock_spatial,
             transmission=mock_transmission,
+            duration_calculator=mock_duration,
         )
         discretizer = StepDiscretizerFactory.create(dependencies=deps)
         self.assertIsInstance(discretizer, IStepDiscretizer)
 
     def test_get_version(self) -> None:
-        '''Verifies factory version returns valid string.'''
-        self.assertEqual(StepDiscretizerFactory.get_version(), '1.0.8')
+        '''
+            Verifies factory version returns valid string.
+
+            :exceptions: None.
+        '''
+        self.assertEqual(StepDiscretizerFactory.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

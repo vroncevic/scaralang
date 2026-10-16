@@ -15,8 +15,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.core.service.trajectory.validation.validator module" href="scaralang.core.service.trajectory.validation.validator.html" />
-    <link rel="prev" title="scaralang.core.service.trajectory.validation.ivalidator module" href="scaralang.core.service.trajectory.validation.ivalidator.html" /> 
+    <link rel="next" title="scaralang.core.service.transformation package" href="scaralang.core.service.transformation.html" />
+    <link rel="prev" title="scaralang.core.service.trajectory.validation.factory module" href="scaralang.core.service.trajectory.validation.factory.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -28,10 +28,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.trajectory.validation.validator.html" title="scaralang.core.service.trajectory.validation.validator module"
+          <a href="scaralang.core.service.transformation.html" title="scaralang.core.service.transformation package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.trajectory.validation.ivalidator.html" title="scaralang.core.service.trajectory.validation.ivalidator module"
+          <a href="scaralang.core.service.trajectory.validation.factory.html" title="scaralang.core.service.trajectory.validation.factory module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -71,7 +71,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.provides.ValidationProvides">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.trajectory.validation.provides.</span></span><span class="sig-name descname"><span class="pre">ValidationProvides</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.validation.ivalidator.html#scaralang.core.service.trajectory.validation.ivalidator.ITrajectoryValidator" title="scaralang.core.service.trajectory.validation.ivalidator.ITrajectoryValidator"><span class="pre">ITrajectoryValidator</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/validation/provides.html#ValidationProvides"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.trajectory.validation.provides.</span></span><span class="sig-name descname"><span class="pre">ValidationProvides</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waypoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.validation.waypoint.ivalidator.html#scaralang.core.service.trajectory.validation.waypoint.ivalidator.IWaypointValidator" title="scaralang.core.service.trajectory.validation.waypoint.ivalidator.IWaypointValidator"><span class="pre">IWaypointValidator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">feedrate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.validation.feedrate.ivalidator.html#scaralang.core.service.trajectory.validation.feedrate.ivalidator.IFeedrateValidator" title="scaralang.core.service.trajectory.validation.feedrate.ivalidator.IFeedrateValidator"><span class="pre">IFeedrateValidator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.validation.plan.ivalidator.html#scaralang.core.service.trajectory.validation.plan.ivalidator.ITrajectoryPlanValidator" title="scaralang.core.service.trajectory.validation.plan.ivalidator.ITrajectoryPlanValidator"><span class="pre">ITrajectoryPlanValidator</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/validation/provides.html#ValidationProvides"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Immutable bundle encapsulating provided trajectory validation services.</p>
 <p>It defines:</p>
@@ -79,14 +79,26 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">validator - Injected ITrajectoryValidator protocol instance.</div>
+<div class="line">waypoint - Injected IWaypointValidator protocol instance.</div>
+<div class="line">feedrate - Injected IFeedrateValidator protocol instance.</div>
+<div class="line">plan - Injected ITrajectoryPlanValidator protocol instance.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.provides.ValidationProvides.validator">
-<span class="sig-name descname"><span class="pre">validator</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.trajectory.validation.ivalidator.html#scaralang.core.service.trajectory.validation.ivalidator.ITrajectoryValidator" title="scaralang.core.service.trajectory.validation.ivalidator.ITrajectoryValidator"><span class="pre">ITrajectoryValidator</span></a></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides.validator" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.provides.ValidationProvides.feedrate">
+<span class="sig-name descname"><span class="pre">feedrate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.trajectory.validation.feedrate.ivalidator.html#scaralang.core.service.trajectory.validation.feedrate.ivalidator.IFeedrateValidator" title="scaralang.core.service.trajectory.validation.feedrate.ivalidator.IFeedrateValidator"><span class="pre">IFeedrateValidator</span></a></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides.feedrate" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.provides.ValidationProvides.plan">
+<span class="sig-name descname"><span class="pre">plan</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.trajectory.validation.plan.ivalidator.html#scaralang.core.service.trajectory.validation.plan.ivalidator.ITrajectoryPlanValidator" title="scaralang.core.service.trajectory.validation.plan.ivalidator.ITrajectoryPlanValidator"><span class="pre">ITrajectoryPlanValidator</span></a></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides.plan" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.provides.ValidationProvides.waypoint">
+<span class="sig-name descname"><span class="pre">waypoint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.trajectory.validation.waypoint.ivalidator.html#scaralang.core.service.trajectory.validation.waypoint.ivalidator.IWaypointValidator" title="scaralang.core.service.trajectory.validation.waypoint.ivalidator.IWaypointValidator"><span class="pre">IWaypointValidator</span></a></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides.waypoint" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -105,7 +117,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.trajectory.validation.provides module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides"><code class="docutils literal notranslate"><span class="pre">ValidationProvides</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides.validator"><code class="docutils literal notranslate"><span class="pre">ValidationProvides.validator</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides.feedrate"><code class="docutils literal notranslate"><span class="pre">ValidationProvides.feedrate</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides.plan"><code class="docutils literal notranslate"><span class="pre">ValidationProvides.plan</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.provides.ValidationProvides.waypoint"><code class="docutils literal notranslate"><span class="pre">ValidationProvides.waypoint</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -115,13 +129,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.service.trajectory.validation.ivalidator.html"
-                          title="previous chapter">scaralang.core.service.trajectory.validation.ivalidator module</a></p>
+    <p class="topless"><a href="scaralang.core.service.trajectory.validation.factory.html"
+                          title="previous chapter">scaralang.core.service.trajectory.validation.factory module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.core.service.trajectory.validation.validator.html"
-                          title="next chapter">scaralang.core.service.trajectory.validation.validator module</a></p>
+    <p class="topless"><a href="scaralang.core.service.transformation.html"
+                          title="next chapter">scaralang.core.service.transformation package</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -154,10 +168,10 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.trajectory.validation.validator.html" title="scaralang.core.service.trajectory.validation.validator module"
+          <a href="scaralang.core.service.transformation.html" title="scaralang.core.service.transformation package"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.trajectory.validation.ivalidator.html" title="scaralang.core.service.trajectory.validation.ivalidator module"
+          <a href="scaralang.core.service.trajectory.validation.factory.html" title="scaralang.core.service.trajectory.validation.factory module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

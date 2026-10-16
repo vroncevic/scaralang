@@ -24,11 +24,9 @@ from __future__ import annotations
 from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
-from scaralang.core.model.dsl.compiler.compiler_pose_state import CompilerPoseState
-from scaralang.core.model.dsl.compiler.compiler_speed_state import CompilerSpeedState
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.arc_point import ArcPoint
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.service.compiler.primitive.motion.arc.waypoint.builder import ArcWaypointBuilder
 from scaralang.core.service.compiler.primitive.motion.arc.waypoint.ibuilder import IArcWaypointBuilder
 
@@ -36,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,18 +59,13 @@ class TestArcWaypointBuilder(TestCase):
             Prepares builder instance.
         '''
         self.builder = ArcWaypointBuilder()
-        self.context = ScaraCompilerContext(
-            pose=CompilerPoseState(
-                current_x=0.0,
-                current_y=0.0,
-                current_z=5.0,
-                current_phi=45.0,
-            ),
-            speed=CompilerSpeedState(
-                current_speed=60.0,
-            ),
-            tool_orient_mode=ToolOrientMode.FIXED,
-        )
+        self.context = CompilerContextFactory.create()
+        self.context.pose.current_x = 0.0
+        self.context.pose.current_y = 0.0
+        self.context.pose.current_z = 5.0
+        self.context.pose.current_phi = 45.0
+        self.context.speed.current_speed = 60.0
+        self.context.tool_orient_mode = ToolOrientMode.FIXED
 
     def test_structural_conformance(self) -> None:
         '''
@@ -84,7 +77,7 @@ class TestArcWaypointBuilder(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.builder.get_version(), '1.0.8')
+        self.assertEqual(self.builder.get_version(), '1.0.9')
 
     def test_build_waypoints_fixed_orientation(self) -> None:
         '''

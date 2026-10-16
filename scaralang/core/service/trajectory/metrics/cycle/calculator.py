@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from math import sqrt
+from typing import ClassVar
 
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
@@ -31,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,12 +45,25 @@ class CycleTimeCalculator:
         It defines:
 
             :attributes:
+                | NAME - Canonical component identifier name.
+                | MIN_WAYPOINTS_COUNT - Minimum waypoints threshold to form path segments.
+                | ZERO_DISTANCE - Base zero distance in millimeters.
+                | ZERO_DURATION - Base zero duration in microseconds.
+                | MIN_SPEED_MM_S - Minimum valid feedrate divisor in mm/s.
+                | MICROSECONDS_PER_SECOND - Microseconds scaling factor per second.
                 | name - Identifier name of the cycle time calculator.
             :methods:
                 | calculate_duration - Computes cumulative execution duration in microseconds.
                 | calculate_distance - Computes total 3D Cartesian distance along path.
                 | segment_distance - Computes Euclidean 3D distance between two waypoints.
     '''
+
+    NAME: ClassVar[str] = 'cycle_time_calculator'
+    MIN_WAYPOINTS_COUNT: ClassVar[int] = 2
+    ZERO_DISTANCE: ClassVar[float] = 0.0
+    ZERO_DURATION: ClassVar[int] = 0
+    MIN_SPEED_MM_S: ClassVar[float] = 1.0
+    MICROSECONDS_PER_SECOND: ClassVar[float] = 1_000_000.0
 
     @property
     def name(self) -> str:
@@ -58,7 +72,7 @@ class CycleTimeCalculator:
 
             :return: Calculator name string.
         '''
-        return 'cycle_time_calculator'
+        return self.NAME
 
     def segment_distance(self, *, p1: Waypoint, p2: Waypoint) -> float:
         '''
@@ -83,10 +97,10 @@ class CycleTimeCalculator:
         '''
         waypoints: Sequence[Waypoint] = plan.waypoints
 
-        if len(waypoints) < 2:
-            return 0.0
+        if len(waypoints) < self.MIN_WAYPOINTS_COUNT:
+            return self.ZERO_DISTANCE
 
-        total_mm: float = 0.0
+        total_mm: float = self.ZERO_DISTANCE
 
         for i in range(len(waypoints) - 1):
             total_mm += self.segment_distance(p1=waypoints[i], p2=waypoints[i + 1])
@@ -102,14 +116,14 @@ class CycleTimeCalculator:
         '''
         waypoints: Sequence[Waypoint] = plan.waypoints
 
-        if len(waypoints) < 2:
-            return 0
+        if len(waypoints) < self.MIN_WAYPOINTS_COUNT:
+            return self.ZERO_DURATION
 
-        total_sec: float = 0.0
+        total_sec: float = self.ZERO_DISTANCE
 
         for i in range(len(waypoints) - 1):
             dist: float = self.segment_distance(p1=waypoints[i], p2=waypoints[i + 1])
-            spd: float = max(1.0, waypoints[i + 1].speed)
+            spd: float = max(self.MIN_SPEED_MM_S, waypoints[i + 1].speed)
             total_sec += dist / spd
 
-        return int(total_sec * 1000000.0)
+        return int(total_sec * self.MICROSECONDS_PER_SECOND)

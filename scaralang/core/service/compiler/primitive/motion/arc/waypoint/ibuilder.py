@@ -24,7 +24,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.trajectory.arc_point import ArcPoint
 from scaralang.core.model.trajectory.waypoint import Waypoint
 
@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,7 +56,7 @@ class IArcWaypointBuilder(Protocol):
         arc_points: Sequence[ArcPoint],
         target_z: float,
         speed: float,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[Waypoint, ...]:
         '''
             Builds interpolated arc points as domain waypoints.

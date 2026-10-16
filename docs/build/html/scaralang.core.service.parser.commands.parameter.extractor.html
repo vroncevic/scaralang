@@ -80,7 +80,15 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">None.</div>
+<div class="line">_FLAG_DEFAULT_VALUE - Default boolean value assigned to flag parameters.</div>
+<div class="line">_FLOAT_INDICATORS - String characters indicating floating point notation.</div>
+<div class="line">_INITIAL_INDEX - Starting token sequence index.</div>
+<div class="line">_OFFSET_EQUALS - Lookahead offset for equals token.</div>
+<div class="line">_OFFSET_VALUE - Lookahead offset for parameter value token.</div>
+<div class="line">_STEP_FLAG - Token index step for standalone flag parameters.</div>
+<div class="line">_STEP_KEY_EQUALS_VAL - Token index step for key equals value assignments.</div>
+<div class="line">_STEP_KEY_VAL - Token index step for key value assignments.</div>
+<div class="line">_VALUE_TOKEN_TYPES - Supported token types representing parameter values.</div>
 </div>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
@@ -91,6 +99,51 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._FLAG_DEFAULT_VALUE">
+<span class="sig-name descname"><span class="pre">_FLAG_DEFAULT_VALUE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._FLAG_DEFAULT_VALUE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._FLOAT_INDICATORS">
+<span class="sig-name descname"><span class="pre">_FLOAT_INDICATORS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('.',</span> <span class="pre">'e',</span> <span class="pre">'E')</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._FLOAT_INDICATORS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._INITIAL_INDEX">
+<span class="sig-name descname"><span class="pre">_INITIAL_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._INITIAL_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._OFFSET_EQUALS">
+<span class="sig-name descname"><span class="pre">_OFFSET_EQUALS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._OFFSET_EQUALS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._OFFSET_VALUE">
+<span class="sig-name descname"><span class="pre">_OFFSET_VALUE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._OFFSET_VALUE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._STEP_FLAG">
+<span class="sig-name descname"><span class="pre">_STEP_FLAG</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._STEP_FLAG" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._STEP_KEY_EQUALS_VAL">
+<span class="sig-name descname"><span class="pre">_STEP_KEY_EQUALS_VAL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._STEP_KEY_EQUALS_VAL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._STEP_KEY_VAL">
+<span class="sig-name descname"><span class="pre">_STEP_KEY_VAL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._STEP_KEY_VAL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._VALUE_TOKEN_TYPES">
+<span class="sig-name descname"><span class="pre">_VALUE_TOKEN_TYPES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.token.scara_token_type.html#scaralang.core.model.dsl.token.scara_token_type.ScaraTokenType" title="scaralang.core.model.dsl.token.scara_token_type.ScaraTokenType"><span class="pre">ScaraTokenType</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({ScaraTokenType.IDENTIFIER,</span> <span class="pre">ScaraTokenType.NUMBER,</span> <span class="pre">ScaraTokenType.STRING})</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._VALUE_TOKEN_TYPES" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor.extract_key_values">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract_key_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.token.scara_token.html#scaralang.core.model.dsl.token.scara_token.ScaraToken" title="scaralang.core.model.dsl.token.scara_token.ScaraToken"><span class="pre">ScaraToken</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/parameter/extractor.html#ParameterExtractor.extract_key_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor.extract_key_values" title="Link to this definition">¶</a></dt>
@@ -135,6 +188,15 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.parser.commands.parameter.extractor module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._FLAG_DEFAULT_VALUE"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor._FLAG_DEFAULT_VALUE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._FLOAT_INDICATORS"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor._FLOAT_INDICATORS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._INITIAL_INDEX"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor._INITIAL_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._OFFSET_EQUALS"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor._OFFSET_EQUALS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._OFFSET_VALUE"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor._OFFSET_VALUE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._STEP_FLAG"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor._STEP_FLAG</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._STEP_KEY_EQUALS_VAL"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor._STEP_KEY_EQUALS_VAL</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._STEP_KEY_VAL"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor._STEP_KEY_VAL</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor._VALUE_TOKEN_TYPES"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor._VALUE_TOKEN_TYPES</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor.extract_key_values"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor.extract_key_values()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.parameter.extractor.ParameterExtractor.parse_token_value"><code class="docutils literal notranslate"><span class="pre">ParameterExtractor.parse_token_value()</span></code></a></li>
 </ul>

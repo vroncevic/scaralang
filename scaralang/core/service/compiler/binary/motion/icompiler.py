@@ -23,14 +23,15 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_angles import JointAngles
 from scaralang.core.model.trajectory.waypoint import Waypoint
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,17 +54,17 @@ class IMotionCompiler(Protocol):
         *,
         waypoint: Waypoint,
         seq_num: int,
-        prev_angles: tuple[float, float, float, float],
+        prev_angles: JointAngles,
         line_num: int
-    ) -> tuple[Step, tuple[float, float, float, float]]:
+    ) -> tuple[BinaryStep, JointAngles]:
         '''
             Compiles a motion waypoint into a binary joint move step.
 
             :param waypoint: Target Cartesian waypoint.
             :param seq_num: Frame sequence counter.
-            :param prev_angles: Previous joint angles tuple.
+            :param prev_angles: Previous joint angles model.
             :param line_num: Source line index.
-            :return: Tuple of compiled Step and updated joint angles tuple.
+            :return: Tuple of compiled BinaryStep and updated joint angles model.
         '''
 
     def get_version(self) -> str:

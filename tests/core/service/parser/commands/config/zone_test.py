@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -95,7 +95,7 @@ class TestZoneParser(TestCase):
         instruction = parser.parse(tokens=tokens, line_num=1, raw_text='ZONE FINE')
         self.assertEqual(instruction.command_type, ScaraCommandType.ZONE)
         self.assertEqual(
-            instruction.parameters.get(InstructionParam.MODE), ZoneMode.FINE
+            instruction.parameters.get(ScaraInstructionParam.MODE), ZoneMode.FINE
         )
 
     def test_parse_blend_success(self) -> None:
@@ -140,10 +140,10 @@ class TestZoneParser(TestCase):
         )
         self.assertEqual(instruction.command_type, ScaraCommandType.ZONE)
         self.assertEqual(
-            instruction.parameters.get(InstructionParam.MODE), ZoneMode.BLEND
+            instruction.parameters.get(ScaraInstructionParam.MODE), ZoneMode.BLEND
         )
         self.assertEqual(
-            instruction.parameters.get(InstructionParam.RADIUS), 10.0
+            instruction.parameters.get(ScaraInstructionParam.RADIUS), 10.0
         )
 
     def test_parse_missing_mode(self) -> None:
@@ -186,10 +186,10 @@ class TestZoneParser(TestCase):
         )
         self.assertEqual(instruction.command_type, ScaraCommandType.ZONE)
         self.assertEqual(
-            instruction.parameters.get(InstructionParam.MODE), ZoneMode.BLEND
+            instruction.parameters.get(ScaraInstructionParam.MODE), ZoneMode.BLEND
         )
         self.assertEqual(
-            instruction.parameters.get(InstructionParam.RADIUS), 5.0
+            instruction.parameters.get(ScaraInstructionParam.RADIUS), 5.0
         )
 
 

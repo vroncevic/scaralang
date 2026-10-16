@@ -27,14 +27,14 @@ from unittest import main
 from scaralang.core.service.compiler.binary.command.actuator.dependencies import ActuatorDependencies
 from scaralang.core.service.compiler.binary.command.actuator.factory import ActuatorFrameBuilderFactory
 from scaralang.core.service.compiler.binary.command.actuator.ibuilder import IActuatorFrameBuilder
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
+from scaralang.core.service.protocol.ibinary_actuator_frame_builder import IBinaryActuatorFrameBuilder
+from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,7 +53,9 @@ class TestActuatorFrameBuilderFactory(TestCase):
 
     def test_create(self) -> None:
         '''Verifies create returns conforming IActuatorFrameBuilder instance.'''
-        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
+        frame_builder: IBinaryActuatorFrameBuilder = (
+            BuilderFactory.create().actuator
+        )
         deps = ActuatorDependencies(frame_builder=frame_builder)
         actuator_builder = ActuatorFrameBuilderFactory.create(dependencies=deps)
         self.assertIsInstance(actuator_builder, IActuatorFrameBuilder)
@@ -62,7 +64,7 @@ class TestActuatorFrameBuilderFactory(TestCase):
         '''Verifies factory version returns valid string.'''
         version = ActuatorFrameBuilderFactory.get_version()
         self.assertIsInstance(version, str)
-        self.assertEqual(version, '1.0.8')
+        self.assertEqual(version, '1.0.9')
 
 
 if __name__ == '__main__':

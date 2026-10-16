@@ -25,14 +25,14 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.service.compiler.binary.command.tool.dependencies import ToolDependencies
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
+from scaralang.core.service.protocol.ibinary_actuator_frame_builder import IBinaryActuatorFrameBuilder
+from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,7 +53,7 @@ class TestToolDependencies(TestCase):
         '''
             Verifies attributes on ToolDependencies.
         '''
-        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
+        frame_builder: IBinaryActuatorFrameBuilder = BuilderFactory.create().actuator
         deps = ToolDependencies(frame_builder=frame_builder)
         self.assertIs(deps.frame_builder, frame_builder)
 
@@ -61,7 +61,7 @@ class TestToolDependencies(TestCase):
         '''
             Verifies ToolDependencies is frozen.
         '''
-        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
+        frame_builder: IBinaryActuatorFrameBuilder = BuilderFactory.create().actuator
         deps = ToolDependencies(frame_builder=frame_builder)
         with self.assertRaises(AttributeError):
             deps.frame_builder = frame_builder  # type: ignore

@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,11 +41,14 @@ class CompilerBlendStateTest(TestCase):
         Validates CompilerBlendState default initialization, custom values, and mutation.
     '''
 
-    def test_default_values(self) -> None:
+    def test_initialization(self) -> None:
         '''
-            Verifies default initialization of blend parameters.
+            Verifies initialization of blend parameters.
         '''
-        blend = CompilerBlendState()
+        blend = CompilerBlendState(
+            zone_mode=ZoneMode.FINE,
+            zone_radius=0.0,
+        )
         self.assertEqual(blend.zone_mode, ZoneMode.FINE)
         self.assertEqual(blend.zone_radius, 0.0)
 
@@ -64,7 +67,10 @@ class CompilerBlendStateTest(TestCase):
         '''
             Verifies in-place mutation of blend parameters.
         '''
-        blend = CompilerBlendState()
+        blend = CompilerBlendState(
+            zone_mode=ZoneMode.FINE,
+            zone_radius=0.0,
+        )
         blend.zone_mode = ZoneMode.BLEND
         blend.zone_radius = 5.0
 

@@ -29,13 +29,13 @@ from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinemati
 from scaralang.core.service.compiler.instruction.pipeline.ipipeline import IInstructionPipeline
 from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 from scaralang.core.service.trajectory.plan.plan import TrajectoryPlan
-from scaralang.core.service.trajectory.validation.ivalidator import ITrajectoryValidator
+from scaralang.core.service.trajectory.validation.plan.ivalidator import ITrajectoryPlanValidator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,7 +48,7 @@ class AstPlanCompiler:
         It defines:
 
             :attributes:
-                | _validator - Kinematic reachability validator.
+                | _validator - Kinematic trajectory plan validator.
                 | _instruction_pipeline - Pipeline compiling AST instructions into Waypoints.
             :methods:
                 | __init__ - Initializes compiler with injected collaborators.
@@ -56,23 +56,23 @@ class AstPlanCompiler:
                 | get_version - Returns the compiler version string.
     '''
 
-    _validator: ITrajectoryValidator
+    _validator: ITrajectoryPlanValidator
     _instruction_pipeline: IInstructionPipeline
 
     def __init__(
         self,
         *,
-        validator: ITrajectoryValidator,
+        validator: ITrajectoryPlanValidator,
         instruction_pipeline: IInstructionPipeline,
     ) -> None:
         '''
             Initializes AstPlanCompiler with injected components.
 
-            :param validator: Injected ITrajectoryValidator instance.
+            :param validator: Injected ITrajectoryPlanValidator instance.
             :param instruction_pipeline: Injected IInstructionPipeline component.
             :exceptions: None.
         '''
-        self._validator: Final[ITrajectoryValidator] = validator
+        self._validator: Final[ITrajectoryPlanValidator] = validator
         self._instruction_pipeline: Final[IInstructionPipeline] = instruction_pipeline
 
     def compile(self, *, program: ScaraProgram) -> ITrajectoryPlan:

@@ -25,7 +25,7 @@ from dataclasses import FrozenInstanceError
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
 from scaralang.infrastructure.command.compile.inspection.presentation.program.presenter import ProgramInspectionPresenter
 from scaralang.infrastructure.command.compile.inspection.presentation.program.provides import ProgramProvides
 
@@ -33,13 +33,13 @@ from scaralang.infrastructure.command.compile.inspection.presentation.program.pr
 class DummyStepPresenter:
     '''Dummy step presenter satisfying IFrameStepPresenter.'''
 
-    def present_step(self, *, step: Step, index: int) -> str:
+    def present_step(self, *, step: BinaryStep, index: int) -> str:
         '''Presents dummy step.'''
         return f'{index}: {step.description}'
 
     def get_version(self) -> str:
         '''Returns version.'''
-        return '1.0.8'
+        return '1.0.9'
 
 
 class TestProgramProvides(TestCase):
@@ -60,7 +60,7 @@ class TestProgramProvides(TestCase):
         '''Verifies ProgramProvides frozen dataclass raises error on mutation.'''
         provides: ProgramProvides = ProgramProvides(presenter=self.presenter)
         with self.assertRaises(FrozenInstanceError):
-            provides.presenter = self.presenter  # type: ignore[misc]
+            provides.presenter = self.presenter
 
 
 if __name__ == '__main__':

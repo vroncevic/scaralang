@@ -27,16 +27,18 @@ from unittest import main
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.service.disassembler.frame.decoder.factory import PayloadDecoderFactory
 from scaralang.core.service.disassembler.frame.frame import FrameDetailDecoder
 from scaralang.core.service.disassembler.frame.iframe import IFrameDetailDecoder
-from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.unpacker import BinaryPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
+from scaralang.infrastructure.protocol.binary.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.motion import BinaryMotionPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,8 +49,13 @@ class TestFrameDetailDecoder(TestCase):
 
     def setUp(self) -> None:
         '''Initializes unpacker and decoder fixtures.'''
-        self.unpacker: BinaryPayloadUnpacker = BinaryPayloadUnpacker()
-        self.decoder: FrameDetailDecoder = FrameDetailDecoder(unpacker=self.unpacker)
+        motion_unpacker = BinaryMotionPayloadUnpacker()
+        actuator_unpacker = BinaryActuatorPayloadUnpacker()
+        decoders = PayloadDecoderFactory.create(
+            motion_unpacker=motion_unpacker,
+            actuator_unpacker=actuator_unpacker,
+        )
+        self.decoder: FrameDetailDecoder = FrameDetailDecoder(decoders=decoders)
 
     def test_implements_protocol(self) -> None:
         '''Verifies structural protocol compliance.'''
@@ -56,7 +63,7 @@ class TestFrameDetailDecoder(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies decoder version string retrieval.'''
-        self.assertEqual(self.decoder.get_version(), '1.0.8')
+        self.assertEqual(self.decoder.get_version(), '1.0.9')
 
     def test_decode_msg_name(self) -> None:
         '''Verifies decoding message ID to symbolic name.'''
@@ -82,7 +89,7 @@ class TestFrameDetailDecoder(TestCase):
 
     def test_decode_joint_steps(self) -> None:
         '''Verifies decoding joint steps frames.'''
-        builder = BuilderFactory.create().builder
+        builder = BuilderFactory.create().motion
         frame: BinaryFrame = builder.build_joint_move(
             seq_num=1,
             steps=JointSteps(

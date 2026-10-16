@@ -23,7 +23,6 @@ from __future__ import annotations
 
 from typing import Final
 
-from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
 from scaralang.core.service.compiler.binary.icompiler import IBinaryCompiler
 from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
@@ -33,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,7 +40,7 @@ __status__ = 'Updated'
 
 class ScaraCompiler:
     '''
-        Compiler service implementing binary frame compilation and telemetry for SCARA DSL.
+        Compiler service implementing binary frame compilation for SCARA DSL.
 
         It defines:
 
@@ -52,11 +51,6 @@ class ScaraCompiler:
                 | __init__ - Initializes compiler with injected collaborators.
                 | compile - Compiles DSL source text into BinaryProgram package.
                 | compile_bytes - Compiles DSL source code into raw UART byte stream.
-                | compile_plan - Compiles ITrajectoryPlan into BinaryProgram package.
-                | compile_to_binary - Compiles DSL source text into BinaryProgram package.
-                | compile_to_bytes - Compiles DSL code directly to raw UART byte stream.
-                | get_program_telemetry - Returns execution metrics and telemetry
-                  for binary program.
                 | get_version - Returns compiler version string.
     '''
 
@@ -87,7 +81,9 @@ class ScaraCompiler:
             :return: BinaryProgram package containing packed binary frames.
             :exceptions: ValueError if parsing or validation fails.
         '''
-        return self.compile_to_binary(source=source)
+        plan: ITrajectoryPlan = self._compiler.compile_script(source=source)
+
+        return self._binary_compiler.compile_plan(plan=plan)
 
     def compile_bytes(self, *, source: str) -> bytes:
         '''
@@ -97,61 +93,15 @@ class ScaraCompiler:
             :return: Raw byte stream suitable for UART transmission.
             :exceptions: ValueError if compilation fails.
         '''
-        return self.compile_to_bytes(source=source)
-
-    def compile_plan(self, *, plan: ITrajectoryPlan) -> BinaryProgram:
-        '''
-            Compiles a validated ITrajectoryPlan into a binary program package.
-
-            :param plan: Validated ITrajectoryPlan protocol instance.
-            :return: Validated BinaryProgram domain model.
-            :exceptions: ValueError if plan contains empty waypoints or invalid geometry.
-        '''
-        return self._binary_compiler.compile_plan(plan=plan)
-
-    def compile_to_binary(self, *, source: str) -> BinaryProgram:
-        '''
-            Compiles DSL source code into a binary program package.
-
-            :param source: Raw .scara script text.
-            :return: BinaryProgram package containing packed binary frames.
-            :exceptions: ValueError if parsing or validation fails.
-        '''
-        plan: ITrajectoryPlan = self._compiler.compile_script(source=source)
-
-        return self._binary_compiler.compile_plan(plan=plan)
-
-    def compile_to_bytes(self, *, source: str) -> bytes:
-        '''
-            Compiles DSL source code directly into a binary wire byte stream.
-
-            :param source: Raw .scara script text.
-            :return: Raw byte stream suitable for UART transmission.
-            :exceptions: ValueError if compilation fails.
-        '''
-        program: BinaryProgram = self.compile_to_binary(source=source)
+        program: BinaryProgram = self.compile(source=source)
 
         return program.raw_bytes
 
-    def get_program_telemetry(
-        self,
-        *,
-        program: BinaryProgram
-    ) -> BinaryProgramTelemetry:
-        '''
-            Computes and returns binary program execution metrics and telemetry.
-
-            :param program: BinaryProgram domain model instance.
-            :return: BinaryProgramTelemetry metrics domain model.
-            :exceptions: None.
-        '''
-        return program.telemetry
-
     def get_version(self) -> str:
         '''
-            Returns the compiler version string representation.
+        Returns the compiler version string representation.
 
-            :return: Version string representation.
-            :exceptions: None.
+        :return: Version string representation.
+        :exceptions: None.
         '''
         return __version__

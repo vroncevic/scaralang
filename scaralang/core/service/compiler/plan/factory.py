@@ -26,18 +26,14 @@ from scaralang.core.service.compiler.plan.ast.factory import (
 )
 from scaralang.core.service.compiler.plan.dependencies import PlanDependencies
 from scaralang.core.service.compiler.plan.provides import PlanProvides
-from scaralang.core.service.compiler.plan.script.dependencies import (
-    ScriptDependencies,
-)
-from scaralang.core.service.compiler.plan.script.factory import (
-    ScriptPlanCompilerFactory,
-)
+from scaralang.core.service.compiler.plan.script.dependencies import ScriptDependencies
+from scaralang.core.service.compiler.plan.script.factory import ScriptPlanCompilerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -77,6 +73,7 @@ class PlanFactory:
                 linter=dependencies.linter,
             )
         )
+
         return PlanProvides(
             ast_compiler=ast_compiler,
             script_compiler=script_compiler,

@@ -80,6 +80,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">NAME - Canonical component identifier name.</div>
+<div class="line">EMPTY_PLAN_MSG - Error message returned when validating empty plans.</div>
+<div class="line">START_INDEX - Starting 1-based index for point identification labels.</div>
 <div class="line">name - Identifier name of the trajectory plan validator.</div>
 <div class="line">_waypoint_validator - Injected waypoint reachability validator.</div>
 <div class="line">_feedrate_validator - Injected feedrate limit validator.</div>
@@ -93,6 +96,21 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.EMPTY_PLAN_MSG">
+<span class="sig-name descname"><span class="pre">EMPTY_PLAN_MSG</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Trajectory</span> <span class="pre">plan</span> <span class="pre">is</span> <span class="pre">empty.</span> <span class="pre">Please</span> <span class="pre">add</span> <span class="pre">waypoints.'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.EMPTY_PLAN_MSG" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'trajectory_plan_validator'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.START_INDEX">
+<span class="sig-name descname"><span class="pre">START_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.START_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator._feedrate_validator">
 <span class="sig-name descname"><span class="pre">_feedrate_validator</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.trajectory.validation.feedrate.ivalidator.html#scaralang.core.service.trajectory.validation.feedrate.ivalidator.IFeedrateValidator" title="scaralang.core.service.trajectory.validation.feedrate.ivalidator.IFeedrateValidator"><span class="pre">IFeedrateValidator</span></a></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator._feedrate_validator" title="Link to this definition">¶</a></dt>
@@ -144,6 +162,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.trajectory.validation.plan.validator module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator"><code class="docutils literal notranslate"><span class="pre">TrajectoryPlanValidator</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.EMPTY_PLAN_MSG"><code class="docutils literal notranslate"><span class="pre">TrajectoryPlanValidator.EMPTY_PLAN_MSG</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.NAME"><code class="docutils literal notranslate"><span class="pre">TrajectoryPlanValidator.NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.START_INDEX"><code class="docutils literal notranslate"><span class="pre">TrajectoryPlanValidator.START_INDEX</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator._feedrate_validator"><code class="docutils literal notranslate"><span class="pre">TrajectoryPlanValidator._feedrate_validator</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator._waypoint_validator"><code class="docutils literal notranslate"><span class="pre">TrajectoryPlanValidator._waypoint_validator</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.plan.validator.TrajectoryPlanValidator.name"><code class="docutils literal notranslate"><span class="pre">TrajectoryPlanValidator.name</span></code></a></li>

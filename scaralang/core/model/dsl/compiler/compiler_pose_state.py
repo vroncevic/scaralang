@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,8 +50,8 @@ class CompilerPoseState:
                 | elbow_config - Active elbow kinematic solution (RIGHT or LEFT).
     '''
 
-    current_x: float = 150.0
-    current_y: float = 0.0
-    current_z: float = 20.0
-    current_phi: float = 0.0
-    elbow_config: ElbowConfig = ElbowConfig.RIGHT
+    current_x: float
+    current_y: float
+    current_z: float
+    current_phi: float
+    elbow_config: ElbowConfig

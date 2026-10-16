@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.tool_position import ToolPosition
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
@@ -32,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,16 +47,27 @@ class ToolParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | MIN_TOKENS - Minimum allowed token count for statement parsing.
+                | CMD_INDEX - Index of command token.
+                | STATE_INDEX - Index of state parameter token.
+                | VALID_STATES - Supported tool position states.
+                | PARSED_COMMAND - Handled command type.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is TOOL.
                 | parse - Parses TOOL statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes ToolParser.'''
-        self._name: str = 'tool_parser'
+    NAME: ClassVar[str] = 'tool_parser'
+    MIN_TOKENS: ClassVar[int] = 2
+    CMD_INDEX: ClassVar[int] = 0
+    STATE_INDEX: ClassVar[int] = 1
+    VALID_STATES: ClassVar[tuple[ToolPosition, ToolPosition]] = (
+        ToolPosition.UP,
+        ToolPosition.DOWN,
+    )
+    PARSED_COMMAND: ClassVar[ScaraCommandType] = ScaraCommandType.TOOL
 
     @property
     def name(self) -> str:
@@ -63,7 +76,7 @@ class ToolParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -72,7 +85,7 @@ class ToolParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name == ScaraCommandType.TOOL
+        return command_name == self.PARSED_COMMAND
 
     def parse(
         self,
@@ -90,25 +103,24 @@ class ToolParser:
             :return: ScaraInstruction node.
             :exceptions: ScaraSyntaxError on missing or invalid TOOL state.
         '''
-        cmd: str = tokens[0].value.upper()
+        cmd: str = tokens[self.CMD_INDEX].value.upper()
 
-        if len(tokens) < 2:
+        if len(tokens) < self.MIN_TOKENS:
             raise ScaraSyntaxError(
                 f'Missing state argument for {cmd} at line {line_num}'
             )
 
-        state: str = tokens[1].value.upper()
-        valid_states = (ToolPosition.UP, ToolPosition.DOWN)
+        state: str = tokens[self.STATE_INDEX].value.upper()
 
-        if state not in valid_states:
+        if state not in self.VALID_STATES:
             raise ScaraSyntaxError(
                 f'Invalid state {state!r} for {cmd} at line {line_num}. '
-                f'Must be one of {valid_states}'
+                f'Must be one of {self.VALID_STATES}'
             )
 
         return ScaraInstruction(
-            command_type=ScaraCommandType.TOOL,
+            command_type=self.PARSED_COMMAND,
             line_number=line_num,
             raw_text=raw_text,
-            parameters={InstructionParam.STATE: state},
+            parameters={ScaraInstructionParam.STATE: state},
         )

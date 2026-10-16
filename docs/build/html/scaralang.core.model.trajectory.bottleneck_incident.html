@@ -70,7 +70,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.model.trajectory.bottleneck_incident.BottleneckIncident">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.trajectory.bottleneck_incident.</span></span><span class="sig-name descname"><span class="pre">BottleneckIncident</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limiting_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraint_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_us</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/trajectory/bottleneck_incident.html#BottleneckIncident"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.trajectory.bottleneck_incident.BottleneckIncident" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.trajectory.bottleneck_incident.</span></span><span class="sig-name descname"><span class="pre">BottleneckIncident</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limiting_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.axis_name.html#scaralang.core.model.kinematics.axis_name.AxisName" title="scaralang.core.model.kinematics.axis_name.AxisName"><span class="pre">AxisName</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraint_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.trajectory.constraint_type.html#scaralang.core.model.trajectory.constraint_type.ConstraintType" title="scaralang.core.model.trajectory.constraint_type.ConstraintType"><span class="pre">ConstraintType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_us</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/trajectory/bottleneck_incident.html#BottleneckIncident"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.trajectory.bottleneck_incident.BottleneckIncident" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Immutable data model recording an axis bottleneck constraining cycle time.</p>
 <p>It defines:</p>
@@ -79,8 +79,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">step_index - Sequence index of the constrained trajectory step.</div>
-<div class="line">limiting_axis - Axis name that dictated the segment duration.</div>
-<div class="line">constraint_type - Constraint category (‘VELOCITY’ or ‘ACCELERATION’).</div>
+<div class="line">limiting_axis - Axis identifier enum (AxisName) that dictated the segment duration.</div>
+<div class="line">constraint_type - Constraint category enum (ConstraintType).</div>
 <div class="line">duration_us - Allocated duration for the segment in microseconds.</div>
 </div>
 </dd>
@@ -88,7 +88,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </div></blockquote>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.trajectory.bottleneck_incident.BottleneckIncident.constraint_type">
-<span class="sig-name descname"><span class="pre">constraint_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#scaralang.core.model.trajectory.bottleneck_incident.BottleneckIncident.constraint_type" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">constraint_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.trajectory.constraint_type.html#scaralang.core.model.trajectory.constraint_type.ConstraintType" title="scaralang.core.model.trajectory.constraint_type.ConstraintType"><span class="pre">ConstraintType</span></a></em><a class="headerlink" href="#scaralang.core.model.trajectory.bottleneck_incident.BottleneckIncident.constraint_type" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -98,7 +98,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.trajectory.bottleneck_incident.BottleneckIncident.limiting_axis">
-<span class="sig-name descname"><span class="pre">limiting_axis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#scaralang.core.model.trajectory.bottleneck_incident.BottleneckIncident.limiting_axis" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">limiting_axis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.axis_name.html#scaralang.core.model.kinematics.axis_name.AxisName" title="scaralang.core.model.kinematics.axis_name.AxisName"><span class="pre">AxisName</span></a></em><a class="headerlink" href="#scaralang.core.model.trajectory.bottleneck_incident.BottleneckIncident.limiting_axis" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">

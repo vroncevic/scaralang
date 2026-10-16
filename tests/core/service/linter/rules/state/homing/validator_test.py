@@ -25,14 +25,14 @@ from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.linter.scara_lint_context import ScaraLintContext
+from scaralang.core.service.linter.context.factory import LintContextFactory
 from scaralang.core.service.linter.rules.state.homing.validator import HomingValidator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,10 +61,8 @@ class TestHomingValidator(TestCase):
             raw_text='HOME',
             parameters={},
         )
-        context = ScaraLintContext(
-            is_homed=False,
-            last_coords=(100.0, 50.0, 10.0, 0.0),
-        )
+        context = LintContextFactory.create()
+        context.last_coords = (100.0, 50.0, 10.0, 0.0)
 
         validator.validate(instruction=instruction, context=context)
 
@@ -82,10 +80,8 @@ class TestHomingValidator(TestCase):
             raw_text='MOVE_L X=100.0',
             parameters={},
         )
-        context = ScaraLintContext(
-            is_homed=False,
-            last_coords=(50.0, 50.0, 10.0, 0.0),
-        )
+        context = LintContextFactory.create()
+        context.last_coords = (50.0, 50.0, 10.0, 0.0)
 
         validator.validate(instruction=instruction, context=context)
 

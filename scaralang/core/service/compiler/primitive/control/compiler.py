@@ -22,13 +22,13 @@ Info
 
 from __future__ import annotations
 
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.compiler.control_waypoint_descriptor import ControlWaypointDescriptor
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.primitive.control.waypoint.ibuilder import IControlWaypointBuilder
@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,6 +52,11 @@ class ControlCommandCompiler:
         It defines:
 
             :attributes:
+                | _CMD_TEMPLATE - Template string for parameterless wire commands.
+                | _PARAM_CMD_TEMPLATE - Template string for parameterized wire commands.
+                | _DEFAULT_HOME_PHI - Default orientation angle for homing sequence.
+                | _DEFAULT_DELAY_MS - Default fallback delay in milliseconds.
+                | _MIN_DELAY_MS - Minimum allowed dwell delay in milliseconds.
                 | _SUPPORTED - Frozenset of handled ScaraCommandType instances.
                 | _waypoint_builder - Collaborator building execution control waypoints.
             :methods:
@@ -60,6 +65,12 @@ class ControlCommandCompiler:
                 | compile - Appends control command waypoints to the waypoint accumulator.
                 | get_version - Gets implementation version string.
     '''
+
+    _CMD_TEMPLATE: ClassVar[str] = '<CMD:{name}>'
+    _PARAM_CMD_TEMPLATE: ClassVar[str] = '<CMD:{name}#{param}>'
+    _DEFAULT_HOME_PHI: ClassVar[float] = 0.0
+    _DEFAULT_DELAY_MS: ClassVar[float] = 0.0
+    _MIN_DELAY_MS: ClassVar[int] = 0
 
     _SUPPORTED: frozenset[ScaraCommandType] = frozenset({
         ScaraCommandType.HOME,
@@ -101,7 +112,7 @@ class ControlCommandCompiler:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[Waypoint, ...]:
         '''
             Processes control instructions and returns control command waypoints.
@@ -123,23 +134,29 @@ class ControlCommandCompiler:
                 self._waypoint_builder.build_waypoint(
                     context=context,
                     descriptor=ControlWaypointDescriptor(
-                        name='HOME',
-                        command='<CMD:HOME>',
-                        phi=0.0,
+                        name=ScaraCommandType.HOME.value,
+                        command=self._CMD_TEMPLATE.format(name=ScaraCommandType.HOME.value),
+                        phi=self._DEFAULT_HOME_PHI,
                         speed=context.speed.speed_rapid,
                     ),
                 ),
             )
 
         if cmd_type == ScaraCommandType.WAIT_MS:
-            delay_ms = max(0, int(float(params.get(InstructionParam.MS, 0.0))))
+            delay_ms = max(
+                self._MIN_DELAY_MS,
+                int(float(params.get(ScaraInstructionParam.MS, self._DEFAULT_DELAY_MS))),
+            )
 
             return (
                 self._waypoint_builder.build_waypoint(
                     context=context,
                     descriptor=ControlWaypointDescriptor(
-                        name=f'WAIT_{delay_ms}MS',
-                        command=f'<CMD:WAIT#{delay_ms}>',
+                        name=f'{ScaraCommandType.WAIT.value}_{delay_ms}{ScaraInstructionParam.MS.value}',
+                        command=self._PARAM_CMD_TEMPLATE.format(
+                            name=ScaraCommandType.WAIT.value,
+                            param=delay_ms,
+                        ),
                         phi=context.pose.current_phi,
                         speed=context.speed.current_speed,
                     ),
@@ -148,7 +165,7 @@ class ControlCommandCompiler:
 
         if cmd_type == ScaraCommandType.CONFIG_MOTOR:
             mode_param = str(
-                params.get(InstructionParam.MODE, MotorDriveMode.OPEN_LOOP.value)
+                params.get(ScaraInstructionParam.MODE, MotorDriveMode.OPEN_LOOP.value)
             ).upper()
             mode_obj: MotorDriveMode = (
                 DriveModeResolver.parse_drive_mode(mode_param)
@@ -161,8 +178,11 @@ class ControlCommandCompiler:
                 self._waypoint_builder.build_waypoint(
                     context=context,
                     descriptor=ControlWaypointDescriptor(
-                        name=f'CONFIG_MOTOR_{mode_obj.value}',
-                        command=f'<CMD:CONFIG_MOTOR#{mode_obj.value}>',
+                        name=f'{ScaraCommandType.CONFIG_MOTOR.value}_{mode_obj.value}',
+                        command=self._PARAM_CMD_TEMPLATE.format(
+                            name=ScaraCommandType.CONFIG_MOTOR.value,
+                            param=mode_obj.value,
+                        ),
                         phi=context.pose.current_phi,
                         speed=context.speed.current_speed,
                     ),
@@ -174,7 +194,7 @@ class ControlCommandCompiler:
                 context=context,
                 descriptor=ControlWaypointDescriptor(
                     name=cmd_type.value,
-                    command=f'<CMD:{cmd_type.value}>',
+                    command=self._CMD_TEMPLATE.format(name=cmd_type.value),
                     phi=context.pose.current_phi,
                     speed=context.speed.current_speed,
                 ),

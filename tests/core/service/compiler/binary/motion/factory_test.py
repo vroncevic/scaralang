@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,9 +54,11 @@ class TestMotionFactory(TestCase):
         '''Verifies factory returns MotionProvides instance with compiler.'''
         mock_discretizer = MagicMock()
         mock_frame_builder = MagicMock()
+        mock_frame_packer = MagicMock()
         deps = MotionDependencies(
             discretizer=mock_discretizer,
             frame_builder=mock_frame_builder,
+            frame_packer=mock_frame_packer,
         )
         provides = MotionFactory.create(dependencies=deps)
         self.assertIsInstance(provides, MotionProvides)
@@ -64,7 +66,7 @@ class TestMotionFactory(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies factory version returns valid string.'''
-        self.assertEqual(MotionFactory.get_version(), '1.0.8')
+        self.assertEqual(MotionFactory.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

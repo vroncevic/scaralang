@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.model.kinematics.elbow_config import ElbowConfig
@@ -32,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,16 +47,34 @@ class ElbowParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | MIN_TOKENS - Minimum allowed token count for statement parsing.
+                | CMD_INDEX - Index of command token.
+                | SUB_INDEX - Index of configuration property subcommand token.
+                | VAL_INDEX - Index of configuration value token.
+                | SUBCOMMAND_KEYWORD - Expected configuration property keyword.
+                | VALID_CONFIGS - Supported elbow kinematic configuration modes.
+                | PARSED_COMMANDS - Tuple of handled command keywords.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is CONFIG or CONFIG_ELBOW.
                 | parse - Parses CONFIG ELBOW statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes ElbowParser.'''
-        self._name: str = 'elbow_parser'
+    NAME: ClassVar[str] = 'elbow_parser'
+    MIN_TOKENS: ClassVar[int] = 3
+    CMD_INDEX: ClassVar[int] = 0
+    SUB_INDEX: ClassVar[int] = 1
+    VAL_INDEX: ClassVar[int] = 2
+    SUBCOMMAND_KEYWORD: ClassVar[str] = 'ELBOW'
+    VALID_CONFIGS: ClassVar[tuple[ElbowConfig, ElbowConfig]] = (
+        ElbowConfig.LEFT,
+        ElbowConfig.RIGHT,
+    )
+    PARSED_COMMANDS: ClassVar[tuple[ScaraCommandType, ScaraCommandType]] = (
+        ScaraCommandType.CONFIG,
+        ScaraCommandType.CONFIG_ELBOW,
+    )
 
     @property
     def name(self) -> str:
@@ -63,7 +83,7 @@ class ElbowParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -72,10 +92,7 @@ class ElbowParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name in (
-            ScaraCommandType.CONFIG,
-            ScaraCommandType.CONFIG_ELBOW,
-        )
+        return command_name in self.PARSED_COMMANDS
 
     def parse(
         self,
@@ -93,21 +110,21 @@ class ElbowParser:
             :return: ScaraInstruction node.
             :exceptions: ScaraSyntaxError on invalid elbow configuration syntax.
         '''
-        if len(tokens) < 3:
+        if len(tokens) < self.MIN_TOKENS:
             raise ScaraSyntaxError(
                 f'Invalid CONFIG syntax at line {line_num}. Expected: CONFIG ELBOW <LEFT|RIGHT>'
             )
 
-        sub: str = tokens[1].value.upper()
+        sub: str = tokens[self.SUB_INDEX].value.upper()
 
-        if sub != 'ELBOW':
+        if sub != self.SUBCOMMAND_KEYWORD:
             raise ScaraSyntaxError(
                 f'Unknown CONFIG property {sub!r} at line {line_num}'
             )
 
-        val: str = tokens[2].value.upper()
+        val: str = tokens[self.VAL_INDEX].value.upper()
 
-        if val not in (ElbowConfig.LEFT, ElbowConfig.RIGHT):
+        if val not in self.VALID_CONFIGS:
             raise ScaraSyntaxError(
                 f'Invalid elbow configuration {val!r} at line {line_num}. Must be LEFT or RIGHT'
             )
@@ -116,5 +133,5 @@ class ElbowParser:
             command_type=ScaraCommandType.CONFIG_ELBOW,
             line_number=line_num,
             raw_text=raw_text,
-            parameters={InstructionParam.ELBOW: val},
+            parameters={ScaraInstructionParam.ELBOW: val},
         )

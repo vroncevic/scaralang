@@ -19,9 +19,7 @@ Submodules
 
    scaralang.core.service.trajectory.validation.dependencies
    scaralang.core.service.trajectory.validation.factory
-   scaralang.core.service.trajectory.validation.ivalidator
    scaralang.core.service.trajectory.validation.provides
-   scaralang.core.service.trajectory.validation.validator
 
 Module contents
 ---------------

@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="scaralang.core.service.compiler.binary.command.factory module" href="scaralang.core.service.compiler.binary.command.factory.html" />
-    <link rel="prev" title="scaralang.core.service.compiler.binary.command.compiler module" href="scaralang.core.service.compiler.binary.command.compiler.html" /> 
+    <link rel="prev" title="scaralang.core.service.compiler.binary.command.compiler_dependencies module" href="scaralang.core.service.compiler.binary.command.compiler_dependencies.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
           <a href="scaralang.core.service.compiler.binary.command.factory.html" title="scaralang.core.service.compiler.binary.command.factory module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.compiler.binary.command.compiler.html" title="scaralang.core.service.compiler.binary.command.compiler module"
+          <a href="scaralang.core.service.compiler.binary.command.compiler_dependencies.html" title="scaralang.core.service.compiler.binary.command.compiler_dependencies module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -72,7 +72,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.compiler.binary.command.dependencies.</span></span><span class="sig-name descname"><span class="pre">CommandDependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_builder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_frame_builder.html#scaralang.core.service.protocol.ibinary_frame_builder.IBinaryFrameBuilder" title="scaralang.core.service.protocol.ibinary_frame_builder.IBinaryFrameBuilder"><span class="pre">IBinaryFrameBuilder</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/compiler/binary/command/dependencies.html#CommandDependencies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.compiler.binary.command.dependencies.</span></span><span class="sig-name descname"><span class="pre">CommandDependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actuator_builder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_actuator_frame_builder.html#scaralang.core.service.protocol.ibinary_actuator_frame_builder.IBinaryActuatorFrameBuilder" title="scaralang.core.service.protocol.ibinary_actuator_frame_builder.IBinaryActuatorFrameBuilder"><span class="pre">IBinaryActuatorFrameBuilder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_builder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_system_frame_builder.html#scaralang.core.service.protocol.ibinary_system_frame_builder.IBinarySystemFrameBuilder" title="scaralang.core.service.protocol.ibinary_system_frame_builder.IBinarySystemFrameBuilder"><span class="pre">IBinarySystemFrameBuilder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_packer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_frame_packer.html#scaralang.core.service.protocol.ibinary_frame_packer.IBinaryFramePacker" title="scaralang.core.service.protocol.ibinary_frame_packer.IBinaryFramePacker"><span class="pre">IBinaryFramePacker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/compiler/binary/command/dependencies.html#CommandDependencies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Encapsulates external collaborators injected into the command compilation subsystem.</p>
 <p>It defines:</p>
@@ -80,14 +80,26 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">frame_builder - Low-level binary frame builder protocol.</div>
+<div class="line">actuator_builder - Actuator binary frame builder protocol.</div>
+<div class="line">system_builder - System binary frame builder protocol.</div>
+<div class="line">frame_packer - Binary wire frame packer protocol.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.frame_builder">
-<span class="sig-name descname"><span class="pre">frame_builder</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ibinary_frame_builder.html#scaralang.core.service.protocol.ibinary_frame_builder.IBinaryFrameBuilder" title="scaralang.core.service.protocol.ibinary_frame_builder.IBinaryFrameBuilder"><span class="pre">IBinaryFrameBuilder</span></a></em><a class="headerlink" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.frame_builder" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.actuator_builder">
+<span class="sig-name descname"><span class="pre">actuator_builder</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ibinary_actuator_frame_builder.html#scaralang.core.service.protocol.ibinary_actuator_frame_builder.IBinaryActuatorFrameBuilder" title="scaralang.core.service.protocol.ibinary_actuator_frame_builder.IBinaryActuatorFrameBuilder"><span class="pre">IBinaryActuatorFrameBuilder</span></a></em><a class="headerlink" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.actuator_builder" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.frame_packer">
+<span class="sig-name descname"><span class="pre">frame_packer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ibinary_frame_packer.html#scaralang.core.service.protocol.ibinary_frame_packer.IBinaryFramePacker" title="scaralang.core.service.protocol.ibinary_frame_packer.IBinaryFramePacker"><span class="pre">IBinaryFramePacker</span></a></em><a class="headerlink" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.frame_packer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.system_builder">
+<span class="sig-name descname"><span class="pre">system_builder</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ibinary_system_frame_builder.html#scaralang.core.service.protocol.ibinary_system_frame_builder.IBinarySystemFrameBuilder" title="scaralang.core.service.protocol.ibinary_system_frame_builder.IBinarySystemFrameBuilder"><span class="pre">IBinarySystemFrameBuilder</span></a></em><a class="headerlink" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.system_builder" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -106,7 +118,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.compiler.binary.command.dependencies module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies"><code class="docutils literal notranslate"><span class="pre">CommandDependencies</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.frame_builder"><code class="docutils literal notranslate"><span class="pre">CommandDependencies.frame_builder</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.actuator_builder"><code class="docutils literal notranslate"><span class="pre">CommandDependencies.actuator_builder</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.frame_packer"><code class="docutils literal notranslate"><span class="pre">CommandDependencies.frame_packer</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.binary.command.dependencies.CommandDependencies.system_builder"><code class="docutils literal notranslate"><span class="pre">CommandDependencies.system_builder</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -116,8 +130,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.service.compiler.binary.command.compiler.html"
-                          title="previous chapter">scaralang.core.service.compiler.binary.command.compiler module</a></p>
+    <p class="topless"><a href="scaralang.core.service.compiler.binary.command.compiler_dependencies.html"
+                          title="previous chapter">scaralang.core.service.compiler.binary.command.compiler_dependencies module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -158,7 +172,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="scaralang.core.service.compiler.binary.command.factory.html" title="scaralang.core.service.compiler.binary.command.factory module"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.compiler.binary.command.compiler.html" title="scaralang.core.service.compiler.binary.command.compiler module"
+          <a href="scaralang.core.service.compiler.binary.command.compiler_dependencies.html" title="scaralang.core.service.compiler.binary.command.compiler_dependencies module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

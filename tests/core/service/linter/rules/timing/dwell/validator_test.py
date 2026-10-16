@@ -26,7 +26,7 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_code import ScaraDiagnosticCode
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
 from scaralang.core.service.linter.rules.timing.dwell.validator import DwellValidator
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -64,7 +64,7 @@ class TestDwellValidator(TestCase):
             command_type=ScaraCommandType.WAIT_MS,
             line_number=5,
             raw_text='WAIT_MS 0',
-            parameters={InstructionParam.MS: 0.0},
+            parameters={ScaraInstructionParam.MS: 0.0},
         )
 
         diagnostics = validator.validate(instruction=instruction)
@@ -83,7 +83,7 @@ class TestDwellValidator(TestCase):
             command_type=ScaraCommandType.WAIT_MS,
             line_number=6,
             raw_text='WAIT_MS -50',
-            parameters={InstructionParam.MS: -50.0},
+            parameters={ScaraInstructionParam.MS: -50.0},
         )
 
         diagnostics = validator.validate(instruction=instruction)
@@ -101,7 +101,7 @@ class TestDwellValidator(TestCase):
             command_type=ScaraCommandType.WAIT_MS,
             line_number=7,
             raw_text='WAIT_MS 250',
-            parameters={InstructionParam.MS: 250.0},
+            parameters={ScaraInstructionParam.MS: 250.0},
         )
 
         diagnostics = validator.validate(instruction=instruction)

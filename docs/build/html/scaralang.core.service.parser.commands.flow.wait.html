@@ -80,18 +80,53 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">_name - Component identification name.</div>
+<div class="line">NAME - Component identification name.</div>
+<div class="line">MIN_TOKENS - Minimum allowed token count for statement parsing.</div>
+<div class="line">CMD_INDEX - Index of command token.</div>
+<div class="line">ARG_INDEX - Index of millisecond delay value token.</div>
+<div class="line">PARSED_COMMANDS - Handled command types tuple.</div>
+<div class="line">TARGET_COMMAND - Target instruction command type.</div>
+<div class="line">name - Property returning component name.</div>
 </div>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
-<div class="line">name - Property returning component name.</div>
 <div class="line">can_parse - Checks whether command is WAIT or WAIT_MS.</div>
 <div class="line">parse - Parses WAIT statement tokens into ScaraInstruction.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.flow.wait.WaitParser.ARG_INDEX">
+<span class="sig-name descname"><span class="pre">ARG_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.ARG_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.flow.wait.WaitParser.CMD_INDEX">
+<span class="sig-name descname"><span class="pre">CMD_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.CMD_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.flow.wait.WaitParser.MIN_TOKENS">
+<span class="sig-name descname"><span class="pre">MIN_TOKENS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.MIN_TOKENS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.flow.wait.WaitParser.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'wait_parser'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.flow.wait.WaitParser.PARSED_COMMANDS">
+<span class="sig-name descname"><span class="pre">PARSED_COMMANDS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.ast.command_type.html#scaralang.core.model.dsl.ast.command_type.ScaraCommandType" title="scaralang.core.model.dsl.ast.command_type.ScaraCommandType"><span class="pre">ScaraCommandType</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.dsl.ast.command_type.html#scaralang.core.model.dsl.ast.command_type.ScaraCommandType" title="scaralang.core.model.dsl.ast.command_type.ScaraCommandType"><span class="pre">ScaraCommandType</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(ScaraCommandType.WAIT,</span> <span class="pre">ScaraCommandType.WAIT_MS)</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.PARSED_COMMANDS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.flow.wait.WaitParser.TARGET_COMMAND">
+<span class="sig-name descname"><span class="pre">TARGET_COMMAND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.ast.command_type.html#scaralang.core.model.dsl.ast.command_type.ScaraCommandType" title="scaralang.core.model.dsl.ast.command_type.ScaraCommandType"><span class="pre">ScaraCommandType</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WAIT_MS'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.TARGET_COMMAND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.flow.wait.WaitParser.can_parse">
 <span class="sig-name descname"><span class="pre">can_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/flow/wait.html#WaitParser.can_parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.can_parse" title="Link to this definition">¶</a></dt>
@@ -154,6 +189,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.parser.commands.flow.wait module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser"><code class="docutils literal notranslate"><span class="pre">WaitParser</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.ARG_INDEX"><code class="docutils literal notranslate"><span class="pre">WaitParser.ARG_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.CMD_INDEX"><code class="docutils literal notranslate"><span class="pre">WaitParser.CMD_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.MIN_TOKENS"><code class="docutils literal notranslate"><span class="pre">WaitParser.MIN_TOKENS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.NAME"><code class="docutils literal notranslate"><span class="pre">WaitParser.NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.PARSED_COMMANDS"><code class="docutils literal notranslate"><span class="pre">WaitParser.PARSED_COMMANDS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.TARGET_COMMAND"><code class="docutils literal notranslate"><span class="pre">WaitParser.TARGET_COMMAND</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.can_parse"><code class="docutils literal notranslate"><span class="pre">WaitParser.can_parse()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.name"><code class="docutils literal notranslate"><span class="pre">WaitParser.name</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.flow.wait.WaitParser.parse"><code class="docutils literal notranslate"><span class="pre">WaitParser.parse()</span></code></a></li>

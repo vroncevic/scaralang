@@ -28,13 +28,13 @@ from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.motor_wire_mode import MotorWireMode
 from scaralang.core.service.motor.drive_mode_resolver import DriveModeResolver
 from scaralang.core.service.motor.wire_mode_converter import WireModeConverter
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
+from scaralang.core.service.protocol.ibinary_actuator_frame_builder import IBinaryActuatorFrameBuilder
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,7 +47,7 @@ class ActuatorFrameBuilder:
         It defines:
 
             :attributes:
-                | _frame_builder - Injected binary frame builder protocol.
+                | _frame_builder - Injected actuator binary frame builder protocol.
             :methods:
                 | __init__ - Initializes actuator frame builder with wire frame builder.
                 | build_actuator_frame - Constructs binary frame for actuator configuration.
@@ -55,15 +55,15 @@ class ActuatorFrameBuilder:
                 | get_version - Gets implementation version string.
     '''
 
-    _frame_builder: IBinaryFrameBuilder
+    _frame_builder: IBinaryActuatorFrameBuilder
 
-    def __init__(self, *, frame_builder: IBinaryFrameBuilder) -> None:
+    def __init__(self, *, frame_builder: IBinaryActuatorFrameBuilder) -> None:
         '''
             Initializes ActuatorFrameBuilder with injected frame builder.
 
-            :param frame_builder: Low-level binary frame builder protocol.
+            :param frame_builder: Low-level actuator binary frame builder protocol.
         '''
-        self._frame_builder: Final[IBinaryFrameBuilder] = frame_builder
+        self._frame_builder: Final[IBinaryActuatorFrameBuilder] = frame_builder
 
     def build_actuator_frame(
         self,

@@ -29,15 +29,15 @@ from scaralang.core.service.decompiler.frame.factory import FrameFactory
 from scaralang.core.service.decompiler.frame.iframe import IFrameDecompiler
 from scaralang.core.service.decompiler.frame.provides import FrameProvides
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
-from scaralang.core.service.kinematics.transmission.factory import JointStepTransmissionConverterFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.factory import UnpackerFactory
+from scaralang.core.service.kinematics.transmission.factory import TransmissionFactory
+from scaralang.infrastructure.protocol.binary.parser.unpacker.factory import UnpackerFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,15 +48,16 @@ class TestFrameFactory(TestCase):
 
     def test_create(self) -> None:
         '''Verifies factory creates configured FrameProvides instance with IFrameDecompiler.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        transmission = JointStepTransmissionConverterFactory.create(
+        kinematics = DefaultKinematicsFactory.create()
+        transmission = TransmissionFactory.create(
             transmission=DefaultScaraProfile.create_transmission()
         )
-        unpacker = UnpackerFactory.create().unpacker
+        unpackers = UnpackerFactory.create()
         dependencies = FrameDependencies(
-            kinematics=kinematics,
+            planar=kinematics.planar,
             transmission=transmission,
-            unpacker=unpacker,
+            motion_unpacker=unpackers.motion,
+            actuator_unpacker=unpackers.actuator,
         )
         provides: FrameProvides = FrameFactory.create(dependencies=dependencies)
         self.assertIsInstance(provides, FrameProvides)
@@ -64,7 +65,7 @@ class TestFrameFactory(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies factory version string retrieval.'''
-        self.assertEqual(FrameFactory.get_version(), '1.0.8')
+        self.assertEqual(FrameFactory.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

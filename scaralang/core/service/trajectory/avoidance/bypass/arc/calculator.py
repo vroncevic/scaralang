@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from math import acos, atan2, hypot, pi
+from typing import ClassVar
 
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.bypass_arc_geometry import BypassArcGeometry
@@ -30,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,10 +43,24 @@ class TangentArcCalculator:
 
         It defines:
 
+            :attributes:
+                | TWO_PI - Full circle radian constant.
+                | PI - Half circle radian constant.
+                | MAX_COS_RATIO - Maximum ratio limit for arc-cosine calculation.
+                | ZERO_ANGLE - Base zero radian angle.
+                | DIR_POSITIVE - Positive rotational direction indicator.
+                | DIR_NEGATIVE - Negative rotational direction indicator.
             :methods:
                 | calculate_bypass_arc - Computes tangential entry, exit, and sweep angles.
                 | get_version - Returns calculator component version string.
     '''
+
+    TWO_PI: ClassVar[float] = 2.0 * pi
+    PI: ClassVar[float] = pi
+    MAX_COS_RATIO: ClassVar[float] = 1.0
+    ZERO_ANGLE: ClassVar[float] = 0.0
+    DIR_POSITIVE: ClassVar[float] = 1.0
+    DIR_NEGATIVE: ClassVar[float] = -1.0
 
     def calculate_bypass_arc(
         self,
@@ -65,32 +80,34 @@ class TangentArcCalculator:
         theta_start: float = atan2(start_pt.y, start_pt.x)
         theta_end: float = atan2(end_pt.y, end_pt.x)
 
-        diff: float = (theta_end - theta_start) % (2.0 * pi)
+        diff: float = (theta_end - theta_start) % self.TWO_PI
 
-        if diff > pi:
-            diff -= 2.0 * pi
+        if diff > self.PI:
+            diff -= self.TWO_PI
 
         r_start: float = hypot(start_pt.x, start_pt.y)
         r_end: float = hypot(end_pt.x, end_pt.y)
 
         alpha1: float = (
-            acos(min(1.0, safe_radius / r_start))
+            acos(min(self.MAX_COS_RATIO, safe_radius / r_start))
             if r_start > safe_radius
-            else 0.0
+            else self.ZERO_ANGLE
         )
         alpha2: float = (
-            acos(min(1.0, safe_radius / r_end))
+            acos(min(self.MAX_COS_RATIO, safe_radius / r_end))
             if r_end > safe_radius
-            else 0.0
+            else self.ZERO_ANGLE
         )
 
-        step_sign: float = 1.0 if diff >= 0.0 else -1.0
+        step_sign: float = (
+            self.DIR_POSITIVE if diff >= self.ZERO_ANGLE else self.DIR_NEGATIVE
+        )
         phi_entry: float = theta_start + step_sign * alpha1
         phi_exit: float = theta_end - step_sign * alpha2
         arc_sweep: float = (
-            (phi_exit - phi_entry) % (2.0 * pi)
-            if step_sign > 0.0
-            else (phi_entry - phi_exit) % (2.0 * pi)
+            (phi_exit - phi_entry) % self.TWO_PI
+            if step_sign > self.ZERO_ANGLE
+            else (phi_entry - phi_exit) % self.TWO_PI
         )
 
         return BypassArcGeometry(

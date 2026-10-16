@@ -23,15 +23,17 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
+from scaralang.core.model.kinematics.axis_name import AxisName
 from scaralang.core.model.trajectory.axis_peak_metric import AxisPeakMetric
 from scaralang.core.model.trajectory.bottleneck_incident import BottleneckIncident
+from scaralang.core.model.trajectory.constraint_type import ConstraintType
 from scaralang.core.model.trajectory.trajectory_cycle_report import TrajectoryCycleReport
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,15 +45,15 @@ class TrajectoryCycleReportTest(TestCase):
     def test_instantiation_and_attributes(self) -> None:
         '''Verify correct field assignment upon instantiation.'''
         peak = AxisPeakMetric(
-            axis_name='J1',
+            axis_name=AxisName.J1,
             peak_velocity=2.5,
             peak_acceleration=10.0,
             peak_steps=1200
         )
         bottleneck = BottleneckIncident(
             step_index=1,
-            limiting_axis='J1',
-            constraint_type='VELOCITY',
+            limiting_axis=AxisName.J1,
+            constraint_type=ConstraintType.VELOCITY,
             duration_us=150000
         )
         report = TrajectoryCycleReport(
@@ -74,7 +76,7 @@ class TrajectoryCycleReportTest(TestCase):
             bottlenecks=()
         )
         with self.assertRaises(AttributeError):
-            report.total_duration_us = 200  # type: ignore[misc]
+            report.total_duration_us = 200
 
 
 if __name__ == '__main__':

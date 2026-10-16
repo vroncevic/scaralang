@@ -1,6 +1,14 @@
 scaralang.core.service.exporter.scara package
 =============================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.exporter.scara.formatter
+
 Submodules
 ----------
 

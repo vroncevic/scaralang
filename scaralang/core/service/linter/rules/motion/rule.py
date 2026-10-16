@@ -26,7 +26,7 @@ from typing import Final
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
-from scaralang.core.model.dsl.linter.scara_lint_context import ScaraLintContext
+from scaralang.core.model.dsl.linter.lint_context import LintContext
 from scaralang.core.service.linter.rules.motion.calibration.ivalidator import ICalibrationValidator
 from scaralang.core.service.linter.rules.motion.duplicate.ivalidator import IDuplicateValidator
 
@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -99,7 +99,7 @@ class MotionLintRule:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraLintContext,
+        context: LintContext,
     ) -> tuple[ScaraDiagnostic, ...]:
         '''
             Validates motion instruction node and updates lint simulation state.

@@ -23,11 +23,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from scaralang.core.model.kinematics.axis_name import AxisName
+
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,13 +43,13 @@ class AxisPeakMetric:
         It defines:
 
             :attributes:
-                | axis_name - Joint axis identifier (e.g. 'J1', 'J2', 'Z', 'J4').
+                | axis_name - Joint axis identifier enum (AxisName).
                 | peak_velocity - Maximum observed velocity in physical units (rad/s or mm/s).
                 | peak_acceleration - Maximum observed acceleration in physical units.
                 | peak_steps - Maximum total displacement in motor microsteps.
     '''
 
-    axis_name: str
+    axis_name: AxisName
     peak_velocity: float
     peak_acceleration: float
     peak_steps: int

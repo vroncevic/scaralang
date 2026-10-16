@@ -21,7 +21,8 @@ Info
 
 from __future__ import annotations
 
-from typing import Final, Sequence
+from collections.abc import Sequence
+from typing import ClassVar, Final
 
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.waypoint import Waypoint
@@ -33,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,6 +47,14 @@ class AvoidanceShapePlanner:
         It defines:
 
             :attributes:
+                | DEFAULT_COMMAND - Default waypoint command string.
+                | DEFAULT_NAME - Default waypoint identifier label.
+                | DEFAULT_PHI - Default orientation angle in degrees.
+                | FIRST_POINT_INDEX - Index of the first point in a sequence.
+                | LAST_POINT_INDEX - Negative index of the last point in a sequence.
+                | LOOP_OFFSET - Loop boundary offset for vertex segments.
+                | NEXT_POINT_OFFSET - Index offset to next vertex point.
+                | SINGLE_POINT_COUNT - Threshold count for single-point contour.
                 | _validator - Injected dead zone validation port.
                 | _bypass_planner - Injected dead zone bypass planner port.
             :methods:
@@ -53,6 +62,15 @@ class AvoidanceShapePlanner:
                 | plan_contour - Plans geometric contour with dead zone avoidance detours.
                 | get_version - Returns planner component version string.
     '''
+
+    DEFAULT_COMMAND: ClassVar[str] = ''
+    DEFAULT_NAME: ClassVar[str] = ''
+    DEFAULT_PHI: ClassVar[float] = 0.0
+    FIRST_POINT_INDEX: ClassVar[int] = 0
+    LAST_POINT_INDEX: ClassVar[int] = -1
+    LOOP_OFFSET: ClassVar[int] = 1
+    NEXT_POINT_OFFSET: ClassVar[int] = 1
+    SINGLE_POINT_COUNT: ClassVar[int] = 1
 
     _validator: IDeadZoneValidator
     _bypass_planner: IDeadZoneBypassPlanner
@@ -90,23 +108,42 @@ class AvoidanceShapePlanner:
         if not points:
             return []
 
-        if len(points) == 1:
-            return [Waypoint(x=points[0].x, y=points[0].y, z=z, speed=speed)]
+        if len(points) == self.SINGLE_POINT_COUNT:
+            pt: Point2D = points[self.FIRST_POINT_INDEX]
+            return [
+                Waypoint(
+                    x=pt.x,
+                    y=pt.y,
+                    z=z,
+                    phi=self.DEFAULT_PHI,
+                    speed=speed,
+                    name=self.DEFAULT_NAME,
+                    command=self.DEFAULT_COMMAND,
+                )
+            ]
 
         vertices: list[Point2D] = list(points)
+        first_pt: Point2D = vertices[self.FIRST_POINT_INDEX]
+        last_pt: Point2D = vertices[self.LAST_POINT_INDEX]
 
-        if closed and (
-            vertices[0].x != vertices[-1].x or vertices[0].y != vertices[-1].y
-        ):
-            vertices.append(vertices[0])
+        if closed and (first_pt.x != last_pt.x or first_pt.y != last_pt.y):
+            vertices.append(first_pt)
 
         result: list[Waypoint] = [
-            Waypoint(x=vertices[0].x, y=vertices[0].y, z=z, speed=speed)
+            Waypoint(
+                x=first_pt.x,
+                y=first_pt.y,
+                z=z,
+                phi=self.DEFAULT_PHI,
+                speed=speed,
+                name=self.DEFAULT_NAME,
+                command=self.DEFAULT_COMMAND,
+            )
         ]
 
-        for i in range(len(vertices) - 1):
+        for i in range(len(vertices) - self.LOOP_OFFSET):
             p_start: Point2D = vertices[i]
-            p_end: Point2D = vertices[i + 1]
+            p_end: Point2D = vertices[i + self.NEXT_POINT_OFFSET]
 
             if self._validator.is_segment_crossing_dead_zone(p_start, p_end):
                 detour: list[Waypoint] = self._bypass_planner.plan_bypass(
@@ -118,7 +155,15 @@ class AvoidanceShapePlanner:
                 result.extend(detour)
             else:
                 result.append(
-                    Waypoint(x=p_end.x, y=p_end.y, z=z, speed=speed)
+                    Waypoint(
+                        x=p_end.x,
+                        y=p_end.y,
+                        z=z,
+                        phi=self.DEFAULT_PHI,
+                        speed=speed,
+                        name=self.DEFAULT_NAME,
+                        command=self.DEFAULT_COMMAND,
+                    )
                 )
 
         return result

@@ -26,7 +26,7 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.dsl.binary.program import BinaryProgram
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
 from scaralang.infrastructure.command.compile.inspection.presentation.provides import PresentationProvides
 
 
@@ -39,19 +39,19 @@ class DummyProgramPresenter:
 
     def get_version(self) -> str:
         '''Returns version.'''
-        return '1.0.8'
+        return '1.0.9'
 
 
 class DummyStepPresenter:
     '''Dummy step presenter satisfying IFrameStepPresenter.'''
 
-    def present_step(self, *, step: Step, index: int) -> str:
+    def present_step(self, *, step: BinaryStep, index: int) -> str:
         '''Presents step.'''
         return f'{index}: {step.description}'
 
     def get_version(self) -> str:
         '''Returns version.'''
-        return '1.0.8'
+        return '1.0.9'
 
 
 class TestPresentationProvides(TestCase):
@@ -78,7 +78,7 @@ class TestPresentationProvides(TestCase):
             step_presenter=self.step_presenter,
         )
         with self.assertRaises(FrozenInstanceError):
-            provides.presenter = self.program_presenter  # type: ignore[misc]
+            provides.presenter = self.program_presenter
 
 
 if __name__ == '__main__':

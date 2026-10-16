@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -67,8 +67,24 @@ class TestCsvExporter(TestCase):
 
     def test_export_csv_multiple_waypoints(self) -> None:
         '''Verifies exporting a plan with multiple waypoints.'''
-        wp1 = Waypoint(name='P1', x=100.0, y=50.0, z=10.0, phi=0.0, speed=50.0)
-        wp2 = Waypoint(name='P2', x=200.0, y=75.0, z=20.0, phi=30.0, speed=60.0)
+        wp1 = Waypoint(
+            name='P1',
+            x=100.0,
+            y=50.0,
+            z=10.0,
+            phi=0.0,
+            speed=50.0,
+            command='',
+        )
+        wp2 = Waypoint(
+            name='P2',
+            x=200.0,
+            y=75.0,
+            z=20.0,
+            phi=30.0,
+            speed=60.0,
+            command='',
+        )
         plan = TrajectoryPlan()
         plan.add_point(wp1)
         plan.add_point(wp2)

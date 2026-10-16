@@ -21,7 +21,7 @@ Info
 
 from __future__ import annotations
 
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
 from scaralang.core.model.trajectory.validation_result import ValidationResult
@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,12 +43,19 @@ class FeedrateValidator:
         It defines:
 
             :attributes:
+                | NAME - Canonical component identifier name.
+                | NO_ERROR_INDEX - Sentinel index indicating successful validation.
+                | VALID_SPEED_MSG - Standard message for valid speed verification.
                 | name - Identifier name of the feedrate validator.
                 | _bounds - Kinematic parameters of the SCARA arm.
             :methods:
                 | __init__ - Initializes validator with robot bounds.
                 | validate_feedrate - Validates that speed is within safe mechanical range.
     '''
+
+    NAME: ClassVar[str] = 'feedrate_validator'
+    NO_ERROR_INDEX: ClassVar[int] = -1
+    VALID_SPEED_MSG: ClassVar[str] = 'Speed is valid'
 
     _bounds: ScaraBounds
 
@@ -68,7 +75,7 @@ class FeedrateValidator:
 
             :return: Validator name string.
         '''
-        return 'feedrate_validator'
+        return self.NAME
 
     def validate_feedrate(self, speed: float) -> ValidationResult:
         '''
@@ -84,7 +91,7 @@ class FeedrateValidator:
                     f'Speed {speed:.1f} mm/s is too slow '
                     f'(minimum {self._bounds.speeds.min_speed:.1f} mm/s)'
                 ),
-                error_index=-1,
+                error_index=self.NO_ERROR_INDEX,
             )
 
         if speed > self._bounds.speeds.max_speed:
@@ -94,7 +101,11 @@ class FeedrateValidator:
                     f'Speed {speed:.1f} mm/s exceeds max safe feedrate '
                     f'{self._bounds.speeds.max_speed:.1f} mm/s'
                 ),
-                error_index=-1,
+                error_index=self.NO_ERROR_INDEX,
             )
 
-        return ValidationResult(is_valid=True, message='Speed is valid', error_index=-1)
+        return ValidationResult(
+            is_valid=True,
+            message=self.VALID_SPEED_MSG,
+            error_index=self.NO_ERROR_INDEX,
+        )

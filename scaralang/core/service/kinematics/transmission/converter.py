@@ -22,15 +22,16 @@ Info
 from __future__ import annotations
 
 from math import pi
-from typing import Final
+from typing import ClassVar, Final
 
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.kinematics.transmission_parameters import TransmissionParameters
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,6 +53,8 @@ class JointStepTransmissionConverter:
                 | steps_per_mm_z - Calculates motor step scale factor per linear mm of Z travel.
                 | get_version - Returns converter component version string.
     '''
+
+    _TWO_PI: ClassVar[float] = 2.0 * pi
 
     _transmission: TransmissionParameters
 
@@ -75,7 +78,7 @@ class JointStepTransmissionConverter:
             self._transmission.steps_per_rev
             * self._transmission.microstepping
             * gear_ratio
-        ) / (2.0 * pi)
+        ) / self._TWO_PI
 
     def steps_per_mm_z(self) -> float:
         '''
@@ -94,7 +97,7 @@ class JointStepTransmissionConverter:
         theta2_rad: float,
         z_mm: float,
         theta4_rad: float
-    ) -> tuple[int, int, int, int]:
+    ) -> JointStepCoordinates:
         '''
             Converts joint angles and linear Z travel into discrete motor steps.
 
@@ -102,14 +105,14 @@ class JointStepTransmissionConverter:
             :param theta2_rad: Elbow joint angle in radians.
             :param z_mm: Linear vertical travel in millimeters.
             :param theta4_rad: Wrist joint angle in radians.
-            :return: Tuple of (j1, j2, z, j4) integer microsteps.
+            :return: JointStepCoordinates containing (j1, j2, z, j4) microsteps.
         '''
         j1: int = round(theta1_rad * self.steps_per_rad(self._transmission.gear_ratio_j1))
         j2: int = round(theta2_rad * self.steps_per_rad(self._transmission.gear_ratio_j2))
         z: int = round(z_mm * self.steps_per_mm_z())
         j4: int = round(theta4_rad * self.steps_per_rad(self._transmission.gear_ratio_j4))
 
-        return (j1, j2, z, j4)
+        return JointStepCoordinates(j1=j1, j2=j2, z=z, j4=j4)
 
     def steps_to_angles(
         self,

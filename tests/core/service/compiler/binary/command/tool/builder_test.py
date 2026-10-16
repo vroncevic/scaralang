@@ -29,14 +29,14 @@ from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.protocol.tool_id import ToolId
 from scaralang.core.service.compiler.binary.command.tool.builder import ToolFrameBuilder
 from scaralang.core.service.compiler.binary.command.tool.ibuilder import IToolFrameBuilder
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
+from scaralang.core.service.protocol.ibinary_actuator_frame_builder import IBinaryActuatorFrameBuilder
+from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,7 +58,9 @@ class TestToolFrameBuilder(TestCase):
 
     def setUp(self) -> None:
         '''Sets up frame builder and tool frame builder fixtures.'''
-        self.frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
+        self.frame_builder: IBinaryActuatorFrameBuilder = (
+            BuilderFactory.create().actuator
+        )
         self.tool_builder = ToolFrameBuilder(frame_builder=self.frame_builder)
 
     def test_structural_conformance(self) -> None:
@@ -67,7 +69,7 @@ class TestToolFrameBuilder(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid version string.'''
-        self.assertEqual(self.tool_builder.get_version(), '1.0.8')
+        self.assertEqual(self.tool_builder.get_version(), '1.0.9')
 
     def test_build_tool_frame_pump_on(self) -> None:
         '''Verifies building binary frame for PUMP ON.'''

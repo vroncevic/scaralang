@@ -17,6 +17,7 @@ Subpackages
    scaralang.core.service.motor
    scaralang.core.service.parser
    scaralang.core.service.protocol
+   scaralang.core.service.repl
    scaralang.core.service.trajectory
    scaralang.core.service.transformation
 

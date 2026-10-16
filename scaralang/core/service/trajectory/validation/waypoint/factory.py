@@ -21,7 +21,7 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.kinematics.iservice import IKinematicsService
+from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 from scaralang.core.service.trajectory.validation.waypoint.provides import WaypointProvides
 from scaralang.core.service.trajectory.validation.waypoint.validator import WaypointValidator
 
@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,20 +42,20 @@ class WaypointFactory:
         It defines:
 
             :methods:
-                | create - Builds WaypointProvides bundle with injected kinematics.
+                | create - Builds WaypointProvides bundle with injected workspace evaluator.
                 | get_version - Returns factory version string.
     '''
 
     @classmethod
-    def create(cls, *, kinematics: IKinematicsService) -> WaypointProvides:
+    def create(cls, *, workspace: IWorkspaceBoundsEvaluator) -> WaypointProvides:
         '''
-            Builds WaypointProvides bundle with injected kinematics.
+            Builds WaypointProvides bundle with injected workspace evaluator.
 
-            :param kinematics: Injected IKinematicsService instance.
+            :param workspace: Injected IWorkspaceBoundsEvaluator instance.
             :return: WaypointProvides bundle instance.
             :exceptions: None.
         '''
-        return WaypointProvides(validator=WaypointValidator(kinematics=kinematics))
+        return WaypointProvides(validator=WaypointValidator(workspace=workspace))
 
     @classmethod
     def get_version(cls) -> str:

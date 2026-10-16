@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,15 +51,39 @@ class TestSvgExporter(TestCase):
 
     def test_build_svg_path_connected(self) -> None:
         '''Verifies sequential points translate to Move (M) and Line (L) commands.'''
-        wp1 = Waypoint(name='P1', x=0.0, y=0.0, z=0.0, phi=0.0, speed=50.0)
-        wp2 = Waypoint(name='P2', x=100.0, y=50.0, z=0.0, phi=0.0, speed=50.0)
+        wp1 = Waypoint(
+            name='P1',
+            x=0.0,
+            y=0.0,
+            z=0.0,
+            phi=0.0,
+            speed=50.0,
+            command='',
+        )
+        wp2 = Waypoint(
+            name='P2',
+            x=100.0,
+            y=50.0,
+            z=0.0,
+            phi=0.0,
+            speed=50.0,
+            command='',
+        )
         path_d = self.exporter.build_svg_path(waypoints=[wp1, wp2])
         self.assertTrue(path_d.startswith('M 400.0 400.0'))
         self.assertIn('L 500.0 350.0', path_d)
 
     def test_export_svg(self) -> None:
         '''Verifies full XML document creation containing metadata and viewport.'''
-        wp = Waypoint(name='ORIGIN', x=0.0, y=0.0, z=0.0, phi=0.0, speed=50.0)
+        wp = Waypoint(
+            name='ORIGIN',
+            x=0.0,
+            y=0.0,
+            z=0.0,
+            phi=0.0,
+            speed=50.0,
+            command='',
+        )
         plan = TrajectoryPlan()
         plan.add_point(wp)
         svg_xml = self.exporter.export_svg(plan=plan)

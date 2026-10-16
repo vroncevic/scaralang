@@ -25,13 +25,14 @@ from __future__ import annotations
 from typing import Protocol, runtime_checkable
 
 from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 from scaralang.core.service.trajectory.plan.iread_only import ITrajectoryReadOnly
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,10 +46,19 @@ class IScaraPlanExporter(Protocol):
         It defines:
 
             :methods:
-                | export_plan - Serializes trajectory plan into formatted .scara source code.
-                | format_waypoint - Formats trajectory waypoint into SCARA move instruction.
+                | export_scara - Serializes trajectory plan into formatted .scara source code.
+                | export_plan - Backward-compatible plan export contract.
+                | format_waypoint - Formats trajectory waypoint into SCARA instruction.
                 | get_version - Returns the exporter version string representation.
     '''
+
+    def export_scara(self, *, plan: ITrajectoryPlan) -> str:
+        '''
+            Serializes trajectory plan into formatted .scara source code.
+
+            :param plan: Validated ITrajectoryPlan protocol instance.
+            :return: Formatted SCARA DSL script.
+        '''
 
     def export_plan(self, *, plan: ITrajectoryReadOnly) -> str:
         '''

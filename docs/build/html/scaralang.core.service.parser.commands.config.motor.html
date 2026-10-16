@@ -80,18 +80,29 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">_name - Component identification name.</div>
+<div class="line">NAME - Component identification name.</div>
+<div class="line">PARSED_COMMANDS - Handled command keywords tuple.</div>
+<div class="line">name - Property returning component name.</div>
 </div>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
-<div class="line">name - Property returning component name.</div>
 <div class="line">can_parse - Checks whether command matches CONFIG_MOTOR or MOTOR_MODE.</div>
 <div class="line">parse - Parses CONFIG MOTOR statement tokens into ScaraInstruction.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.motor.MotorParser.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'motor_parser'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.motor.MotorParser.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.motor.MotorParser.PARSED_COMMANDS">
+<span class="sig-name descname"><span class="pre">PARSED_COMMANDS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.ast.command_type.html#scaralang.core.model.dsl.ast.command_type.ScaraCommandType" title="scaralang.core.model.dsl.ast.command_type.ScaraCommandType"><span class="pre">ScaraCommandType</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(ScaraCommandType.CONFIG_MOTOR,</span> <span class="pre">'CONFIG_MOTOR',</span> <span class="pre">'MOTOR_MODE')</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.motor.MotorParser.PARSED_COMMANDS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.motor.MotorParser.can_parse">
 <span class="sig-name descname"><span class="pre">can_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/config/motor.html#MotorParser.can_parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.config.motor.MotorParser.can_parse" title="Link to this definition">¶</a></dt>
@@ -154,6 +165,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.parser.commands.config.motor module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.motor.MotorParser"><code class="docutils literal notranslate"><span class="pre">MotorParser</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.motor.MotorParser.NAME"><code class="docutils literal notranslate"><span class="pre">MotorParser.NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.motor.MotorParser.PARSED_COMMANDS"><code class="docutils literal notranslate"><span class="pre">MotorParser.PARSED_COMMANDS</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.motor.MotorParser.can_parse"><code class="docutils literal notranslate"><span class="pre">MotorParser.can_parse()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.motor.MotorParser.name"><code class="docutils literal notranslate"><span class="pre">MotorParser.name</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.motor.MotorParser.parse"><code class="docutils literal notranslate"><span class="pre">MotorParser.parse()</span></code></a></li>

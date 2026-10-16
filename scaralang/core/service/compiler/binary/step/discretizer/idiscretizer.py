@@ -23,6 +23,8 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
+from scaralang.core.model.kinematics.joint_angles import JointAngles
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.trajectory.waypoint import Waypoint
 
@@ -30,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -39,14 +41,13 @@ __status__ = 'Updated'
 @runtime_checkable
 class IStepDiscretizer(Protocol):
     '''
-        Structural protocol defining joint step discretization and timing calculation.
+        Structural protocol defining joint step discretization.
 
         It defines:
 
             :methods:
                 | angles_to_steps - Converts joint radians/mm to integer motor steps.
                 | discretize_waypoint - Solves IK and maps Cartesian waypoint into JointSteps.
-                | calculate_segment_duration - Computes execution duration in microseconds.
                 | get_version - Returns implementation version string.
     '''
 
@@ -56,7 +57,7 @@ class IStepDiscretizer(Protocol):
         theta2_rad: float,
         z_mm: float,
         theta4_rad: float,
-    ) -> tuple[int, int, int, int]:
+    ) -> JointStepCoordinates:
         '''
             Converts joint angles and linear Z travel into discrete motor steps.
 
@@ -64,37 +65,21 @@ class IStepDiscretizer(Protocol):
             :param theta2_rad: Elbow joint angle in radians.
             :param z_mm: Linear vertical travel in millimeters.
             :param theta4_rad: Wrist joint angle in radians.
-            :return: Tuple of (j1, j2, z, j4) integer microsteps.
+            :return: JointStepCoordinates containing (j1, j2, z, j4) integer microsteps.
         '''
 
     def discretize_waypoint(
         self,
         *,
         waypoint: Waypoint,
-        prev_angles: tuple[float, float, float, float],
-    ) -> tuple[JointSteps, tuple[float, float, float, float]]:
+        prev_angles: JointAngles,
+    ) -> tuple[JointSteps, JointAngles]:
         '''
             Solves IK and converts Cartesian waypoint into motor steps with duration.
 
             :param waypoint: Target Cartesian Waypoint instance.
-            :param prev_angles: Preceding joint angles (th1, th2, z, th4).
-            :return: Tuple of (JointSteps model, new joint angles tuple).
-        '''
-
-    def calculate_segment_duration(
-        self,
-        *,
-        current_steps: tuple[int, int, int, int],
-        target_steps: tuple[int, int, int, int],
-        speed_mm_s: float,
-    ) -> int:
-        '''
-            Computes segment execution duration in microseconds.
-
-            :param current_steps: Initial joint step coordinates.
-            :param target_steps: Target joint step coordinates.
-            :param speed_mm_s: Planned linear tool speed in mm/s.
-            :return: Microsecond execution duration.
+            :param prev_angles: Preceding joint angles model.
+            :return: Tuple of (JointSteps model, new joint angles model).
         '''
 
     def get_version(self) -> str:

@@ -22,17 +22,19 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.trajectory.waypoint import Waypoint
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,12 +47,17 @@ class VerticalMoveCompiler:
         It defines:
 
             :attributes:
+                | _DEFAULT_DIST - Default vertical motion transit distance along Z axis.
+                | _MIN_Z - Minimum vertical boundary coordinate for safe descent.
                 | _SUPPORTED - Frozenset of handled ScaraCommandType instances.
             :methods:
                 | can_compile - Checks if command is an APPROACH or RETRACT instruction.
                 | compile - Adjusts height coordinates and appends vertical motion waypoints.
                 | get_version - Gets implementation version string.
     '''
+
+    _DEFAULT_DIST: ClassVar[float] = 10.0
+    _MIN_Z: ClassVar[float] = 0.0
 
     _SUPPORTED: frozenset[ScaraCommandType] = frozenset({
         ScaraCommandType.APPROACH,
@@ -71,7 +78,7 @@ class VerticalMoveCompiler:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[Waypoint, ...]:
         '''
             Processes APPROACH and RETRACT instructions and returns computed waypoints.
@@ -83,17 +90,17 @@ class VerticalMoveCompiler:
         '''
         params = instruction.parameters
         cmd_type: ScaraCommandType = instruction.command_type
-        dist: float = float(params.get(InstructionParam.DIST, 10.0))
+        dist: float = float(params.get(ScaraInstructionParam.DIST, self._DEFAULT_DIST))
 
         if cmd_type == ScaraCommandType.APPROACH:
             spd: float = float(
-                params.get(InstructionParam.SPEED, context.speed.speed_work)
+                params.get(ScaraInstructionParam.SPEED, context.speed.speed_work)
             )
-            target_z: float = max(0.0, context.pose.current_z - dist)
+            target_z: float = max(self._MIN_Z, context.pose.current_z - dist)
             name: str = ScaraCommandType.APPROACH.value
         else:
             spd = float(
-                params.get(InstructionParam.SPEED, context.speed.speed_rapid)
+                params.get(ScaraInstructionParam.SPEED, context.speed.speed_rapid)
             )
             target_z = context.pose.current_z + dist
             name = ScaraCommandType.RETRACT.value

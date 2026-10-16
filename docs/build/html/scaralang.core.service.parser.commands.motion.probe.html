@@ -78,10 +78,14 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">attributes<span class="colon">:</span></dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line">_name - Component identification name.</div>
-</div>
+<dt class="field-odd">cvar NAME<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Component identification name.</p>
+</dd>
+<dt class="field-even">cvar PARAMS_START_INDEX<span class="colon">:</span></dt>
+<dd class="field-even"><p>Start index of parameters in token array.</p>
+</dd>
+<dt class="field-odd">cvar PARSED_COMMAND<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Target command keyword string.</p>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
@@ -92,6 +96,21 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.probe.ProbeParser.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'probe_parser'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.probe.ProbeParser.PARAMS_START_INDEX">
+<span class="sig-name descname"><span class="pre">PARAMS_START_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.PARAMS_START_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.probe.ProbeParser.PARSED_COMMAND">
+<span class="sig-name descname"><span class="pre">PARSED_COMMAND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PROBE'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.PARSED_COMMAND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.motion.probe.ProbeParser.can_parse">
 <span class="sig-name descname"><span class="pre">can_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/motion/probe.html#ProbeParser.can_parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.can_parse" title="Link to this definition">¶</a></dt>
@@ -151,6 +170,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.parser.commands.motion.probe module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser"><code class="docutils literal notranslate"><span class="pre">ProbeParser</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.NAME"><code class="docutils literal notranslate"><span class="pre">ProbeParser.NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.PARAMS_START_INDEX"><code class="docutils literal notranslate"><span class="pre">ProbeParser.PARAMS_START_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.PARSED_COMMAND"><code class="docutils literal notranslate"><span class="pre">ProbeParser.PARSED_COMMAND</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.can_parse"><code class="docutils literal notranslate"><span class="pre">ProbeParser.can_parse()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.name"><code class="docutils literal notranslate"><span class="pre">ProbeParser.name</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.motion.probe.ProbeParser.parse"><code class="docutils literal notranslate"><span class="pre">ProbeParser.parse()</span></code></a></li>

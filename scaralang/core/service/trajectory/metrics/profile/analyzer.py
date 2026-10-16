@@ -21,14 +21,17 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.model.dsl.binary.step import Step
+from typing import ClassVar
+
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.axis_name import AxisName
 from scaralang.core.model.trajectory.axis_peak_metric import AxisPeakMetric
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,11 +44,30 @@ class AxisSpeedProfileAnalyzer:
         It defines:
 
             :attributes:
+                | NAME - Canonical component identifier name.
+                | MICROSECONDS_PER_SECOND - Microseconds scaling factor per second.
+                | MIN_DURATION_S - Minimal time quantum preventing division by zero.
+                | ZERO_METRIC_FLOAT - Base floating point zero metric.
+                | ZERO_METRIC_INT - Base integer zero metric.
+                | _DEFAULT_AXES - Canonical sequence of manipulator AxisName enums.
                 | name - Identifier name of the speed profile analyzer.
             :methods:
                 | analyze_axis_peaks - Computes peak kinematic metrics across all 4 robot axes.
-                | analyze_single_axis - Computes peak metrics for a specific joint axis index.
+                | analyze_single_axis - Computes peak metrics for a specific joint axis.
     '''
+
+    NAME: ClassVar[str] = 'axis_speed_profile_analyzer'
+    MICROSECONDS_PER_SECOND: ClassVar[float] = 1_000_000.0
+    MIN_DURATION_S: ClassVar[float] = 1e-6
+    ZERO_METRIC_FLOAT: ClassVar[float] = 0.0
+    ZERO_METRIC_INT: ClassVar[int] = 0
+
+    _DEFAULT_AXES: ClassVar[tuple[AxisName, AxisName, AxisName, AxisName]] = (
+        AxisName.J1,
+        AxisName.J2,
+        AxisName.Z,
+        AxisName.J4,
+    )
 
     @property
     def name(self) -> str:
@@ -54,45 +76,57 @@ class AxisSpeedProfileAnalyzer:
 
             :return: Analyzer name string.
         '''
-        return 'axis_speed_profile_analyzer'
+        return self.NAME
 
     def analyze_single_axis(
         self,
         *,
-        steps: tuple[Step, ...],
-        axis_index: int,
-        axis_name: str
+        steps: tuple[BinaryStep, ...],
+        axis_name: AxisName,
     ) -> AxisPeakMetric:
         '''
             Computes peak velocity, acceleration, and displacement for a single joint axis.
 
             :param steps: Sequence of compiled motion steps.
-            :param axis_index: Coordinate index in target_steps (0=J1, 1=J2, 2=Z, 3=J4).
-            :param axis_name: Identifier name for the axis.
+            :param axis_name: Identifier enum for the axis.
             :return: AxisPeakMetric containing observed peaks.
         '''
         if not steps:
             return AxisPeakMetric(
                 axis_name=axis_name,
-                peak_velocity=0.0,
-                peak_acceleration=0.0,
-                peak_steps=0,
+                peak_velocity=self.ZERO_METRIC_FLOAT,
+                peak_acceleration=self.ZERO_METRIC_FLOAT,
+                peak_steps=self.ZERO_METRIC_INT,
             )
 
-        prev_coord: int = 0
-        prev_velocity: float = 0.0
-        max_vel: float = 0.0
-        max_accel: float = 0.0
-        max_steps: int = 0
+        prev_coord: int = self.ZERO_METRIC_INT
+        prev_velocity: float = self.ZERO_METRIC_FLOAT
+        max_vel: float = self.ZERO_METRIC_FLOAT
+        max_accel: float = self.ZERO_METRIC_FLOAT
+        max_steps: int = self.ZERO_METRIC_INT
 
         for step in steps:
-            coord: int = step.target_steps[axis_index]
+            coord: int
+
+            match axis_name:
+                case AxisName.J1:
+                    coord = step.target_steps.j1
+                case AxisName.J2:
+                    coord = step.target_steps.j2
+                case AxisName.Z:
+                    coord = step.target_steps.z
+                case AxisName.J4:
+                    coord = step.target_steps.j4
+
             delta: int = abs(coord - prev_coord)
 
             if delta > max_steps:
                 max_steps = delta
 
-            duration_s: float = max(step.duration_us / 1000000.0, 0.000001)
+            duration_s: float = max(
+                step.duration_us / self.MICROSECONDS_PER_SECOND,
+                self.MIN_DURATION_S,
+            )
             vel: float = float(delta) / duration_s
 
             if vel > max_vel:
@@ -113,26 +147,19 @@ class AxisSpeedProfileAnalyzer:
             peak_steps=max_steps,
         )
 
-    def analyze_axis_peaks(self, *, steps: tuple[Step, ...]) -> tuple[AxisPeakMetric, ...]:
+    def analyze_axis_peaks(self, *, steps: tuple[BinaryStep, ...]) -> tuple[AxisPeakMetric, ...]:
         '''
             Analyzes joint step execution across all 4 axes to compute peak metrics.
 
             :param steps: Sequence of compiled binary motion steps.
             :return: Tuple of AxisPeakMetric for J1, J2, Z, and J4.
         '''
-        axes: tuple[tuple[int, str], ...] = (
-            (0, 'J1'),
-            (1, 'J2'),
-            (2, 'Z'),
-            (3, 'J4'),
-        )
         results: list[AxisPeakMetric] = []
 
-        for index, name in axes:
+        for axis_name in self._DEFAULT_AXES:
             metric: AxisPeakMetric = self.analyze_single_axis(
                 steps=steps,
-                axis_index=index,
-                axis_name=name,
+                axis_name=axis_name,
             )
             results.append(metric)
 

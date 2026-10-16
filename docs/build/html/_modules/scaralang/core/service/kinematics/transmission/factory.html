@@ -67,15 +67,15 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
 
 
-<div class="viewcode-block" id="JointStepTransmissionConverterFactory">
-<a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.transmission.factory.html#scaralang.core.service.kinematics.transmission.factory.JointStepTransmissionConverterFactory">[docs]</a>
-<span class="k">class</span> <span class="nc">JointStepTransmissionConverterFactory</span><span class="p">:</span>
+<div class="viewcode-block" id="TransmissionFactory">
+<a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.transmission.factory.html#scaralang.core.service.kinematics.transmission.factory.TransmissionFactory">[docs]</a>
+<span class="k">class</span> <span class="nc">TransmissionFactory</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Factory instantiating JointStepTransmissionConverter component.</span>
 
@@ -86,8 +86,8 @@
 <span class="sd">                | get_version - Returns factory version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="JointStepTransmissionConverterFactory.create">
-<a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.transmission.factory.html#scaralang.core.service.kinematics.transmission.factory.JointStepTransmissionConverterFactory.create">[docs]</a>
+<div class="viewcode-block" id="TransmissionFactory.create">
+<a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.transmission.factory.html#scaralang.core.service.kinematics.transmission.factory.TransmissionFactory.create">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -104,8 +104,8 @@
         <span class="k">return</span> <span class="n">JointStepTransmissionConverter</span><span class="p">(</span><span class="n">transmission</span><span class="o">=</span><span class="n">transmission</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JointStepTransmissionConverterFactory.get_version">
-<a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.transmission.factory.html#scaralang.core.service.kinematics.transmission.factory.JointStepTransmissionConverterFactory.get_version">[docs]</a>
+<div class="viewcode-block" id="TransmissionFactory.get_version">
+<a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.transmission.factory.html#scaralang.core.service.kinematics.transmission.factory.TransmissionFactory.get_version">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
@@ -117,6 +117,9 @@
         <span class="k">return</span> <span class="n">__version__</span></div>
 </div>
 
+
+
+<span class="n">JointStepTransmissionConverterFactory</span> <span class="o">=</span> <span class="n">TransmissionFactory</span>
 </pre></div>
 
             <div class="clearer"></div>

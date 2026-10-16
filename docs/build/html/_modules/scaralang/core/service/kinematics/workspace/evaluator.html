@@ -60,18 +60,19 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">degrees</span><span class="p">,</span> <span class="n">hypot</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_3d</span> <span class="kn">import</span> <span class="n">Point3D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.scara_bounds</span> <span class="kn">import</span> <span class="n">ScaraBounds</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.isolver</span> <span class="kn">import</span> <span class="n">IKinematicsSolver</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.scara_joints_2d</span> <span class="kn">import</span> <span class="n">ScaraJoints2D</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.planar.isolver</span> <span class="kn">import</span> <span class="n">IPlanarKinematicsSolver</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -87,19 +88,21 @@
 
 <span class="sd">            :attributes:</span>
 <span class="sd">                | _bounds - Robot ScaraBounds containing link lengths, limits, and margins.</span>
-<span class="sd">                | _solver - Injected analytical kinematics solver collaborator.</span>
+<span class="sd">                | _planar - Injected planar kinematics solver collaborator.</span>
 <span class="sd">                | _r_min - Minimum annular reach distance from origin in mm.</span>
 <span class="sd">                | _r_max - Maximum annular reach distance from origin in mm.</span>
 <span class="sd">            :methods:</span>
-<span class="sd">                | __init__ - Initializes evaluator with robot bounds and kinematics solver.</span>
+<span class="sd">                | __init__ - Initializes evaluator with robot bounds and planar solver.</span>
 <span class="sd">                | is_in_workspace - Checks whether coordinates fall within annular envelope.</span>
 <span class="sd">                | is_joint_reachable - Evaluates if position is reachable within joint limits.</span>
 <span class="sd">                | get_bounds - Returns active ScaraBounds instance.</span>
 <span class="sd">                | get_version - Returns evaluator component version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
+    <span class="n">_EPSILON</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
     <span class="n">_bounds</span><span class="p">:</span> <span class="n">ScaraBounds</span>
-    <span class="n">_solver</span><span class="p">:</span> <span class="n">IKinematicsSolver</span>
+    <span class="n">_planar</span><span class="p">:</span> <span class="n">IPlanarKinematicsSolver</span>
     <span class="n">_r_min</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">_r_max</span><span class="p">:</span> <span class="nb">float</span>
 
@@ -107,17 +110,17 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">bounds</span><span class="p">:</span> <span class="n">ScaraBounds</span><span class="p">,</span>
-        <span class="n">solver</span><span class="p">:</span> <span class="n">IKinematicsSolver</span><span class="p">,</span>
+        <span class="n">planar</span><span class="p">:</span> <span class="n">IPlanarKinematicsSolver</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Initializes workspace bounds evaluator with bounds and kinematics solver.</span>
+<span class="sd">            Initializes workspace bounds evaluator with bounds and planar solver.</span>
 
 <span class="sd">            :param bounds: Injected ScaraBounds model instance.</span>
-<span class="sd">            :param solver: Injected IKinematicsSolver protocol collaborator.</span>
+<span class="sd">            :param planar: Injected IPlanarKinematicsSolver protocol collaborator.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ScaraBounds</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounds</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IKinematicsSolver</span><span class="p">]</span> <span class="o">=</span> <span class="n">solver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_planar</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IPlanarKinematicsSolver</span><span class="p">]</span> <span class="o">=</span> <span class="n">planar</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_r_min</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
             <span class="nb">abs</span><span class="p">(</span><span class="n">bounds</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">l1</span> <span class="o">-</span> <span class="n">bounds</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">l2</span><span class="p">),</span>
             <span class="n">bounds</span><span class="o">.</span><span class="n">singularity</span><span class="o">.</span><span class="n">deadzone_r_min</span><span class="p">,</span>
@@ -142,14 +145,14 @@
         <span class="n">z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">z</span>
         <span class="n">r</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">hypot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_max</span> <span class="o">+</span> <span class="mf">1e-4</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_max</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_EPSILON</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="kc">False</span><span class="p">,</span>
                 <span class="sa">f</span><span class="s1">&#39;Point (</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">) exceeds maximum reach &#39;</span>
                 <span class="sa">f</span><span class="s1">&#39;R_max=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_r_max</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> mm (r=</span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> mm)&#39;</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_min</span> <span class="o">-</span> <span class="mf">1e-4</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_min</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_EPSILON</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="kc">False</span><span class="p">,</span>
                 <span class="sa">f</span><span class="s1">&#39;Point (</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">) is inside deadzone &#39;</span>
@@ -157,8 +160,8 @@
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="p">(</span>
-            <span class="n">z</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">vertical</span><span class="o">.</span><span class="n">z_min</span> <span class="o">-</span> <span class="mf">1e-4</span>
-            <span class="ow">or</span> <span class="n">z</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">vertical</span><span class="o">.</span><span class="n">z_max</span> <span class="o">+</span> <span class="mf">1e-4</span>
+            <span class="n">z</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">vertical</span><span class="o">.</span><span class="n">z_min</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_EPSILON</span>
+            <span class="ow">or</span> <span class="n">z</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">vertical</span><span class="o">.</span><span class="n">z_max</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_EPSILON</span>
         <span class="p">):</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="kc">False</span><span class="p">,</span>
@@ -186,13 +189,16 @@
         <span class="n">reachable_any</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">for</span> <span class="n">elbow_left</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
-            <span class="n">ik_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span><span class="o">.</span><span class="n">solve_ik</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">elbow_left</span><span class="o">=</span><span class="n">elbow_left</span><span class="p">)</span>
+            <span class="n">ik_res</span><span class="p">:</span> <span class="n">ScaraJoints2D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_planar</span><span class="o">.</span><span class="n">solve_ik_2d</span><span class="p">(</span>
+                <span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">elbow_left</span><span class="o">=</span><span class="n">elbow_left</span>
+            <span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">ik_res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ik_res</span><span class="o">.</span><span class="n">reachable</span><span class="p">:</span>
                 <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Mathematically unreachable (cos_q2 &gt; 1.0)&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
 
-            <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span> <span class="o">=</span> <span class="n">ik_res</span>
+            <span class="n">theta1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ik_res</span><span class="o">.</span><span class="n">theta1</span>
+            <span class="n">theta2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ik_res</span><span class="o">.</span><span class="n">theta2</span>
 
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">theta1</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">j1_min_rad</span>

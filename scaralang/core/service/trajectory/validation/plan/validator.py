@@ -21,7 +21,7 @@ Info
 
 from __future__ import annotations
 
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.trajectory.validation_result import ValidationResult
 from scaralang.core.service.trajectory.metrics.metrics import TrajectoryMetrics
@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,6 +46,9 @@ class TrajectoryPlanValidator:
         It defines:
 
             :attributes:
+                | NAME - Canonical component identifier name.
+                | EMPTY_PLAN_MSG - Error message returned when validating empty plans.
+                | START_INDEX - Starting 1-based index for point identification labels.
                 | name - Identifier name of the trajectory plan validator.
                 | _waypoint_validator - Injected waypoint reachability validator.
                 | _feedrate_validator - Injected feedrate limit validator.
@@ -53,6 +56,10 @@ class TrajectoryPlanValidator:
                 | __init__ - Initializes plan validator with collaborator validators.
                 | validate_plan - Validates entire trajectory plan against kinematic bounds.
     '''
+
+    NAME: ClassVar[str] = 'trajectory_plan_validator'
+    EMPTY_PLAN_MSG: ClassVar[str] = 'Trajectory plan is empty. Please add waypoints.'
+    START_INDEX: ClassVar[int] = 1
 
     _waypoint_validator: IWaypointValidator
     _feedrate_validator: IFeedrateValidator
@@ -80,7 +87,7 @@ class TrajectoryPlanValidator:
 
             :return: Validator name string.
         '''
-        return 'trajectory_plan_validator'
+        return self.NAME
 
     def validate_plan(self, plan: ITrajectoryReadOnly) -> tuple[bool, list[str]]:
         '''
@@ -92,12 +99,12 @@ class TrajectoryPlanValidator:
         waypoints = plan.waypoints
 
         if not waypoints:
-            return False, ['Trajectory plan is empty. Please add waypoints.']
+            return False, [self.EMPTY_PLAN_MSG]
 
         messages: list[str] = []
         all_valid: bool = True
 
-        for index, pt in enumerate(waypoints, start=1):
+        for index, pt in enumerate(waypoints, start=self.START_INDEX):
             res_pt: ValidationResult = self._waypoint_validator.validate_point(pt)
 
             if not res_pt.is_valid:

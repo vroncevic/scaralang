@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
@@ -32,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,16 +47,27 @@ class SpeedParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | MIN_TOKENS - Minimum allowed token count for statement parsing.
+                | CMD_INDEX - Index of command token.
+                | MODE_INDEX - Index of speed mode token.
+                | VAL_INDEX - Index of speed value token.
+                | VALID_MODES - Supported operational speed modes.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is SPEED.
                 | parse - Parses SPEED statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes SpeedParser.'''
-        self._name: str = 'speed_parser'
+    NAME: ClassVar[str] = 'speed_parser'
+    MIN_TOKENS: ClassVar[int] = 3
+    CMD_INDEX: ClassVar[int] = 0
+    MODE_INDEX: ClassVar[int] = 1
+    VAL_INDEX: ClassVar[int] = 2
+    VALID_MODES: ClassVar[tuple[SpeedMode, SpeedMode]] = (
+        SpeedMode.RAPID,
+        SpeedMode.WORK,
+    )
 
     @property
     def name(self) -> str:
@@ -63,7 +76,7 @@ class SpeedParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -90,24 +103,24 @@ class SpeedParser:
             :return: ScaraInstruction node.
             :exceptions: ScaraSyntaxError on invalid speed syntax, unknown mode, or non-numeric value.
         '''
-        if len(tokens) < 3:
+        if len(tokens) < self.MIN_TOKENS:
             raise ScaraSyntaxError(
                 f'Invalid SPEED syntax at line {line_num}. Expected: SPEED <RAPID|WORK> <val>'
             )
 
-        mode: str = tokens[1].value.upper()
+        mode: str = tokens[self.MODE_INDEX].value.upper()
 
-        if mode not in (SpeedMode.RAPID, SpeedMode.WORK):
+        if mode not in self.VALID_MODES:
             raise ScaraSyntaxError(
                 f'Invalid speed mode {mode!r} at line {line_num}. Expected RAPID or WORK'
             )
 
         try:
-            val: float = float(tokens[2].value)
+            val: float = float(tokens[self.VAL_INDEX].value)
 
         except ValueError as exc:
             raise ScaraSyntaxError(
-                f'Invalid speed value {tokens[2].value!r} at line {line_num}. Expected numeric'
+                f'Invalid speed value {tokens[self.VAL_INDEX].value!r} at line {line_num}. Expected numeric'
             ) from exc
 
         return ScaraInstruction(
@@ -115,7 +128,7 @@ class SpeedParser:
             line_number=line_num,
             raw_text=raw_text,
             parameters={
-                InstructionParam.MODE: mode,
-                InstructionParam.SPEED: val,
+                ScaraInstructionParam.MODE: mode,
+                ScaraInstructionParam.SPEED: val,
             },
         )

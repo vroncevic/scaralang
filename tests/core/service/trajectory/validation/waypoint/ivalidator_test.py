@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,16 +53,16 @@ class TestIWaypointValidator(TestCase):
         '''
             Verifies that WaypointValidator satisfies IWaypointValidator.
         '''
-        kinematics = DefaultKinematicsFactory.create().service
-        validator = WaypointValidator(kinematics=kinematics)
+        workspace = DefaultKinematicsFactory.create().workspace
+        validator = WaypointValidator(workspace=workspace)
         self.assertIsInstance(validator, IWaypointValidator)
 
     def test_validator_name(self) -> None:
         '''
             Verifies that validator provides expected name identifier.
         '''
-        kinematics = DefaultKinematicsFactory.create().service
-        validator = WaypointValidator(kinematics=kinematics)
+        workspace = DefaultKinematicsFactory.create().workspace
+        validator = WaypointValidator(workspace=workspace)
         self.assertEqual(validator.name, 'waypoint_validator')
 
 

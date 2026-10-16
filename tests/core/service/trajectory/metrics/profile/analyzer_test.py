@@ -23,7 +23,9 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.axis_name import AxisName
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.trajectory.axis_peak_metric import AxisPeakMetric
@@ -33,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -66,19 +68,19 @@ class TestAxisSpeedProfileAnalyzer(TestCase):
             payload=b'\x00' * 16,
             crc16=0,
         )
-        step_one = Step(
+        step_one = BinaryStep(
             frame=dummy_frame,
             raw_bytes=b'',
             duration_us=100000,
-            target_steps=(1000, 200, 50, 10),
+            target_steps=JointStepCoordinates(j1=1000, j2=200, z=50, j4=10),
             description='s1',
             line_number=1,
         )
-        step_two = Step(
+        step_two = BinaryStep(
             frame=dummy_frame,
             raw_bytes=b'',
             duration_us=100000,
-            target_steps=(3000, 400, 100, 20),
+            target_steps=JointStepCoordinates(j1=3000, j2=400, z=100, j4=20),
             description='s2',
             line_number=2,
         )
@@ -87,7 +89,7 @@ class TestAxisSpeedProfileAnalyzer(TestCase):
         )
         self.assertEqual(len(peaks), 4)
         j1_peak = peaks[0]
-        self.assertEqual(j1_peak.axis_name, 'J1')
+        self.assertEqual(j1_peak.axis_name, AxisName.J1)
         self.assertEqual(j1_peak.peak_steps, 2000)
         self.assertAlmostEqual(j1_peak.peak_velocity, 20000.0, places=2)
         self.assertTrue(j1_peak.peak_acceleration > 0.0)

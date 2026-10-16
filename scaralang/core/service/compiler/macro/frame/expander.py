@@ -23,16 +23,16 @@ from __future__ import annotations
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.dsl.macro.work_frame import WorkFrame
-from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.point_3d import Point3D
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -67,7 +67,7 @@ class FrameMacroExpander:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[ScaraInstruction, ...]:
         '''
             Updates compiler context frame transformation parameters.
@@ -78,21 +78,23 @@ class FrameMacroExpander:
         '''
         if instruction.command_type == ScaraCommandType.FRAME_RESET:
             context.active_frame = WorkFrame(
-                origin=Point2D(x=0.0, y=0.0), angle_deg=0.0
+                origin=Point3D(x=0.0, y=0.0, z=0.0), angle_deg=0.0
             )
         else:
             params = instruction.parameters
-            raw_angle = params.get(InstructionParam.ANGLE)
+            raw_angle = params.get(ScaraInstructionParam.ANGLE)
 
             if raw_angle is None:
-                raw_angle = params.get(InstructionParam.RZ, 0.0)
+                raw_angle = params.get(ScaraInstructionParam.RZ, 0.0)
 
-            raw_x = params.get(InstructionParam.X, 0.0)
-            raw_y = params.get(InstructionParam.Y, 0.0)
+            raw_x = params.get(ScaraInstructionParam.X, 0.0)
+            raw_y = params.get(ScaraInstructionParam.Y, 0.0)
+            raw_z = params.get(ScaraInstructionParam.Z, 0.0)
             context.active_frame = WorkFrame(
-                origin=Point2D(
+                origin=Point3D(
                     x=float(raw_x),
                     y=float(raw_y),
+                    z=float(raw_z),
                 ),
                 angle_deg=float(raw_angle),
             )

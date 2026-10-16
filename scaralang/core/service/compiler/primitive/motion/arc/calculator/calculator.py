@@ -22,14 +22,15 @@ Info
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.compiler.arc_geometry import ArcGeometry
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.model.trajectory.arc_point import ArcPoint
 from scaralang.core.service.compiler.primitive.motion.arc.interpolation.iinterpolator import IArcInterpolator
 from scaralang.core.service.transformation.itransformer import ITransformer
@@ -38,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,6 +52,7 @@ class ArcPointCalculator:
         It defines:
 
             :attributes:
+                | _DEFAULT_STEP_ANGLE_DEG - Default angular discretization step size in degrees.
                 | _frame_transformer - Coordinate frame transformer collaborator.
                 | _arc_interpolator - Circular arc interpolator collaborator.
             :methods:
@@ -58,6 +60,8 @@ class ArcPointCalculator:
                 | calculate_points - Computes transformed endpoints and interpolated coordinates.
                 | get_version - Gets implementation version string.
     '''
+
+    _DEFAULT_STEP_ANGLE_DEG: ClassVar[float] = 5.0
 
     _frame_transformer: ITransformer
     _arc_interpolator: IArcInterpolator
@@ -82,7 +86,7 @@ class ArcPointCalculator:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[Sequence[ArcPoint], Point2D]:
         '''
             Calculates transformed endpoints and generates interpolated arc points.
@@ -95,25 +99,31 @@ class ArcPointCalculator:
         params = instruction.parameters
         is_cw: bool = instruction.command_type == ScaraCommandType.ARC_CW
         target_x_raw: float = float(
-            params.get(InstructionParam.X, context.pose.current_x)
+            params.get(ScaraInstructionParam.X, context.pose.current_x)
         )
         target_y_raw: float = float(
-            params.get(InstructionParam.Y, context.pose.current_y)
+            params.get(ScaraInstructionParam.Y, context.pose.current_y)
         )
 
-        end_point: Point2D = self._frame_transformer.transform_point(
+        end_point_3d: Point3D = self._frame_transformer.transform_point(
             frame=context.active_frame,
-            point=Point2D(x=target_x_raw, y=target_y_raw),
+            point=Point3D(
+                x=target_x_raw,
+                y=target_y_raw,
+                z=context.pose.current_z,
+            ),
         )
+        end_point = Point2D(x=end_point_3d.x, y=end_point_3d.y)
 
         geometry: ArcGeometry = ArcGeometry(
             start=Point2D(x=context.pose.current_x, y=context.pose.current_y),
             target=end_point,
             offset=Point2D(
-                x=float(params.get(InstructionParam.I, 0.0)),
-                y=float(params.get(InstructionParam.J, 0.0)),
+                x=float(params.get(ScaraInstructionParam.I, 0.0)),
+                y=float(params.get(ScaraInstructionParam.J, 0.0)),
             ),
             is_clockwise=is_cw,
+            step_angle_deg=self._DEFAULT_STEP_ANGLE_DEG,
         )
         arc_points: tuple[ArcPoint, ...] = (
             self._arc_interpolator.interpolate(geometry=geometry)

@@ -26,8 +26,8 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.service.compiler.macro.frame.expander import FrameMacroExpander
 from scaralang.core.service.compiler.macro.iexpander import IMacroExpander
 
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -75,9 +75,9 @@ class TestFrameMacroExpander(TestCase):
         set_inst = ScaraInstruction(
             command_type=ScaraCommandType.FRAME_SET,
             parameters={
-                InstructionParam.X: 50.0,
-                InstructionParam.Y: 30.0,
-                InstructionParam.ANGLE: 45.0,
+                ScaraInstructionParam.X: 50.0,
+                ScaraInstructionParam.Y: 30.0,
+                ScaraInstructionParam.ANGLE: 45.0,
             },
             line_number=1,
             raw_text='FRAME_SET X=50.0 Y=30.0 ANGLE=45.0',
@@ -90,7 +90,7 @@ class TestFrameMacroExpander(TestCase):
         )
         move_inst = ScaraInstruction(
             command_type=ScaraCommandType.MOVE_L,
-            parameters={InstructionParam.X: 100.0, InstructionParam.Y: 50.0},
+            parameters={ScaraInstructionParam.X: 100.0, ScaraInstructionParam.Y: 50.0},
             line_number=3,
             raw_text='MOVE_L X=100.0 Y=50.0',
         )
@@ -102,13 +102,13 @@ class TestFrameMacroExpander(TestCase):
         '''
             Verifies FRAME_SET updates context active_frame with X, Y, and ANGLE.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         inst = ScaraInstruction(
             command_type=ScaraCommandType.FRAME_SET,
             parameters={
-                InstructionParam.X: 100.0,
-                InstructionParam.Y: 50.0,
-                InstructionParam.ANGLE: 30.0,
+                ScaraInstructionParam.X: 100.0,
+                ScaraInstructionParam.Y: 50.0,
+                ScaraInstructionParam.ANGLE: 30.0,
             },
             line_number=1,
             raw_text='FRAME_SET X=100.0 Y=50.0 ANGLE=30.0',
@@ -123,13 +123,13 @@ class TestFrameMacroExpander(TestCase):
         '''
             Verifies FRAME_SET updates context active_frame using RZ parameter.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         inst = ScaraInstruction(
             command_type=ScaraCommandType.FRAME_SET,
             parameters={
-                InstructionParam.X: 75.0,
-                InstructionParam.Y: 25.0,
-                InstructionParam.RZ: -15.0,
+                ScaraInstructionParam.X: 75.0,
+                ScaraInstructionParam.Y: 25.0,
+                ScaraInstructionParam.RZ: -15.0,
             },
             line_number=1,
             raw_text='FRAME_SET X=75.0 Y=25.0 RZ=-15.0',
@@ -140,23 +140,48 @@ class TestFrameMacroExpander(TestCase):
         self.assertEqual(context.active_frame.origin.y, 25.0)
         self.assertEqual(context.active_frame.angle_deg, -15.0)
 
+    def test_expand_frame_set_with_z(self) -> None:
+        '''
+            Verifies FRAME_SET updates context active_frame including Z elevation.
+        '''
+        context = CompilerContextFactory.create()
+        inst = ScaraInstruction(
+            command_type=ScaraCommandType.FRAME_SET,
+            parameters={
+                ScaraInstructionParam.X: 60.0,
+                ScaraInstructionParam.Y: 40.0,
+                ScaraInstructionParam.Z: 15.0,
+                ScaraInstructionParam.ANGLE: 45.0,
+            },
+            line_number=1,
+            raw_text='FRAME_SET X=60.0 Y=40.0 Z=15.0 ANGLE=45.0',
+        )
+        result = self.expander.expand(instruction=inst, context=context)
+        self.assertEqual(result, ())
+        self.assertEqual(context.active_frame.origin.x, 60.0)
+        self.assertEqual(context.active_frame.origin.y, 40.0)
+        self.assertEqual(context.active_frame.origin.z, 15.0)
+        self.assertEqual(context.active_frame.angle_deg, 45.0)
+
     def test_expand_frame_reset(self) -> None:
         '''
             Verifies FRAME_RESET resets context active_frame to origin.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         inst_set = ScaraInstruction(
             command_type=ScaraCommandType.FRAME_SET,
             parameters={
-                InstructionParam.X: 100.0,
-                InstructionParam.Y: 50.0,
-                InstructionParam.ANGLE: 30.0,
+                ScaraInstructionParam.X: 100.0,
+                ScaraInstructionParam.Y: 50.0,
+                ScaraInstructionParam.Z: 20.0,
+                ScaraInstructionParam.ANGLE: 30.0,
             },
             line_number=1,
-            raw_text='FRAME_SET X=100.0 Y=50.0 ANGLE=30.0',
+            raw_text='FRAME_SET X=100.0 Y=50.0 Z=20.0 ANGLE=30.0',
         )
         self.expander.expand(instruction=inst_set, context=context)
         self.assertNotEqual(context.active_frame.origin.x, 0.0)
+        self.assertNotEqual(context.active_frame.origin.z, 0.0)
 
         inst_reset = ScaraInstruction(
             command_type=ScaraCommandType.FRAME_RESET,
@@ -168,6 +193,7 @@ class TestFrameMacroExpander(TestCase):
         self.assertEqual(result, ())
         self.assertEqual(context.active_frame.origin.x, 0.0)
         self.assertEqual(context.active_frame.origin.y, 0.0)
+        self.assertEqual(context.active_frame.origin.z, 0.0)
         self.assertEqual(context.active_frame.angle_deg, 0.0)
 
 

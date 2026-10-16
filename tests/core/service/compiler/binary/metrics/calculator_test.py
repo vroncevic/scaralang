@@ -23,7 +23,8 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.service.compiler.binary.metrics.calculator import MetricsCalculator
@@ -33,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,7 +62,9 @@ class TestMetricsCalculator(TestCase):
         '''Verifies calculation on empty steps list.'''
         total_duration, peak_steps = self.calculator.calculate_metrics(steps=())
         self.assertEqual(total_duration, 0)
-        self.assertEqual(peak_steps, (0, 0, 0, 0))
+        self.assertEqual(
+            peak_steps, JointStepCoordinates(j1=0, j2=0, z=0, j4=0)
+        )
 
     def test_calculate_metrics_populated(self) -> None:
         '''Verifies calculation on populated steps list.'''
@@ -71,17 +74,17 @@ class TestMetricsCalculator(TestCase):
             payload=b'',
             crc16=0,
         )
-        step1 = Step(
+        step1 = BinaryStep(
             frame=frame,
-            target_steps=(100, -200, 50, 10),
+            target_steps=JointStepCoordinates(j1=100, j2=-200, z=50, j4=10),
             duration_us=1000,
             raw_bytes=b'',
             description='Step 1',
             line_number=1,
         )
-        step2 = Step(
+        step2 = BinaryStep(
             frame=frame,
-            target_steps=(-150, 100, 300, -20),
+            target_steps=JointStepCoordinates(j1=-150, j2=100, z=300, j4=-20),
             duration_us=2500,
             raw_bytes=b'',
             description='Step 2',
@@ -91,7 +94,9 @@ class TestMetricsCalculator(TestCase):
             steps=(step1, step2)
         )
         self.assertEqual(total_duration, 3500)
-        self.assertEqual(peak_steps, (150, 200, 300, 20))
+        self.assertEqual(
+            peak_steps, JointStepCoordinates(j1=150, j2=200, z=300, j4=20)
+        )
 
     def test_calculate_telemetry(self) -> None:
         '''Verifies calculate_telemetry returns populated BinaryProgramTelemetry.'''
@@ -101,9 +106,9 @@ class TestMetricsCalculator(TestCase):
             payload=b'\x00' * 16,
             crc16=0x1234,
         )
-        step = Step(
+        step = BinaryStep(
             frame=frame,
-            target_steps=(100, -200, 50, 10),
+            target_steps=JointStepCoordinates(j1=100, j2=-200, z=50, j4=10),
             duration_us=1000,
             raw_bytes=b'\x01\x02',
             description='Step 1',
@@ -124,7 +129,7 @@ class TestMetricsCalculator(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies version returns valid string.'''
-        self.assertEqual(self.calculator.get_version(), '1.0.8')
+        self.assertEqual(self.calculator.get_version(), '1.0.9')
 
     def test_protocol_conformance(self) -> None:
         '''Verifies MetricsCalculator satisfies IMetricsCalculator.'''

@@ -23,14 +23,14 @@ from __future__ import annotations
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,7 +62,7 @@ class JumpMacroExpander:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[ScaraInstruction, ...]:
         '''
             Expands JUMP into 3-phase 3D clearance motion.
@@ -73,20 +73,20 @@ class JumpMacroExpander:
         '''
         params = instruction.parameters
         target_x: float = float(
-            params.get(InstructionParam.X, context.pose.current_x)
+            params.get(ScaraInstructionParam.X, context.pose.current_x)
         )
         target_y: float = float(
-            params.get(InstructionParam.Y, context.pose.current_y)
+            params.get(ScaraInstructionParam.Y, context.pose.current_y)
         )
-        target_z: float = float(params.get(InstructionParam.Z, 0.0))
+        target_z: float = float(params.get(ScaraInstructionParam.Z, 0.0))
         target_phi: float = float(
-            params.get(InstructionParam.PHI, context.pose.current_phi)
+            params.get(ScaraInstructionParam.PHI, context.pose.current_phi)
         )
         arch_height: float = float(
-            params.get(InstructionParam.ARCH_HEIGHT, 20.0)
+            params.get(ScaraInstructionParam.ARCH_HEIGHT, 20.0)
         )
         speed: float = float(
-            params.get(InstructionParam.SPEED, context.speed.speed_rapid)
+            params.get(ScaraInstructionParam.SPEED, context.speed.speed_rapid)
         )
 
         clearance_z = max(context.pose.current_z, target_z) + arch_height
@@ -97,11 +97,11 @@ class JumpMacroExpander:
             line_number=line_num,
             raw_text=f'# JUMP phase 1 (Lift): Z={clearance_z:.2f}',
             parameters={
-                InstructionParam.X: context.pose.current_x,
-                InstructionParam.Y: context.pose.current_y,
-                InstructionParam.Z: clearance_z,
-                InstructionParam.PHI: context.pose.current_phi,
-                InstructionParam.SPEED: speed,
+                ScaraInstructionParam.X: context.pose.current_x,
+                ScaraInstructionParam.Y: context.pose.current_y,
+                ScaraInstructionParam.Z: clearance_z,
+                ScaraInstructionParam.PHI: context.pose.current_phi,
+                ScaraInstructionParam.SPEED: speed,
             },
         )
 
@@ -110,11 +110,11 @@ class JumpMacroExpander:
             line_number=line_num,
             raw_text=f'# JUMP phase 2 (Transit): X={target_x:.2f} Y={target_y:.2f}',
             parameters={
-                InstructionParam.X: target_x,
-                InstructionParam.Y: target_y,
-                InstructionParam.Z: clearance_z,
-                InstructionParam.PHI: target_phi,
-                InstructionParam.SPEED: speed,
+                ScaraInstructionParam.X: target_x,
+                ScaraInstructionParam.Y: target_y,
+                ScaraInstructionParam.Z: clearance_z,
+                ScaraInstructionParam.PHI: target_phi,
+                ScaraInstructionParam.SPEED: speed,
             },
         )
 
@@ -123,11 +123,11 @@ class JumpMacroExpander:
             line_number=line_num,
             raw_text=f'# JUMP phase 3 (Descent): Z={target_z:.2f}',
             parameters={
-                InstructionParam.X: target_x,
-                InstructionParam.Y: target_y,
-                InstructionParam.Z: target_z,
-                InstructionParam.PHI: target_phi,
-                InstructionParam.SPEED: speed,
+                ScaraInstructionParam.X: target_x,
+                ScaraInstructionParam.Y: target_y,
+                ScaraInstructionParam.Z: target_z,
+                ScaraInstructionParam.PHI: target_phi,
+                ScaraInstructionParam.SPEED: speed,
             },
         )
 

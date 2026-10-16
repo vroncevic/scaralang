@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
@@ -33,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,16 +48,28 @@ class ToolOrientParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | MIN_TOKENS - Minimum allowed token count for statement parsing.
+                | CMD_INDEX - Index of command token.
+                | MODE_INDEX - Index of orientation mode token.
+                | PARAMS_START_INDEX - Slice start index for key-value parameters.
+                | VALID_MODES - Supported wrist tool orientation modes.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is TOOL_ORIENT.
                 | parse - Parses tool orient statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes ToolOrientParser.'''
-        self._name: str = 'tool_orient_parser'
+    NAME: ClassVar[str] = 'tool_orient_parser'
+    MIN_TOKENS: ClassVar[int] = 2
+    CMD_INDEX: ClassVar[int] = 0
+    MODE_INDEX: ClassVar[int] = 1
+    PARAMS_START_INDEX: ClassVar[int] = 2
+    VALID_MODES: ClassVar[tuple[ToolOrientMode, ToolOrientMode, ToolOrientMode]] = (
+        ToolOrientMode.TANGENTIAL,
+        ToolOrientMode.FIXED,
+        ToolOrientMode.JOINT_LOCKED,
+    )
 
     @property
     def name(self) -> str:
@@ -64,7 +78,7 @@ class ToolOrientParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -91,32 +105,28 @@ class ToolOrientParser:
             :return: ScaraInstruction node.
             :exceptions: ScaraSyntaxError on missing orientation mode.
         '''
-        if len(tokens) < 2:
+        if len(tokens) < self.MIN_TOKENS:
             raise ScaraSyntaxError(
                 f'Invalid TOOL_ORIENT syntax at line {line_num}. '
                 'Expected: TOOL_ORIENT <TANGENTIAL|FIXED|JOINT_LOCKED>'
             )
 
-        mode: str = tokens[1].value.upper()
+        mode: str = tokens[self.MODE_INDEX].value.upper()
 
-        if mode not in (
-            ToolOrientMode.TANGENTIAL,
-            ToolOrientMode.FIXED,
-            ToolOrientMode.JOINT_LOCKED,
-        ):
+        if mode not in self.VALID_MODES:
             raise ScaraSyntaxError(
                 f'Invalid tool orientation mode {mode!r} at line {line_num}. '
                 'Expected TANGENTIAL, FIXED, or JOINT_LOCKED'
             )
 
         sub_params: dict[str, object] = ParameterExtractor.extract_key_values(
-            tokens=tokens[2:]
+            tokens=tokens[self.PARAMS_START_INDEX:]
         )
-        params: dict[str, object] = {InstructionParam.MODE: mode}
+        params: dict[str, object] = {ScaraInstructionParam.MODE: mode}
 
-        if InstructionParam.PHI in sub_params:
-            phi_val: object = sub_params[InstructionParam.PHI]
-            params[InstructionParam.PHI] = phi_val
+        if ScaraInstructionParam.PHI in sub_params:
+            phi_val: object = sub_params[ScaraInstructionParam.PHI]
+            params[ScaraInstructionParam.PHI] = phi_val
 
         return ScaraInstruction(
             command_type=ScaraCommandType.TOOL_ORIENT,

@@ -30,25 +30,40 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 class AxisPeakStepsTest(TestCase):
-    '''Unit tests validating AxisPeakSteps purity, defaults, and immutability.'''
+    '''
+        Unit tests validating AxisPeakSteps purity, attributes, and immutability.
+    '''
 
-    def test_default_values(self) -> None:
-        '''Verify AxisPeakSteps default initialization.'''
-        steps = AxisPeakSteps()
+    def test_explicit_zero_values(self) -> None:
+        '''
+            Verify AxisPeakSteps initialization with explicit zero values.
+
+            :exceptions: None.
+        '''
+        steps = AxisPeakSteps(
+            peak_j1_steps=0,
+            peak_j2_steps=0,
+            peak_z_steps=0,
+            peak_j4_steps=0,
+        )
         self.assertEqual(steps.peak_j1_steps, 0)
         self.assertEqual(steps.peak_j2_steps, 0)
         self.assertEqual(steps.peak_z_steps, 0)
         self.assertEqual(steps.peak_j4_steps, 0)
 
     def test_custom_values(self) -> None:
-        '''Verify AxisPeakSteps custom initialization.'''
+        '''
+            Verify AxisPeakSteps custom initialization.
+
+            :exceptions: None.
+        '''
         steps = AxisPeakSteps(
             peak_j1_steps=1200,
             peak_j2_steps=800,
@@ -61,8 +76,17 @@ class AxisPeakStepsTest(TestCase):
         self.assertEqual(steps.peak_j4_steps, 50)
 
     def test_immutability(self) -> None:
-        '''Verify that modifying attributes raises FrozenInstanceError.'''
-        steps = AxisPeakSteps()
+        '''
+            Verify that modifying attributes raises FrozenInstanceError.
+
+            :exceptions: None.
+        '''
+        steps = AxisPeakSteps(
+            peak_j1_steps=0,
+            peak_j2_steps=0,
+            peak_z_steps=0,
+            peak_j4_steps=0,
+        )
         with self.assertRaises(FrozenInstanceError):
             setattr(steps, 'peak_j1_steps', 500)
 

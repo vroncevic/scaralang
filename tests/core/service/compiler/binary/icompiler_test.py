@@ -23,8 +23,10 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
+from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.service.compiler.binary.icompiler import IBinaryCompiler
 from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 
@@ -32,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,13 +51,27 @@ class DummyBinaryCompiler:
     def compile_plan(self, *, plan: ITrajectoryPlan) -> BinaryProgram:
         '''Dummy compile_plan implementation.'''
         _ = plan
+
+        telemetry = BinaryProgramTelemetry(
+            source_instructions=1,
+            compiled_steps=1,
+            duration_us=1000,
+            duration_s=0.001,
+            peak_steps=AxisPeakSteps(
+                peak_j1_steps=10,
+                peak_j2_steps=10,
+                peak_z_steps=10,
+                peak_j4_steps=10,
+            ),
+            total_wire_bytes=32,
+        )
         return BinaryProgram(
             steps=(),
-            raw_bytes=b'',
-            total_duration_us=0,
-            instruction_count=0,
-            step_counts=(0, 0, 0, 0),
-            telemetry=BinaryProgramTelemetry(),
+            raw_bytes=b'\x00',
+            total_duration_us=1000,
+            instruction_count=1,
+            step_counts=JointStepCoordinates(j1=10, j2=10, z=10, j4=10),
+            telemetry=telemetry,
         )
 
     def get_version(self) -> str:

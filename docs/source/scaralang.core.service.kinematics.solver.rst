@@ -1,15 +1,14 @@
 scaralang.core.service.kinematics.solver package
 ================================================
 
-Submodules
-----------
+Subpackages
+-----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.kinematics.solver.factory
-   scaralang.core.service.kinematics.solver.isolver
-   scaralang.core.service.kinematics.solver.solver
+   scaralang.core.service.kinematics.solver.planar
+   scaralang.core.service.kinematics.solver.spatial
 
 Module contents
 ---------------

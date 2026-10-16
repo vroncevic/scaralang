@@ -21,14 +21,15 @@ Info
 
 from __future__ import annotations
 
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.primitive.motion.cartesian.itangent_heading_calculator import ITangentHeadingCalculator
 from scaralang.core.service.transformation.itransformer import ITransformer
@@ -37,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,6 +51,7 @@ class CartesianMoveCompiler:
         It defines:
 
             :attributes:
+                | _PERCENT_DIVISOR - Scale factor converting percentage values to unit ratios.
                 | _SUPPORTED - Frozenset of handled ScaraCommandType instances.
                 | _tangent_calculator - Tangent heading angle calculator helper.
                 | _frame_transformer - Coordinate frame transformer service.
@@ -59,6 +61,8 @@ class CartesianMoveCompiler:
                 | compile - Transforms coordinate frames and appends motion waypoints.
                 | get_version - Gets implementation version string.
     '''
+
+    _PERCENT_DIVISOR: ClassVar[float] = 100.0
 
     _SUPPORTED: frozenset[ScaraCommandType] = frozenset({
         ScaraCommandType.MOVE_L,
@@ -100,7 +104,7 @@ class CartesianMoveCompiler:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[Waypoint, ...]:
         '''
             Processes Cartesian linear and joint motion instructions and returns computed waypoints.
@@ -112,21 +116,23 @@ class CartesianMoveCompiler:
         '''
         params = instruction.parameters
         raw_x: float = float(
-            params.get(InstructionParam.X, context.pose.current_x)
+            params.get(ScaraInstructionParam.X, context.pose.current_x)
         )
         raw_y: float = float(
-            params.get(InstructionParam.Y, context.pose.current_y)
+            params.get(ScaraInstructionParam.Y, context.pose.current_y)
         )
-        target_z: float = float(
-            params.get(InstructionParam.Z, context.pose.current_z)
+        raw_z: float = (
+            float(params[ScaraInstructionParam.Z])
+            if ScaraInstructionParam.Z in params
+            else context.pose.current_z - context.active_frame.origin.z
         )
         target_spd: float = float(
-            params.get(InstructionParam.SPEED, context.speed.current_speed)
+            params.get(ScaraInstructionParam.SPEED, context.speed.current_speed)
         )
 
-        target_point: Point2D = self._frame_transformer.transform_point(
+        target_point: Point3D = self._frame_transformer.transform_point(
             frame=context.active_frame,
-            point=Point2D(x=raw_x, y=raw_y),
+            point=Point3D(x=raw_x, y=raw_y, z=raw_z),
         )
 
         if context.tool_orient_mode == ToolOrientMode.TANGENTIAL:
@@ -135,23 +141,23 @@ class CartesianMoveCompiler:
                     source=Point2D(
                         x=context.pose.current_x, y=context.pose.current_y
                     ),
-                    target=target_point,
+                    target=Point2D(x=target_point.x, y=target_point.y),
                     fallback_phi=context.pose.current_phi,
                 )
             )
         else:
             target_phi = float(
-                params.get(InstructionParam.PHI, context.pose.current_phi)
+                params.get(ScaraInstructionParam.PHI, context.pose.current_phi)
             )
 
         effective_spd: float = target_spd * (
-            context.speed.speed_override_pct / 100.0
+            context.speed.speed_override_pct / self._PERCENT_DIVISOR
         )
 
         waypoint = Waypoint(
             x=target_point.x,
             y=target_point.y,
-            z=target_z,
+            z=target_point.z,
             phi=target_phi,
             speed=effective_spd,
             name='',
@@ -160,7 +166,7 @@ class CartesianMoveCompiler:
 
         context.pose.current_x = target_point.x
         context.pose.current_y = target_point.y
-        context.pose.current_z = target_z
+        context.pose.current_z = target_point.z
         context.pose.current_phi = target_phi
 
         return (waypoint,)

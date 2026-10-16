@@ -66,12 +66,12 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 </dd>
-<dt>Info</dt><dd><p>Defines immutable Step model representing a single binary motion step.</p>
+<dt>Info</dt><dd><p>Defines immutable BinaryStep model representing a single binary motion step.</p>
 </dd>
 </dl>
 <dl class="py class">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.Step">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.binary.step.</span></span><span class="sig-name descname"><span class="pre">Step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame" title="scaralang.core.model.protocol.binary_frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_us</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/binary/step.html#Step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.Step" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.BinaryStep">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.model.dsl.binary.step.</span></span><span class="sig-name descname"><span class="pre">BinaryStep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame" title="scaralang.core.model.protocol.binary_frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_us</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.joint_step_coordinates.html#scaralang.core.model.kinematics.joint_step_coordinates.JointStepCoordinates" title="scaralang.core.model.kinematics.joint_step_coordinates.JointStepCoordinates"><span class="pre">JointStepCoordinates</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/model/dsl/binary/step.html#BinaryStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.BinaryStep" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Single compiled binary execution step.</p>
 <p>It defines:</p>
@@ -82,7 +82,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div class="line">frame - Structured binary wire frame.</div>
 <div class="line">raw_bytes - Raw serialized wire bytes.</div>
 <div class="line">duration_us - Move duration in microseconds.</div>
-<div class="line">target_steps - Tuple of motor target microstep coordinates (m1, m2, z, tool).</div>
+<div class="line">target_steps - JointStepCoordinates model of motor target microstep coordinates.</div>
 <div class="line">description - Human-readable step label or command text.</div>
 <div class="line">line_number - Source DSL line number.</div>
 </div>
@@ -90,33 +90,33 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.Step.description">
-<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.Step.description" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.BinaryStep.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.BinaryStep.description" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.Step.duration_us">
-<span class="sig-name descname"><span class="pre">duration_us</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.Step.duration_us" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.BinaryStep.duration_us">
+<span class="sig-name descname"><span class="pre">duration_us</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.BinaryStep.duration_us" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.Step.frame">
-<span class="sig-name descname"><span class="pre">frame</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame" title="scaralang.core.model.protocol.binary_frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.Step.frame" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.BinaryStep.frame">
+<span class="sig-name descname"><span class="pre">frame</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame" title="scaralang.core.model.protocol.binary_frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.BinaryStep.frame" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.Step.line_number">
-<span class="sig-name descname"><span class="pre">line_number</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.Step.line_number" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.BinaryStep.line_number">
+<span class="sig-name descname"><span class="pre">line_number</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.BinaryStep.line_number" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.Step.raw_bytes">
-<span class="sig-name descname"><span class="pre">raw_bytes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bytes</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.Step.raw_bytes" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.BinaryStep.raw_bytes">
+<span class="sig-name descname"><span class="pre">raw_bytes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bytes</span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.BinaryStep.raw_bytes" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.Step.target_steps">
-<span class="sig-name descname"><span class="pre">target_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.Step.target_steps" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.binary.step.BinaryStep.target_steps">
+<span class="sig-name descname"><span class="pre">target_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.joint_step_coordinates.html#scaralang.core.model.kinematics.joint_step_coordinates.JointStepCoordinates" title="scaralang.core.model.kinematics.joint_step_coordinates.JointStepCoordinates"><span class="pre">JointStepCoordinates</span></a></em><a class="headerlink" href="#scaralang.core.model.dsl.binary.step.BinaryStep.target_steps" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -134,13 +134,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <h3><a href="index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.model.dsl.binary.step module</a><ul>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.Step"><code class="docutils literal notranslate"><span class="pre">Step</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.Step.description"><code class="docutils literal notranslate"><span class="pre">Step.description</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.Step.duration_us"><code class="docutils literal notranslate"><span class="pre">Step.duration_us</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.Step.frame"><code class="docutils literal notranslate"><span class="pre">Step.frame</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.Step.line_number"><code class="docutils literal notranslate"><span class="pre">Step.line_number</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.Step.raw_bytes"><code class="docutils literal notranslate"><span class="pre">Step.raw_bytes</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.Step.target_steps"><code class="docutils literal notranslate"><span class="pre">Step.target_steps</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.BinaryStep"><code class="docutils literal notranslate"><span class="pre">BinaryStep</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.BinaryStep.description"><code class="docutils literal notranslate"><span class="pre">BinaryStep.description</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.BinaryStep.duration_us"><code class="docutils literal notranslate"><span class="pre">BinaryStep.duration_us</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.BinaryStep.frame"><code class="docutils literal notranslate"><span class="pre">BinaryStep.frame</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.BinaryStep.line_number"><code class="docutils literal notranslate"><span class="pre">BinaryStep.line_number</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.BinaryStep.raw_bytes"><code class="docutils literal notranslate"><span class="pre">BinaryStep.raw_bytes</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.binary.step.BinaryStep.target_steps"><code class="docutils literal notranslate"><span class="pre">BinaryStep.target_steps</span></code></a></li>
 </ul>
 </li>
 </ul>

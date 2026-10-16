@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,8 +54,8 @@ class TestPlanDependencies(TestCase):
 
     def test_dependencies_initialization(self) -> None:
         '''Verifies bundle holds provided validator dependencies.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        wp_val = WaypointFactory.create(kinematics=kinematics).validator
+        kinematics = DefaultKinematicsFactory.create()
+        wp_val = WaypointFactory.create(workspace=kinematics.workspace).validator
         fr_val = FeedrateFactory.create(bounds=DefaultScaraProfile.create_bounds()).validator
         deps = PlanDependencies(waypoint_validator=wp_val, feedrate_validator=fr_val)
         self.assertIs(deps.waypoint_validator, wp_val)
@@ -63,8 +63,8 @@ class TestPlanDependencies(TestCase):
 
     def test_dependencies_immutability(self) -> None:
         '''Verifies frozen dataclass rejects attribute mutations.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        wp_val = WaypointFactory.create(kinematics=kinematics).validator
+        kinematics = DefaultKinematicsFactory.create()
+        wp_val = WaypointFactory.create(workspace=kinematics.workspace).validator
         fr_val = FeedrateFactory.create(bounds=DefaultScaraProfile.create_bounds()).validator
         deps = PlanDependencies(waypoint_validator=wp_val, feedrate_validator=fr_val)
         with self.assertRaises(FrozenInstanceError):

@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import ClassVar
 
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
@@ -30,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,11 +44,33 @@ class ParameterExtractor:
         It defines:
 
             :attributes:
-                | None.
+                | _FLAG_DEFAULT_VALUE - Default boolean value assigned to flag parameters.
+                | _FLOAT_INDICATORS - String characters indicating floating point notation.
+                | _INITIAL_INDEX - Starting token sequence index.
+                | _OFFSET_EQUALS - Lookahead offset for equals token.
+                | _OFFSET_VALUE - Lookahead offset for parameter value token.
+                | _STEP_FLAG - Token index step for standalone flag parameters.
+                | _STEP_KEY_EQUALS_VAL - Token index step for key equals value assignments.
+                | _STEP_KEY_VAL - Token index step for key value assignments.
+                | _VALUE_TOKEN_TYPES - Supported token types representing parameter values.
             :methods:
                 | extract_key_values - Parses key=value pairs and positional parameters into dict.
                 | parse_token_value - Converts token string literal to typed float, int, or str.
     '''
+
+    _FLAG_DEFAULT_VALUE: ClassVar[bool] = True
+    _FLOAT_INDICATORS: ClassVar[tuple[str, ...]] = ('.', 'e', 'E')
+    _INITIAL_INDEX: ClassVar[int] = 0
+    _OFFSET_EQUALS: ClassVar[int] = 1
+    _OFFSET_VALUE: ClassVar[int] = 2
+    _STEP_FLAG: ClassVar[int] = 1
+    _STEP_KEY_EQUALS_VAL: ClassVar[int] = 3
+    _STEP_KEY_VAL: ClassVar[int] = 2
+    _VALUE_TOKEN_TYPES: ClassVar[frozenset[ScaraTokenType]] = frozenset({
+        ScaraTokenType.NUMBER,
+        ScaraTokenType.STRING,
+        ScaraTokenType.IDENTIFIER,
+    })
 
     @classmethod
     def extract_key_values(
@@ -62,35 +85,33 @@ class ParameterExtractor:
             :return: Dictionary of parsed parameter names and typed values.
         '''
         params: dict[str, object] = {}
-        idx = 0
-        n = len(tokens)
+        idx: int = cls._INITIAL_INDEX
+        n: int = len(tokens)
 
         while idx < n:
-            tok = tokens[idx]
+            tok: ScaraToken = tokens[idx]
 
             if (
-                idx + 2 < n
-                and tokens[idx + 1].token_type == ScaraTokenType.EQUALS
+                idx + cls._OFFSET_VALUE < n
+                and tokens[idx + cls._OFFSET_EQUALS].token_type == ScaraTokenType.EQUALS
             ):
-                key = tok.value.upper()
-                val_tok = tokens[idx + 2]
-                params[key] = ParameterExtractor.parse_token_value(token=val_tok)
-                idx += 3
+                key: str = tok.value.upper()
+                val_tok: ScaraToken = tokens[idx + cls._OFFSET_VALUE]
+                params[key] = cls.parse_token_value(token=val_tok)
+                idx += cls._STEP_KEY_EQUALS_VAL
             else:
                 key = tok.value.upper()
+                next_idx: int = idx + cls._OFFSET_EQUALS
 
-                if idx + 1 < n and tokens[idx + 1].token_type in (
-                    ScaraTokenType.NUMBER,
-                    ScaraTokenType.STRING,
-                    ScaraTokenType.IDENTIFIER,
+                if (
+                    next_idx < n
+                    and tokens[next_idx].token_type in cls._VALUE_TOKEN_TYPES
                 ):
-                    params[key] = ParameterExtractor.parse_token_value(
-                        token=tokens[idx + 1]
-                    )
-                    idx += 2
+                    params[key] = cls.parse_token_value(token=tokens[next_idx])
+                    idx += cls._STEP_KEY_VAL
                 else:
-                    params[key] = True
-                    idx += 1
+                    params[key] = cls._FLAG_DEFAULT_VALUE
+                    idx += cls._STEP_FLAG
 
         return params
 
@@ -103,7 +124,7 @@ class ParameterExtractor:
             :return: Float, int, or string literal.
         '''
         if token.token_type == ScaraTokenType.NUMBER:
-            if '.' in token.value or 'e' in token.value or 'E' in token.value:
+            if any(indicator in token.value for indicator in cls._FLOAT_INDICATORS):
                 return float(token.value)
 
             return int(token.value)

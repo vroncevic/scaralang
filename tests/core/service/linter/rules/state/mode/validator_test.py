@@ -25,10 +25,10 @@ from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_code import ScaraDiagnosticCode
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
-from scaralang.core.model.dsl.linter.scara_lint_context import ScaraLintContext
+from scaralang.core.service.linter.context.factory import LintContextFactory
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.service.linter.rules.state.mode.validator import ModeValidator
 
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -75,7 +75,7 @@ class TestModeValidator(TestCase):
             raw_text='MOVE_L X=10.0',
             parameters={},
         )
-        context = ScaraLintContext(motor_drive_mode=MotorDriveMode.OPEN_LOOP)
+        context = LintContextFactory.create()
 
         diagnostics = validator.validate(instruction=instruction, context=context)
 
@@ -91,9 +91,9 @@ class TestModeValidator(TestCase):
             command_type=ScaraCommandType.CONFIG_MOTOR,
             line_number=2,
             raw_text='CONFIG MOTOR CLOSED_LOOP',
-            parameters={InstructionParam.MODE: 'CLOSED_LOOP'},
+            parameters={ScaraInstructionParam.MODE: 'CLOSED_LOOP'},
         )
-        context = ScaraLintContext(motor_drive_mode=MotorDriveMode.OPEN_LOOP)
+        context = LintContextFactory.create()
 
         diagnostics = validator.validate(instruction=instruction, context=context)
 
@@ -109,9 +109,10 @@ class TestModeValidator(TestCase):
             command_type=ScaraCommandType.CONFIG_MOTOR,
             line_number=3,
             raw_text='CONFIG MOTOR OPEN_LOOP',
-            parameters={InstructionParam.MODE: 'OPEN_LOOP'},
+            parameters={ScaraInstructionParam.MODE: 'OPEN_LOOP'},
         )
-        context = ScaraLintContext(motor_drive_mode=MotorDriveMode.CLOSED_LOOP)
+        context = LintContextFactory.create()
+        context.motor_drive_mode = MotorDriveMode.CLOSED_LOOP
 
         diagnostics = validator.validate(instruction=instruction, context=context)
 
@@ -127,9 +128,9 @@ class TestModeValidator(TestCase):
             command_type=ScaraCommandType.CONFIG_MOTOR,
             line_number=4,
             raw_text='CONFIG MOTOR OPEN_LOOP',
-            parameters={InstructionParam.MODE: 'OPEN_LOOP'},
+            parameters={ScaraInstructionParam.MODE: 'OPEN_LOOP'},
         )
-        context = ScaraLintContext(motor_drive_mode=MotorDriveMode.OPEN_LOOP)
+        context = LintContextFactory.create()
 
         diagnostics = validator.validate(instruction=instruction, context=context)
 
@@ -148,9 +149,9 @@ class TestModeValidator(TestCase):
             command_type=ScaraCommandType.CONFIG_MOTOR,
             line_number=5,
             raw_text='CONFIG MOTOR INVALID_MODE',
-            parameters={InstructionParam.MODE: 'INVALID_MODE'},
+            parameters={ScaraInstructionParam.MODE: 'INVALID_MODE'},
         )
-        context = ScaraLintContext(motor_drive_mode=MotorDriveMode.OPEN_LOOP)
+        context = LintContextFactory.create()
 
         diagnostics = validator.validate(instruction=instruction, context=context)
 

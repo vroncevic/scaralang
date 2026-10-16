@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -73,7 +73,7 @@ class TestArcInterpolator(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.interpolator.get_version(), '1.0.8')
+        self.assertEqual(self.interpolator.get_version(), '1.0.9')
 
     def test_interpolate_zero_radius(self) -> None:
         '''
@@ -84,6 +84,7 @@ class TestArcInterpolator(TestCase):
             target=Point2D(x=10.0, y=10.0),
             offset=Point2D(x=0.0, y=0.0),
             is_clockwise=True,
+            step_angle_deg=5.0,
         )
         with self.assertRaises(ScaraKinematicsError):
             self.interpolator.interpolate(geometry=geometry)

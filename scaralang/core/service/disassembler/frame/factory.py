@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from scaralang.core.service.disassembler.frame.decoder.factory import PayloadDecoderFactory
+from scaralang.core.service.disassembler.frame.decoder.idecoder import IFramePayloadDecoder
 from scaralang.core.service.disassembler.frame.dependencies import FrameDependencies
 from scaralang.core.service.disassembler.frame.frame import FrameDetailDecoder
 from scaralang.core.service.disassembler.frame.provides import FrameProvides
@@ -29,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,8 +57,12 @@ class FrameFactory:
             :return: Initialized FrameProvides bundle.
             :exceptions: None.
         '''
+        decoders: tuple[IFramePayloadDecoder, ...] = PayloadDecoderFactory.create(
+            motion_unpacker=dependencies.motion_unpacker,
+            actuator_unpacker=dependencies.actuator_unpacker,
+        )
         return FrameProvides(
-            decoder=FrameDetailDecoder(unpacker=dependencies.unpacker)
+            decoder=FrameDetailDecoder(decoders=decoders)
         )
 
     @classmethod

@@ -21,8 +21,9 @@ Info
 
 from __future__ import annotations
 
-from typing import Final
+from typing import ClassVar, Final
 
+from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,12 +46,21 @@ class InstructionLineParser:
         It defines:
 
             :attributes:
+                | _FIRST_TOKEN_INDEX - Index of statement command keyword token.
+                | _MIN_COMPOUND_TOKENS - Minimum token count for compound commands.
+                | _SUBCOMMAND_TOKEN_INDEX - Index of property subcommand token.
+                | _handlers - Registered command parser handlers.
+                | _registry - Internal cache mapping command names to handlers.
                 | name - Identifier name of the line parser.
                 | handlers - Registered command parser handlers.
             :methods:
                 | __init__ - Initializes InstructionLineParser with registered command handlers.
                 | parse_line - Parses single statement token tuple into a ScaraInstruction.
     '''
+
+    _FIRST_TOKEN_INDEX: ClassVar[int] = 0
+    _MIN_COMPOUND_TOKENS: ClassVar[int] = 1
+    _SUBCOMMAND_TOKEN_INDEX: ClassVar[int] = 1
 
     _handlers: tuple[ICommandParser, ...]
     _registry: dict[str, ICommandParser]
@@ -96,15 +106,19 @@ class InstructionLineParser:
         if not tokens:
             raise ScaraSyntaxError('Cannot parse empty statement token sequence')
 
-        first_tok = tokens[0]
-        cmd_name = first_tok.value.upper()
-        line_num = first_tok.line
-        raw_text = ' '.join(t.value for t in tokens)
+        first_tok: ScaraToken = tokens[self._FIRST_TOKEN_INDEX]
+        cmd_name: str = first_tok.value.upper()
+        line_num: int = first_tok.line
+        raw_text: str = ' '.join(t.value for t in tokens)
 
-        handler = None
+        handler: ICommandParser | None = None
 
-        if cmd_name == 'CONFIG' and len(tokens) > 1:
-            compound_name = f'CONFIG_{tokens[1].value.upper()}'
+        if (
+            cmd_name == ScaraCommandType.CONFIG.value
+            and len(tokens) > self._MIN_COMPOUND_TOKENS
+        ):
+            subcommand: str = tokens[self._SUBCOMMAND_TOKEN_INDEX].value.upper()
+            compound_name: str = f'{ScaraCommandType.CONFIG.value}_{subcommand}'
             handler = self._registry.get(compound_name)
 
             if handler is None:

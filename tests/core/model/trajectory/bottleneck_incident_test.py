@@ -23,13 +23,15 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
+from scaralang.core.model.kinematics.axis_name import AxisName
 from scaralang.core.model.trajectory.bottleneck_incident import BottleneckIncident
+from scaralang.core.model.trajectory.constraint_type import ConstraintType
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,25 +44,25 @@ class BottleneckIncidentTest(TestCase):
         '''Verify correct field assignment upon instantiation.'''
         incident = BottleneckIncident(
             step_index=4,
-            limiting_axis='Z',
-            constraint_type='VELOCITY',
+            limiting_axis=AxisName.Z,
+            constraint_type=ConstraintType.VELOCITY,
             duration_us=250000
         )
         self.assertEqual(incident.step_index, 4)
-        self.assertEqual(incident.limiting_axis, 'Z')
-        self.assertEqual(incident.constraint_type, 'VELOCITY')
+        self.assertEqual(incident.limiting_axis, AxisName.Z)
+        self.assertEqual(incident.constraint_type, ConstraintType.VELOCITY)
         self.assertEqual(incident.duration_us, 250000)
 
     def test_immutability(self) -> None:
         '''Verify that attributes cannot be modified on frozen dataclass.'''
         incident = BottleneckIncident(
             step_index=1,
-            limiting_axis='J1',
-            constraint_type='ACCELERATION',
+            limiting_axis=AxisName.J1,
+            constraint_type=ConstraintType.ACCELERATION,
             duration_us=100000
         )
         with self.assertRaises(AttributeError):
-            incident.limiting_axis = 'J2'  # type: ignore[misc]
+            incident.limiting_axis = AxisName.J2  # type: ignore[misc]
 
 
 if __name__ == '__main__':

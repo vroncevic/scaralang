@@ -60,17 +60,19 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
+
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.command_type</span> <span class="kn">import</span> <span class="n">ScaraCommandType</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction</span> <span class="kn">import</span> <span class="n">ScaraInstruction</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">InstructionParam</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.scara_compiler_context</span> <span class="kn">import</span> <span class="n">ScaraCompilerContext</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">ScaraInstructionParam</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.compiler_context</span> <span class="kn">import</span> <span class="n">CompilerContext</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -85,12 +87,17 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
+<span class="sd">                | _DEFAULT_DIST - Default vertical motion transit distance along Z axis.</span>
+<span class="sd">                | _MIN_Z - Minimum vertical boundary coordinate for safe descent.</span>
 <span class="sd">                | _SUPPORTED - Frozenset of handled ScaraCommandType instances.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | can_compile - Checks if command is an APPROACH or RETRACT instruction.</span>
 <span class="sd">                | compile - Adjusts height coordinates and appends vertical motion waypoints.</span>
 <span class="sd">                | get_version - Gets implementation version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">_DEFAULT_DIST</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">10.0</span>
+    <span class="n">_MIN_Z</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
     <span class="n">_SUPPORTED</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="n">ScaraCommandType</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span>
         <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">APPROACH</span><span class="p">,</span>
@@ -116,7 +123,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">instruction</span><span class="p">:</span> <span class="n">ScaraInstruction</span><span class="p">,</span>
-        <span class="n">context</span><span class="p">:</span> <span class="n">ScaraCompilerContext</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">CompilerContext</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Waypoint</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Processes APPROACH and RETRACT instructions and returns computed waypoints.</span>
@@ -128,17 +135,17 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">instruction</span><span class="o">.</span><span class="n">parameters</span>
         <span class="n">cmd_type</span><span class="p">:</span> <span class="n">ScaraCommandType</span> <span class="o">=</span> <span class="n">instruction</span><span class="o">.</span><span class="n">command_type</span>
-        <span class="n">dist</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">DIST</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">))</span>
+        <span class="n">dist</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">DIST</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_DEFAULT_DIST</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">cmd_type</span> <span class="o">==</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">APPROACH</span><span class="p">:</span>
             <span class="n">spd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
-                <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">SPEED</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">speed_work</span><span class="p">)</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">SPEED</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">speed_work</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="n">target_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_z</span> <span class="o">-</span> <span class="n">dist</span><span class="p">)</span>
+            <span class="n">target_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_MIN_Z</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_z</span> <span class="o">-</span> <span class="n">dist</span><span class="p">)</span>
             <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">APPROACH</span><span class="o">.</span><span class="n">value</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">spd</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
-                <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">SPEED</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">speed_rapid</span><span class="p">)</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">SPEED</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">speed_rapid</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">target_z</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">current_z</span> <span class="o">+</span> <span class="n">dist</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">RETRACT</span><span class="o">.</span><span class="n">value</span>

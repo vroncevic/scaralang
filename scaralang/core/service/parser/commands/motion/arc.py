@@ -20,6 +20,7 @@ Info
 '''
 
 from __future__ import annotations
+from typing import ClassVar
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
@@ -30,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,17 +43,23 @@ class ArcParser:
 
         It defines:
 
-            :attributes:
-                | _name - Component identification name.
+            :cvar NAME: Component identification name.
+            :cvar CMD_INDEX: Index of command token in sequence.
+            :cvar PARAMS_START_INDEX: Start index of parameters in token sequence.
+            :cvar PARSED_COMMANDS: Handled circular arc command types.
             :methods:
                 | name - Property returning component name.
                 | can_parse - Checks whether command is ARC_CW or ARC_CCW.
                 | parse - Parses arc statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes ArcParser.'''
-        self._name: str = 'arc_parser'
+    NAME: ClassVar[str] = 'arc_parser'
+    CMD_INDEX: ClassVar[int] = 0
+    PARAMS_START_INDEX: ClassVar[int] = 1
+    PARSED_COMMANDS: ClassVar[tuple[str, ...]] = (
+        ScaraCommandType.ARC_CW,
+        ScaraCommandType.ARC_CCW,
+    )
 
     @property
     def name(self) -> str:
@@ -61,7 +68,7 @@ class ArcParser:
 
             :return: Parser name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -70,10 +77,7 @@ class ArcParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name in (
-            ScaraCommandType.ARC_CW,
-            ScaraCommandType.ARC_CCW,
-        )
+        return command_name in self.PARSED_COMMANDS
 
     def parse(
         self,
@@ -90,13 +94,15 @@ class ArcParser:
             :param raw_text: Original statement text.
             :return: ScaraInstruction node.
         '''
-        cmd = tokens[0].value.upper()
+        cmd = tokens[self.CMD_INDEX].value.upper()
         cmd_type = (
             ScaraCommandType.ARC_CW
             if cmd == ScaraCommandType.ARC_CW
             else ScaraCommandType.ARC_CCW
         )
-        params = ParameterExtractor.extract_key_values(tokens=tokens[1:])
+        params = ParameterExtractor.extract_key_values(
+            tokens=tokens[self.PARAMS_START_INDEX:]
+        )
 
         return ScaraInstruction(
             command_type=cmd_type,

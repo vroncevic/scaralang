@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,9 +58,9 @@ class DefaultScriptValidatorFactory:
             :return: Fully configured ValidatorProvides instance.
             :exceptions: None.
         '''
-        validator = DefaultValidationFactory.create().validator
+        validation = DefaultValidationFactory.create()
         parser = DefaultParserFactory.create().parser
-        compiler = AstPlanCompilerFactory.create(validator=validator)
+        compiler = AstPlanCompilerFactory.create(validator=validation.plan)
         linter = LinterFactory.create().linter
         return ValidatorFactory.create(
             dependencies=ValidatorDependencies(

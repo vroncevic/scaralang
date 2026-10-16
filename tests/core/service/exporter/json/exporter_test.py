@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -68,7 +68,15 @@ class TestJsonExporter(TestCase):
 
     def test_export_json_valid_plan(self) -> None:
         '''Verifies serializing a trajectory plan into valid JSON string.'''
-        wp = Waypoint(name='P1', x=10.0, y=20.0, z=30.0, phi=40.0, speed=50.0)
+        wp = Waypoint(
+            name='P1',
+            x=10.0,
+            y=20.0,
+            z=30.0,
+            phi=40.0,
+            speed=50.0,
+            command='',
+        )
         plan = TrajectoryPlan()
         plan.add_point(wp)
         json_str = self.exporter.export_json(plan=plan)

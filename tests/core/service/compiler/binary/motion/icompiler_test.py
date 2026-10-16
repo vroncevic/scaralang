@@ -23,7 +23,9 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_angles import JointAngles
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.trajectory.waypoint import Waypoint
@@ -33,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,9 +49,9 @@ class DummyMotionCompiler:
         *,
         waypoint: Waypoint,
         seq_num: int,
-        prev_angles: tuple[float, float, float, float],
+        prev_angles: JointAngles,
         line_num: int
-    ) -> tuple[Step, tuple[float, float, float, float]]:
+    ) -> tuple[BinaryStep, JointAngles]:
         '''Dummy implementation of compile_motion_step.'''
         _ = (waypoint, prev_angles)
         frame = BinaryFrame(
@@ -58,19 +60,19 @@ class DummyMotionCompiler:
             payload=b'',
             crc16=0,
         )
-        step = Step(
+        step = BinaryStep(
             frame=frame,
             raw_bytes=b'',
             duration_us=1000,
-            target_steps=(0, 0, 0, 0),
+            target_steps=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
             description='dummy',
             line_number=line_num,
         )
-        return step, (0.0, 0.0, 0.0, 0.0)
+        return step, JointAngles(theta1=0.0, theta2=0.0, z=0.0, theta4=0.0)
 
     def get_version(self) -> str:
         '''Dummy implementation of get_version.'''
-        return '1.0.8'
+        return '1.0.9'
 
 
 class TestIMotionCompiler(TestCase):

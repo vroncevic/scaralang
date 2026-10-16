@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,15 +52,15 @@ class TestWaypointProvides(TestCase):
 
     def test_bundle_initialization(self) -> None:
         '''Verifies bundle holds provided waypoint validator instance.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        validator = WaypointValidator(kinematics=kinematics)
+        kinematics = DefaultKinematicsFactory.create()
+        validator = WaypointValidator(workspace=kinematics.workspace)
         bundle = WaypointProvides(validator=validator)
         self.assertIs(bundle.validator, validator)
 
     def test_bundle_immutability(self) -> None:
         '''Verifies frozen dataclass rejects attribute mutations.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        validator = WaypointValidator(kinematics=kinematics)
+        kinematics = DefaultKinematicsFactory.create()
+        validator = WaypointValidator(workspace=kinematics.workspace)
         bundle = WaypointProvides(validator=validator)
         with self.assertRaises(FrozenInstanceError):
             bundle.validator = validator  # type: ignore[misc]

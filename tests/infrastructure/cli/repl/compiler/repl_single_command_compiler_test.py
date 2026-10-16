@@ -25,11 +25,14 @@ from unittest import TestCase
 from unittest import main
 from unittest.mock import MagicMock
 
+from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
+from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
 from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.repl.repl_pose_state import ReplPoseState
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
+from scaralang.core.service.repl.context.factory import ReplSessionContextFactory
 from scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler import IReplSingleCommandCompiler
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler import ReplSingleCommandCompiler
 from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler_factory import ReplSingleCommandCompilerFactory
@@ -38,7 +41,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,7 +68,7 @@ class TestReplSingleCommandCompiler(TestCase):
 
     def test_compile_move_instruction(self) -> None:
         '''Verifies compiling Cartesian linear move instruction.'''
-        context = ReplSessionContext()
+        context = ReplSessionContextFactory.create()
         frame, step, new_ctx = self.compiler.compile_instruction(
             line='MOVE_L X=150.0 Y=50.0 Z=0.0 SPEED=100', context=context
         )
@@ -77,7 +80,19 @@ class TestReplSingleCommandCompiler(TestCase):
 
     def test_compile_tool_pump_instruction(self) -> None:
         '''Verifies compiling pneumatic tool suction command.'''
-        context = ReplSessionContext(pump_active=False)
+        context = ReplSessionContext(
+            pose=ReplPoseState(
+                current_x=0.0,
+                current_y=0.0,
+                current_z=0.0,
+                current_theta4=0.0,
+            ),
+            elbow_left=False,
+            speed_mode=SpeedMode.WORK,
+            zone_mode=ZoneMode.FINE,
+            pump_active=False,
+            valve_active=False,
+        )
         frame, step, new_ctx = self.compiler.compile_instruction(
             line='PUMP ON', context=context
         )
@@ -88,7 +103,17 @@ class TestReplSingleCommandCompiler(TestCase):
     def test_compile_home_instruction(self) -> None:
         '''Verifies compiling homing sequence resets coordinates.'''
         context = ReplSessionContext(
-            pose=ReplPoseState(current_x=100.0, current_y=100.0)
+            pose=ReplPoseState(
+                current_x=100.0,
+                current_y=100.0,
+                current_z=0.0,
+                current_theta4=0.0,
+            ),
+            elbow_left=False,
+            speed_mode=SpeedMode.WORK,
+            zone_mode=ZoneMode.FINE,
+            pump_active=False,
+            valve_active=False,
         )
         frame, step, new_ctx = self.compiler.compile_instruction(
             line='HOME', context=context
@@ -101,7 +126,7 @@ class TestReplSingleCommandCompiler(TestCase):
 
     def test_compile_invalid_instruction(self) -> None:
         '''Verifies exception raised on invalid DSL instruction.'''
-        context = ReplSessionContext()
+        context = ReplSessionContextFactory.create()
         with self.assertRaises(ScaraSyntaxError):
             self.compiler.compile_instruction(
                 line='INVALID_OPCODE FOO BAR', context=context
@@ -111,7 +136,7 @@ class TestReplSingleCommandCompiler(TestCase):
         '''Verifies factory instantiation and protocol check.'''
         compiler = ReplSingleCommandCompilerFactory.create_default()
         self.assertTrue(isinstance(compiler, IReplSingleCommandCompiler))
-        self.assertEqual(ReplSingleCommandCompilerFactory.get_version(), '1.0.8')
+        self.assertEqual(ReplSingleCommandCompilerFactory.get_version(), '1.0.9')
 
     def test_compile_instruction_no_binary_steps(self) -> None:
         '''Verifies ScaraSemanticError when compiled program produces no binary steps.'''
@@ -128,7 +153,7 @@ class TestReplSingleCommandCompiler(TestCase):
         )
         with self.assertRaises(ScaraSemanticError) as ctx:
             single_compiler.compile_instruction(
-                line='HOME', context=ReplSessionContext()
+                line='HOME', context=ReplSessionContextFactory.create()
             )
         self.assertIn('No binary steps compiled', str(ctx.exception))
 

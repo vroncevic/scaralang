@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -38,9 +38,9 @@ __status__ = 'Updated'
 class LintToolStateTest(TestCase):
     '''Unit tests validating LintToolState initialization and mutability.'''
 
-    def test_default_values(self) -> None:
-        '''Verify LintToolState default values.'''
-        state = LintToolState()
+    def test_initialization(self) -> None:
+        '''Verify LintToolState initialization values.'''
+        state = LintToolState(pump_on=False, valve_on=False)
         self.assertFalse(state.pump_on)
         self.assertFalse(state.valve_on)
 
@@ -52,7 +52,7 @@ class LintToolStateTest(TestCase):
 
     def test_mutation(self) -> None:
         '''Verify that LintToolState attributes can be updated in-place.'''
-        state = LintToolState()
+        state = LintToolState(pump_on=False, valve_on=False)
         state.pump_on = True
         state.valve_on = True
         self.assertTrue(state.pump_on)

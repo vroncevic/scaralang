@@ -31,13 +31,13 @@ from scaralang.infrastructure.command.compile.inspection.payload.joint.provides 
 from scaralang.infrastructure.command.compile.inspection.payload.provides import PayloadProvides
 from scaralang.infrastructure.command.compile.inspection.payload.tool.factory import ToolFactory
 from scaralang.infrastructure.command.compile.inspection.payload.tool.provides import ToolProvides
-from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.factory import UnpackerFactory
+from scaralang.infrastructure.protocol.binary.parser.unpacker.factory import UnpackerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,15 +65,18 @@ class PayloadFactory:
         joint_provides: JointProvides = JointFactory.create()
         tool_provides: ToolProvides = ToolFactory.create()
         hex_provides: HexProvides = HexFactory.create()
+        unpacker_provides = UnpackerFactory.create()
         dispatch_deps: DispatchDependencies = DispatchDependencies(
             joint_formatter=joint_provides.formatter,
             tool_formatter=tool_provides.formatter,
             hex_formatter=hex_provides.formatter,
-            unpacker=UnpackerFactory.create().unpacker,
+            motion_unpacker=unpacker_provides.motion,
+            actuator_unpacker=unpacker_provides.actuator,
         )
         dispatch_provides: DispatchProvides = DispatchFactory.create(
             dependencies=dispatch_deps
         )
+
         return PayloadProvides(
             formatter=dispatch_provides.formatter,
             joint_formatter=joint_provides.formatter,

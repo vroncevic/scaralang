@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase, main
 
 from scaralang.core.model.dsl.compiler.control_waypoint_descriptor import ControlWaypointDescriptor
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.service.compiler.primitive.control.waypoint.builder import ControlWaypointBuilder
 from scaralang.core.service.compiler.primitive.control.waypoint.ibuilder import IControlWaypointBuilder
 
@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -57,7 +57,7 @@ class TestControlWaypointBuilder(TestCase):
             Sets up test fixture with context and builder instance.
         '''
         self.builder = ControlWaypointBuilder()
-        self.context = ScaraCompilerContext()
+        self.context = CompilerContextFactory.create()
         self.context.pose.current_x = 200.0
         self.context.pose.current_y = 100.0
         self.context.pose.current_z = 30.0
@@ -74,7 +74,7 @@ class TestControlWaypointBuilder(TestCase):
         '''
             Verifies builder get_version returns semantic version string.
         '''
-        self.assertEqual(self.builder.get_version(), '1.0.8')
+        self.assertEqual(self.builder.get_version(), '1.0.9')
 
     def test_build_waypoint_context_defaults(self) -> None:
         '''

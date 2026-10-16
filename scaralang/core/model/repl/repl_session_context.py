@@ -21,7 +21,7 @@ Info
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,9 +53,9 @@ class ReplSessionContext:
                 | valve_active - True if release valve is energized.
     '''
 
-    pose: ReplPoseState = field(default_factory=ReplPoseState)
-    elbow_left: bool = False
-    speed_mode: SpeedMode = SpeedMode.WORK
-    zone_mode: ZoneMode = ZoneMode.FINE
-    pump_active: bool = False
-    valve_active: bool = False
+    pose: ReplPoseState
+    elbow_left: bool
+    speed_mode: SpeedMode
+    zone_mode: ZoneMode
+    pump_active: bool
+    valve_active: bool

@@ -80,6 +80,7 @@ work coordinate transformations.</p>
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
 <div class="line">transform_point - Transforms local frame coordinates into global base coordinates.</div>
+<div class="line">inverse_transform_point - Transforms global coordinates into local frame coordinates.</div>
 <div class="line">get_version - Returns the transformer version string.</div>
 </div>
 </dd>
@@ -112,18 +113,35 @@ work coordinate transformations.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.transformation.itransformer.ITransformer.transform_point">
-<span class="sig-name descname"><span class="pre">transform_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.macro.work_frame.html#scaralang.core.model.dsl.macro.work_frame.WorkFrame" title="scaralang.core.model.dsl.macro.work_frame.WorkFrame"><span class="pre">WorkFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/transformation/itransformer.html#ITransformer.transform_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.transformation.itransformer.ITransformer.transform_point" title="Link to this definition">¶</a></dt>
-<dd><p>Transforms point from local work frame to global base coordinate system.</p>
+<dt class="sig sig-object py" id="scaralang.core.service.transformation.itransformer.ITransformer.inverse_transform_point">
+<span class="sig-name descname"><span class="pre">inverse_transform_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.macro.work_frame.html#scaralang.core.model.dsl.macro.work_frame.WorkFrame" title="scaralang.core.model.dsl.macro.work_frame.WorkFrame"><span class="pre">WorkFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_3d.html#scaralang.core.model.kinematics.point_3d.Point3D" title="scaralang.core.model.kinematics.point_3d.Point3D"><span class="pre">Point3D</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.point_3d.html#scaralang.core.model.kinematics.point_3d.Point3D" title="scaralang.core.model.kinematics.point_3d.Point3D"><span class="pre">Point3D</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/transformation/itransformer.html#ITransformer.inverse_transform_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.transformation.itransformer.ITransformer.inverse_transform_point" title="Link to this definition">¶</a></dt>
+<dd><p>Transforms 3D point from global base coordinate system to local work frame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>frame</strong> – WorkFrame instance defining offset and rotation.</p></li>
-<li><p><strong>point</strong> – Local coordinate Point2D in millimeters.</p></li>
+<li><p><strong>point</strong> – Global coordinate Point3D in millimeters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Transformed global coordinate Point2D.</p>
+<dd class="field-even"><p>Transformed local coordinate Point3D.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.transformation.itransformer.ITransformer.transform_point">
+<span class="sig-name descname"><span class="pre">transform_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.macro.work_frame.html#scaralang.core.model.dsl.macro.work_frame.WorkFrame" title="scaralang.core.model.dsl.macro.work_frame.WorkFrame"><span class="pre">WorkFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_3d.html#scaralang.core.model.kinematics.point_3d.Point3D" title="scaralang.core.model.kinematics.point_3d.Point3D"><span class="pre">Point3D</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.point_3d.html#scaralang.core.model.kinematics.point_3d.Point3D" title="scaralang.core.model.kinematics.point_3d.Point3D"><span class="pre">Point3D</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/transformation/itransformer.html#ITransformer.transform_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.transformation.itransformer.ITransformer.transform_point" title="Link to this definition">¶</a></dt>
+<dd><p>Transforms 3D point from local work frame to global base coordinate system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – WorkFrame instance defining offset and rotation.</p></li>
+<li><p><strong>point</strong> – Local coordinate Point3D in millimeters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Transformed global coordinate Point3D.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -148,6 +166,7 @@ work coordinate transformations.</p>
 <li><a class="reference internal" href="#scaralang.core.service.transformation.itransformer.ITransformer._is_protocol"><code class="docutils literal notranslate"><span class="pre">ITransformer._is_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.transformation.itransformer.ITransformer._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">ITransformer._is_runtime_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.transformation.itransformer.ITransformer.get_version"><code class="docutils literal notranslate"><span class="pre">ITransformer.get_version()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.transformation.itransformer.ITransformer.inverse_transform_point"><code class="docutils literal notranslate"><span class="pre">ITransformer.inverse_transform_point()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.transformation.itransformer.ITransformer.transform_point"><code class="docutils literal notranslate"><span class="pre">ITransformer.transform_point()</span></code></a></li>
 </ul>
 </li>

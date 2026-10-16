@@ -78,14 +78,96 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">CONFIG_MIN_TOKENS - Minimum allowed token count for CONFIG MOTOR.</div>
+<div class="line">CONFIG_IFACE_TOKENS - Token count when interface parameter is supplied.</div>
+<div class="line">DIRECT_MIN_TOKENS - Minimum allowed token count for CONFIG_MOTOR / MOTOR_MODE.</div>
+<div class="line">DIRECT_IFACE_TOKENS - Direct mode token count with interface parameter.</div>
+<div class="line">CMD_INDEX - Index of command token.</div>
+<div class="line">CONFIG_SUB_INDEX - Index of configuration property subcommand token.</div>
+<div class="line">CONFIG_VAL_INDEX - Index of drive mode token in CONFIG form.</div>
+<div class="line">CONFIG_IFACE_INDEX - Index of interface type token in CONFIG form.</div>
+<div class="line">DIRECT_VAL_INDEX - Index of drive mode token in direct form.</div>
+<div class="line">DIRECT_IFACE_INDEX - Index of interface type token in direct form.</div>
+<div class="line">SUBCOMMAND_KEYWORD - Expected configuration property keyword.</div>
+<div class="line">MOTOR_MODE_COMMAND - Alternative motor mode direct command keyword.</div>
+<div class="line">DIRECT_COMMANDS - Direct motor configuration command types.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">extract - Extracts raw mode and interface strings from tokens.</div>
 <div class="line">get_version - Returns the syntax extractor version string.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CMD_INDEX">
+<span class="sig-name descname"><span class="pre">CMD_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CMD_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_IFACE_INDEX">
+<span class="sig-name descname"><span class="pre">CONFIG_IFACE_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_IFACE_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_IFACE_TOKENS">
+<span class="sig-name descname"><span class="pre">CONFIG_IFACE_TOKENS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_IFACE_TOKENS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_MIN_TOKENS">
+<span class="sig-name descname"><span class="pre">CONFIG_MIN_TOKENS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_MIN_TOKENS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_SUB_INDEX">
+<span class="sig-name descname"><span class="pre">CONFIG_SUB_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_SUB_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_VAL_INDEX">
+<span class="sig-name descname"><span class="pre">CONFIG_VAL_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_VAL_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_COMMANDS">
+<span class="sig-name descname"><span class="pre">DIRECT_COMMANDS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.ast.command_type.html#scaralang.core.model.dsl.ast.command_type.ScaraCommandType" title="scaralang.core.model.dsl.ast.command_type.ScaraCommandType"><span class="pre">ScaraCommandType</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(ScaraCommandType.CONFIG_MOTOR,</span> <span class="pre">'MOTOR_MODE')</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_COMMANDS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_IFACE_INDEX">
+<span class="sig-name descname"><span class="pre">DIRECT_IFACE_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_IFACE_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_IFACE_TOKENS">
+<span class="sig-name descname"><span class="pre">DIRECT_IFACE_TOKENS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_IFACE_TOKENS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_MIN_TOKENS">
+<span class="sig-name descname"><span class="pre">DIRECT_MIN_TOKENS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_MIN_TOKENS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_VAL_INDEX">
+<span class="sig-name descname"><span class="pre">DIRECT_VAL_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_VAL_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.MOTOR_MODE_COMMAND">
+<span class="sig-name descname"><span class="pre">MOTOR_MODE_COMMAND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MOTOR_MODE'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.MOTOR_MODE_COMMAND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.SUBCOMMAND_KEYWORD">
+<span class="sig-name descname"><span class="pre">SUBCOMMAND_KEYWORD</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MOTOR'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.SUBCOMMAND_KEYWORD" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.extract">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.token.scara_token.html#scaralang.core.model.dsl.token.scara_token.ScaraToken" title="scaralang.core.model.dsl.token.scara_token.ScaraToken"><span class="pre">ScaraToken</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/config/syntax.html#MotorSyntaxExtractor.extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.extract" title="Link to this definition">¶</a></dt>
@@ -136,6 +218,19 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.parser.commands.config.syntax module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CMD_INDEX"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.CMD_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_IFACE_INDEX"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.CONFIG_IFACE_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_IFACE_TOKENS"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.CONFIG_IFACE_TOKENS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_MIN_TOKENS"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.CONFIG_MIN_TOKENS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_SUB_INDEX"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.CONFIG_SUB_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.CONFIG_VAL_INDEX"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.CONFIG_VAL_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_COMMANDS"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.DIRECT_COMMANDS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_IFACE_INDEX"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.DIRECT_IFACE_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_IFACE_TOKENS"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.DIRECT_IFACE_TOKENS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_MIN_TOKENS"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.DIRECT_MIN_TOKENS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.DIRECT_VAL_INDEX"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.DIRECT_VAL_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.MOTOR_MODE_COMMAND"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.MOTOR_MODE_COMMAND</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.SUBCOMMAND_KEYWORD"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.SUBCOMMAND_KEYWORD</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.extract"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.extract()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.syntax.MotorSyntaxExtractor.get_version"><code class="docutils literal notranslate"><span class="pre">MotorSyntaxExtractor.get_version()</span></code></a></li>
 </ul>
