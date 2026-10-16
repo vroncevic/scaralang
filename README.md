@@ -31,7 +31,7 @@ other information that should be provided before the modules are installed.
     - [Dead Zone Avoidance & Safe Trajectory Routing Pipeline](#dead-zone-avoidance--safe-trajectory-routing-pipeline)
     - [SCARA DSL Instruction Quick Reference](#scara-dsl-instruction-quick-reference)
     - [Example `.scara` Program: Industrial Pick & Place](#example-scara-program-industrial-pick--place)
-    - [Verification Scripts & Examples (`examples/` & `run.sh`)](#-verification-scripts--examples-examples--runsh)
+    - [📁 Verification Scripts & Examples (`examples/` & `run.sh`)](#-verification-scripts--examples-examples--runsh)
   - [📡 SCARA Binary Wire Protocol & Codec](#-scara-binary-wire-protocol--codec)
     - [Frame Header & Wire Format](#frame-header--wire-format)
     - [Message Types & Payload Structure](#message-types--payload-structure)
