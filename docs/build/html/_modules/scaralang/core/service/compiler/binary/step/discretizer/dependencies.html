@@ -61,14 +61,15 @@
 
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.iservice</span> <span class="kn">import</span> <span class="n">IKinematicsService</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.duration.icalculator</span> <span class="kn">import</span> <span class="n">ISegmentDurationCalculator</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.spatial.isolver</span> <span class="kn">import</span> <span class="n">ISpatialKinematicsSolver</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.transmission.iconverter</span> <span class="kn">import</span> <span class="n">IJointStepTransmissionConverter</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -76,7 +77,7 @@
 
 <div class="viewcode-block" id="DiscretizerDependencies">
 <a class="viewcode-back" href="../../../../../../../../scaralang.core.service.compiler.binary.step.discretizer.dependencies.html#scaralang.core.service.compiler.binary.step.discretizer.dependencies.DiscretizerDependencies">[docs]</a>
-<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">DiscretizerDependencies</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Inbound parameter bundle for StepDiscretizer initialization.</span>
@@ -84,12 +85,14 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | kinematics - Injected IKinematicsService protocol instance.</span>
+<span class="sd">                | spatial - Injected ISpatialKinematicsSolver protocol instance.</span>
 <span class="sd">                | transmission - Injected IJointStepTransmissionConverter protocol instance.</span>
+<span class="sd">                | duration_calculator - Injected ISegmentDurationCalculator protocol instance.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">kinematics</span><span class="p">:</span> <span class="n">IKinematicsService</span>
-    <span class="n">transmission</span><span class="p">:</span> <span class="n">IJointStepTransmissionConverter</span></div>
+    <span class="n">spatial</span><span class="p">:</span> <span class="n">ISpatialKinematicsSolver</span>
+    <span class="n">transmission</span><span class="p">:</span> <span class="n">IJointStepTransmissionConverter</span>
+    <span class="n">duration_calculator</span><span class="p">:</span> <span class="n">ISegmentDurationCalculator</span></div>
 
 </pre></div>
 

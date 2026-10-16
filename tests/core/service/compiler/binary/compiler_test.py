@@ -27,22 +27,21 @@ from unittest.mock import MagicMock
 from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.service.compiler.binary.compiler import BinaryCompiler
 from scaralang.core.service.compiler.binary.dependencies import BinaryDependencies
 from scaralang.core.service.compiler.binary.icompiler import IBinaryCompiler
 from scaralang.core.service.compiler.binary.metrics.icalculator import IMetricsCalculator
-from scaralang.core.service.compiler.binary.step.dispatcher.idispatcher import (
-    IWaypointStepDispatcher
-)
+from scaralang.core.service.compiler.binary.step.dispatcher.idispatcher import IWaypointStepDispatcher
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -81,11 +80,12 @@ class TestBinaryCompiler(TestCase):
             payload=b'\x00',
             crc16=0,
         )
-        step = Step(
+        expected_steps = JointStepCoordinates(j1=10, j2=20, z=30, j4=0)
+        step = BinaryStep(
             frame=frame,
             raw_bytes=b'\x01\x02',
             duration_us=1500,
-            target_steps=(10, 20, 30, 0),
+            target_steps=expected_steps,
             description='Test step',
             line_number=1,
         )
@@ -105,7 +105,7 @@ class TestBinaryCompiler(TestCase):
         self.mock_dispatcher.dispatch_steps.return_value = (step,)
         self.mock_metrics.calculate_metrics.return_value = (
             1500,
-            (10, 20, 30, 0),
+            expected_steps,
         )
         self.mock_metrics.calculate_telemetry.return_value = expected_telemetry
 
@@ -113,7 +113,7 @@ class TestBinaryCompiler(TestCase):
         self.assertEqual(program.total_duration_us, 1500)
         self.assertEqual(program.instruction_count, 1)
         self.assertEqual(program.raw_bytes, b'\x01\x02')
-        self.assertEqual(program.step_counts, (10, 20, 30, 0))
+        self.assertEqual(program.step_counts, expected_steps)
         self.assertEqual(program.steps, (step,))
         self.assertEqual(program.telemetry, expected_telemetry)
 
@@ -123,7 +123,7 @@ class TestBinaryCompiler(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid version string.'''
-        self.assertEqual(self.compiler.get_version(), '1.0.8')
+        self.assertEqual(self.compiler.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

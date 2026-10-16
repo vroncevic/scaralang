@@ -59,35 +59,22 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.command.dependencies</span> <span class="kn">import</span> <span class="n">CommandDependencies</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.command.factory</span> <span class="kn">import</span> <span class="n">CommandFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.dependencies</span> <span class="kn">import</span> <span class="n">BinaryDependencies</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.factory</span> <span class="kn">import</span> <span class="n">BinaryFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.metrics.factory</span> <span class="kn">import</span> <span class="n">MetricsCalculatorFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.motion.dependencies</span> <span class="kn">import</span> <span class="n">MotionDependencies</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.motion.factory</span> <span class="kn">import</span> <span class="n">MotionFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.discretizer.dependencies</span> <span class="kn">import</span> <span class="n">DiscretizerDependencies</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.discretizer.factory</span> <span class="kn">import</span> <span class="n">StepDiscretizerFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.dispatcher.dependencies</span> <span class="kn">import</span> <span class="n">DispatcherDependencies</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.dispatcher.factory</span> <span class="kn">import</span> <span class="n">WaypointStepDispatcherFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.icompiler</span> <span class="kn">import</span> <span class="n">IBinaryCompiler</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.dependencies</span> <span class="kn">import</span> <span class="n">CompilerDependencies</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.factory</span> <span class="kn">import</span> <span class="n">CompilerFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.icompiler</span> <span class="kn">import</span> <span class="n">IScaraCompiler</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.plan.dependencies</span> <span class="kn">import</span> <span class="n">PlanDependencies</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.plan.factory</span> <span class="kn">import</span> <span class="n">PlanFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.profile.default_scara_profile</span> <span class="kn">import</span> <span class="n">DefaultScaraProfile</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.transmission.factory</span> <span class="kn">import</span> <span class="n">JointStepTransmissionConverterFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.kinematics.factory</span> <span class="kn">import</span> <span class="n">DefaultKinematicsFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.linter.factory</span> <span class="kn">import</span> <span class="n">LinterFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.infrastructure.compiler.binary.factory</span> <span class="kn">import</span> <span class="n">DefaultBinaryCompilerFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.parser.factory</span> <span class="kn">import</span> <span class="n">DefaultParserFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.infrastructure.trajectory.validation.factory</span> <span class="kn">import</span> <span class="n">DefaultValidationFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.infrastructure.communication.protocol.binary.builder.factory</span> <span class="kn">import</span> <span class="n">BuilderFactory</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -97,13 +84,13 @@
 <a class="viewcode-back" href="../../../../scaralang.infrastructure.compiler.factory.html#scaralang.infrastructure.compiler.factory.DefaultCompilerFactory">[docs]</a>
 <span class="k">class</span> <span class="nc">DefaultCompilerFactory</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Factory providing default full-stack ScaraCompiler composition.</span>
+<span class="sd">    Factory providing default full-stack ScaraCompiler composition.</span>
 
-<span class="sd">        It defines:</span>
+<span class="sd">    It defines:</span>
 
-<span class="sd">            :methods:</span>
-<span class="sd">                | create - Builds and returns an IScaraCompiler with standard defaults.</span>
-<span class="sd">                | get_version - Returns factory version string.</span>
+<span class="sd">        :methods:</span>
+<span class="sd">            | create - Builds and returns an IScaraCompiler with standard defaults.</span>
+<span class="sd">            | get_version - Returns factory version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
 <div class="viewcode-block" id="DefaultCompilerFactory.create">
@@ -111,50 +98,17 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IScaraCompiler</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Builds and returns an IScaraCompiler with standard defaults.</span>
+<span class="sd">        Builds and returns an IScaraCompiler with standard defaults.</span>
 
-<span class="sd">            :return: Fully configured IScaraCompiler protocol instance.</span>
-<span class="sd">            :exceptions: None.</span>
+<span class="sd">        :return: Fully configured IScaraCompiler protocol instance.</span>
+<span class="sd">        :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">kinematics</span> <span class="o">=</span> <span class="n">DefaultKinematicsFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span><span class="o">.</span><span class="n">service</span>
-        <span class="n">transmission</span> <span class="o">=</span> <span class="n">DefaultScaraProfile</span><span class="o">.</span><span class="n">create_transmission</span><span class="p">()</span>
-        <span class="n">frame_builder</span> <span class="o">=</span> <span class="n">BuilderFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span><span class="o">.</span><span class="n">builder</span>
-
-        <span class="n">transmission_converter</span> <span class="o">=</span> <span class="n">JointStepTransmissionConverterFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">transmission</span><span class="o">=</span><span class="n">transmission</span>
-        <span class="p">)</span>
-        <span class="n">discretizer</span> <span class="o">=</span> <span class="n">StepDiscretizerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">dependencies</span><span class="o">=</span><span class="n">DiscretizerDependencies</span><span class="p">(</span>
-                <span class="n">kinematics</span><span class="o">=</span><span class="n">kinematics</span><span class="p">,</span>
-                <span class="n">transmission</span><span class="o">=</span><span class="n">transmission_converter</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">motion_subsystem</span> <span class="o">=</span> <span class="n">MotionFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">dependencies</span><span class="o">=</span><span class="n">MotionDependencies</span><span class="p">(</span>
-                <span class="n">discretizer</span><span class="o">=</span><span class="n">discretizer</span><span class="p">,</span>
-                <span class="n">frame_builder</span><span class="o">=</span><span class="n">frame_builder</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">command_subsystem</span> <span class="o">=</span> <span class="n">CommandFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">dependencies</span><span class="o">=</span><span class="n">CommandDependencies</span><span class="p">(</span><span class="n">frame_builder</span><span class="o">=</span><span class="n">frame_builder</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">step_dispatcher</span> <span class="o">=</span> <span class="n">WaypointStepDispatcherFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">dependencies</span><span class="o">=</span><span class="n">DispatcherDependencies</span><span class="p">(</span>
-                <span class="n">command_compiler</span><span class="o">=</span><span class="n">command_subsystem</span><span class="o">.</span><span class="n">compiler</span><span class="p">,</span>
-                <span class="n">motion_compiler</span><span class="o">=</span><span class="n">motion_subsystem</span><span class="o">.</span><span class="n">compiler</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">binary_subsystem</span> <span class="o">=</span> <span class="n">BinaryFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">dependencies</span><span class="o">=</span><span class="n">BinaryDependencies</span><span class="p">(</span>
-                <span class="n">step_dispatcher</span><span class="o">=</span><span class="n">step_dispatcher</span><span class="p">,</span>
-                <span class="n">metrics_calculator</span><span class="o">=</span><span class="n">MetricsCalculatorFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(),</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">binary_compiler</span><span class="p">:</span> <span class="n">IBinaryCompiler</span> <span class="o">=</span> <span class="n">DefaultBinaryCompilerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
         <span class="n">parser</span> <span class="o">=</span> <span class="n">DefaultParserFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span><span class="o">.</span><span class="n">parser</span>
         <span class="n">linter</span> <span class="o">=</span> <span class="n">LinterFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span><span class="o">.</span><span class="n">linter</span>
         <span class="n">plan_subsystem</span> <span class="o">=</span> <span class="n">PlanFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
             <span class="n">dependencies</span><span class="o">=</span><span class="n">PlanDependencies</span><span class="p">(</span>
-                <span class="n">validator</span><span class="o">=</span><span class="n">DefaultValidationFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span><span class="o">.</span><span class="n">validator</span><span class="p">,</span>
+                <span class="n">validator</span><span class="o">=</span><span class="n">DefaultValidationFactory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span><span class="o">.</span><span class="n">plan</span><span class="p">,</span>
                 <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">,</span>
                 <span class="n">linter</span><span class="o">=</span><span class="n">linter</span><span class="p">,</span>
             <span class="p">)</span>
@@ -162,7 +116,7 @@
         <span class="n">provides</span> <span class="o">=</span> <span class="n">CompilerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
             <span class="n">dependencies</span><span class="o">=</span><span class="n">CompilerDependencies</span><span class="p">(</span>
                 <span class="n">compiler</span><span class="o">=</span><span class="n">plan_subsystem</span><span class="o">.</span><span class="n">script_compiler</span><span class="p">,</span>
-                <span class="n">binary_compiler</span><span class="o">=</span><span class="n">binary_subsystem</span><span class="o">.</span><span class="n">compiler</span><span class="p">,</span>
+                <span class="n">binary_compiler</span><span class="o">=</span><span class="n">binary_compiler</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">provides</span><span class="o">.</span><span class="n">compiler</span></div>
@@ -173,10 +127,10 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Returns factory version string representation.</span>
+<span class="sd">        Returns factory version string representation.</span>
 
-<span class="sd">            :return: Factory version string.</span>
-<span class="sd">            :exceptions: None.</span>
+<span class="sd">        :return: Factory version string.</span>
+<span class="sd">        :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">__version__</span></div>
 </div>

@@ -16,53 +16,53 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Unit tests for InstructionParam enumeration.
+    Unit tests for ScaraInstructionParam enumeration.
 '''
 
 from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 class InstructionParamTest(TestCase):
-    '''Unit tests validating InstructionParam enumeration values.'''
+    '''Unit tests validating ScaraInstructionParam enumeration values.'''
 
     def test_members_count(self) -> None:
         '''Verify that 45 instruction parameter keys are defined.'''
-        self.assertEqual(len(InstructionParam), 45)
+        self.assertEqual(len(ScaraInstructionParam), 45)
 
     def test_member_string_values(self) -> None:
         '''Verify that members match their exact uppercase string values.'''
-        self.assertEqual(InstructionParam.X, 'X')
-        self.assertEqual(InstructionParam.Y, 'Y')
-        self.assertEqual(InstructionParam.Z, 'Z')
-        self.assertEqual(InstructionParam.PHI, 'PHI')
-        self.assertEqual(InstructionParam.SPEED, 'SPEED')
-        self.assertEqual(InstructionParam.MODE, 'MODE')
-        self.assertEqual(InstructionParam.MOTOR_MODE, 'MOTOR_MODE')
-        self.assertEqual(InstructionParam.INTERFACE, 'INTERFACE')
-        self.assertEqual(InstructionParam.AXIS_MASK, 'AXIS_MASK')
-        self.assertEqual(InstructionParam.STATE, 'STATE')
-        self.assertEqual(InstructionParam.DIST, 'DIST')
-        self.assertEqual(InstructionParam.ANGLE, 'ANGLE')
-        self.assertEqual(InstructionParam.ARCH, 'ARCH')
+        self.assertEqual(ScaraInstructionParam.X, 'X')
+        self.assertEqual(ScaraInstructionParam.Y, 'Y')
+        self.assertEqual(ScaraInstructionParam.Z, 'Z')
+        self.assertEqual(ScaraInstructionParam.PHI, 'PHI')
+        self.assertEqual(ScaraInstructionParam.SPEED, 'SPEED')
+        self.assertEqual(ScaraInstructionParam.MODE, 'MODE')
+        self.assertEqual(ScaraInstructionParam.MOTOR_MODE, 'MOTOR_MODE')
+        self.assertEqual(ScaraInstructionParam.INTERFACE, 'INTERFACE')
+        self.assertEqual(ScaraInstructionParam.AXIS_MASK, 'AXIS_MASK')
+        self.assertEqual(ScaraInstructionParam.STATE, 'STATE')
+        self.assertEqual(ScaraInstructionParam.DIST, 'DIST')
+        self.assertEqual(ScaraInstructionParam.ANGLE, 'ANGLE')
+        self.assertEqual(ScaraInstructionParam.ARCH, 'ARCH')
 
     def test_lookup_by_value(self) -> None:
         '''Verify string lookup returns matching enum instance.'''
         self.assertIs(
-            InstructionParam('SPEED'),
-            InstructionParam.SPEED,
+            ScaraInstructionParam('SPEED'),
+            ScaraInstructionParam.SPEED,
         )
 
 

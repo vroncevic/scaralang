@@ -61,11 +61,13 @@
 
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.axis_name</span> <span class="kn">import</span> <span class="n">AxisName</span>
+
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -81,13 +83,13 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | axis_name - Joint axis identifier (e.g. &#39;J1&#39;, &#39;J2&#39;, &#39;Z&#39;, &#39;J4&#39;).</span>
+<span class="sd">                | axis_name - Joint axis identifier enum (AxisName).</span>
 <span class="sd">                | peak_velocity - Maximum observed velocity in physical units (rad/s or mm/s).</span>
 <span class="sd">                | peak_acceleration - Maximum observed acceleration in physical units.</span>
 <span class="sd">                | peak_steps - Maximum total displacement in motor microsteps.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">axis_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">axis_name</span><span class="p">:</span> <span class="n">AxisName</span>
     <span class="n">peak_velocity</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">peak_acceleration</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">peak_steps</span><span class="p">:</span> <span class="nb">int</span></div>

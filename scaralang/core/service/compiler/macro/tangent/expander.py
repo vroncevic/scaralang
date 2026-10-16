@@ -23,15 +23,15 @@ from __future__ import annotations
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -63,7 +63,7 @@ class TangentMacroExpander:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[ScaraInstruction, ...]:
         '''
             Configures tool orientation mode in compiler context.
@@ -74,7 +74,7 @@ class TangentMacroExpander:
         '''
         params = instruction.parameters
         raw_mode = str(
-            params.get(InstructionParam.MODE, ToolOrientMode.FIXED)
+            params.get(ScaraInstructionParam.MODE, ToolOrientMode.FIXED)
         ).upper()
         context.tool_orient_mode = (
             ToolOrientMode(raw_mode)
@@ -86,7 +86,7 @@ class TangentMacroExpander:
             else ToolOrientMode.FIXED
         )
 
-        if InstructionParam.PHI in params:
-            context.pose.current_phi = float(params[InstructionParam.PHI])
+        if ScaraInstructionParam.PHI in params:
+            context.pose.current_phi = float(params[ScaraInstructionParam.PHI])
 
         return ()

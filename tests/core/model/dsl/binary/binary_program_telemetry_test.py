@@ -31,17 +31,23 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 class BinaryProgramTelemetryTest(TestCase):
-    '''Unit tests validating BinaryProgramTelemetry purity and immutability.'''
+    '''
+        Unit tests validating BinaryProgramTelemetry purity and immutability.
+    '''
 
     def test_instantiation_and_attributes(self) -> None:
-        '''Verify BinaryProgramTelemetry fields.'''
+        '''
+            Verify BinaryProgramTelemetry fields.
+
+            :exceptions: None.
+        '''
         peak_steps = AxisPeakSteps(
             peak_j1_steps=1200,
             peak_j2_steps=800,
@@ -67,12 +73,22 @@ class BinaryProgramTelemetryTest(TestCase):
         self.assertEqual(telemetry.total_wire_bytes, 240)
 
     def test_frozen_immutability(self) -> None:
-        '''Verify that modifying attributes raises FrozenInstanceError.'''
+        '''
+            Verify that modifying attributes raises FrozenInstanceError.
+
+            :exceptions: None.
+        '''
         telemetry = BinaryProgramTelemetry(
             source_instructions=1,
             compiled_steps=1,
             duration_us=1000,
             duration_s=0.001,
+            peak_steps=AxisPeakSteps(
+                peak_j1_steps=0,
+                peak_j2_steps=0,
+                peak_z_steps=0,
+                peak_j4_steps=0,
+            ),
             total_wire_bytes=20,
         )
         with self.assertRaises(FrozenInstanceError):

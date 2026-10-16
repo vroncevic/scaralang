@@ -26,6 +26,7 @@ from typing import Final
 
 from scaralang.core.model.exceptions.scara_error import ScaraError
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
+from scaralang.core.service.repl.context.factory import ReplSessionContextFactory
 from scaralang.infrastructure.cli.repl.compiler.irepl_single_command_compiler import IReplSingleCommandCompiler
 from scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher import IReplCommandDispatcher
 from scaralang.infrastructure.cli.repl.input.irepl_line_reader import IReplLineReader
@@ -39,7 +40,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -116,7 +117,7 @@ class ReplCommandExecutor:
                 endpoint=raw_endpoint.strip(), dry_run=dry_run
             )
 
-        context: ReplSessionContext = ReplSessionContext()
+        context: ReplSessionContext = ReplSessionContextFactory.create()
         code, lines = self.run_session(initial_context=context)
 
         return {'returncode': code, 'stdout': '\n'.join(lines), 'stderr': ''}

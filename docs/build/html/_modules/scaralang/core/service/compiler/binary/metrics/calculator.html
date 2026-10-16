@@ -60,16 +60,18 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.axis_peak_steps</span> <span class="kn">import</span> <span class="n">AxisPeakSteps</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.binary_program_telemetry</span> <span class="kn">import</span> <span class="n">BinaryProgramTelemetry</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.step</span> <span class="kn">import</span> <span class="n">Step</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.step</span> <span class="kn">import</span> <span class="n">BinaryStep</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.joint_step_coordinates</span> <span class="kn">import</span> <span class="n">JointStepCoordinates</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -83,57 +85,70 @@
 
 <span class="sd">        It defines:</span>
 
+<span class="sd">            :attributes:</span>
+<span class="sd">                | ZERO_DURATION - Initial duration metric accumulator.</span>
+<span class="sd">                | INITIAL_PEAK_VALUE - Initial peak step displacement metric.</span>
+<span class="sd">                | AXIS_COUNT - Total degrees of freedom for the manipulator arm.</span>
+<span class="sd">                | MICROSECONDS_PER_SECOND - Unit conversion factor from us to seconds.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | calculate_metrics - Computes total duration and peak step counts.</span>
 <span class="sd">                | calculate_telemetry - Computes comprehensive binary execution telemetry.</span>
 <span class="sd">                | get_version - Gets implementation version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
+    <span class="n">ZERO_DURATION</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">INITIAL_PEAK_VALUE</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">AXIS_COUNT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">MICROSECONDS_PER_SECOND</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1_000_000.0</span>
+
 <div class="viewcode-block" id="MetricsCalculator.calculate_metrics">
 <a class="viewcode-back" href="../../../../../../../scaralang.core.service.compiler.binary.metrics.calculator.html#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_metrics">[docs]</a>
     <span class="k">def</span> <span class="nf">calculate_metrics</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Step</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BinaryStep</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">JointStepCoordinates</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Computes total duration in microseconds and peak axis step counts.</span>
 
-<span class="sd">            :param steps: Sequence of Step instances.</span>
-<span class="sd">            :return: Tuple of (total_duration_us, (peak_j0, peak_j1, peak_z, peak_pitch)).</span>
+<span class="sd">            :param steps: Sequence of BinaryStep instances.</span>
+<span class="sd">            :return: Tuple of (total_duration_us, JointStepCoordinates peak steps).</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">total_duration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">peak_steps</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">total_duration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZERO_DURATION</span>
+        <span class="n">peak_j1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">INITIAL_PEAK_VALUE</span>
+        <span class="n">peak_j2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">INITIAL_PEAK_VALUE</span>
+        <span class="n">peak_z</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">INITIAL_PEAK_VALUE</span>
+        <span class="n">peak_j4</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">INITIAL_PEAK_VALUE</span>
 
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">:</span>
             <span class="n">total_duration</span> <span class="o">+=</span> <span class="n">s</span><span class="o">.</span><span class="n">duration_us</span>
+            <span class="n">peak_j1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">peak_j1</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">target_steps</span><span class="o">.</span><span class="n">j1</span><span class="p">))</span>
+            <span class="n">peak_j2</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">peak_j2</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">target_steps</span><span class="o">.</span><span class="n">j2</span><span class="p">))</span>
+            <span class="n">peak_z</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">peak_z</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">target_steps</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+            <span class="n">peak_j4</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">peak_j4</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">target_steps</span><span class="o">.</span><span class="n">j4</span><span class="p">))</span>
 
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">target_steps</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">peak_steps</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                    <span class="n">peak_steps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">target_steps</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-
-        <span class="k">return</span> <span class="n">total_duration</span><span class="p">,</span> <span class="p">(</span>
-            <span class="n">peak_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">peak_steps</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-            <span class="n">peak_steps</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-            <span class="n">peak_steps</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+        <span class="k">return</span> <span class="n">total_duration</span><span class="p">,</span> <span class="n">JointStepCoordinates</span><span class="p">(</span>
+            <span class="n">j1</span><span class="o">=</span><span class="n">peak_j1</span><span class="p">,</span>
+            <span class="n">j2</span><span class="o">=</span><span class="n">peak_j2</span><span class="p">,</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">peak_z</span><span class="p">,</span>
+            <span class="n">j4</span><span class="o">=</span><span class="n">peak_j4</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MetricsCalculator.calculate_telemetry">
 <a class="viewcode-back" href="../../../../../../../scaralang.core.service.compiler.binary.metrics.calculator.html#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_telemetry">[docs]</a>
     <span class="k">def</span> <span class="nf">calculate_telemetry</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Step</span><span class="p">],</span> <span class="n">raw_bytes</span><span class="p">:</span> <span class="nb">bytes</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BinaryStep</span><span class="p">],</span> <span class="n">raw_bytes</span><span class="p">:</span> <span class="nb">bytes</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BinaryProgramTelemetry</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Computes comprehensive binary execution telemetry and axis step metrics.</span>
 
-<span class="sd">            :param steps: Sequence of Step instances.</span>
+<span class="sd">            :param steps: Sequence of BinaryStep instances.</span>
 <span class="sd">            :param raw_bytes: Compiled binary raw byte sequence.</span>
 <span class="sd">            :return: BinaryProgramTelemetry domain model.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">total_duration</span><span class="p">,</span> <span class="n">peak_steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_metrics</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">)</span>
-        <span class="n">duration_s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">total_duration</span> <span class="o">/</span> <span class="mf">1000000.0</span>
+        <span class="n">duration_s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">total_duration</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">MICROSECONDS_PER_SECOND</span>
 
         <span class="k">return</span> <span class="n">BinaryProgramTelemetry</span><span class="p">(</span>
             <span class="n">source_instructions</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">steps</span><span class="p">),</span>
@@ -141,10 +156,10 @@
             <span class="n">duration_us</span><span class="o">=</span><span class="n">total_duration</span><span class="p">,</span>
             <span class="n">duration_s</span><span class="o">=</span><span class="n">duration_s</span><span class="p">,</span>
             <span class="n">peak_steps</span><span class="o">=</span><span class="n">AxisPeakSteps</span><span class="p">(</span>
-                <span class="n">peak_j1_steps</span><span class="o">=</span><span class="n">peak_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                <span class="n">peak_j2_steps</span><span class="o">=</span><span class="n">peak_steps</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                <span class="n">peak_z_steps</span><span class="o">=</span><span class="n">peak_steps</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-                <span class="n">peak_j4_steps</span><span class="o">=</span><span class="n">peak_steps</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                <span class="n">peak_j1_steps</span><span class="o">=</span><span class="n">peak_steps</span><span class="o">.</span><span class="n">j1</span><span class="p">,</span>
+                <span class="n">peak_j2_steps</span><span class="o">=</span><span class="n">peak_steps</span><span class="o">.</span><span class="n">j2</span><span class="p">,</span>
+                <span class="n">peak_z_steps</span><span class="o">=</span><span class="n">peak_steps</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+                <span class="n">peak_j4_steps</span><span class="o">=</span><span class="n">peak_steps</span><span class="o">.</span><span class="n">j4</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">total_wire_bytes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">raw_bytes</span><span class="p">),</span>
         <span class="p">)</span></div>

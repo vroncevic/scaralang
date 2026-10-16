@@ -23,9 +23,11 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
+from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.trajectory.trajectory_cycle_report import TrajectoryCycleReport
@@ -41,7 +43,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -73,8 +75,20 @@ class TestTrajectoryCycleSummaryBuilder(TestCase):
             raw_bytes=b'',
             total_duration_us=0,
             instruction_count=0,
-            step_counts=(0, 0, 0, 0),
-            telemetry=BinaryProgramTelemetry(),
+            step_counts=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
+            telemetry=BinaryProgramTelemetry(
+                source_instructions=0,
+                compiled_steps=0,
+                duration_us=0,
+                duration_s=0.0,
+                peak_steps=AxisPeakSteps(
+                    peak_j1_steps=0,
+                    peak_j2_steps=0,
+                    peak_z_steps=0,
+                    peak_j4_steps=0,
+                ),
+                total_wire_bytes=0,
+            ),
         )
         report: TrajectoryCycleReport = builder.build_report(plan=plan, program=prog)
         self.assertEqual(report.total_duration_us, 0)
@@ -86,8 +100,28 @@ class TestTrajectoryCycleSummaryBuilder(TestCase):
         '''Verifies report generation with populated plan and program.'''
         builder = self._build_builder()
         plan = TrajectoryPlan()
-        plan.add_point(point=Waypoint(x=0.0, y=0.0, z=0.0, speed=100.0))
-        plan.add_point(point=Waypoint(x=50.0, y=0.0, z=0.0, speed=100.0))
+        plan.add_point(
+            point=Waypoint(
+                x=0.0,
+                y=0.0,
+                z=0.0,
+                phi=0.0,
+                speed=100.0,
+                name='',
+                command='',
+            )
+        )
+        plan.add_point(
+            point=Waypoint(
+                x=50.0,
+                y=0.0,
+                z=0.0,
+                phi=0.0,
+                speed=100.0,
+                name='',
+                command='',
+            )
+        )
 
         frame = BinaryFrame(
             msg_id=MessageId.CMD_MOVE_JOINT_STEPS,
@@ -95,11 +129,11 @@ class TestTrajectoryCycleSummaryBuilder(TestCase):
             payload=b'\x00' * 16,
             crc16=0,
         )
-        step = Step(
+        step = BinaryStep(
             frame=frame,
             raw_bytes=b'',
             duration_us=500000,
-            target_steps=(2000, 100, 50, 0),
+            target_steps=JointStepCoordinates(j1=2000, j2=100, z=50, j4=0),
             description='move',
             line_number=1,
         )
@@ -108,12 +142,19 @@ class TestTrajectoryCycleSummaryBuilder(TestCase):
             raw_bytes=b'',
             total_duration_us=500000,
             instruction_count=1,
-            step_counts=(2000, 100, 50, 0),
+            step_counts=JointStepCoordinates(j1=2000, j2=100, z=50, j4=0),
             telemetry=BinaryProgramTelemetry(
                 source_instructions=1,
                 compiled_steps=1,
                 duration_us=500000,
                 duration_s=0.5,
+                peak_steps=AxisPeakSteps(
+                    peak_j1_steps=2000,
+                    peak_j2_steps=100,
+                    peak_z_steps=50,
+                    peak_j4_steps=0,
+                ),
+                total_wire_bytes=0,
             ),
         )
         report: TrajectoryCycleReport = builder.build_report(plan=plan, program=prog)

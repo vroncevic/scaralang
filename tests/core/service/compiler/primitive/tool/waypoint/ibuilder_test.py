@@ -25,7 +25,7 @@ from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.primitive.tool.waypoint.ibuilder import IToolWaypointBuilder
 
@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,7 +47,7 @@ class DummyToolWaypointBuilder:
     def build_waypoint(
         self,
         *,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
         tool_type: ScaraCommandType,
         state: PneumaticState,
     ) -> Waypoint:

@@ -26,9 +26,9 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.service.compiler.macro.iexpander import IMacroExpander
 from scaralang.core.service.compiler.macro.tangent.expander import TangentMacroExpander
 
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,15 +74,15 @@ class TestTangentMacroExpander(TestCase):
         '''
         tool_orient_inst = ScaraInstruction(
             command_type=ScaraCommandType.TOOL_ORIENT,
-            parameters={InstructionParam.MODE: ToolOrientMode.TANGENTIAL},
+            parameters={ScaraInstructionParam.MODE: ToolOrientMode.TANGENTIAL},
             line_number=1,
             raw_text='TOOL_ORIENT TANGENTIAL',
         )
         move_inst = ScaraInstruction(
             command_type=ScaraCommandType.MOVE_L,
             parameters={
-                InstructionParam.X: 100.0,
-                InstructionParam.Y: 50.0,
+                ScaraInstructionParam.X: 100.0,
+                ScaraInstructionParam.Y: 50.0,
             },
             line_number=2,
             raw_text='MOVE_L X=100.0 Y=50.0',
@@ -94,10 +94,10 @@ class TestTangentMacroExpander(TestCase):
         '''
             Verifies expand sets TANGENTIAL tool orient mode in context.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         inst = ScaraInstruction(
             command_type=ScaraCommandType.TOOL_ORIENT,
-            parameters={InstructionParam.MODE: ToolOrientMode.TANGENTIAL},
+            parameters={ScaraInstructionParam.MODE: ToolOrientMode.TANGENTIAL},
             line_number=1,
             raw_text='TOOL_ORIENT TANGENTIAL',
         )
@@ -109,12 +109,12 @@ class TestTangentMacroExpander(TestCase):
         '''
             Verifies expand updates current_phi when phi parameter is provided.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         inst = ScaraInstruction(
             command_type=ScaraCommandType.TOOL_ORIENT,
             parameters={
-                InstructionParam.MODE: ToolOrientMode.FIXED,
-                InstructionParam.PHI: 45.0,
+                ScaraInstructionParam.MODE: ToolOrientMode.FIXED,
+                ScaraInstructionParam.PHI: 45.0,
             },
             line_number=1,
             raw_text='TOOL_ORIENT FIXED PHI=45.0',

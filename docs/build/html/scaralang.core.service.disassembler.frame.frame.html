@@ -71,7 +71,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.disassembler.frame.frame.</span></span><span class="sig-name descname"><span class="pre">FrameDetailDecoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unpacker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ibinary_payload_unpacker.html#scaralang.core.service.protocol.ibinary_payload_unpacker.IBinaryPayloadUnpacker" title="scaralang.core.service.protocol.ibinary_payload_unpacker.IBinaryPayloadUnpacker"><span class="pre">IBinaryPayloadUnpacker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/frame/frame.html#FrameDetailDecoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.disassembler.frame.frame.</span></span><span class="sig-name descname"><span class="pre">FrameDetailDecoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoders</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.service.disassembler.frame.decoder.idecoder.html#scaralang.core.service.disassembler.frame.decoder.idecoder.IFramePayloadDecoder" title="scaralang.core.service.disassembler.frame.decoder.idecoder.IFramePayloadDecoder"><span class="pre">IFramePayloadDecoder</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/frame/frame.html#FrameDetailDecoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Decodes wire protocol frame payloads into structured, human-readable representations.</p>
 <p>It defines:</p>
@@ -79,97 +79,34 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">_unpacker - Injected binary payload unpacker strategy.</div>
-<div class="line">_system_names - Mapping of system message IDs to command names.</div>
+<div class="line">_decoders - Injected tuple of specialized payload decoders.</div>
 </div>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
-<div class="line">__init__ - Initializes decoder with injected unpacker.</div>
+<div class="line">__init__ - Initializes decoder with injected payload decoders.</div>
 <div class="line">decode_msg_name - Returns symbolic message identifier name.</div>
-<div class="line">decode_joint_steps - Decodes joint step displacement payload.</div>
-<div class="line">decode_tool_command - Decodes pneumatic tool pump/valve payload.</div>
-<div class="line">decode_wait - Decodes dwell wait delay payload.</div>
-<div class="line">decode_motor_config - Decodes motor configuration payload.</div>
-<div class="line">decode_system - Decodes state change system messages.</div>
-<div class="line">decode_fallback - Decodes arbitrary payload bytes into hexadecimal string.</div>
-<div class="line">decode_detail - Routes frame to specific payload decoder.</div>
+<div class="line">decode_detail - Routes frame to specialized payload decoder.</div>
 <div class="line">get_version - Returns decoder version string.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder._system_names">
-<span class="sig-name descname"><span class="pre">_system_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder._system_names" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder._unpacker">
-<span class="sig-name descname"><span class="pre">_unpacker</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ibinary_payload_unpacker.html#scaralang.core.service.protocol.ibinary_payload_unpacker.IBinaryPayloadUnpacker" title="scaralang.core.service.protocol.ibinary_payload_unpacker.IBinaryPayloadUnpacker"><span class="pre">IBinaryPayloadUnpacker</span></a></em><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder._unpacker" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder._decoders">
+<span class="sig-name descname"><span class="pre">_decoders</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.service.disassembler.frame.decoder.idecoder.html#scaralang.core.service.disassembler.frame.decoder.idecoder.IFramePayloadDecoder" title="scaralang.core.service.disassembler.frame.decoder.idecoder.IFramePayloadDecoder"><span class="pre">IFramePayloadDecoder</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder._decoders" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_detail">
 <span class="sig-name descname"><span class="pre">decode_detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame" title="scaralang.core.model.protocol.binary_frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/frame/frame.html#FrameDetailDecoder.decode_detail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_detail" title="Link to this definition">¶</a></dt>
-<dd><p>Dispatches binary frame to dedicated message decoder.</p>
+<dd><p>Dispatches binary frame to matching payload decoder.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>frame</strong> – BinaryFrame instance to decode.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Human-readable decoded detail string.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_fallback">
-<span class="sig-name descname"><span class="pre">decode_fallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/frame/frame.html#FrameDetailDecoder.decode_fallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_fallback" title="Link to this definition">¶</a></dt>
-<dd><p>Decodes unrecognized or raw payloads into hexadecimal string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>payload</strong> – Unrecognized binary payload bytes.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Formatted hex string representation.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_joint_steps">
-<span class="sig-name descname"><span class="pre">decode_joint_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/frame/frame.html#FrameDetailDecoder.decode_joint_steps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_joint_steps" title="Link to this definition">¶</a></dt>
-<dd><p>Decodes joint step displacement payload into formatted string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>payload</strong> – Packed bytes of joint steps payload.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Formatted coordinate string.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_motor_config">
-<span class="sig-name descname"><span class="pre">decode_motor_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/frame/frame.html#FrameDetailDecoder.decode_motor_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_motor_config" title="Link to this definition">¶</a></dt>
-<dd><p>Decodes motor mode configuration payload into human-readable string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>payload</strong> – Packed motor configuration bytes.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Formatted motor configuration command string.</p>
 </dd>
 <dt class="field-odd">Exceptions<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None.</p>
@@ -187,60 +124,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Symbolic name string or UNKNOWN.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_system">
-<span class="sig-name descname"><span class="pre">decode_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/frame/frame.html#FrameDetailDecoder.decode_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_system" title="Link to this definition">¶</a></dt>
-<dd><p>Decodes system command message into symbolic command string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>msg_id</strong> – System message identifier integer.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>System command name or empty string.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_tool_command">
-<span class="sig-name descname"><span class="pre">decode_tool_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/frame/frame.html#FrameDetailDecoder.decode_tool_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_tool_command" title="Link to this definition">¶</a></dt>
-<dd><p>Decodes pneumatic tool command payload into state description.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>msg_id</strong> – Tool message identifier integer.</p></li>
-<li><p><strong>payload</strong> – Packed tool command bytes.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Tool name and activation state string.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_wait">
-<span class="sig-name descname"><span class="pre">decode_wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/disassembler/frame/frame.html#FrameDetailDecoder.decode_wait"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_wait" title="Link to this definition">¶</a></dt>
-<dd><p>Decodes wait delay payload into millisecond string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>payload</strong> – Packed wait delay bytes.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Formatted wait duration string.</p>
 </dd>
 <dt class="field-odd">Exceptions<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None.</p>
@@ -278,16 +161,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.disassembler.frame.frame module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder._system_names"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder._system_names</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder._unpacker"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder._unpacker</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder._decoders"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder._decoders</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_detail"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder.decode_detail()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_fallback"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder.decode_fallback()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_joint_steps"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder.decode_joint_steps()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_motor_config"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder.decode_motor_config()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_msg_name"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder.decode_msg_name()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_system"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder.decode_system()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_tool_command"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder.decode_tool_command()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.decode_wait"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder.decode_wait()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.disassembler.frame.frame.FrameDetailDecoder.get_version"><code class="docutils literal notranslate"><span class="pre">FrameDetailDecoder.get_version()</span></code></a></li>
 </ul>
 </li>

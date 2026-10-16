@@ -35,13 +35,14 @@ from scaralang.infrastructure.command.compile.inspection.presentation.step.depen
 from scaralang.infrastructure.command.compile.inspection.presentation.step.factory import StepFactory
 from scaralang.infrastructure.command.compile.inspection.presentation.step.ipresenter import IFrameStepPresenter
 from scaralang.infrastructure.command.compile.inspection.presentation.step.provides import StepProvides
-from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.unpacker import BinaryPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.motion import BinaryMotionPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -57,7 +58,8 @@ class TestStepFactory(TestCase):
             joint_formatter=JointStepsPayloadFormatter(hex_formatter=hex_fmt),
             tool_formatter=ToolCommandPayloadFormatter(hex_formatter=hex_fmt),
             hex_formatter=hex_fmt,
-            unpacker=BinaryPayloadUnpacker(),
+            motion_unpacker=BinaryMotionPayloadUnpacker(),
+            actuator_unpacker=BinaryActuatorPayloadUnpacker(),
         )
         self.step_deps: StepDependencies = StepDependencies(
             header_formatter=FrameHeaderFormatter(),
@@ -74,7 +76,7 @@ class TestStepFactory(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid semantic version.'''
-        self.assertEqual(StepFactory.get_version(), '1.0.8')
+        self.assertEqual(StepFactory.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

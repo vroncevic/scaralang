@@ -23,21 +23,22 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.service.kinematics.iservice import IKinematicsService
-from scaralang.core.service.kinematics.solver.isolver import IKinematicsSolver
+from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
+from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True, slots=True, kw_only=True)
 class KinematicsProvides:
     '''
         Outbound provides dataclass for the kinematics subsystem.
@@ -45,11 +46,13 @@ class KinematicsProvides:
         It defines:
 
             :attributes:
-                | service - Injected IKinematicsService protocol instance.
-                | solver - Injected IKinematicsSolver protocol instance.
+                | envelope - Injected IWorkspaceEnvelope protocol instance.
+                | planar - Injected IPlanarKinematicsSolver protocol instance.
+                | spatial - Injected ISpatialKinematicsSolver protocol instance.
                 | workspace - Injected IWorkspaceBoundsEvaluator protocol instance.
     '''
 
-    service: IKinematicsService
-    solver: IKinematicsSolver
+    envelope: IWorkspaceEnvelope
+    planar: IPlanarKinematicsSolver
+    spatial: ISpatialKinematicsSolver
     workspace: IWorkspaceBoundsEvaluator

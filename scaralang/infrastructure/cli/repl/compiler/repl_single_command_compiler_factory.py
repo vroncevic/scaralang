@@ -21,21 +21,21 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.service.compiler.icompiler import IScaraCompiler
+from scaralang.core.service.compiler.binary.icompiler import IBinaryCompiler
 from scaralang.core.service.compiler.plan.dependencies import PlanDependencies
 from scaralang.core.service.compiler.plan.factory import PlanFactory
 from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
 from scaralang.core.service.linter.factory import LinterFactory
+from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler import ReplSingleCommandCompiler
+from scaralang.infrastructure.compiler.binary.factory import DefaultBinaryCompilerFactory
 from scaralang.infrastructure.parser.factory import DefaultParserFactory
 from scaralang.infrastructure.trajectory.validation.factory import DefaultValidationFactory
-from scaralang.infrastructure.cli.repl.compiler.repl_single_command_compiler import ReplSingleCommandCompiler
-from scaralang.infrastructure.compiler.factory import DefaultCompilerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,13 +58,13 @@ class ReplSingleCommandCompilerFactory:
         cls,
         *,
         compiler: IScriptPlanCompiler,
-        binary_compiler: IScaraCompiler,
+        binary_compiler: IBinaryCompiler,
     ) -> ReplSingleCommandCompiler:
         '''
             Builds and returns a ReplSingleCommandCompiler instance.
 
             :param compiler: Injected IScriptPlanCompiler protocol instance.
-            :param binary_compiler: Injected IScaraCompiler protocol instance.
+            :param binary_compiler: Injected IBinaryCompiler protocol instance.
             :return: Instantiated ReplSingleCommandCompiler instance.
             :exceptions: None.
         '''
@@ -81,7 +81,7 @@ class ReplSingleCommandCompilerFactory:
             :return: Instantiated ReplSingleCommandCompiler instance.
             :exceptions: None.
         '''
-        validator = DefaultValidationFactory.create().validator
+        validator = DefaultValidationFactory.create().plan
         parser = DefaultParserFactory.create().parser
         linter = LinterFactory.create().linter
         plan_subsystem = PlanFactory.create(
@@ -93,7 +93,7 @@ class ReplSingleCommandCompilerFactory:
         )
         return ReplSingleCommandCompiler(
             compiler=plan_subsystem.script_compiler,
-            binary_compiler=DefaultCompilerFactory.create(),
+            binary_compiler=DefaultBinaryCompilerFactory.create(),
         )
 
     @classmethod

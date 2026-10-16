@@ -61,6 +61,8 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
 
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.joint_angles</span> <span class="kn">import</span> <span class="n">JointAngles</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.joint_step_coordinates</span> <span class="kn">import</span> <span class="n">JointStepCoordinates</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.protocol.joint_steps</span> <span class="kn">import</span> <span class="n">JointSteps</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
 
@@ -68,7 +70,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -79,14 +81,13 @@
 <span class="nd">@runtime_checkable</span>
 <span class="k">class</span> <span class="nc">IStepDiscretizer</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Structural protocol defining joint step discretization and timing calculation.</span>
+<span class="sd">        Structural protocol defining joint step discretization.</span>
 
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :methods:</span>
 <span class="sd">                | angles_to_steps - Converts joint radians/mm to integer motor steps.</span>
 <span class="sd">                | discretize_waypoint - Solves IK and maps Cartesian waypoint into JointSteps.</span>
-<span class="sd">                | calculate_segment_duration - Computes execution duration in microseconds.</span>
 <span class="sd">                | get_version - Returns implementation version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -98,7 +99,7 @@
         <span class="n">theta2_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">z_mm</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">theta4_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JointStepCoordinates</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Converts joint angles and linear Z travel into discrete motor steps.</span>
 
@@ -106,7 +107,7 @@
 <span class="sd">            :param theta2_rad: Elbow joint angle in radians.</span>
 <span class="sd">            :param z_mm: Linear vertical travel in millimeters.</span>
 <span class="sd">            :param theta4_rad: Wrist joint angle in radians.</span>
-<span class="sd">            :return: Tuple of (j1, j2, z, j4) integer microsteps.</span>
+<span class="sd">            :return: JointStepCoordinates containing (j1, j2, z, j4) integer microsteps.</span>
 <span class="sd">        &#39;&#39;&#39;</span></div>
 
 
@@ -116,33 +117,14 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">waypoint</span><span class="p">:</span> <span class="n">Waypoint</span><span class="p">,</span>
-        <span class="n">prev_angles</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">JointSteps</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="n">prev_angles</span><span class="p">:</span> <span class="n">JointAngles</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">JointSteps</span><span class="p">,</span> <span class="n">JointAngles</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Solves IK and converts Cartesian waypoint into motor steps with duration.</span>
 
 <span class="sd">            :param waypoint: Target Cartesian Waypoint instance.</span>
-<span class="sd">            :param prev_angles: Preceding joint angles (th1, th2, z, th4).</span>
-<span class="sd">            :return: Tuple of (JointSteps model, new joint angles tuple).</span>
-<span class="sd">        &#39;&#39;&#39;</span></div>
-
-
-<div class="viewcode-block" id="IStepDiscretizer.calculate_segment_duration">
-<a class="viewcode-back" href="../../../../../../../../scaralang.core.service.compiler.binary.step.discretizer.idiscretizer.html#scaralang.core.service.compiler.binary.step.discretizer.idiscretizer.IStepDiscretizer.calculate_segment_duration">[docs]</a>
-    <span class="k">def</span> <span class="nf">calculate_segment_duration</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">current_steps</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
-        <span class="n">target_steps</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
-        <span class="n">speed_mm_s</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Computes segment execution duration in microseconds.</span>
-
-<span class="sd">            :param current_steps: Initial joint step coordinates.</span>
-<span class="sd">            :param target_steps: Target joint step coordinates.</span>
-<span class="sd">            :param speed_mm_s: Planned linear tool speed in mm/s.</span>
-<span class="sd">            :return: Microsecond execution duration.</span>
+<span class="sd">            :param prev_angles: Preceding joint angles model.</span>
+<span class="sd">            :return: Tuple of (JointSteps model, new joint angles model).</span>
 <span class="sd">        &#39;&#39;&#39;</span></div>
 
 

@@ -24,13 +24,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,13 +49,13 @@ class BinaryProgram:
                 | raw_bytes - Packed byte sequence for wire streaming.
                 | total_duration_us - Total estimated execution duration in microseconds.
                 | instruction_count - Total number of compiled instructions.
-                | step_counts - Tuple of step counts per joint axis.
+                | step_counts - JointStepCoordinates model of step counts per joint axis.
                 | telemetry - Execution metrics and telemetry metadata.
     '''
 
-    steps: tuple[Step, ...]
+    steps: tuple[BinaryStep, ...]
     raw_bytes: bytes
     total_duration_us: int
     instruction_count: int
-    step_counts: tuple[int, ...]
+    step_counts: JointStepCoordinates
     telemetry: BinaryProgramTelemetry

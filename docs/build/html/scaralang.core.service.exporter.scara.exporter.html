@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="scaralang.core.service.exporter.scara.factory module" href="scaralang.core.service.exporter.scara.factory.html" />
-    <link rel="prev" title="scaralang.core.service.exporter.scara package" href="scaralang.core.service.exporter.scara.html" /> 
+    <link rel="prev" title="scaralang.core.service.exporter.scara.formatter.iformatter module" href="scaralang.core.service.exporter.scara.formatter.iformatter.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
           <a href="scaralang.core.service.exporter.scara.factory.html" title="scaralang.core.service.exporter.scara.factory module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.exporter.scara.html" title="scaralang.core.service.exporter.scara package"
+          <a href="scaralang.core.service.exporter.scara.formatter.iformatter.html" title="scaralang.core.service.exporter.scara.formatter.iformatter module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -71,21 +71,69 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.exporter.scara.exporter.</span></span><span class="sig-name descname"><span class="pre">ScaraPlanExporter</span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/scara/exporter.html#ScaraPlanExporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.exporter.scara.exporter.</span></span><span class="sig-name descname"><span class="pre">ScaraPlanExporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.exporter.scara.formatter.iformatter.html#scaralang.core.service.exporter.scara.formatter.iformatter.IScaraWaypointFormatter" title="scaralang.core.service.exporter.scara.formatter.iformatter.IScaraWaypointFormatter"><span class="pre">IScaraWaypointFormatter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/exporter/scara/exporter.html#ScaraPlanExporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Exports active TrajectoryPlan waypoints into clean, readable SCARA DSL source text.</p>
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">format_waypoint - Formats trajectory waypoint into SCARA move instruction.</div>
-<div class="line">export_plan - Serializes trajectory plan into formatted .scara source code.</div>
+<div class="line">_DEFAULT_RAPID_SPEED - Default rapid transit feedrate.</div>
+<div class="line">_DEFAULT_WORK_SPEED - Default linear interpolation feedrate.</div>
+<div class="line">_DEFAULT_ACCEL - Default acceleration limit.</div>
+<div class="line">_EMPTY_PLAN_COMMENT - Fallback comment string for empty plans.</div>
+<div class="line">_HEADER_BORDER - Comment separator rule.</div>
+<div class="line">_HEADER_TITLE - Top-level program comment title.</div>
+<div class="line">_formatter - Injected waypoint formatter protocol instance.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">__init__ - Initializes exporter with injected waypoint formatter.</div>
+<div class="line">format_waypoint - Formats trajectory waypoint into SCARA instruction line.</div>
+<div class="line">export_scara - Serializes trajectory plan into formatted .scara source code.</div>
+<div class="line">export_plan - Backward-compatible plan export contract.</div>
 <div class="line">get_version - Returns the exporter version string.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._DEFAULT_ACCEL">
+<span class="sig-name descname"><span class="pre">_DEFAULT_ACCEL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">500.0</span></em><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._DEFAULT_ACCEL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._DEFAULT_RAPID_SPEED">
+<span class="sig-name descname"><span class="pre">_DEFAULT_RAPID_SPEED</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100.0</span></em><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._DEFAULT_RAPID_SPEED" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._DEFAULT_WORK_SPEED">
+<span class="sig-name descname"><span class="pre">_DEFAULT_WORK_SPEED</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">40.0</span></em><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._DEFAULT_WORK_SPEED" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._EMPTY_PLAN_COMMENT">
+<span class="sig-name descname"><span class="pre">_EMPTY_PLAN_COMMENT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'#</span> <span class="pre">SCARA</span> <span class="pre">DSL</span> <span class="pre">Program\n#</span> <span class="pre">Empty</span> <span class="pre">trajectory</span> <span class="pre">plan\n'</span></em><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._EMPTY_PLAN_COMMENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._HEADER_BORDER">
+<span class="sig-name descname"><span class="pre">_HEADER_BORDER</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'#</span> <span class="pre">=========================================================='</span></em><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._HEADER_BORDER" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._HEADER_TITLE">
+<span class="sig-name descname"><span class="pre">_HEADER_TITLE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'#</span> <span class="pre">SCARA</span> <span class="pre">DSL</span> <span class="pre">Program'</span></em><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._HEADER_TITLE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._formatter">
+<span class="sig-name descname"><span class="pre">_formatter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.exporter.scara.formatter.iformatter.html#scaralang.core.service.exporter.scara.formatter.iformatter.IScaraWaypointFormatter" title="scaralang.core.service.exporter.scara.formatter.iformatter.IScaraWaypointFormatter"><span class="pre">IScaraWaypointFormatter</span></a></em><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._formatter" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.export_plan">
 <span class="sig-name descname"><span class="pre">export_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.plan.iread_only.html#scaralang.core.service.trajectory.plan.iread_only.ITrajectoryReadOnly" title="scaralang.core.service.trajectory.plan.iread_only.ITrajectoryReadOnly"><span class="pre">ITrajectoryReadOnly</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/scara/exporter.html#ScaraPlanExporter.export_plan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.export_plan" title="Link to this definition">¶</a></dt>
@@ -104,9 +152,26 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.export_scara">
+<span class="sig-name descname"><span class="pre">export_scara</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.plan.iplan.html#scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan" title="scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan"><span class="pre">ITrajectoryPlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/scara/exporter.html#ScaraPlanExporter.export_scara"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.export_scara" title="Link to this definition">¶</a></dt>
+<dd><p>Serializes trajectory plan into formatted .scara source code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>plan</strong> – Validated ITrajectoryPlan protocol instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formatted SCARA DSL script.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.format_waypoint">
 <span class="sig-name descname"><span class="pre">format_waypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waypoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.trajectory.waypoint.html#scaralang.core.model.trajectory.waypoint.Waypoint" title="scaralang.core.model.trajectory.waypoint.Waypoint"><span class="pre">Waypoint</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_initial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/scara/exporter.html#ScaraPlanExporter.format_waypoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.format_waypoint" title="Link to this definition">¶</a></dt>
-<dd><p>Formats a single trajectory waypoint into a SCARA DSL move instruction.</p>
+<dd><p>Formats a single trajectory waypoint into a SCARA DSL instruction line.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -153,7 +218,15 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.exporter.scara.exporter module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._DEFAULT_ACCEL"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter._DEFAULT_ACCEL</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._DEFAULT_RAPID_SPEED"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter._DEFAULT_RAPID_SPEED</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._DEFAULT_WORK_SPEED"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter._DEFAULT_WORK_SPEED</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._EMPTY_PLAN_COMMENT"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter._EMPTY_PLAN_COMMENT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._HEADER_BORDER"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter._HEADER_BORDER</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._HEADER_TITLE"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter._HEADER_TITLE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter._formatter"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter._formatter</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.export_plan"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter.export_plan()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.export_scara"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter.export_scara()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.format_waypoint"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter.format_waypoint()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.scara.exporter.ScaraPlanExporter.get_version"><code class="docutils literal notranslate"><span class="pre">ScaraPlanExporter.get_version()</span></code></a></li>
 </ul>
@@ -165,8 +238,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.service.exporter.scara.html"
-                          title="previous chapter">scaralang.core.service.exporter.scara package</a></p>
+    <p class="topless"><a href="scaralang.core.service.exporter.scara.formatter.iformatter.html"
+                          title="previous chapter">scaralang.core.service.exporter.scara.formatter.iformatter module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -207,7 +280,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="scaralang.core.service.exporter.scara.factory.html" title="scaralang.core.service.exporter.scara.factory module"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.exporter.scara.html" title="scaralang.core.service.exporter.scara package"
+          <a href="scaralang.core.service.exporter.scara.formatter.iformatter.html" title="scaralang.core.service.exporter.scara.formatter.iformatter module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

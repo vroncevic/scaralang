@@ -24,9 +24,11 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.infrastructure.command.compile.inspection.framing.header.formatter import FrameHeaderFormatter
@@ -40,13 +42,14 @@ from scaralang.infrastructure.command.compile.inspection.presentation.step.depen
 from scaralang.infrastructure.command.compile.inspection.presentation.step.presenter import FrameStepPresenter
 from scaralang.infrastructure.command.compile.inspection.presentation.program.ipresenter import IProgramInspectionPresenter
 from scaralang.infrastructure.command.compile.inspection.presentation.program.presenter import ProgramInspectionPresenter
-from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.unpacker import BinaryPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.motion import BinaryMotionPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,7 +65,8 @@ class TestProgramInspectionPresenter(TestCase):
             joint_formatter=JointStepsPayloadFormatter(hex_formatter=hex_fmt),
             tool_formatter=ToolCommandPayloadFormatter(hex_formatter=hex_fmt),
             hex_formatter=hex_fmt,
-            unpacker=BinaryPayloadUnpacker(),
+            motion_unpacker=BinaryMotionPayloadUnpacker(),
+            actuator_unpacker=BinaryActuatorPayloadUnpacker(),
         )
         step_deps: StepDependencies = StepDependencies(
             header_formatter=FrameHeaderFormatter(),
@@ -84,17 +88,30 @@ class TestProgramInspectionPresenter(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid semantic version.'''
-        self.assertEqual(self.presenter.get_version(), '1.0.8')
+        self.assertEqual(self.presenter.get_version(), '1.0.9')
 
     def test_present_empty_program(self) -> None:
         '''Verifies inspection presentation of empty binary program.'''
+        empty_telemetry: BinaryProgramTelemetry = BinaryProgramTelemetry(
+            source_instructions=0,
+            compiled_steps=0,
+            duration_us=0,
+            duration_s=0.0,
+            peak_steps=AxisPeakSteps(
+                peak_j1_steps=0,
+                peak_j2_steps=0,
+                peak_z_steps=0,
+                peak_j4_steps=0,
+            ),
+            total_wire_bytes=0,
+        )
         program: BinaryProgram = BinaryProgram(
             steps=(),
             raw_bytes=b'',
             total_duration_us=0,
             instruction_count=0,
-            step_counts=(0, 0, 0, 0),
-            telemetry=BinaryProgramTelemetry(),
+            step_counts=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
+            telemetry=empty_telemetry,
         )
         result: str = self.presenter.present_program(program=program)
         self.assertIn('SCARA BINARY FRAME INSPECTION: 0 Frames Compiled (0 bytes total)', result)
@@ -108,11 +125,11 @@ class TestProgramInspectionPresenter(TestCase):
             payload=b'',
             crc16=0x5678,
         )
-        step: Step = Step(
+        step: BinaryStep = BinaryStep(
             frame=frame,
             raw_bytes=b'\xAA\x55\x06\x01\x00\x56\x78\x0D',
             duration_us=10000,
-            target_steps=(0, 0, 0, 0),
+            target_steps=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
             description='HOME',
             line_number=2,
         )
@@ -121,12 +138,18 @@ class TestProgramInspectionPresenter(TestCase):
             raw_bytes=step.raw_bytes,
             total_duration_us=10000,
             instruction_count=1,
-            step_counts=(0, 0, 0, 0),
+            step_counts=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
             telemetry=BinaryProgramTelemetry(
                 source_instructions=1,
                 compiled_steps=1,
                 duration_us=10000,
                 duration_s=0.01,
+                peak_steps=AxisPeakSteps(
+                    peak_j1_steps=0,
+                    peak_j2_steps=0,
+                    peak_z_steps=0,
+                    peak_j4_steps=0,
+                ),
                 total_wire_bytes=len(step.raw_bytes),
             ),
         )

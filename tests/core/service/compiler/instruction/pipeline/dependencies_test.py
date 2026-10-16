@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.instruction.pipeline.dependencies import PipelineDependencies
 
@@ -36,7 +36,7 @@ class DummyProcessor:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[Waypoint, ...]:
         '''Dummy process.'''
         _ = (instruction, context)
@@ -44,7 +44,7 @@ class DummyProcessor:
 
     def get_version(self) -> str:
         '''Dummy version.'''
-        return '1.0.8'
+        return '1.0.9'
 
 
 class TestPipelineDependencies(TestCase):

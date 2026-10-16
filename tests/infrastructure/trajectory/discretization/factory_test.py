@@ -23,15 +23,17 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.service.trajectory.discretization.idiscretizer import IShapeDiscretizer
+from scaralang.core.service.trajectory.discretization.circle.icircle import ICircleDiscretizer
+from scaralang.core.service.trajectory.discretization.line.iline import ILineDiscretizer
 from scaralang.core.service.trajectory.discretization.provides import DiscretizationProvides
+from scaralang.core.service.trajectory.discretization.rectangle.irectangle import IRectangleDiscretizer
 from scaralang.infrastructure.trajectory.discretization.factory import DefaultDiscretizationFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,17 +51,29 @@ class TestDefaultDiscretizationFactory(TestCase):
     '''
 
     def test_default_factory_assembly(self) -> None:
-        '''Verifies default infrastructure factory returns fully wired provides bundle.'''
+        '''
+            Verifies default infrastructure factory returns fully wired provides bundle.
+
+            :exceptions: None.
+        '''
         output = DefaultDiscretizationFactory.create()
         self.assertIsInstance(output, DiscretizationProvides)
-        self.assertIsInstance(output.discretizer, IShapeDiscretizer)
-        self.assertEqual(output.discretizer.name, 'shape_discretizer')
+        self.assertIsInstance(output.line, ILineDiscretizer)
+        self.assertIsInstance(output.circle, ICircleDiscretizer)
+        self.assertIsInstance(output.rectangle, IRectangleDiscretizer)
+        self.assertEqual(output.line.name, 'line_discretizer')
+        self.assertEqual(output.circle.name, 'circle_discretizer')
+        self.assertEqual(output.rectangle.name, 'rectangle_discretizer')
 
     def test_default_factory_version(self) -> None:
-        '''Verifies factory exposes standard version string.'''
+        '''
+            Verifies factory exposes standard version string.
+
+            :exceptions: None.
+        '''
         ver = DefaultDiscretizationFactory.get_version()
         self.assertIsInstance(ver, str)
-        self.assertEqual(ver, '1.0.8')
+        self.assertEqual(ver, '1.0.9')
 
 
 if __name__ == '__main__':

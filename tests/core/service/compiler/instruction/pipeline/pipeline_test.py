@@ -25,7 +25,7 @@ from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
@@ -45,7 +45,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -85,15 +85,15 @@ class TestInstructionPipeline(TestCase):
             ScaraInstruction(
                 command_type=ScaraCommandType.SPEED,
                 parameters={
-                    InstructionParam.MODE: SpeedMode.RAPID,
-                    InstructionParam.SPEED: 100.0,
+                    ScaraInstructionParam.MODE: SpeedMode.RAPID,
+                    ScaraInstructionParam.SPEED: 100.0,
                 },
                 line_number=1,
                 raw_text='SPEED RAPID 100.0',
             ),
             ScaraInstruction(
                 command_type=ScaraCommandType.PUMP,
-                parameters={InstructionParam.STATE: PneumaticState.ON},
+                parameters={ScaraInstructionParam.STATE: PneumaticState.ON},
                 line_number=2,
                 raw_text='PUMP ON',
             ),
@@ -152,12 +152,12 @@ class TestInstructionPipeline(TestCase):
             ScaraInstruction(
                 command_type=ScaraCommandType.JUMP,
                 parameters={
-                    InstructionParam.X: 100.0,
-                    InstructionParam.Y: 50.0,
-                    InstructionParam.Z: 10.0,
-                    InstructionParam.PHI: 0.0,
-                    InstructionParam.ARCH_HEIGHT: 25.0,
-                    InstructionParam.SPEED: 50.0,
+                    ScaraInstructionParam.X: 100.0,
+                    ScaraInstructionParam.Y: 50.0,
+                    ScaraInstructionParam.Z: 10.0,
+                    ScaraInstructionParam.PHI: 0.0,
+                    ScaraInstructionParam.ARCH_HEIGHT: 25.0,
+                    ScaraInstructionParam.SPEED: 50.0,
                 },
                 line_number=1,
                 raw_text='JUMP X=100.0 Y=50.0 Z=10.0 ARCH_HEIGHT=25.0 SPEED=50.0',
@@ -175,7 +175,7 @@ class TestInstructionPipeline(TestCase):
             macro_expanders=(),
             processor=processor,
         )
-        self.assertEqual(pipeline.get_version(), '1.0.8')
+        self.assertEqual(pipeline.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

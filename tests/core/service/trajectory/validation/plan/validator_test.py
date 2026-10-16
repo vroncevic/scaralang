@@ -25,7 +25,6 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.trajectory.waypoint import Waypoint
-from scaralang.core.service.kinematics.iservice import IKinematicsService
 from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 from scaralang.core.service.trajectory.plan.plan import TrajectoryPlan
 from scaralang.core.service.trajectory.validation.feedrate.factory import FeedrateFactory
@@ -39,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -63,14 +62,12 @@ class TestTrajectoryPlanValidator(TestCase):
         '''
             Sets up test fixture with collaborators and TrajectoryPlanValidator.
         '''
-        kinematics: IKinematicsService = (
-            DefaultKinematicsFactory.create().service
-        )
+        provides = DefaultKinematicsFactory.create()
         wp_val: IWaypointValidator = WaypointFactory.create(
-            kinematics=kinematics
+            workspace=provides.workspace
         ).validator
         fr_val: IFeedrateValidator = FeedrateFactory.create(
-            bounds=kinematics.bounds
+            bounds=provides.envelope.bounds
         ).validator
         self.validator = TrajectoryPlanValidator(
             waypoint_validator=wp_val,
@@ -91,8 +88,12 @@ class TestTrajectoryPlanValidator(TestCase):
             Verifies that a valid trajectory plan passes validation.
         '''
         plan: ITrajectoryPlan = TrajectoryPlan()
-        plan.add_point(Waypoint(x=150.0, y=100.0, z=0.0, speed=50.0))
-        plan.add_point(Waypoint(x=180.0, y=80.0, z=10.0, speed=40.0))
+        plan.add_point(
+            Waypoint(x=150.0, y=100.0, z=0.0, phi=0.0, speed=50.0, name='', command='')
+        )
+        plan.add_point(
+            Waypoint(x=180.0, y=80.0, z=10.0, phi=0.0, speed=40.0, name='', command='')
+        )
         is_valid, messages = self.validator.validate_plan(plan)
         self.assertTrue(is_valid)
         self.assertTrue(len(messages) > 0)
@@ -103,8 +104,12 @@ class TestTrajectoryPlanValidator(TestCase):
             Verifies that a trajectory plan containing an unreachable point fails.
         '''
         plan: ITrajectoryPlan = TrajectoryPlan()
-        plan.add_point(Waypoint(x=150.0, y=100.0, z=0.0, speed=50.0))
-        plan.add_point(Waypoint(x=900.0, y=900.0, z=0.0, speed=50.0))
+        plan.add_point(
+            Waypoint(x=150.0, y=100.0, z=0.0, phi=0.0, speed=50.0, name='', command='')
+        )
+        plan.add_point(
+            Waypoint(x=900.0, y=900.0, z=0.0, phi=0.0, speed=50.0, name='', command='')
+        )
         is_valid, messages = self.validator.validate_plan(plan)
         self.assertFalse(is_valid)
         self.assertTrue(any('reach' in m.lower() or 'workspace' in m.lower() for m in messages))
@@ -114,7 +119,9 @@ class TestTrajectoryPlanValidator(TestCase):
             Verifies that a trajectory plan containing an excessive feedrate fails.
         '''
         plan: ITrajectoryPlan = TrajectoryPlan()
-        plan.add_point(Waypoint(x=150.0, y=100.0, z=0.0, speed=500.0))
+        plan.add_point(
+            Waypoint(x=150.0, y=100.0, z=0.0, phi=0.0, speed=500.0, name='', command='')
+        )
         is_valid, messages = self.validator.validate_plan(plan)
         self.assertFalse(is_valid)
         self.assertTrue(any('exceeds max safe feedrate' in m for m in messages))

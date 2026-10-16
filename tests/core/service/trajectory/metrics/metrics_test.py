@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,14 +51,14 @@ class TestTrajectoryMetrics(TestCase):
 
     def test_distance_between(self) -> None:
         '''Verifies 3D distance between two waypoints.'''
-        pt1 = Waypoint(x=0.0, y=0.0, z=0.0, speed=100.0)
-        pt2 = Waypoint(x=30.0, y=40.0, z=0.0, speed=100.0)
+        pt1 = Waypoint(x=0.0, y=0.0, z=0.0, phi=0.0, speed=100.0, name='', command='')
+        pt2 = Waypoint(x=30.0, y=40.0, z=0.0, phi=0.0, speed=100.0, name='', command='')
         dist = TrajectoryMetrics.distance_between(pt1, pt2)
         self.assertAlmostEqual(dist, 50.0)
 
     def test_radial_distance(self) -> None:
         '''Verifies planar radial distance calculation.'''
-        pt = Waypoint(x=60.0, y=80.0, z=10.0, speed=50.0)
+        pt = Waypoint(x=60.0, y=80.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
         radial = TrajectoryMetrics.radial_distance(pt)
         self.assertAlmostEqual(radial, 100.0)
 
@@ -66,14 +66,16 @@ class TestTrajectoryMetrics(TestCase):
         '''Verifies cumulative path distance calculation across various waypoint lists.'''
         self.assertEqual(TrajectoryMetrics.calculate_distance([]), 0.0)
         self.assertEqual(
-            TrajectoryMetrics.calculate_distance([Waypoint(x=0.0, y=0.0, z=0.0, speed=10.0)]),
+            TrajectoryMetrics.calculate_distance([
+                Waypoint(x=0.0, y=0.0, z=0.0, phi=0.0, speed=10.0, name='', command='')
+            ]),
             0.0,
         )
 
         pts = [
-            Waypoint(x=0.0, y=0.0, z=0.0, speed=10.0),
-            Waypoint(x=10.0, y=0.0, z=0.0, speed=10.0),
-            Waypoint(x=10.0, y=20.0, z=0.0, speed=10.0),
+            Waypoint(x=0.0, y=0.0, z=0.0, phi=0.0, speed=10.0, name='', command=''),
+            Waypoint(x=10.0, y=0.0, z=0.0, phi=0.0, speed=10.0, name='', command=''),
+            Waypoint(x=10.0, y=20.0, z=0.0, phi=0.0, speed=10.0, name='', command=''),
         ]
         self.assertAlmostEqual(TrajectoryMetrics.calculate_distance(pts), 30.0)
 
@@ -82,8 +84,8 @@ class TestTrajectoryMetrics(TestCase):
         self.assertEqual(TrajectoryMetrics.calculate_duration([]), 0.0)
 
         pts = [
-            Waypoint(x=0.0, y=0.0, z=0.0, speed=10.0),
-            Waypoint(x=100.0, y=0.0, z=0.0, speed=50.0),
+            Waypoint(x=0.0, y=0.0, z=0.0, phi=0.0, speed=10.0, name='', command=''),
+            Waypoint(x=100.0, y=0.0, z=0.0, phi=0.0, speed=50.0, name='', command=''),
         ]
         # 100 mm at 50 mm/s = 2.0 s
         self.assertAlmostEqual(TrajectoryMetrics.calculate_duration(pts), 2.0)

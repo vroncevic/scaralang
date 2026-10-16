@@ -25,13 +25,14 @@ from collections.abc import Sequence
 from typing import Protocol, runtime_checkable
 
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,22 +52,22 @@ class IMetricsCalculator(Protocol):
     '''
 
     def calculate_metrics(
-        self, *, steps: Sequence[Step]
-    ) -> tuple[int, tuple[int, int, int, int]]:
+        self, *, steps: Sequence[BinaryStep]
+    ) -> tuple[int, JointStepCoordinates]:
         '''
             Computes total duration in microseconds and peak axis step counts.
 
-            :param steps: Sequence of Step instances.
-            :return: Tuple of (total_duration_us, (peak_j0, peak_j1, peak_z, peak_pitch)).
+            :param steps: Sequence of BinaryStep instances.
+            :return: Tuple of (total_duration_us, JointStepCoordinates peak steps).
         '''
 
     def calculate_telemetry(
-        self, *, steps: Sequence[Step], raw_bytes: bytes
+        self, *, steps: Sequence[BinaryStep], raw_bytes: bytes
     ) -> BinaryProgramTelemetry:
         '''
             Computes comprehensive binary execution telemetry and axis step metrics.
 
-            :param steps: Sequence of Step instances.
+            :param steps: Sequence of BinaryStep instances.
             :param raw_bytes: Compiled binary raw byte sequence.
             :return: BinaryProgramTelemetry domain model.
         '''

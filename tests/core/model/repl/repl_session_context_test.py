@@ -32,30 +32,17 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 class ReplSessionContextTest(TestCase):
-    '''Unit tests validating ReplSessionContext dataclass default and custom initialization.'''
+    '''Unit tests validating ReplSessionContext dataclass instantiation and immutability.'''
 
-    def test_default_initialization(self) -> None:
-        '''Verify default values on fresh REPL session context.'''
-        ctx = ReplSessionContext()
-        self.assertEqual(ctx.pose.current_x, 0.0)
-        self.assertEqual(ctx.pose.current_y, 0.0)
-        self.assertEqual(ctx.pose.current_z, 0.0)
-        self.assertEqual(ctx.pose.current_theta4, 0.0)
-        self.assertFalse(ctx.elbow_left)
-        self.assertEqual(ctx.speed_mode, SpeedMode.WORK)
-        self.assertEqual(ctx.zone_mode, ZoneMode.FINE)
-        self.assertFalse(ctx.pump_active)
-        self.assertFalse(ctx.valve_active)
-
-    def test_custom_initialization(self) -> None:
-        '''Verify custom field assignment.'''
+    def test_instantiation_and_attributes(self) -> None:
+        '''Verify field assignment on instantiated REPL session context.'''
         ctx = ReplSessionContext(
             pose=ReplPoseState(
                 current_x=150.0,
@@ -81,7 +68,19 @@ class ReplSessionContextTest(TestCase):
 
     def test_immutability(self) -> None:
         '''Verify that attributes cannot be modified on frozen dataclass.'''
-        ctx = ReplSessionContext()
+        ctx = ReplSessionContext(
+            pose=ReplPoseState(
+                current_x=0.0,
+                current_y=0.0,
+                current_z=0.0,
+                current_theta4=0.0,
+            ),
+            elbow_left=False,
+            speed_mode=SpeedMode.WORK,
+            zone_mode=ZoneMode.FINE,
+            pump_active=False,
+            valve_active=False,
+        )
         with self.assertRaises(AttributeError):
             setattr(ctx, 'elbow_left', True)
 

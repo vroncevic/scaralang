@@ -31,16 +31,16 @@ from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
 from scaralang.core.model.kinematics.singularity_margins import SingularityMargins
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
-from scaralang.core.service.kinematics.solver.factory import KinematicsSolverFactory
-from scaralang.core.service.kinematics.solver.isolver import IKinematicsSolver
-from scaralang.core.service.kinematics.workspace.factory import WorkspaceBoundsEvaluatorFactory
+from scaralang.core.service.kinematics.solver.planar.factory import PlanarKinematicsSolverFactory
+from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.workspace.factory import WorkspaceFactory
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -70,9 +70,11 @@ class TestWorkspaceBoundsEvaluator(TestCase):
     def setUp(self) -> None:
         '''Initializes standard bounds and evaluator instance.'''
         self.bounds: ScaraBounds = DefaultScaraProfile.create_bounds()
-        solver: IKinematicsSolver = KinematicsSolverFactory.create(links=self.bounds.links)
+        planar: IPlanarKinematicsSolver = PlanarKinematicsSolverFactory.create(
+            links=self.bounds.links
+        )
         self.evaluator: IWorkspaceBoundsEvaluator = (
-            WorkspaceBoundsEvaluatorFactory.create(bounds=self.bounds, solver=solver)
+            WorkspaceFactory.create(bounds=self.bounds, planar=planar)
         )
 
     def test_is_in_workspace_valid(self) -> None:
@@ -130,10 +132,12 @@ class TestWorkspaceBoundsEvaluator(TestCase):
             joints=restricted_joints,
             singularity=self.bounds.singularity,
         )
-        solver = KinematicsSolverFactory.create(links=restricted_bounds.links)
-        evaluator = WorkspaceBoundsEvaluatorFactory.create(
+        planar = PlanarKinematicsSolverFactory.create(
+            links=restricted_bounds.links,
+        )
+        evaluator = WorkspaceFactory.create(
             bounds=restricted_bounds,
-            solver=solver,
+            planar=planar,
         )
         reachable, reasons = evaluator.is_joint_reachable(Point2D(x=-150.0, y=100.0))
         self.assertFalse(reachable)
@@ -159,10 +163,12 @@ class TestWorkspaceBoundsEvaluator(TestCase):
                 deadzone_r_min=20.0,
             ),
         )
-        solver = KinematicsSolverFactory.create(links=restricted_bounds.links)
-        evaluator = WorkspaceBoundsEvaluatorFactory.create(
+        planar = PlanarKinematicsSolverFactory.create(
+            links=restricted_bounds.links,
+        )
+        evaluator = WorkspaceFactory.create(
             bounds=restricted_bounds,
-            solver=solver,
+            planar=planar,
         )
         reachable, reasons = evaluator.is_joint_reachable(Point2D(x=200.0, y=0.0))
         self.assertFalse(reachable)
@@ -182,10 +188,12 @@ class TestWorkspaceBoundsEvaluator(TestCase):
                 deadzone_r_min=20.0,
             ),
         )
-        solver = KinematicsSolverFactory.create(links=singularity_bounds.links)
-        evaluator = WorkspaceBoundsEvaluatorFactory.create(
+        planar = PlanarKinematicsSolverFactory.create(
+            links=singularity_bounds.links,
+        )
+        evaluator = WorkspaceFactory.create(
             bounds=singularity_bounds,
-            solver=solver,
+            planar=planar,
         )
         reachable, reasons = evaluator.is_joint_reachable(Point2D(x=299.8, y=0.0))
         self.assertFalse(reachable)

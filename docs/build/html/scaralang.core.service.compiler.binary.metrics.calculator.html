@@ -78,8 +78,16 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">ZERO_DURATION - Initial duration metric accumulator.</div>
+<div class="line">INITIAL_PEAK_VALUE - Initial peak step displacement metric.</div>
+<div class="line">AXIS_COUNT - Total degrees of freedom for the manipulator arm.</div>
+<div class="line">MICROSECONDS_PER_SECOND - Unit conversion factor from us to seconds.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">calculate_metrics - Computes total duration and peak step counts.</div>
 <div class="line">calculate_telemetry - Computes comprehensive binary execution telemetry.</div>
 <div class="line">get_version - Gets implementation version string.</div>
@@ -87,16 +95,36 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.AXIS_COUNT">
+<span class="sig-name descname"><span class="pre">AXIS_COUNT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.AXIS_COUNT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.INITIAL_PEAK_VALUE">
+<span class="sig-name descname"><span class="pre">INITIAL_PEAK_VALUE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.INITIAL_PEAK_VALUE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.MICROSECONDS_PER_SECOND">
+<span class="sig-name descname"><span class="pre">MICROSECONDS_PER_SECOND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000000.0</span></em><a class="headerlink" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.MICROSECONDS_PER_SECOND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.ZERO_DURATION">
+<span class="sig-name descname"><span class="pre">ZERO_DURATION</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.ZERO_DURATION" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_metrics">
-<span class="sig-name descname"><span class="pre">calculate_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.binary.step.html#scaralang.core.model.dsl.binary.step.Step" title="scaralang.core.model.dsl.binary.step.Step"><span class="pre">Step</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/binary/metrics/calculator.html#MetricsCalculator.calculate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_metrics" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">calculate_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.binary.step.html#scaralang.core.model.dsl.binary.step.BinaryStep" title="scaralang.core.model.dsl.binary.step.BinaryStep"><span class="pre">BinaryStep</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.joint_step_coordinates.html#scaralang.core.model.kinematics.joint_step_coordinates.JointStepCoordinates" title="scaralang.core.model.kinematics.joint_step_coordinates.JointStepCoordinates"><span class="pre">JointStepCoordinates</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/binary/metrics/calculator.html#MetricsCalculator.calculate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_metrics" title="Link to this definition">¶</a></dt>
 <dd><p>Computes total duration in microseconds and peak axis step counts.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>steps</strong> – Sequence of Step instances.</p>
+<dd class="field-odd"><p><strong>steps</strong> – Sequence of BinaryStep instances.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Tuple of (total_duration_us, (peak_j0, peak_j1, peak_z, peak_pitch)).</p>
+<dd class="field-even"><p>Tuple of (total_duration_us, JointStepCoordinates peak steps).</p>
 </dd>
 <dt class="field-odd">Exceptions<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None.</p>
@@ -106,12 +134,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_telemetry">
-<span class="sig-name descname"><span class="pre">calculate_telemetry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.binary.step.html#scaralang.core.model.dsl.binary.step.Step" title="scaralang.core.model.dsl.binary.step.Step"><span class="pre">Step</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.dsl.binary.binary_program_telemetry.html#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry" title="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry"><span class="pre">BinaryProgramTelemetry</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/binary/metrics/calculator.html#MetricsCalculator.calculate_telemetry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_telemetry" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">calculate_telemetry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.binary.step.html#scaralang.core.model.dsl.binary.step.BinaryStep" title="scaralang.core.model.dsl.binary.step.BinaryStep"><span class="pre">BinaryStep</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.dsl.binary.binary_program_telemetry.html#scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry" title="scaralang.core.model.dsl.binary.binary_program_telemetry.BinaryProgramTelemetry"><span class="pre">BinaryProgramTelemetry</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/binary/metrics/calculator.html#MetricsCalculator.calculate_telemetry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_telemetry" title="Link to this definition">¶</a></dt>
 <dd><p>Computes comprehensive binary execution telemetry and axis step metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>steps</strong> – Sequence of Step instances.</p></li>
+<li><p><strong>steps</strong> – Sequence of BinaryStep instances.</p></li>
 <li><p><strong>raw_bytes</strong> – Compiled binary raw byte sequence.</p></li>
 </ul>
 </dd>
@@ -154,6 +182,10 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.compiler.binary.metrics.calculator module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator"><code class="docutils literal notranslate"><span class="pre">MetricsCalculator</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.AXIS_COUNT"><code class="docutils literal notranslate"><span class="pre">MetricsCalculator.AXIS_COUNT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.INITIAL_PEAK_VALUE"><code class="docutils literal notranslate"><span class="pre">MetricsCalculator.INITIAL_PEAK_VALUE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.MICROSECONDS_PER_SECOND"><code class="docutils literal notranslate"><span class="pre">MetricsCalculator.MICROSECONDS_PER_SECOND</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.ZERO_DURATION"><code class="docutils literal notranslate"><span class="pre">MetricsCalculator.ZERO_DURATION</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_metrics"><code class="docutils literal notranslate"><span class="pre">MetricsCalculator.calculate_metrics()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.calculate_telemetry"><code class="docutils literal notranslate"><span class="pre">MetricsCalculator.calculate_telemetry()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.binary.metrics.calculator.MetricsCalculator.get_version"><code class="docutils literal notranslate"><span class="pre">MetricsCalculator.get_version()</span></code></a></li>

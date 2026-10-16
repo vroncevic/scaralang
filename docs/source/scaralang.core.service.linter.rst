@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   scaralang.core.service.linter.context
    scaralang.core.service.linter.diagnostic
    scaralang.core.service.linter.rules
    scaralang.core.service.linter.script

@@ -22,8 +22,7 @@ Info
 from __future__ import annotations
 
 from dataclasses import FrozenInstanceError
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
 from scaralang.core.model.dsl.binary.parsed_command_token import ParsedCommandToken
 
@@ -31,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,6 +50,8 @@ class TestParsedCommandToken(TestCase):
     def test_initialization(self) -> None:
         '''
             Verifies attributes initialization on ParsedCommandToken.
+
+            :exceptions: None.
         '''
         token = ParsedCommandToken(
             cmd_name='WAIT',
@@ -66,13 +67,16 @@ class TestParsedCommandToken(TestCase):
     def test_immutability(self) -> None:
         '''
             Verifies frozen dataclass rejects attribute mutations.
+
+            :exceptions: None.
         '''
         token = ParsedCommandToken(
             cmd_name='HOME',
             arg='',
             clean='<CMD:HOME>',
+            parts=('HOME',),
         )
-        with self.assertRaises(FrozenInstanceError if 'FrozenInstanceError' in globals() else Exception):
+        with self.assertRaises(FrozenInstanceError):
             token.cmd_name = 'HOLD'  # type: ignore[misc]
 
 

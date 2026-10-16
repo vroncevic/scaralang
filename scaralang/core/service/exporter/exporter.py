@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -75,21 +75,11 @@ class ScaraExporter:
             :param dependencies: Injected ExporterDependencies container.
             :exceptions: None.
         '''
-        self._gcode_exporter: Final[IGcodeExporter] = (
-            dependencies.gcode_exporter
-        )
-        self._csv_exporter: Final[ICsvExporter] = (
-            dependencies.csv_exporter
-        )
-        self._json_exporter: Final[IJsonExporter] = (
-            dependencies.json_exporter
-        )
-        self._svg_exporter: Final[ISvgExporter] = (
-            dependencies.svg_exporter
-        )
-        self._scara_exporter: Final[IScaraPlanExporter] = (
-            dependencies.scara_exporter
-        )
+        self._gcode_exporter: Final[IGcodeExporter] = dependencies.gcode_exporter
+        self._csv_exporter: Final[ICsvExporter] = dependencies.csv_exporter
+        self._json_exporter: Final[IJsonExporter] = dependencies.json_exporter
+        self._svg_exporter: Final[ISvgExporter] = dependencies.svg_exporter
+        self._scara_exporter: Final[IScaraPlanExporter] = dependencies.scara_exporter
 
     def supported_formats(self) -> tuple[ExportFormat, ...]:
         '''
@@ -120,14 +110,19 @@ class ScaraExporter:
         match target_format:
             case ExportFormat.GCODE:
                 return self._gcode_exporter.export_gcode(plan=plan)
+
             case ExportFormat.CSV:
                 return self._csv_exporter.export_csv(plan=plan)
+
             case ExportFormat.JSON:
                 return self._json_exporter.export_json(plan=plan)
+
             case ExportFormat.SVG:
                 return self._svg_exporter.export_svg(plan=plan)
+
             case ExportFormat.SCARA:
-                return self._scara_exporter.export_plan(plan=plan)
+                return self._scara_exporter.export_scara(plan=plan)
+
             case _:
                 raise ScaraExportError(f'Unsupported export format: {target_format}')
 

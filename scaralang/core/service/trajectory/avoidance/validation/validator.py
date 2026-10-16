@@ -22,7 +22,7 @@ Info
 from __future__ import annotations
 
 from math import hypot
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.kinematics.point_2d import Point2D
 
@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,6 +43,10 @@ class DeadZoneValidator:
         It defines:
 
             :attributes:
+                | MIN_DEAD_ZONE_RADIUS - Minimum allowed dead zone radius threshold in mm.
+                | EPSILON_SQ - Segment squared length threshold for degenerate segment detection.
+                | T_MIN - Minimum parametric segment clamping lower bound.
+                | T_MAX - Maximum parametric segment clamping upper bound.
                 | _dead_zone_radius - Mechanical inner singularity dead zone radius in mm.
             :methods:
                 | __init__ - Initializes validator with dead zone radial threshold.
@@ -51,6 +55,11 @@ class DeadZoneValidator:
                 | get_dead_zone_radius - Returns active dead zone radius in mm.
                 | get_version - Returns validator component version string.
     '''
+
+    MIN_DEAD_ZONE_RADIUS: ClassVar[float] = 0.0
+    EPSILON_SQ: ClassVar[float] = 1e-9
+    T_MIN: ClassVar[float] = 0.0
+    T_MAX: ClassVar[float] = 1.0
 
     _dead_zone_radius: float
 
@@ -61,7 +70,9 @@ class DeadZoneValidator:
             :param dead_zone_radius: Mechanical inner dead zone radius in mm.
             :exceptions: None.
         '''
-        self._dead_zone_radius: Final[float] = max(0.0, dead_zone_radius)
+        self._dead_zone_radius: Final[float] = max(
+            self.MIN_DEAD_ZONE_RADIUS, dead_zone_radius
+        )
 
     def is_point_in_dead_zone(self, x: float, y: float) -> bool:
         '''
@@ -90,11 +101,11 @@ class DeadZoneValidator:
         dy: float = p2.y - p1.y
         seg_len_sq: float = dx * dx + dy * dy
 
-        if seg_len_sq < 1e-9:
+        if seg_len_sq < self.EPSILON_SQ:
             return False
 
         t: float = -(p1.x * dx + p1.y * dy) / seg_len_sq
-        t_clamped: float = max(0.0, min(1.0, t))
+        t_clamped: float = max(self.T_MIN, min(self.T_MAX, t))
         closest_x: float = p1.x + t_clamped * dx
         closest_y: float = p1.y + t_clamped * dy
 

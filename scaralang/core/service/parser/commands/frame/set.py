@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
@@ -30,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,16 +45,20 @@ class FrameSetParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | CMD_INDEX - Index of command token.
+                | PARAMS_START_INDEX - Slice start index for frame parameter tokens.
+                | PARSED_COMMAND - Handled command type.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is FRAME_SET.
                 | parse - Parses FRAME_SET statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes FrameSetParser.'''
-        self._name: str = 'frame_set_parser'
+    NAME: ClassVar[str] = 'frame_set_parser'
+    CMD_INDEX: ClassVar[int] = 0
+    PARAMS_START_INDEX: ClassVar[int] = 1
+    PARSED_COMMAND: ClassVar[ScaraCommandType] = ScaraCommandType.FRAME_SET
 
     @property
     def name(self) -> str:
@@ -61,7 +67,7 @@ class FrameSetParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -70,7 +76,7 @@ class FrameSetParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name == ScaraCommandType.FRAME_SET
+        return command_name == self.PARSED_COMMAND
 
     def parse(
         self,
@@ -88,11 +94,11 @@ class FrameSetParser:
             :return: ScaraInstruction node.
         '''
         params: dict[str, object] = ParameterExtractor.extract_key_values(
-            tokens=tokens[1:]
+            tokens=tokens[self.PARAMS_START_INDEX:]
         )
 
         return ScaraInstruction(
-            command_type=ScaraCommandType.FRAME_SET,
+            command_type=self.PARSED_COMMAND,
             line_number=line_num,
             raw_text=raw_text,
             parameters=params,

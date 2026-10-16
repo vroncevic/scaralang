@@ -59,9 +59,11 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
+
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.command_type</span> <span class="kn">import</span> <span class="n">ScaraCommandType</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction</span> <span class="kn">import</span> <span class="n">ScaraInstruction</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">InstructionParam</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">ScaraInstructionParam</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.token.scara_token</span> <span class="kn">import</span> <span class="n">ScaraToken</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_syntax_error</span> <span class="kn">import</span> <span class="n">ScaraSyntaxError</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.elbow_config</span> <span class="kn">import</span> <span class="n">ElbowConfig</span>
@@ -70,7 +72,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -85,16 +87,34 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | _name - Component identification name.</span>
-<span class="sd">            :methods:</span>
+<span class="sd">                | NAME - Component identification name.</span>
+<span class="sd">                | MIN_TOKENS - Minimum allowed token count for statement parsing.</span>
+<span class="sd">                | CMD_INDEX - Index of command token.</span>
+<span class="sd">                | SUB_INDEX - Index of configuration property subcommand token.</span>
+<span class="sd">                | VAL_INDEX - Index of configuration value token.</span>
+<span class="sd">                | SUBCOMMAND_KEYWORD - Expected configuration property keyword.</span>
+<span class="sd">                | VALID_CONFIGS - Supported elbow kinematic configuration modes.</span>
+<span class="sd">                | PARSED_COMMANDS - Tuple of handled command keywords.</span>
 <span class="sd">                | name - Property returning component name.</span>
+<span class="sd">            :methods:</span>
 <span class="sd">                | can_parse - Checks whether command is CONFIG or CONFIG_ELBOW.</span>
 <span class="sd">                | parse - Parses CONFIG ELBOW statement tokens into ScaraInstruction.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;Initializes ElbowParser.&#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;elbow_parser&#39;</span>
+    <span class="n">NAME</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;elbow_parser&#39;</span>
+    <span class="n">MIN_TOKENS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">CMD_INDEX</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SUB_INDEX</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">VAL_INDEX</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">SUBCOMMAND_KEYWORD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ELBOW&#39;</span>
+    <span class="n">VALID_CONFIGS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">ElbowConfig</span><span class="p">,</span> <span class="n">ElbowConfig</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">ElbowConfig</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span>
+        <span class="n">ElbowConfig</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">PARSED_COMMANDS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">ScaraCommandType</span><span class="p">,</span> <span class="n">ScaraCommandType</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">,</span>
+        <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG_ELBOW</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -103,7 +123,7 @@
 
 <span class="sd">            :return: Component name string.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NAME</span>
 
 <div class="viewcode-block" id="ElbowParser.can_parse">
 <a class="viewcode-back" href="../../../../../../../scaralang.core.service.parser.commands.config.elbow.html#scaralang.core.service.parser.commands.config.elbow.ElbowParser.can_parse">[docs]</a>
@@ -114,10 +134,7 @@
 <span class="sd">            :param command_name: Command keyword string.</span>
 <span class="sd">            :return: True if match, False otherwise.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">command_name</span> <span class="ow">in</span> <span class="p">(</span>
-            <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">,</span>
-            <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG_ELBOW</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">command_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARSED_COMMANDS</span></div>
 
 
 <div class="viewcode-block" id="ElbowParser.parse">
@@ -138,21 +155,21 @@
 <span class="sd">            :return: ScaraInstruction node.</span>
 <span class="sd">            :exceptions: ScaraSyntaxError on invalid elbow configuration syntax.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">MIN_TOKENS</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Invalid CONFIG syntax at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">. Expected: CONFIG ELBOW &lt;LEFT|RIGHT&gt;&#39;</span>
             <span class="p">)</span>
 
-        <span class="n">sub</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">sub</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">SUB_INDEX</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">sub</span> <span class="o">!=</span> <span class="s1">&#39;ELBOW&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sub</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SUBCOMMAND_KEYWORD</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Unknown CONFIG property </span><span class="si">{</span><span class="n">sub</span><span class="si">!r}</span><span class="s1"> at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="p">)</span>
 
-        <span class="n">val</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">val</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">VAL_INDEX</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ElbowConfig</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">ElbowConfig</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VALID_CONFIGS</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ScaraSyntaxError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;Invalid elbow configuration </span><span class="si">{</span><span class="n">val</span><span class="si">!r}</span><span class="s1"> at line </span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">. Must be LEFT or RIGHT&#39;</span>
             <span class="p">)</span>
@@ -161,7 +178,7 @@
             <span class="n">command_type</span><span class="o">=</span><span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG_ELBOW</span><span class="p">,</span>
             <span class="n">line_number</span><span class="o">=</span><span class="n">line_num</span><span class="p">,</span>
             <span class="n">raw_text</span><span class="o">=</span><span class="n">raw_text</span><span class="p">,</span>
-            <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">ELBOW</span><span class="p">:</span> <span class="n">val</span><span class="p">},</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">ELBOW</span><span class="p">:</span> <span class="n">val</span><span class="p">},</span>
         <span class="p">)</span></div>
 </div>
 

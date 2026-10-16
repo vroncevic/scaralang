@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.service.parser.commands.parameter.extractor import ParameterExtractor
 
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,16 +46,20 @@ class JumpParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | CMD_INDEX - Index of command token.
+                | PARAMS_START_INDEX - Slice start index for key-value parameters.
+                | PARSED_COMMAND - Handled command type.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is JUMP.
                 | parse - Parses JUMP statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes JumpParser.'''
-        self._name: str = 'jump_parser'
+    NAME: ClassVar[str] = 'jump_parser'
+    CMD_INDEX: ClassVar[int] = 0
+    PARAMS_START_INDEX: ClassVar[int] = 1
+    PARSED_COMMAND: ClassVar[ScaraCommandType] = ScaraCommandType.JUMP
 
     @property
     def name(self) -> str:
@@ -62,7 +68,7 @@ class JumpParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -71,7 +77,7 @@ class JumpParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name == ScaraCommandType.JUMP
+        return command_name == self.PARSED_COMMAND
 
     def parse(
         self,
@@ -89,17 +95,17 @@ class JumpParser:
             :return: ScaraInstruction node.
         '''
         params: dict[str, object] = ParameterExtractor.extract_key_values(
-            tokens=tokens[1:]
+            tokens=tokens[self.PARAMS_START_INDEX:]
         )
 
         if (
-            InstructionParam.ARCH in params
-            and InstructionParam.ARCH_HEIGHT not in params
+            ScaraInstructionParam.ARCH in params
+            and ScaraInstructionParam.ARCH_HEIGHT not in params
         ):
-            params[InstructionParam.ARCH_HEIGHT] = params.pop(InstructionParam.ARCH)
+            params[ScaraInstructionParam.ARCH_HEIGHT] = params.pop(ScaraInstructionParam.ARCH)
 
         return ScaraInstruction(
-            command_type=ScaraCommandType.JUMP,
+            command_type=self.PARSED_COMMAND,
             line_number=line_num,
             raw_text=raw_text,
             parameters=params,

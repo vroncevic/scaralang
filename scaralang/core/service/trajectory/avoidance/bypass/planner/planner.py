@@ -22,7 +22,7 @@ Info
 from __future__ import annotations
 
 from math import ceil, cos, sin
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.bypass_arc_geometry import BypassArcGeometry
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,6 +48,13 @@ class DeadZoneBypassPlanner:
         It defines:
 
             :attributes:
+                | MIN_SAFETY_MARGIN_MM - Minimum allowed obstacle safety margin in mm.
+                | MIN_ANGULAR_STEP_RAD - Minimum allowed angular discretization resolution in radians.
+                | MIN_STEPS - Minimum bypass arc step count.
+                | STEP_OFFSET - Loop boundary offset for arc endpoint inclusion.
+                | DEFAULT_PHI - Default orientation angle in degrees.
+                | DEFAULT_NAME - Default waypoint identifier label.
+                | DEFAULT_COMMAND - Default waypoint command string.
                 | _validator - Injected dead zone validation port.
                 | _calculator - Injected obstacle tangent arc calculator port.
                 | _safe_radius - Radius of the bypass arc clearance boundary in mm.
@@ -58,6 +65,14 @@ class DeadZoneBypassPlanner:
                 | get_safe_radius - Returns safe avoidance circle radius in mm.
                 | get_version - Returns planner component version string.
     '''
+
+    MIN_SAFETY_MARGIN_MM: ClassVar[float] = 0.1
+    MIN_ANGULAR_STEP_RAD: ClassVar[float] = 0.01
+    MIN_STEPS: ClassVar[int] = 1
+    STEP_OFFSET: ClassVar[int] = 1
+    DEFAULT_PHI: ClassVar[float] = 0.0
+    DEFAULT_NAME: ClassVar[str] = ''
+    DEFAULT_COMMAND: ClassVar[str] = ''
 
     _validator: IDeadZoneValidator
     _calculator: ITangentArcCalculator
@@ -75,10 +90,10 @@ class DeadZoneBypassPlanner:
         self._calculator: Final[ITangentArcCalculator] = dependencies.calculator
         self._safe_radius: Final[float] = (
             dependencies.validator.get_dead_zone_radius()
-            + max(0.1, dependencies.safety_margin_mm)
+            + max(self.MIN_SAFETY_MARGIN_MM, dependencies.safety_margin_mm)
         )
         self._angular_step_rad: Final[float] = max(
-            0.01, dependencies.angular_step_rad
+            self.MIN_ANGULAR_STEP_RAD, dependencies.angular_step_rad
         )
 
     def plan_bypass(
@@ -100,7 +115,17 @@ class DeadZoneBypassPlanner:
             :exceptions: None.
         '''
         if not self._validator.is_segment_crossing_dead_zone(start_pt, end_pt):
-            return [Waypoint(x=end_pt.x, y=end_pt.y, z=z, speed=speed)]
+            return [
+                Waypoint(
+                    x=end_pt.x,
+                    y=end_pt.y,
+                    z=z,
+                    phi=self.DEFAULT_PHI,
+                    speed=speed,
+                    name=self.DEFAULT_NAME,
+                    command=self.DEFAULT_COMMAND,
+                )
+            ]
 
         arc: BypassArcGeometry = self._calculator.calculate_bypass_arc(
             start_pt=start_pt,
@@ -108,10 +133,10 @@ class DeadZoneBypassPlanner:
             safe_radius=self._safe_radius,
         )
 
-        num_steps: int = max(1, ceil(arc.arc_sweep / self._angular_step_rad))
+        num_steps: int = max(self.MIN_STEPS, ceil(arc.arc_sweep / self._angular_step_rad))
         waypoints: list[Waypoint] = []
 
-        for i in range(num_steps + 1):
+        for i in range(num_steps + self.STEP_OFFSET):
             t_ratio: float = float(i) / float(num_steps)
             angle: float = arc.phi_entry + arc.step_sign * arc.arc_sweep * t_ratio
             waypoints.append(
@@ -119,11 +144,24 @@ class DeadZoneBypassPlanner:
                     x=arc.safe_radius * cos(angle),
                     y=arc.safe_radius * sin(angle),
                     z=z,
+                    phi=self.DEFAULT_PHI,
                     speed=speed,
+                    name=self.DEFAULT_NAME,
+                    command=self.DEFAULT_COMMAND,
                 )
             )
 
-        waypoints.append(Waypoint(x=end_pt.x, y=end_pt.y, z=z, speed=speed))
+        waypoints.append(
+            Waypoint(
+                x=end_pt.x,
+                y=end_pt.y,
+                z=z,
+                phi=self.DEFAULT_PHI,
+                speed=speed,
+                name=self.DEFAULT_NAME,
+                command=self.DEFAULT_COMMAND,
+            )
+        )
 
         return waypoints
 

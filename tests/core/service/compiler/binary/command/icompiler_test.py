@@ -24,14 +24,15 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.service.compiler.binary.command.icompiler import ICommandCompiler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,16 +49,16 @@ class DummyCompiler:
         command: str,
         seq_num: int,
         line_num: int,
-    ) -> Step:
+    ) -> BinaryStep:
         '''
             Dummy implementation of compile_command_step.
         '''
         _ = (command, seq_num, line_num)
-        return Step(
-            frame=None,  # type: ignore
+        return BinaryStep(
+            frame=None,
             raw_bytes=b'',
             duration_us=0,
-            target_steps=(0, 0, 0, 0),
+            target_steps=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
             description='',
             line_number=0,
         )

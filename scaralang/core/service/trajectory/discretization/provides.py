@@ -23,13 +23,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.service.trajectory.discretization.idiscretizer import IShapeDiscretizer
+from scaralang.core.service.trajectory.discretization.circle.icircle import ICircleDiscretizer
+from scaralang.core.service.trajectory.discretization.line.iline import ILineDiscretizer
+from scaralang.core.service.trajectory.discretization.rectangle.irectangle import IRectangleDiscretizer
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -38,12 +40,16 @@ __status__ = 'Updated'
 @dataclass(frozen=True, slots=True)
 class DiscretizationProvides:
     '''
-        Immutable bundle encapsulating provided shape discretization service.
+        Immutable bundle encapsulating provided shape discretization services.
 
         It defines:
 
             :attributes:
-                | discretizer - Shape discretizer protocol instance.
+                | line - Line discretizer protocol instance.
+                | circle - Circle discretizer protocol instance.
+                | rectangle - Rectangle discretizer protocol instance.
     '''
 
-    discretizer: IShapeDiscretizer
+    line: ILineDiscretizer
+    circle: ICircleDiscretizer
+    rectangle: IRectangleDiscretizer

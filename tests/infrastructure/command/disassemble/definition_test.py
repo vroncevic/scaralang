@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,13 +49,16 @@ class TestDisassembleCommandDefinition(TestCase):
     def test_definition_metadata(self) -> None:
         '''
             Verifies command options and metadata.
+
+            :exceptions: None.
         '''
         cmd_def = DisassembleCommandDefinition()
         self.assertEqual(cmd_def.name, 'disassemble')
         self.assertIn('binary', cmd_def.help_text)
-        self.assertEqual(len(cmd_def.options), 2)
+        self.assertEqual(len(cmd_def.options), 3)
         option_names = [opt.name for opt in cmd_def.options]
         self.assertIn('--file', option_names)
+        self.assertIn('--output', option_names)
         self.assertIn('--summary', option_names)
         self.assertTrue(str(cmd_def))
 

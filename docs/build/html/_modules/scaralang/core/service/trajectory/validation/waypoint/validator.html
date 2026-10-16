@@ -59,19 +59,19 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_3d</span> <span class="kn">import</span> <span class="n">Point3D</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.validation_result</span> <span class="kn">import</span> <span class="n">ValidationResult</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.iservice</span> <span class="kn">import</span> <span class="n">IKinematicsService</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.workspace.ievaluator</span> <span class="kn">import</span> <span class="n">IWorkspaceBoundsEvaluator</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -86,23 +86,34 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
+<span class="sd">                | NAME - Canonical component identifier name.</span>
+<span class="sd">                | NO_ERROR_INDEX - Sentinel index indicating successful validation.</span>
+<span class="sd">                | UNREACHABLE_KEYWORD - Substring identifying mathematical inverse reach failure.</span>
+<span class="sd">                | DEFAULT_JOINT_LIMITS_MSG - Fallback error description when joint bounds exceeded.</span>
+<span class="sd">                | POINT_REACHABLE_MSG - Standard message for reachable point confirmation.</span>
 <span class="sd">                | name - Identifier name of the waypoint validator.</span>
-<span class="sd">                | _kinematics - Injected analytical kinematics service.</span>
+<span class="sd">                | _workspace - Injected workspace bounds evaluator service.</span>
 <span class="sd">            :methods:</span>
-<span class="sd">                | __init__ - Initializes validator with kinematics service.</span>
+<span class="sd">                | __init__ - Initializes validator with workspace evaluator service.</span>
 <span class="sd">                | validate_point - Validates Waypoint coordinates against reachability rules.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">_kinematics</span><span class="p">:</span> <span class="n">IKinematicsService</span>
+    <span class="n">NAME</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;waypoint_validator&#39;</span>
+    <span class="n">NO_ERROR_INDEX</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">UNREACHABLE_KEYWORD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Mathematically unreachable&#39;</span>
+    <span class="n">DEFAULT_JOINT_LIMITS_MSG</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Joint limits exceeded&#39;</span>
+    <span class="n">POINT_REACHABLE_MSG</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Point is reachable&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">kinematics</span><span class="p">:</span> <span class="n">IKinematicsService</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">_workspace</span><span class="p">:</span> <span class="n">IWorkspaceBoundsEvaluator</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">workspace</span><span class="p">:</span> <span class="n">IWorkspaceBoundsEvaluator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Initializes waypoint validator using injected kinematics service.</span>
+<span class="sd">            Initializes waypoint validator using injected workspace bounds evaluator.</span>
 
-<span class="sd">            :param kinematics: IKinematicsService instance.</span>
+<span class="sd">            :param workspace: IWorkspaceBoundsEvaluator instance.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IKinematicsService</span><span class="p">]</span> <span class="o">=</span> <span class="n">kinematics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_workspace</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IWorkspaceBoundsEvaluator</span><span class="p">]</span> <span class="o">=</span> <span class="n">workspace</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -111,7 +122,7 @@
 
 <span class="sd">            :return: Validator name string.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="s1">&#39;waypoint_validator&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NAME</span>
 
 <div class="viewcode-block" id="WaypointValidator.validate_point">
 <a class="viewcode-back" href="../../../../../../../scaralang.core.service.trajectory.validation.waypoint.validator.html#scaralang.core.service.trajectory.validation.waypoint.validator.WaypointValidator.validate_point">[docs]</a>
@@ -122,34 +133,44 @@
 <span class="sd">            :param point: Target Waypoint to validate.</span>
 <span class="sd">            :return: ValidationResult with pass/fail and descriptive reason.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">in_workspace</span><span class="p">,</span> <span class="n">ws_msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">is_in_workspace</span><span class="p">(</span>
+        <span class="n">in_workspace</span><span class="p">,</span> <span class="n">ws_msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workspace</span><span class="o">.</span><span class="n">is_in_workspace</span><span class="p">(</span>
             <span class="n">point</span><span class="o">=</span><span class="n">Point3D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">point</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">in_workspace</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span><span class="n">is_valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">ws_msg</span><span class="p">,</span> <span class="n">error_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span>
+                <span class="n">is_valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">message</span><span class="o">=</span><span class="n">ws_msg</span><span class="p">,</span>
+                <span class="n">error_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">NO_ERROR_INDEX</span><span class="p">,</span>
+            <span class="p">)</span>
 
-        <span class="n">is_reachable</span><span class="p">,</span> <span class="n">reasons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">is_joint_reachable</span><span class="p">(</span>
+        <span class="n">is_reachable</span><span class="p">,</span> <span class="n">reasons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workspace</span><span class="o">.</span><span class="n">is_joint_reachable</span><span class="p">(</span>
             <span class="n">point</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_reachable</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">reasons</span> <span class="ow">and</span> <span class="s1">&#39;Mathematically unreachable&#39;</span> <span class="ow">in</span> <span class="n">reasons</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">reasons</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">UNREACHABLE_KEYWORD</span> <span class="ow">in</span> <span class="n">reasons</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span>
                     <span class="n">is_valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Point (</span><span class="si">{</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">) is kinematically unreachable&#39;</span><span class="p">,</span>
-                    <span class="n">error_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">error_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">NO_ERROR_INDEX</span><span class="p">,</span>
                 <span class="p">)</span>
 
-            <span class="n">reason_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reasons</span><span class="p">)</span> <span class="k">if</span> <span class="n">reasons</span> <span class="k">else</span> <span class="s1">&#39;Joint limits exceeded&#39;</span>
+            <span class="n">reason_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reasons</span><span class="p">)</span> <span class="k">if</span> <span class="n">reasons</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_JOINT_LIMITS_MSG</span>
+            <span class="p">)</span>
 
             <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span>
                 <span class="n">is_valid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Point (</span><span class="si">{</span><span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">) violates joint limits: </span><span class="si">{</span><span class="n">reason_str</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-                <span class="n">error_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">error_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">NO_ERROR_INDEX</span><span class="p">,</span>
             <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span><span class="n">is_valid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s1">&#39;Point is reachable&#39;</span><span class="p">,</span> <span class="n">error_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">ValidationResult</span><span class="p">(</span>
+            <span class="n">is_valid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">message</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">POINT_REACHABLE_MSG</span><span class="p">,</span>
+            <span class="n">error_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">NO_ERROR_INDEX</span><span class="p">,</span>
+        <span class="p">)</span></div>
 </div>
 
 </pre></div>

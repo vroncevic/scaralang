@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,16 +51,23 @@ class TestValidationDependencies(TestCase):
 
     def test_dependencies_initialization(self) -> None:
         '''Verifies bundle holds provided kinematics dependency.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        deps = ValidationDependencies(kinematics=kinematics)
-        self.assertIs(deps.kinematics, kinematics)
+        kinematics = DefaultKinematicsFactory.create()
+        deps = ValidationDependencies(
+            workspace=kinematics.workspace,
+            envelope=kinematics.envelope,
+        )
+        self.assertIs(deps.workspace, kinematics.workspace)
+        self.assertIs(deps.envelope, kinematics.envelope)
 
     def test_dependencies_immutability(self) -> None:
         '''Verifies frozen dataclass rejects attribute mutations.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        deps = ValidationDependencies(kinematics=kinematics)
+        kinematics = DefaultKinematicsFactory.create()
+        deps = ValidationDependencies(
+            workspace=kinematics.workspace,
+            envelope=kinematics.envelope,
+        )
         with self.assertRaises(FrozenInstanceError):
-            deps.kinematics = kinematics  # type: ignore[misc]
+            deps.workspace = kinematics.workspace  # type: ignore[misc]
 
 
 if __name__ == '__main__':

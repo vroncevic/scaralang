@@ -16,7 +16,7 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Unit tests for WorkspaceBoundsEvaluatorFactory component.
+    Unit tests for WorkspaceFactory component.
 '''
 
 from __future__ import annotations
@@ -26,24 +26,24 @@ from unittest import main
 
 from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
-from scaralang.core.service.kinematics.solver.factory import KinematicsSolverFactory
-from scaralang.core.service.kinematics.solver.isolver import IKinematicsSolver
-from scaralang.core.service.kinematics.workspace.factory import WorkspaceBoundsEvaluatorFactory
+from scaralang.core.service.kinematics.solver.planar.factory import PlanarKinematicsSolverFactory
+from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.workspace.factory import WorkspaceFactory
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
-class TestWorkspaceBoundsEvaluatorFactory(TestCase):
+class TestWorkspaceFactory(TestCase):
     '''
-        Validates WorkspaceBoundsEvaluatorFactory instantiations and wiring.
+        Validates WorkspaceFactory instantiations and wiring.
 
         It defines:
 
@@ -53,19 +53,21 @@ class TestWorkspaceBoundsEvaluatorFactory(TestCase):
     '''
 
     def test_create_with_collaborators(self) -> None:
-        '''Verifies factory builds evaluator with explicit bounds and solver.'''
+        '''Verifies factory builds evaluator with explicit bounds and planar solver.'''
         bounds: ScaraBounds = DefaultScaraProfile.create_bounds()
-        solver: IKinematicsSolver = KinematicsSolverFactory.create(links=bounds.links)
-        evaluator: IWorkspaceBoundsEvaluator = WorkspaceBoundsEvaluatorFactory.create(
+        planar: IPlanarKinematicsSolver = PlanarKinematicsSolverFactory.create(
+            links=bounds.links
+        )
+        evaluator: IWorkspaceBoundsEvaluator = WorkspaceFactory.create(
             bounds=bounds,
-            solver=solver,
+            planar=planar,
         )
         self.assertIsInstance(evaluator, IWorkspaceBoundsEvaluator)
         self.assertEqual(evaluator.get_bounds(), bounds)
 
     def test_get_version(self) -> None:
         '''Verifies factory returns version string.'''
-        version = WorkspaceBoundsEvaluatorFactory.get_version()
+        version = WorkspaceFactory.get_version()
         self.assertIsInstance(version, str)
         self.assertTrue(len(version) > 0)
 

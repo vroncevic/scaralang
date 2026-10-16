@@ -39,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -115,7 +115,7 @@ class CompileCommandExecutor:
             with open(script_path, 'r', encoding='utf-8') as f:
                 source_code: str = f.read()
 
-            program: BinaryProgram = self._compiler.compile_to_binary(source=source_code)
+            program: BinaryProgram = self._compiler.compile(source=source_code)
             raw_bytes: bytes = program.raw_bytes
             output_path: str = str(params.get('output') or '').strip()
 
@@ -129,9 +129,7 @@ class CompileCommandExecutor:
                 msg = f'Successfully compiled {len(raw_bytes)} binary wire bytes'
 
             if bool(params.get('verbose')):
-                telemetry: BinaryProgramTelemetry = self._compiler.get_program_telemetry(
-                    program=program
-                )
+                telemetry: BinaryProgramTelemetry = program.telemetry
                 msg = f'{msg}\n\n{self._telemetry_formatter.format_telemetry(telemetry=telemetry)}'
 
             if bool(params.get('dump_frames')):

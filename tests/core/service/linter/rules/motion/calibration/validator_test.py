@@ -28,14 +28,14 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_code import ScaraDiagnosticCode
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
-from scaralang.core.model.dsl.linter.scara_lint_context import ScaraLintContext
+from scaralang.core.service.linter.context.factory import LintContextFactory
 from scaralang.core.service.linter.rules.motion.calibration.validator import CalibrationValidator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,7 +65,7 @@ class TestCalibrationValidator(TestCase):
             raw_text='MOVE_L X=100.0 Y=50.0 Z=20.0',
             parameters={'X': 100.0, 'Y': 50.0, 'Z': 20.0},
         )
-        context = ScaraLintContext(is_homed=False, motion_occurred=False)
+        context = LintContextFactory.create()
 
         diagnostics = validator.validate(
             instruction=instruction,
@@ -88,7 +88,8 @@ class TestCalibrationValidator(TestCase):
             raw_text='MOVE_L X=100.0 Y=50.0 Z=20.0',
             parameters={'X': 100.0, 'Y': 50.0, 'Z': 20.0},
         )
-        context = ScaraLintContext(is_homed=True, motion_occurred=False)
+        context = LintContextFactory.create()
+        context.is_homed = True
 
         diagnostics = validator.validate(
             instruction=instruction,
@@ -108,7 +109,8 @@ class TestCalibrationValidator(TestCase):
             raw_text='MOVE_J X=120.0 Y=60.0 Z=20.0',
             parameters={'X': 120.0, 'Y': 60.0, 'Z': 20.0},
         )
-        context = ScaraLintContext(is_homed=False, motion_occurred=True)
+        context = LintContextFactory.create()
+        context.motion_occurred = True
 
         diagnostics = validator.validate(
             instruction=instruction,

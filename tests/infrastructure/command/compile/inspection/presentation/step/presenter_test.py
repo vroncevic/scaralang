@@ -24,7 +24,8 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.infrastructure.command.compile.inspection.framing.header.formatter import FrameHeaderFormatter
@@ -37,13 +38,14 @@ from scaralang.infrastructure.command.compile.inspection.payload.tool.formatter 
 from scaralang.infrastructure.command.compile.inspection.presentation.step.dependencies import StepDependencies
 from scaralang.infrastructure.command.compile.inspection.presentation.step.ipresenter import IFrameStepPresenter
 from scaralang.infrastructure.command.compile.inspection.presentation.step.presenter import FrameStepPresenter
-from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.unpacker import BinaryPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.motion import BinaryMotionPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,7 +61,8 @@ class TestFrameStepPresenter(TestCase):
             joint_formatter=JointStepsPayloadFormatter(hex_formatter=hex_fmt),
             tool_formatter=ToolCommandPayloadFormatter(hex_formatter=hex_fmt),
             hex_formatter=hex_fmt,
-            unpacker=BinaryPayloadUnpacker(),
+            motion_unpacker=BinaryMotionPayloadUnpacker(),
+            actuator_unpacker=BinaryActuatorPayloadUnpacker(),
         )
         step_deps: StepDependencies = StepDependencies(
             header_formatter=FrameHeaderFormatter(),
@@ -78,7 +81,7 @@ class TestFrameStepPresenter(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid semantic version.'''
-        self.assertEqual(self.presenter.get_version(), '1.0.8')
+        self.assertEqual(self.presenter.get_version(), '1.0.9')
 
     def test_present_step(self) -> None:
         '''Verifies visual card formatting for a compiled step.'''
@@ -88,11 +91,11 @@ class TestFrameStepPresenter(TestCase):
             payload=b'',
             crc16=0x1234,
         )
-        step: Step = Step(
+        step: BinaryStep = BinaryStep(
             frame=frame,
             raw_bytes=b'\xAA\x55\x06\x01\x00\x12\x34\x0D',
             duration_us=10000,
-            target_steps=(0, 0, 0, 0),
+            target_steps=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
             description='HOME',
             line_number=4,
         )

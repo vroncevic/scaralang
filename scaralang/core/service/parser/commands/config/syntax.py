@@ -21,6 +21,8 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
@@ -29,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,10 +43,41 @@ class MotorSyntaxExtractor:
 
         It defines:
 
+            :attributes:
+                | CONFIG_MIN_TOKENS - Minimum allowed token count for CONFIG MOTOR.
+                | CONFIG_IFACE_TOKENS - Token count when interface parameter is supplied.
+                | DIRECT_MIN_TOKENS - Minimum allowed token count for CONFIG_MOTOR / MOTOR_MODE.
+                | DIRECT_IFACE_TOKENS - Direct mode token count with interface parameter.
+                | CMD_INDEX - Index of command token.
+                | CONFIG_SUB_INDEX - Index of configuration property subcommand token.
+                | CONFIG_VAL_INDEX - Index of drive mode token in CONFIG form.
+                | CONFIG_IFACE_INDEX - Index of interface type token in CONFIG form.
+                | DIRECT_VAL_INDEX - Index of drive mode token in direct form.
+                | DIRECT_IFACE_INDEX - Index of interface type token in direct form.
+                | SUBCOMMAND_KEYWORD - Expected configuration property keyword.
+                | MOTOR_MODE_COMMAND - Alternative motor mode direct command keyword.
+                | DIRECT_COMMANDS - Direct motor configuration command types.
             :methods:
                 | extract - Extracts raw mode and interface strings from tokens.
                 | get_version - Returns the syntax extractor version string.
     '''
+
+    CONFIG_MIN_TOKENS: ClassVar[int] = 3
+    CONFIG_IFACE_TOKENS: ClassVar[int] = 4
+    DIRECT_MIN_TOKENS: ClassVar[int] = 2
+    DIRECT_IFACE_TOKENS: ClassVar[int] = 3
+    CMD_INDEX: ClassVar[int] = 0
+    CONFIG_SUB_INDEX: ClassVar[int] = 1
+    CONFIG_VAL_INDEX: ClassVar[int] = 2
+    CONFIG_IFACE_INDEX: ClassVar[int] = 3
+    DIRECT_VAL_INDEX: ClassVar[int] = 1
+    DIRECT_IFACE_INDEX: ClassVar[int] = 2
+    SUBCOMMAND_KEYWORD: ClassVar[str] = 'MOTOR'
+    MOTOR_MODE_COMMAND: ClassVar[str] = 'MOTOR_MODE'
+    DIRECT_COMMANDS: ClassVar[tuple[ScaraCommandType, str]] = (
+        ScaraCommandType.CONFIG_MOTOR,
+        'MOTOR_MODE',
+    )
 
     @classmethod
     def get_version(cls) -> str:
@@ -54,7 +87,7 @@ class MotorSyntaxExtractor:
             :return: Extractor version string.
             :exceptions: None.
         '''
-        return '1.0.8'
+        return '1.0.9'
 
     @classmethod
     def extract(
@@ -71,40 +104,40 @@ class MotorSyntaxExtractor:
             :return: Tuple of (raw_drive_mode, raw_interface).
             :exceptions: ScaraSyntaxError on invalid token count or unknown subproperty.
         '''
-        first_kw: str = tokens[0].value.upper()
+        first_kw: str = tokens[cls.CMD_INDEX].value.upper()
         raw_val: str = ''
         raw_iface: str = ''
 
         if first_kw == ScaraCommandType.CONFIG:
-            if len(tokens) < 3:
+            if len(tokens) < cls.CONFIG_MIN_TOKENS:
                 raise ScaraSyntaxError(
                     f'Invalid CONFIG syntax at line {line_num}. '
                     'Expected: CONFIG MOTOR <OPEN_LOOP|CLOSED_LOOP> [INTERFACE]'
                 )
 
-            sub: str = tokens[1].value.upper()
+            sub: str = tokens[cls.CONFIG_SUB_INDEX].value.upper()
 
-            if sub != 'MOTOR':
+            if sub != cls.SUBCOMMAND_KEYWORD:
                 raise ScaraSyntaxError(
                     f'Unknown CONFIG property {sub!r} at line {line_num}'
                 )
 
-            raw_val = tokens[2].value.upper()
+            raw_val = tokens[cls.CONFIG_VAL_INDEX].value.upper()
 
-            if len(tokens) >= 4:
-                raw_iface = tokens[3].value.upper()
+            if len(tokens) >= cls.CONFIG_IFACE_TOKENS:
+                raw_iface = tokens[cls.CONFIG_IFACE_INDEX].value.upper()
 
-        elif first_kw in (ScaraCommandType.CONFIG_MOTOR, 'MOTOR_MODE'):
-            if len(tokens) < 2:
+        elif first_kw in cls.DIRECT_COMMANDS:
+            if len(tokens) < cls.DIRECT_MIN_TOKENS:
                 raise ScaraSyntaxError(
                     f'Invalid {first_kw} syntax at line {line_num}. '
                     f'Expected: {first_kw} <OPEN_LOOP|CLOSED_LOOP> [INTERFACE]'
                 )
 
-            raw_val = tokens[1].value.upper()
+            raw_val = tokens[cls.DIRECT_VAL_INDEX].value.upper()
 
-            if len(tokens) >= 3:
-                raw_iface = tokens[2].value.upper()
+            if len(tokens) >= cls.DIRECT_IFACE_TOKENS:
+                raw_iface = tokens[cls.DIRECT_IFACE_INDEX].value.upper()
 
         else:
             raise ScaraSyntaxError(

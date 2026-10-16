@@ -24,7 +24,8 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_angles import JointAngles
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.binary.motion.compiler import MotionCompiler
@@ -33,17 +34,17 @@ from scaralang.core.service.compiler.binary.motion.icompiler import IMotionCompi
 from scaralang.core.service.compiler.binary.step.discretizer.dependencies import DiscretizerDependencies
 from scaralang.core.service.compiler.binary.step.discretizer.factory import StepDiscretizerFactory
 from scaralang.core.service.compiler.binary.step.discretizer.idiscretizer import IStepDiscretizer
+from scaralang.core.service.compiler.binary.step.duration.factory import SegmentDurationCalculatorFactory
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
-from scaralang.core.service.kinematics.transmission.factory import JointStepTransmissionConverterFactory
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
+from scaralang.core.service.kinematics.transmission.factory import TransmissionFactory
+from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -64,20 +65,23 @@ class TestMotionCompiler(TestCase):
 
     def setUp(self) -> None:
         '''Sets up test fixtures.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        transmission = JointStepTransmissionConverterFactory.create(
+        kinematics = DefaultKinematicsFactory.create()
+        transmission = TransmissionFactory.create(
             transmission=DefaultScaraProfile.create_transmission()
         )
+        duration_calculator = SegmentDurationCalculatorFactory.create()
         discretizer: IStepDiscretizer = StepDiscretizerFactory.create(
             dependencies=DiscretizerDependencies(
-                kinematics=kinematics,
+                spatial=kinematics.spatial,
                 transmission=transmission,
+                duration_calculator=duration_calculator,
             )
         )
-        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
+        builder_provides = BuilderFactory.create()
         deps = MotionDependencies(
             discretizer=discretizer,
-            frame_builder=frame_builder,
+            frame_builder=builder_provides.motion,
+            frame_packer=builder_provides.packer,
         )
         self.compiler = MotionCompiler(dependencies=deps)
 
@@ -87,7 +91,7 @@ class TestMotionCompiler(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid version string.'''
-        self.assertEqual(self.compiler.get_version(), '1.0.8')
+        self.assertEqual(self.compiler.get_version(), '1.0.9')
 
     def test_compile_motion_step(self) -> None:
         '''Verifies compiling a Cartesian waypoint to a binary move step.'''
@@ -97,19 +101,21 @@ class TestMotionCompiler(TestCase):
             z=10.0,
             phi=0.0,
             speed=50.0,
+            name='',
+            command='',
         )
         step, new_angles = self.compiler.compile_motion_step(
             waypoint=waypoint,
             seq_num=1,
-            prev_angles=(0.0, 0.0, 0.0, 0.0),
+            prev_angles=JointAngles(theta1=0.0, theta2=0.0, z=0.0, theta4=0.0),
             line_num=5,
         )
-        self.assertIsInstance(step, Step)
+        self.assertIsInstance(step, BinaryStep)
         self.assertEqual(step.frame.msg_id, MessageId.CMD_MOVE_JOINT_STEPS)
         self.assertEqual(step.frame.seq_num, 1)
         self.assertEqual(step.line_number, 5)
         self.assertGreater(len(step.raw_bytes), 0)
-        self.assertEqual(len(new_angles), 4)
+        self.assertIsInstance(new_angles, JointAngles)
 
 
 if __name__ == '__main__':

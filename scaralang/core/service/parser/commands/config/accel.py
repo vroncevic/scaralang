@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,16 +46,20 @@ class AccelParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | MIN_TOKENS - Minimum allowed token count for statement parsing.
+                | CMD_INDEX - Index of command token.
+                | ARG_INDEX - Index of acceleration value argument token.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is ACCEL.
                 | parse - Parses ACCEL statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes AccelParser.'''
-        self._name: str = 'accel_parser'
+    NAME: ClassVar[str] = 'accel_parser'
+    MIN_TOKENS: ClassVar[int] = 2
+    CMD_INDEX: ClassVar[int] = 0
+    ARG_INDEX: ClassVar[int] = 1
 
     @property
     def name(self) -> str:
@@ -62,7 +68,7 @@ class AccelParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -89,17 +95,17 @@ class AccelParser:
             :return: ScaraInstruction node.
             :exceptions: ScaraSyntaxError on missing acceleration value.
         '''
-        if len(tokens) < 2:
+        if len(tokens) < self.MIN_TOKENS:
             raise ScaraSyntaxError(
                 f'Missing argument for ACCEL at line {line_num}'
             )
 
         try:
-            accel_val: float = float(tokens[1].value)
+            accel_val: float = float(tokens[self.ARG_INDEX].value)
 
         except ValueError as exc:
             raise ScaraSyntaxError(
-                f'Invalid acceleration value {tokens[1].value!r} at line {line_num}. '
+                f'Invalid acceleration value {tokens[self.ARG_INDEX].value!r} at line {line_num}. '
                 'Must be a valid number'
             ) from exc
 
@@ -107,5 +113,5 @@ class AccelParser:
             command_type=ScaraCommandType.ACCEL,
             line_number=line_num,
             raw_text=raw_text,
-            parameters={InstructionParam.ACCEL: accel_val},
+            parameters={ScaraInstructionParam.ACCEL: accel_val},
         )

@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -81,15 +81,15 @@ class TestSafeTrajectoryRouter(TestCase):
 
     def test_plan_safe_trajectory_empty(self) -> None:
         '''Verifies empty waypoints sequence returns empty list.'''
-        start = Waypoint(x=150.0, y=0.0, z=10.0, speed=50.0)
+        start = Waypoint(x=150.0, y=0.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
         result: list[Waypoint] = self._router.plan_safe_trajectory(start, [])
         self.assertEqual(result, [])
 
     def test_plan_safe_trajectory_safe_path(self) -> None:
         '''Verifies waypoints that do not cross dead zone are preserved directly.'''
-        start = Waypoint(x=150.0, y=0.0, z=10.0, speed=50.0)
-        wp1 = Waypoint(x=150.0, y=50.0, z=10.0, speed=50.0, name='P1')
-        wp2 = Waypoint(x=150.0, y=100.0, z=10.0, speed=50.0, name='P2')
+        start = Waypoint(x=150.0, y=0.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
+        wp1 = Waypoint(x=150.0, y=50.0, z=10.0, phi=0.0, speed=50.0, name='P1', command='')
+        wp2 = Waypoint(x=150.0, y=100.0, z=10.0, phi=0.0, speed=50.0, name='P2', command='')
         result: list[Waypoint] = self._router.plan_safe_trajectory(start, [wp1, wp2])
         self.assertEqual(len(result), 2)
         self.assertEqual(result[0].name, 'P1')
@@ -97,8 +97,8 @@ class TestSafeTrajectoryRouter(TestCase):
 
     def test_plan_safe_trajectory_crossing_start(self) -> None:
         '''Verifies detour arc inserted when segment from start to first waypoint crosses dead zone.'''
-        start = Waypoint(x=-150.0, y=0.0, z=10.0, speed=50.0)
-        wp1 = Waypoint(x=150.0, y=0.0, z=10.0, speed=50.0, name='TARGET')
+        start = Waypoint(x=-150.0, y=0.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
+        wp1 = Waypoint(x=150.0, y=0.0, z=10.0, phi=0.0, speed=50.0, name='TARGET', command='')
         result: list[Waypoint] = self._router.plan_safe_trajectory(start, [wp1])
         self.assertGreater(len(result), 1)
         self.assertEqual(result[-1].name, 'TARGET')
@@ -107,9 +107,9 @@ class TestSafeTrajectoryRouter(TestCase):
 
     def test_plan_safe_trajectory_crossing_intermediate(self) -> None:
         '''Verifies detour arc inserted when segment between waypoints crosses dead zone.'''
-        start = Waypoint(x=150.0, y=50.0, z=10.0, speed=50.0)
-        wp1 = Waypoint(x=150.0, y=0.0, z=10.0, speed=50.0, name='SAFE1')
-        wp2 = Waypoint(x=-150.0, y=0.0, z=10.0, speed=50.0, name='OPPOSITE')
+        start = Waypoint(x=150.0, y=50.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
+        wp1 = Waypoint(x=150.0, y=0.0, z=10.0, phi=0.0, speed=50.0, name='SAFE1', command='')
+        wp2 = Waypoint(x=-150.0, y=0.0, z=10.0, phi=0.0, speed=50.0, name='OPPOSITE', command='')
         result: list[Waypoint] = self._router.plan_safe_trajectory(start, [wp1, wp2])
         self.assertGreater(len(result), 2)
         self.assertEqual(result[0].name, 'SAFE1')

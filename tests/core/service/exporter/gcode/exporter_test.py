@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,6 +53,7 @@ class TestGcodeExporter(TestCase):
             z=15.0,
             phi=0.0,
             speed=100.0,
+            command='',
         )
         line = self.exporter.format_waypoint_line(waypoint=wp)
         self.assertTrue(line.startswith('G0'))
@@ -71,6 +72,7 @@ class TestGcodeExporter(TestCase):
             z=5.0,
             phi=0.0,
             speed=50.0,
+            command='',
         )
         line = self.exporter.format_waypoint_line(waypoint=wp)
         self.assertTrue(line.startswith('G1'))
@@ -78,7 +80,15 @@ class TestGcodeExporter(TestCase):
 
     def test_export_gcode(self) -> None:
         '''Verifies exporting full trajectory plan to G-code program.'''
-        wp = Waypoint(name='START', x=0.0, y=0.0, z=0.0, phi=0.0, speed=100.0)
+        wp = Waypoint(
+            name='START',
+            x=0.0,
+            y=0.0,
+            z=0.0,
+            phi=0.0,
+            speed=100.0,
+            command='',
+        )
         plan = TrajectoryPlan()
         plan.add_point(wp)
         output = self.exporter.export_gcode(plan=plan)

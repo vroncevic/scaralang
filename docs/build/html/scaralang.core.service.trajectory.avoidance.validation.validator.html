@@ -80,6 +80,10 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">MIN_DEAD_ZONE_RADIUS - Minimum allowed dead zone radius threshold in mm.</div>
+<div class="line">EPSILON_SQ - Segment squared length threshold for degenerate segment detection.</div>
+<div class="line">T_MIN - Minimum parametric segment clamping lower bound.</div>
+<div class="line">T_MAX - Maximum parametric segment clamping upper bound.</div>
 <div class="line">_dead_zone_radius - Mechanical inner singularity dead zone radius in mm.</div>
 </div>
 </dd>
@@ -94,6 +98,26 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.EPSILON_SQ">
+<span class="sig-name descname"><span class="pre">EPSILON_SQ</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-09</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.EPSILON_SQ" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.MIN_DEAD_ZONE_RADIUS">
+<span class="sig-name descname"><span class="pre">MIN_DEAD_ZONE_RADIUS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.MIN_DEAD_ZONE_RADIUS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.T_MAX">
+<span class="sig-name descname"><span class="pre">T_MAX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.T_MAX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.T_MIN">
+<span class="sig-name descname"><span class="pre">T_MIN</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.T_MIN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator._dead_zone_radius">
 <span class="sig-name descname"><span class="pre">_dead_zone_radius</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator._dead_zone_radius" title="Link to this definition">¶</a></dt>
@@ -183,6 +207,10 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.trajectory.avoidance.validation.validator module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator"><code class="docutils literal notranslate"><span class="pre">DeadZoneValidator</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.EPSILON_SQ"><code class="docutils literal notranslate"><span class="pre">DeadZoneValidator.EPSILON_SQ</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.MIN_DEAD_ZONE_RADIUS"><code class="docutils literal notranslate"><span class="pre">DeadZoneValidator.MIN_DEAD_ZONE_RADIUS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.T_MAX"><code class="docutils literal notranslate"><span class="pre">DeadZoneValidator.T_MAX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.T_MIN"><code class="docutils literal notranslate"><span class="pre">DeadZoneValidator.T_MIN</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator._dead_zone_radius"><code class="docutils literal notranslate"><span class="pre">DeadZoneValidator._dead_zone_radius</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.get_dead_zone_radius"><code class="docutils literal notranslate"><span class="pre">DeadZoneValidator.get_dead_zone_radius()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.validation.validator.DeadZoneValidator.get_version"><code class="docutils literal notranslate"><span class="pre">DeadZoneValidator.get_version()</span></code></a></li>

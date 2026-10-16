@@ -25,13 +25,13 @@ from __future__ import annotations
 from typing import Protocol, runtime_checkable
 
 from scaralang.core.model.dsl.macro.work_frame import WorkFrame
-from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.point_3d import Point3D
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,6 +46,7 @@ class ITransformer(Protocol):
 
             :methods:
                 | transform_point - Transforms local frame coordinates into global base coordinates.
+                | inverse_transform_point - Transforms global coordinates into local frame coordinates.
                 | get_version - Returns the transformer version string.
     '''
 
@@ -53,14 +54,28 @@ class ITransformer(Protocol):
         self,
         *,
         frame: WorkFrame,
-        point: Point2D,
-    ) -> Point2D:
+        point: Point3D,
+    ) -> Point3D:
         '''
-            Transforms point from local work frame to global base coordinate system.
+            Transforms 3D point from local work frame to global base coordinate system.
 
             :param frame: WorkFrame instance defining offset and rotation.
-            :param point: Local coordinate Point2D in millimeters.
-            :return: Transformed global coordinate Point2D.
+            :param point: Local coordinate Point3D in millimeters.
+            :return: Transformed global coordinate Point3D.
+        '''
+
+    def inverse_transform_point(
+        self,
+        *,
+        frame: WorkFrame,
+        point: Point3D,
+    ) -> Point3D:
+        '''
+            Transforms 3D point from global base coordinate system to local work frame.
+
+            :param frame: WorkFrame instance defining offset and rotation.
+            :param point: Global coordinate Point3D in millimeters.
+            :return: Transformed local coordinate Point3D.
         '''
 
     def get_version(self) -> str:

@@ -54,27 +54,31 @@
 <span class="sd">    You should have received a copy of the GNU General Public License along</span>
 <span class="sd">    with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 <span class="sd">Info</span>
-<span class="sd">    Converts Cartesian waypoints into discrete motor joint steps with timing.</span>
+<span class="sd">    Discretizes Cartesian motion waypoints into hardware motor step coordinates.</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">radians</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_kinematics_error</span> <span class="kn">import</span> <span class="n">ScaraKinematicsError</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.cartesian_pose</span> <span class="kn">import</span> <span class="n">CartesianPose</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.joint_angles</span> <span class="kn">import</span> <span class="n">JointAngles</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.joint_step_coordinates</span> <span class="kn">import</span> <span class="n">JointStepCoordinates</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.scara_joints</span> <span class="kn">import</span> <span class="n">ScaraJoints</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.protocol.joint_steps</span> <span class="kn">import</span> <span class="n">JointSteps</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.discretizer.dependencies</span> <span class="kn">import</span> <span class="n">DiscretizerDependencies</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.iservice</span> <span class="kn">import</span> <span class="n">IKinematicsService</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.duration.icalculator</span> <span class="kn">import</span> <span class="n">ISegmentDurationCalculator</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.spatial.isolver</span> <span class="kn">import</span> <span class="n">ISpatialKinematicsSolver</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.transmission.iconverter</span> <span class="kn">import</span> <span class="n">IJointStepTransmissionConverter</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -89,18 +93,24 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | _kinematics - Analytical SCARA kinematics calculation engine.</span>
+<span class="sd">                | DEFAULT_FEEDRATE_SCALE - Default percentage feedrate scale.</span>
+<span class="sd">                | DEFAULT_ELBOW_LEFT - Default IK elbow configuration flag.</span>
+<span class="sd">                | _spatial - Analytical spatial SCARA kinematics solver engine.</span>
 <span class="sd">                | _transmission - Injected bidirectional transmission converter.</span>
+<span class="sd">                | _duration_calculator - Injected segment duration calculator.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | __init__ - Initializes step discretizer with dependency bundle.</span>
 <span class="sd">                | angles_to_steps - Converts joint radians/mm to integer motor steps.</span>
 <span class="sd">                | discretize_waypoint - Solves IK and maps Cartesian waypoint into JointSteps.</span>
-<span class="sd">                | calculate_segment_duration - Computes execution duration in microseconds.</span>
 <span class="sd">                | get_version - Returns implementation version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">_kinematics</span><span class="p">:</span> <span class="n">IKinematicsService</span>
+    <span class="n">DEFAULT_FEEDRATE_SCALE</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">DEFAULT_ELBOW_LEFT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">_spatial</span><span class="p">:</span> <span class="n">ISpatialKinematicsSolver</span>
     <span class="n">_transmission</span><span class="p">:</span> <span class="n">IJointStepTransmissionConverter</span>
+    <span class="n">_duration_calculator</span><span class="p">:</span> <span class="n">ISegmentDurationCalculator</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">:</span> <span class="n">DiscretizerDependencies</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
@@ -109,8 +119,9 @@
 <span class="sd">            :param dependencies: Injected DiscretizerDependencies bundle.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IKinematicsService</span><span class="p">]</span> <span class="o">=</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">kinematics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spatial</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ISpatialKinematicsSolver</span><span class="p">]</span> <span class="o">=</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">spatial</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transmission</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">IJointStepTransmissionConverter</span><span class="p">]</span> <span class="o">=</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">transmission</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_duration_calculator</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">ISegmentDurationCalculator</span><span class="p">]</span> <span class="o">=</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">duration_calculator</span>
 
 <div class="viewcode-block" id="StepDiscretizer.angles_to_steps">
 <a class="viewcode-back" href="../../../../../../../../scaralang.core.service.compiler.binary.step.discretizer.discretizer.html#scaralang.core.service.compiler.binary.step.discretizer.discretizer.StepDiscretizer.angles_to_steps">[docs]</a>
@@ -120,7 +131,7 @@
         <span class="n">theta2_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">z_mm</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">theta4_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JointStepCoordinates</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Converts joint angles and linear Z travel into discrete motor steps.</span>
 
@@ -128,7 +139,7 @@
 <span class="sd">            :param theta2_rad: Elbow joint angle in radians.</span>
 <span class="sd">            :param z_mm: Linear vertical travel in millimeters.</span>
 <span class="sd">            :param theta4_rad: Wrist joint angle in radians.</span>
-<span class="sd">            :return: Tuple of (j1, j2, z, j4) integer microsteps.</span>
+<span class="sd">            :return: JointStepCoordinates containing (j1, j2, z, j4) integer microsteps.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transmission</span><span class="o">.</span><span class="n">angles_to_steps</span><span class="p">(</span>
@@ -142,32 +153,52 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">waypoint</span><span class="p">:</span> <span class="n">Waypoint</span><span class="p">,</span>
-        <span class="n">prev_angles</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">JointSteps</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="n">prev_angles</span><span class="p">:</span> <span class="n">JointAngles</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">JointSteps</span><span class="p">,</span> <span class="n">JointAngles</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Solves IK and converts Cartesian waypoint into motor steps with duration.</span>
 
 <span class="sd">            :param waypoint: Target Cartesian Waypoint instance.</span>
-<span class="sd">            :param prev_angles: Preceding joint angles (th1, th2, z, th4).</span>
-<span class="sd">            :return: Tuple of (JointSteps model, new joint angles tuple).</span>
+<span class="sd">            :param prev_angles: Preceding joint angles model.</span>
+<span class="sd">            :return: Tuple of (JointSteps model, new joint angles model).</span>
 <span class="sd">            :exceptions: ScaraKinematicsError if position is unreachable.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">ik_sol</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">solve_ik</span><span class="p">(</span>
-            <span class="n">point</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">waypoint</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">waypoint</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
-            <span class="n">elbow_left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">pose</span> <span class="o">=</span> <span class="n">CartesianPose</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">waypoint</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">waypoint</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">waypoint</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+            <span class="n">phi</span><span class="o">=</span><span class="n">radians</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">phi</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">ik_sol</span><span class="p">:</span> <span class="n">ScaraJoints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spatial</span><span class="o">.</span><span class="n">solve_ik_4d</span><span class="p">(</span>
+            <span class="n">pose</span><span class="o">=</span><span class="n">pose</span><span class="p">,</span>
+            <span class="n">elbow_left</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_ELBOW_LEFT</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ik_sol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ik_sol</span><span class="o">.</span><span class="n">reachable</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ScaraKinematicsError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Waypoint (</span><span class="si">{</span><span class="n">waypoint</span><span class="o">.</span><span class="n">x</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">waypoint</span><span class="o">.</span><span class="n">y</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">) is outside kinematic reach.&#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;Waypoint (</span><span class="si">{</span><span class="n">waypoint</span><span class="o">.</span><span class="n">x</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">waypoint</span><span class="o">.</span><span class="n">y</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">waypoint</span><span class="o">.</span><span class="n">z</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">) &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;is outside kinematic reach or vertical limits (</span><span class="si">{</span><span class="n">ik_sol</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s1">).&#39;</span>
             <span class="p">)</span>
 
-        <span class="n">new_angles</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">ik_sol</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ik_sol</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">waypoint</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">radians</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">phi</span><span class="p">)</span>
+        <span class="n">new_angles</span> <span class="o">=</span> <span class="n">JointAngles</span><span class="p">(</span>
+            <span class="n">theta1</span><span class="o">=</span><span class="n">ik_sol</span><span class="o">.</span><span class="n">theta1</span><span class="p">,</span>
+            <span class="n">theta2</span><span class="o">=</span><span class="n">ik_sol</span><span class="o">.</span><span class="n">theta2</span><span class="p">,</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">ik_sol</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+            <span class="n">theta4</span><span class="o">=</span><span class="n">ik_sol</span><span class="o">.</span><span class="n">theta4</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">target_steps</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles_to_steps</span><span class="p">(</span><span class="o">*</span><span class="n">new_angles</span><span class="p">)</span>
-        <span class="n">current_steps</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles_to_steps</span><span class="p">(</span><span class="o">*</span><span class="n">prev_angles</span><span class="p">)</span>
-        <span class="n">duration_us</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_segment_duration</span><span class="p">(</span>
+        <span class="n">target_steps</span><span class="p">:</span> <span class="n">JointStepCoordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles_to_steps</span><span class="p">(</span>
+            <span class="n">new_angles</span><span class="o">.</span><span class="n">theta1</span><span class="p">,</span>
+            <span class="n">new_angles</span><span class="o">.</span><span class="n">theta2</span><span class="p">,</span>
+            <span class="n">new_angles</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+            <span class="n">new_angles</span><span class="o">.</span><span class="n">theta4</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">current_steps</span><span class="p">:</span> <span class="n">JointStepCoordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles_to_steps</span><span class="p">(</span>
+            <span class="n">prev_angles</span><span class="o">.</span><span class="n">theta1</span><span class="p">,</span>
+            <span class="n">prev_angles</span><span class="o">.</span><span class="n">theta2</span><span class="p">,</span>
+            <span class="n">prev_angles</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+            <span class="n">prev_angles</span><span class="o">.</span><span class="n">theta4</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">duration_us</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_duration_calculator</span><span class="o">.</span><span class="n">calculate_duration</span><span class="p">(</span>
             <span class="n">current_steps</span><span class="o">=</span><span class="n">current_steps</span><span class="p">,</span>
             <span class="n">target_steps</span><span class="o">=</span><span class="n">target_steps</span><span class="p">,</span>
             <span class="n">speed_mm_s</span><span class="o">=</span><span class="n">waypoint</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span>
@@ -175,51 +206,15 @@
 
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">JointSteps</span><span class="p">(</span>
-                <span class="n">target_j1_steps</span><span class="o">=</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                <span class="n">target_j2_steps</span><span class="o">=</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                <span class="n">target_z_steps</span><span class="o">=</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-                <span class="n">target_j4_steps</span><span class="o">=</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                <span class="n">target_j1_steps</span><span class="o">=</span><span class="n">target_steps</span><span class="o">.</span><span class="n">j1</span><span class="p">,</span>
+                <span class="n">target_j2_steps</span><span class="o">=</span><span class="n">target_steps</span><span class="o">.</span><span class="n">j2</span><span class="p">,</span>
+                <span class="n">target_z_steps</span><span class="o">=</span><span class="n">target_steps</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+                <span class="n">target_j4_steps</span><span class="o">=</span><span class="n">target_steps</span><span class="o">.</span><span class="n">j4</span><span class="p">,</span>
                 <span class="n">duration_us</span><span class="o">=</span><span class="n">duration_us</span><span class="p">,</span>
-                <span class="n">feedrate_scale</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                <span class="n">feedrate_scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_FEEDRATE_SCALE</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">new_angles</span><span class="p">,</span>
         <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="StepDiscretizer.calculate_segment_duration">
-<a class="viewcode-back" href="../../../../../../../../scaralang.core.service.compiler.binary.step.discretizer.discretizer.html#scaralang.core.service.compiler.binary.step.discretizer.discretizer.StepDiscretizer.calculate_segment_duration">[docs]</a>
-    <span class="k">def</span> <span class="nf">calculate_segment_duration</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">current_steps</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
-        <span class="n">target_steps</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
-        <span class="n">speed_mm_s</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Computes segment execution duration in microseconds.</span>
-
-<span class="sd">            :param current_steps: Initial joint step coordinates.</span>
-<span class="sd">            :param target_steps: Target joint step coordinates.</span>
-<span class="sd">            :param speed_mm_s: Planned linear tool speed in mm/s.</span>
-<span class="sd">            :return: Microsecond execution duration.</span>
-<span class="sd">            :exceptions: None.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">deltas</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">abs</span><span class="p">(</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">current_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-            <span class="nb">abs</span><span class="p">(</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">current_steps</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
-            <span class="nb">abs</span><span class="p">(</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">current_steps</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
-            <span class="nb">abs</span><span class="p">(</span><span class="n">target_steps</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">current_steps</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
-        <span class="p">)</span>
-        <span class="n">max_delta</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">max_delta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">1000</span>
-
-        <span class="n">safe_speed</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">speed_mm_s</span><span class="p">)</span>
-        <span class="n">duration_sec</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">max_delta</span> <span class="o">/</span> <span class="p">(</span><span class="n">safe_speed</span> <span class="o">*</span> <span class="mf">10.0</span><span class="p">)</span>
-        <span class="n">duration_us</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">duration_sec</span> <span class="o">*</span> <span class="mf">1000000.0</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">duration_us</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="StepDiscretizer.get_version">

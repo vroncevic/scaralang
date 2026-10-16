@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,9 +61,15 @@ class TestITrajectoryMutable(TestCase):
         plan = TrajectoryPlan()
         mutable: ITrajectoryMutable = plan
 
-        p1 = Waypoint(x=10.0, y=20.0, z=0.0, speed=50.0)
-        p2 = Waypoint(x=30.0, y=40.0, z=0.0, speed=50.0)
-        p_new = Waypoint(x=15.0, y=25.0, z=5.0, speed=60.0)
+        p1 = Waypoint(
+            x=10.0, y=20.0, z=0.0, phi=0.0, speed=50.0, name='p1', command='MOVE'
+        )
+        p2 = Waypoint(
+            x=30.0, y=40.0, z=0.0, phi=0.0, speed=50.0, name='p2', command='MOVE'
+        )
+        p_new = Waypoint(
+            x=15.0, y=25.0, z=5.0, phi=0.0, speed=60.0, name='p_new', command='MOVE'
+        )
 
         mutable.add_point(p1)
         self.assertEqual(mutable.count, 1)
@@ -88,8 +94,12 @@ class TestITrajectoryMutable(TestCase):
         plan = TrajectoryPlan()
         mutable: ITrajectoryMutable = plan
         batch = [
-            Waypoint(x=1.0, y=2.0, z=0.0, speed=20.0),
-            Waypoint(x=3.0, y=4.0, z=0.0, speed=20.0),
+            Waypoint(
+                x=1.0, y=2.0, z=0.0, phi=0.0, speed=20.0, name='b1', command='MOVE'
+            ),
+            Waypoint(
+                x=3.0, y=4.0, z=0.0, phi=0.0, speed=20.0, name='b2', command='MOVE'
+            ),
         ]
         mutable.set_waypoints(batch)
         self.assertEqual(mutable.count, 2)

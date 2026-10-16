@@ -23,13 +23,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.service.trajectory.validation.ivalidator import ITrajectoryValidator
+from scaralang.core.service.trajectory.validation.feedrate.ivalidator import IFeedrateValidator
+from scaralang.core.service.trajectory.validation.plan.ivalidator import ITrajectoryPlanValidator
+from scaralang.core.service.trajectory.validation.waypoint.ivalidator import IWaypointValidator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,7 +45,11 @@ class ValidationProvides:
         It defines:
 
             :attributes:
-                | validator - Injected ITrajectoryValidator protocol instance.
+                | waypoint - Injected IWaypointValidator protocol instance.
+                | feedrate - Injected IFeedrateValidator protocol instance.
+                | plan - Injected ITrajectoryPlanValidator protocol instance.
     '''
 
-    validator: ITrajectoryValidator
+    waypoint: IWaypointValidator
+    feedrate: IFeedrateValidator
+    plan: ITrajectoryPlanValidator

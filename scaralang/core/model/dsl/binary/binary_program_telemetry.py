@@ -21,7 +21,7 @@ Info
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 
@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,9 +51,9 @@ class BinaryProgramTelemetry:
                 | total_wire_bytes - Total raw byte size of the wire frame stream.
     '''
 
-    source_instructions: int = 0
-    compiled_steps: int = 0
-    duration_us: int = 0
-    duration_s: float = 0.0
-    peak_steps: AxisPeakSteps = field(default_factory=AxisPeakSteps)
-    total_wire_bytes: int = 0
+    source_instructions: int
+    compiled_steps: int
+    duration_us: int
+    duration_s: float
+    peak_steps: AxisPeakSteps
+    total_wire_bytes: int

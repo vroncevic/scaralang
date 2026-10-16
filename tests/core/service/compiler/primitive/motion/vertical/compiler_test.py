@@ -26,8 +26,8 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.service.compiler.primitive.motion.isub_compiler import IMotionSubCompiler
 from scaralang.core.service.compiler.primitive.motion.vertical.compiler import VerticalMoveCompiler
 
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -75,7 +75,7 @@ class TestVerticalMoveCompiler(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.compiler.get_version(), '1.0.8')
+        self.assertEqual(self.compiler.get_version(), '1.0.9')
 
     def test_can_compile(self) -> None:
         '''
@@ -83,19 +83,19 @@ class TestVerticalMoveCompiler(TestCase):
         '''
         approach_inst = ScaraInstruction(
             command_type=ScaraCommandType.APPROACH,
-            parameters={InstructionParam.DIST: 15.0},
+            parameters={ScaraInstructionParam.DIST: 15.0},
             line_number=1,
             raw_text='APPROACH 15.0',
         )
         retract_inst = ScaraInstruction(
             command_type=ScaraCommandType.RETRACT,
-            parameters={InstructionParam.DIST: 20.0},
+            parameters={ScaraInstructionParam.DIST: 20.0},
             line_number=2,
             raw_text='RETRACT 20.0',
         )
         move_l_inst = ScaraInstruction(
             command_type=ScaraCommandType.MOVE_L,
-            parameters={InstructionParam.X: 50.0},
+            parameters={ScaraInstructionParam.X: 50.0},
             line_number=3,
             raw_text='MOVE_L X=50.0',
         )
@@ -107,7 +107,7 @@ class TestVerticalMoveCompiler(TestCase):
         '''
             Verifies compile generates valid Waypoint for APPROACH with default speed.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         context.pose.current_x = 100.0
         context.pose.current_y = 50.0
         context.pose.current_z = 30.0
@@ -116,7 +116,7 @@ class TestVerticalMoveCompiler(TestCase):
 
         inst = ScaraInstruction(
             command_type=ScaraCommandType.APPROACH,
-            parameters={InstructionParam.DIST: 10.0},
+            parameters={ScaraInstructionParam.DIST: 10.0},
             line_number=1,
             raw_text='APPROACH 10.0',
         )
@@ -135,13 +135,13 @@ class TestVerticalMoveCompiler(TestCase):
         '''
             Verifies compile handles explicit speed in APPROACH instruction.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         context.pose.current_z = 25.0
         inst = ScaraInstruction(
             command_type=ScaraCommandType.APPROACH,
             parameters={
-                InstructionParam.DIST: 5.0,
-                InstructionParam.SPEED: 40.0,
+                ScaraInstructionParam.DIST: 5.0,
+                ScaraInstructionParam.SPEED: 40.0,
             },
             line_number=1,
             raw_text='APPROACH 5.0 SPEED=40.0',
@@ -156,11 +156,11 @@ class TestVerticalMoveCompiler(TestCase):
         '''
             Verifies compile clamps z coordinate to zero on excessive approach distance.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         context.pose.current_z = 5.0
         inst = ScaraInstruction(
             command_type=ScaraCommandType.APPROACH,
-            parameters={InstructionParam.DIST: 20.0},
+            parameters={ScaraInstructionParam.DIST: 20.0},
             line_number=1,
             raw_text='APPROACH 20.0',
         )
@@ -173,7 +173,7 @@ class TestVerticalMoveCompiler(TestCase):
         '''
             Verifies compile generates valid Waypoint for RETRACT with rapid speed.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         context.pose.current_x = 80.0
         context.pose.current_y = 40.0
         context.pose.current_z = 10.0
@@ -182,7 +182,7 @@ class TestVerticalMoveCompiler(TestCase):
 
         inst = ScaraInstruction(
             command_type=ScaraCommandType.RETRACT,
-            parameters={InstructionParam.DIST: 15.0},
+            parameters={ScaraInstructionParam.DIST: 15.0},
             line_number=1,
             raw_text='RETRACT 15.0',
         )
@@ -201,13 +201,13 @@ class TestVerticalMoveCompiler(TestCase):
         '''
             Verifies compile handles explicit speed in RETRACT instruction.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         context.pose.current_z = 10.0
         inst = ScaraInstruction(
             command_type=ScaraCommandType.RETRACT,
             parameters={
-                InstructionParam.DIST: 10.0,
-                InstructionParam.SPEED: 75.0,
+                ScaraInstructionParam.DIST: 10.0,
+                ScaraInstructionParam.SPEED: 75.0,
             },
             line_number=1,
             raw_text='RETRACT 10.0 SPEED=75.0',

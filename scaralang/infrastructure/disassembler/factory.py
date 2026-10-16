@@ -28,13 +28,13 @@ from scaralang.core.service.disassembler.frame.factory import FrameFactory
 from scaralang.core.service.disassembler.frame.provides import FrameProvides
 from scaralang.core.service.disassembler.idisassembler import IScaraDisassembler
 from scaralang.core.service.disassembler.provides import DisassemblerProvides
-from scaralang.infrastructure.communication.protocol.binary.parser.factory import ParserFactory
+from scaralang.infrastructure.protocol.binary.parser.factory import ParserFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,10 +61,12 @@ class DefaultDisassemblerFactory:
         '''
         parser_provides = ParserFactory.create()
         parser = parser_provides.parser
-        unpacker = parser_provides.unpacker
 
         frame_provides: FrameProvides = FrameFactory.create(
-            dependencies=FrameDependencies(unpacker=unpacker)
+            dependencies=FrameDependencies(
+                motion_unpacker=parser_provides.motion_unpacker,
+                actuator_unpacker=parser_provides.actuator_unpacker,
+            )
         )
         disassembler_provides: DisassemblerProvides = DisassemblerFactory.create(
             dependencies=DisassemblerDependencies(
@@ -72,6 +74,7 @@ class DefaultDisassemblerFactory:
                 detail_decoder=frame_provides.decoder,
             )
         )
+
         return disassembler_provides.disassembler
 
     @classmethod

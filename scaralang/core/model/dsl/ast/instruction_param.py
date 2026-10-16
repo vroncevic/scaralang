@@ -16,7 +16,7 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Defines InstructionParam enumeration representing standardized AST parameter keys.
+    Defines ScaraInstructionParam enumeration representing standardized AST parameter keys.
 '''
 
 from __future__ import annotations
@@ -27,14 +27,14 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 @unique
-class InstructionParam(StrEnum):
+class ScaraInstructionParam(StrEnum):
     '''
         Enumeration of standardized parameter keys used in ScaraInstruction parameter dictionaries.
 

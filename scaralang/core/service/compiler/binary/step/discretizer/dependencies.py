@@ -23,20 +23,21 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.service.kinematics.iservice import IKinematicsService
+from scaralang.core.service.compiler.binary.step.duration.icalculator import ISegmentDurationCalculator
+from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
 from scaralang.core.service.kinematics.transmission.iconverter import IJointStepTransmissionConverter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True, slots=True, kw_only=True)
 class DiscretizerDependencies:
     '''
         Inbound parameter bundle for StepDiscretizer initialization.
@@ -44,9 +45,11 @@ class DiscretizerDependencies:
         It defines:
 
             :attributes:
-                | kinematics - Injected IKinematicsService protocol instance.
+                | spatial - Injected ISpatialKinematicsSolver protocol instance.
                 | transmission - Injected IJointStepTransmissionConverter protocol instance.
+                | duration_calculator - Injected ISegmentDurationCalculator protocol instance.
     '''
 
-    kinematics: IKinematicsService
+    spatial: ISpatialKinematicsSolver
     transmission: IJointStepTransmissionConverter
+    duration_calculator: ISegmentDurationCalculator

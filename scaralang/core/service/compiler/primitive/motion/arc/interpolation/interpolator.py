@@ -22,6 +22,7 @@ Info
 from __future__ import annotations
 
 from math import atan2, ceil, cos, degrees, hypot, pi, radians, sin
+from typing import ClassVar
 
 from scaralang.core.model.dsl.compiler.arc_geometry import ArcGeometry
 from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,12 +46,28 @@ class ArcInterpolator:
         It defines:
 
             :attributes:
-                | None.
+                | MIN_RADIUS - Minimum allowable radius threshold for circular arc.
+                | TWO_PI - Full circle revolution angle in radians (2*pi).
+                | HALF_PI - Quarter circle quadrant angle in radians (pi/2).
+                | MIN_STEP_ANGLE_DEG - Minimum step discretization angle in degrees.
+                | MIN_SEGMENTS - Minimum number of discrete arc segments.
+                | START_SEGMENT_INDEX - Initial index for segment generation loop.
+                | HALF_CIRCLE_DEG - Half revolution angle in degrees.
+                | FULL_CIRCLE_DEG - Full revolution angle in degrees.
             :methods:
                 | interpolate - Segments circular arc into discrete coordinates and tangent angles.
                 | calculate_point - Calculates coordinates and heading angle for given circle angle.
                 | get_version - Gets implementation version string.
     '''
+
+    MIN_RADIUS: ClassVar[float] = 1e-4
+    TWO_PI: ClassVar[float] = 2.0 * pi
+    HALF_PI: ClassVar[float] = pi / 2.0
+    MIN_STEP_ANGLE_DEG: ClassVar[float] = 0.5
+    MIN_SEGMENTS: ClassVar[int] = 4
+    START_SEGMENT_INDEX: ClassVar[int] = 1
+    HALF_CIRCLE_DEG: ClassVar[float] = 180.0
+    FULL_CIRCLE_DEG: ClassVar[float] = 360.0
 
     def interpolate(
         self,
@@ -70,7 +87,7 @@ class ArcInterpolator:
         )
         radius = hypot(geometry.offset.x, geometry.offset.y)
 
-        if radius < 1e-4:
+        if radius < self.MIN_RADIUS:
             raise ScaraKinematicsError('Arc radius must be greater than zero')
 
         angle_start = atan2(
@@ -82,18 +99,18 @@ class ArcInterpolator:
 
         if geometry.is_clockwise:
             if angle_end >= angle_start:
-                angle_end -= 2.0 * pi
+                angle_end -= self.TWO_PI
         else:
             if angle_end <= angle_start:
-                angle_end += 2.0 * pi
+                angle_end += self.TWO_PI
 
         total_sweep = abs(angle_end - angle_start)
-        step_rad = radians(max(0.5, geometry.step_angle_deg))
-        num_segments = max(4, int(ceil(total_sweep / step_rad)))
+        step_rad = radians(max(self.MIN_STEP_ANGLE_DEG, geometry.step_angle_deg))
+        num_segments = max(self.MIN_SEGMENTS, int(ceil(total_sweep / step_rad)))
 
         points: list[ArcPoint] = []
 
-        for i in range(1, num_segments + 1):
+        for i in range(self.START_SEGMENT_INDEX, num_segments + 1):
             cur_angle = angle_start + (i / float(num_segments)) * (angle_end - angle_start)
             points.append(
                 self.calculate_point(
@@ -127,9 +144,12 @@ class ArcInterpolator:
         px: float = center.x + radius * cos(angle)
         py: float = center.y + radius * sin(angle)
         tangent_rad: float = angle - (
-            pi / 2.0 if is_clockwise else -pi / 2.0
+            self.HALF_PI if is_clockwise else -self.HALF_PI
         )
-        tangent_deg: float = (degrees(tangent_rad) + 180.0) % 360.0 - 180.0
+        tangent_deg: float = (
+            (degrees(tangent_rad) + self.HALF_CIRCLE_DEG) % self.FULL_CIRCLE_DEG
+            - self.HALF_CIRCLE_DEG
+        )
 
         return ArcPoint(
             point=Point2D(x=px, y=py),

@@ -21,24 +21,26 @@ Info
 
 from __future__ import annotations
 
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
 from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
+from scaralang.core.model.kinematics.joint_angles import JointAngles
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.binary.step.discretizer.dependencies import DiscretizerDependencies
 from scaralang.core.service.compiler.binary.step.discretizer.discretizer import StepDiscretizer
 from scaralang.core.service.compiler.binary.step.discretizer.idiscretizer import IStepDiscretizer
+from scaralang.core.service.compiler.binary.step.duration.factory import SegmentDurationCalculatorFactory
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
-from scaralang.core.service.kinematics.transmission.factory import JointStepTransmissionConverterFactory
+from scaralang.core.service.kinematics.transmission.factory import TransmissionFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,7 +48,7 @@ __status__ = 'Updated'
 
 class TestStepDiscretizer(TestCase):
     '''
-        Test cases verifying StepDiscretizer discretization and duration calculation.
+        Test cases verifying StepDiscretizer discretization.
 
         It defines:
 
@@ -55,90 +57,121 @@ class TestStepDiscretizer(TestCase):
                 | test_structural_conformance - Verifies protocol satisfaction.
                 | test_angles_to_steps - Verifies conversion from angles to steps.
                 | test_discretize_waypoint - Verifies Cartesian waypoint discretization.
-                | test_calculate_segment_duration - Verifies segment duration calculation.
                 | test_discretize_unreachable_waypoint_raises_error - Verifies ScaraKinematicsError.
-                | test_calculate_segment_duration_zero_delta - Verifies default duration for zero delta.
+                | test_discretize_z_out_of_bounds_raises_error - Verifies Z limits error.
                 | test_get_version - Verifies implementation version string.
     '''
 
     def setUp(self) -> None:
-        '''Sets up test fixtures.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        transmission = JointStepTransmissionConverterFactory.create(
+        '''
+            Sets up test fixtures.
+
+            :exceptions: None.
+        '''
+        spatial = DefaultKinematicsFactory.create().spatial
+        transmission = TransmissionFactory.create(
             transmission=DefaultScaraProfile.create_transmission()
         )
+        duration_calculator = SegmentDurationCalculatorFactory.create()
         deps = DiscretizerDependencies(
-            kinematics=kinematics,
+            spatial=spatial,
             transmission=transmission,
+            duration_calculator=duration_calculator,
         )
         self.discretizer = StepDiscretizer(dependencies=deps)
 
     def test_structural_conformance(self) -> None:
-        '''Verifies that StepDiscretizer satisfies IStepDiscretizer.'''
+        '''
+            Verifies that StepDiscretizer satisfies IStepDiscretizer.
+
+            :exceptions: None.
+        '''
         self.assertIsInstance(self.discretizer, IStepDiscretizer)
 
     def test_angles_to_steps(self) -> None:
-        '''Verifies conversion from angles to discrete steps.'''
-        steps = self.discretizer.angles_to_steps(0.0, 0.0, 10.0, 0.0)
-        self.assertEqual(len(steps), 4)
-        self.assertEqual(steps[0], 0)
-        self.assertEqual(steps[1], 0)
-        self.assertGreater(steps[2], 0)
-        self.assertEqual(steps[3], 0)
+        '''
+            Verifies conversion from angles to discrete steps.
+
+            :exceptions: None.
+        '''
+        steps: JointStepCoordinates = self.discretizer.angles_to_steps(0.0, 0.0, 10.0, 0.0)
+        self.assertEqual(steps.j1, 0)
+        self.assertEqual(steps.j2, 0)
+        self.assertGreater(steps.z, 0)
+        self.assertEqual(steps.j4, 0)
 
     def test_discretize_waypoint(self) -> None:
-        '''Verifies Cartesian waypoint discretization into JointSteps.'''
+        '''
+            Verifies Cartesian waypoint discretization into JointSteps.
+
+            :exceptions: None.
+        '''
         waypoint = Waypoint(
             x=150.0,
             y=50.0,
             z=10.0,
             phi=0.0,
             speed=50.0,
+            name='',
+            command='',
         )
         joint_steps, new_angles = self.discretizer.discretize_waypoint(
             waypoint=waypoint,
-            prev_angles=(0.0, 0.0, 0.0, 0.0),
+            prev_angles=JointAngles(theta1=0.0, theta2=0.0, z=0.0, theta4=0.0),
         )
         self.assertIsInstance(joint_steps, JointSteps)
         self.assertGreater(joint_steps.duration_us, 0)
-        self.assertEqual(len(new_angles), 4)
-
-    def test_calculate_segment_duration(self) -> None:
-        '''Verifies duration calculation in microseconds.'''
-        duration_us = self.discretizer.calculate_segment_duration(
-            current_steps=(0, 0, 0, 0),
-            target_steps=(1000, 1000, 500, 200),
-            speed_mm_s=50.0,
-        )
-        self.assertGreater(duration_us, 0)
+        self.assertIsInstance(new_angles, JointAngles)
 
     def test_discretize_unreachable_waypoint_raises_error(self) -> None:
-        '''Verifies ScaraKinematicsError on unreachable waypoint.'''
+        '''
+            Verifies ScaraKinematicsError on unreachable waypoint.
+
+            :exceptions: None.
+        '''
         unreachable = Waypoint(
             x=99999.0,
             y=99999.0,
             z=10.0,
             phi=0.0,
             speed=50.0,
+            name='',
+            command='',
         )
         with self.assertRaises(ScaraKinematicsError):
             self.discretizer.discretize_waypoint(
                 waypoint=unreachable,
-                prev_angles=(0.0, 0.0, 0.0, 0.0),
+                prev_angles=JointAngles(theta1=0.0, theta2=0.0, z=0.0, theta4=0.0),
             )
 
-    def test_calculate_segment_duration_zero_delta(self) -> None:
-        '''Verifies duration is 1000 us when start and target steps are identical.'''
-        duration_us = self.discretizer.calculate_segment_duration(
-            current_steps=(100, 100, 100, 100),
-            target_steps=(100, 100, 100, 100),
-            speed_mm_s=50.0,
+    def test_discretize_z_out_of_bounds_raises_error(self) -> None:
+        '''
+            Verifies ScaraKinematicsError when waypoint Z is outside vertical travel bounds.
+
+            :exceptions: None.
+        '''
+        z_invalid = Waypoint(
+            x=150.0,
+            y=50.0,
+            z=-100.0,
+            phi=0.0,
+            speed=50.0,
+            name='',
+            command='',
         )
-        self.assertEqual(duration_us, 1000)
+        with self.assertRaises(ScaraKinematicsError):
+            self.discretizer.discretize_waypoint(
+                waypoint=z_invalid,
+                prev_angles=JointAngles(theta1=0.0, theta2=0.0, z=0.0, theta4=0.0),
+            )
 
     def test_get_version(self) -> None:
-        '''Verifies get_version returns valid version string.'''
-        self.assertEqual(self.discretizer.get_version(), '1.0.8')
+        '''
+            Verifies get_version returns valid version string.
+
+            :exceptions: None.
+        '''
+        self.assertEqual(self.discretizer.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

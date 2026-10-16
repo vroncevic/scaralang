@@ -26,7 +26,7 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.arc_point import ArcPoint
 from scaralang.core.service.compiler.primitive.motion.arc.calculator.icalculator import IArcPointCalculator
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,7 +50,7 @@ class DummyArcPointCalculator:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[Sequence[ArcPoint], Point2D]:
         '''
             Dummy implementation of calculate_points.

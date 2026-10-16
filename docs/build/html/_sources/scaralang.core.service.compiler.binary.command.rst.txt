@@ -18,6 +18,7 @@ Submodules
    :maxdepth: 4
 
    scaralang.core.service.compiler.binary.command.compiler
+   scaralang.core.service.compiler.binary.command.compiler_dependencies
    scaralang.core.service.compiler.binary.command.dependencies
    scaralang.core.service.compiler.binary.command.factory
    scaralang.core.service.compiler.binary.command.icompiler

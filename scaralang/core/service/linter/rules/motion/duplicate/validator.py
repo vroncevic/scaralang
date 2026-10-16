@@ -23,17 +23,17 @@ from __future__ import annotations
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_code import ScaraDiagnosticCode
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
-from scaralang.core.model.dsl.linter.scara_lint_context import ScaraLintContext
+from scaralang.core.model.dsl.linter.lint_context import LintContext
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -64,7 +64,7 @@ class DuplicateValidator:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraLintContext,
+        context: LintContext,
     ) -> tuple[ScaraDiagnostic, ...]:
         '''
             Checks instruction target coordinates and reports consecutive duplicate motions.
@@ -80,10 +80,10 @@ class DuplicateValidator:
             return ()
 
         params = instruction.parameters
-        x_val = params.get(InstructionParam.X)
-        y_val = params.get(InstructionParam.Y)
-        z_val = params.get(InstructionParam.Z)
-        phi_val = params.get(InstructionParam.PHI, 0.0)
+        x_val = params.get(ScaraInstructionParam.X)
+        y_val = params.get(ScaraInstructionParam.Y)
+        z_val = params.get(ScaraInstructionParam.Z)
+        phi_val = params.get(ScaraInstructionParam.PHI, 0.0)
 
         if x_val is None or y_val is None or z_val is None:
             context.last_coords = ()

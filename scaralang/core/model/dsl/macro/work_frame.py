@@ -23,13 +23,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.point_3d import Point3D
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -38,14 +38,14 @@ __status__ = 'Updated'
 @dataclass(frozen=True, slots=True, kw_only=True)
 class WorkFrame:
     '''
-        Immutable planar work coordinate frame defining 2D translation and rotation.
+        Immutable spatial work coordinate frame defining 3D translation and rotation.
 
         It defines:
 
             :attributes:
-                | origin - Frame translation origin coordinate in millimeters.
+                | origin - Frame translation origin 3D coordinate in millimeters.
                 | angle_deg - Frame rotation angle relative to world coordinate system in degrees.
     '''
 
-    origin: Point2D
+    origin: Point3D
     angle_deg: float

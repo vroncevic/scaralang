@@ -81,6 +81,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">MIN_SAFETY_MARGIN_MM - Minimum allowed obstacle safety margin in mm.</div>
+<div class="line">MIN_ANGULAR_STEP_RAD - Minimum allowed angular discretization resolution in radians.</div>
+<div class="line">MIN_STEPS - Minimum bypass arc step count.</div>
+<div class="line">STEP_OFFSET - Loop boundary offset for arc endpoint inclusion.</div>
+<div class="line">DEFAULT_PHI - Default orientation angle in degrees.</div>
+<div class="line">DEFAULT_NAME - Default waypoint identifier label.</div>
+<div class="line">DEFAULT_COMMAND - Default waypoint command string.</div>
 <div class="line">_validator - Injected dead zone validation port.</div>
 <div class="line">_calculator - Injected obstacle tangent arc calculator port.</div>
 <div class="line">_safe_radius - Radius of the bypass arc clearance boundary in mm.</div>
@@ -97,6 +104,41 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.DEFAULT_COMMAND">
+<span class="sig-name descname"><span class="pre">DEFAULT_COMMAND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.DEFAULT_COMMAND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.DEFAULT_NAME">
+<span class="sig-name descname"><span class="pre">DEFAULT_NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.DEFAULT_NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.DEFAULT_PHI">
+<span class="sig-name descname"><span class="pre">DEFAULT_PHI</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.DEFAULT_PHI" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.MIN_ANGULAR_STEP_RAD">
+<span class="sig-name descname"><span class="pre">MIN_ANGULAR_STEP_RAD</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.01</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.MIN_ANGULAR_STEP_RAD" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.MIN_SAFETY_MARGIN_MM">
+<span class="sig-name descname"><span class="pre">MIN_SAFETY_MARGIN_MM</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.1</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.MIN_SAFETY_MARGIN_MM" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.MIN_STEPS">
+<span class="sig-name descname"><span class="pre">MIN_STEPS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.MIN_STEPS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.STEP_OFFSET">
+<span class="sig-name descname"><span class="pre">STEP_OFFSET</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.STEP_OFFSET" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner._angular_step_rad">
 <span class="sig-name descname"><span class="pre">_angular_step_rad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner._angular_step_rad" title="Link to this definition">¶</a></dt>
@@ -183,6 +225,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.trajectory.avoidance.bypass.planner.planner module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.DEFAULT_COMMAND"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner.DEFAULT_COMMAND</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.DEFAULT_NAME"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner.DEFAULT_NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.DEFAULT_PHI"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner.DEFAULT_PHI</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.MIN_ANGULAR_STEP_RAD"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner.MIN_ANGULAR_STEP_RAD</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.MIN_SAFETY_MARGIN_MM"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner.MIN_SAFETY_MARGIN_MM</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.MIN_STEPS"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner.MIN_STEPS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner.STEP_OFFSET"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner.STEP_OFFSET</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner._angular_step_rad"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner._angular_step_rad</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner._calculator"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner._calculator</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.planner.DeadZoneBypassPlanner._safe_radius"><code class="docutils literal notranslate"><span class="pre">DeadZoneBypassPlanner._safe_radius</span></code></a></li>

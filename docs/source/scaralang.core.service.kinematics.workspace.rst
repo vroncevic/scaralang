@@ -1,6 +1,14 @@
 scaralang.core.service.kinematics.workspace package
 ===================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.kinematics.workspace.boundary
+
 Submodules
 ----------
 

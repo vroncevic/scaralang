@@ -61,16 +61,16 @@
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.command_type</span> <span class="kn">import</span> <span class="n">ScaraCommandType</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction</span> <span class="kn">import</span> <span class="n">ScaraInstruction</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">InstructionParam</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.scara_compiler_context</span> <span class="kn">import</span> <span class="n">ScaraCompilerContext</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">ScaraInstructionParam</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.compiler_context</span> <span class="kn">import</span> <span class="n">CompilerContext</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.macro.work_frame</span> <span class="kn">import</span> <span class="n">WorkFrame</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_3d</span> <span class="kn">import</span> <span class="n">Point3D</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -112,7 +112,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">instruction</span><span class="p">:</span> <span class="n">ScaraInstruction</span><span class="p">,</span>
-        <span class="n">context</span><span class="p">:</span> <span class="n">ScaraCompilerContext</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">CompilerContext</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ScaraInstruction</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Updates compiler context frame transformation parameters.</span>
@@ -123,21 +123,23 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">instruction</span><span class="o">.</span><span class="n">command_type</span> <span class="o">==</span> <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">FRAME_RESET</span><span class="p">:</span>
             <span class="n">context</span><span class="o">.</span><span class="n">active_frame</span> <span class="o">=</span> <span class="n">WorkFrame</span><span class="p">(</span>
-                <span class="n">origin</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">angle_deg</span><span class="o">=</span><span class="mf">0.0</span>
+                <span class="n">origin</span><span class="o">=</span><span class="n">Point3D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">angle_deg</span><span class="o">=</span><span class="mf">0.0</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="n">instruction</span><span class="o">.</span><span class="n">parameters</span>
-            <span class="n">raw_angle</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">ANGLE</span><span class="p">)</span>
+            <span class="n">raw_angle</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">ANGLE</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">raw_angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">raw_angle</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">RZ</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+                <span class="n">raw_angle</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">RZ</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-            <span class="n">raw_x</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-            <span class="n">raw_y</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">InstructionParam</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">raw_x</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">raw_y</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">raw_z</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
             <span class="n">context</span><span class="o">.</span><span class="n">active_frame</span> <span class="o">=</span> <span class="n">WorkFrame</span><span class="p">(</span>
-                <span class="n">origin</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span>
+                <span class="n">origin</span><span class="o">=</span><span class="n">Point3D</span><span class="p">(</span>
                     <span class="n">x</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">raw_x</span><span class="p">),</span>
                     <span class="n">y</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">raw_y</span><span class="p">),</span>
+                    <span class="n">z</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">raw_z</span><span class="p">),</span>
                 <span class="p">),</span>
                 <span class="n">angle_deg</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">raw_angle</span><span class="p">),</span>
             <span class="p">)</span>

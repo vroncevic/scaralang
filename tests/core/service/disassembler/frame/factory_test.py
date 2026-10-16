@@ -28,13 +28,13 @@ from scaralang.core.service.disassembler.frame.dependencies import FrameDependen
 from scaralang.core.service.disassembler.frame.factory import FrameFactory
 from scaralang.core.service.disassembler.frame.iframe import IFrameDetailDecoder
 from scaralang.core.service.disassembler.frame.provides import FrameProvides
-from scaralang.infrastructure.communication.protocol.binary.parser.unpacker.factory import UnpackerFactory
+from scaralang.infrastructure.protocol.binary.parser.unpacker.factory import UnpackerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,15 +45,18 @@ class TestFrameFactory(TestCase):
 
     def test_create(self) -> None:
         '''Verifies factory creates configured FrameProvides instance with IFrameDetailDecoder.'''
-        unpacker = UnpackerFactory.create().unpacker
-        dependencies = FrameDependencies(unpacker=unpacker)
+        unpackers = UnpackerFactory.create()
+        dependencies = FrameDependencies(
+            motion_unpacker=unpackers.motion,
+            actuator_unpacker=unpackers.actuator,
+        )
         provides: FrameProvides = FrameFactory.create(dependencies=dependencies)
         self.assertIsInstance(provides, FrameProvides)
         self.assertIsInstance(provides.decoder, IFrameDetailDecoder)
 
     def test_get_version(self) -> None:
         '''Verifies factory version string retrieval.'''
-        self.assertEqual(FrameFactory.get_version(), '1.0.8')
+        self.assertEqual(FrameFactory.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

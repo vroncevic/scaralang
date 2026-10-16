@@ -16,27 +16,31 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Converts Cartesian waypoints into discrete motor joint steps with timing.
+    Discretizes Cartesian motion waypoints into hardware motor step coordinates.
 '''
 
 from __future__ import annotations
 
 from math import radians
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
-from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.cartesian_pose import CartesianPose
+from scaralang.core.model.kinematics.joint_angles import JointAngles
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
+from scaralang.core.model.kinematics.scara_joints import ScaraJoints
 from scaralang.core.model.protocol.joint_steps import JointSteps
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.binary.step.discretizer.dependencies import DiscretizerDependencies
-from scaralang.core.service.kinematics.iservice import IKinematicsService
+from scaralang.core.service.compiler.binary.step.duration.icalculator import ISegmentDurationCalculator
+from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
 from scaralang.core.service.kinematics.transmission.iconverter import IJointStepTransmissionConverter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,18 +53,24 @@ class StepDiscretizer:
         It defines:
 
             :attributes:
-                | _kinematics - Analytical SCARA kinematics calculation engine.
+                | DEFAULT_FEEDRATE_SCALE - Default percentage feedrate scale.
+                | DEFAULT_ELBOW_LEFT - Default IK elbow configuration flag.
+                | _spatial - Analytical spatial SCARA kinematics solver engine.
                 | _transmission - Injected bidirectional transmission converter.
+                | _duration_calculator - Injected segment duration calculator.
             :methods:
                 | __init__ - Initializes step discretizer with dependency bundle.
                 | angles_to_steps - Converts joint radians/mm to integer motor steps.
                 | discretize_waypoint - Solves IK and maps Cartesian waypoint into JointSteps.
-                | calculate_segment_duration - Computes execution duration in microseconds.
                 | get_version - Returns implementation version string.
     '''
 
-    _kinematics: IKinematicsService
+    DEFAULT_FEEDRATE_SCALE: ClassVar[int] = 100
+    DEFAULT_ELBOW_LEFT: ClassVar[bool] = False
+
+    _spatial: ISpatialKinematicsSolver
     _transmission: IJointStepTransmissionConverter
+    _duration_calculator: ISegmentDurationCalculator
 
     def __init__(self, *, dependencies: DiscretizerDependencies) -> None:
         '''
@@ -69,8 +79,9 @@ class StepDiscretizer:
             :param dependencies: Injected DiscretizerDependencies bundle.
             :exceptions: None.
         '''
-        self._kinematics: Final[IKinematicsService] = dependencies.kinematics
+        self._spatial: Final[ISpatialKinematicsSolver] = dependencies.spatial
         self._transmission: Final[IJointStepTransmissionConverter] = dependencies.transmission
+        self._duration_calculator: Final[ISegmentDurationCalculator] = dependencies.duration_calculator
 
     def angles_to_steps(
         self,
@@ -78,7 +89,7 @@ class StepDiscretizer:
         theta2_rad: float,
         z_mm: float,
         theta4_rad: float,
-    ) -> tuple[int, int, int, int]:
+    ) -> JointStepCoordinates:
         '''
             Converts joint angles and linear Z travel into discrete motor steps.
 
@@ -86,7 +97,7 @@ class StepDiscretizer:
             :param theta2_rad: Elbow joint angle in radians.
             :param z_mm: Linear vertical travel in millimeters.
             :param theta4_rad: Wrist joint angle in radians.
-            :return: Tuple of (j1, j2, z, j4) integer microsteps.
+            :return: JointStepCoordinates containing (j1, j2, z, j4) integer microsteps.
             :exceptions: None.
         '''
         return self._transmission.angles_to_steps(
@@ -97,32 +108,52 @@ class StepDiscretizer:
         self,
         *,
         waypoint: Waypoint,
-        prev_angles: tuple[float, float, float, float],
-    ) -> tuple[JointSteps, tuple[float, float, float, float]]:
+        prev_angles: JointAngles,
+    ) -> tuple[JointSteps, JointAngles]:
         '''
             Solves IK and converts Cartesian waypoint into motor steps with duration.
 
             :param waypoint: Target Cartesian Waypoint instance.
-            :param prev_angles: Preceding joint angles (th1, th2, z, th4).
-            :return: Tuple of (JointSteps model, new joint angles tuple).
+            :param prev_angles: Preceding joint angles model.
+            :return: Tuple of (JointSteps model, new joint angles model).
             :exceptions: ScaraKinematicsError if position is unreachable.
         '''
-        ik_sol: tuple[float, float] | None = self._kinematics.solve_ik(
-            point=Point2D(x=waypoint.x, y=waypoint.y),
-            elbow_left=False,
+        pose = CartesianPose(
+            x=waypoint.x,
+            y=waypoint.y,
+            z=waypoint.z,
+            phi=radians(waypoint.phi),
+        )
+        ik_sol: ScaraJoints = self._spatial.solve_ik_4d(
+            pose=pose,
+            elbow_left=self.DEFAULT_ELBOW_LEFT,
         )
 
-        if ik_sol is None:
+        if not ik_sol.reachable:
             raise ScaraKinematicsError(
-                f'Waypoint ({waypoint.x:.2f}, {waypoint.y:.2f}) is outside kinematic reach.'
+                f'Waypoint ({waypoint.x:.2f}, {waypoint.y:.2f}, {waypoint.z:.2f}) '
+                f'is outside kinematic reach or vertical limits ({ik_sol.status}).'
             )
 
-        new_angles: tuple[float, float, float, float] = (
-            ik_sol[0], ik_sol[1], waypoint.z, radians(waypoint.phi)
+        new_angles = JointAngles(
+            theta1=ik_sol.theta1,
+            theta2=ik_sol.theta2,
+            z=ik_sol.z,
+            theta4=ik_sol.theta4,
         )
-        target_steps: tuple[int, int, int, int] = self.angles_to_steps(*new_angles)
-        current_steps: tuple[int, int, int, int] = self.angles_to_steps(*prev_angles)
-        duration_us: int = self.calculate_segment_duration(
+        target_steps: JointStepCoordinates = self.angles_to_steps(
+            new_angles.theta1,
+            new_angles.theta2,
+            new_angles.z,
+            new_angles.theta4,
+        )
+        current_steps: JointStepCoordinates = self.angles_to_steps(
+            prev_angles.theta1,
+            prev_angles.theta2,
+            prev_angles.z,
+            prev_angles.theta4,
+        )
+        duration_us: int = self._duration_calculator.calculate_duration(
             current_steps=current_steps,
             target_steps=target_steps,
             speed_mm_s=waypoint.speed,
@@ -130,48 +161,15 @@ class StepDiscretizer:
 
         return (
             JointSteps(
-                target_j1_steps=target_steps[0],
-                target_j2_steps=target_steps[1],
-                target_z_steps=target_steps[2],
-                target_j4_steps=target_steps[3],
+                target_j1_steps=target_steps.j1,
+                target_j2_steps=target_steps.j2,
+                target_z_steps=target_steps.z,
+                target_j4_steps=target_steps.j4,
                 duration_us=duration_us,
-                feedrate_scale=100,
+                feedrate_scale=self.DEFAULT_FEEDRATE_SCALE,
             ),
             new_angles,
         )
-
-    def calculate_segment_duration(
-        self,
-        *,
-        current_steps: tuple[int, int, int, int],
-        target_steps: tuple[int, int, int, int],
-        speed_mm_s: float,
-    ) -> int:
-        '''
-            Computes segment execution duration in microseconds.
-
-            :param current_steps: Initial joint step coordinates.
-            :param target_steps: Target joint step coordinates.
-            :param speed_mm_s: Planned linear tool speed in mm/s.
-            :return: Microsecond execution duration.
-            :exceptions: None.
-        '''
-        deltas: tuple[int, int, int, int] = (
-            abs(target_steps[0] - current_steps[0]),
-            abs(target_steps[1] - current_steps[1]),
-            abs(target_steps[2] - current_steps[2]),
-            abs(target_steps[3] - current_steps[3]),
-        )
-        max_delta: int = max(deltas)
-
-        if max_delta == 0:
-            return 1000
-
-        safe_speed: float = max(1.0, speed_mm_s)
-        duration_sec: float = max_delta / (safe_speed * 10.0)
-        duration_us: int = int(duration_sec * 1000000.0)
-
-        return max(duration_us, 5000)
 
     def get_version(self) -> str:
         '''

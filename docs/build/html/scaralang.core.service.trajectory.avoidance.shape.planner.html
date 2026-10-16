@@ -80,6 +80,14 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">DEFAULT_COMMAND - Default waypoint command string.</div>
+<div class="line">DEFAULT_NAME - Default waypoint identifier label.</div>
+<div class="line">DEFAULT_PHI - Default orientation angle in degrees.</div>
+<div class="line">FIRST_POINT_INDEX - Index of the first point in a sequence.</div>
+<div class="line">LAST_POINT_INDEX - Negative index of the last point in a sequence.</div>
+<div class="line">LOOP_OFFSET - Loop boundary offset for vertex segments.</div>
+<div class="line">NEXT_POINT_OFFSET - Index offset to next vertex point.</div>
+<div class="line">SINGLE_POINT_COUNT - Threshold count for single-point contour.</div>
 <div class="line">_validator - Injected dead zone validation port.</div>
 <div class="line">_bypass_planner - Injected dead zone bypass planner port.</div>
 </div>
@@ -93,6 +101,46 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.DEFAULT_COMMAND">
+<span class="sig-name descname"><span class="pre">DEFAULT_COMMAND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.DEFAULT_COMMAND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.DEFAULT_NAME">
+<span class="sig-name descname"><span class="pre">DEFAULT_NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.DEFAULT_NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.DEFAULT_PHI">
+<span class="sig-name descname"><span class="pre">DEFAULT_PHI</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.DEFAULT_PHI" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.FIRST_POINT_INDEX">
+<span class="sig-name descname"><span class="pre">FIRST_POINT_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.FIRST_POINT_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.LAST_POINT_INDEX">
+<span class="sig-name descname"><span class="pre">LAST_POINT_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.LAST_POINT_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.LOOP_OFFSET">
+<span class="sig-name descname"><span class="pre">LOOP_OFFSET</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.LOOP_OFFSET" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.NEXT_POINT_OFFSET">
+<span class="sig-name descname"><span class="pre">NEXT_POINT_OFFSET</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.NEXT_POINT_OFFSET" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.SINGLE_POINT_COUNT">
+<span class="sig-name descname"><span class="pre">SINGLE_POINT_COUNT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.SINGLE_POINT_COUNT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner._bypass_planner">
 <span class="sig-name descname"><span class="pre">_bypass_planner</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.trajectory.avoidance.bypass.planner.iplanner.html#scaralang.core.service.trajectory.avoidance.bypass.planner.iplanner.IDeadZoneBypassPlanner" title="scaralang.core.service.trajectory.avoidance.bypass.planner.iplanner.IDeadZoneBypassPlanner"><span class="pre">IDeadZoneBypassPlanner</span></a></em><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner._bypass_planner" title="Link to this definition">¶</a></dt>
@@ -155,6 +203,14 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.trajectory.avoidance.shape.planner module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.DEFAULT_COMMAND"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner.DEFAULT_COMMAND</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.DEFAULT_NAME"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner.DEFAULT_NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.DEFAULT_PHI"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner.DEFAULT_PHI</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.FIRST_POINT_INDEX"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner.FIRST_POINT_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.LAST_POINT_INDEX"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner.LAST_POINT_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.LOOP_OFFSET"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner.LOOP_OFFSET</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.NEXT_POINT_OFFSET"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner.NEXT_POINT_OFFSET</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.SINGLE_POINT_COUNT"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner.SINGLE_POINT_COUNT</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner._bypass_planner"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner._bypass_planner</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner._validator"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner._validator</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.avoidance.shape.planner.AvoidanceShapePlanner.get_version"><code class="docutils literal notranslate"><span class="pre">AvoidanceShapePlanner.get_version()</span></code></a></li>

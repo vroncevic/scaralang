@@ -1,6 +1,14 @@
 scaralang.core.service.disassembler.frame package
 =================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.disassembler.frame.decoder
+
 Submodules
 ----------
 

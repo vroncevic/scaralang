@@ -21,14 +21,19 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.model.dsl.binary.step import Step
+from typing import ClassVar
+
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.axis_name import AxisName
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.trajectory.bottleneck_incident import BottleneckIncident
+from scaralang.core.model.trajectory.constraint_type import ConstraintType
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -41,11 +46,30 @@ class MotionBottleneckDetector:
         It defines:
 
             :attributes:
+                | NAME - Canonical component identifier name.
+                | ZERO_DELTA - Zero step movement threshold.
+                | INITIAL_COORDS - Initial joint step coordinate tuple.
+                | _ACCEL_DURATION_THRESHOLD_US - Maximum step duration in us considered acceleration-constrained.
+                | _AXIS_NAMES - Canonical tuple of 4-DOF manipulator axis identity enums.
                 | name - Identifier name of the motion bottleneck detector.
             :methods:
                 | detect_bottlenecks - Evaluates motion steps to identify limiting axes.
                 | detect_step_bottleneck - Evaluates a single step displacement for bottlenecks.
     '''
+
+    NAME: ClassVar[str] = 'motion_bottleneck_detector'
+    ZERO_DELTA: ClassVar[int] = 0
+    INITIAL_COORDS: ClassVar[JointStepCoordinates] = JointStepCoordinates(
+        j1=0, j2=0, z=0, j4=0
+    )
+
+    _ACCEL_DURATION_THRESHOLD_US: ClassVar[int] = 5000
+    _AXIS_NAMES: ClassVar[tuple[AxisName, AxisName, AxisName, AxisName]] = (
+        AxisName.J1,
+        AxisName.J2,
+        AxisName.Z,
+        AxisName.J4,
+    )
 
     @property
     def name(self) -> str:
@@ -54,14 +78,14 @@ class MotionBottleneckDetector:
 
             :return: Detector name string.
         '''
-        return 'motion_bottleneck_detector'
+        return self.NAME
 
     def detect_step_bottleneck(
         self,
         *,
-        step: Step,
+        step: BinaryStep,
         step_index: int,
-        prev_coords: tuple[int, int, int, int]
+        prev_coords: JointStepCoordinates,
     ) -> BottleneckIncident | None:
         '''
             Determines whether a motion step is constrained by an axis velocity or acceleration.
@@ -72,19 +96,22 @@ class MotionBottleneckDetector:
             :return: BottleneckIncident if movement occurred, else None.
         '''
         deltas: tuple[int, int, int, int] = (
-            abs(step.target_steps[0] - prev_coords[0]),
-            abs(step.target_steps[1] - prev_coords[1]),
-            abs(step.target_steps[2] - prev_coords[2]),
-            abs(step.target_steps[3] - prev_coords[3]),
+            abs(step.target_steps.j1 - prev_coords.j1),
+            abs(step.target_steps.j2 - prev_coords.j2),
+            abs(step.target_steps.z - prev_coords.z),
+            abs(step.target_steps.j4 - prev_coords.j4),
         )
         max_delta: int = max(deltas)
 
-        if max_delta == 0:
+        if max_delta == self.ZERO_DELTA:
             return None
 
-        axis_names: tuple[str, str, str, str] = ('J1', 'J2', 'Z', 'J4')
-        limiting_axis: str = axis_names[deltas.index(max_delta)]
-        constraint_type: str = 'ACCELERATION' if step.duration_us <= 5000 else 'VELOCITY'
+        limiting_axis: AxisName = self._AXIS_NAMES[deltas.index(max_delta)]
+        constraint_type: ConstraintType = (
+            ConstraintType.ACCELERATION
+            if step.duration_us <= self._ACCEL_DURATION_THRESHOLD_US
+            else ConstraintType.VELOCITY
+        )
 
         return BottleneckIncident(
             step_index=step_index,
@@ -93,7 +120,7 @@ class MotionBottleneckDetector:
             duration_us=step.duration_us,
         )
 
-    def detect_bottlenecks(self, *, steps: tuple[Step, ...]) -> tuple[BottleneckIncident, ...]:
+    def detect_bottlenecks(self, *, steps: tuple[BinaryStep, ...]) -> tuple[BottleneckIncident, ...]:
         '''
             Evaluates sequence of steps to compile bottleneck incidents across trajectory.
 
@@ -101,7 +128,7 @@ class MotionBottleneckDetector:
             :return: Tuple of BottleneckIncident records.
         '''
         incidents: list[BottleneckIncident] = []
-        prev_coords: tuple[int, int, int, int] = (0, 0, 0, 0)
+        prev_coords: JointStepCoordinates = self.INITIAL_COORDS
 
         for index, step in enumerate(steps):
             incident: BottleneckIncident | None = self.detect_step_bottleneck(

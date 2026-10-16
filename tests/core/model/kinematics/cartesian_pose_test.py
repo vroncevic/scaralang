@@ -30,7 +30,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -39,9 +39,9 @@ __status__ = 'Updated'
 class TestCartesianPose(TestCase):
     '''Unit tests validating CartesianPose initialization, slots, and immutability.'''
 
-    def test_instantiation_defaults(self) -> None:
-        '''Verify field values and default phi on initialization.'''
-        pose = CartesianPose(x=150.0, y=-75.5, z=20.0)
+    def test_instantiation_explicit(self) -> None:
+        '''Verify field values and explicit phi on initialization.'''
+        pose = CartesianPose(x=150.0, y=-75.5, z=20.0, phi=0.0)
         self.assertEqual(pose.x, 150.0)
         self.assertEqual(pose.y, -75.5)
         self.assertEqual(pose.z, 20.0)
@@ -57,7 +57,7 @@ class TestCartesianPose(TestCase):
 
     def test_immutability(self) -> None:
         '''Verify frozen dataclass prevents mutation.'''
-        pose = CartesianPose(x=0.0, y=0.0, z=0.0)
+        pose = CartesianPose(x=0.0, y=0.0, z=0.0, phi=0.0)
         with self.assertRaises(FrozenInstanceError):
             pose.x = 25.0
 

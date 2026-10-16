@@ -25,13 +25,14 @@ from dataclasses import FrozenInstanceError
 from unittest import TestCase
 from unittest import main
 
+from scaralang.core.model.kinematics.axis_name import AxisName
 from scaralang.core.model.trajectory.axis_peak_metric import AxisPeakMetric
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,12 +44,12 @@ class AxisPeakMetricTest(TestCase):
     def test_instantiation_and_attributes(self) -> None:
         '''Verify correct field assignment upon instantiation.'''
         metric = AxisPeakMetric(
-            axis_name='J1',
+            axis_name=AxisName.J1,
             peak_velocity=3.14,
             peak_acceleration=12.56,
             peak_steps=3200
         )
-        self.assertEqual(metric.axis_name, 'J1')
+        self.assertEqual(metric.axis_name, AxisName.J1)
         self.assertEqual(metric.peak_velocity, 3.14)
         self.assertEqual(metric.peak_acceleration, 12.56)
         self.assertEqual(metric.peak_steps, 3200)
@@ -56,7 +57,7 @@ class AxisPeakMetricTest(TestCase):
     def test_immutability(self) -> None:
         '''Verify that attributes cannot be modified on frozen dataclass.'''
         metric = AxisPeakMetric(
-            axis_name='Z',
+            axis_name=AxisName.Z,
             peak_velocity=50.0,
             peak_acceleration=200.0,
             peak_steps=800

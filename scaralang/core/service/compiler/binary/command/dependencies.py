@@ -23,13 +23,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
+from scaralang.core.service.protocol.ibinary_actuator_frame_builder import IBinaryActuatorFrameBuilder
+from scaralang.core.service.protocol.ibinary_frame_packer import IBinaryFramePacker
+from scaralang.core.service.protocol.ibinary_system_frame_builder import IBinarySystemFrameBuilder
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,7 +45,11 @@ class CommandDependencies:
         It defines:
 
             :attributes:
-                | frame_builder - Low-level binary frame builder protocol.
+                | actuator_builder - Actuator binary frame builder protocol.
+                | system_builder - System binary frame builder protocol.
+                | frame_packer - Binary wire frame packer protocol.
     '''
 
-    frame_builder: IBinaryFrameBuilder
+    actuator_builder: IBinaryActuatorFrameBuilder
+    system_builder: IBinarySystemFrameBuilder
+    frame_packer: IBinaryFramePacker

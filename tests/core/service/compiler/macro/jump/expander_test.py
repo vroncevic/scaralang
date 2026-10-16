@@ -26,8 +26,8 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.service.compiler.macro.iexpander import IMacroExpander
 from scaralang.core.service.compiler.macro.jump.expander import JumpMacroExpander
 
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,16 +74,16 @@ class TestJumpMacroExpander(TestCase):
         jump_inst = ScaraInstruction(
             command_type=ScaraCommandType.JUMP,
             parameters={
-                InstructionParam.X: 100.0,
-                InstructionParam.Y: 50.0,
-                InstructionParam.Z: 10.0,
+                ScaraInstructionParam.X: 100.0,
+                ScaraInstructionParam.Y: 50.0,
+                ScaraInstructionParam.Z: 10.0,
             },
             line_number=1,
             raw_text='JUMP X=100.0 Y=50.0 Z=10.0',
         )
         move_inst = ScaraInstruction(
             command_type=ScaraCommandType.MOVE_L,
-            parameters={InstructionParam.X: 100.0, InstructionParam.Y: 50.0},
+            parameters={ScaraInstructionParam.X: 100.0, ScaraInstructionParam.Y: 50.0},
             line_number=2,
             raw_text='MOVE_L X=100.0 Y=50.0',
         )
@@ -94,7 +94,7 @@ class TestJumpMacroExpander(TestCase):
         '''
             Verifies JUMP expands to 3 instructions (Lift, Transit, Descent) and updates pose.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         context.pose.current_x = 10.0
         context.pose.current_y = 20.0
         context.pose.current_z = 5.0
@@ -103,12 +103,12 @@ class TestJumpMacroExpander(TestCase):
         inst = ScaraInstruction(
             command_type=ScaraCommandType.JUMP,
             parameters={
-                InstructionParam.X: 100.0,
-                InstructionParam.Y: 200.0,
-                InstructionParam.Z: 15.0,
-                InstructionParam.PHI: 45.0,
-                InstructionParam.ARCH_HEIGHT: 25.0,
-                InstructionParam.SPEED: 150.0,
+                ScaraInstructionParam.X: 100.0,
+                ScaraInstructionParam.Y: 200.0,
+                ScaraInstructionParam.Z: 15.0,
+                ScaraInstructionParam.PHI: 45.0,
+                ScaraInstructionParam.ARCH_HEIGHT: 25.0,
+                ScaraInstructionParam.SPEED: 150.0,
             },
             line_number=5,
             raw_text='JUMP X=100.0 Y=200.0 Z=15.0 PHI=45.0 ARCH=25.0 SPEED=150.0',
@@ -121,24 +121,24 @@ class TestJumpMacroExpander(TestCase):
 
         # Lift: Z = max(5.0, 15.0) + 25.0 = 40.0
         self.assertEqual(lift.command_type, ScaraCommandType.MOVE_L)
-        self.assertEqual(lift.parameters[InstructionParam.X], 10.0)
-        self.assertEqual(lift.parameters[InstructionParam.Y], 20.0)
-        self.assertEqual(lift.parameters[InstructionParam.Z], 40.0)
-        self.assertEqual(lift.parameters[InstructionParam.SPEED], 150.0)
+        self.assertEqual(lift.parameters[ScaraInstructionParam.X], 10.0)
+        self.assertEqual(lift.parameters[ScaraInstructionParam.Y], 20.0)
+        self.assertEqual(lift.parameters[ScaraInstructionParam.Z], 40.0)
+        self.assertEqual(lift.parameters[ScaraInstructionParam.SPEED], 150.0)
 
         # Transit: Move to target X, Y at clearance Z
         self.assertEqual(transit.command_type, ScaraCommandType.MOVE_J)
-        self.assertEqual(transit.parameters[InstructionParam.X], 100.0)
-        self.assertEqual(transit.parameters[InstructionParam.Y], 200.0)
-        self.assertEqual(transit.parameters[InstructionParam.Z], 40.0)
-        self.assertEqual(transit.parameters[InstructionParam.PHI], 45.0)
+        self.assertEqual(transit.parameters[ScaraInstructionParam.X], 100.0)
+        self.assertEqual(transit.parameters[ScaraInstructionParam.Y], 200.0)
+        self.assertEqual(transit.parameters[ScaraInstructionParam.Z], 40.0)
+        self.assertEqual(transit.parameters[ScaraInstructionParam.PHI], 45.0)
 
         # Descent: Move to target Z
         self.assertEqual(descend.command_type, ScaraCommandType.MOVE_L)
-        self.assertEqual(descend.parameters[InstructionParam.X], 100.0)
-        self.assertEqual(descend.parameters[InstructionParam.Y], 200.0)
-        self.assertEqual(descend.parameters[InstructionParam.Z], 15.0)
-        self.assertEqual(descend.parameters[InstructionParam.PHI], 45.0)
+        self.assertEqual(descend.parameters[ScaraInstructionParam.X], 100.0)
+        self.assertEqual(descend.parameters[ScaraInstructionParam.Y], 200.0)
+        self.assertEqual(descend.parameters[ScaraInstructionParam.Z], 15.0)
+        self.assertEqual(descend.parameters[ScaraInstructionParam.PHI], 45.0)
 
         # Context pose updated to final target
         self.assertEqual(context.pose.current_x, 100.0)
@@ -150,7 +150,7 @@ class TestJumpMacroExpander(TestCase):
         '''
             Verifies JUMP uses context pose defaults when optional parameters are omitted.
         '''
-        context = ScaraCompilerContext()
+        context = CompilerContextFactory.create()
         context.pose.current_x = 30.0
         context.pose.current_y = 40.0
         context.pose.current_z = 0.0
@@ -168,8 +168,8 @@ class TestJumpMacroExpander(TestCase):
 
         lift, _, descend = result
         # Default arch_height is 20.0, target_z default is 0.0 -> clearance_z = 20.0
-        self.assertEqual(lift.parameters[InstructionParam.Z], 20.0)
-        self.assertEqual(descend.parameters[InstructionParam.Z], 0.0)
+        self.assertEqual(lift.parameters[ScaraInstructionParam.Z], 20.0)
+        self.assertEqual(descend.parameters[ScaraInstructionParam.Z], 0.0)
 
 
 if __name__ == '__main__':

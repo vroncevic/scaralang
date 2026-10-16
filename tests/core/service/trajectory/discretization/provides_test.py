@@ -24,14 +24,16 @@ from __future__ import annotations
 from dataclasses import FrozenInstanceError
 from unittest import TestCase, main
 
-from scaralang.core.service.trajectory.discretization.discretizer import ShapeDiscretizer
+from scaralang.core.service.trajectory.discretization.circle.circle import CircleDiscretizer
+from scaralang.core.service.trajectory.discretization.line.line import LineDiscretizer
 from scaralang.core.service.trajectory.discretization.provides import DiscretizationProvides
+from scaralang.core.service.trajectory.discretization.rectangle.rectangle import RectangleDiscretizer
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,17 +51,39 @@ class TestDiscretizationProvides(TestCase):
     '''
 
     def test_bundle_initialization(self) -> None:
-        '''Verifies bundle holds provided discretizer service instance.'''
-        discretizer = ShapeDiscretizer()
-        bundle = DiscretizationProvides(discretizer=discretizer)
-        self.assertIs(bundle.discretizer, discretizer)
+        '''
+            Verifies bundle holds provided discretizer service instances.
+
+            :exceptions: None.
+        '''
+        line = LineDiscretizer()
+        circle = CircleDiscretizer()
+        rectangle = RectangleDiscretizer()
+        bundle = DiscretizationProvides(
+            line=line,
+            circle=circle,
+            rectangle=rectangle,
+        )
+        self.assertIs(bundle.line, line)
+        self.assertIs(bundle.circle, circle)
+        self.assertIs(bundle.rectangle, rectangle)
 
     def test_bundle_immutability(self) -> None:
-        '''Verifies frozen dataclass rejects attribute mutations.'''
-        discretizer = ShapeDiscretizer()
-        bundle = DiscretizationProvides(discretizer=discretizer)
+        '''
+            Verifies frozen dataclass rejects attribute mutations.
+
+            :exceptions: None.
+        '''
+        line = LineDiscretizer()
+        circle = CircleDiscretizer()
+        rectangle = RectangleDiscretizer()
+        bundle = DiscretizationProvides(
+            line=line,
+            circle=circle,
+            rectangle=rectangle,
+        )
         with self.assertRaises(FrozenInstanceError):
-            bundle.discretizer = discretizer  # type: ignore[misc]
+            bundle.line = line  # type: ignore[misc]
 
 
 if __name__ == '__main__':

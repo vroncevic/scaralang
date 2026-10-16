@@ -24,14 +24,14 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
 from scaralang.infrastructure.command.compile.inspection.presentation.step.ipresenter import IFrameStepPresenter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -40,13 +40,13 @@ __status__ = 'Updated'
 class DummyFrameStepPresenter:
     '''Dummy implementation satisfying IFrameStepPresenter structurally.'''
 
-    def present_step(self, *, step: Step, index: int) -> str:
+    def present_step(self, *, step: BinaryStep, index: int) -> str:
         '''Presents step.'''
         return f'{index}: {step.description}'
 
     def get_version(self) -> str:
         '''Returns version.'''
-        return '1.0.8'
+        return '1.0.9'
 
 
 class TestIFrameStepPresenter(TestCase):

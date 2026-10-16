@@ -21,7 +21,7 @@ Info
 
 from __future__ import annotations
 
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.dsl.binary.disassembled_frame import DisassembledFrame
 from scaralang.core.model.dsl.binary.disassembly_summary import DisassemblySummary
@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,6 +47,10 @@ class ScaraDisassembler:
         It defines:
 
             :attributes:
+                | DEFAULT_FRAME_INDEX - Default initial index for disassembled frames.
+                | _MOTION_MSG_IDS - Set of numeric message IDs categorized as motion commands.
+                | _TOOL_MSG_IDS - Set of numeric message IDs categorized as tool commands.
+                | _WAIT_MSG_ID - Numeric message ID for wait dwell delay command.
                 | _parser - Binary frame parsing strategy.
                 | _detail_decoder - Frame payload and message name decoder strategy.
             :methods:
@@ -56,6 +60,19 @@ class ScaraDisassembler:
                 | calculate_summary - Computes DisassemblySummary domain model.
                 | get_version - Returns disassembler version string.
     '''
+
+    DEFAULT_FRAME_INDEX: ClassVar[int] = 0
+
+    _MOTION_MSG_IDS: ClassVar[frozenset[int]] = frozenset({
+        int(MessageId.CMD_MOVE_JOINT_STEPS),
+        int(MessageId.CMD_JOG_JOINT),
+        int(MessageId.CMD_SETPOS_STEPS),
+    })
+    _TOOL_MSG_IDS: ClassVar[frozenset[int]] = frozenset({
+        int(MessageId.CMD_TOOL_PUMP),
+        int(MessageId.CMD_TOOL_VALVE),
+    })
+    _WAIT_MSG_ID: ClassVar[int] = int(MessageId.CMD_WAIT)
 
     _parser: IBinaryFrameParser
     _detail_decoder: IFrameDetailDecoder
@@ -80,7 +97,7 @@ class ScaraDisassembler:
         self,
         *,
         frame: BinaryFrame,
-        index: int = 0
+        index: int = DEFAULT_FRAME_INDEX
     ) -> DisassembledFrame:
         '''
             Decodes a single binary frame into a DisassembledFrame domain model.
@@ -129,22 +146,15 @@ class ScaraDisassembler:
         '''
         motion_count = sum(
             1 for item in frames
-            if item.msg_id in (
-                MessageId.CMD_MOVE_JOINT_STEPS,
-                MessageId.CMD_JOG_JOINT,
-                MessageId.CMD_SETPOS_STEPS,
-            )
+            if item.msg_id in self._MOTION_MSG_IDS
         )
         tool_count = sum(
             1 for item in frames
-            if item.msg_id in (
-                MessageId.CMD_TOOL_PUMP,
-                MessageId.CMD_TOOL_VALVE,
-            )
+            if item.msg_id in self._TOOL_MSG_IDS
         )
         wait_count = sum(
             1 for item in frames
-            if item.msg_id == MessageId.CMD_WAIT
+            if item.msg_id == self._WAIT_MSG_ID
         )
         system_count = len(frames) - motion_count - tool_count - wait_count
 

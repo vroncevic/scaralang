@@ -23,20 +23,21 @@ from __future__ import annotations
 
 from typing import Final
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_angles import JointAngles
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.binary.motion.dependencies import MotionDependencies
-from scaralang.core.service.compiler.binary.step.discretizer.idiscretizer import (
-    IStepDiscretizer
-)
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
+from scaralang.core.service.compiler.binary.step.discretizer.idiscretizer import IStepDiscretizer
+from scaralang.core.service.protocol.ibinary_frame_packer import IBinaryFramePacker
+from scaralang.core.service.protocol.ibinary_motion_frame_builder import IBinaryMotionFrameBuilder
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,7 +51,8 @@ class MotionCompiler:
 
             :attributes:
                 | _discretizer - Kinematic discretization service.
-                | _frame_builder - Binary frame assembler protocol.
+                | _frame_builder - Binary motion frame assembler protocol.
+                | _frame_packer - Binary frame packer protocol.
             :methods:
                 | __init__ - Initializes motion step compiler with injected dependencies.
                 | compile_motion_step - Compiles a single motion waypoint into a binary step.
@@ -58,7 +60,8 @@ class MotionCompiler:
     '''
 
     _discretizer: IStepDiscretizer
-    _frame_builder: IBinaryFrameBuilder
+    _frame_builder: IBinaryMotionFrameBuilder
+    _frame_packer: IBinaryFramePacker
 
     def __init__(self, *, dependencies: MotionDependencies) -> None:
         '''
@@ -68,24 +71,25 @@ class MotionCompiler:
             :exceptions: None.
         '''
         self._discretizer: Final[IStepDiscretizer] = dependencies.discretizer
-        self._frame_builder: Final[IBinaryFrameBuilder] = dependencies.frame_builder
+        self._frame_builder: Final[IBinaryMotionFrameBuilder] = dependencies.frame_builder
+        self._frame_packer: Final[IBinaryFramePacker] = dependencies.frame_packer
 
     def compile_motion_step(
         self,
         *,
         waypoint: Waypoint,
         seq_num: int,
-        prev_angles: tuple[float, float, float, float],
+        prev_angles: JointAngles,
         line_num: int
-    ) -> tuple[Step, tuple[float, float, float, float]]:
+    ) -> tuple[BinaryStep, JointAngles]:
         '''
             Compiles a motion waypoint into a binary joint move step.
 
             :param waypoint: Target Cartesian waypoint.
             :param seq_num: Frame sequence counter.
-            :param prev_angles: Previous joint angles tuple.
+            :param prev_angles: Previous joint angles model.
             :param line_num: Source line index.
-            :return: Tuple of compiled Step and updated joint angles tuple.
+            :return: Tuple of compiled BinaryStep and updated joint angles model.
             :exceptions: ValueError if kinematic solving fails.
         '''
         joint_steps, new_angles = self._discretizer.discretize_waypoint(
@@ -94,14 +98,14 @@ class MotionCompiler:
         frame: BinaryFrame = self._frame_builder.build_joint_move(
             seq_num=seq_num, steps=joint_steps
         )
-        raw_bytes: bytes = self._frame_builder.pack_frame(frame=frame)
-        target_steps = (
-            joint_steps.target_j1_steps,
-            joint_steps.target_j2_steps,
-            joint_steps.target_z_steps,
-            joint_steps.target_j4_steps
+        raw_bytes: bytes = self._frame_packer.pack_frame(frame=frame)
+        target_steps = JointStepCoordinates(
+            j1=joint_steps.target_j1_steps,
+            j2=joint_steps.target_j2_steps,
+            z=joint_steps.target_z_steps,
+            j4=joint_steps.target_j4_steps,
         )
-        step = Step(
+        step = BinaryStep(
             frame=frame,
             raw_bytes=raw_bytes,
             duration_us=joint_steps.duration_us,

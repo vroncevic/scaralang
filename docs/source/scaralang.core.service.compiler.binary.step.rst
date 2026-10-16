@@ -9,6 +9,7 @@ Subpackages
 
    scaralang.core.service.compiler.binary.step.discretizer
    scaralang.core.service.compiler.binary.step.dispatcher
+   scaralang.core.service.compiler.binary.step.duration
 
 Module contents
 ---------------

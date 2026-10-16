@@ -20,6 +20,7 @@ Info
 '''
 
 from __future__ import annotations
+from typing import ClassVar
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
@@ -30,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,17 +43,18 @@ class LinearParser:
 
         It defines:
 
-            :attributes:
-                | _name - Component identification name.
+            :cvar NAME: Component identification name.
+            :cvar PARAMS_START_INDEX: Start index of parameters in token sequence.
+            :cvar PARSED_COMMAND: Target command keyword string.
             :methods:
                 | name - Property returning component name.
                 | can_parse - Checks whether command is MOVE_L.
                 | parse - Parses MOVE_L statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes LinearParser.'''
-        self._name: str = 'linear_parser'
+    NAME: ClassVar[str] = 'linear_parser'
+    PARAMS_START_INDEX: ClassVar[int] = 1
+    PARSED_COMMAND: ClassVar[str] = ScaraCommandType.MOVE_L
 
     @property
     def name(self) -> str:
@@ -61,7 +63,7 @@ class LinearParser:
 
             :return: Parser name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -70,7 +72,7 @@ class LinearParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name == ScaraCommandType.MOVE_L
+        return command_name == self.PARSED_COMMAND
 
     def parse(
         self,
@@ -87,11 +89,13 @@ class LinearParser:
             :param raw_text: Original statement text.
             :return: ScaraInstruction node.
         '''
-        params = ParameterExtractor.extract_key_values(tokens=tokens[1:])
+        linear_params = ParameterExtractor.extract_key_values(
+            tokens=tokens[self.PARAMS_START_INDEX:]
+        )
 
         return ScaraInstruction(
-            command_type=ScaraCommandType.MOVE_L,
+            command_type=self.PARSED_COMMAND,
             line_number=line_num,
             raw_text=raw_text,
-            parameters=params,
+            parameters=linear_params,
         )

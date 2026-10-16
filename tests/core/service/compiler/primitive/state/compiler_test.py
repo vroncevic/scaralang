@@ -26,10 +26,10 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.model.kinematics.elbow_config import ElbowConfig
 from scaralang.core.service.compiler.primitive.icompiler import IPrimitiveCompiler
 from scaralang.core.service.compiler.primitive.state.compiler import StateCommandCompiler
@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -67,7 +67,7 @@ class TestStateCommandCompiler(TestCase):
             Sets up test fixture with compiler and context.
         '''
         self.compiler = StateCommandCompiler()
-        self.context = ScaraCompilerContext()
+        self.context = CompilerContextFactory.create()
 
     def test_protocol_conformance(self) -> None:
         '''
@@ -113,8 +113,8 @@ class TestStateCommandCompiler(TestCase):
         work_inst = ScaraInstruction(
             command_type=ScaraCommandType.SPEED,
             parameters={
-                InstructionParam.MODE: SpeedMode.WORK,
-                InstructionParam.SPEED: 45.0,
+                ScaraInstructionParam.MODE: SpeedMode.WORK,
+                ScaraInstructionParam.SPEED: 45.0,
             },
             line_number=1,
             raw_text='SPEED WORK 45.0',
@@ -130,8 +130,8 @@ class TestStateCommandCompiler(TestCase):
         rapid_inst = ScaraInstruction(
             command_type=ScaraCommandType.SPEED,
             parameters={
-                InstructionParam.MODE: SpeedMode.RAPID,
-                InstructionParam.SPEED: 180.0,
+                ScaraInstructionParam.MODE: SpeedMode.RAPID,
+                ScaraInstructionParam.SPEED: 180.0,
             },
             line_number=2,
             raw_text='SPEED RAPID 180.0',
@@ -149,7 +149,7 @@ class TestStateCommandCompiler(TestCase):
         '''
         inst = ScaraInstruction(
             command_type=ScaraCommandType.ACCEL,
-            parameters={InstructionParam.ACCEL: 450.0},
+            parameters={ScaraInstructionParam.ACCEL: 450.0},
             line_number=1,
             raw_text='ACCEL 450.0',
         )
@@ -166,7 +166,7 @@ class TestStateCommandCompiler(TestCase):
         '''
         inst = ScaraInstruction(
             command_type=ScaraCommandType.OVERRIDE,
-            parameters={InstructionParam.PERCENT: 75.0},
+            parameters={ScaraInstructionParam.PERCENT: 75.0},
             line_number=1,
             raw_text='OVERRIDE 75.0',
         )
@@ -183,7 +183,7 @@ class TestStateCommandCompiler(TestCase):
         '''
         inst = ScaraInstruction(
             command_type=ScaraCommandType.CONFIG_ELBOW,
-            parameters={InstructionParam.ELBOW: ElbowConfig.LEFT},
+            parameters={ScaraInstructionParam.ELBOW: ElbowConfig.LEFT},
             line_number=1,
             raw_text='CONFIG_ELBOW LEFT',
         )
@@ -201,8 +201,8 @@ class TestStateCommandCompiler(TestCase):
         inst = ScaraInstruction(
             command_type=ScaraCommandType.ZONE,
             parameters={
-                InstructionParam.MODE: ZoneMode.BLEND,
-                InstructionParam.RADIUS: 8.5,
+                ScaraInstructionParam.MODE: ZoneMode.BLEND,
+                ScaraInstructionParam.RADIUS: 8.5,
             },
             line_number=1,
             raw_text='ZONE BLEND R=8.5',

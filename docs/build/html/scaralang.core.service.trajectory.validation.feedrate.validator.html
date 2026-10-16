@@ -80,6 +80,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">NAME - Canonical component identifier name.</div>
+<div class="line">NO_ERROR_INDEX - Sentinel index indicating successful validation.</div>
+<div class="line">VALID_SPEED_MSG - Standard message for valid speed verification.</div>
 <div class="line">name - Identifier name of the feedrate validator.</div>
 <div class="line">_bounds - Kinematic parameters of the SCARA arm.</div>
 </div>
@@ -92,6 +95,21 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'feedrate_validator'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.NO_ERROR_INDEX">
+<span class="sig-name descname"><span class="pre">NO_ERROR_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.NO_ERROR_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.VALID_SPEED_MSG">
+<span class="sig-name descname"><span class="pre">VALID_SPEED_MSG</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Speed</span> <span class="pre">is</span> <span class="pre">valid'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.VALID_SPEED_MSG" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator._bounds">
 <span class="sig-name descname"><span class="pre">_bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.scara_bounds.html#scaralang.core.model.kinematics.scara_bounds.ScaraBounds" title="scaralang.core.model.kinematics.scara_bounds.ScaraBounds"><span class="pre">ScaraBounds</span></a></em><a class="headerlink" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator._bounds" title="Link to this definition">¶</a></dt>
@@ -138,6 +156,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.trajectory.validation.feedrate.validator module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator"><code class="docutils literal notranslate"><span class="pre">FeedrateValidator</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.NAME"><code class="docutils literal notranslate"><span class="pre">FeedrateValidator.NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.NO_ERROR_INDEX"><code class="docutils literal notranslate"><span class="pre">FeedrateValidator.NO_ERROR_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.VALID_SPEED_MSG"><code class="docutils literal notranslate"><span class="pre">FeedrateValidator.VALID_SPEED_MSG</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator._bounds"><code class="docutils literal notranslate"><span class="pre">FeedrateValidator._bounds</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.name"><code class="docutils literal notranslate"><span class="pre">FeedrateValidator.name</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.validation.feedrate.validator.FeedrateValidator.validate_feedrate"><code class="docutils literal notranslate"><span class="pre">FeedrateValidator.validate_feedrate()</span></code></a></li>

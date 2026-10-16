@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 from scaralang.core.service.parser.commands.parameter.extractor import ParameterExtractor
@@ -32,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,16 +47,24 @@ class PalletDefParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | MIN_TOKENS - Minimum allowed token count for statement parsing.
+                | CMD_INDEX - Index of command token.
+                | NAME_INDEX - Index of pallet identifier token.
+                | PARAMS_START_INDEX - Slice start index for key-value parameters.
+                | PARSED_COMMAND - Handled command type.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is PALLET_DEF.
                 | parse - Parses PALLET_DEF statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes PalletDefParser.'''
-        self._name: str = 'pallet_def_parser'
+    NAME: ClassVar[str] = 'pallet_def_parser'
+    MIN_TOKENS: ClassVar[int] = 2
+    CMD_INDEX: ClassVar[int] = 0
+    NAME_INDEX: ClassVar[int] = 1
+    PARAMS_START_INDEX: ClassVar[int] = 2
+    PARSED_COMMAND: ClassVar[ScaraCommandType] = ScaraCommandType.PALLET_DEF
 
     @property
     def name(self) -> str:
@@ -63,7 +73,7 @@ class PalletDefParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -72,7 +82,7 @@ class PalletDefParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name == ScaraCommandType.PALLET_DEF
+        return command_name == self.PARSED_COMMAND
 
     def parse(
         self,
@@ -90,21 +100,21 @@ class PalletDefParser:
             :return: ScaraInstruction node.
             :exceptions: ScaraSyntaxError on missing pallet name argument.
         '''
-        cmd: str = tokens[0].value.upper()
+        cmd: str = tokens[self.CMD_INDEX].value.upper()
 
-        if len(tokens) < 2:
+        if len(tokens) < self.MIN_TOKENS:
             raise ScaraSyntaxError(
                 f'Missing pallet name for {cmd} at line {line_num}'
             )
 
-        pallet_name: str = tokens[1].value.upper()
+        pallet_name: str = tokens[self.NAME_INDEX].value.upper()
         params: dict[str, object] = ParameterExtractor.extract_key_values(
-            tokens=tokens[2:]
+            tokens=tokens[self.PARAMS_START_INDEX:]
         )
-        params[InstructionParam.NAME] = pallet_name
+        params[ScaraInstructionParam.NAME] = pallet_name
 
         return ScaraInstruction(
-            command_type=ScaraCommandType.PALLET_DEF,
+            command_type=self.PARSED_COMMAND,
             line_number=line_num,
             raw_text=raw_text,
             parameters=params,

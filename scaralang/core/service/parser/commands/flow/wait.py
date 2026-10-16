@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.token.scara_token import ScaraToken
 from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
 
@@ -31,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -44,16 +46,27 @@ class WaitParser:
         It defines:
 
             :attributes:
-                | _name - Component identification name.
-            :methods:
+                | NAME - Component identification name.
+                | MIN_TOKENS - Minimum allowed token count for statement parsing.
+                | CMD_INDEX - Index of command token.
+                | ARG_INDEX - Index of millisecond delay value token.
+                | PARSED_COMMANDS - Handled command types tuple.
+                | TARGET_COMMAND - Target instruction command type.
                 | name - Property returning component name.
+            :methods:
                 | can_parse - Checks whether command is WAIT or WAIT_MS.
                 | parse - Parses WAIT statement tokens into ScaraInstruction.
     '''
 
-    def __init__(self) -> None:
-        '''Initializes WaitParser.'''
-        self._name: str = 'wait_parser'
+    NAME: ClassVar[str] = 'wait_parser'
+    MIN_TOKENS: ClassVar[int] = 2
+    CMD_INDEX: ClassVar[int] = 0
+    ARG_INDEX: ClassVar[int] = 1
+    PARSED_COMMANDS: ClassVar[tuple[ScaraCommandType, ScaraCommandType]] = (
+        ScaraCommandType.WAIT,
+        ScaraCommandType.WAIT_MS,
+    )
+    TARGET_COMMAND: ClassVar[ScaraCommandType] = ScaraCommandType.WAIT_MS
 
     @property
     def name(self) -> str:
@@ -62,7 +75,7 @@ class WaitParser:
 
             :return: Component name string.
         '''
-        return self._name
+        return self.NAME
 
     def can_parse(self, *, command_name: str) -> bool:
         '''
@@ -71,10 +84,7 @@ class WaitParser:
             :param command_name: Command keyword string.
             :return: True if match, False otherwise.
         '''
-        return command_name in (
-            ScaraCommandType.WAIT,
-            ScaraCommandType.WAIT_MS,
-        )
+        return command_name in self.PARSED_COMMANDS
 
     def parse(
         self,
@@ -92,26 +102,26 @@ class WaitParser:
             :return: ScaraInstruction node.
             :exceptions: ScaraSyntaxError on missing millisecond delay argument.
         '''
-        cmd: str = tokens[0].value.upper()
+        cmd: str = tokens[self.CMD_INDEX].value.upper()
 
-        if len(tokens) < 2:
+        if len(tokens) < self.MIN_TOKENS:
             raise ScaraSyntaxError(
                 f'Missing millisecond argument for {cmd} at line {line_num}'
             )
 
         try:
-            ms_val: float = float(tokens[1].value)
+            ms_val: float = float(tokens[self.ARG_INDEX].value)
 
         except ValueError as exc:
             raise ScaraSyntaxError(
-                f'Invalid millisecond delay {tokens[1].value!r} at line {line_num}. '
+                f'Invalid millisecond delay {tokens[self.ARG_INDEX].value!r} at line {line_num}. '
                 'Must be a valid number'
             ) from exc
 
-        params: dict[str, object] = {InstructionParam.MS: ms_val}
+        params: dict[str, object] = {ScaraInstructionParam.MS: ms_val}
 
         return ScaraInstruction(
-            command_type=ScaraCommandType.WAIT_MS,
+            command_type=self.TARGET_COMMAND,
             line_number=line_num,
             raw_text=raw_text,
             parameters=params,

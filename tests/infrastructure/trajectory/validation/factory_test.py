@@ -23,15 +23,17 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.service.trajectory.validation.ivalidator import ITrajectoryValidator
+from scaralang.core.service.trajectory.validation.feedrate.ivalidator import IFeedrateValidator
+from scaralang.core.service.trajectory.validation.plan.ivalidator import ITrajectoryPlanValidator
 from scaralang.core.service.trajectory.validation.provides import ValidationProvides
+from scaralang.core.service.trajectory.validation.waypoint.ivalidator import IWaypointValidator
 from scaralang.infrastructure.trajectory.validation.factory import DefaultValidationFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,13 +54,15 @@ class TestDefaultValidationFactory(TestCase):
         '''Verifies default infrastructure factory returns fully wired provides bundle.'''
         output = DefaultValidationFactory.create()
         self.assertIsInstance(output, ValidationProvides)
-        self.assertIsInstance(output.validator, ITrajectoryValidator)
+        self.assertIsInstance(output.waypoint, IWaypointValidator)
+        self.assertIsInstance(output.feedrate, IFeedrateValidator)
+        self.assertIsInstance(output.plan, ITrajectoryPlanValidator)
 
     def test_default_factory_version(self) -> None:
         '''Verifies factory exposes standard version string.'''
         ver = DefaultValidationFactory.get_version()
         self.assertIsInstance(ver, str)
-        self.assertEqual(ver, '1.0.8')
+        self.assertEqual(ver, '1.0.9')
 
 
 if __name__ == '__main__':

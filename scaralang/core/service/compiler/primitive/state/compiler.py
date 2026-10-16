@@ -22,12 +22,14 @@ Info
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.kinematics.elbow_config import ElbowConfig
 from scaralang.core.model.trajectory.waypoint import Waypoint
 
@@ -35,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,12 +50,21 @@ class StateCommandCompiler:
         It defines:
 
             :attributes:
+                | _DEFAULT_SPEED - Default linear and work motion feedrate speed.
+                | _DEFAULT_ACCEL - Default motion acceleration limit.
+                | _DEFAULT_OVERRIDE_PCT - Default speed override percentage.
+                | _DEFAULT_ZONE_RADIUS - Default corner zone blending radius.
                 | _SUPPORTED - Frozenset of handled ScaraCommandType instances.
             :methods:
                 | can_compile - Checks if command is a state configuration instruction.
-                | compile - Updates ScaraCompilerContext with instruction parameters.
+                | compile - Updates CompilerContext with instruction parameters.
                 | get_version - Gets implementation version string.
     '''
+
+    _DEFAULT_SPEED: ClassVar[float] = 40.0
+    _DEFAULT_ACCEL: ClassVar[float] = 300.0
+    _DEFAULT_OVERRIDE_PCT: ClassVar[float] = 100.0
+    _DEFAULT_ZONE_RADIUS: ClassVar[float] = 0.0
 
     _SUPPORTED: frozenset[ScaraCommandType] = frozenset({
         ScaraCommandType.SPEED,
@@ -77,7 +88,7 @@ class StateCommandCompiler:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[Waypoint, ...]:
         '''
             Applies state configuration parameters to compiler context.
@@ -96,8 +107,8 @@ class StateCommandCompiler:
 
         match cmd_type:
             case ScaraCommandType.SPEED:
-                raw_mode = str(params.get(InstructionParam.MODE, SpeedMode.WORK)).upper()
-                spd = float(params.get(InstructionParam.SPEED, 40.0))
+                raw_mode = str(params.get(ScaraInstructionParam.MODE, SpeedMode.WORK)).upper()
+                spd = float(params.get(ScaraInstructionParam.SPEED, self._DEFAULT_SPEED))
 
                 if raw_mode == SpeedMode.RAPID:
                     context.speed.speed_rapid = spd
@@ -106,15 +117,17 @@ class StateCommandCompiler:
                     context.speed.current_speed = spd
 
             case ScaraCommandType.ACCEL:
-                context.speed.active_accel = float(params.get(InstructionParam.ACCEL, 300.0))
+                context.speed.active_accel = float(
+                    params.get(ScaraInstructionParam.ACCEL, self._DEFAULT_ACCEL)
+                )
 
             case ScaraCommandType.OVERRIDE:
                 context.speed.speed_override_pct = float(
-                    params.get(InstructionParam.PERCENT, 100.0)
+                    params.get(ScaraInstructionParam.PERCENT, self._DEFAULT_OVERRIDE_PCT)
                 )
 
             case ScaraCommandType.CONFIG_ELBOW:
-                raw_elbow = str(params.get(InstructionParam.ELBOW, ElbowConfig.RIGHT)).upper()
+                raw_elbow = str(params.get(ScaraInstructionParam.ELBOW, ElbowConfig.RIGHT)).upper()
                 context.pose.elbow_config = (
                     ElbowConfig(raw_elbow)
                     if raw_elbow in (ElbowConfig.RIGHT, ElbowConfig.LEFT)
@@ -122,13 +135,15 @@ class StateCommandCompiler:
                 )
 
             case ScaraCommandType.ZONE:
-                raw_zone = str(params.get(InstructionParam.MODE, ZoneMode.FINE)).upper()
+                raw_zone = str(params.get(ScaraInstructionParam.MODE, ZoneMode.FINE)).upper()
                 context.blend.zone_mode = (
                     ZoneMode(raw_zone)
                     if raw_zone in (ZoneMode.FINE, ZoneMode.EXACT, ZoneMode.BLEND)
                     else ZoneMode.FINE
                 )
-                context.blend.zone_radius = float(params.get(InstructionParam.RADIUS, 0.0))
+                context.blend.zone_radius = float(
+                    params.get(ScaraInstructionParam.RADIUS, self._DEFAULT_ZONE_RADIUS)
+                )
 
         return ()
 

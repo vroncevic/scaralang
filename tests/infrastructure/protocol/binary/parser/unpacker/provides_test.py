@@ -1,0 +1,108 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    provides_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for UnpackerProvides dataclass container.
+'''
+
+from __future__ import annotations
+
+from unittest import TestCase
+from unittest import main
+
+from scaralang.core.service.protocol.ibinary_actuator_payload_unpacker import IBinaryActuatorPayloadUnpacker
+from scaralang.core.service.protocol.ibinary_motion_payload_unpacker import IBinaryMotionPayloadUnpacker
+from scaralang.core.service.protocol.ibinary_response_payload_unpacker import IBinaryResponsePayloadUnpacker
+from scaralang.core.service.protocol.ibinary_system_payload_unpacker import IBinarySystemPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.motion import BinaryMotionPayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.provides import UnpackerProvides
+from scaralang.infrastructure.protocol.binary.parser.unpacker.response import BinaryResponsePayloadUnpacker
+from scaralang.infrastructure.protocol.binary.parser.unpacker.system import BinarySystemPayloadUnpacker
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.0.9'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class TestUnpackerProvides(TestCase):
+    '''
+        Test cases verifying UnpackerProvides dataclass.
+
+        It defines:
+
+            :methods:
+                | test_unpacker_provides_attributes - Verifies attributes and typing.
+                | test_unpacker_provides_immutability - Verifies frozen behavior.
+    '''
+
+    def test_unpacker_provides_attributes(self) -> None:
+        '''
+            Tests UnpackerProvides holds valid protocol instances.
+
+            :exceptions: None.
+        '''
+        motion = BinaryMotionPayloadUnpacker()
+        actuator = BinaryActuatorPayloadUnpacker()
+        system = BinarySystemPayloadUnpacker()
+        response = BinaryResponsePayloadUnpacker()
+
+        provides = UnpackerProvides(
+            motion=motion,
+            actuator=actuator,
+            system=system,
+            response=response,
+        )
+
+        self.assertIs(provides.motion, motion)
+        self.assertIs(provides.actuator, actuator)
+        self.assertIs(provides.system, system)
+        self.assertIs(provides.response, response)
+
+        self.assertIsInstance(provides.motion, IBinaryMotionPayloadUnpacker)
+        self.assertIsInstance(provides.actuator, IBinaryActuatorPayloadUnpacker)
+        self.assertIsInstance(provides.system, IBinarySystemPayloadUnpacker)
+        self.assertIsInstance(provides.response, IBinaryResponsePayloadUnpacker)
+
+    def test_unpacker_provides_immutability(self) -> None:
+        '''
+            Tests UnpackerProvides is frozen and immutable.
+
+            :exceptions: None.
+        '''
+        motion = BinaryMotionPayloadUnpacker()
+        actuator = BinaryActuatorPayloadUnpacker()
+        system = BinarySystemPayloadUnpacker()
+        response = BinaryResponsePayloadUnpacker()
+
+        provides = UnpackerProvides(
+            motion=motion,
+            actuator=actuator,
+            system=system,
+            response=response,
+        )
+        with self.assertRaises(AttributeError):
+            provides.motion = motion  # type: ignore[misc]
+
+
+if __name__ == '__main__':
+    main()

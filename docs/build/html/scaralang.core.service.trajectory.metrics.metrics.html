@@ -77,8 +77,15 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">MIN_WAYPOINTS_COUNT - Minimum waypoints threshold to calculate trajectory metrics.</div>
+<div class="line">ZERO_METRIC - Base zero floating point distance and duration metric.</div>
+<div class="line">MIN_SPEED_MM_S - Minimum valid feedrate divisor in mm/s.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">distance_between - Computes 3D Euclidean distance between two waypoints.</div>
 <div class="line">radial_distance - Calculates planar radial distance from robot base.</div>
 <div class="line">calculate_distance - Computes total 3D Cartesian distance along the path.</div>
@@ -87,6 +94,21 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.MIN_SPEED_MM_S">
+<span class="sig-name descname"><span class="pre">MIN_SPEED_MM_S</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.MIN_SPEED_MM_S" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.MIN_WAYPOINTS_COUNT">
+<span class="sig-name descname"><span class="pre">MIN_WAYPOINTS_COUNT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.MIN_WAYPOINTS_COUNT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.ZERO_METRIC">
+<span class="sig-name descname"><span class="pre">ZERO_METRIC</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.ZERO_METRIC" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.calculate_distance">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waypoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.trajectory.waypoint.html#scaralang.core.model.trajectory.waypoint.Waypoint" title="scaralang.core.model.trajectory.waypoint.Waypoint"><span class="pre">Waypoint</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/metrics/metrics.html#TrajectoryMetrics.calculate_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.calculate_distance" title="Link to this definition">¶</a></dt>
@@ -162,6 +184,9 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.trajectory.metrics.metrics module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics"><code class="docutils literal notranslate"><span class="pre">TrajectoryMetrics</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.MIN_SPEED_MM_S"><code class="docutils literal notranslate"><span class="pre">TrajectoryMetrics.MIN_SPEED_MM_S</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.MIN_WAYPOINTS_COUNT"><code class="docutils literal notranslate"><span class="pre">TrajectoryMetrics.MIN_WAYPOINTS_COUNT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.ZERO_METRIC"><code class="docutils literal notranslate"><span class="pre">TrajectoryMetrics.ZERO_METRIC</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.calculate_distance"><code class="docutils literal notranslate"><span class="pre">TrajectoryMetrics.calculate_distance()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.calculate_duration"><code class="docutils literal notranslate"><span class="pre">TrajectoryMetrics.calculate_duration()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.trajectory.metrics.metrics.TrajectoryMetrics.distance_between"><code class="docutils literal notranslate"><span class="pre">TrajectoryMetrics.distance_between()</span></code></a></li>

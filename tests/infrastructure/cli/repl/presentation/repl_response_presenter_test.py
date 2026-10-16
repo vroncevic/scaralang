@@ -24,7 +24,10 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
+from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.repl.repl_pose_state import ReplPoseState
@@ -37,7 +40,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -72,16 +75,26 @@ class TestReplResponsePresenter(TestCase):
             payload=b'\x00' * 22,
             crc16=0x1234,
         )
-        step = Step(
+        step = BinaryStep(
             frame=frame,
             raw_bytes=b'\xAA\x55' + b'\x00' * 26 + b'\x0D',
             duration_us=250000,
-            target_steps=(1000, 500, 0, 0),
+            target_steps=JointStepCoordinates(j1=1000, j2=500, z=0, j4=0),
             description='MOVE LINE X=100 Y=100',
             line_number=1,
         )
         context = ReplSessionContext(
-            pose=ReplPoseState(current_x=100.0, current_y=100.0)
+            pose=ReplPoseState(
+                current_x=100.0,
+                current_y=100.0,
+                current_z=0.0,
+                current_theta4=0.0,
+            ),
+            elbow_left=False,
+            speed_mode=SpeedMode.WORK,
+            zone_mode=ZoneMode.FINE,
+            pump_active=False,
+            valve_active=False,
         )
         card = presenter.present_success(step=step, context=context)
         self.assertIn('Executed: MOVE LINE X=100 Y=100', card)
@@ -105,7 +118,7 @@ class TestReplResponsePresenter(TestCase):
         '''Verifies factory instantiation and protocol check.'''
         presenter = ReplResponsePresenterFactory.create()
         self.assertTrue(isinstance(presenter, IReplResponsePresenter))
-        self.assertEqual(ReplResponsePresenterFactory.get_version(), '1.0.8')
+        self.assertEqual(ReplResponsePresenterFactory.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

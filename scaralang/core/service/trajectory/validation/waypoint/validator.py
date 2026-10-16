@@ -21,19 +21,19 @@ Info
 
 from __future__ import annotations
 
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.model.trajectory.validation_result import ValidationResult
 from scaralang.core.model.trajectory.waypoint import Waypoint
-from scaralang.core.service.kinematics.iservice import IKinematicsService
+from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,23 +46,34 @@ class WaypointValidator:
         It defines:
 
             :attributes:
+                | NAME - Canonical component identifier name.
+                | NO_ERROR_INDEX - Sentinel index indicating successful validation.
+                | UNREACHABLE_KEYWORD - Substring identifying mathematical inverse reach failure.
+                | DEFAULT_JOINT_LIMITS_MSG - Fallback error description when joint bounds exceeded.
+                | POINT_REACHABLE_MSG - Standard message for reachable point confirmation.
                 | name - Identifier name of the waypoint validator.
-                | _kinematics - Injected analytical kinematics service.
+                | _workspace - Injected workspace bounds evaluator service.
             :methods:
-                | __init__ - Initializes validator with kinematics service.
+                | __init__ - Initializes validator with workspace evaluator service.
                 | validate_point - Validates Waypoint coordinates against reachability rules.
     '''
 
-    _kinematics: IKinematicsService
+    NAME: ClassVar[str] = 'waypoint_validator'
+    NO_ERROR_INDEX: ClassVar[int] = -1
+    UNREACHABLE_KEYWORD: ClassVar[str] = 'Mathematically unreachable'
+    DEFAULT_JOINT_LIMITS_MSG: ClassVar[str] = 'Joint limits exceeded'
+    POINT_REACHABLE_MSG: ClassVar[str] = 'Point is reachable'
 
-    def __init__(self, *, kinematics: IKinematicsService) -> None:
+    _workspace: IWorkspaceBoundsEvaluator
+
+    def __init__(self, *, workspace: IWorkspaceBoundsEvaluator) -> None:
         '''
-            Initializes waypoint validator using injected kinematics service.
+            Initializes waypoint validator using injected workspace bounds evaluator.
 
-            :param kinematics: IKinematicsService instance.
+            :param workspace: IWorkspaceBoundsEvaluator instance.
             :exceptions: None.
         '''
-        self._kinematics: Final[IKinematicsService] = kinematics
+        self._workspace: Final[IWorkspaceBoundsEvaluator] = workspace
 
     @property
     def name(self) -> str:
@@ -71,7 +82,7 @@ class WaypointValidator:
 
             :return: Validator name string.
         '''
-        return 'waypoint_validator'
+        return self.NAME
 
     def validate_point(self, point: Waypoint) -> ValidationResult:
         '''
@@ -80,31 +91,41 @@ class WaypointValidator:
             :param point: Target Waypoint to validate.
             :return: ValidationResult with pass/fail and descriptive reason.
         '''
-        in_workspace, ws_msg = self._kinematics.is_in_workspace(
+        in_workspace, ws_msg = self._workspace.is_in_workspace(
             point=Point3D(x=point.x, y=point.y, z=point.z)
         )
 
         if not in_workspace:
-            return ValidationResult(is_valid=False, message=ws_msg, error_index=-1)
+            return ValidationResult(
+                is_valid=False,
+                message=ws_msg,
+                error_index=self.NO_ERROR_INDEX,
+            )
 
-        is_reachable, reasons = self._kinematics.is_joint_reachable(
+        is_reachable, reasons = self._workspace.is_joint_reachable(
             point=Point2D(x=point.x, y=point.y)
         )
 
         if not is_reachable:
-            if reasons and 'Mathematically unreachable' in reasons[0]:
+            if reasons and self.UNREACHABLE_KEYWORD in reasons[0]:
                 return ValidationResult(
                     is_valid=False,
                     message=f'Point ({point.x:.1f}, {point.y:.1f}) is kinematically unreachable',
-                    error_index=-1,
+                    error_index=self.NO_ERROR_INDEX,
                 )
 
-            reason_str: str = ', '.join(reasons) if reasons else 'Joint limits exceeded'
+            reason_str: str = (
+                ', '.join(reasons) if reasons else self.DEFAULT_JOINT_LIMITS_MSG
+            )
 
             return ValidationResult(
                 is_valid=False,
                 message=f'Point ({point.x:.1f}, {point.y:.1f}) violates joint limits: {reason_str}',
-                error_index=-1,
+                error_index=self.NO_ERROR_INDEX,
             )
 
-        return ValidationResult(is_valid=True, message='Point is reachable', error_index=-1)
+        return ValidationResult(
+            is_valid=True,
+            message=self.POINT_REACHABLE_MSG,
+            error_index=self.NO_ERROR_INDEX,
+        )

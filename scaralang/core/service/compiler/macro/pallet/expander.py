@@ -25,18 +25,19 @@ from typing import Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.dsl.macro.pallet_definition import PalletDefinition
 from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.service.compiler.macro.pallet.dependencies import PalletDependencies
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -87,7 +88,7 @@ class PalletMacroExpander:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[ScaraInstruction, ...]:
         '''
             Processes PALLET_DEF or calculates cell coordinate for MOVE_PALLET.
@@ -99,11 +100,11 @@ class PalletMacroExpander:
                          MOVE_PALLET references undefined pallet, or index is out of bounds.
         '''
         params = instruction.parameters
-        name: str = str(params.get(InstructionParam.NAME, 'DEFAULT')).upper()
+        name: str = str(params.get(ScaraInstructionParam.NAME, 'DEFAULT')).upper()
 
         if instruction.command_type == ScaraCommandType.PALLET_DEF:
-            rows = int(params.get(InstructionParam.ROWS, 1))
-            cols = int(params.get(InstructionParam.COLS, 1))
+            rows = int(params.get(ScaraInstructionParam.ROWS, 1))
+            cols = int(params.get(ScaraInstructionParam.COLS, 1))
 
             if rows <= 0 or cols <= 0:
                 raise ScaraSemanticError(
@@ -112,22 +113,17 @@ class PalletMacroExpander:
                     f'got rows={rows}, cols={cols}'
                 )
 
-            pallet_def = PalletDefinition(
+            context.pallets[name] = PalletDefinition(
                 name=name,
                 rows=rows,
                 cols=cols,
-                dx=float(params.get(InstructionParam.DX, 20.0)),
-                dy=float(params.get(InstructionParam.DY, 20.0)),
+                dx=float(params.get(ScaraInstructionParam.DX, 20.0)),
+                dy=float(params.get(ScaraInstructionParam.DY, 20.0)),
                 start=Point2D(
-                    x=float(
-                        params.get(InstructionParam.START_X, context.pose.current_x)
-                    ),
-                    y=float(
-                        params.get(InstructionParam.START_Y, context.pose.current_y)
-                    ),
+                    x=float(params.get(ScaraInstructionParam.START_X, context.pose.current_x)),
+                    y=float(params.get(ScaraInstructionParam.START_Y, context.pose.current_y)),
                 ),
             )
-            context.pallets[name] = pallet_def
 
             return ()
 
@@ -137,9 +133,9 @@ class PalletMacroExpander:
                 f'Pallet {name!r} is not defined before MOVE_PALLET'
             )
 
-        pallet_def = context.pallets[name]
-        index = int(params.get(InstructionParam.INDEX, 0))
-        max_cells: int = pallet_def.rows * pallet_def.cols
+        pallet = context.pallets[name]
+        index = int(params.get(ScaraInstructionParam.INDEX, 0))
+        max_cells: int = pallet.rows * pallet.cols
 
         if index < 0 or index >= max_cells:
             raise ScaraSemanticError(
@@ -148,33 +144,37 @@ class PalletMacroExpander:
                 f'(capacity: {max_cells} cells, valid range: 0..{max_cells - 1})'
             )
 
-        local_x = pallet_def.start.x + (index % pallet_def.cols) * pallet_def.dx
-        local_y = pallet_def.start.y + (index // pallet_def.cols) * pallet_def.dy
-        transformed_point = self._dependencies.frame_transformer.transform_point(
+        pt: Point3D = self._dependencies.frame_transformer.transform_point(
             frame=context.active_frame,
-            point=Point2D(x=local_x, y=local_y),
-        )
-        target_z = float(params.get(InstructionParam.Z, context.pose.current_z))
-
-        context.pose.current_x = transformed_point.x
-        context.pose.current_y = transformed_point.y
-        context.pose.current_z = target_z
-
-        move_inst = ScaraInstruction(
-            command_type=ScaraCommandType.MOVE_L,
-            line_number=instruction.line_number,
-            raw_text=(
-                f'# MOVE_PALLET: {name}[{index}] -> '
-                f'X={transformed_point.x:.2f} Y={transformed_point.y:.2f} '
-                f'Z={target_z:.2f}'
+            point=Point3D(
+                x=pallet.start.x + (index % pallet.cols) * pallet.dx,
+                y=pallet.start.y + (index // pallet.cols) * pallet.dy,
+                z=(
+                    float(params[ScaraInstructionParam.Z])
+                    if ScaraInstructionParam.Z in params
+                    else context.pose.current_z - context.active_frame.origin.z
+                ),
             ),
-            parameters={
-                InstructionParam.X: transformed_point.x,
-                InstructionParam.Y: transformed_point.y,
-                InstructionParam.Z: target_z,
-                InstructionParam.PHI: context.pose.current_phi,
-                InstructionParam.SPEED: context.speed.current_speed,
-            },
         )
 
-        return (move_inst,)
+        context.pose.current_x = pt.x
+        context.pose.current_y = pt.y
+        context.pose.current_z = pt.z
+
+        return (
+            ScaraInstruction(
+                command_type=ScaraCommandType.MOVE_L,
+                line_number=instruction.line_number,
+                raw_text=(
+                    f'# MOVE_PALLET: {name}[{index}] -> '
+                    f'X={pt.x:.2f} Y={pt.y:.2f} Z={pt.z:.2f}'
+                ),
+                parameters={
+                    ScaraInstructionParam.X: pt.x,
+                    ScaraInstructionParam.Y: pt.y,
+                    ScaraInstructionParam.Z: pt.z,
+                    ScaraInstructionParam.PHI: context.pose.current_phi,
+                    ScaraInstructionParam.SPEED: context.speed.current_speed,
+                },
+            ),
+        )

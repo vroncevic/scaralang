@@ -61,13 +61,13 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.step</span> <span class="kn">import</span> <span class="n">Step</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.step</span> <span class="kn">import</span> <span class="n">BinaryStep</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -95,15 +95,14 @@
         <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">seq_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">line_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Step</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BinaryStep</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Compiles a semantic command string into a binary command step.</span>
 
 <span class="sd">            :param command: Command text (e.g. PUMP, VALVE, WAIT, HOME, MOTOR).</span>
 <span class="sd">            :param seq_num: Cyclic sequence counter.</span>
 <span class="sd">            :param line_num: Source line index.</span>
-<span class="sd">            :return: Compiled Step.</span>
-<span class="sd">            :exceptions: ScaraSemanticError on unsupported command name.</span>
+<span class="sd">            :return: Compiled BinaryStep.</span>
 <span class="sd">        &#39;&#39;&#39;</span></div>
 
 

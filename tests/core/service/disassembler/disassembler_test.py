@@ -21,8 +21,7 @@ Info
 
 from __future__ import annotations
 
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
 from scaralang.core.model.dsl.binary.disassembled_frame import DisassembledFrame
 from scaralang.core.model.dsl.binary.disassembly_summary import DisassemblySummary
@@ -33,16 +32,18 @@ from scaralang.core.service.disassembler.frame.dependencies import FrameDependen
 from scaralang.core.service.disassembler.frame.factory import FrameFactory
 from scaralang.core.service.disassembler.frame.provides import FrameProvides
 from scaralang.core.service.disassembler.idisassembler import IScaraDisassembler
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
+from scaralang.core.service.protocol.ibinary_actuator_frame_builder import IBinaryActuatorFrameBuilder
+from scaralang.core.service.protocol.ibinary_frame_packer import IBinaryFramePacker
 from scaralang.core.service.protocol.ibinary_frame_parser import IBinaryFrameParser
-from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.factory import ParserFactory
+from scaralang.core.service.protocol.ibinary_system_frame_builder import IBinarySystemFrameBuilder
+from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
+from scaralang.infrastructure.protocol.binary.parser.factory import ParserFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,25 +57,47 @@ class TestScaraDisassembler(TestCase):
         parser_provides = ParserFactory.create()
         self.parser: IBinaryFrameParser = parser_provides.parser
         frame_provides: FrameProvides = FrameFactory.create(
-            dependencies=FrameDependencies(unpacker=parser_provides.unpacker)
+            dependencies=FrameDependencies(
+                motion_unpacker=parser_provides.motion_unpacker,
+                actuator_unpacker=parser_provides.actuator_unpacker,
+            )
         )
         self.disassembler: ScaraDisassembler = ScaraDisassembler(
             parser=self.parser,
             detail_decoder=frame_provides.decoder,
         )
-        self.builder: IBinaryFrameBuilder = BuilderFactory.create().builder
+        builder_provides = BuilderFactory.create()
+        self.packer: IBinaryFramePacker = builder_provides.packer
+        self.system_builder: IBinarySystemFrameBuilder = (
+            builder_provides.system
+        )
+        self.actuator_builder: IBinaryActuatorFrameBuilder = (
+            builder_provides.actuator
+        )
 
     def test_implements_protocol(self) -> None:
-        '''Verifies structural protocol conformance.'''
+        '''
+            Verifies structural protocol conformance.
+
+            :exceptions: None.
+        '''
         self.assertTrue(isinstance(self.disassembler, IScaraDisassembler))
 
     def test_disassemble_empty(self) -> None:
-        '''Verifies disassembling empty data returns empty tuple.'''
+        '''
+            Verifies disassembling empty data returns empty tuple.
+
+            :exceptions: None.
+        '''
         frames: tuple[DisassembledFrame, ...] = self.disassembler.disassemble(data=b'')
         self.assertEqual(frames, ())
 
     def test_disassemble_frame_single(self) -> None:
-        '''Verifies decoding single frame directly via disassemble_frame.'''
+        '''
+            Verifies decoding single frame directly via disassemble_frame.
+
+            :exceptions: None.
+        '''
         frame: BinaryFrame = BinaryFrame(
             msg_id=MessageId.CMD_HOME,
             seq_num=7,
@@ -92,26 +115,30 @@ class TestScaraDisassembler(TestCase):
         self.assertEqual(result.detail, 'HOME')
 
     def test_disassemble_stream_bytes(self) -> None:
-        '''Verifies disassembling encoded byte stream into multiple frames.'''
-        home_frame_model: BinaryFrame = self.builder.build_system_cmd(
+        '''
+            Verifies disassembling encoded byte stream into multiple frames.
+
+            :exceptions: None.
+        '''
+        home_frame_model: BinaryFrame = self.system_builder.build_system_cmd(
             msg_id=MessageId.CMD_HOME,
             seq_num=1,
         )
-        home_bytes: bytes = self.builder.pack_frame(frame=home_frame_model)
+        home_bytes: bytes = self.packer.pack_frame(frame=home_frame_model)
 
-        wait_frame_model: BinaryFrame = self.builder.build_frame(
+        wait_frame_model: BinaryFrame = self.packer.build_frame(
             msg_id=MessageId.CMD_WAIT,
             seq_num=2,
             payload=(250).to_bytes(4, byteorder='little'),
         )
-        wait_bytes: bytes = self.builder.pack_frame(frame=wait_frame_model)
+        wait_bytes: bytes = self.packer.pack_frame(frame=wait_frame_model)
 
-        pump_frame_model: BinaryFrame = self.builder.build_tool_cmd(
-            seq_num=3,
+        pump_frame_model: BinaryFrame = self.actuator_builder.build_tool_cmd(
             tool_id=0,
             state=True,
+            seq_num=3,
         )
-        pump_bytes: bytes = self.builder.pack_frame(frame=pump_frame_model)
+        pump_bytes: bytes = self.packer.pack_frame(frame=pump_frame_model)
 
         stream: bytes = home_bytes + wait_bytes + pump_bytes
         frames: tuple[DisassembledFrame, ...] = self.disassembler.disassemble(
@@ -136,7 +163,11 @@ class TestScaraDisassembler(TestCase):
         self.assertEqual(frames[2].detail, 'PUMP ON')
 
     def test_calculate_summary(self) -> None:
-        '''Verifies calculating disassembly summary statistics.'''
+        '''
+            Verifies calculating disassembly summary statistics.
+
+            :exceptions: None.
+        '''
         home_frame: DisassembledFrame = DisassembledFrame(
             index=0, seq_num=1, msg_id=int(MessageId.CMD_HOME),
             msg_name='CMD_HOME', detail='HOME',
@@ -166,7 +197,7 @@ class TestScaraDisassembler(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies disassembler version string retrieval.'''
-        self.assertEqual(self.disassembler.get_version(), '1.0.8')
+        self.assertEqual(self.disassembler.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

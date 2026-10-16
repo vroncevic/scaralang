@@ -27,7 +27,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,8 +48,8 @@ class CompilerSpeedState:
                 | speed_override_pct - Global velocity scaling percentage (1-100).
     '''
 
-    speed_rapid: float = 150.0
-    speed_work: float = 40.0
-    current_speed: float = 40.0
-    active_accel: float = 300.0
-    speed_override_pct: float = 100.0
+    speed_rapid: float
+    speed_work: float
+    current_speed: float
+    active_accel: float
+    speed_override_pct: float

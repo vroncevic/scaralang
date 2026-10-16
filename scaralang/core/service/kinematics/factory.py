@@ -16,25 +16,27 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Factory instantiating and wiring Kinematics subsystem.
+    Factory instantiating and wiring kinematics subsystem components.
 '''
 
 from __future__ import annotations
 
 from scaralang.core.service.kinematics.dependencies import KinematicsDependencies
-from scaralang.core.service.kinematics.iservice import IKinematicsService
+from scaralang.core.service.kinematics.envelope.factory import WorkspaceEnvelopeFactory
+from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
 from scaralang.core.service.kinematics.provides import KinematicsProvides
-from scaralang.core.service.kinematics.service import KinematicsService
-from scaralang.core.service.kinematics.solver.factory import KinematicsSolverFactory
-from scaralang.core.service.kinematics.solver.isolver import IKinematicsSolver
-from scaralang.core.service.kinematics.workspace.factory import WorkspaceBoundsEvaluatorFactory
+from scaralang.core.service.kinematics.solver.planar.factory import PlanarKinematicsSolverFactory
+from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.spatial.factory import SpatialKinematicsSolverFactory
+from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.workspace.factory import WorkspaceFactory
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,24 +62,25 @@ class KinematicsFactory:
             :return: KinematicsProvides output dataclass.
             :exceptions: None.
         '''
-        solver: IKinematicsSolver = KinematicsSolverFactory.create(
-            links=dependencies.bounds.links
+        planar: IPlanarKinematicsSolver = PlanarKinematicsSolverFactory.create(
+            links=dependencies.bounds.links,
         )
-        workspace: IWorkspaceBoundsEvaluator = (
-            WorkspaceBoundsEvaluatorFactory.create(
-                bounds=dependencies.bounds,
-                solver=solver,
-            )
+        spatial: ISpatialKinematicsSolver = SpatialKinematicsSolverFactory.create(
+            planar=planar,
+            vertical=dependencies.bounds.vertical,
         )
-        service: IKinematicsService = KinematicsService(
+        workspace: IWorkspaceBoundsEvaluator = WorkspaceFactory.create(
             bounds=dependencies.bounds,
-            solver=solver,
-            workspace=workspace,
+            planar=planar,
+        )
+        envelope: IWorkspaceEnvelope = WorkspaceEnvelopeFactory.create(
+            bounds=dependencies.bounds,
         )
 
         return KinematicsProvides(
-            service=service,
-            solver=solver,
+            envelope=envelope,
+            planar=planar,
+            spatial=spatial,
             workspace=workspace,
         )
 

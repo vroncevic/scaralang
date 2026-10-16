@@ -60,6 +60,7 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">atan2</span><span class="p">,</span> <span class="n">ceil</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">degrees</span><span class="p">,</span> <span class="n">hypot</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">radians</span><span class="p">,</span> <span class="n">sin</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.compiler.arc_geometry</span> <span class="kn">import</span> <span class="n">ArcGeometry</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_kinematics_error</span> <span class="kn">import</span> <span class="n">ScaraKinematicsError</span>
@@ -70,7 +71,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -85,12 +86,28 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | None.</span>
+<span class="sd">                | MIN_RADIUS - Minimum allowable radius threshold for circular arc.</span>
+<span class="sd">                | TWO_PI - Full circle revolution angle in radians (2*pi).</span>
+<span class="sd">                | HALF_PI - Quarter circle quadrant angle in radians (pi/2).</span>
+<span class="sd">                | MIN_STEP_ANGLE_DEG - Minimum step discretization angle in degrees.</span>
+<span class="sd">                | MIN_SEGMENTS - Minimum number of discrete arc segments.</span>
+<span class="sd">                | START_SEGMENT_INDEX - Initial index for segment generation loop.</span>
+<span class="sd">                | HALF_CIRCLE_DEG - Half revolution angle in degrees.</span>
+<span class="sd">                | FULL_CIRCLE_DEG - Full revolution angle in degrees.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | interpolate - Segments circular arc into discrete coordinates and tangent angles.</span>
 <span class="sd">                | calculate_point - Calculates coordinates and heading angle for given circle angle.</span>
 <span class="sd">                | get_version - Gets implementation version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">MIN_RADIUS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-4</span>
+    <span class="n">TWO_PI</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">pi</span>
+    <span class="n">HALF_PI</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">MIN_STEP_ANGLE_DEG</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">MIN_SEGMENTS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">START_SEGMENT_INDEX</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">HALF_CIRCLE_DEG</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">180.0</span>
+    <span class="n">FULL_CIRCLE_DEG</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">360.0</span>
 
 <div class="viewcode-block" id="ArcInterpolator.interpolate">
 <a class="viewcode-back" href="../../../../../../../../../scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.html#scaralang.core.service.compiler.primitive.motion.arc.interpolation.interpolator.ArcInterpolator.interpolate">[docs]</a>
@@ -112,7 +129,7 @@
         <span class="p">)</span>
         <span class="n">radius</span> <span class="o">=</span> <span class="n">hypot</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">offset</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">offset</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">MIN_RADIUS</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ScaraKinematicsError</span><span class="p">(</span><span class="s1">&#39;Arc radius must be greater than zero&#39;</span><span class="p">)</span>
 
         <span class="n">angle_start</span> <span class="o">=</span> <span class="n">atan2</span><span class="p">(</span>
@@ -124,18 +141,18 @@
 
         <span class="k">if</span> <span class="n">geometry</span><span class="o">.</span><span class="n">is_clockwise</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">angle_end</span> <span class="o">&gt;=</span> <span class="n">angle_start</span><span class="p">:</span>
-                <span class="n">angle_end</span> <span class="o">-=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">pi</span>
+                <span class="n">angle_end</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TWO_PI</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">angle_end</span> <span class="o">&lt;=</span> <span class="n">angle_start</span><span class="p">:</span>
-                <span class="n">angle_end</span> <span class="o">+=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">pi</span>
+                <span class="n">angle_end</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TWO_PI</span>
 
         <span class="n">total_sweep</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle_end</span> <span class="o">-</span> <span class="n">angle_start</span><span class="p">)</span>
-        <span class="n">step_rad</span> <span class="o">=</span> <span class="n">radians</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">step_angle_deg</span><span class="p">))</span>
-        <span class="n">num_segments</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">total_sweep</span> <span class="o">/</span> <span class="n">step_rad</span><span class="p">)))</span>
+        <span class="n">step_rad</span> <span class="o">=</span> <span class="n">radians</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MIN_STEP_ANGLE_DEG</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">step_angle_deg</span><span class="p">))</span>
+        <span class="n">num_segments</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MIN_SEGMENTS</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">total_sweep</span> <span class="o">/</span> <span class="n">step_rad</span><span class="p">)))</span>
 
         <span class="n">points</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ArcPoint</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_segments</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">START_SEGMENT_INDEX</span><span class="p">,</span> <span class="n">num_segments</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">cur_angle</span> <span class="o">=</span> <span class="n">angle_start</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_segments</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">angle_end</span> <span class="o">-</span> <span class="n">angle_start</span><span class="p">)</span>
             <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">calculate_point</span><span class="p">(</span>
@@ -172,9 +189,12 @@
         <span class="n">px</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">center</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
         <span class="n">py</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">center</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
         <span class="n">tangent_rad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">-</span> <span class="p">(</span>
-            <span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="k">if</span> <span class="n">is_clockwise</span> <span class="k">else</span> <span class="o">-</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">HALF_PI</span> <span class="k">if</span> <span class="n">is_clockwise</span> <span class="k">else</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">HALF_PI</span>
         <span class="p">)</span>
-        <span class="n">tangent_deg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">degrees</span><span class="p">(</span><span class="n">tangent_rad</span><span class="p">)</span> <span class="o">+</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">%</span> <span class="mf">360.0</span> <span class="o">-</span> <span class="mf">180.0</span>
+        <span class="n">tangent_deg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">degrees</span><span class="p">(</span><span class="n">tangent_rad</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">HALF_CIRCLE_DEG</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">FULL_CIRCLE_DEG</span>
+            <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">HALF_CIRCLE_DEG</span>
+        <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ArcPoint</span><span class="p">(</span>
             <span class="n">point</span><span class="o">=</span><span class="n">Point2D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">px</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">py</span><span class="p">),</span>

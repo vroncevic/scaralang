@@ -24,25 +24,20 @@ from __future__ import annotations
 from unittest import TestCase, main
 from unittest.mock import MagicMock
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
+from scaralang.core.model.kinematics.joint_angles import JointAngles
 from scaralang.core.model.trajectory.waypoint import Waypoint
 from scaralang.core.service.compiler.binary.command.icompiler import ICommandCompiler
 from scaralang.core.service.compiler.binary.motion.icompiler import IMotionCompiler
-from scaralang.core.service.compiler.binary.step.dispatcher.dependencies import (
-    DispatcherDependencies
-)
-from scaralang.core.service.compiler.binary.step.dispatcher.dispatcher import (
-    WaypointStepDispatcher
-)
-from scaralang.core.service.compiler.binary.step.dispatcher.idispatcher import (
-    IWaypointStepDispatcher
-)
+from scaralang.core.service.compiler.binary.step.dispatcher.dependencies import DispatcherDependencies
+from scaralang.core.service.compiler.binary.step.dispatcher.dispatcher import WaypointStepDispatcher
+from scaralang.core.service.compiler.binary.step.dispatcher.idispatcher import IWaypointStepDispatcher
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,11 +69,20 @@ class TestWaypointStepDispatcher(TestCase):
 
     def test_dispatch_motion_waypoint(self) -> None:
         '''Verifies dispatching motion waypoint delegates to motion compiler.'''
-        wp = Waypoint(x=100.0, y=100.0, z=0.0, speed=50.0)
-        expected_step = MagicMock(spec=Step)
+        wp = Waypoint(
+            x=100.0,
+            y=100.0,
+            z=0.0,
+            phi=0.0,
+            speed=50.0,
+            name='',
+            command='',
+        )
+        expected_step = MagicMock(spec=BinaryStep)
+        expected_new_angles = JointAngles(theta1=0.5, theta2=0.5, z=0.0, theta4=0.0)
         self.mock_motion_compiler.compile_motion_step.return_value = (
             expected_step,
-            (0.5, 0.5, 0.0, 0.0),
+            expected_new_angles,
         )
 
         steps = self.dispatcher.dispatch_steps(waypoints=(wp,))
@@ -87,14 +91,22 @@ class TestWaypointStepDispatcher(TestCase):
         self.mock_motion_compiler.compile_motion_step.assert_called_once_with(
             waypoint=wp,
             seq_num=0,
-            prev_angles=(0.0, 0.0, 0.0, 0.0),
+            prev_angles=JointAngles(theta1=0.0, theta2=0.0, z=0.0, theta4=0.0),
             line_num=1,
         )
 
     def test_dispatch_command_waypoint(self) -> None:
         '''Verifies dispatching command waypoint delegates to command compiler.'''
-        wp = Waypoint(x=0.0, y=0.0, z=0.0, speed=50.0, command='PUMP ON')
-        expected_step = MagicMock(spec=Step)
+        wp = Waypoint(
+            x=0.0,
+            y=0.0,
+            z=0.0,
+            phi=0.0,
+            speed=50.0,
+            name='',
+            command='PUMP ON',
+        )
+        expected_step = MagicMock(spec=BinaryStep)
         self.mock_command_compiler.compile_command_step.return_value = expected_step
 
         steps = self.dispatcher.dispatch_steps(waypoints=(wp,))
@@ -112,7 +124,7 @@ class TestWaypointStepDispatcher(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid version string.'''
-        self.assertEqual(self.dispatcher.get_version(), '1.0.8')
+        self.assertEqual(self.dispatcher.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

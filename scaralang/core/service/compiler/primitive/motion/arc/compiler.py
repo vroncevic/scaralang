@@ -23,12 +23,12 @@ Info
 from __future__ import annotations
 
 from collections.abc import Sequence
-from typing import Final
+from typing import ClassVar, Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
-from scaralang.core.model.dsl.compiler.scara_compiler_context import ScaraCompilerContext
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
 from scaralang.core.model.kinematics.point_2d import Point2D
 from scaralang.core.model.trajectory.arc_point import ArcPoint
 from scaralang.core.model.trajectory.waypoint import Waypoint
@@ -39,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,6 +52,7 @@ class ArcMoveCompiler:
         It defines:
 
             :attributes:
+                | _PERCENT_DIVISOR - Scale factor converting percentage values to unit ratios.
                 | _SUPPORTED - Frozenset of handled ScaraCommandType instances.
                 | _point_calculator - Collaborator calculating interpolated arc endpoints.
                 | _waypoint_builder - Collaborator building domain waypoints.
@@ -62,7 +63,9 @@ class ArcMoveCompiler:
                 | get_version - Gets implementation version string.
     '''
 
-    _SUPPORTED: frozenset[ScaraCommandType] = frozenset({
+    _PERCENT_DIVISOR: ClassVar[float] = 100.0
+
+    _SUPPORTED: ClassVar[frozenset[ScaraCommandType]] = frozenset({
         ScaraCommandType.ARC_CW,
         ScaraCommandType.ARC_CCW,
     })
@@ -100,7 +103,7 @@ class ArcMoveCompiler:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraCompilerContext,
+        context: CompilerContext,
     ) -> tuple[Waypoint, ...]:
         '''
             Processes circular arc motion instructions and returns interpolated waypoints.
@@ -116,13 +119,17 @@ class ArcMoveCompiler:
             instruction=instruction, context=context,
         )
         params = instruction.parameters
-        target_z: float = float(
-            params.get(InstructionParam.Z, context.pose.current_z)
+        target_z: float = (
+            context.active_frame.origin.z + float(params[ScaraInstructionParam.Z])
+            if ScaraInstructionParam.Z in params
+            else context.pose.current_z
         )
         spd: float = float(
-            params.get(InstructionParam.SPEED, context.speed.current_speed)
+            params.get(ScaraInstructionParam.SPEED, context.speed.current_speed)
         )
-        effective_spd: float = spd * (context.speed.speed_override_pct / 100.0)
+        effective_spd: float = spd * (
+            context.speed.speed_override_pct / self._PERCENT_DIVISOR
+        )
 
         compiled: tuple[Waypoint, ...] = (
             self._waypoint_builder.build_waypoints(

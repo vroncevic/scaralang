@@ -1,6 +1,14 @@
 scaralang.infrastructure.compiler package
 =========================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.infrastructure.compiler.binary
+
 Submodules
 ----------
 

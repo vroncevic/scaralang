@@ -32,15 +32,15 @@ from scaralang.core.service.decompiler.frame.provides import FrameProvides
 from scaralang.core.service.decompiler.idecompiler import IScaraDecompiler
 from scaralang.core.service.decompiler.provides import DecompilerProvides
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
-from scaralang.core.service.kinematics.transmission.factory import JointStepTransmissionConverterFactory
-from scaralang.infrastructure.communication.protocol.binary.parser.factory import ParserFactory
+from scaralang.core.service.kinematics.transmission.factory import TransmissionFactory
+from scaralang.infrastructure.protocol.binary.parser.factory import ParserFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,17 +51,17 @@ class TestDecompilerFactory(TestCase):
 
     def test_create(self) -> None:
         '''Verifies factory creates configured DecompilerProvides instance with IScaraDecompiler.'''
-        kinematics = DefaultKinematicsFactory.create().service
-        transmission = JointStepTransmissionConverterFactory.create(
+        kinematics = DefaultKinematicsFactory.create()
+        transmission = TransmissionFactory.create(
             transmission=DefaultScaraProfile.create_transmission()
         )
         parser_provides = ParserFactory.create()
-        unpacker = parser_provides.unpacker
         frame_provides: FrameProvides = FrameFactory.create(
             dependencies=FrameDependencies(
-                kinematics=kinematics,
+                planar=kinematics.planar,
                 transmission=transmission,
-                unpacker=unpacker,
+                motion_unpacker=parser_provides.motion_unpacker,
+                actuator_unpacker=parser_provides.actuator_unpacker,
             )
         )
         parser = parser_provides.parser
@@ -75,7 +75,7 @@ class TestDecompilerFactory(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies factory version string retrieval.'''
-        self.assertEqual(DecompilerFactory.get_version(), '1.0.8')
+        self.assertEqual(DecompilerFactory.get_version(), '1.0.9')
 
 
 if __name__ == '__main__':

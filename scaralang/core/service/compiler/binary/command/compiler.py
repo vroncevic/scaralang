@@ -25,21 +25,24 @@ from typing import ClassVar, Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.binary.parsed_command_token import ParsedCommandToken
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
 from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.protocol.tool_id import ToolId
 from scaralang.core.service.compiler.binary.command.actuator.ibuilder import IActuatorFrameBuilder
+from scaralang.core.service.compiler.binary.command.compiler_dependencies import CommandCompilerDependencies
 from scaralang.core.service.compiler.binary.command.tokens.iparser import ITokenParser
 from scaralang.core.service.compiler.binary.command.tool.ibuilder import IToolFrameBuilder
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
+from scaralang.core.service.protocol.ibinary_frame_packer import IBinaryFramePacker
+from scaralang.core.service.protocol.ibinary_system_frame_builder import IBinarySystemFrameBuilder
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,19 +55,22 @@ class CommandCompiler:
         It defines:
 
             :attributes:
-                | _frame_builder - Binary frame assembler protocol.
+                | _frame_builder - Binary system frame builder protocol.
+                | _frame_packer - Binary wire frame packer protocol.
                 | _tool_frame_builder - Tool frame builder protocol.
                 | _actuator_frame_builder - Actuator frame builder protocol.
                 | _token_parser - Waypoint command token parser protocol.
             :methods:
-                | __init__ - Initializes command step compiler with injected builders.
+                | __init__ - Initializes command step compiler with injected builders and packer.
                 | compile_command_step - Compiles a single hardware command into a binary step.
                 | get_version - Gets implementation version string.
     '''
 
     _DEFAULT_WAIT_MS: ClassVar[int] = 100
     _DEFAULT_STEP_DURATION_US: ClassVar[int] = 50000
-    _ZERO_TARGET_STEPS: ClassVar[tuple[int, int, int, int]] = (0, 0, 0, 0)
+    _ZERO_TARGET_STEPS: ClassVar[JointStepCoordinates] = JointStepCoordinates(
+        j1=0, j2=0, z=0, j4=0
+    )
 
     _SYSTEM_MSG_IDS: ClassVar[dict[str, MessageId]] = {
         ScaraCommandType.HOME: MessageId.CMD_HOME,
@@ -75,32 +81,24 @@ class CommandCompiler:
         ScaraCommandType.ESTOP: MessageId.CMD_ESTOP,
     }
 
-    _frame_builder: IBinaryFrameBuilder
+    _frame_builder: IBinarySystemFrameBuilder
+    _frame_packer: IBinaryFramePacker
     _tool_frame_builder: IToolFrameBuilder
     _actuator_frame_builder: IActuatorFrameBuilder
     _token_parser: ITokenParser
 
-    def __init__(
-        self,
-        *,
-        frame_builder: IBinaryFrameBuilder,
-        tool_frame_builder: IToolFrameBuilder,
-        actuator_frame_builder: IActuatorFrameBuilder,
-        token_parser: ITokenParser,
-    ) -> None:
+    def __init__(self, *, dependencies: CommandCompilerDependencies) -> None:
         '''
-            Initializes command step compiler with injected builders and parser.
+            Initializes command step compiler with injected dependencies bundle.
 
-            :param frame_builder: Injected IBinaryFrameBuilder protocol.
-            :param tool_frame_builder: Injected IToolFrameBuilder protocol.
-            :param actuator_frame_builder: Injected IActuatorFrameBuilder protocol.
-            :param token_parser: Injected ITokenParser protocol.
+            :param dependencies: Injected CommandCompilerDependencies parameter bundle.
             :exceptions: None.
         '''
-        self._frame_builder: Final[IBinaryFrameBuilder] = frame_builder
-        self._tool_frame_builder: Final[IToolFrameBuilder] = tool_frame_builder
-        self._actuator_frame_builder: Final[IActuatorFrameBuilder] = actuator_frame_builder
-        self._token_parser: Final[ITokenParser] = token_parser
+        self._frame_builder: Final[IBinarySystemFrameBuilder] = dependencies.frame_builder
+        self._frame_packer: Final[IBinaryFramePacker] = dependencies.frame_packer
+        self._tool_frame_builder: Final[IToolFrameBuilder] = dependencies.tool_frame_builder
+        self._actuator_frame_builder: Final[IActuatorFrameBuilder] = dependencies.actuator_frame_builder
+        self._token_parser: Final[ITokenParser] = dependencies.token_parser
 
     def compile_command_step(
         self,
@@ -108,14 +106,14 @@ class CommandCompiler:
         command: str,
         seq_num: int,
         line_num: int,
-    ) -> Step:
+    ) -> BinaryStep:
         '''
             Compiles a semantic command string into a binary command step.
 
             :param command: Command text (e.g. PUMP, VALVE, WAIT, HOME, MOTOR).
             :param seq_num: Cyclic sequence counter.
             :param line_num: Source line index.
-            :return: Compiled Step.
+            :return: Compiled BinaryStep.
             :exceptions: ScaraSemanticError on unsupported command name.
         '''
         token: ParsedCommandToken = self._token_parser.parse(command=command)
@@ -168,9 +166,9 @@ class CommandCompiler:
                     f'Unsupported command: {token.cmd_name} at line {line_num}'
                 )
 
-        raw_bytes: bytes = self._frame_builder.pack_frame(frame=frame)
+        raw_bytes: bytes = self._frame_packer.pack_frame(frame=frame)
 
-        return Step(
+        return BinaryStep(
             frame=frame,
             raw_bytes=raw_bytes,
             duration_us=self._DEFAULT_STEP_DURATION_US,

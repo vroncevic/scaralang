@@ -39,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,7 +58,15 @@ class TestScaraExporter(TestCase):
             scara_exporter=ScaraPlanExporterFactory.create(),
         )
         self.exporter = ScaraExporter(dependencies=deps)
-        wp = Waypoint(name='P1', x=50.0, y=50.0, z=10.0, phi=0.0, speed=50.0)
+        wp = Waypoint(
+            name='P1',
+            x=50.0,
+            y=50.0,
+            z=10.0,
+            phi=0.0,
+            speed=50.0,
+            command='',
+        )
         self.plan = TrajectoryPlan()
         self.plan.add_point(wp)
 
@@ -94,7 +102,7 @@ class TestScaraExporter(TestCase):
     def test_export_scara(self) -> None:
         '''Verifies routing export to ScaraPlanExporter.'''
         out = self.exporter.export(plan=self.plan, target_format=ExportFormat.SCARA)
-        self.assertIn('SCARAjectory DSL Program', out)
+        self.assertIn('SCARA DSL Program', out)
 
     def test_export_unsupported_format(self) -> None:
         '''Verifies unsupported format raises ScaraExportError.'''

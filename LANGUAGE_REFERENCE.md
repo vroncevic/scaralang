@@ -1,6 +1,6 @@
 # SCARA Domain-Specific Language (DSL) Specification & Reference Manual
 
-**Version:** 1.0.8  
+**Version:** 1.0.9  
 **Target:** Industrial SCARA Robotic Manipulators  
 **Toolchain:** `scaralang` (`scarac` compiler, decompiler & binary protocol engine)  
 **Author:** Vladimir Roncevic  
@@ -61,10 +61,14 @@
    - [4.2 Pneumatic & Vacuum Rules](#42-pneumatic--vacuum-rules)
    - [4.3 State & Kinematic Rules](#43-state--kinematic-rules)
    - [4.4 Timing & Blending Rules](#44-timing--blending-rules)
-5. [Complete Industrial Example Scripts](#5-complete-industrial-example-scripts)
-   - [5.1 High-Speed Pick and Place with Matrix Pallet](#51-high-speed-pick-and-place-with-matrix-pallet)
-   - [5.2 Circular Profiling with Tool Tangency](#52-circular-profiling-with-tool-tangency)
-   - [5.3 Surface Probing and Adhesive Dispensing](#53-surface-probing-and-adhesive-dispensing)
+5. [Examples Directory & Verification Artifacts](#5-examples-directory--verification-artifacts)
+   - [5.1 Directory Structure & Artifact Types](#51-directory-structure--artifact-types)
+   - [5.2 Comprehensive Examples Catalog](#52-comprehensive-examples-catalog)
+   - [5.3 Toolchain CLI Workflows (Compile, Disassemble, Decompile)](#53-toolchain-cli-workflows-compile-disassemble-decompile)
+6. [Complete Industrial Example Scripts](#6-complete-industrial-example-scripts)
+   - [6.1 High-Speed Pick and Place with Matrix Pallet](#61-high-speed-pick-and-place-with-matrix-pallet)
+   - [6.2 Circular Profiling with Tool Tangency](#62-circular-profiling-with-tool-tangency)
+   - [6.3 Surface Probing and Adhesive Dispensing](#63-surface-probing-and-adhesive-dispensing)
 
 ---
 
@@ -710,9 +714,84 @@ The `scaralang` toolchain includes an industrial-grade static analyzer and linte
 
 ---
 
-## 5. Complete Industrial Example Scripts
+## 5. Examples Directory & Verification Artifacts
 
-### 5.1 High-Speed Pick and Place with Matrix Pallet
+The [`examples/`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/) directory at the repository root contains 12 industrial test programs providing reference implementations for all categories of the SCARA DSL specification.
+
+### 5.1 Directory Structure & Artifact Types
+
+Every example program in [`examples/`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/) includes 4 artifact files validating round-trip toolchain compilation, binary wire framing, and decompilation:
+
+| File Extension | Artifact Role | Description |
+|---|---|---|
+| `.scara` | **High-Level Source** | Original human-readable SCARA DSL script adhering to the language specification. |
+| `.bin` | **Compiled Bytecode** | Packed binary execution payload framed with `0xAA 0x55` delimiter, message IDs, payload bytes, and CRC-16-CCITT checksums. |
+| `.dis` | **Disassembly Inspection** | Frame-by-frame textual disassembly detailing wire sequence numbers, opcode IDs, payload unpacks, and hex bytes. |
+| `_decompiled.scara` | **Decompiled Source** | Regenerated SCARA DSL script reverse-engineered directly from `.bin` by `scaralang decompile`. |
+
+---
+
+### 5.2 Comprehensive Examples Catalog
+
+| # | Program Name | Primary Features & DSL Instructions | Source & Artifacts |
+|---|---|---|---|
+| **01** | Multi-Axis Homing | Multi-axis motor energizing, vertical slide homing, and coordinate origin calibration (`ENABLE`, `HOME`) | [`01_homing.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/01_homing.scara)<br>[`01_homing.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/01_homing.bin) |
+| **02** | Cartesian Linear Motion | Coordinated straight-line Cartesian interpolation with feedrate limits (`MOVE_L`, `SPEED WORK`, `SPEED RAPID`) | [`02_linear_motion.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/02_linear_motion.scara)<br>[`02_linear_motion.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/02_linear_motion.bin) |
+| **03** | Joint-Interpolated Rapid | Unconstrained multi-joint point-to-point rapid transit between fixtures (`MOVE_J`) | [`03_joint_rapid.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/03_joint_rapid.scara)<br>[`03_joint_rapid.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/03_joint_rapid.bin) |
+| **04** | Circular Arc Interpolation | Planar arc interpolation with relative center offsets (`ARC_CW`, `ARC_CCW`, `I`, `J`) | [`04_circular_arc.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/04_circular_arc.scara)<br>[`04_circular_arc.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/04_circular_arc.bin) |
+| **05** | 3D Parabolic Jump Arch | Industrial pick-and-place arch move with parameterized clearance height (`JUMP`, `ARCH`) | [`05_jump_arch.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/05_jump_arch.scara)<br>[`05_jump_arch.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/05_jump_arch.bin) |
+| **06** | Pneumatics & Vacuum Control | Vacuum suction cup engagement, positive blow-off burst, and dwell settling (`PUMP`, `VALVE`, `WAIT_MS`) | [`06_pneumatics.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/06_pneumatics.scara)<br>[`06_pneumatics.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/06_pneumatics.bin) |
+| **07** | Relative Approach & Retract | Controlled low-speed vertical descent and high-speed vertical ascent (`APPROACH`, `RETRACT`) | [`07_approach_retract.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/07_approach_retract.scara)<br>[`07_approach_retract.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/07_approach_retract.bin) |
+| **08** | Work Coordinate Frames (WCS) | Named local coordinate frames, spatial origin shifts, and base reset (`FRAME_DEF`, `FRAME_SET`, `FRAME_RESET`) | [`08_work_frames.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/08_work_frames.scara)<br>[`08_work_frames.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/08_work_frames.bin) |
+| **09** | Palletizing Matrix Grid | 2D matrix tray definition and zero-indexed cell positioning (`PALLET_DEF`, `MOVE_PALLET`) | [`09_pallet_matrix.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/09_pallet_matrix.scara)<br>[`09_pallet_matrix.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/09_pallet_matrix.bin) |
+| **10** | Tangential Tool Orientation | Continuous 4th-axis yaw alignment tangential to trajectory path vector (`TOOL_ORIENT TANGENT`) | [`10_tangent_orientation.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/10_tangent_orientation.scara)<br>[`10_tangent_orientation.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/10_tangent_orientation.bin) |
+| **11** | Corner Zone Blending | Fly-by corner rounding and exact stop transition blending (`ZONE EXACT`, `ZONE BLEND R=...`) | [`11_zone_blending.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/11_zone_blending.scara)<br>[`11_zone_blending.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/11_zone_blending.bin) |
+| **12** | Industrial Pick & Place | Complete coordinated industrial pick-and-place workcell routine combining all subsystem capabilities | [`12_industrial_pick_place.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/12_industrial_pick_place.scara)<br>[`12_industrial_pick_place.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/12_industrial_pick_place.bin) |
+
+---
+
+### 5.3 Toolchain CLI Workflows (Compile, Disassemble, Decompile)
+
+Developers and integrators can use the `scaralang` command-line interface to compile, inspect, disassemble, decompile, and export any example program:
+
+#### 1. Compilation (`compile`)
+Compiles a human-readable `.scara` script into a packed binary execution stream (`.bin`):
+```bash
+scaralang compile -s examples/12_industrial_pick_place.scara -o examples/12_industrial_pick_place.bin
+```
+
+#### 2. Disassembly (`disassemble`)
+Decodes binary wire protocol frames into formatted textual inspection instructions (`.dis`):
+```bash
+scaralang disassemble -b examples/12_industrial_pick_place.bin -o examples/12_industrial_pick_place.dis
+```
+
+#### 3. Decompilation (`decompile`)
+Reconstructs high-level `.scara` DSL instructions directly from binary wire frames (`_decompiled.scara`):
+```bash
+scaralang decompile -b examples/12_industrial_pick_place.bin -o examples/12_industrial_pick_place_decompiled.scara
+```
+
+#### 4. Trajectory Export (`export`)
+Exports trajectory plans to multi-target formats (G-code, CSV time series, JSON telemetry, SVG visualization):
+```bash
+scaralang export -s examples/12_industrial_pick_place.scara -f gcode -o examples/12_pick_place.gcode
+scaralang export -s examples/12_industrial_pick_place.scara -f svg -o examples/12_pick_place.svg
+scaralang export -s examples/12_industrial_pick_place.scara -f csv -o examples/12_pick_place.csv
+scaralang export -s examples/12_industrial_pick_place.scara -f json -o examples/12_pick_place.json
+```
+
+#### 5. Static Linter Analysis (`lint`)
+Validates robotic motion safety, pneumatic timing, and kinematic boundaries before execution:
+```bash
+scaralang lint -s examples/12_industrial_pick_place.scara
+```
+
+---
+
+## 6. Complete Industrial Example Scripts
+
+### 6.1 High-Speed Pick and Place with Matrix Pallet
 
 ```scara
 # ------------------------------------------------------------------
@@ -757,7 +836,7 @@ APPROACH DIST 10.0
 
 ---
 
-### 5.2 Circular Profiling with Tool Tangency
+### 6.2 Circular Profiling with Tool Tangency
 
 ```scara
 # ------------------------------------------------------------------
@@ -793,7 +872,7 @@ RETRACT DIST 30.0
 
 ---
 
-### 5.3 Surface Probing and Adhesive Dispensing
+### 6.3 Surface Probing and Adhesive Dispensing
 
 ```scara
 # ------------------------------------------------------------------

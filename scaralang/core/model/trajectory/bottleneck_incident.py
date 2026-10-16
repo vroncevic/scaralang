@@ -23,11 +23,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from scaralang.core.model.kinematics.axis_name import AxisName
+from scaralang.core.model.trajectory.constraint_type import ConstraintType
+
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,12 +45,12 @@ class BottleneckIncident:
 
             :attributes:
                 | step_index - Sequence index of the constrained trajectory step.
-                | limiting_axis - Axis name that dictated the segment duration.
-                | constraint_type - Constraint category ('VELOCITY' or 'ACCELERATION').
+                | limiting_axis - Axis identifier enum (AxisName) that dictated the segment duration.
+                | constraint_type - Constraint category enum (ConstraintType).
                 | duration_us - Allocated duration for the segment in microseconds.
     '''
 
     step_index: int
-    limiting_axis: str
-    constraint_type: str
+    limiting_axis: AxisName
+    constraint_type: ConstraintType
     duration_us: int

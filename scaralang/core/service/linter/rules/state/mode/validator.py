@@ -23,11 +23,11 @@ from __future__ import annotations
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.ast.instruction_param import InstructionParam
+from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_code import ScaraDiagnosticCode
 from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
-from scaralang.core.model.dsl.linter.scara_lint_context import ScaraLintContext
+from scaralang.core.model.dsl.linter.lint_context import LintContext
 from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
 from scaralang.core.service.motor.drive_mode_resolver import DriveModeResolver
 
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -66,7 +66,7 @@ class ModeValidator:
         self,
         *,
         instruction: ScaraInstruction,
-        context: ScaraLintContext,
+        context: LintContext,
     ) -> tuple[ScaraDiagnostic, ...]:
         '''
             Checks CONFIG_MOTOR instruction parameters and updates simulation context.
@@ -81,7 +81,7 @@ class ModeValidator:
 
         params = instruction.parameters
         raw_mode: str = str(
-            params.get(InstructionParam.MODE, '')
+            params.get(ScaraInstructionParam.MODE, '')
         ).upper()
 
         if not DriveModeResolver.is_valid_drive_mode(raw_mode):

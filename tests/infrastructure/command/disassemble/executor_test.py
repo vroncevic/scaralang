@@ -34,13 +34,14 @@ from scaralang.infrastructure.command.disassemble.definition import DisassembleC
 from scaralang.infrastructure.command.disassemble.dependencies import DisassembleDependencies
 from scaralang.infrastructure.command.disassemble.error.factory import ErrorFactory
 from scaralang.infrastructure.command.disassemble.executor import DisassembleCommandExecutor
-from scaralang.infrastructure.command.disassemble.factory import DisassembleFactory
+from scaralang.infrastructure.command.disassemble.format.factory import FormatFactory
+from scaralang.infrastructure.disassembler.factory import DefaultDisassemblerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,6 +60,7 @@ class TestDisassembleCommandExecutor(TestCase):
                 | test_disassemble_missing_file - Verifies handling of absent file.
                 | test_disassemble_compiled_file - Verifies disassembling valid binary file.
                 | test_disassemble_summary - Verifies disassemble with summary option.
+                | test_disassemble_output_file - Verifies disassemble with output file option.
                 | test_disassemble_alternate_service_methods - Verifies alternate service method fallback.
                 | test_disassemble_error - Verifies handling of disassembly errors.
                 | test_disassemble_domain_error - Verifies handling of domain exception.
@@ -70,7 +72,14 @@ class TestDisassembleCommandExecutor(TestCase):
             Sets up test fixtures.
         '''
         self.cmd_def = DisassembleCommandDefinition()
-        self.executor = DisassembleFactory.create().executor
+        self.executor = DisassembleCommandExecutor(
+            definition=self.cmd_def,
+            dependencies=DisassembleDependencies(
+                service=DefaultDisassemblerFactory.create(),
+                summary_formatter=FormatFactory.create().formatter,
+                error_handler=ErrorFactory.create().handler,
+            ),
+        )
         self.temp_files: list[str] = []
 
     def tearDown(self) -> None:
@@ -142,6 +151,34 @@ class TestDisassembleCommandExecutor(TestCase):
         self.assertIn('Disassembly Summary:', stdout_text)
         self.assertIn('Total Decoded Frames: 2', stdout_text)
         self.assertIn('Tool Commands:', stdout_text)
+
+    def test_disassemble_output_file(self) -> None:
+        '''
+            Verifies disassemble command with output file destination.
+
+            :exceptions: None.
+        '''
+        script_path = self.create_source_file('HOME\nPUMP ON\n')
+        bin_path = script_path + '.bin'
+        out_path = script_path + '.dis'
+        self.temp_files.append(bin_path)
+        self.temp_files.append(out_path)
+
+        compile_exec = CompileFactory.create().executor
+        compile_exec.execute(
+            params={'script': script_path, 'output': bin_path},
+        )
+
+        res = self.executor.execute(
+            params={'file': bin_path, 'output': out_path},
+        )
+        self.assertEqual(res.get('returncode'), 0)
+        self.assertIn('Disassembled 2 frames to', str(res.get('stdout', '')))
+        self.assertTrue(exists(out_path))
+        with open(out_path, 'r', encoding='utf-8') as dis_file:
+            content = dis_file.read()
+        self.assertIn('CMD_HOME', content)
+        self.assertIn('PUMP ON', content)
 
     def test_get_definition(self) -> None:
         '''

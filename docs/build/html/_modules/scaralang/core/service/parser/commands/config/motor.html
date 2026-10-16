@@ -59,9 +59,11 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
+
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.command_type</span> <span class="kn">import</span> <span class="n">ScaraCommandType</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction</span> <span class="kn">import</span> <span class="n">ScaraInstruction</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">InstructionParam</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.ast.instruction_param</span> <span class="kn">import</span> <span class="n">ScaraInstructionParam</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.token.scara_token</span> <span class="kn">import</span> <span class="n">ScaraToken</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_semantic_error</span> <span class="kn">import</span> <span class="n">ScaraSemanticError</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.model.exceptions.scara_syntax_error</span> <span class="kn">import</span> <span class="n">ScaraSyntaxError</span>
@@ -78,7 +80,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.8&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -93,16 +95,20 @@
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | _name - Component identification name.</span>
-<span class="sd">            :methods:</span>
+<span class="sd">                | NAME - Component identification name.</span>
+<span class="sd">                | PARSED_COMMANDS - Handled command keywords tuple.</span>
 <span class="sd">                | name - Property returning component name.</span>
+<span class="sd">            :methods:</span>
 <span class="sd">                | can_parse - Checks whether command matches CONFIG_MOTOR or MOTOR_MODE.</span>
 <span class="sd">                | parse - Parses CONFIG MOTOR statement tokens into ScaraInstruction.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;Initializes MotorParser.&#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;motor_parser&#39;</span>
+    <span class="n">NAME</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;motor_parser&#39;</span>
+    <span class="n">PARSED_COMMANDS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">ScaraCommandType</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG_MOTOR</span><span class="p">,</span>
+        <span class="s1">&#39;CONFIG_MOTOR&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;MOTOR_MODE&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -111,7 +117,7 @@
 
 <span class="sd">            :return: Component name string.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NAME</span>
 
 <div class="viewcode-block" id="MotorParser.can_parse">
 <a class="viewcode-back" href="../../../../../../../scaralang.core.service.parser.commands.config.motor.html#scaralang.core.service.parser.commands.config.motor.MotorParser.can_parse">[docs]</a>
@@ -122,11 +128,7 @@
 <span class="sd">            :param command_name: Command keyword string.</span>
 <span class="sd">            :return: True if match, False otherwise.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">command_name</span> <span class="ow">in</span> <span class="p">(</span>
-            <span class="n">ScaraCommandType</span><span class="o">.</span><span class="n">CONFIG_MOTOR</span><span class="p">,</span>
-            <span class="s1">&#39;CONFIG_MOTOR&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;MOTOR_MODE&#39;</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">command_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARSED_COMMANDS</span></div>
 
 
 <div class="viewcode-block" id="MotorParser.parse">
@@ -184,9 +186,9 @@
             <span class="n">line_number</span><span class="o">=</span><span class="n">line_num</span><span class="p">,</span>
             <span class="n">raw_text</span><span class="o">=</span><span class="n">raw_text</span><span class="p">,</span>
             <span class="n">parameters</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">InstructionParam</span><span class="o">.</span><span class="n">MODE</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                <span class="n">InstructionParam</span><span class="o">.</span><span class="n">INTERFACE</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">interface_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                <span class="n">InstructionParam</span><span class="o">.</span><span class="n">AXIS_MASK</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">axis_mask</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">MODE</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">INTERFACE</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">interface_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">ScaraInstructionParam</span><span class="o">.</span><span class="n">AXIS_MASK</span><span class="p">:</span> <span class="n">motor_config</span><span class="o">.</span><span class="n">axis_mask</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span></div>
 </div>

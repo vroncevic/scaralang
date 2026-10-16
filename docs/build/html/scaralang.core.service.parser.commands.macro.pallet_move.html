@@ -80,18 +80,53 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">_name - Component identification name.</div>
+<div class="line">NAME - Component identification name.</div>
+<div class="line">MIN_TOKENS - Minimum allowed token count for statement parsing.</div>
+<div class="line">CMD_INDEX - Index of command token.</div>
+<div class="line">NAME_INDEX - Index of pallet identifier token.</div>
+<div class="line">PARAMS_START_INDEX - Slice start index for key-value parameters.</div>
+<div class="line">PARSED_COMMAND - Handled command type.</div>
+<div class="line">name - Property returning component name.</div>
 </div>
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
-<div class="line">name - Property returning component name.</div>
 <div class="line">can_parse - Checks whether command is MOVE_PALLET.</div>
 <div class="line">parse - Parses MOVE_PALLET statement tokens into ScaraInstruction.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.CMD_INDEX">
+<span class="sig-name descname"><span class="pre">CMD_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.CMD_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.MIN_TOKENS">
+<span class="sig-name descname"><span class="pre">MIN_TOKENS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.MIN_TOKENS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pallet_move_parser'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.NAME_INDEX">
+<span class="sig-name descname"><span class="pre">NAME_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.NAME_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.PARAMS_START_INDEX">
+<span class="sig-name descname"><span class="pre">PARAMS_START_INDEX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.PARAMS_START_INDEX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.PARSED_COMMAND">
+<span class="sig-name descname"><span class="pre">PARSED_COMMAND</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.ast.command_type.html#scaralang.core.model.dsl.ast.command_type.ScaraCommandType" title="scaralang.core.model.dsl.ast.command_type.ScaraCommandType"><span class="pre">ScaraCommandType</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MOVE_PALLET'</span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.PARSED_COMMAND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.can_parse">
 <span class="sig-name descname"><span class="pre">can_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/macro/pallet_move.html#PalletMoveParser.can_parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.can_parse" title="Link to this definition">¶</a></dt>
@@ -154,6 +189,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.parser.commands.macro.pallet_move module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.CMD_INDEX"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser.CMD_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.MIN_TOKENS"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser.MIN_TOKENS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.NAME"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser.NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.NAME_INDEX"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser.NAME_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.PARAMS_START_INDEX"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser.PARAMS_START_INDEX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.PARSED_COMMAND"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser.PARSED_COMMAND</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.can_parse"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser.can_parse()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.name"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser.name</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.macro.pallet_move.PalletMoveParser.parse"><code class="docutils literal notranslate"><span class="pre">PalletMoveParser.parse()</span></code></a></li>

@@ -16,27 +16,28 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Defines immutable Step model representing a single binary motion step.
+    Defines immutable BinaryStep model representing a single binary motion step.
 '''
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 
+from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class Step:
+class BinaryStep:
     '''
         Single compiled binary execution step.
 
@@ -46,7 +47,7 @@ class Step:
                 | frame - Structured binary wire frame.
                 | raw_bytes - Raw serialized wire bytes.
                 | duration_us - Move duration in microseconds.
-                | target_steps - Tuple of motor target microstep coordinates (m1, m2, z, tool).
+                | target_steps - JointStepCoordinates model of motor target microstep coordinates.
                 | description - Human-readable step label or command text.
                 | line_number - Source DSL line number.
     '''
@@ -54,6 +55,6 @@ class Step:
     frame: BinaryFrame
     raw_bytes: bytes
     duration_us: int
-    target_steps: tuple[int, int, int, int]
+    target_steps: JointStepCoordinates
     description: str
     line_number: int

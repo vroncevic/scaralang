@@ -23,20 +23,20 @@ from __future__ import annotations
 
 from typing import Final
 
-from scaralang.core.model.dsl.binary.step import Step
+from scaralang.core.model.dsl.binary.step import BinaryStep
 from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
 from scaralang.core.model.protocol.binary_frame import BinaryFrame
 from scaralang.core.model.protocol.message_id import MessageId
 from scaralang.core.model.repl.repl_pose_state import ReplPoseState
 from scaralang.core.model.repl.repl_session_context import ReplSessionContext
-from scaralang.core.service.compiler.icompiler import IScaraCompiler
+from scaralang.core.service.compiler.binary.icompiler import IBinaryCompiler
 from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,7 +50,7 @@ class ReplSingleCommandCompiler:
 
             :attributes:
                 | _compiler - Injected IScriptPlanCompiler protocol instance.
-                | _binary_compiler - Injected IScaraCompiler protocol instance.
+                | _binary_compiler - Injected IBinaryCompiler protocol instance.
             :methods:
                 | __init__ - Initializes compiler with injected DSL compilers.
                 | compile_instruction - Compiles single instruction and derives updated context.
@@ -58,36 +58,36 @@ class ReplSingleCommandCompiler:
     '''
 
     _compiler: IScriptPlanCompiler
-    _binary_compiler: IScaraCompiler
+    _binary_compiler: IBinaryCompiler
 
     def __init__(
         self,
         *,
         compiler: IScriptPlanCompiler,
-        binary_compiler: IScaraCompiler,
+        binary_compiler: IBinaryCompiler,
     ) -> None:
         '''
             Initializes single-line command compiler.
 
             :param compiler: Injected IScriptPlanCompiler protocol instance.
-            :param binary_compiler: Injected IScaraCompiler protocol instance.
+            :param binary_compiler: Injected IBinaryCompiler protocol instance.
             :exceptions: None.
         '''
         self._compiler: Final[IScriptPlanCompiler] = compiler
-        self._binary_compiler: Final[IScaraCompiler] = binary_compiler
+        self._binary_compiler: Final[IBinaryCompiler] = binary_compiler
 
     def compile_instruction(
         self,
         *,
         line: str,
         context: ReplSessionContext,
-    ) -> tuple[BinaryFrame, Step, ReplSessionContext]:
+    ) -> tuple[BinaryFrame, BinaryStep, ReplSessionContext]:
         '''
-            Compiles single DSL line into BinaryFrame, Step, and updated context.
+            Compiles single DSL line into BinaryFrame, BinaryStep, and updated context.
 
             :param line: Single DSL instruction line.
             :param context: Active REPL session context model.
-            :return: Tuple of (BinaryFrame, Step, ReplSessionContext).
+            :return: Tuple of (BinaryFrame, BinaryStep, ReplSessionContext).
             :exceptions:
                 | ScaraSemanticError: If no binary steps compiled for line.
         '''
@@ -97,7 +97,7 @@ class ReplSingleCommandCompiler:
         if not program.steps:
             raise ScaraSemanticError(f'No binary steps compiled for line: {line}')
 
-        step: Step = program.steps[-1]
+        step: BinaryStep = program.steps[-1]
         new_context: ReplSessionContext = self.update_context(
             line=line, step=step, plan_waypoints=plan.waypoints, context=context
         )
@@ -108,7 +108,7 @@ class ReplSingleCommandCompiler:
         self,
         *,
         line: str,
-        step: Step,
+        step: BinaryStep,
         plan_waypoints: tuple[object, ...],
         context: ReplSessionContext,
     ) -> ReplSessionContext:

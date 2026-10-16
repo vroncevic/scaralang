@@ -28,14 +28,13 @@ from scaralang.core.service.compiler.binary.command.dependencies import CommandD
 from scaralang.core.service.compiler.binary.command.factory import CommandFactory
 from scaralang.core.service.compiler.binary.command.icompiler import ICommandCompiler
 from scaralang.core.service.compiler.binary.command.provides import CommandProvides
-from scaralang.core.service.protocol.ibinary_frame_builder import IBinaryFrameBuilder
-from scaralang.infrastructure.communication.protocol.binary.builder.factory import BuilderFactory
+from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,8 +53,12 @@ class TestCommandFactory(TestCase):
 
     def test_create(self) -> None:
         '''Verifies create returns CommandProvides with conforming ICommandCompiler.'''
-        frame_builder: IBinaryFrameBuilder = BuilderFactory.create().builder
-        deps = CommandDependencies(frame_builder=frame_builder)
+        builder_provides = BuilderFactory.create()
+        deps = CommandDependencies(
+            actuator_builder=builder_provides.actuator,
+            system_builder=builder_provides.system,
+            frame_packer=builder_provides.packer,
+        )
         provides: CommandProvides = CommandFactory.create(dependencies=deps)
         self.assertIsInstance(provides, CommandProvides)
         self.assertIsInstance(provides.compiler, ICommandCompiler)
@@ -64,7 +67,7 @@ class TestCommandFactory(TestCase):
         '''Verifies factory version returns valid string.'''
         version = CommandFactory.get_version()
         self.assertIsInstance(version, str)
-        self.assertEqual(version, '1.0.8')
+        self.assertEqual(version, '1.0.9')
 
 
 if __name__ == '__main__':
