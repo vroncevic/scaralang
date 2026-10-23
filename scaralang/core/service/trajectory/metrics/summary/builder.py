@@ -24,9 +24,9 @@ from __future__ import annotations
 from typing import Final
 
 from scaralang.core.model.dsl.binary.program import BinaryProgram
-from scaralang.core.model.trajectory.axis_peak_metric import AxisPeakMetric
-from scaralang.core.model.trajectory.bottleneck_incident import BottleneckIncident
-from scaralang.core.model.trajectory.trajectory_cycle_report import TrajectoryCycleReport
+from scaralang.core.model.trajectory.metrics.peak import AxisPeakMetric
+from scaralang.core.model.trajectory.metrics.bottleneck import BottleneckIncident
+from scaralang.core.model.trajectory.metrics.report import TrajectoryCycleReport
 from scaralang.core.service.trajectory.metrics.bottleneck.idetector import IMotionBottleneckDetector
 from scaralang.core.service.trajectory.metrics.cycle.icalculator import ICycleTimeCalculator
 from scaralang.core.service.trajectory.metrics.profile.ianalyzer import IAxisSpeedProfileAnalyzer
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

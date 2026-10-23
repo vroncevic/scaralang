@@ -31,14 +31,10 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
-
-
-class NonConformingSpeedAnalyzer:  # pylint: disable=too-few-public-methods
-    '''Dummy class not implementing IAxisSpeedProfileAnalyzer.'''
 
 
 class TestIAxisSpeedProfileAnalyzer(TestCase):
@@ -55,22 +51,38 @@ class TestIAxisSpeedProfileAnalyzer(TestCase):
     '''
 
     def test_structural_conformance(self) -> None:
-        '''Verifies concrete AxisSpeedProfileAnalyzer satisfies protocol.'''
+        '''
+            Verifies concrete AxisSpeedProfileAnalyzer satisfies protocol.
+
+            :exceptions: None.
+        '''
         analyzer = AxisSpeedProfileAnalyzer()
         self.assertIsInstance(analyzer, IAxisSpeedProfileAnalyzer)
 
     def test_factory_conformance(self) -> None:
-        '''Verifies factory returns instance satisfying protocol.'''
+        '''
+            Verifies factory returns instance satisfying protocol.
+
+            :exceptions: None.
+        '''
         provides = ProfileFactory.create()
         self.assertIsInstance(provides.analyzer, IAxisSpeedProfileAnalyzer)
 
     def test_non_conforming_instance(self) -> None:
-        '''Verifies non-conforming object is rejected by runtime_checkable protocol.'''
-        dummy = NonConformingSpeedAnalyzer()
+        '''
+            Verifies non-conforming object is rejected by runtime_checkable protocol.
+
+            :exceptions: None.
+        '''
+        dummy = object()
         self.assertNotIsInstance(dummy, IAxisSpeedProfileAnalyzer)
 
     def test_analyzer_name(self) -> None:
-        '''Verifies analyzer name property returns expected identifier string.'''
+        '''
+            Verifies analyzer name property returns expected identifier string.
+
+            :exceptions: None.
+        '''
         analyzer = AxisSpeedProfileAnalyzer()
         self.assertEqual(analyzer.name, 'axis_speed_profile_analyzer')
 

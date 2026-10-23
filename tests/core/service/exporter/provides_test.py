@@ -22,7 +22,7 @@ Info
 from __future__ import annotations
 
 from dataclasses import FrozenInstanceError
-from unittest import TestCase
+from unittest import TestCase, main
 
 from scaralang.core.service.exporter.csv.factory import CsvExporterFactory
 from scaralang.core.service.exporter.dependencies import ExporterDependencies
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -72,3 +72,7 @@ class TestExporterProvides(TestCase):
         provides = ExporterProvides(exporter=exporter)
         with self.assertRaises(FrozenInstanceError):
             provides.exporter = exporter  # type: ignore[misc]
+
+
+if __name__ == '__main__':
+    main()

@@ -23,13 +23,15 @@ from __future__ import annotations
 
 from scaralang.core.service.info.iinfo import IScaraInfoProvider
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher import ReplCommandDispatcher
+from scaralang.infrastructure.cli.repl.presentation.irepl_status_presenter import IReplStatusPresenter
+from scaralang.infrastructure.cli.repl.presentation.repl_status_presenter_factory import ReplStatusPresenterFactory
 from scaralang.infrastructure.info.factory import DefaultInfoFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,8 +44,8 @@ class ReplCommandDispatcherFactory:
         It defines:
 
             :methods:
-                | create - Builds ReplCommandDispatcher with injected info provider.
-                | create_default - Builds ReplCommandDispatcher with default info provider.
+                | create - Builds ReplCommandDispatcher with injected collaborators.
+                | create_default - Builds ReplCommandDispatcher with default collaborators.
                 | get_version - Returns factory version string.
     '''
 
@@ -52,15 +54,20 @@ class ReplCommandDispatcherFactory:
         cls,
         *,
         info_provider: IScaraInfoProvider,
+        status_presenter: IReplStatusPresenter,
     ) -> ReplCommandDispatcher:
         '''
             Builds and returns a ReplCommandDispatcher instance with injected dependencies.
 
             :param info_provider: Required injected toolchain info provider.
+            :param status_presenter: Required injected status presenter.
             :return: Instantiated ReplCommandDispatcher instance.
             :exceptions: None.
         '''
-        return ReplCommandDispatcher(info_provider=info_provider)
+        return ReplCommandDispatcher(
+            info_provider=info_provider,
+            status_presenter=status_presenter,
+        )
 
     @classmethod
     def create_default(cls) -> ReplCommandDispatcher:
@@ -71,7 +78,8 @@ class ReplCommandDispatcherFactory:
             :exceptions: None.
         '''
         return ReplCommandDispatcher(
-            info_provider=DefaultInfoFactory.create()
+            info_provider=DefaultInfoFactory.create(),
+            status_presenter=ReplStatusPresenterFactory.create(),
         )
 
     @classmethod

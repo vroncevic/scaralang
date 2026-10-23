@@ -117,6 +117,10 @@ Tool structure
          ├── core/
          │   ├── __init__.py
          │   ├── model/
+         │   │   ├── disassembler/
+         │   │   │   ├── disassembled_frame.py
+         │   │   │   ├── disassembly_summary.py
+         │   │   │   └── __init__.py
          │   │   ├── dsl/
          │   │   │   ├── ast/
          │   │   │   │   ├── command_type.py
@@ -133,106 +137,129 @@ Tool structure
          │   │   │   ├── binary/
          │   │   │   │   ├── axis_peak_steps.py
          │   │   │   │   ├── binary_program_telemetry.py
-         │   │   │   │   ├── disassembled_frame.py
-         │   │   │   │   ├── disassembly_summary.py
          │   │   │   │   ├── __init__.py
-         │   │   │   │   ├── parsed_command_token.py
          │   │   │   │   ├── program.py
          │   │   │   │   └── step.py
          │   │   │   ├── compiler/
-         │   │   │   │   ├── arc_geometry.py
-         │   │   │   │   ├── compiler_blend_state.py
-         │   │   │   │   ├── compiler_context.py
-         │   │   │   │   ├── compiler_pose_state.py
-         │   │   │   │   ├── compiler_speed_state.py
-         │   │   │   │   ├── control_waypoint_descriptor.py
-         │   │   │   │   └── __init__.py
-         │   │   │   ├── diagnostic/
+         │   │   │   │   ├── blend_state.py
+         │   │   │   │   ├── command_token.py
+         │   │   │   │   ├── context.py
          │   │   │   │   ├── __init__.py
-         │   │   │   │   ├── scara_diagnostic.py
-         │   │   │   │   ├── scara_diagnostic_code.py
-         │   │   │   │   └── scara_diagnostic_severity.py
+         │   │   │   │   ├── pose_state.py
+         │   │   │   │   ├── speed_state.py
+         │   │   │   │   └── waypoint_descriptor.py
+         │   │   │   ├── diagnostic/
+         │   │   │   │   ├── code.py
+         │   │   │   │   ├── diagnostic.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   └── severity.py
          │   │   │   ├── exporter/
-         │   │   │   │   ├── export_format.py
+         │   │   │   │   ├── format.py
          │   │   │   │   └── __init__.py
          │   │   │   ├── __init__.py
          │   │   │   ├── linter/
+         │   │   │   │   ├── context.py
          │   │   │   │   ├── __init__.py
-         │   │   │   │   ├── lint_context.py
-         │   │   │   │   └── lint_tool_state.py
+         │   │   │   │   └── tool_state.py
          │   │   │   ├── macro/
+         │   │   │   │   ├── frame.py
          │   │   │   │   ├── __init__.py
-         │   │   │   │   ├── pallet_definition.py
-         │   │   │   │   └── work_frame.py
+         │   │   │   │   ├── pallet.py
+         │   │   │   │   ├── repeat.py
+         │   │   │   │   └── subroutine.py
          │   │   │   └── token/
          │   │   │       ├── __init__.py
-         │   │   │       ├── lexer_pattern_kind.py
-         │   │   │       ├── scara_token.py
-         │   │   │       └── scara_token_type.py
+         │   │   │       ├── pattern_kind.py
+         │   │   │       ├── token.py
+         │   │   │       └── token_type.py
          │   │   ├── exceptions/
+         │   │   │   ├── error.py
+         │   │   │   ├── export.py
          │   │   │   ├── __init__.py
-         │   │   │   ├── scara_error.py
-         │   │   │   ├── scara_export_error.py
-         │   │   │   ├── scara_kinematics_error.py
-         │   │   │   ├── scara_protocol_error.py
-         │   │   │   ├── scara_semantic_error.py
-         │   │   │   └── scara_syntax_error.py
+         │   │   │   ├── kinematics.py
+         │   │   │   ├── protocol.py
+         │   │   │   ├── semantic.py
+         │   │   │   └── syntax.py
          │   │   ├── __init__.py
          │   │   ├── kinematics/
-         │   │   │   ├── axis_name.py
-         │   │   │   ├── cartesian_pose.py
-         │   │   │   ├── elbow_config.py
-         │   │   │   ├── ik_status.py
          │   │   │   ├── __init__.py
-         │   │   │   ├── joint_angle_bounds.py
-         │   │   │   ├── joint_angles.py
-         │   │   │   ├── joint_step_coordinates.py
-         │   │   │   ├── link_dimensions.py
-         │   │   │   ├── point_2d.py
-         │   │   │   ├── point_3d.py
-         │   │   │   ├── scara_bounds.py
-         │   │   │   ├── scara_joints.py
-         │   │   │   ├── scara_joints_2d.py
-         │   │   │   ├── scara_joints_3d.py
-         │   │   │   ├── singularity_margins.py
-         │   │   │   ├── speed_limits.py
-         │   │   │   ├── transmission_parameters.py
-         │   │   │   └── vertical_bounds.py
+         │   │   │   ├── pose/
+         │   │   │   │   ├── angles.py
+         │   │   │   │   ├── axis.py
+         │   │   │   │   ├── cartesian.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── point_2d.py
+         │   │   │   │   ├── point_3d.py
+         │   │   │   │   └── steps.py
+         │   │   │   ├── profile/
+         │   │   │   │   ├── angle.py
+         │   │   │   │   ├── bounds.py
+         │   │   │   │   ├── __init__.py
+         │   │   │   │   ├── link.py
+         │   │   │   │   ├── singularity.py
+         │   │   │   │   ├── speed.py
+         │   │   │   │   ├── transmission.py
+         │   │   │   │   └── vertical.py
+         │   │   │   └── solver/
+         │   │   │       ├── dls.py
+         │   │   │       ├── elbow.py
+         │   │   │       ├── __init__.py
+         │   │   │       ├── jacobian.py
+         │   │   │       ├── solution.py
+         │   │   │       ├── solution_2d.py
+         │   │   │       ├── solution_3d.py
+         │   │   │       └── status.py
          │   │   ├── motor/
-         │   │   │   ├── axis_mask.py
+         │   │   │   ├── alias.py
+         │   │   │   ├── config.py
          │   │   │   ├── __init__.py
-         │   │   │   ├── motor_config.py
-         │   │   │   ├── motor_drive_mode.py
-         │   │   │   ├── motor_drive_mode_alias.py
-         │   │   │   └── motor_interface_type.py
+         │   │   │   ├── interface.py
+         │   │   │   ├── mask.py
+         │   │   │   ├── mode.py
+         │   │   │   └── wire_mode.py
          │   │   ├── protocol/
-         │   │   │   ├── binary_delimiter.py
-         │   │   │   ├── binary_frame.py
-         │   │   │   ├── binary_payload_size.py
-         │   │   │   ├── error_code.py
+         │   │   │   ├── code.py
+         │   │   │   ├── delimiter.py
+         │   │   │   ├── event.py
+         │   │   │   ├── frame.py
          │   │   │   ├── __init__.py
          │   │   │   ├── joint_steps.py
-         │   │   │   ├── manipulator_status.py
-         │   │   │   ├── message_id.py
-         │   │   │   ├── motor_wire_mode.py
-         │   │   │   ├── move_event_type.py
-         │   │   │   └── tool_id.py
+         │   │   │   ├── message.py
+         │   │   │   ├── payload_size.py
+         │   │   │   ├── status.py
+         │   │   │   └── tool.py
          │   │   ├── repl/
+         │   │   │   ├── context.py
          │   │   │   ├── __init__.py
-         │   │   │   ├── repl_dispatch_result.py
-         │   │   │   ├── repl_pose_state.py
-         │   │   │   └── repl_session_context.py
+         │   │   │   ├── pose.py
+         │   │   │   └── result.py
          │   │   └── trajectory/
-         │   │       ├── arc_point.py
-         │   │       ├── axis_peak_metric.py
-         │   │       ├── bottleneck_incident.py
-         │   │       ├── bypass_arc_geometry.py
-         │   │       ├── circle_geometry.py
-         │   │       ├── constraint_type.py
+         │   │       ├── geometry/
+         │   │       │   ├── arc.py
+         │   │       │   ├── bypass.py
+         │   │       │   ├── circle.py
+         │   │       │   ├── __init__.py
+         │   │       │   └── point.py
          │   │       ├── __init__.py
-         │   │       ├── trajectory_cycle_report.py
-         │   │       ├── validation_result.py
-         │   │       └── waypoint.py
+         │   │       ├── metrics/
+         │   │       │   ├── bottleneck.py
+         │   │       │   ├── constraint.py
+         │   │       │   ├── __init__.py
+         │   │       │   ├── peak.py
+         │   │       │   └── report.py
+         │   │       ├── obstacle/
+         │   │       │   ├── box.py
+         │   │       │   ├── circle.py
+         │   │       │   ├── __init__.py
+         │   │       │   ├── shape.py
+         │   │       │   └── zone.py
+         │   │       ├── plan/
+         │   │       │   ├── __init__.py
+         │   │       │   ├── reconfiguration.py
+         │   │       │   └── waypoint.py
+         │   │       └── validation/
+         │   │           ├── __init__.py
+         │   │           └── result.py
          │   └── service/
          │       ├── compiler/
          │       │   ├── binary/
@@ -342,7 +369,33 @@ Tool structure
          │       │   │   │   ├── factory.py
          │       │   │   │   └── __init__.py
          │       │   │   ├── provides.py
-         │       │   │   └── tangent/
+         │       │   │   ├── repeat/
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── expander.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── iexpander.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   └── provides.py
+         │       │   │   ├── segmenter/
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── isegmenter.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   └── segmenter.py
+         │       │   │   ├── subroutine/
+         │       │   │   │   ├── dependencies.py
+         │       │   │   │   ├── expander.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── iexpander.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── iregistry.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   └── registry.py
+         │       │   │   ├── tangent/
+         │       │   │   │   ├── expander.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   └── __init__.py
+         │       │   │   └── zone/
          │       │   │       ├── expander.py
          │       │   │       ├── factory.py
          │       │   │       └── __init__.py
@@ -406,6 +459,10 @@ Tool structure
          │       │   │   │   ├── factory.py
          │       │   │   │   ├── __init__.py
          │       │   │   │   ├── isub_compiler.py
+         │       │   │   │   ├── relative/
+         │       │   │   │   │   ├── compiler.py
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   └── __init__.py
          │       │   │   │   └── vertical/
          │       │   │   │       ├── compiler.py
          │       │   │   │       ├── factory.py
@@ -459,7 +516,13 @@ Tool structure
          │       │   │   └── provides.py
          │       │   ├── idisassembler.py
          │       │   ├── __init__.py
-         │       │   └── provides.py
+         │       │   ├── provides.py
+         │       │   └── summary/
+         │       │       ├── calculator.py
+         │       │       ├── factory.py
+         │       │       ├── icalculator.py
+         │       │       ├── __init__.py
+         │       │       └── provides.py
          │       ├── exporter/
          │       │   ├── csv/
          │       │   │   ├── exporter.py
@@ -511,27 +574,62 @@ Tool structure
          │       │   ├── envelope/
          │       │   │   ├── envelope.py
          │       │   │   ├── factory.py
+         │       │   │   ├── home.py
+         │       │   │   ├── home_factory.py
          │       │   │   ├── ienvelope.py
+         │       │   │   ├── ihome.py
          │       │   │   └── __init__.py
          │       │   ├── factory.py
          │       │   ├── __init__.py
          │       │   ├── profile/
+         │       │   │   ├── deadzone/
+         │       │   │   │   ├── calculator.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── icalculator.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   └── provides.py
          │       │   │   ├── default_scara_profile.py
          │       │   │   ├── factory.py
          │       │   │   └── __init__.py
          │       │   ├── provides.py
          │       │   ├── solver/
-         │       │   │   ├── __init__.py
-         │       │   │   ├── planar/
-         │       │   │   │   ├── factory.py
+         │       │   │   ├── analytical/
          │       │   │   │   ├── __init__.py
-         │       │   │   │   ├── isolver.py
-         │       │   │   │   └── solver.py
-         │       │   │   └── spatial/
-         │       │   │       ├── factory.py
+         │       │   │   │   ├── planar/
+         │       │   │   │   │   ├── factory.py
+         │       │   │   │   │   ├── __init__.py
+         │       │   │   │   │   ├── isolver.py
+         │       │   │   │   │   └── solver.py
+         │       │   │   │   └── spatial/
+         │       │   │   │       ├── factory.py
+         │       │   │   │       ├── __init__.py
+         │       │   │   │       ├── isolver.py
+         │       │   │   │       ├── pose/
+         │       │   │   │       │   ├── factory.py
+         │       │   │   │       │   ├── __init__.py
+         │       │   │   │       │   ├── isolver.py
+         │       │   │   │       │   └── solver.py
+         │       │   │   │       └── solver.py
+         │       │   │   ├── __init__.py
+         │       │   │   └── numerical/
          │       │   │       ├── __init__.py
-         │       │   │       ├── isolver.py
-         │       │   │       └── solver.py
+         │       │   │       ├── jacobian/
+         │       │   │       │   ├── calculator.py
+         │       │   │       │   ├── factory.py
+         │       │   │       │   ├── icalculator.py
+         │       │   │       │   └── __init__.py
+         │       │   │       ├── planar/
+         │       │   │       │   ├── dependencies.py
+         │       │   │       │   ├── factory.py
+         │       │   │       │   ├── __init__.py
+         │       │   │       │   ├── isolver.py
+         │       │   │       │   └── solver.py
+         │       │   │       └── spatial/
+         │       │   │           ├── dependencies.py
+         │       │   │           ├── factory.py
+         │       │   │           ├── __init__.py
+         │       │   │           ├── isolver.py
+         │       │   │           └── solver.py
          │       │   ├── transmission/
          │       │   │   ├── converter.py
          │       │   │   ├── factory.py
@@ -577,6 +675,16 @@ Tool structure
          │       │   │   │   │   ├── __init__.py
          │       │   │   │   │   ├── ivalidator.py
          │       │   │   │   │   └── validator.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   └── rule.py
+         │       │   │   ├── obstacle/
+         │       │   │   │   ├── builder/
+         │       │   │   │   │   ├── builder.py
+         │       │   │   │   │   ├── ibuilder.py
+         │       │   │   │   │   └── __init__.py
+         │       │   │   │   ├── dependencies.py
          │       │   │   │   ├── factory.py
          │       │   │   │   ├── __init__.py
          │       │   │   │   ├── provides.py
@@ -651,11 +759,11 @@ Tool structure
          │       │       ├── provides.py
          │       │       └── validator.py
          │       ├── motor/
-         │       │   ├── drive_mode_resolver.py
          │       │   ├── factory.py
          │       │   ├── __init__.py
-         │       │   ├── interface_resolver.py
-         │       │   └── wire_mode_converter.py
+         │       │   ├── interface.py
+         │       │   ├── mode.py
+         │       │   └── wire.py
          │       ├── parser/
          │       │   ├── commands/
          │       │   │   ├── config/
@@ -687,17 +795,21 @@ Tool structure
          │       │   │   │   ├── provides.py
          │       │   │   │   ├── reset.py
          │       │   │   │   └── set.py
-         │       │   │   ├── icommand_parser.py
-         │       │   │   ├── icommand_parser_provider.py
-         │       │   │   ├── icommand_parser_provides.py
          │       │   │   ├── __init__.py
+         │       │   │   ├── iparser.py
+         │       │   │   ├── iprovider.py
+         │       │   │   ├── iprovides.py
          │       │   │   ├── macro/
+         │       │   │   │   ├── end.py
          │       │   │   │   ├── factory.py
          │       │   │   │   ├── __init__.py
          │       │   │   │   ├── jump.py
          │       │   │   │   ├── pallet_def.py
          │       │   │   │   ├── pallet_move.py
-         │       │   │   │   └── provides.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   ├── repeat.py
+         │       │   │   │   ├── subroutine_call.py
+         │       │   │   │   └── subroutine_def.py
          │       │   │   ├── motion/
          │       │   │   │   ├── approach.py
          │       │   │   │   ├── arc.py
@@ -710,17 +822,29 @@ Tool structure
          │       │   │   │   ├── linear.py
          │       │   │   │   ├── probe.py
          │       │   │   │   ├── provides.py
+         │       │   │   │   ├── relative.py
          │       │   │   │   └── retract.py
          │       │   │   ├── parameter/
          │       │   │   │   ├── extractor.py
          │       │   │   │   └── __init__.py
-         │       │   │   └── tool/
+         │       │   │   ├── tool/
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   ├── pump.py
+         │       │   │   │   ├── tool.py
+         │       │   │   │   └── valve.py
+         │       │   │   └── zone/
+         │       │   │       ├── definition.py
          │       │   │       ├── factory.py
          │       │   │       ├── __init__.py
          │       │   │       ├── provides.py
-         │       │   │       ├── pump.py
-         │       │   │       ├── tool.py
-         │       │   │       └── valve.py
+         │       │   │       └── validator/
+         │       │   │           ├── box_validator.py
+         │       │   │           ├── circle_validator.py
+         │       │   │           ├── ibox_validator.py
+         │       │   │           ├── icircle_validator.py
+         │       │   │           └── __init__.py
          │       │   ├── dependencies.py
          │       │   ├── factory.py
          │       │   ├── __init__.py
@@ -747,18 +871,18 @@ Tool structure
          │       │       ├── provides.py
          │       │       └── splitter.py
          │       ├── protocol/
-         │       │   ├── ibinary_actuator_frame_builder.py
-         │       │   ├── ibinary_actuator_payload_unpacker.py
-         │       │   ├── ibinary_frame_codec.py
-         │       │   ├── ibinary_frame_packer.py
-         │       │   ├── ibinary_frame_parser.py
-         │       │   ├── ibinary_motion_frame_builder.py
-         │       │   ├── ibinary_motion_payload_unpacker.py
-         │       │   ├── ibinary_response_builder.py
-         │       │   ├── ibinary_response_payload_unpacker.py
-         │       │   ├── ibinary_system_frame_builder.py
-         │       │   ├── ibinary_system_payload_unpacker.py
-         │       │   └── __init__.py
+         │       │   ├── iactuator_builder.py
+         │       │   ├── iactuator_unpacker.py
+         │       │   ├── icodec.py
+         │       │   ├── imotion_builder.py
+         │       │   ├── imotion_unpacker.py
+         │       │   ├── __init__.py
+         │       │   ├── ipacker.py
+         │       │   ├── iparser.py
+         │       │   ├── iresponse_builder.py
+         │       │   ├── iresponse_unpacker.py
+         │       │   ├── isystem_builder.py
+         │       │   └── isystem_unpacker.py
          │       ├── repl/
          │       │   ├── context/
          │       │   │   ├── factory.py
@@ -784,6 +908,18 @@ Tool structure
          │       │   │   │   │   ├── planner.py
          │       │   │   │   │   └── provides.py
          │       │   │   │   └── provides.py
+         │       │   │   ├── collision/
+         │       │   │   │   ├── box_checker.py
+         │       │   │   │   ├── circle_checker.py
+         │       │   │   │   ├── factory.py
+         │       │   │   │   ├── ibox_checker.py
+         │       │   │   │   ├── icircle_checker.py
+         │       │   │   │   ├── __init__.py
+         │       │   │   │   ├── ispatial_checker.py
+         │       │   │   │   ├── izone_registry.py
+         │       │   │   │   ├── provides.py
+         │       │   │   │   ├── spatial_checker.py
+         │       │   │   │   └── zone_registry.py
          │       │   │   ├── __init__.py
          │       │   │   ├── router/
          │       │   │   │   ├── dependencies.py
@@ -861,11 +997,17 @@ Tool structure
          │       │   │       └── provides.py
          │       │   ├── plan/
          │       │   │   ├── factory.py
-         │       │   │   ├── imutable.py
          │       │   │   ├── __init__.py
          │       │   │   ├── iplan.py
          │       │   │   ├── iread_only.py
          │       │   │   ├── plan.py
+         │       │   │   └── provides.py
+         │       │   ├── reconfiguration/
+         │       │   │   ├── dependencies.py
+         │       │   │   ├── factory.py
+         │       │   │   ├── __init__.py
+         │       │   │   ├── ireconfiguration_planner.py
+         │       │   │   ├── planner.py
          │       │   │   └── provides.py
          │       │   └── validation/
          │       │       ├── dependencies.py
@@ -928,9 +1070,18 @@ Tool structure
          │   │   │   ├── presentation/
          │   │   │   │   ├── __init__.py
          │   │   │   │   ├── irepl_response_presenter.py
+         │   │   │   │   ├── irepl_status_presenter.py
          │   │   │   │   ├── repl_response_presenter.py
-         │   │   │   │   └── repl_response_presenter_factory.py
+         │   │   │   │   ├── repl_response_presenter_factory.py
+         │   │   │   │   ├── repl_status_presenter.py
+         │   │   │   │   └── repl_status_presenter_factory.py
          │   │   │   └── transmission/
+         │   │   │       ├── buffer/
+         │   │   │       │   ├── buffer.py
+         │   │   │       │   ├── factory.py
+         │   │   │       │   ├── ibuffer.py
+         │   │   │       │   ├── __init__.py
+         │   │   │       │   └── provides.py
          │   │   │       ├── __init__.py
          │   │   │       ├── irepl_frame_transmitter.py
          │   │   │       ├── repl_frame_transmitter.py
@@ -1148,67 +1299,51 @@ Tool structure
          │   │       ├── factory.py
          │   │       └── __init__.py
          │   ├── protocol/
-         │   │   ├── ascii/
-         │   │   │   ├── classifier/
-         │   │   │   │   ├── classifier.py
+         │   │   ├── builder/
+         │   │   │   ├── actuator.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   ├── motion.py
+         │   │   │   ├── packer.py
+         │   │   │   ├── provides.py
+         │   │   │   └── system.py
+         │   │   ├── checksum/
+         │   │   │   ├── crc16_ccitt.py
+         │   │   │   └── __init__.py
+         │   │   ├── codec/
+         │   │   │   ├── codec.py
+         │   │   │   ├── dependencies.py
+         │   │   │   ├── factory.py
+         │   │   │   ├── __init__.py
+         │   │   │   └── provides.py
+         │   │   ├── __init__.py
+         │   │   ├── parser/
+         │   │   │   ├── assembler/
+         │   │   │   │   ├── assembler.py
          │   │   │   │   ├── factory.py
-         │   │   │   │   ├── iclassifier.py
+         │   │   │   │   ├── iassembler.py
          │   │   │   │   ├── __init__.py
          │   │   │   │   └── provides.py
+         │   │   │   ├── factory.py
          │   │   │   ├── __init__.py
-         │   │   │   └── templates/
+         │   │   │   ├── parser.py
+         │   │   │   ├── provides.py
+         │   │   │   ├── state.py
+         │   │   │   └── unpacker/
+         │   │   │       ├── actuator.py
          │   │   │       ├── factory.py
          │   │   │       ├── __init__.py
-         │   │   │       ├── itemplates.py
+         │   │   │       ├── motion.py
          │   │   │       ├── provides.py
-         │   │   │       └── templates.py
-         │   │   ├── binary/
-         │   │   │   ├── builder/
-         │   │   │   │   ├── actuator.py
-         │   │   │   │   ├── factory.py
-         │   │   │   │   ├── __init__.py
-         │   │   │   │   ├── motion.py
-         │   │   │   │   ├── packer.py
-         │   │   │   │   ├── provides.py
-         │   │   │   │   └── system.py
-         │   │   │   ├── checksum/
-         │   │   │   │   ├── crc16_ccitt.py
-         │   │   │   │   └── __init__.py
-         │   │   │   ├── codec/
-         │   │   │   │   ├── codec.py
-         │   │   │   │   ├── dependencies.py
-         │   │   │   │   ├── factory.py
-         │   │   │   │   ├── __init__.py
-         │   │   │   │   └── provides.py
+         │   │   │       ├── response.py
+         │   │   │       └── system.py
+         │   │   ├── response/
+         │   │   │   ├── builder.py
+         │   │   │   ├── dependencies.py
+         │   │   │   ├── factory.py
          │   │   │   ├── __init__.py
-         │   │   │   ├── parser/
-         │   │   │   │   ├── assembler/
-         │   │   │   │   │   ├── assembler.py
-         │   │   │   │   │   ├── factory.py
-         │   │   │   │   │   ├── iassembler.py
-         │   │   │   │   │   ├── __init__.py
-         │   │   │   │   │   └── provides.py
-         │   │   │   │   ├── factory.py
-         │   │   │   │   ├── __init__.py
-         │   │   │   │   ├── parser.py
-         │   │   │   │   ├── provides.py
-         │   │   │   │   ├── state.py
-         │   │   │   │   └── unpacker/
-         │   │   │   │       ├── actuator.py
-         │   │   │   │       ├── factory.py
-         │   │   │   │       ├── __init__.py
-         │   │   │   │       ├── motion.py
-         │   │   │   │       ├── provides.py
-         │   │   │   │       ├── response.py
-         │   │   │   │       └── system.py
-         │   │   │   ├── response/
-         │   │   │   │   ├── builder.py
-         │   │   │   │   ├── dependencies.py
-         │   │   │   │   ├── factory.py
-         │   │   │   │   ├── __init__.py
-         │   │   │   │   └── provides.py
-         │   │   │   └── struct_format.py
-         │   │   └── __init__.py
+         │   │   │   └── provides.py
+         │   │   └── struct_format.py
          │   └── trajectory/
          │       ├── avoidance/
          │       │   ├── bypass/
@@ -1255,7 +1390,7 @@ Tool structure
              ├── registry.py
              └── validator.py
 
-     210 directories, 931 files
+     235 directories, 1041 files
 
 🏗 Architecture & SOLID Principles
 --------------------------------------------------------------------------------
@@ -1269,7 +1404,7 @@ Tool structure
                     │                Depends on Role Protocols            │
                     ▼                                                     ▼
        ┌─────────────────────────┐┌─────────────────────────┐┌─────────────────────────┐
-       │      IScaraLinter       ││     IScaraCompiler      ││    IScaraDecompiler     │
+       │         ILinter         ││     IScaraCompiler      ││    IScaraDecompiler     │
        │(Validation/Diagnostics) ││(Plan/Binary Generation) ││ (Forward Kinematics/FK) │
        └────────────┬────────────┘└────────────┬────────────┘└────────────┬────────────┘
                     │                          │                          │
@@ -1281,8 +1416,8 @@ Tool structure
   │  │  (Token Stream)  │   │ (Command Parsers)  │   │       (Macro Expander)       │  │
   │  └──────────────────┘   └────────────────────┘   └──────────────────────────────┘  │
   │  ┌──────────────────┐   ┌────────────────────┐   ┌──────────────────────────────┐  │
-  │  │KinematicsService │   │SafeTrajectoryRouter│   │        BinaryCompiler        │  │
-  │  │ (Solver + Bounds)│   │  (Bypass & Avoid)  │   │       (Step Generator)       │  │
+  │  │Kinematics Solvers│   │SafeTrajectoryRouter│   │        BinaryCompiler        │  │
+  │  │(Planar + Spatial)│   │  (Bypass & Avoid)  │   │       (Step Generator)       │  │
   │  └──────────────────┘   └────────────────────┘   └──────────────────────────────┘  │
   │  ┌──────────────────┐   ┌────────────────────┐   ┌──────────────────────────────┐  │
   │  │ScaraDisassembler │   │   ScaraExporter    │   │       ScaraDecompiler        │  │
@@ -1333,7 +1468,7 @@ Every build is validated against 4 strict automated quality gates:
 * **Single Source of Truth (SSoT)**: Seamless domain and codec foundation shared between ``scarajectory`` (Desktop Studio), ``scaraemu`` (Digital Twin Simulator), and ``dof2bot/scara`` (RP2040 firmware).
 * **Zero GUI Dependencies**: 100% headless, clean architecture design with zero Tkinter, Qt, or graphics dependencies.
 * **Strict Quality & SOLID Standards**: 100% structural protocol conformance, 100% test coverage, and 10.00 / 10.00 Pylint score.
-* **Resilient Error Handling & Categorized Diagnostics**: Strongly typed domain exception hierarchy (``ScaraSyntaxError``, ``ScaraSemanticError``, ``ScaraKinematicsError``, ``ScaraProtocolError``, ``ScaraExportError``, ``ScaraIOError``) coupled with dedicated CLI error presentation handlers (``ICompileErrorHandler``, ``IDecompileErrorHandler``, ``IDisassembleErrorHandler``, ``IExportErrorHandler``, ``ILintErrorHandler``) providing clear, category-tagged diagnostics (``[SYNTAX]``, ``[SEMANTIC]``, ``[KINEMATICS]``, ``[PROTOCOL]``, ``[EXPORT]``, ``[IO]``, ``[DOMAIN]``) and zero unhandled tracebacks at the system boundary.
+* **Resilient Error Handling & Categorized Diagnostics**: Strongly typed domain exception hierarchy (``ScaraSyntaxError``, ``ScaraSemanticError``, ``ScaraKinematicsError``, ``ScaraProtocolError``, ``ScaraExportError``) coupled with dedicated CLI error presentation handlers (``ICompileErrorHandler``, ``IDecompileErrorHandler``, ``IDisassembleErrorHandler``, ``IExportErrorHandler``, ``ILintErrorHandler``) providing clear, category-tagged diagnostics (``[SYNTAX]``, ``[SEMANTIC]``, ``[KINEMATICS]``, ``[PROTOCOL]``, ``[EXPORT]``, ``[DOMAIN]``) and zero unhandled tracebacks at the system boundary.
 
 📜 SCARA Domain-Specific Language (DSL) & ``.scara`` Programs
 --------------------------------------------------------------------------------
@@ -1662,14 +1797,16 @@ All binary wire communication between **scaralang**, **scarajectory**, **scaraem
 Frame Header & Wire Format
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Each binary wire frame consists of a 5-byte header, variable payload (0 to 64 bytes), and a 3-byte trailer (CRC-16-CCITT and EOF delimiter ``0x0D``):
+Each binary wire frame consists of a 5-byte header, variable payload (0 to 64 bytes), and a 3-byte trailer (CRC-16-CCITT and EOF delimiter ``0x0D``), with a total frame length between 8 and 72 bytes:
 
 .. code-block:: text
 
-    ┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬──────────────────┬──────────────┬──────────────┐
-    │  SOF1 (0xAA) │  SOF2 (0x55) │  Msg ID (1B) │   SEQ (1B)   │  Length (1B) │   Payload (NB)   │  CRC16 (2B)  │  EOF (0x0D)  │
-    └──────────────┴──────────────┴──────────────┴──────────────┴──────────────┴──────────────────┴──────────────┴──────────────┘
-    │<─────────────── 5-Byte Wire Header ──────────────────────>│  0..64 Bytes │<───── 3-Byte Wire Trailer ──────>│
+    ┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬────────────────────┬───────────────┬─────────────┐
+    │  SOF1 (1B)  │  SOF2 (1B)  │ Msg ID (1B) │  SEQ (1B)   │ Length (1B) │  Payload (0..64B)  │  CRC16 (2B)   │  EOF (1B)   │
+    │    0xAA     │    0x55     │ 0x01..0x89  │   0..255    │    0..64    │    Binary Data     │ CRC-16-CCITT  │    0x0D     │
+    └─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴────────────────────┴───────────────┴─────────────┘
+    │<─────────────────────── 5-Byte Wire Header ────────────────────────>│<── 0..64 Bytes ───>│<──── 3-Byte Wire Trailer ──>│
+    │<────────────────────────────────────────── Total Wire Frame: 8 to 72 Bytes ───────────────────────────────────────────>│
 
 Message Types & Payload Structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1815,24 +1952,24 @@ Binary wire frames generated by **scaralang** stream directly over UART / USB-CD
 Domain Exception Hierarchy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-All internal toolchain exceptions inherit from the base domain exception ``ScaraError`` (defined in ``scaralang.core.model.exceptions.scara_error``):
+All internal toolchain exceptions inherit from the base domain exception ``ScaraError`` (defined in ``scaralang.core.model.exceptions.error``):
 
 .. code-block:: text
 
-                                      ┌──────────────┐
-                                      │  Exception   │
-                                      └──────┬───────┘
-                                             ▼
-                                      ┌──────────────┐
-                                      │  ScaraError  │
-                                      └──────┬───────┘
-                                             │
-            ┌──────────────┬──────────────┬──┴───────────┬──────────────┬──────────────┐
-            ▼              ▼              ▼              ▼              ▼              ▼
-    ┌──────────────┐┌──────────────┐┌──────────────┐┌──────────────┐┌──────────────┐┌──────────────┐
-    │ ScaraSyntax  ││ScaraSemantic ││ScaraKinematics│ScaraProtocol ││ ScaraExport  ││  ScaraIO     │
-    │    Error     ││    Error     ││    Error     ││    Error     ││    Error     ││    Error     │
-    └──────────────┘└──────────────┘└──────────────┘└──────────────┘└──────────────┘└──────────────┘
+                                            ┌─────────────────┐
+                                            │    Exception    │
+                                            └────────┬────────┘
+                                                     ▼
+                                            ┌─────────────────┐
+                                            │   ScaraError    │
+                                            └────────┬────────┘
+                                                     │
+             ┌───────────────────┬───────────────────┴───────────────────┬───────────────────┐
+             ▼                   ▼                   ▼                   ▼                   ▼
+    ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+    │   ScaraSyntax   │ │  ScaraSemantic  │ │ ScaraKinematics │ │  ScaraProtocol  │ │   ScaraExport   │
+    │      Error      │ │      Error      │ │      Error      │ │      Error      │ │      Error      │
+    └─────────────────┘ └─────────────────┘ └─────────────────┘ └─────────────────┘ └─────────────────┘
 
 .. list-table:: Domain Exception Hierarchy
    :widths: 22 38 12 28
@@ -1843,33 +1980,29 @@ All internal toolchain exceptions inherit from the base domain exception ``Scara
      - Category
      - Description
    * - ``ScaraError``
-     - ``core/model/exceptions/scara_error.py``
+     - ``core/model/exceptions/error.py``
      - ``[DOMAIN]``
      - Base class for all domain, compiler, and protocol exceptions.
    * - ``ScaraSyntaxError``
-     - ``core/model/exceptions/scara_syntax_error.py``
+     - ``core/model/exceptions/syntax.py``
      - ``[SYNTAX]``
      - Lexer, tokenization, or parser grammar violations.
    * - ``ScaraSemanticError``
-     - ``core/model/exceptions/scara_semantic_error.py``
+     - ``core/model/exceptions/semantic.py``
      - ``[SEMANTIC]``
      - Semantic validation failures (undefined pallet, duplicate definitions).
    * - ``ScaraKinematicsError``
-     - ``core/model/exceptions/scara_kinematics_error.py``
+     - ``core/model/exceptions/kinematics.py``
      - ``[KINEMATICS]``
      - Robot workspace, reachability, or mechanical singularity violations.
    * - ``ScaraProtocolError``
-     - ``core/model/exceptions/scara_protocol_error.py``
+     - ``core/model/exceptions/protocol.py``
      - ``[PROTOCOL]``
      - Wire framing, CRC-16 checksum failure, or truncated payload faults.
    * - ``ScaraExportError``
-     - ``core/model/exceptions/scara_export_error.py``
+     - ``core/model/exceptions/export.py``
      - ``[EXPORT]``
      - Trajectory export format errors or unsupported targets.
-   * - ``ScaraIOError``
-     - ``core/model/exceptions/scara_io_error.py``
-     - ``[IO]``
-     - File system access failures, missing input files, or permission faults.
 
 Dedicated Command Error Handlers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1959,16 +2092,16 @@ Downstream applications can catch specific domain exceptions for fine-grained er
 
 .. code-block:: python
 
-    from scaralang.core.model.exceptions.scara_error import ScaraError
-    from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
-    from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
-    from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
+    from scaralang.core.model.exceptions.error import ScaraError
+    from scaralang.core.model.exceptions.syntax import ScaraSyntaxError
+    from scaralang.core.model.exceptions.semantic import ScaraSemanticError
+    from scaralang.core.model.exceptions.kinematics import ScaraKinematicsError
     from scaralang.infrastructure.compiler.factory import DefaultCompilerFactory
 
     compiler = DefaultCompilerFactory.create()
 
     try:
-        plan = compiler.compile_to_binary(source="MOVE_J X 999.0 Y 999.0 Z 20.0")
+        plan = compiler.compile(source="MOVE_J X 999.0 Y 999.0 Z 20.0")
     except ScaraSyntaxError as exc:
         print(f"Syntax error in script: {exc}")
     except ScaraKinematicsError as exc:

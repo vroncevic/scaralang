@@ -26,11 +26,12 @@ from typing import ClassVar
 from scaralang.core.service.parser.commands.config.factory import ConfigFactory
 from scaralang.core.service.parser.commands.flow.factory import FlowFactory
 from scaralang.core.service.parser.commands.frame.factory import FrameFactory
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
-from scaralang.core.service.parser.commands.icommand_parser_provider import ICommandParserProvider
+from scaralang.core.service.parser.commands.iparser import ICommandParser
+from scaralang.core.service.parser.commands.iprovider import ICommandParserProvider
 from scaralang.core.service.parser.commands.macro.factory import MacroFactory
 from scaralang.core.service.parser.commands.motion.factory import MotionFactory
 from scaralang.core.service.parser.commands.tool.factory import ToolFactory
+from scaralang.core.service.parser.commands.zone.factory import ZoneFactory
 from scaralang.core.service.parser.instruction.dependencies import InstructionDependencies
 from scaralang.core.service.parser.instruction.factory import InstructionFactory
 from scaralang.core.service.parser.instruction.provides import InstructionProvides
@@ -39,7 +40,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,6 +66,7 @@ class DefaultInstructionParserFactory:
         ConfigFactory,
         FlowFactory,
         ToolFactory,
+        ZoneFactory,
     )
 
     @classmethod

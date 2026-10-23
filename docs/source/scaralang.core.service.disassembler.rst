@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    scaralang.core.service.disassembler.frame
+   scaralang.core.service.disassembler.summary
 
 Submodules
 ----------

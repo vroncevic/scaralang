@@ -24,15 +24,13 @@ from __future__ import annotations
 from typing import Protocol
 from unittest import TestCase, main
 
-from scaralang.core.service.compiler.plan.script.icompiler import (
-    IScriptPlanCompiler,
-)
+from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,7 +51,6 @@ class TestIScriptPlanCompiler(TestCase):
             Verifies IScriptPlanCompiler defines required methods and satisfies ISP.
         '''
         self.assertTrue(issubclass(IScriptPlanCompiler, Protocol))
-        self.assertTrue(hasattr(IScriptPlanCompiler, 'compile'))
         self.assertTrue(hasattr(IScriptPlanCompiler, 'compile_script'))
         self.assertTrue(hasattr(IScriptPlanCompiler, 'compile_program'))
         self.assertTrue(hasattr(IScriptPlanCompiler, 'get_version'))

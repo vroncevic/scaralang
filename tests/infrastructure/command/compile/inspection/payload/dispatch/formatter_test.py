@@ -25,22 +25,22 @@ from struct import pack
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.model.protocol.message import MessageId
 from scaralang.infrastructure.command.compile.inspection.hex.formatter import HexStreamFormatter
 from scaralang.infrastructure.command.compile.inspection.payload.dispatch.dependencies import DispatchDependencies
 from scaralang.infrastructure.command.compile.inspection.payload.dispatch.formatter import PayloadDispatcherFormatter
 from scaralang.infrastructure.command.compile.inspection.payload.dispatch.iformatter import IPayloadDispatcherFormatter
 from scaralang.infrastructure.command.compile.inspection.payload.joint.formatter import JointStepsPayloadFormatter
 from scaralang.infrastructure.command.compile.inspection.payload.tool.formatter import ToolCommandPayloadFormatter
-from scaralang.infrastructure.protocol.binary.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
-from scaralang.infrastructure.protocol.binary.parser.unpacker.motion import BinaryMotionPayloadUnpacker
-from scaralang.infrastructure.protocol.binary.struct_format import BinaryStructFormat
+from scaralang.infrastructure.protocol.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
+from scaralang.infrastructure.protocol.parser.unpacker.motion import BinaryMotionPayloadUnpacker
+from scaralang.infrastructure.protocol.struct_format import BinaryStructFormat
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -83,7 +83,7 @@ class TestPayloadDispatcherFormatter(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid semantic version.'''
-        self.assertEqual(self.dispatcher.get_version(), '1.0.9')
+        self.assertEqual(self.dispatcher.get_version(), '1.1.0')
 
     def test_format_payload_empty(self) -> None:
         '''Verifies empty payload formatting.'''

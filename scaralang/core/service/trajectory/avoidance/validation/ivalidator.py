@@ -23,13 +23,13 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,7 +56,6 @@ class IDeadZoneValidator(Protocol):
             :param x: Cartesian X coordinate in mm.
             :param y: Cartesian Y coordinate in mm.
             :return: True if inside the dead zone, False otherwise.
-            :exceptions: None.
         '''
 
     def is_segment_crossing_dead_zone(self, p1: Point2D, p2: Point2D) -> bool:
@@ -66,7 +65,6 @@ class IDeadZoneValidator(Protocol):
             :param p1: Start coordinate Point2D in mm.
             :param p2: End coordinate Point2D in mm.
             :return: True if the segment traverses the dead zone, False otherwise.
-            :exceptions: None.
         '''
 
     def get_dead_zone_radius(self) -> float:
@@ -74,7 +72,6 @@ class IDeadZoneValidator(Protocol):
             Returns the active mechanical dead zone radial threshold in mm.
 
             :return: Dead zone radius in mm.
-            :exceptions: None.
         '''
 
     def get_version(self) -> str:
@@ -82,5 +79,4 @@ class IDeadZoneValidator(Protocol):
             Returns validator component version string representation.
 
             :return: Version string representation.
-            :exceptions: None.
         '''

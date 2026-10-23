@@ -1,0 +1,74 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    export_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for ScaraExportError exception model.
+'''
+
+from __future__ import annotations
+
+from unittest import TestCase, main
+
+from scaralang.core.model.exceptions.error import ScaraError
+from scaralang.core.model.exceptions.export import ScaraExportError
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.1.0'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class ExportTest(TestCase):
+    '''
+        Unit tests validating ScaraExportError inheritance and message propagation.
+
+        It defines:
+
+            :methods:
+                | test_instantiation - Verifies instantiation and message.
+                | test_raising_and_catching - Verifies raising and catching.
+    '''
+
+    def test_instantiation(self) -> None:
+        '''
+            Verify exception instantiation and string representation.
+
+            :exceptions: None.
+        '''
+        err = ScaraExportError('Unsupported export format requested: PLT')
+        self.assertEqual(str(err), 'Unsupported export format requested: PLT')
+        self.assertIsInstance(err, ScaraError)
+        self.assertIsInstance(err, Exception)
+
+    def test_raising_and_catching(self) -> None:
+        '''
+            Verify raising and catching as ScaraExportError and ScaraError.
+
+            :exceptions: None.
+        '''
+        with self.assertRaises(ScaraError) as ctx:
+            raise ScaraExportError('Export failure')
+        self.assertIsInstance(ctx.exception, ScaraExportError)
+        self.assertEqual(str(ctx.exception), 'Export failure')
+
+
+if __name__ == '__main__':
+    main()

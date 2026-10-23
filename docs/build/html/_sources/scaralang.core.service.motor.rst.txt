@@ -7,10 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.motor.drive_mode_resolver
    scaralang.core.service.motor.factory
-   scaralang.core.service.motor.interface_resolver
-   scaralang.core.service.motor.wire_mode_converter
+   scaralang.core.service.motor.interface
+   scaralang.core.service.motor.mode
+   scaralang.core.service.motor.wire
 
 Module contents
 ---------------

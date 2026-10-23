@@ -24,15 +24,18 @@ from __future__ import annotations
 from scaralang.core.service.linter.linter import Linter
 from scaralang.core.service.linter.provides import LinterProvides
 from scaralang.core.service.linter.rules.motion.factory import MotionFactory
+from scaralang.core.service.linter.rules.obstacle.dependencies import ObstacleDependencies
+from scaralang.core.service.linter.rules.obstacle.factory import ObstacleFactory
 from scaralang.core.service.linter.rules.pneumatic.factory import PneumaticFactory
 from scaralang.core.service.linter.rules.state.factory import StateFactory
 from scaralang.core.service.linter.rules.timing.factory import TimingFactory
+from scaralang.core.service.trajectory.avoidance.collision.factory import CollisionFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -57,11 +60,20 @@ class LinterFactory:
             :return: Fully configured LinterProvides container.
             :exceptions: None.
         '''
+        collision = CollisionFactory.create()
+        obstacle_rule = ObstacleFactory.create(
+            dependencies=ObstacleDependencies(
+                zone_registry=collision.registry,
+                spatial_checker=collision.spatial_checker,
+            )
+        ).rule
+
         rules = (
             StateFactory.create().rule,
             MotionFactory.create().rule,
             PneumaticFactory.create().rule,
             TimingFactory.create().rule,
+            obstacle_rule,
         )
         linter = Linter(rules=rules)
 

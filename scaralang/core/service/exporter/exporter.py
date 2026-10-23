@@ -23,8 +23,8 @@ from __future__ import annotations
 
 from typing import Final
 
-from scaralang.core.model.dsl.exporter.export_format import ExportFormat
-from scaralang.core.model.exceptions.scara_export_error import ScaraExportError
+from scaralang.core.model.dsl.exporter.format import ExportFormat
+from scaralang.core.model.exceptions.export import ScaraExportError
 from scaralang.core.service.exporter.csv.iexporter import ICsvExporter
 from scaralang.core.service.exporter.dependencies import ExporterDependencies
 from scaralang.core.service.exporter.gcode.iexporter import IGcodeExporter
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -121,7 +121,7 @@ class ScaraExporter:
                 return self._svg_exporter.export_svg(plan=plan)
 
             case ExportFormat.SCARA:
-                return self._scara_exporter.export_scara(plan=plan)
+                return self._scara_exporter.export_plan(plan=plan)
 
             case _:
                 raise ScaraExportError(f'Unsupported export format: {target_format}')

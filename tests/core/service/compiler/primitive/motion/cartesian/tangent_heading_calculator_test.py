@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.kinematics.point_2d import Point2D
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
 from scaralang.core.service.compiler.primitive.motion.cartesian.itangent_heading_calculator import ITangentHeadingCalculator
 from scaralang.core.service.compiler.primitive.motion.cartesian.tangent_heading_calculator import TangentHeadingCalculator
 
@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -68,7 +68,7 @@ class TestTangentHeadingCalculator(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.calculator.get_version(), '1.0.9')
+        self.assertEqual(self.calculator.get_version(), '1.1.0')
 
     def test_calculate_tangent_angle_cardinal(self) -> None:
         '''

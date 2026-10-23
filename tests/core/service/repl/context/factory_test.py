@@ -25,14 +25,14 @@ from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
-from scaralang.core.model.repl.repl_session_context import ReplSessionContext
+from scaralang.core.model.repl.context import ReplSessionContext
 from scaralang.core.service.repl.context.factory import ReplSessionContextFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,7 +59,7 @@ class TestReplSessionContextFactory(TestCase):
         '''Verifies get_version returns valid version string.'''
         version: str = ReplSessionContextFactory.get_version()
         self.assertIsInstance(version, str)
-        self.assertEqual(version, '1.0.9')
+        self.assertEqual(version, '1.1.0')
 
 
 if __name__ == '__main__':

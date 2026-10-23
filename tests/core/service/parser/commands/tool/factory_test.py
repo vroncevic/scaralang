@@ -23,7 +23,7 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 from scaralang.core.service.parser.commands.tool.factory import ToolFactory
 from scaralang.core.service.parser.commands.tool.provides import ToolProvides
 
@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,7 +62,7 @@ class TestToolFactory(TestCase):
         '''
             Verifies factory version reporting.
         '''
-        self.assertEqual(ToolFactory.get_version(), '1.0.9')
+        self.assertEqual(ToolFactory.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

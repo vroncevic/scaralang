@@ -22,13 +22,15 @@ Info
 from __future__ import annotations
 
 from scaralang.core.service.exporter.scara.exporter import ScaraPlanExporter
+from scaralang.core.service.exporter.scara.formatter.factory import ScaraWaypointFormatterFactory
+from scaralang.core.service.exporter.scara.formatter.iformatter import IScaraWaypointFormatter
 from scaralang.core.service.exporter.scara.iexporter import IScaraPlanExporter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,7 +55,10 @@ class ScaraPlanExporterFactory:
             :return: IScaraPlanExporter structural protocol instance.
             :exceptions: None.
         '''
-        return ScaraPlanExporter()
+        formatter: IScaraWaypointFormatter = (
+            ScaraWaypointFormatterFactory.create()
+        )
+        return ScaraPlanExporter(formatter=formatter)
 
     @classmethod
     def get_version(cls) -> str:

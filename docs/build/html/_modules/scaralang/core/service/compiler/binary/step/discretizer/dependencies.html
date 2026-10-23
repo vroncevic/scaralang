@@ -62,14 +62,15 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.service.compiler.binary.step.duration.icalculator</span> <span class="kn">import</span> <span class="n">ISegmentDurationCalculator</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.spatial.isolver</span> <span class="kn">import</span> <span class="n">ISpatialKinematicsSolver</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.analytical.spatial.isolver</span> <span class="kn">import</span> <span class="n">ISpatialKinematicsSolver</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.numerical.spatial.isolver</span> <span class="kn">import</span> <span class="n">INumericalSpatialKinematicsSolver</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.transmission.iconverter</span> <span class="kn">import</span> <span class="n">IJointStepTransmissionConverter</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.1.0&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -86,11 +87,13 @@
 
 <span class="sd">            :attributes:</span>
 <span class="sd">                | spatial - Injected ISpatialKinematicsSolver protocol instance.</span>
+<span class="sd">                | numerical_spatial - Injected INumericalSpatialKinematicsSolver protocol instance.</span>
 <span class="sd">                | transmission - Injected IJointStepTransmissionConverter protocol instance.</span>
 <span class="sd">                | duration_calculator - Injected ISegmentDurationCalculator protocol instance.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">spatial</span><span class="p">:</span> <span class="n">ISpatialKinematicsSolver</span>
+    <span class="n">numerical_spatial</span><span class="p">:</span> <span class="n">INumericalSpatialKinematicsSolver</span>
     <span class="n">transmission</span><span class="p">:</span> <span class="n">IJointStepTransmissionConverter</span>
     <span class="n">duration_calculator</span><span class="p">:</span> <span class="n">ISegmentDurationCalculator</span></div>
 

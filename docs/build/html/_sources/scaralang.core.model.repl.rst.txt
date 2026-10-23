@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.model.repl.repl_dispatch_result
-   scaralang.core.model.repl.repl_pose_state
-   scaralang.core.model.repl.repl_session_context
+   scaralang.core.model.repl.context
+   scaralang.core.model.repl.pose
+   scaralang.core.model.repl.result
 
 Module contents
 ---------------

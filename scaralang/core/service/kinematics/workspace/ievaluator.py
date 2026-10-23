@@ -23,15 +23,16 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.model.kinematics.point_3d import Point3D
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
+from scaralang.core.model.kinematics.pose.point_3d import Point3D
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,19 +61,19 @@ class IWorkspaceBoundsEvaluator(Protocol):
 
             :param point: Target Cartesian 3D spatial coordinate in mm.
             :return: Tuple of (is_in_bounds, error_or_warning_message).
-            :exceptions: None.
         '''
 
     def is_joint_reachable(
         self,
         point: Point2D,
+        elbow_config: ElbowConfig,
     ) -> tuple[bool, list[str]]:
         '''
             Evaluates if target position can be achieved within physical joint limits.
 
             :param point: Target Cartesian 2D planar coordinate in mm.
+            :param elbow_config: Target kinematic elbow configuration.
             :return: Tuple of (is_reachable, list_of_warning_messages).
-            :exceptions: None.
         '''
 
     def get_bounds(self) -> ScaraBounds:
@@ -80,7 +81,6 @@ class IWorkspaceBoundsEvaluator(Protocol):
             Returns the active robot geometry and limits model.
 
             :return: ScaraBounds instance.
-            :exceptions: None.
         '''
 
     def get_version(self) -> str:
@@ -88,5 +88,4 @@ class IWorkspaceBoundsEvaluator(Protocol):
             Returns evaluator component version string representation.
 
             :return: Semantic version string.
-            :exceptions: None.
         '''

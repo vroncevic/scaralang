@@ -26,15 +26,15 @@ from typing import Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.dsl.compiler.context import CompilerContext
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.compiler.primitive.motion.isub_compiler import IMotionSubCompiler
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,6 +61,7 @@ class MotionCommandCompiler:
 
     _SUPPORTED: frozenset[ScaraCommandType] = frozenset({
         ScaraCommandType.MOVE_L,
+        ScaraCommandType.MOVE_REL,
         ScaraCommandType.MOVE_J,
         ScaraCommandType.APPROACH,
         ScaraCommandType.RETRACT,

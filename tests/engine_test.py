@@ -26,7 +26,7 @@ from unittest.mock import MagicMock, patch
 
 from ats_utilities.exceptions.ats_value_error import ATSValueError
 
-from scaralang.core.model.exceptions.scara_error import ScaraError
+from scaralang.core.model.exceptions.error import ScaraError
 from scaralang.engine import Scaralang
 from scaralang.setup.factory import ScaralangBundleFactory
 
@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,80 +60,120 @@ class TestScaralangEngine(TestCase):
     '''
 
     def test_engine_initialization(self) -> None:
-        '''Verifies engine initializes successfully with valid bundle.'''
+        '''
+            Verifies engine initializes successfully with valid bundle.
+
+            :exceptions: None.
+        '''
         bundle = ScaralangBundleFactory.create_bundle()
         engine = Scaralang(bundle=bundle)
         self.assertTrue(engine.is_initialized())
 
     def test_engine_init_invalid_bundle(self) -> None:
-        '''Verifies engine handles validation error gracefully on invalid bundle.'''
+        '''
+            Verifies engine handles validation error gracefully on invalid bundle.
+
+            :exceptions: None.
+        '''
         engine = Scaralang(bundle=None)  # type: ignore[arg-type]
         self.assertFalse(engine.is_initialized())
 
     @patch('scaralang.engine.ScaralangBundleValidator.validate')
     def test_engine_init_unexpected_error(self, mock_validate: MagicMock) -> None:
-        '''Verifies engine handles unexpected exception during initialization.'''
+        '''
+            Verifies engine handles unexpected exception during initialization.
+
+            :param mock_validate: Mock validator instance.
+            :exceptions: None.
+        '''
         mock_validate.side_effect = RuntimeError('Initialization failed')
         engine = Scaralang(bundle=None)  # type: ignore[arg-type]
         self.assertFalse(engine.is_initialized())
 
     @patch('scaralang.engine.ScaralangBundleValidator.validate')
     def test_engine_init_scara_error(self, mock_validate: MagicMock) -> None:
-        '''Verifies engine handles ScaraError exception during initialization.'''
+        '''
+            Verifies engine handles ScaraError exception during initialization.
+
+            :param mock_validate: Mock validator instance.
+            :exceptions: None.
+        '''
         mock_validate.side_effect = ScaraError('Scara domain error')
         engine = Scaralang(bundle=None)  # type: ignore[arg-type]
         self.assertFalse(engine.is_initialized())
 
     def test_process_success(self) -> None:
-        '''Verifies process returns True when CLI command executes with returncode 0.'''
+        '''
+            Verifies process returns True when CLI command executes with returncode 0.
+
+            :exceptions: None.
+        '''
         bundle = ScaralangBundleFactory.create_bundle()
-        engine = Scaralang(bundle=bundle)
-        engine._cli.run = MagicMock(  # pylint: disable=protected-access
+        bundle.cli.run = MagicMock(
             return_value={'returncode': 0, 'stdout': 'Compiled successfully', 'stderr': ''}
         )
+        engine = Scaralang(bundle=bundle)
         self.assertTrue(engine.process())
 
     def test_process_failure_returncode(self) -> None:
-        '''Verifies process returns False when CLI command fails with non-zero code.'''
+        '''
+            Verifies process returns False when CLI command fails with non-zero code.
+
+            :exceptions: None.
+        '''
         bundle = ScaralangBundleFactory.create_bundle()
-        engine = Scaralang(bundle=bundle)
-        engine._cli.run = MagicMock(  # pylint: disable=protected-access
+        bundle.cli.run = MagicMock(
             return_value={'returncode': 1, 'stdout': '', 'stderr': 'Syntax error'}
         )
+        engine = Scaralang(bundle=bundle)
         self.assertFalse(engine.process())
 
     def test_process_not_initialized(self) -> None:
-        '''Verifies process returns False when engine is marked uninitialized.'''
-        bundle = ScaralangBundleFactory.create_bundle()
-        engine = Scaralang(bundle=bundle)
-        engine._is_initialized = False  # pylint: disable=protected-access
+        '''
+            Verifies process returns False when engine is marked uninitialized.
+
+            :exceptions: None.
+        '''
+        engine = Scaralang(bundle=None)  # type: ignore[arg-type]
         self.assertFalse(engine.process())
 
     def test_process_ats_error(self) -> None:
-        '''Verifies process catches ATSValueError and returns False.'''
+        '''
+            Verifies process catches ATSValueError and returns False.
+
+            :exceptions: None.
+        '''
         bundle = ScaralangBundleFactory.create_bundle()
-        engine = Scaralang(bundle=bundle)
-        engine._cli.run = MagicMock(  # pylint: disable=protected-access
+        bundle.cli.run = MagicMock(
             side_effect=ATSValueError('ATS validation failed')
         )
+        engine = Scaralang(bundle=bundle)
         self.assertFalse(engine.process())
 
     def test_process_unexpected_error(self) -> None:
-        '''Verifies process catches unexpected exceptions and returns False.'''
+        '''
+            Verifies process catches unexpected exceptions and returns False.
+
+            :exceptions: None.
+        '''
         bundle = ScaralangBundleFactory.create_bundle()
-        engine = Scaralang(bundle=bundle)
-        engine._cli.run = MagicMock(  # pylint: disable=protected-access
+        bundle.cli.run = MagicMock(
             side_effect=RuntimeError('Execution failed')
         )
+        engine = Scaralang(bundle=bundle)
         self.assertFalse(engine.process())
 
     def test_process_scara_error(self) -> None:
-        '''Verifies process catches ScaraError exception and returns False.'''
+        '''
+            Verifies process catches ScaraError exception and returns False.
+
+            :exceptions: None.
+        '''
         bundle = ScaralangBundleFactory.create_bundle()
-        engine = Scaralang(bundle=bundle)
-        engine._cli.run = MagicMock(  # pylint: disable=protected-access
+        bundle.cli.run = MagicMock(
             side_effect=ScaraError('Domain execution failed')
         )
+        engine = Scaralang(bundle=bundle)
         self.assertFalse(engine.process())
 
 

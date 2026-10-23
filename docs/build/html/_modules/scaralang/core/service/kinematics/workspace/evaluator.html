@@ -62,17 +62,18 @@
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">degrees</span><span class="p">,</span> <span class="n">hypot</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.point_3d</span> <span class="kn">import</span> <span class="n">Point3D</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.scara_bounds</span> <span class="kn">import</span> <span class="n">ScaraBounds</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.scara_joints_2d</span> <span class="kn">import</span> <span class="n">ScaraJoints2D</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.planar.isolver</span> <span class="kn">import</span> <span class="n">IPlanarKinematicsSolver</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.solver.elbow</span> <span class="kn">import</span> <span class="n">ElbowConfig</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.pose.point_2d</span> <span class="kn">import</span> <span class="n">Point2D</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.pose.point_3d</span> <span class="kn">import</span> <span class="n">Point3D</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.profile.bounds</span> <span class="kn">import</span> <span class="n">ScaraBounds</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.solver.solution_2d</span> <span class="kn">import</span> <span class="n">ScaraJoints2D</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.analytical.planar.isolver</span> <span class="kn">import</span> <span class="n">IPlanarKinematicsSolver</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.1.0&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -177,52 +178,45 @@
     <span class="k">def</span> <span class="nf">is_joint_reachable</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">point</span><span class="p">:</span> <span class="n">Point2D</span><span class="p">,</span>
+        <span class="n">elbow_config</span><span class="p">:</span> <span class="n">ElbowConfig</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Evaluates if target position can be achieved within physical joint limits.</span>
 
 <span class="sd">            :param point: Target Cartesian 2D planar coordinate in mm.</span>
+<span class="sd">            :param elbow_config: Target kinematic elbow configuration.</span>
 <span class="sd">            :return: Tuple of (is_reachable, list_of_warning_messages).</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">reasons</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">reachable_any</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">elbow_left</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">elbow_config</span> <span class="o">==</span> <span class="n">ElbowConfig</span><span class="o">.</span><span class="n">LEFT</span>
+        <span class="n">ik_res</span><span class="p">:</span> <span class="n">ScaraJoints2D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_planar</span><span class="o">.</span><span class="n">solve_ik_2d</span><span class="p">(</span>
+            <span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">elbow_left</span><span class="o">=</span><span class="n">elbow_left</span>
+        <span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">elbow_left</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
-            <span class="n">ik_res</span><span class="p">:</span> <span class="n">ScaraJoints2D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_planar</span><span class="o">.</span><span class="n">solve_ik_2d</span><span class="p">(</span>
-                <span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">elbow_left</span><span class="o">=</span><span class="n">elbow_left</span>
-            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ik_res</span><span class="o">.</span><span class="n">reachable</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Mathematically unreachable (cos_q2 &gt; 1.0)&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">ik_res</span><span class="o">.</span><span class="n">reachable</span><span class="p">:</span>
-                <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Mathematically unreachable (cos_q2 &gt; 1.0)&#39;</span><span class="p">)</span>
-                <span class="k">continue</span>
+        <span class="n">theta1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ik_res</span><span class="o">.</span><span class="n">theta1</span>
+        <span class="n">theta2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ik_res</span><span class="o">.</span><span class="n">theta2</span>
 
-            <span class="n">theta1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ik_res</span><span class="o">.</span><span class="n">theta1</span>
-            <span class="n">theta2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ik_res</span><span class="o">.</span><span class="n">theta2</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">theta1</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">j1_min_rad</span>
+            <span class="ow">or</span> <span class="n">theta1</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">j1_max_rad</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span>
+                <span class="sa">f</span><span class="s1">&#39;J1 angle </span><span class="si">{</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta1</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">° exceeds limit for </span><span class="si">{</span><span class="n">elbow_config</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> elbow&#39;</span>
+            <span class="p">]</span>
 
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="n">theta1</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">j1_min_rad</span>
-                <span class="ow">or</span> <span class="n">theta1</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">j1_max_rad</span>
-            <span class="p">):</span>
-                <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;J1 angle </span><span class="si">{</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta1</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">° exceeds limit&#39;</span><span class="p">)</span>
-                <span class="k">continue</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">theta2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">j2_min_rad</span>
+            <span class="ow">or</span> <span class="n">theta2</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">j2_max_rad</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span>
+                <span class="sa">f</span><span class="s1">&#39;J2 angle </span><span class="si">{</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">° exceeds limit for </span><span class="si">{</span><span class="n">elbow_config</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1"> elbow&#39;</span>
+            <span class="p">]</span>
 
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="n">theta2</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">j2_min_rad</span>
-                <span class="ow">or</span> <span class="n">theta2</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">j2_max_rad</span>
-            <span class="p">):</span>
-                <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;J2 angle </span><span class="si">{</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">° exceeds limit&#39;</span><span class="p">)</span>
-                <span class="k">continue</span>
-
-            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">singularity</span><span class="o">.</span><span class="n">singularity_theta2_min_rad</span><span class="p">:</span>
-                <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;J2 in singularity deadband&#39;</span><span class="p">)</span>
-                <span class="k">continue</span>
-
-            <span class="n">reachable_any</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">break</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">reachable_any</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">reasons</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">singularity</span><span class="o">.</span><span class="n">singularity_theta2_min_rad</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;J2 in singularity deadband&#39;</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="p">[]</span></div>
 

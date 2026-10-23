@@ -21,14 +21,16 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from typing import ClassVar
+
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -40,11 +42,17 @@ class GcodeExporter:
 
         It defines:
 
+            :attributes:
+                | RAPID_SPEED_THRESHOLD - Speed percentage threshold for G0 rapid motion.
+                | FEEDRATE_SCALE_FACTOR - Multiplier to convert speed to mm/min feedrate.
             :methods:
                 | format_waypoint_line - Formats single Waypoint into G-code line.
                 | export_gcode - Serializes ITrajectoryPlan into G-code string.
                 | get_version - Returns the exporter version string.
     '''
+
+    RAPID_SPEED_THRESHOLD: ClassVar[float] = 100.0
+    FEEDRATE_SCALE_FACTOR: ClassVar[float] = 60.0
 
     def format_waypoint_line(self, *, waypoint: Waypoint) -> str:
         '''
@@ -54,12 +62,14 @@ class GcodeExporter:
             :return: Formatted G-code instruction string.
             :exceptions: None.
         '''
-        gcode_cmd: str = 'G0' if waypoint.speed >= 100.0 else 'G1'
+        gcode_cmd: str = (
+            'G0' if waypoint.speed >= self.RAPID_SPEED_THRESHOLD else 'G1'
+        )
         comment: str = f' ; {waypoint.name}' if waypoint.name else ''
 
         return (
             f'{gcode_cmd} X{waypoint.x:.3f} Y{waypoint.y:.3f} '
-            f'Z{waypoint.z:.3f} F{waypoint.speed * 60.0:.0f}{comment}'
+            f'Z{waypoint.z:.3f} F{waypoint.speed * self.FEEDRATE_SCALE_FACTOR:.0f}{comment}'
         )
 
     def export_gcode(self, *, plan: ITrajectoryPlan) -> str:

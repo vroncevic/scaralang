@@ -24,13 +24,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from scaralang.core.service.decompiler.frame.iframe import IFrameDecompiler
-from scaralang.core.service.protocol.ibinary_frame_parser import IBinaryFrameParser
+from scaralang.core.service.protocol.iparser import IBinaryFrameParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

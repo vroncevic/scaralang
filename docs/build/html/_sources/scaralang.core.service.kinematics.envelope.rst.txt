@@ -9,7 +9,10 @@ Submodules
 
    scaralang.core.service.kinematics.envelope.envelope
    scaralang.core.service.kinematics.envelope.factory
+   scaralang.core.service.kinematics.envelope.home
+   scaralang.core.service.kinematics.envelope.home_factory
    scaralang.core.service.kinematics.envelope.ienvelope
+   scaralang.core.service.kinematics.envelope.ihome
 
 Module contents
 ---------------

@@ -24,13 +24,13 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,7 +58,6 @@ class IScaraWaypointFormatter(Protocol):
         :param waypoint: Trajectory Waypoint instance.
         :param is_initial: True for initial joint move, False for linear.
         :return: Formatted SCARA DSL instruction line.
-        :exceptions: None.
         '''
 
     def format_command(self, *, waypoint: Waypoint) -> str:
@@ -67,7 +66,6 @@ class IScaraWaypointFormatter(Protocol):
 
         :param waypoint: Trajectory Waypoint instance with command set.
         :return: Formatted SCARA DSL command line.
-        :exceptions: None.
         '''
 
     def get_version(self) -> str:
@@ -75,5 +73,4 @@ class IScaraWaypointFormatter(Protocol):
         Returns the formatter version string representation.
 
         :return: Version string representation.
-        :exceptions: None.
         '''

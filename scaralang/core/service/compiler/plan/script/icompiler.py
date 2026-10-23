@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,22 +45,10 @@ class IScriptPlanCompiler(Protocol):
         It defines:
 
             :methods:
-                | compile - Compiles DSL source code into validated ITrajectoryPlan.
                 | compile_script - Compiles DSL source code into validated ITrajectoryPlan.
                 | compile_program - Compiles AST program into validated ITrajectoryPlan.
                 | get_version - Returns the plan compiler version string.
     '''
-
-    def compile(self, *, source: str) -> ITrajectoryPlan:
-        '''
-            Compiles DSL source code into an executable and validated ITrajectoryPlan.
-
-            :param source: Raw .scara script text.
-            :return: Validated ITrajectoryPlan protocol instance.
-            :exceptions:
-                | ScaraSyntaxError: If script contains invalid syntax.
-                | ScaraSemanticError: If static analysis diagnostics occur.
-        '''
 
     def compile_script(self, *, source: str) -> ITrajectoryPlan:
         '''
@@ -68,9 +56,6 @@ class IScriptPlanCompiler(Protocol):
 
             :param source: Raw .scara script text.
             :return: Validated ITrajectoryPlan protocol instance.
-            :exceptions:
-                | ScaraSyntaxError: If script contains invalid syntax.
-                | ScaraSemanticError: If static analysis diagnostics occur.
         '''
 
     def compile_program(self, *, program: ScaraProgram) -> ITrajectoryPlan:
@@ -79,8 +64,6 @@ class IScriptPlanCompiler(Protocol):
 
             :param program: Parsed ScaraProgram AST instance to compile.
             :return: Validated ITrajectoryPlan protocol instance.
-            :exceptions:
-                | ScaraSemanticError: If AST validation fails.
         '''
 
     def get_version(self) -> str:

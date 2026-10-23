@@ -23,13 +23,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,9 +47,20 @@ class ToolProvides:
                 | tool_parser - Bound ICommandParser for TOOL.
                 | valve_parser - Bound ICommandParser for VALVE.
                 | parsers - Tuple of all registered tool command parsers.
+            :methods:
+                | get_version - Returns tool provides container version string.
     '''
 
     pump_parser: ICommandParser
     tool_parser: ICommandParser
     valve_parser: ICommandParser
     parsers: tuple[ICommandParser, ...]
+
+    def get_version(self) -> str:
+        '''
+            Returns component version string representation.
+
+            :return: Semantic version string.
+            :exceptions: None.
+        '''
+        return __version__

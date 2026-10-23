@@ -23,13 +23,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,21 +43,18 @@ class FlowProvides:
         It defines:
 
             :attributes:
-                | disable_parser - Bound ICommandParser for DISABLE.
-                | enable_parser - Bound ICommandParser for ENABLE.
-                | estop_parser - Bound ICommandParser for ESTOP.
-                | hold_parser - Bound ICommandParser for HOLD.
-                | resume_parser - Bound ICommandParser for RESUME.
-                | sync_parser - Bound ICommandParser for SYNC.
-                | wait_parser - Bound ICommandParser for WAIT and WAIT_MS.
                 | parsers - Tuple of all registered flow command parsers.
+            :methods:
+                | get_version - Returns flow provides container version string.
     '''
 
-    disable_parser: ICommandParser
-    enable_parser: ICommandParser
-    estop_parser: ICommandParser
-    hold_parser: ICommandParser
-    resume_parser: ICommandParser
-    sync_parser: ICommandParser
-    wait_parser: ICommandParser
     parsers: tuple[ICommandParser, ...]
+
+    def get_version(self) -> str:
+        '''
+            Returns component version string representation.
+
+            :return: Semantic version string.
+            :exceptions: None.
+        '''
+        return __version__

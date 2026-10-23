@@ -21,11 +21,13 @@ Info
 
 from __future__ import annotations
 
+from scaralang.infrastructure.cli.repl.transmission.buffer.ibuffer import ITransmissionBuffer
+
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -38,11 +40,11 @@ class ReplFrameTransmitter:
         It defines:
 
             :attributes:
+                | _buffer - Collaborator logging transmitted binary frames.
                 | _endpoint - Target connection endpoint identifier.
                 | _dry_run - True if running in simulated dry-run mode.
-                | _transmitted_frames - In-memory log of transmitted raw byte packets.
             :methods:
-                | __init__ - Initializes transmitter with endpoint and dry-run flag.
+                | __init__ - Initializes transmitter with buffer, endpoint and mode.
                 | transmit_frame - Transmits binary wire bytes to target or buffer.
                 | is_dry_run - Checks if transmitter is operating in offline mode.
                 | get_endpoint - Returns the configured target endpoint string.
@@ -50,26 +52,28 @@ class ReplFrameTransmitter:
                 | transmitted_frames - Property returning logged byte packets.
     '''
 
+    _buffer: ITransmissionBuffer
     _endpoint: str
     _dry_run: bool
-    _transmitted_frames: list[bytes]
 
     def __init__(
         self,
         *,
+        buffer: ITransmissionBuffer,
         endpoint: str = 'dry-run',
         dry_run: bool = True,
     ) -> None:
         '''
-            Initializes REPL frame transmitter.
+            Initializes REPL frame transmitter with buffer and connection settings.
 
+            :param buffer: Collaborator logging transmitted binary frames.
             :param endpoint: Target connection endpoint identifier.
             :param dry_run: True if running in simulated dry-run mode.
             :exceptions: None.
         '''
+        self._buffer = buffer
         self._endpoint = endpoint
         self._dry_run = dry_run
-        self._transmitted_frames = []
 
     def transmit_frame(self, *, raw_bytes: bytes) -> bool:
         '''
@@ -79,7 +83,7 @@ class ReplFrameTransmitter:
             :return: True if transmission succeeded, False otherwise.
             :exceptions: None.
         '''
-        self._transmitted_frames.append(raw_bytes)
+        self._buffer.append(frame_bytes=raw_bytes)
         return True
 
     def is_dry_run(self) -> bool:
@@ -114,9 +118,9 @@ class ReplFrameTransmitter:
     @property
     def transmitted_frames(self) -> list[bytes]:
         '''
-            Returns logged transmitted byte packets.
+            Returns logged transmitted byte packets from buffer.
 
             :return: In-memory log of transmitted raw byte packets.
             :exceptions: None.
         '''
-        return self._transmitted_frames
+        return self._buffer.get_frames()

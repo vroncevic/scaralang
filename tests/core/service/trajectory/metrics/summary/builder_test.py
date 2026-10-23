@@ -27,11 +27,11 @@ from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
 from scaralang.core.model.dsl.binary.step import BinaryStep
-from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
-from scaralang.core.model.protocol.binary_frame import BinaryFrame
-from scaralang.core.model.protocol.message_id import MessageId
-from scaralang.core.model.trajectory.trajectory_cycle_report import TrajectoryCycleReport
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.kinematics.pose.steps import JointStepCoordinates
+from scaralang.core.model.protocol.frame import BinaryFrame
+from scaralang.core.model.protocol.message import MessageId
+from scaralang.core.model.trajectory.metrics.report import TrajectoryCycleReport
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.trajectory.metrics.bottleneck.detector import MotionBottleneckDetector
 from scaralang.core.service.trajectory.metrics.cycle.calculator import CycleTimeCalculator
 from scaralang.core.service.trajectory.metrics.profile.analyzer import AxisSpeedProfileAnalyzer
@@ -43,33 +43,57 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 class TestTrajectoryCycleSummaryBuilder(TestCase):
-    '''Test suite verifying TrajectoryCycleSummaryBuilder report synthesis.'''
+    '''
+        Test suite verifying TrajectoryCycleSummaryBuilder report synthesis.
 
-    def _build_builder(self) -> TrajectoryCycleSummaryBuilder:
-        '''Helper constructing builder with valid dependencies.'''
+        It defines:
+
+            :attributes:
+                | builder - TrajectoryCycleSummaryBuilder instance fixture.
+            :methods:
+                | setUp - Prepares TrajectoryCycleSummaryBuilder fixture.
+                | test_name_property - Verifies name property returns expected string.
+                | test_build_report_empty - Verifies report building with empty plan.
+                | test_build_report_populated - Verifies report with populated plan.
+    '''
+
+    builder: TrajectoryCycleSummaryBuilder
+
+    def setUp(self) -> None:
+        '''
+            Prepares TrajectoryCycleSummaryBuilder fixture.
+
+            :exceptions: None.
+        '''
         deps = SummaryDependencies(
             cycle_time_calculator=CycleTimeCalculator(),
             speed_profile_analyzer=AxisSpeedProfileAnalyzer(),
             bottleneck_detector=MotionBottleneckDetector(),
         )
-        return TrajectoryCycleSummaryBuilder(dependencies=deps)
+        self.builder = TrajectoryCycleSummaryBuilder(dependencies=deps)
 
     def test_name_property(self) -> None:
-        '''Verifies name property returns expected identifier string.'''
-        builder = self._build_builder()
-        self.assertEqual(builder.name, 'trajectory_cycle_summary_builder')
+        '''
+            Verifies name property returns expected identifier string.
+
+            :exceptions: None.
+        '''
+        self.assertEqual(self.builder.name, 'trajectory_cycle_summary_builder')
 
     def test_build_report_empty(self) -> None:
-        '''Verifies report building with empty plan and program.'''
-        builder = self._build_builder()
-        plan = TrajectoryPlan()
+        '''
+            Verifies report building with empty plan and program.
+
+            :exceptions: None.
+        '''
+        plan = TrajectoryPlan(waypoints=())
         prog = BinaryProgram(
             steps=(),
             raw_bytes=b'',
@@ -90,36 +114,40 @@ class TestTrajectoryCycleSummaryBuilder(TestCase):
                 total_wire_bytes=0,
             ),
         )
-        report: TrajectoryCycleReport = builder.build_report(plan=plan, program=prog)
+        report: TrajectoryCycleReport = self.builder.build_report(
+            plan=plan, program=prog
+        )
         self.assertEqual(report.total_duration_us, 0)
         self.assertEqual(report.total_distance_mm, 0.0)
         self.assertEqual(len(report.axis_peaks), 4)
         self.assertEqual(len(report.bottlenecks), 0)
 
     def test_build_report_populated(self) -> None:
-        '''Verifies report generation with populated plan and program.'''
-        builder = self._build_builder()
-        plan = TrajectoryPlan()
-        plan.add_point(
-            point=Waypoint(
-                x=0.0,
-                y=0.0,
-                z=0.0,
-                phi=0.0,
-                speed=100.0,
-                name='',
-                command='',
-            )
-        )
-        plan.add_point(
-            point=Waypoint(
-                x=50.0,
-                y=0.0,
-                z=0.0,
-                phi=0.0,
-                speed=100.0,
-                name='',
-                command='',
+        '''
+            Verifies report generation with populated plan and program.
+
+            :exceptions: None.
+        '''
+        plan = TrajectoryPlan(
+            waypoints=(
+                Waypoint(
+                    x=0.0,
+                    y=0.0,
+                    z=0.0,
+                    phi=0.0,
+                    speed=100.0,
+                    name='',
+                    command='',
+                ),
+                Waypoint(
+                    x=50.0,
+                    y=0.0,
+                    z=0.0,
+                    phi=0.0,
+                    speed=100.0,
+                    name='',
+                    command='',
+                ),
             )
         )
 
@@ -157,7 +185,9 @@ class TestTrajectoryCycleSummaryBuilder(TestCase):
                 total_wire_bytes=0,
             ),
         )
-        report: TrajectoryCycleReport = builder.build_report(plan=plan, program=prog)
+        report: TrajectoryCycleReport = self.builder.build_report(
+            plan=plan, program=prog
+        )
         self.assertEqual(report.total_duration_us, 500000)
         self.assertAlmostEqual(report.total_distance_mm, 50.0, places=5)
         self.assertEqual(len(report.axis_peaks), 4)

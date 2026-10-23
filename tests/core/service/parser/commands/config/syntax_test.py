@@ -23,16 +23,16 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.model.dsl.token.scara_token import ScaraToken
-from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
-from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
+from scaralang.core.model.dsl.token.token import ScaraToken
+from scaralang.core.model.dsl.token.token_type import ScaraTokenType
+from scaralang.core.model.exceptions.syntax import ScaraSyntaxError
 from scaralang.core.service.parser.commands.config.syntax import MotorSyntaxExtractor
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,16 +62,10 @@ class TestMotorSyntaxExtractor(TestCase):
         '''
         tokens = (
             ScaraToken(
-                token_type=ScaraTokenType.IDENTIFIER,
-                value='CONFIG',
-                line=1,
-                column=1,
+                token_type=ScaraTokenType.IDENTIFIER, value='CONFIG', line=1, column=1
             ),
             ScaraToken(
-                token_type=ScaraTokenType.IDENTIFIER,
-                value='MOTOR',
-                line=1,
-                column=8,
+                token_type=ScaraTokenType.IDENTIFIER, value='MOTOR', line=1, column=8
             ),
             ScaraToken(
                 token_type=ScaraTokenType.IDENTIFIER,
@@ -90,16 +84,10 @@ class TestMotorSyntaxExtractor(TestCase):
         '''
         tokens = (
             ScaraToken(
-                token_type=ScaraTokenType.IDENTIFIER,
-                value='CONFIG',
-                line=1,
-                column=1,
+                token_type=ScaraTokenType.IDENTIFIER, value='CONFIG', line=1, column=1
             ),
             ScaraToken(
-                token_type=ScaraTokenType.IDENTIFIER,
-                value='MOTOR',
-                line=1,
-                column=8,
+                token_type=ScaraTokenType.IDENTIFIER, value='MOTOR', line=1, column=8
             ),
             ScaraToken(
                 token_type=ScaraTokenType.IDENTIFIER,
@@ -108,10 +96,7 @@ class TestMotorSyntaxExtractor(TestCase):
                 column=14,
             ),
             ScaraToken(
-                token_type=ScaraTokenType.IDENTIFIER,
-                value='CAN_BUS',
-                line=1,
-                column=26,
+                token_type=ScaraTokenType.IDENTIFIER, value='CAN_BUS', line=1, column=26
             ),
         )
         mode, iface = MotorSyntaxExtractor.extract(tokens=tokens, line_num=1)

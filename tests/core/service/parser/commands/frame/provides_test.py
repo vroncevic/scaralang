@@ -27,13 +27,13 @@ from unittest import TestCase, main
 from scaralang.core.service.parser.commands.frame.provides import FrameProvides
 from scaralang.core.service.parser.commands.frame.reset import FrameResetParser
 from scaralang.core.service.parser.commands.frame.set import FrameSetParser
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -64,6 +64,7 @@ class TestFrameProvides(TestCase):
         self.assertIs(provides.reset_parser, reset_parser)
         self.assertIs(provides.set_parser, set_parser)
         self.assertEqual(len(provides.parsers), 2)
+        self.assertEqual(provides.get_version(), '1.1.0')
         for parser in provides.parsers:
             self.assertIsInstance(parser, ICommandParser)
 

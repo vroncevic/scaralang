@@ -62,16 +62,16 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">from</span> <span class="nn">scaralang.core.model.dsl.binary.step</span> <span class="kn">import</span> <span class="n">BinaryStep</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.axis_name</span> <span class="kn">import</span> <span class="n">AxisName</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.joint_step_coordinates</span> <span class="kn">import</span> <span class="n">JointStepCoordinates</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.bottleneck_incident</span> <span class="kn">import</span> <span class="n">BottleneckIncident</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.constraint_type</span> <span class="kn">import</span> <span class="n">ConstraintType</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.pose.axis</span> <span class="kn">import</span> <span class="n">AxisName</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.pose.steps</span> <span class="kn">import</span> <span class="n">JointStepCoordinates</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.metrics.bottleneck</span> <span class="kn">import</span> <span class="n">BottleneckIncident</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.metrics.constraint</span> <span class="kn">import</span> <span class="n">ConstraintType</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.1.0&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -128,14 +128,15 @@
         <span class="n">step</span><span class="p">:</span> <span class="n">BinaryStep</span><span class="p">,</span>
         <span class="n">step_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">prev_coords</span><span class="p">:</span> <span class="n">JointStepCoordinates</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BottleneckIncident</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">BottleneckIncident</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">            Determines whether a motion step is constrained by an axis velocity or acceleration.</span>
 
 <span class="sd">            :param step: Motion step under analysis.</span>
 <span class="sd">            :param step_index: Index of step in execution sequence.</span>
 <span class="sd">            :param prev_coords: Preceding joint step coordinates (j1, j2, z, j4).</span>
-<span class="sd">            :return: BottleneckIncident if movement occurred, else None.</span>
+<span class="sd">            :return: Tuple containing BottleneckIncident if movement occurred, empty tuple otherwise.</span>
+<span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">deltas</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
             <span class="nb">abs</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">target_steps</span><span class="o">.</span><span class="n">j1</span> <span class="o">-</span> <span class="n">prev_coords</span><span class="o">.</span><span class="n">j1</span><span class="p">),</span>
@@ -146,7 +147,7 @@
         <span class="n">max_delta</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">max_delta</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZERO_DELTA</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="p">()</span>
 
         <span class="n">limiting_axis</span><span class="p">:</span> <span class="n">AxisName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AXIS_NAMES</span><span class="p">[</span><span class="n">deltas</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_delta</span><span class="p">)]</span>
         <span class="n">constraint_type</span><span class="p">:</span> <span class="n">ConstraintType</span> <span class="o">=</span> <span class="p">(</span>
@@ -155,11 +156,13 @@
             <span class="k">else</span> <span class="n">ConstraintType</span><span class="o">.</span><span class="n">VELOCITY</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">BottleneckIncident</span><span class="p">(</span>
-            <span class="n">step_index</span><span class="o">=</span><span class="n">step_index</span><span class="p">,</span>
-            <span class="n">limiting_axis</span><span class="o">=</span><span class="n">limiting_axis</span><span class="p">,</span>
-            <span class="n">constraint_type</span><span class="o">=</span><span class="n">constraint_type</span><span class="p">,</span>
-            <span class="n">duration_us</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">duration_us</span><span class="p">,</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">BottleneckIncident</span><span class="p">(</span>
+                <span class="n">step_index</span><span class="o">=</span><span class="n">step_index</span><span class="p">,</span>
+                <span class="n">limiting_axis</span><span class="o">=</span><span class="n">limiting_axis</span><span class="p">,</span>
+                <span class="n">constraint_type</span><span class="o">=</span><span class="n">constraint_type</span><span class="p">,</span>
+                <span class="n">duration_us</span><span class="o">=</span><span class="n">step</span><span class="o">.</span><span class="n">duration_us</span><span class="p">,</span>
+            <span class="p">),</span>
         <span class="p">)</span></div>
 
 
@@ -171,20 +174,19 @@
 
 <span class="sd">            :param steps: Sequence of compiled binary motion steps.</span>
 <span class="sd">            :return: Tuple of BottleneckIncident records.</span>
+<span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">incidents</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BottleneckIncident</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">prev_coords</span><span class="p">:</span> <span class="n">JointStepCoordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">INITIAL_COORDS</span>
 
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
-            <span class="n">incident</span><span class="p">:</span> <span class="n">BottleneckIncident</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detect_step_bottleneck</span><span class="p">(</span>
-                <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
-                <span class="n">step_index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
-                <span class="n">prev_coords</span><span class="o">=</span><span class="n">prev_coords</span><span class="p">,</span>
+            <span class="n">incidents</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">detect_step_bottleneck</span><span class="p">(</span>
+                    <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+                    <span class="n">step_index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+                    <span class="n">prev_coords</span><span class="o">=</span><span class="n">prev_coords</span><span class="p">,</span>
+                <span class="p">)</span>
             <span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">incident</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">incidents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">incident</span><span class="p">)</span>
-
             <span class="n">prev_coords</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">target_steps</span>
 
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">incidents</span><span class="p">)</span></div>

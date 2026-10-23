@@ -21,16 +21,20 @@ Info
 
 from __future__ import annotations
 
+from scaralang.core.service.parser.commands.macro.end import EndParser
 from scaralang.core.service.parser.commands.macro.jump import JumpParser
 from scaralang.core.service.parser.commands.macro.pallet_def import PalletDefParser
 from scaralang.core.service.parser.commands.macro.pallet_move import PalletMoveParser
 from scaralang.core.service.parser.commands.macro.provides import MacroProvides
+from scaralang.core.service.parser.commands.macro.repeat import RepeatParser
+from scaralang.core.service.parser.commands.macro.subroutine_call import CallParser
+from scaralang.core.service.parser.commands.macro.subroutine_def import DefParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,11 +62,26 @@ class MacroFactory:
         jump_parser = JumpParser()
         pallet_def_parser = PalletDefParser()
         pallet_move_parser = PalletMoveParser()
+        def_parser = DefParser()
+        call_parser = CallParser()
+        repeat_parser = RepeatParser()
+        end_parser = EndParser()
+
         return MacroProvides(
             jump_parser=jump_parser,
             pallet_def_parser=pallet_def_parser,
             pallet_move_parser=pallet_move_parser,
-            parsers=(jump_parser, pallet_def_parser, pallet_move_parser),
+            subroutine_parsers=(def_parser, call_parser),
+            loop_parsers=(repeat_parser, end_parser),
+            parsers=(
+                jump_parser,
+                pallet_def_parser,
+                pallet_move_parser,
+                def_parser,
+                call_parser,
+                repeat_parser,
+                end_parser,
+            ),
         )
 
     @classmethod

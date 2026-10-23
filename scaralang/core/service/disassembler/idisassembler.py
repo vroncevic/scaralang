@@ -23,15 +23,14 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.dsl.binary.disassembled_frame import DisassembledFrame
-from scaralang.core.model.dsl.binary.disassembly_summary import DisassemblySummary
-from scaralang.core.model.protocol.binary_frame import BinaryFrame
+from scaralang.core.model.disassembler.disassembled_frame import DisassembledFrame
+from scaralang.core.model.protocol.frame import BinaryFrame
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,7 +46,6 @@ class IScaraDisassembler(Protocol):
             :methods:
                 | disassemble_frame - Decodes single binary frame into DisassembledFrame model.
                 | disassemble - Disassembles raw binary bytes into decoded DisassembledFrame models.
-                | calculate_summary - Computes DisassemblySummary domain model from decoded frames.
                 | get_version - Returns disassembler version string.
     '''
 
@@ -71,20 +69,6 @@ class IScaraDisassembler(Protocol):
 
             :param data: Contiguous binary bytes containing one or more frames.
             :return: Tuple of decoded DisassembledFrame domain models.
-        '''
-
-    def calculate_summary(
-        self,
-        *,
-        frames: tuple[DisassembledFrame, ...],
-        byte_count: int
-    ) -> DisassemblySummary:
-        '''
-            Computes a DisassemblySummary domain model from decoded frames and total bytes.
-
-            :param frames: Decoded DisassembledFrame domain models.
-            :param byte_count: Total raw bytes parsed from binary source.
-            :return: Computed DisassemblySummary domain model.
         '''
 
     def get_version(self) -> str:

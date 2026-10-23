@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
 from scaralang.core.service.kinematics.envelope.envelope import WorkspaceEnvelope
 from scaralang.core.service.kinematics.envelope.factory import WorkspaceEnvelopeFactory
 from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -62,7 +62,7 @@ class TestWorkspaceEnvelopeFactory(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies factory version string matches package version.'''
-        self.assertEqual(WorkspaceEnvelopeFactory.get_version(), '1.0.9')
+        self.assertEqual(WorkspaceEnvelopeFactory.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

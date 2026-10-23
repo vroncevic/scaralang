@@ -25,7 +25,7 @@ from __future__ import annotations
 from typing import Final
 
 from scaralang.core.model.dsl.ast.program import ScaraProgram
-from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
+from scaralang.core.model.exceptions.kinematics import ScaraKinematicsError
 from scaralang.core.service.compiler.instruction.pipeline.ipipeline import IInstructionPipeline
 from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 from scaralang.core.service.trajectory.plan.plan import TrajectoryPlan
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -86,11 +86,13 @@ class AstPlanCompiler:
         waypoints = self._instruction_pipeline.compile_instructions(
             instructions=program.instructions
         )
+        elbow_configs = self._instruction_pipeline.get_elbow_configs()
 
-        plan = TrajectoryPlan()
-        plan.set_waypoints(waypoints)
+        plan = TrajectoryPlan(waypoints=waypoints)
 
-        is_valid, messages = self._validator.validate_plan(plan=plan)
+        is_valid, messages = self._validator.validate_plan(
+            plan=plan, elbow_config=elbow_configs
+        )
 
         if not is_valid:
             err_msg = '; '.join(messages)

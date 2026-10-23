@@ -8,7 +8,6 @@ Submodules
    :maxdepth: 4
 
    scaralang.core.service.trajectory.plan.factory
-   scaralang.core.service.trajectory.plan.imutable
    scaralang.core.service.trajectory.plan.iplan
    scaralang.core.service.trajectory.plan.iread_only
    scaralang.core.service.trajectory.plan.plan

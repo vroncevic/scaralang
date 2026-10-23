@@ -59,21 +59,23 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">cos</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.joint_angle_bounds</span> <span class="kn">import</span> <span class="n">JointAngleBounds</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.link_dimensions</span> <span class="kn">import</span> <span class="n">LinkDimensions</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.scara_bounds</span> <span class="kn">import</span> <span class="n">ScaraBounds</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.singularity_margins</span> <span class="kn">import</span> <span class="n">SingularityMargins</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.speed_limits</span> <span class="kn">import</span> <span class="n">SpeedLimits</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.transmission_parameters</span> <span class="kn">import</span> <span class="n">TransmissionParameters</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.vertical_bounds</span> <span class="kn">import</span> <span class="n">VerticalBounds</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.solver.dls</span> <span class="kn">import</span> <span class="n">DlsConfig</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.profile.angle</span> <span class="kn">import</span> <span class="n">JointAngleBounds</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.profile.link</span> <span class="kn">import</span> <span class="n">LinkDimensions</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.profile.bounds</span> <span class="kn">import</span> <span class="n">ScaraBounds</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.profile.singularity</span> <span class="kn">import</span> <span class="n">SingularityMargins</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.profile.speed</span> <span class="kn">import</span> <span class="n">SpeedLimits</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.profile.transmission</span> <span class="kn">import</span> <span class="n">TransmissionParameters</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.profile.vertical</span> <span class="kn">import</span> <span class="n">VerticalBounds</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.profile.deadzone.calculator</span> <span class="kn">import</span> <span class="n">DeadzoneCalculator</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.1.0&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -87,12 +89,52 @@
 
 <span class="sd">        It defines:</span>
 
+<span class="sd">            :attributes:</span>
+<span class="sd">                | DEFAULT_L1_MM - Default shoulder link length in millimeters.</span>
+<span class="sd">                | DEFAULT_L2_MM - Default elbow link length in millimeters.</span>
+<span class="sd">                | DEFAULT_J_LIMIT_RAD - Default joint angle symmetric limit in radians.</span>
+<span class="sd">                | DEFAULT_Z_MIN_MM - Default minimum vertical limit in millimeters.</span>
+<span class="sd">                | DEFAULT_Z_MAX_MM - Default maximum vertical limit in millimeters.</span>
+<span class="sd">                | DEFAULT_MIN_SPEED - Default minimum operational speed in mm/s.</span>
+<span class="sd">                | DEFAULT_MAX_SPEED - Default maximum operational speed in mm/s.</span>
+<span class="sd">                | DEFAULT_SPEED - Default nominal operational speed in mm/s.</span>
+<span class="sd">                | DEFAULT_ACCEL - Default nominal acceleration in mm/s^2.</span>
+<span class="sd">                | DEFAULT_MAX_ACCEL - Default maximum acceleration in mm/s^2.</span>
+<span class="sd">                | DEFAULT_SINGULARITY_MARGIN_MM - Default singularity boundary margin in mm.</span>
+<span class="sd">                | DEFAULT_THETA2_MIN_RAD - Default theta2 singularity margin in radians.</span>
+<span class="sd">                | DEFAULT_STEPS_PER_REV - Default motor steps per revolution.</span>
+<span class="sd">                | DEFAULT_MICROSTEPPING - Default microstepping multiplier.</span>
+<span class="sd">                | DEFAULT_GEAR_RATIO_J1 - Default shoulder joint reduction ratio.</span>
+<span class="sd">                | DEFAULT_GEAR_RATIO_J2 - Default elbow joint reduction ratio.</span>
+<span class="sd">                | DEFAULT_GEAR_RATIO_J4 - Default wrist roll joint reduction ratio.</span>
+<span class="sd">                | DEFAULT_LEADSCREW_PITCH_Z - Default Z-axis leadscrew pitch in mm/rev.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | calculate_deadzone_radius - Calculates minimum reach dead zone radius.</span>
 <span class="sd">                | create_bounds - Generates default ScaraBounds domain model.</span>
+<span class="sd">                | create_dls_config - Generates default DlsConfig numerical IK configuration model.</span>
 <span class="sd">                | create_transmission - Generates default TransmissionParameters domain model.</span>
 <span class="sd">                | get_version - Returns profile version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">DEFAULT_L1_MM</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">150.0</span>
+    <span class="n">DEFAULT_L2_MM</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">150.0</span>
+    <span class="n">DEFAULT_J_LIMIT_RAD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.61799</span>
+    <span class="n">DEFAULT_Z_MIN_MM</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">50.0</span>
+    <span class="n">DEFAULT_Z_MAX_MM</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">50.0</span>
+    <span class="n">DEFAULT_MIN_SPEED</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">DEFAULT_MAX_SPEED</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">200.0</span>
+    <span class="n">DEFAULT_SPEED</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">50.0</span>
+    <span class="n">DEFAULT_ACCEL</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">100.0</span>
+    <span class="n">DEFAULT_MAX_ACCEL</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">500.0</span>
+    <span class="n">DEFAULT_SINGULARITY_MARGIN_MM</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span>
+    <span class="n">DEFAULT_THETA2_MIN_RAD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.087266</span>
+
+    <span class="n">DEFAULT_STEPS_PER_REV</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">200.0</span>
+    <span class="n">DEFAULT_MICROSTEPPING</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">16.0</span>
+    <span class="n">DEFAULT_GEAR_RATIO_J1</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.0</span>
+    <span class="n">DEFAULT_GEAR_RATIO_J2</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.0</span>
+    <span class="n">DEFAULT_GEAR_RATIO_J4</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">DEFAULT_LEADSCREW_PITCH_Z</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">8.0</span>
 
 <div class="viewcode-block" id="DefaultScaraProfile.calculate_deadzone_radius">
 <a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.profile.default_scara_profile.html#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.calculate_deadzone_radius">[docs]</a>
@@ -112,9 +154,8 @@
 <span class="sd">            :return: Dead zone radius in mm.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span>
-            <span class="nb">abs</span><span class="p">(</span><span class="n">l1</span> <span class="o">-</span> <span class="n">l2</span><span class="p">),</span>
-            <span class="n">sqrt</span><span class="p">(</span><span class="n">l1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">l2</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">l1</span> <span class="o">*</span> <span class="n">l2</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">pi</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">j2_max_rad</span><span class="p">))),</span>
+        <span class="k">return</span> <span class="n">DeadzoneCalculator</span><span class="p">()</span><span class="o">.</span><span class="n">calculate_radius</span><span class="p">(</span>
+            <span class="n">l1</span><span class="o">=</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="n">l2</span><span class="p">,</span> <span class="n">j2_max_rad</span><span class="o">=</span><span class="n">j2_max_rad</span>
         <span class="p">)</span></div>
 
 
@@ -128,31 +169,33 @@
 <span class="sd">            :return: Configured ScaraBounds domain model.</span>
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">l1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">150.0</span>
-        <span class="n">l2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">150.0</span>
-        <span class="n">j2_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.61799</span>
+        <span class="n">l1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_L1_MM</span>
+        <span class="n">l2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_L2_MM</span>
+        <span class="n">j2_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_J_LIMIT_RAD</span>
         <span class="n">deadzone_r_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">calculate_deadzone_radius</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">j2_max</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ScaraBounds</span><span class="p">(</span>
             <span class="n">links</span><span class="o">=</span><span class="n">LinkDimensions</span><span class="p">(</span><span class="n">l1</span><span class="o">=</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="n">l2</span><span class="p">),</span>
-            <span class="n">vertical</span><span class="o">=</span><span class="n">VerticalBounds</span><span class="p">(</span><span class="n">z_min</span><span class="o">=-</span><span class="mf">50.0</span><span class="p">,</span> <span class="n">z_max</span><span class="o">=</span><span class="mf">50.0</span><span class="p">),</span>
+            <span class="n">vertical</span><span class="o">=</span><span class="n">VerticalBounds</span><span class="p">(</span>
+                <span class="n">z_min</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_Z_MIN_MM</span><span class="p">,</span> <span class="n">z_max</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_Z_MAX_MM</span>
+            <span class="p">),</span>
             <span class="n">speeds</span><span class="o">=</span><span class="n">SpeedLimits</span><span class="p">(</span>
-                <span class="n">min_speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-                <span class="n">max_speed</span><span class="o">=</span><span class="mf">200.0</span><span class="p">,</span>
-                <span class="n">default_speed</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span>
-                <span class="n">default_accel</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span>
-                <span class="n">max_accel</span><span class="o">=</span><span class="mf">500.0</span><span class="p">,</span>
+                <span class="n">min_speed</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_MIN_SPEED</span><span class="p">,</span>
+                <span class="n">max_speed</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_MAX_SPEED</span><span class="p">,</span>
+                <span class="n">default_speed</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_SPEED</span><span class="p">,</span>
+                <span class="n">default_accel</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_ACCEL</span><span class="p">,</span>
+                <span class="n">max_accel</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_MAX_ACCEL</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">joints</span><span class="o">=</span><span class="n">JointAngleBounds</span><span class="p">(</span>
-                <span class="n">j1_min_rad</span><span class="o">=-</span><span class="mf">2.61799</span><span class="p">,</span>
-                <span class="n">j1_max_rad</span><span class="o">=</span><span class="mf">2.61799</span><span class="p">,</span>
+                <span class="n">j1_min_rad</span><span class="o">=-</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_J_LIMIT_RAD</span><span class="p">,</span>
+                <span class="n">j1_max_rad</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_J_LIMIT_RAD</span><span class="p">,</span>
                 <span class="n">j2_min_rad</span><span class="o">=-</span><span class="n">j2_max</span><span class="p">,</span>
                 <span class="n">j2_max_rad</span><span class="o">=</span><span class="n">j2_max</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">singularity</span><span class="o">=</span><span class="n">SingularityMargins</span><span class="p">(</span>
-                <span class="n">singularity_outer_margin_mm</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
-                <span class="n">singularity_inner_margin_mm</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
-                <span class="n">singularity_theta2_min_rad</span><span class="o">=</span><span class="mf">0.087266</span><span class="p">,</span>
+                <span class="n">singularity_outer_margin_mm</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_SINGULARITY_MARGIN_MM</span><span class="p">,</span>
+                <span class="n">singularity_inner_margin_mm</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_SINGULARITY_MARGIN_MM</span><span class="p">,</span>
+                <span class="n">singularity_theta2_min_rad</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_THETA2_MIN_RAD</span><span class="p">,</span>
                 <span class="n">deadzone_r_min</span><span class="o">=</span><span class="n">deadzone_r_min</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span></div>
@@ -169,13 +212,26 @@
 <span class="sd">            :exceptions: None.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">TransmissionParameters</span><span class="p">(</span>
-            <span class="n">steps_per_rev</span><span class="o">=</span><span class="mf">200.0</span><span class="p">,</span>
-            <span class="n">microstepping</span><span class="o">=</span><span class="mf">16.0</span><span class="p">,</span>
-            <span class="n">gear_ratio_j1</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span>
-            <span class="n">gear_ratio_j2</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span>
-            <span class="n">gear_ratio_j4</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-            <span class="n">leadscrew_pitch_z</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span>
+            <span class="n">steps_per_rev</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_STEPS_PER_REV</span><span class="p">,</span>
+            <span class="n">microstepping</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_MICROSTEPPING</span><span class="p">,</span>
+            <span class="n">gear_ratio_j1</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_GEAR_RATIO_J1</span><span class="p">,</span>
+            <span class="n">gear_ratio_j2</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_GEAR_RATIO_J2</span><span class="p">,</span>
+            <span class="n">gear_ratio_j4</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_GEAR_RATIO_J4</span><span class="p">,</span>
+            <span class="n">leadscrew_pitch_z</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_LEADSCREW_PITCH_Z</span><span class="p">,</span>
         <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DefaultScaraProfile.create_dls_config">
+<a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.profile.default_scara_profile.html#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_dls_config">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_dls_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DlsConfig</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Builds default Damped Least Squares (DLS) numerical solver configuration.</span>
+
+<span class="sd">            :return: Configured DlsConfig domain model.</span>
+<span class="sd">            :exceptions: None.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">DlsConfig</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="DefaultScaraProfile.get_version">

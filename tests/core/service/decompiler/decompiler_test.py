@@ -24,8 +24,8 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.protocol.binary_frame import BinaryFrame
-from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.model.protocol.frame import BinaryFrame
+from scaralang.core.model.protocol.message import MessageId
 from scaralang.core.service.decompiler.decompiler import ScaraDecompiler
 from scaralang.core.service.decompiler.frame.dependencies import FrameDependencies
 from scaralang.core.service.decompiler.frame.factory import FrameFactory
@@ -33,15 +33,15 @@ from scaralang.core.service.decompiler.frame.provides import FrameProvides
 from scaralang.core.service.decompiler.idecompiler import IScaraDecompiler
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
 from scaralang.core.service.kinematics.transmission.factory import TransmissionFactory
-from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
-from scaralang.infrastructure.protocol.binary.parser.factory import ParserFactory
+from scaralang.infrastructure.protocol.builder.factory import BuilderFactory
+from scaralang.infrastructure.protocol.parser.factory import ParserFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -77,7 +77,7 @@ class TestScaraDecompiler(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies scara decompiler version string retrieval.'''
-        self.assertEqual(self.decompiler.get_version(), '1.0.9')
+        self.assertEqual(self.decompiler.get_version(), '1.1.0')
 
     def test_decompile_empty_data(self) -> None:
         '''Verifies empty byte data returns empty string.'''
@@ -104,15 +104,6 @@ class TestScaraDecompiler(TestCase):
         frame: BinaryFrame = builder_provides.system.build_system_cmd(msg_id=MessageId.CMD_HOME, seq_num=1)
         raw_bytes: bytes = builder_provides.packer.pack_frame(frame=frame)
         script: str = self.decompiler.decompile_bytes(data=raw_bytes)
-        self.assertIn('HOME', script)
-        self.assertIn('# Frame Count: 1', script)
-
-    def test_decompile_primary_method(self) -> None:
-        '''Verifies decompile primary method delegates to decompile_bytes.'''
-        builder_provides = BuilderFactory.create()
-        frame: BinaryFrame = builder_provides.system.build_system_cmd(msg_id=MessageId.CMD_HOME, seq_num=1)
-        raw_bytes: bytes = builder_provides.packer.pack_frame(frame=frame)
-        script: str = self.decompiler.decompile(data=raw_bytes)
         self.assertIn('HOME', script)
         self.assertIn('# Frame Count: 1', script)
 

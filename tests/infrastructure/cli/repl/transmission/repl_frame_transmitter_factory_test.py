@@ -24,6 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.infrastructure.cli.repl.transmission.buffer.buffer import TransmissionBuffer
 from scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter import IReplFrameTransmitter
 from scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter import ReplFrameTransmitter
 from scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory import ReplFrameTransmitterFactory
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,17 +47,36 @@ class TestReplFrameTransmitterFactory(TestCase):
 
             :methods:
                 | test_create - Verifies factory instantiates transmitter correctly.
+                | test_create_with_buffer - Verifies factory instantiates with explicit buffer.
                 | test_get_version - Verifies factory returns version string.
     '''
 
     def test_create(self) -> None:
-        '''Verifies factory builds ReplFrameTransmitter instance.'''
+        '''
+            Verifies factory builds ReplFrameTransmitter instance.
+
+            :exceptions: None.
+        '''
         transmitter = ReplFrameTransmitterFactory.create(endpoint='test', dry_run=True)
         self.assertIsInstance(transmitter, ReplFrameTransmitter)
         self.assertIsInstance(transmitter, IReplFrameTransmitter)
 
+    def test_create_with_buffer(self) -> None:
+        '''
+            Verifies factory builds ReplFrameTransmitter with explicit buffer.
+
+            :exceptions: None.
+        '''
+        buf = TransmissionBuffer()
+        transmitter = ReplFrameTransmitterFactory.create(buffer=buf)
+        self.assertIsInstance(transmitter, ReplFrameTransmitter)
+
     def test_get_version(self) -> None:
-        '''Verifies factory returns a valid semantic version string.'''
+        '''
+            Verifies factory returns a valid semantic version string.
+
+            :exceptions: None.
+        '''
         version: str = ReplFrameTransmitterFactory.get_version()
         self.assertIsInstance(version, str)
         self.assertTrue(len(version) > 0)

@@ -21,9 +21,9 @@ Info
 
 from __future__ import annotations
 
-from unittest import TestCase
+from unittest import TestCase, main
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.exporter.gcode.exporter import GcodeExporter
 from scaralang.core.service.trajectory.plan.plan import TrajectoryPlan
 
@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -89,8 +89,7 @@ class TestGcodeExporter(TestCase):
             speed=100.0,
             command='',
         )
-        plan = TrajectoryPlan()
-        plan.add_point(wp)
+        plan = TrajectoryPlan(waypoints=[wp])
         output = self.exporter.export_gcode(plan=plan)
         self.assertIn('G21', output)
         self.assertIn('G90', output)
@@ -100,3 +99,7 @@ class TestGcodeExporter(TestCase):
     def test_get_version(self) -> None:
         '''Verifies version reporting.'''
         self.assertIsInstance(self.exporter.get_version(), str)
+
+
+if __name__ == '__main__':
+    main()

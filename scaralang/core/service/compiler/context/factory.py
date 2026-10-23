@@ -25,20 +25,20 @@ from typing import ClassVar
 
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
-from scaralang.core.model.dsl.compiler.compiler_blend_state import CompilerBlendState
-from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
-from scaralang.core.model.dsl.compiler.compiler_pose_state import CompilerPoseState
-from scaralang.core.model.dsl.compiler.compiler_speed_state import CompilerSpeedState
-from scaralang.core.model.dsl.macro.work_frame import WorkFrame
-from scaralang.core.model.kinematics.elbow_config import ElbowConfig
-from scaralang.core.model.kinematics.point_3d import Point3D
-from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
+from scaralang.core.model.dsl.compiler.blend_state import CompilerBlendState
+from scaralang.core.model.dsl.compiler.context import CompilerContext
+from scaralang.core.model.dsl.compiler.pose_state import CompilerPoseState
+from scaralang.core.model.dsl.compiler.speed_state import CompilerSpeedState
+from scaralang.core.model.dsl.macro.frame import WorkFrame
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
+from scaralang.core.model.kinematics.pose.point_3d import Point3D
+from scaralang.core.model.motor.mode import MotorDriveMode
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

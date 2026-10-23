@@ -77,8 +77,21 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">VIEWBOX_SIZE - Width and height dimension of SVG viewBox in pixels.</div>
+<div class="line">VIEWBOX_CENTER_X - SVG viewBox center X coordinate in pixels.</div>
+<div class="line">VIEWBOX_CENTER_Y - SVG viewBox center Y coordinate in pixels.</div>
+<div class="line">SCALE_FACTOR - Coordinate scaling multiplier from mm to pixels.</div>
+<div class="line">OUTER_ENVELOPE_RADIUS - Outer workspace boundary radius in pixels.</div>
+<div class="line">INNER_ENVELOPE_RADIUS - Inner workspace boundary radius in pixels.</div>
+<div class="line">BG_COLOR - Background rectangle hex color code.</div>
+<div class="line">ENVELOPE_COLOR - Workspace boundary circles hex color code.</div>
+<div class="line">TOOLPATH_COLOR - Trajectory toolpath stroke hex color code.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">build_svg_path - Constructs SVG path ‘d’ attribute from waypoints.</div>
 <div class="line">export_svg - Serializes ITrajectoryPlan into SVG XML string.</div>
 <div class="line">get_version - Returns the exporter version string.</div>
@@ -86,9 +99,54 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.BG_COLOR">
+<span class="sig-name descname"><span class="pre">BG_COLOR</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'#1e1e2e'</span></em><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.BG_COLOR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.ENVELOPE_COLOR">
+<span class="sig-name descname"><span class="pre">ENVELOPE_COLOR</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'#313244'</span></em><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.ENVELOPE_COLOR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.INNER_ENVELOPE_RADIUS">
+<span class="sig-name descname"><span class="pre">INNER_ENVELOPE_RADIUS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.INNER_ENVELOPE_RADIUS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.OUTER_ENVELOPE_RADIUS">
+<span class="sig-name descname"><span class="pre">OUTER_ENVELOPE_RADIUS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">350</span></em><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.OUTER_ENVELOPE_RADIUS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.SCALE_FACTOR">
+<span class="sig-name descname"><span class="pre">SCALE_FACTOR</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.SCALE_FACTOR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.TOOLPATH_COLOR">
+<span class="sig-name descname"><span class="pre">TOOLPATH_COLOR</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'#89b4fa'</span></em><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.TOOLPATH_COLOR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.VIEWBOX_CENTER_X">
+<span class="sig-name descname"><span class="pre">VIEWBOX_CENTER_X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">400.0</span></em><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.VIEWBOX_CENTER_X" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.VIEWBOX_CENTER_Y">
+<span class="sig-name descname"><span class="pre">VIEWBOX_CENTER_Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">400.0</span></em><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.VIEWBOX_CENTER_Y" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.VIEWBOX_SIZE">
+<span class="sig-name descname"><span class="pre">VIEWBOX_SIZE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">800</span></em><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.VIEWBOX_SIZE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.exporter.svg.exporter.SvgExporter.build_svg_path">
-<span class="sig-name descname"><span class="pre">build_svg_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waypoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.trajectory.waypoint.html#scaralang.core.model.trajectory.waypoint.Waypoint" title="scaralang.core.model.trajectory.waypoint.Waypoint"><span class="pre">Waypoint</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/svg/exporter.html#SvgExporter.build_svg_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.build_svg_path" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">build_svg_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waypoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.trajectory.plan.waypoint.html#scaralang.core.model.trajectory.plan.waypoint.Waypoint" title="scaralang.core.model.trajectory.plan.waypoint.Waypoint"><span class="pre">Waypoint</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/svg/exporter.html#SvgExporter.build_svg_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.build_svg_path" title="Link to this definition">¶</a></dt>
 <dd><p>Constructs SVG path data attribute from motion waypoints.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -150,6 +208,15 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.exporter.svg.exporter module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter"><code class="docutils literal notranslate"><span class="pre">SvgExporter</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.BG_COLOR"><code class="docutils literal notranslate"><span class="pre">SvgExporter.BG_COLOR</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.ENVELOPE_COLOR"><code class="docutils literal notranslate"><span class="pre">SvgExporter.ENVELOPE_COLOR</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.INNER_ENVELOPE_RADIUS"><code class="docutils literal notranslate"><span class="pre">SvgExporter.INNER_ENVELOPE_RADIUS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.OUTER_ENVELOPE_RADIUS"><code class="docutils literal notranslate"><span class="pre">SvgExporter.OUTER_ENVELOPE_RADIUS</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.SCALE_FACTOR"><code class="docutils literal notranslate"><span class="pre">SvgExporter.SCALE_FACTOR</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.TOOLPATH_COLOR"><code class="docutils literal notranslate"><span class="pre">SvgExporter.TOOLPATH_COLOR</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.VIEWBOX_CENTER_X"><code class="docutils literal notranslate"><span class="pre">SvgExporter.VIEWBOX_CENTER_X</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.VIEWBOX_CENTER_Y"><code class="docutils literal notranslate"><span class="pre">SvgExporter.VIEWBOX_CENTER_Y</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.VIEWBOX_SIZE"><code class="docutils literal notranslate"><span class="pre">SvgExporter.VIEWBOX_SIZE</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.build_svg_path"><code class="docutils literal notranslate"><span class="pre">SvgExporter.build_svg_path()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.export_svg"><code class="docutils literal notranslate"><span class="pre">SvgExporter.export_svg()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.svg.exporter.SvgExporter.get_version"><code class="docutils literal notranslate"><span class="pre">SvgExporter.get_version()</span></code></a></li>

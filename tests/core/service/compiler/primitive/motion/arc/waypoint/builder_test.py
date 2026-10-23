@@ -24,8 +24,8 @@ from __future__ import annotations
 from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.tool_orient_mode import ToolOrientMode
-from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.model.trajectory.arc_point import ArcPoint
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
+from scaralang.core.model.trajectory.geometry.point import ArcPoint
 from scaralang.core.service.compiler.context.factory import CompilerContextFactory
 from scaralang.core.service.compiler.primitive.motion.arc.waypoint.builder import ArcWaypointBuilder
 from scaralang.core.service.compiler.primitive.motion.arc.waypoint.ibuilder import IArcWaypointBuilder
@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -77,7 +77,7 @@ class TestArcWaypointBuilder(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.builder.get_version(), '1.0.9')
+        self.assertEqual(self.builder.get_version(), '1.1.0')
 
     def test_build_waypoints_fixed_orientation(self) -> None:
         '''

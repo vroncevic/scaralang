@@ -24,12 +24,14 @@ from __future__ import annotations
 from unittest import TestCase, main
 
 from scaralang.core.service.compiler.instruction.dependencies import InstructionDependencies
+from scaralang.core.service.compiler.macro.repeat.factory import RepeatFactory
+from scaralang.core.service.compiler.macro.subroutine.factory import SubroutineFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -46,11 +48,21 @@ class TestInstructionDependencies(TestCase):
     '''
 
     def test_initialization(self) -> None:
-        '''Verifies InstructionDependencies holds expanders and compilers.'''
+        '''
+            Verifies InstructionDependencies holds expanders and compilers.
+
+            :exceptions: None.
+        '''
+        subroutine_expander = SubroutineFactory.create().expander
+        repeat_expander = RepeatFactory.create().expander
         deps = InstructionDependencies(
+            subroutine_expander=subroutine_expander,
+            repeat_expander=repeat_expander,
             macro_expanders=(),
             primitive_compilers=(),
         )
+        self.assertIs(deps.subroutine_expander, subroutine_expander)
+        self.assertIs(deps.repeat_expander, repeat_expander)
         self.assertEqual(deps.macro_expanders, ())
         self.assertEqual(deps.primitive_compilers, ())
 

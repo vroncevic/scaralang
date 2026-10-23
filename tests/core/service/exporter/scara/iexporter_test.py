@@ -22,24 +22,53 @@ Info
 from __future__ import annotations
 
 from unittest import TestCase
+from unittest import main
 
 from scaralang.core.service.exporter.scara.exporter import ScaraPlanExporter
+from scaralang.core.service.exporter.scara.formatter.factory import ScaraWaypointFormatterFactory
 from scaralang.core.service.exporter.scara.iexporter import IScaraPlanExporter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 class TestIScaraPlanExporter(TestCase):
-    '''Validates that ScaraPlanExporter satisfies IScaraPlanExporter structurally.'''
+    '''
+        Validates that ScaraPlanExporter satisfies IScaraPlanExporter structurally.
+
+        It defines:
+
+            :methods:
+                | test_protocol_conformance - Verifies protocol structural check passes.
+                | test_non_conformance - Verifies object() fails protocol check.
+    '''
 
     def test_protocol_conformance(self) -> None:
-        '''Verifies ScaraPlanExporter implements IScaraPlanExporter protocol methods.'''
-        exporter = ScaraPlanExporter()
+        '''
+            Verifies ScaraPlanExporter implements IScaraPlanExporter protocol methods.
+
+            :exceptions: None.
+        '''
+        exporter = ScaraPlanExporter(
+            formatter=ScaraWaypointFormatterFactory.create()
+        )
         self.assertIsInstance(exporter, IScaraPlanExporter)
+
+    def test_non_conformance(self) -> None:
+        '''
+            Verifies plain object fails IScaraPlanExporter structural check.
+
+            :exceptions: None.
+        '''
+        dummy: object = object()
+        self.assertFalse(isinstance(dummy, IScaraPlanExporter))
+
+
+if __name__ == '__main__':
+    main()

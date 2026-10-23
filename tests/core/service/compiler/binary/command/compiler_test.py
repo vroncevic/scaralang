@@ -25,19 +25,19 @@ from unittest import TestCase
 from unittest import main
 
 from scaralang.core.model.dsl.binary.step import BinaryStep
-from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
-from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.model.exceptions.semantic import ScaraSemanticError
+from scaralang.core.model.protocol.message import MessageId
 from scaralang.core.service.compiler.binary.command.dependencies import CommandDependencies
 from scaralang.core.service.compiler.binary.command.factory import CommandFactory
 from scaralang.core.service.compiler.binary.command.icompiler import ICommandCompiler
 from scaralang.core.service.compiler.binary.command.provides import CommandProvides
-from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
+from scaralang.infrastructure.protocol.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -84,7 +84,7 @@ class TestCommandCompiler(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.compiler.get_version(), '1.0.9')
+        self.assertEqual(self.compiler.get_version(), '1.1.0')
 
     def test_compile_pump_command(self) -> None:
         '''

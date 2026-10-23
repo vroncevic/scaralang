@@ -24,6 +24,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from scaralang.core.service.disassembler.idisassembler import IScaraDisassembler
+from scaralang.core.service.disassembler.summary.icalculator import IDisassemblySummaryCalculator
 from scaralang.infrastructure.command.disassemble.error.ihandler import IDisassembleErrorHandler
 from scaralang.infrastructure.command.disassemble.format.iformatter import IDisassembleSummaryFormatter
 
@@ -31,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,9 +49,11 @@ class DisassembleDependencies:
                 | service - Injected SCARA disassembler service protocol instance.
                 | summary_formatter - Injected summary presentation formatter protocol instance.
                 | error_handler - Injected disassemble error handler protocol instance.
+                | summary_calculator - Injected summary calculator protocol instance.
             :methods: None.
     '''
 
     service: IScaraDisassembler
     summary_formatter: IDisassembleSummaryFormatter
     error_handler: IDisassembleErrorHandler
+    summary_calculator: IDisassemblySummaryCalculator

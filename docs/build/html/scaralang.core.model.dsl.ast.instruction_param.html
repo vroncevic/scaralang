@@ -115,6 +115,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div class="line">CLEARANCE - Safe transit clearance height.</div>
 <div class="line">ARCH_HEIGHT - Parabolic arch travel height.</div>
 <div class="line">TIMEOUT - Maximum wait duration before timeout.</div>
+<div class="line">COUNT - Fixed repeat loop iteration count.</div>
+<div class="line">X_MIN - Minimum X bound for rectangular keep-out zone.</div>
+<div class="line">X_MAX - Maximum X bound for rectangular keep-out zone.</div>
+<div class="line">Y_MIN - Minimum Y bound for rectangular keep-out zone.</div>
+<div class="line">Y_MAX - Maximum Y bound for rectangular keep-out zone.</div>
+<div class="line">SHAPE - Shape descriptor for keep-out obstacle zone.</div>
 </div>
 </dd>
 </dl>
@@ -172,6 +178,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.COL_PITCH">
 <span class="sig-name descname"><span class="pre">COL_PITCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'COL_PITCH'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.COL_PITCH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.COUNT">
+<span class="sig-name descname"><span class="pre">COUNT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'COUNT'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.COUNT" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -290,6 +301,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.SHAPE">
+<span class="sig-name descname"><span class="pre">SHAPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SHAPE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.SHAPE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.SPEED">
 <span class="sig-name descname"><span class="pre">SPEED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SPEED'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.SPEED" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -325,8 +341,28 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.X_MAX">
+<span class="sig-name descname"><span class="pre">X_MAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'X_MAX'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.X_MAX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.X_MIN">
+<span class="sig-name descname"><span class="pre">X_MIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'X_MIN'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.X_MIN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Y">
 <span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Y'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Y" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Y_MAX">
+<span class="sig-name descname"><span class="pre">Y_MAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Y_MAX'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Y_MAX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Y_MIN">
+<span class="sig-name descname"><span class="pre">Y_MIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Y_MIN'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Y_MIN" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -371,6 +407,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.COL"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.COL</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.COLS"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.COLS</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.COL_PITCH"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.COL_PITCH</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.COUNT"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.COUNT</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.DEG"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.DEG</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.DIST"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.DIST</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.DX"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.DX</span></code></a></li>
@@ -394,6 +431,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.ROWS"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.ROWS</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.ROW_PITCH"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.ROW_PITCH</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.RZ"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.RZ</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.SHAPE"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.SHAPE</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.SPEED"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.SPEED</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.START_X"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.START_X</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.START_Y"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.START_Y</span></code></a></li>
@@ -401,7 +439,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.STEP"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.STEP</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.TIMEOUT"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.TIMEOUT</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.X"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.X</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.X_MAX"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.X_MAX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.X_MIN"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.X_MIN</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Y"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.Y</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Y_MAX"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.Y_MAX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Y_MIN"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.Y_MIN</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Z"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.Z</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Z_DOWN"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.Z_DOWN</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.instruction_param.ScaraInstructionParam.Z_UP"><code class="docutils literal notranslate"><span class="pre">ScaraInstructionParam.Z_UP</span></code></a></li>

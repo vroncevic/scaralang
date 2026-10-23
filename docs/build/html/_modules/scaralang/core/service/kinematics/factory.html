@@ -63,10 +63,18 @@
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.envelope.factory</span> <span class="kn">import</span> <span class="n">WorkspaceEnvelopeFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.envelope.ienvelope</span> <span class="kn">import</span> <span class="n">IWorkspaceEnvelope</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.provides</span> <span class="kn">import</span> <span class="n">KinematicsProvides</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.planar.factory</span> <span class="kn">import</span> <span class="n">PlanarKinematicsSolverFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.planar.isolver</span> <span class="kn">import</span> <span class="n">IPlanarKinematicsSolver</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.spatial.factory</span> <span class="kn">import</span> <span class="n">SpatialKinematicsSolverFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.spatial.isolver</span> <span class="kn">import</span> <span class="n">ISpatialKinematicsSolver</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.analytical.planar.factory</span> <span class="kn">import</span> <span class="n">PlanarKinematicsSolverFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.analytical.planar.isolver</span> <span class="kn">import</span> <span class="n">IPlanarKinematicsSolver</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.analytical.spatial.factory</span> <span class="kn">import</span> <span class="n">SpatialKinematicsSolverFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.analytical.spatial.isolver</span> <span class="kn">import</span> <span class="n">ISpatialKinematicsSolver</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.numerical.jacobian.factory</span> <span class="kn">import</span> <span class="n">JacobianCalculatorFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator</span> <span class="kn">import</span> <span class="n">IJacobianCalculator</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.numerical.planar.dependencies</span> <span class="kn">import</span> <span class="n">NumericalPlanarDependencies</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.numerical.planar.factory</span> <span class="kn">import</span> <span class="n">NumericalPlanarKinematicsSolverFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.numerical.planar.isolver</span> <span class="kn">import</span> <span class="n">INumericalPlanarKinematicsSolver</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.numerical.spatial.dependencies</span> <span class="kn">import</span> <span class="n">NumericalSpatialDependencies</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.numerical.spatial.factory</span> <span class="kn">import</span> <span class="n">NumericalSpatialKinematicsSolverFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.solver.numerical.spatial.isolver</span> <span class="kn">import</span> <span class="n">INumericalSpatialKinematicsSolver</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.workspace.factory</span> <span class="kn">import</span> <span class="n">WorkspaceFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.kinematics.workspace.ievaluator</span> <span class="kn">import</span> <span class="n">IWorkspaceBoundsEvaluator</span>
 
@@ -74,7 +82,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.1.0&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -111,6 +119,27 @@
             <span class="n">planar</span><span class="o">=</span><span class="n">planar</span><span class="p">,</span>
             <span class="n">vertical</span><span class="o">=</span><span class="n">dependencies</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">vertical</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="n">jacobian</span><span class="p">:</span> <span class="n">IJacobianCalculator</span> <span class="o">=</span> <span class="n">JacobianCalculatorFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">links</span><span class="o">=</span><span class="n">dependencies</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">links</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">num_planar_deps</span> <span class="o">=</span> <span class="n">NumericalPlanarDependencies</span><span class="p">(</span>
+            <span class="n">jacobian_calculator</span><span class="o">=</span><span class="n">jacobian</span><span class="p">,</span>
+            <span class="n">planar_solver</span><span class="o">=</span><span class="n">planar</span><span class="p">,</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">dependencies</span><span class="o">.</span><span class="n">dls_config</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">numerical_planar</span><span class="p">:</span> <span class="n">INumericalPlanarKinematicsSolver</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">NumericalPlanarKinematicsSolverFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">dependencies</span><span class="o">=</span><span class="n">num_planar_deps</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">num_spatial_deps</span> <span class="o">=</span> <span class="n">NumericalSpatialDependencies</span><span class="p">(</span>
+            <span class="n">numerical_planar</span><span class="o">=</span><span class="n">numerical_planar</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">numerical_spatial</span><span class="p">:</span> <span class="n">INumericalSpatialKinematicsSolver</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">NumericalSpatialKinematicsSolverFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">dependencies</span><span class="o">=</span><span class="n">num_spatial_deps</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">workspace</span><span class="p">:</span> <span class="n">IWorkspaceBoundsEvaluator</span> <span class="o">=</span> <span class="n">WorkspaceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
             <span class="n">bounds</span><span class="o">=</span><span class="n">dependencies</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
             <span class="n">planar</span><span class="o">=</span><span class="n">planar</span><span class="p">,</span>
@@ -124,6 +153,9 @@
             <span class="n">planar</span><span class="o">=</span><span class="n">planar</span><span class="p">,</span>
             <span class="n">spatial</span><span class="o">=</span><span class="n">spatial</span><span class="p">,</span>
             <span class="n">workspace</span><span class="o">=</span><span class="n">workspace</span><span class="p">,</span>
+            <span class="n">jacobian</span><span class="o">=</span><span class="n">jacobian</span><span class="p">,</span>
+            <span class="n">numerical_planar</span><span class="o">=</span><span class="n">numerical_planar</span><span class="p">,</span>
+            <span class="n">numerical_spatial</span><span class="o">=</span><span class="n">numerical_spatial</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 

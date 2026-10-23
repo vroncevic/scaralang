@@ -23,7 +23,7 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 from scaralang.core.service.parser.commands.macro.factory import MacroFactory
 from scaralang.core.service.parser.commands.macro.provides import MacroProvides
 
@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,19 +50,23 @@ class TestMacroFactory(TestCase):
 
     def test_create(self) -> None:
         '''
-            Verifies all 3 macro command parsers are instantiated in MacroProvides container.
+            Verifies all 7 macro command parsers are instantiated in MacroProvides container.
+
+            :exceptions: None.
         '''
         provides = MacroFactory.create()
         self.assertIsInstance(provides, MacroProvides)
-        self.assertEqual(len(provides.parsers), 3)
+        self.assertEqual(len(provides.parsers), 7)
         for parser in provides.parsers:
             self.assertIsInstance(parser, ICommandParser)
 
     def test_get_version(self) -> None:
         '''
             Verifies factory version reporting.
+
+            :exceptions: None.
         '''
-        self.assertEqual(MacroFactory.get_version(), '1.0.9')
+        self.assertEqual(MacroFactory.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

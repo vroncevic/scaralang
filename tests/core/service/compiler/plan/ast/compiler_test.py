@@ -28,13 +28,14 @@ from unittest import main
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.program import ScaraProgram
-from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
-from scaralang.core.model.kinematics.joint_angle_bounds import JointAngleBounds
-from scaralang.core.model.kinematics.link_dimensions import LinkDimensions
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.model.kinematics.singularity_margins import SingularityMargins
-from scaralang.core.model.kinematics.speed_limits import SpeedLimits
-from scaralang.core.model.kinematics.vertical_bounds import VerticalBounds
+from scaralang.core.model.exceptions.kinematics import ScaraKinematicsError
+from scaralang.core.model.kinematics.solver.dls import DlsConfig
+from scaralang.core.model.kinematics.profile.angle import JointAngleBounds
+from scaralang.core.model.kinematics.profile.link import LinkDimensions
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
+from scaralang.core.model.kinematics.profile.singularity import SingularityMargins
+from scaralang.core.model.kinematics.profile.speed import SpeedLimits
+from scaralang.core.model.kinematics.profile.vertical import VerticalBounds
 from scaralang.core.service.compiler.plan.ast.factory import AstPlanCompilerFactory
 from scaralang.core.service.compiler.plan.ast.icompiler import IAstPlanCompiler
 from scaralang.core.service.kinematics.dependencies import KinematicsDependencies
@@ -47,7 +48,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -95,7 +96,10 @@ class TestAstPlanCompiler(TestCase):
             ),
         )
         provides = KinematicsFactory.create(
-            dependencies=KinematicsDependencies(bounds=self.bounds)
+            dependencies=KinematicsDependencies(
+                bounds=self.bounds,
+                dls_config=DlsConfig(),
+            )
         )
         validation = ValidationFactory.create(
             dependencies=ValidationDependencies(
@@ -117,7 +121,7 @@ class TestAstPlanCompiler(TestCase):
         '''
             Verifies compiler get_version returns semantic version string.
         '''
-        self.assertEqual(self.compiler.get_version(), '1.0.9')
+        self.assertEqual(self.compiler.get_version(), '1.1.0')
 
     def test_compile_valid_program(self) -> None:
         '''

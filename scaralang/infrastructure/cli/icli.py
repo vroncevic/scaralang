@@ -28,7 +28,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,7 +51,6 @@ class ICLI(Protocol):
             Checks if the CLI adapter is initialized.
 
             :return: True if initialized, False otherwise.
-            :exceptions: None.
         '''
 
     def run(self) -> Mapping[str, object]:
@@ -59,5 +58,4 @@ class ICLI(Protocol):
             Executes CLI command line parsing and strategy dispatch.
 
             :return: The execution result (returncode, stdout, stderr).
-            :exceptions: None.
         '''

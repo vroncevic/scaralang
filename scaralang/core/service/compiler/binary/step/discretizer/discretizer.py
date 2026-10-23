@@ -22,25 +22,28 @@ Info
 from __future__ import annotations
 
 from math import radians
+from sys import stderr
 from typing import ClassVar, Final
 
-from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
-from scaralang.core.model.kinematics.cartesian_pose import CartesianPose
-from scaralang.core.model.kinematics.joint_angles import JointAngles
-from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
-from scaralang.core.model.kinematics.scara_joints import ScaraJoints
+from scaralang.core.model.exceptions.kinematics import ScaraKinematicsError
+from scaralang.core.model.kinematics.pose.cartesian import CartesianPose
+from scaralang.core.model.kinematics.solver.status import IkStatus
+from scaralang.core.model.kinematics.pose.angles import JointAngles
+from scaralang.core.model.kinematics.pose.steps import JointStepCoordinates
+from scaralang.core.model.kinematics.solver.solution import ScaraJoints
 from scaralang.core.model.protocol.joint_steps import JointSteps
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.compiler.binary.step.discretizer.dependencies import DiscretizerDependencies
 from scaralang.core.service.compiler.binary.step.duration.icalculator import ISegmentDurationCalculator
-from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.spatial.isolver import INumericalSpatialKinematicsSolver
 from scaralang.core.service.kinematics.transmission.iconverter import IJointStepTransmissionConverter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,6 +59,7 @@ class StepDiscretizer:
                 | DEFAULT_FEEDRATE_SCALE - Default percentage feedrate scale.
                 | DEFAULT_ELBOW_LEFT - Default IK elbow configuration flag.
                 | _spatial - Analytical spatial SCARA kinematics solver engine.
+                | _numerical_spatial - Injected numerical DLS spatial kinematics solver.
                 | _transmission - Injected bidirectional transmission converter.
                 | _duration_calculator - Injected segment duration calculator.
             :methods:
@@ -69,6 +73,7 @@ class StepDiscretizer:
     DEFAULT_ELBOW_LEFT: ClassVar[bool] = False
 
     _spatial: ISpatialKinematicsSolver
+    _numerical_spatial: INumericalSpatialKinematicsSolver
     _transmission: IJointStepTransmissionConverter
     _duration_calculator: ISegmentDurationCalculator
 
@@ -80,8 +85,13 @@ class StepDiscretizer:
             :exceptions: None.
         '''
         self._spatial: Final[ISpatialKinematicsSolver] = dependencies.spatial
+        self._numerical_spatial: Final[INumericalSpatialKinematicsSolver] = (
+            dependencies.numerical_spatial
+        )
         self._transmission: Final[IJointStepTransmissionConverter] = dependencies.transmission
-        self._duration_calculator: Final[ISegmentDurationCalculator] = dependencies.duration_calculator
+        self._duration_calculator: Final[ISegmentDurationCalculator] = (
+            dependencies.duration_calculator
+        )
 
     def angles_to_steps(
         self,
@@ -116,7 +126,8 @@ class StepDiscretizer:
             :param waypoint: Target Cartesian Waypoint instance.
             :param prev_angles: Preceding joint angles model.
             :return: Tuple of (JointSteps model, new joint angles model).
-            :exceptions: ScaraKinematicsError if position is unreachable.
+            :exceptions:
+                | ScaraKinematicsError: If position is unreachable or limits exceeded.
         '''
         pose = CartesianPose(
             x=waypoint.x,
@@ -130,9 +141,36 @@ class StepDiscretizer:
         )
 
         if not ik_sol.reachable:
-            raise ScaraKinematicsError(
-                f'Waypoint ({waypoint.x:.2f}, {waypoint.y:.2f}, {waypoint.z:.2f}) '
-                f'is outside kinematic reach or vertical limits ({ik_sol.status}).'
+            if ik_sol.status == IkStatus.Z_LIMIT_EXCEEDED:
+                raise ScaraKinematicsError(
+                    f'Waypoint ({waypoint.x:.2f}, {waypoint.y:.2f}, {waypoint.z:.2f}) '
+                    f'is outside vertical limits ({ik_sol.status.name}).'
+                )
+
+            analytical_status: IkStatus = ik_sol.status
+            initial_guess = ScaraJoints(
+                theta1=prev_angles.theta1,
+                theta2=prev_angles.theta2,
+                z=prev_angles.z,
+                theta4=prev_angles.theta4,
+                reachable=True,
+                status=IkStatus.SUCCESS,
+            )
+            ik_sol = self._numerical_spatial.solve_dls_4d(
+                target_pose=pose,
+                initial_joints=initial_guess,
+            )
+            if not ik_sol.reachable:
+                raise ScaraKinematicsError(
+                    f'Waypoint ({waypoint.x:.2f}, {waypoint.y:.2f}, {waypoint.z:.2f}) '
+                    f'is unreachable: analytical solver failed ({analytical_status.name}), '
+                    f'and numerical DLS fallback failed ({ik_sol.status.name}).'
+                )
+
+            stderr.write(
+                f'scaralang: warning: Waypoint ({waypoint.x:.2f}, {waypoint.y:.2f}, {waypoint.z:.2f}) '
+                f'analytical solver failed ({analytical_status.name}); '
+                f'recovered using numerical DLS fallback.\n'
             )
 
         new_angles = JointAngles(

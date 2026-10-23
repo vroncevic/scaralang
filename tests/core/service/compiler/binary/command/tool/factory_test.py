@@ -27,14 +27,14 @@ from unittest import main
 from scaralang.core.service.compiler.binary.command.tool.dependencies import ToolDependencies
 from scaralang.core.service.compiler.binary.command.tool.factory import ToolFrameBuilderFactory
 from scaralang.core.service.compiler.binary.command.tool.ibuilder import IToolFrameBuilder
-from scaralang.core.service.protocol.ibinary_actuator_frame_builder import IBinaryActuatorFrameBuilder
-from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
+from scaralang.core.service.protocol.iactuator_builder import IBinaryActuatorFrameBuilder
+from scaralang.infrastructure.protocol.builder.factory import BuilderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -64,7 +64,7 @@ class TestToolFrameBuilderFactory(TestCase):
         '''Verifies factory version returns valid string.'''
         version = ToolFrameBuilderFactory.get_version()
         self.assertIsInstance(version, str)
-        self.assertEqual(version, '1.0.9')
+        self.assertEqual(version, '1.1.0')
 
 
 if __name__ == '__main__':

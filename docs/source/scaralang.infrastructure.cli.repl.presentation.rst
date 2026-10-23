@@ -8,8 +8,11 @@ Submodules
    :maxdepth: 4
 
    scaralang.infrastructure.cli.repl.presentation.irepl_response_presenter
+   scaralang.infrastructure.cli.repl.presentation.irepl_status_presenter
    scaralang.infrastructure.cli.repl.presentation.repl_response_presenter
    scaralang.infrastructure.cli.repl.presentation.repl_response_presenter_factory
+   scaralang.infrastructure.cli.repl.presentation.repl_status_presenter
+   scaralang.infrastructure.cli.repl.presentation.repl_status_presenter_factory
 
 Module contents
 ---------------

@@ -28,9 +28,9 @@ from scaralang.core.model.dsl.binary.axis_peak_steps import AxisPeakSteps
 from scaralang.core.model.dsl.binary.binary_program_telemetry import BinaryProgramTelemetry
 from scaralang.core.model.dsl.binary.program import BinaryProgram
 from scaralang.core.model.dsl.binary.step import BinaryStep
-from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
-from scaralang.core.model.protocol.binary_frame import BinaryFrame
-from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.model.kinematics.pose.steps import JointStepCoordinates
+from scaralang.core.model.protocol.frame import BinaryFrame
+from scaralang.core.model.protocol.message import MessageId
 from scaralang.infrastructure.command.compile.inspection.framing.header.formatter import FrameHeaderFormatter
 from scaralang.infrastructure.command.compile.inspection.framing.trailer.formatter import FrameTrailerFormatter
 from scaralang.infrastructure.command.compile.inspection.hex.formatter import HexStreamFormatter
@@ -42,14 +42,14 @@ from scaralang.infrastructure.command.compile.inspection.presentation.step.depen
 from scaralang.infrastructure.command.compile.inspection.presentation.step.presenter import FrameStepPresenter
 from scaralang.infrastructure.command.compile.inspection.presentation.program.ipresenter import IProgramInspectionPresenter
 from scaralang.infrastructure.command.compile.inspection.presentation.program.presenter import ProgramInspectionPresenter
-from scaralang.infrastructure.protocol.binary.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
-from scaralang.infrastructure.protocol.binary.parser.unpacker.motion import BinaryMotionPayloadUnpacker
+from scaralang.infrastructure.protocol.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
+from scaralang.infrastructure.protocol.parser.unpacker.motion import BinaryMotionPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -88,7 +88,7 @@ class TestProgramInspectionPresenter(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid semantic version.'''
-        self.assertEqual(self.presenter.get_version(), '1.0.9')
+        self.assertEqual(self.presenter.get_version(), '1.1.0')
 
     def test_present_empty_program(self) -> None:
         '''Verifies inspection presentation of empty binary program.'''

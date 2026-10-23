@@ -28,7 +28,7 @@ from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
 from scaralang.core.service.compiler.context.factory import CompilerContextFactory
-from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+from scaralang.core.model.exceptions.semantic import ScaraSemanticError
 from scaralang.core.service.compiler.instruction.processor.iprocessor import IPrimitiveInstructionProcessor
 from scaralang.core.service.compiler.instruction.processor.processor import PrimitiveInstructionProcessor
 from scaralang.core.service.compiler.primitive.icompiler import IPrimitiveCompiler
@@ -38,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -78,7 +78,7 @@ class TestPrimitiveInstructionProcessor(TestCase):
         '''
             Verifies processor get_version returns semantic version string.
         '''
-        self.assertEqual(self.processor.get_version(), '1.0.9')
+        self.assertEqual(self.processor.get_version(), '1.1.0')
 
     def test_process_matched_instruction(self) -> None:
         '''

@@ -24,6 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
+from scaralang.infrastructure.cli.repl.transmission.buffer.buffer import TransmissionBuffer
 from scaralang.infrastructure.cli.repl.transmission.irepl_frame_transmitter import IReplFrameTransmitter
 from scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter import ReplFrameTransmitter
 from scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter_factory import ReplFrameTransmitterFactory
@@ -32,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,32 +53,54 @@ class TestReplFrameTransmitter(TestCase):
     '''
 
     def test_transmit_frame(self) -> None:
-        '''Verifies appending bytes to transmission buffer.'''
-        transmitter = ReplFrameTransmitter()
+        '''
+            Verifies appending bytes to transmission buffer.
+
+            :exceptions: None.
+        '''
+        buf = TransmissionBuffer()
+        transmitter = ReplFrameTransmitter(buffer=buf)
         data = b'\xAA\x55\x10\x01\x00'
         success = transmitter.transmit_frame(raw_bytes=data)
         self.assertTrue(success)
         self.assertEqual(len(transmitter.transmitted_frames), 1)
         self.assertEqual(transmitter.transmitted_frames[0], data)
+        self.assertEqual(len(buf.get_frames()), 1)
 
     def test_dry_run_and_endpoint(self) -> None:
-        '''Verifies configuration properties.'''
-        transmitter = ReplFrameTransmitter(endpoint='127.0.0.1:8080', dry_run=False)
+        '''
+            Verifies configuration properties.
+
+            :exceptions: None.
+        '''
+        buf = TransmissionBuffer()
+        transmitter = ReplFrameTransmitter(
+            buffer=buf, endpoint='127.0.0.1:8080', dry_run=False
+        )
         self.assertEqual(transmitter.get_endpoint(), '127.0.0.1:8080')
         self.assertFalse(transmitter.is_dry_run())
 
     def test_configure(self) -> None:
-        '''Verifies reconfiguring endpoint and dry-run flag.'''
-        transmitter = ReplFrameTransmitter()
+        '''
+            Verifies reconfiguring endpoint and dry-run flag.
+
+            :exceptions: None.
+        '''
+        buf = TransmissionBuffer()
+        transmitter = ReplFrameTransmitter(buffer=buf)
         transmitter.configure(endpoint='/dev/ttyUSB0', dry_run=False)
         self.assertEqual(transmitter.get_endpoint(), '/dev/ttyUSB0')
         self.assertFalse(transmitter.is_dry_run())
 
     def test_factory_and_protocol_conformance(self) -> None:
-        '''Verifies factory instantiation and protocol check.'''
+        '''
+            Verifies factory instantiation and protocol check.
+
+            :exceptions: None.
+        '''
         transmitter = ReplFrameTransmitterFactory.create()
         self.assertTrue(isinstance(transmitter, IReplFrameTransmitter))
-        self.assertEqual(ReplFrameTransmitterFactory.get_version(), '1.0.9')
+        self.assertEqual(ReplFrameTransmitterFactory.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

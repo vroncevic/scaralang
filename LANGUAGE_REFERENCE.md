@@ -1,6 +1,6 @@
 # SCARA Domain-Specific Language (DSL) Specification & Reference Manual
 
-**Version:** 1.0.9  
+**Version:** 1.1.0  
 **Target:** Industrial SCARA Robotic Manipulators  
 **Toolchain:** `scaralang` (`scarac` compiler, decompiler & binary protocol engine)  
 **Author:** Vladimir Roncevic  
@@ -21,6 +21,7 @@
    - [Category 1: Cartesian & Joint Motion](#category-1-cartesian--joint-motion)
      - [`MOVE_J`](#move_j) — Rapid Joint Point-to-Point Motion
      - [`MOVE_L`](#move_l) — Linear Cartesian Interpolated Motion
+     - [`MOVE_REL`](#move_rel) — Relative Cartesian Incremental Motion
      - [`ARC_CW`](#arc_cw) — Clockwise Circular Arc Interpolation
      - [`ARC_CCW`](#arc_ccw) — Counter-Clockwise Circular Arc Interpolation
      - [`APPROACH`](#approach) — Relative Vertical Descent
@@ -28,10 +29,14 @@
      - [`JOG_AXIS`](#jog_axis) — Manual Incremental Cartesian Jog
      - [`JOG_JOINT`](#jog_joint) — Manual Incremental Joint Jog
      - [`PROBE`](#probe) — Tactile Surface Search
-   - [Category 2: High-Level Macros & Palletization](#category-2-high-level-macros--palletization)
+   - [Category 2: High-Level Macros, Subroutines & Spatial Zones](#category-2-high-level-macros-subroutines--spatial-zones)
      - [`JUMP`](#jump) — 3D Parabolic Arch Pick & Place
      - [`PALLET_DEF`](#pallet_def) — Matrix Pallet Grid Definition
      - [`MOVE_PALLET`](#move_pallet) — Pallet Index Positioning
+     - [`DEF` / `END`](#def--end) — User-Defined Subroutine Routine
+     - [`CALL`](#call) — Subroutine Invocation
+     - [`REPEAT` / `END`](#repeat--end) — Fixed-Count Iteration Loop
+     - [`ZONE_DEF`](#zone_def) — User-Defined Spatial Keep-Out Zone
    - [Category 3: Actuator & Tool Control](#category-3-actuator--tool-control)
      - [`PUMP`](#pump) — Vacuum Generator Actuation
      - [`VALVE`](#valve) — Vacuum Blow-Off Release Valve
@@ -61,6 +66,7 @@
    - [4.2 Pneumatic & Vacuum Rules](#42-pneumatic--vacuum-rules)
    - [4.3 State & Kinematic Rules](#43-state--kinematic-rules)
    - [4.4 Timing & Blending Rules](#44-timing--blending-rules)
+   - [4.5 Spatial Safety & Obstacle Collision Rules](#45-spatial-safety--obstacle-collision-rules)
 5. [Examples Directory & Verification Artifacts](#5-examples-directory--verification-artifacts)
    - [5.1 Directory Structure & Artifact Types](#51-directory-structure--artifact-types)
    - [5.2 Comprehensive Examples Catalog](#52-comprehensive-examples-catalog)
@@ -188,6 +194,26 @@ Executes a linear, straight-line trajectory from the current position to the des
 
 ---
 
+#### `MOVE_REL`
+**Relative Cartesian Incremental Motion**
+
+Executes an incremental straight-line Cartesian motion relative to the current tool pose. Incremental offsets ($\Delta X, \Delta Y, \Delta Z, \Delta \Phi$) are applied in the currently active coordinate work frame.
+
+- **Syntax:** `MOVE_REL [X <dx>] [Y <dy>] [Z <dz>] [P <dphi>] [SPEED <spd>]`
+- **Parameters:**
+  - `X`: *float (mm, optional)* — Relative displacement along X axis (default `0.0`).
+  - `Y`: *float (mm, optional)* — Relative displacement along Y axis (default `0.0`).
+  - `Z`: *float (mm, optional)* — Relative displacement along Z axis (default `0.0`).
+  - `P` / `PHI`: *float (deg, optional)* — Relative rotation angle about tool axis (default `0.0`).
+  - `SPEED`: *float (mm/s, optional)* — Target path velocity.
+- **Example:**
+  ```scara
+  # Shift 20mm in X, 10mm in Y, and descend 5mm
+  MOVE_REL X=20.0 Y=10.0 Z=-5.0 SPEED=40.0
+  ```
+
+---
+
 #### `ARC_CW`
 **Clockwise Circular Arc Interpolation**
 
@@ -306,7 +332,7 @@ Drives the Z-axis downwards at a controlled speed until a tactile touch probe or
 
 ---
 
-### Category 2: High-Level Macros & Palletization
+### Category 2: High-Level Macros, Subroutines & Spatial Zones
 
 ---
 
@@ -366,6 +392,92 @@ Moves the robot to the specified 1-indexed cell within a previously defined pall
   MOVE_PALLET TRAY1 INDEX 7
   APPROACH DIST 15.0
   PUMP ON
+  ```
+
+---
+
+#### `DEF` / `END`
+**User-Defined Subroutine Definition**
+
+Declares a reusable, parameterized routine block consisting of high-level SCARA instructions. The routine is registered into the AST symbol table and expanded inline upon invocation with nested block support.
+
+- **Syntax:**
+  ```scara
+  DEF <name>
+      <instructions>
+  END
+  ```
+- **Parameters:**
+  - `name`: *string* — Unique identifier for the subroutine.
+- **Example:**
+  ```scara
+  DEF PICK_PART
+      APPROACH DIST 25.0
+      PUMP ON
+      WAIT 100
+      RETRACT DIST 25.0
+  END
+  ```
+
+---
+
+#### `CALL`
+**Subroutine Invocation**
+
+Invokes a previously declared user subroutine by name. Expands into the defined sequence of instructions during the macro compilation phase.
+
+- **Syntax:** `CALL <name>`
+- **Parameters:**
+  - `name`: *string* — Identifier of the defined subroutine to execute.
+- **Example:**
+  ```scara
+  CALL PICK_PART
+  ```
+
+---
+
+#### `REPEAT` / `END`
+**Fixed-Count Iteration Loop**
+
+Executes an enclosed block of SCARA instructions for a specified number of repetitions. Loops can be nested and support incremental relative motions, pallet advances, and sensor sampling.
+
+- **Syntax:**
+  ```scara
+  REPEAT COUNT <n>
+      <instructions>
+  END
+  ```
+- **Parameters:**
+  - `COUNT`: *int* — Number of iterations to execute ($N \ge 1$).
+- **Example:**
+  ```scara
+  REPEAT COUNT 4
+      MOVE_REL X 10.0 Y 0.0 Z 0.0
+      TOOL DOWN
+      WAIT 50
+      TOOL UP
+  END
+  ```
+
+---
+
+#### `ZONE_DEF`
+**User-Defined Spatial Keep-Out Zone**
+
+Declares a geometric forbidden keep-out obstacle zone (rectangular bounding box or 2D circular boundary) in the robot's Cartesian workspace. During compilation and linting, the static obstacle collision checker verifies all trajectory segments (linear, joint, and circular arcs) against declared zones, reporting `OBSTACLE_COLLISION` errors before hardware transmission.
+
+- **Syntax (Rectangular Box):**
+  `ZONE_DEF <id> BOX X_MIN <x1> X_MAX <x2> Y_MIN <y1> Y_MAX <y2>`
+- **Syntax (Circular Cylinder):**
+  `ZONE_DEF <id> CIRCLE CENTER_X <cx> CENTER_Y <cy> RADIUS <r>`
+- **Parameters:**
+  - `id`: *string* — Unique identifier for the spatial obstacle zone.
+  - `BOX`: Declares rectangular boundary where $X_{min} < X_{max}$ and $Y_{min} < Y_{max}$.
+  - `CIRCLE`: Declares circular boundary where $R > 0$.
+- **Example:**
+  ```scara
+  ZONE_DEF POST1 BOX X_MIN 120.0 X_MAX 140.0 Y_MIN -20.0 Y_MAX 20.0
+  ZONE_DEF TOWER CIRCLE CENTER_X 200.0 CENTER_Y 50.0 RADIUS 25.0
   ```
 
 ---
@@ -712,11 +824,17 @@ The `scaralang` toolchain includes an industrial-grade static analyzer and linte
 | `TIMING_DWELL_EXCESSIVE` | `TimingDwellValidator` | Single `WAIT` command exceeds 60,000 ms (1 minute), likely an error. | `WARNING` |
 | `TIMING_BLEND_COLLISION` | `TimingBlendZoneValidator` | Corner blend zone radius is larger than the motion segment distance. | `ERROR` |
 
+### 4.5 Spatial Safety & Obstacle Collision Rules
+
+| Rule Identifier | Checker Service | Description | Severity |
+|---|---|---|---|
+| `OBSTACLE_COLLISION` | `ObstacleLintRule` | Trajectory path segment (linear, joint, or arc) intersects user-defined spatial keep-out obstacle zone (`ZONE_DEF`). | `ERROR` |
+
 ---
 
 ## 5. Examples Directory & Verification Artifacts
 
-The [`examples/`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/) directory at the repository root contains 12 industrial test programs providing reference implementations for all categories of the SCARA DSL specification.
+The [`examples/`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/) directory at the repository root contains 50 industrial test programs providing reference implementations for all categories of the SCARA DSL specification.
 
 ### 5.1 Directory Structure & Artifact Types
 
@@ -747,6 +865,44 @@ Every example program in [`examples/`](file:///data/dev/python/3_tools/scaralang
 | **10** | Tangential Tool Orientation | Continuous 4th-axis yaw alignment tangential to trajectory path vector (`TOOL_ORIENT TANGENT`) | [`10_tangent_orientation.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/10_tangent_orientation.scara)<br>[`10_tangent_orientation.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/10_tangent_orientation.bin) |
 | **11** | Corner Zone Blending | Fly-by corner rounding and exact stop transition blending (`ZONE EXACT`, `ZONE BLEND R=...`) | [`11_zone_blending.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/11_zone_blending.scara)<br>[`11_zone_blending.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/11_zone_blending.bin) |
 | **12** | Industrial Pick & Place | Complete coordinated industrial pick-and-place workcell routine combining all subsystem capabilities | [`12_industrial_pick_place.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/12_industrial_pick_place.scara)<br>[`12_industrial_pick_place.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/12_industrial_pick_place.bin) |
+| **13** | Elbow Reconfiguration | Dynamic elbow orientation switching (LEFT to RIGHT) with singularity clearance | [`13_elbow_reconfiguration.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/13_elbow_reconfiguration.scara)<br>[`13_elbow_reconfiguration.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/13_elbow_reconfiguration.bin) |
+| **14** | Singularity Avoidance | Multi-tier singularity prevention and near-boundary damping | [`14_singularity_avoidance.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/14_singularity_avoidance.scara)<br>[`14_singularity_avoidance.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/14_singularity_avoidance.bin) |
+| **15** | Boundary Reach Limits | Cartesian workspace envelop boundary verification and clamping | [`15_boundary_reach_limits.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/15_boundary_reach_limits.scara)<br>[`15_boundary_reach_limits.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/15_boundary_reach_limits.bin) |
+| **16** | Multi-Frame Palletizing | Multiple work frame definitions with local pallet grid assembly | [`16_multi_frame_palletizing.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/16_multi_frame_palletizing.scara)<br>[`16_multi_frame_palletizing.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/16_multi_frame_palletizing.bin) |
+| **17** | Bidirectional Assembly | Reconfiguration and bilateral pallet transfer across dual fixtures | [`17_bidirectional_elbow_assembly.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/17_bidirectional_elbow_assembly.scara)<br>[`17_bidirectional_elbow_assembly.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/17_bidirectional_elbow_assembly.bin) |
+| **18** | Tangential Dispensing | Smooth glue bead dispensing with continuous tangential tool orientation | [`18_tangential_contour_dispensing.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/18_tangential_contour_dispensing.scara)<br>[`18_tangential_contour_dispensing.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/18_tangential_contour_dispensing.bin) |
+| **19** | High-Speed Sorter Jump | Fast parabolic jump gate pick-and-place with velocity tuning | [`19_high_speed_sorter_jump.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/19_high_speed_sorter_jump.scara)<br>[`19_high_speed_sorter_jump.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/19_high_speed_sorter_jump.bin) |
+| **20** | Annular Inspection Scan | Coordinated multi-point annular circular scan routine | [`20_annular_inspection_scan.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/20_annular_inspection_scan.scara)<br>[`20_annular_inspection_scan.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/20_annular_inspection_scan.bin) |
+| **21** | Incremental Relative Motion | Incremental relative Cartesian tool moves with active work frame mapping (`MOVE_REL`) | [`21_relative_motion_incremental.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/21_relative_motion_incremental.scara)<br>[`21_relative_motion_incremental.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/21_relative_motion_incremental.bin) |
+| **22** | Conveyor Tracking Relative | High-speed conveyor synchronized incremental pick-and-place tracking (`MOVE_REL`) | [`22_conveyor_tracking_relative.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/22_conveyor_tracking_relative.scara)<br>[`22_conveyor_tracking_relative.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/22_conveyor_tracking_relative.bin) |
+| **23** | Bidirectional Arc Contour | High-speed smooth bidirectional arc transition with dynamic feedrates (`ARC_CW`, `ARC_CCW`) | [`23_bidirectional_arc_contour.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/23_bidirectional_arc_contour.scara)<br>[`23_bidirectional_arc_contour.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/23_bidirectional_arc_contour.bin) |
+| **24** | Matrix Pallet Depalletizing | Automated depalletizing grid extraction with coordinate frame mapping | [`24_matrix_pallet_depalletizing.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/24_matrix_pallet_depalletizing.scara)<br>[`24_matrix_pallet_depalletizing.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/24_matrix_pallet_depalletizing.bin) |
+| **25** | Stepper Motor Calibration | Closed-loop stepper encoder calibration and torque testing (`CONFIG MOTOR`) | [`25_stepper_motor_calibration.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/25_stepper_motor_calibration.scara)<br>[`25_stepper_motor_calibration.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/25_stepper_motor_calibration.bin) |
+| **26** | Multi-Zone High Speed Blending | Continuous high-velocity trajectory with mixed fine and coarse zone blending (`ZONE`) | [`26_multi_zone_high_speed_blending.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/26_multi_zone_high_speed_blending.scara)<br>[`26_multi_zone_high_speed_blending.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/26_multi_zone_high_speed_blending.bin) |
+| **27** | Emergency Hold Recovery | In-flight trajectory pause, sensor verification, and motion resumption (`HOLD`, `RESUME`) | [`27_emergency_hold_recovery.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/27_emergency_hold_recovery.scara)<br>[`27_emergency_hold_recovery.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/27_emergency_hold_recovery.bin) |
+| **28** | Three-Frame Assembly Station | Multi-station fixture transformations across base, feeder, and nest (`FRAME_SET`, `FRAME_RESET`) | [`28_three_frame_assembly_station.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/28_three_frame_assembly_station.scara)<br>[`28_three_frame_assembly_station.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/28_three_frame_assembly_station.bin) |
+| **29** | Precision Dispensing Tangent | Constant-velocity continuous adhesive contouring with tangential tool yaw (`TOOL_ORIENT TANGENT`) | [`29_precision_dispensing_tangent.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/29_precision_dispensing_tangent.scara)<br>[`29_precision_dispensing_tangent.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/29_precision_dispensing_tangent.bin) |
+| **30** | Complex Automation Workcell | Fully integrated assembly cell combining pallets, frames, blending, and pneumatics | [`30_complex_automation_workcell.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/30_complex_automation_workcell.scara)<br>[`30_complex_automation_workcell.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/30_complex_automation_workcell.bin) |
+| **31** | Subroutine Pick Place | Parametric pick-and-place routines using modular subroutines (`DEF`, `CALL`, `END`) | [`31_subroutine_pick_place.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/31_subroutine_pick_place.scara)<br>[`31_subroutine_pick_place.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/31_subroutine_pick_place.bin) |
+| **32** | Repeat Loop Array | Automated repetitive grid testing using fixed-count iteration loops (`REPEAT`, `END`) | [`32_repeat_loop_array.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/32_repeat_loop_array.scara)<br>[`32_repeat_loop_array.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/32_repeat_loop_array.bin) |
+| **33** | Nested Repeat Palletizing | Multi-layer nested iteration loops with relative coordinate indexing | [`33_nested_repeat_palletizing.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/33_nested_repeat_palletizing.scara)<br>[`33_nested_repeat_palletizing.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/33_nested_repeat_palletizing.bin) |
+| **34** | Subroutine Relative Motion | Subroutine routines integrating relative Cartesian moves and frame offsets | [`34_subroutine_with_relative_motion.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/34_subroutine_with_relative_motion.scara)<br>[`34_subroutine_with_relative_motion.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/34_subroutine_with_relative_motion.bin) |
+| **35** | Complex Cycle Subroutines Loops | Full industrial automation routine combining nested loops, subroutines, and error recovery | [`35_complex_cycle_subroutines_and_loops.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/35_complex_cycle_subroutines_and_loops.scara)<br>[`35_complex_cycle_subroutines_and_loops.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/35_complex_cycle_subroutines_and_loops.bin) |
+| **36** | Spatial Keep-Out Zones | User-defined rectangular box and circular obstacle keep-out zones (`ZONE_DEF BOX`, `ZONE_DEF CIRCLE`) | [`36_spatial_keepout_zones.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/36_spatial_keepout_zones.scara)<br>[`36_spatial_keepout_zones.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/36_spatial_keepout_zones.bin) |
+| **37** | Multi-Obstacle Dual Elbow | Obstacle avoidance (BOX & CIRCLE) with in-flight dynamic elbow reconfiguration (`CONFIG ELBOW`) | [`37_obstacle_avoidance_dual_elbow.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/37_obstacle_avoidance_dual_elbow.scara)<br>[`37_obstacle_avoidance_dual_elbow.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/37_obstacle_avoidance_dual_elbow.bin) |
+| **38** | Nested Matrix Frame Sorting | Angled work frame transformations (`FRAME_SET`), nested iteration loops (`REPEAT`), and relative moves (`MOVE_REL`) | [`38_nested_matrix_frame_sorting.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/38_nested_matrix_frame_sorting.scara)<br>[`38_nested_matrix_frame_sorting.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/38_nested_matrix_frame_sorting.bin) |
+| **39** | Closed-Loop Contour Hold Recovery | Bidirectional circular arcs (`ARC_CW`/`CCW`), corner blending (`ZONE BLEND`), and in-flight feed hold/resume (`HOLD`/`RESUME`) | [`39_closed_loop_contour_hold_recovery.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/39_closed_loop_contour_hold_recovery.scara)<br>[`39_closed_loop_contour_hold_recovery.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/39_closed_loop_contour_hold_recovery.bin) |
+| **40** | Pallet Obstacle Jump Transfer | Dual matrix pallets (`PALLET_DEF`), 3D parabolic jump arch (`JUMP`), and keep-out corridor navigation | [`40_pallet_obstacle_jump_transfer.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/40_pallet_obstacle_jump_transfer.scara)<br>[`40_pallet_obstacle_jump_transfer.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/40_pallet_obstacle_jump_transfer.bin) |
+| **41** | Dynamic Feedrate & Accel Profiling | Multi-stage dynamic velocity and acceleration scheduling (`ACCEL`, `SPEED WORK`, `OVERRIDE`, `ZONE BLEND`) | [`41_dynamic_feedrate_accel_profiling.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/41_dynamic_feedrate_accel_profiling.scara)<br>[`41_dynamic_feedrate_accel_profiling.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/41_dynamic_feedrate_accel_profiling.bin) |
+| **42** | Vacuum Decay & Pressure Equalization | High-precision vacuum seal validation, multi-stage pressure equalization micro-dwells (`WAIT_MS`, `PUMP`, `VALVE`, `APPROACH`) | [`42_vacuum_decay_pressure_equalization.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/42_vacuum_decay_pressure_equalization.scara)<br>[`42_vacuum_decay_pressure_equalization.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/42_vacuum_decay_pressure_equalization.bin) |
+| **43** | Concentric Pocket Milling Tangency | Multi-depth concentric pocket profiling with alternating circular arcs, incremental Z depth stepping, and tool tangency (`ARC_CW`/`CCW`, `TOOL_ORIENT TANGENTIAL`) | [`43_tangential_pocket_milling.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/43_tangential_pocket_milling.scara)<br>[`43_tangential_pocket_milling.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/43_tangential_pocket_milling.bin) |
+| **44** | Hierarchical Subroutine Chain | 3-level deep subroutine call stack expansion (Master -> Task -> Atomic) with recursion tracking (`DEF`, `CALL`, `END`) | [`44_hierarchical_subroutine_chain.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/44_hierarchical_subroutine_chain.scara)<br>[`44_hierarchical_subroutine_chain.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/44_hierarchical_subroutine_chain.bin) |
+| **45** | Polar Rotary Inspection Sweep | Polar quadrant arc sweeps with discrete 4th-axis yaw re-orientation and camera exposure dwell (`ARC_CCW`, `MOVE_REL PHI`, `WAIT_MS`) | [`45_polar_rotary_inspection_sweep.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/45_polar_rotary_inspection_sweep.scara)<br>[`45_polar_rotary_inspection_sweep.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/45_polar_rotary_inspection_sweep.bin) |
+| **46** | Rotated Frame Relative Stepping | Angled work frame transformations (`FRAME_SET ... ANGLE=30.0`), relative incremental raster steps (`MOVE_REL`), and base reset (`FRAME_RESET`) | [`46_rotated_frame_relative_stepping.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/46_rotated_frame_relative_stepping.scara)<br>[`46_rotated_frame_relative_stepping.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/46_rotated_frame_relative_stepping.bin) |
+| **47** | Asymmetric Dual Obstacle Channel | Tight collision-free corridor navigation between rectangular enclosure (`ZONE_DEF BOX`) and cylindrical column (`ZONE_DEF CIRCLE`) with blend transitions | [`47_asymmetric_dual_obstacle_channel.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/47_asymmetric_dual_obstacle_channel.scara)<br>[`47_asymmetric_dual_obstacle_channel.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/47_asymmetric_dual_obstacle_channel.bin) |
+| **48** | Hybrid Motor Mode Torque Switch | Dynamic runtime switching between open-loop high-speed transit and closed-loop delicate seating (`CONFIG MOTOR OPEN_LOOP`/`CLOSED_LOOP`) | [`48_hybrid_motor_mode_torque_switch.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/48_hybrid_motor_mode_torque_switch.scara)<br>[`48_hybrid_motor_mode_torque_switch.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/48_hybrid_motor_mode_torque_switch.bin) |
+| **49** | Serpentine Raster Dispensing | Continuous planar serpentine meander path with linear passes joined by 180° alternating circular U-turn arcs (`ARC_CW`/`CCW`, `TOOL_ORIENT TANGENTIAL`, `ZONE BLEND`) | [`49_serpentine_raster_dispensing.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/49_serpentine_raster_dispensing.scara)<br>[`49_serpentine_raster_dispensing.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/49_serpentine_raster_dispensing.bin) |
+| **50** | Master Multi-System Production Cell | Full-scale capstone manufacturing cell integrating pallets, frames, obstacle keep-out, parabolic jumps, subroutines, tool tangency, and pneumatics | [`50_master_multisystem_production_cell.scara`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/50_master_multisystem_production_cell.scara)<br>[`50_master_multisystem_production_cell.bin`](file:///data/dev/python/3_tools/scaralang/github/scaralang/examples/50_master_multisystem_production_cell.bin) |
 
 ---
 

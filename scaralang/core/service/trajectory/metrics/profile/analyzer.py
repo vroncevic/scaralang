@@ -24,14 +24,14 @@ from __future__ import annotations
 from typing import ClassVar
 
 from scaralang.core.model.dsl.binary.step import BinaryStep
-from scaralang.core.model.kinematics.axis_name import AxisName
-from scaralang.core.model.trajectory.axis_peak_metric import AxisPeakMetric
+from scaralang.core.model.kinematics.pose.axis import AxisName
+from scaralang.core.model.trajectory.metrics.peak import AxisPeakMetric
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

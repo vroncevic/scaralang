@@ -24,15 +24,18 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
-from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
-from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator import IJacobianCalculator
+from scaralang.core.service.kinematics.solver.numerical.planar.isolver import INumericalPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.spatial.isolver import INumericalSpatialKinematicsSolver
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,12 +50,18 @@ class KinematicsProvides:
 
             :attributes:
                 | envelope - Injected IWorkspaceEnvelope protocol instance.
-                | planar - Injected IPlanarKinematicsSolver protocol instance.
-                | spatial - Injected ISpatialKinematicsSolver protocol instance.
+                | planar - Injected analytical IPlanarKinematicsSolver protocol instance.
+                | spatial - Injected analytical ISpatialKinematicsSolver protocol instance.
                 | workspace - Injected IWorkspaceBoundsEvaluator protocol instance.
+                | jacobian - Injected IJacobianCalculator protocol instance.
+                | numerical_planar - Injected INumericalPlanarKinematicsSolver instance.
+                | numerical_spatial - Injected INumericalSpatialKinematicsSolver instance.
     '''
 
     envelope: IWorkspaceEnvelope
     planar: IPlanarKinematicsSolver
     spatial: ISpatialKinematicsSolver
     workspace: IWorkspaceBoundsEvaluator
+    jacobian: IJacobianCalculator
+    numerical_planar: INumericalPlanarKinematicsSolver
+    numerical_spatial: INumericalSpatialKinematicsSolver

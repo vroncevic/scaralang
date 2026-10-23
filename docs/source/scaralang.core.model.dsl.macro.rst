@@ -7,8 +7,10 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.model.dsl.macro.pallet_definition
-   scaralang.core.model.dsl.macro.work_frame
+   scaralang.core.model.dsl.macro.frame
+   scaralang.core.model.dsl.macro.pallet
+   scaralang.core.model.dsl.macro.repeat
+   scaralang.core.model.dsl.macro.subroutine
 
 Module contents
 ---------------

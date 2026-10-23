@@ -28,7 +28,7 @@ from unittest.mock import MagicMock
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.service.compiler.context.factory import CompilerContextFactory
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.compiler.primitive.icompiler import IPrimitiveCompiler
 from scaralang.core.service.compiler.primitive.motion.compiler import MotionCommandCompiler
 from scaralang.core.service.compiler.primitive.motion.isub_compiler import IMotionSubCompiler
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -90,7 +90,7 @@ class TestMotionCommandCompiler(TestCase):
         '''
             Verifies get_version returns valid version string.
         '''
-        self.assertEqual(self.compiler.get_version(), '1.0.9')
+        self.assertEqual(self.compiler.get_version(), '1.1.0')
 
     def test_can_compile(self) -> None:
         '''

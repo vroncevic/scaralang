@@ -23,14 +23,14 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,7 +55,6 @@ class IWorkspaceBoundaryService(Protocol):
 
             :param bounds: Kinematic geometry and limits model.
             :return: True if J1 is bounded below PI, False otherwise.
-            :exceptions: None.
         '''
 
     def calculate_forbidden_zone_polygon(
@@ -67,7 +66,6 @@ class IWorkspaceBoundaryService(Protocol):
 
             :param bounds: Kinematic geometry and limits model.
             :return: Tuple of Point2D Cartesian coordinates in millimeters.
-            :exceptions: None.
         '''
 
     def get_version(self) -> str:
@@ -75,5 +73,4 @@ class IWorkspaceBoundaryService(Protocol):
             Returns the service version string.
 
             :return: Service version string.
-            :exceptions: None.
         '''

@@ -27,15 +27,18 @@ from unittest.mock import MagicMock
 
 from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
 from scaralang.core.service.kinematics.provides import KinematicsProvides
-from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
-from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator import IJacobianCalculator
+from scaralang.core.service.kinematics.solver.numerical.planar.isolver import INumericalPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.spatial.isolver import INumericalSpatialKinematicsSolver
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,35 +56,58 @@ class TestKinematicsProvides(TestCase):
     '''
 
     def test_instantiation_and_attributes(self) -> None:
-        '''Verifies initialization and fields.'''
+        '''
+            Verifies initialization and fields.
+
+            :exceptions: None.
+        '''
         mock_envelope = MagicMock(spec=IWorkspaceEnvelope)
         mock_planar = MagicMock(spec=IPlanarKinematicsSolver)
         mock_spatial = MagicMock(spec=ISpatialKinematicsSolver)
         mock_workspace = MagicMock(spec=IWorkspaceBoundsEvaluator)
+        mock_jacobian = MagicMock(spec=IJacobianCalculator)
+        mock_num_planar = MagicMock(spec=INumericalPlanarKinematicsSolver)
+        mock_num_spatial = MagicMock(spec=INumericalSpatialKinematicsSolver)
 
         provides = KinematicsProvides(
             envelope=mock_envelope,
             planar=mock_planar,
             spatial=mock_spatial,
             workspace=mock_workspace,
+            jacobian=mock_jacobian,
+            numerical_planar=mock_num_planar,
+            numerical_spatial=mock_num_spatial,
         )
         self.assertIs(provides.envelope, mock_envelope)
         self.assertIs(provides.planar, mock_planar)
         self.assertIs(provides.spatial, mock_spatial)
         self.assertIs(provides.workspace, mock_workspace)
+        self.assertIs(provides.jacobian, mock_jacobian)
+        self.assertIs(provides.numerical_planar, mock_num_planar)
+        self.assertIs(provides.numerical_spatial, mock_num_spatial)
 
     def test_immutability(self) -> None:
-        '''Verifies frozen dataclass immutability.'''
+        '''
+            Verifies frozen dataclass immutability.
+
+            :exceptions: None.
+        '''
         mock_envelope = MagicMock(spec=IWorkspaceEnvelope)
         mock_planar = MagicMock(spec=IPlanarKinematicsSolver)
         mock_spatial = MagicMock(spec=ISpatialKinematicsSolver)
         mock_workspace = MagicMock(spec=IWorkspaceBoundsEvaluator)
+        mock_jacobian = MagicMock(spec=IJacobianCalculator)
+        mock_num_planar = MagicMock(spec=INumericalPlanarKinematicsSolver)
+        mock_num_spatial = MagicMock(spec=INumericalSpatialKinematicsSolver)
 
         provides = KinematicsProvides(
             envelope=mock_envelope,
             planar=mock_planar,
             spatial=mock_spatial,
             workspace=mock_workspace,
+            jacobian=mock_jacobian,
+            numerical_planar=mock_num_planar,
+            numerical_spatial=mock_num_spatial,
         )
         with self.assertRaises(AttributeError):
             provides.planar = mock_planar  # type: ignore[misc]

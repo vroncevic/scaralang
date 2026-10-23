@@ -23,17 +23,18 @@ from __future__ import annotations
 
 from typing import ClassVar, Final
 
-from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.model.kinematics.point_3d import Point3D
-from scaralang.core.model.trajectory.validation_result import ValidationResult
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
+from scaralang.core.model.kinematics.pose.point_3d import Point3D
+from scaralang.core.model.trajectory.validation.result import ValidationResult
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -84,12 +85,18 @@ class WaypointValidator:
         '''
         return self.NAME
 
-    def validate_point(self, point: Waypoint) -> ValidationResult:
+    def validate_point(
+        self,
+        point: Waypoint,
+        elbow_config: ElbowConfig,
+    ) -> ValidationResult:
         '''
             Validates Waypoint coordinates against annular horizontal reach and vertical bounds.
 
             :param point: Target Waypoint to validate.
+            :param elbow_config: Target kinematic elbow configuration.
             :return: ValidationResult with pass/fail and descriptive reason.
+            :exceptions: None.
         '''
         in_workspace, ws_msg = self._workspace.is_in_workspace(
             point=Point3D(x=point.x, y=point.y, z=point.z)
@@ -103,7 +110,8 @@ class WaypointValidator:
             )
 
         is_reachable, reasons = self._workspace.is_joint_reachable(
-            point=Point2D(x=point.x, y=point.y)
+            point=Point2D(x=point.x, y=point.y),
+            elbow_config=elbow_config,
         )
 
         if not is_reachable:

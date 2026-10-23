@@ -25,15 +25,15 @@ from typing import ClassVar, Final
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.token.scara_token import ScaraToken
-from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.model.dsl.token.token import ScaraToken
+from scaralang.core.model.exceptions.syntax import ScaraSyntaxError
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -111,38 +111,35 @@ class InstructionLineParser:
         line_num: int = first_tok.line
         raw_text: str = ' '.join(t.value for t in tokens)
 
-        handler: ICommandParser | None = None
-
         if (
             cmd_name == ScaraCommandType.CONFIG.value
             and len(tokens) > self._MIN_COMPOUND_TOKENS
         ):
             subcommand: str = tokens[self._SUBCOMMAND_TOKEN_INDEX].value.upper()
             compound_name: str = f'{ScaraCommandType.CONFIG.value}_{subcommand}'
-            handler = self._registry.get(compound_name)
-
-            if handler is None:
-                for candidate in self._handlers:
-                    if candidate.can_parse(command_name=compound_name):
-                        handler = candidate
-                        self._registry[compound_name] = handler
-                        break
-
-        if handler is None:
-            handler = self._registry.get(cmd_name)
-
-        if handler is None:
+            if compound_name in self._registry:
+                return self._registry[compound_name].parse(
+                    tokens=tokens, line_num=line_num, raw_text=raw_text
+                )
             for candidate in self._handlers:
-                if candidate.can_parse(command_name=cmd_name):
-                    handler = candidate
-                    self._registry[cmd_name] = handler
-                    break
+                if candidate.can_parse(command_name=compound_name):
+                    self._registry[compound_name] = candidate
+                    return candidate.parse(
+                        tokens=tokens, line_num=line_num, raw_text=raw_text
+                    )
 
-        if handler is None:
-            raise ScaraSyntaxError(
-                f'Unknown SCARA DSL command {cmd_name!r} at line {line_num}'
+        if cmd_name in self._registry:
+            return self._registry[cmd_name].parse(
+                tokens=tokens, line_num=line_num, raw_text=raw_text
             )
 
-        return handler.parse(
-            tokens=tokens, line_num=line_num, raw_text=raw_text
+        for candidate in self._handlers:
+            if candidate.can_parse(command_name=cmd_name):
+                self._registry[cmd_name] = candidate
+                return candidate.parse(
+                    tokens=tokens, line_num=line_num, raw_text=raw_text
+                )
+
+        raise ScaraSyntaxError(
+            f'Unknown SCARA DSL command {cmd_name!r} at line {line_num}'
         )

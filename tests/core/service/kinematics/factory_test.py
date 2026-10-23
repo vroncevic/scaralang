@@ -16,7 +16,7 @@ Copyright
     You should have received a copy of the GNU General Public License along
     with this program. If not, see <http://www.gnu.org/licenses/>.
 Info
-    Unit tests for KinematicsFactory component.
+    Unit tests for KinematicsFactory service component.
 '''
 
 from __future__ import annotations
@@ -24,21 +24,25 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.solver.dls import DlsConfig
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
 from scaralang.core.service.kinematics.dependencies import KinematicsDependencies
 from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
 from scaralang.core.service.kinematics.factory import KinematicsFactory
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
 from scaralang.core.service.kinematics.provides import KinematicsProvides
-from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
-from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator import IJacobianCalculator
+from scaralang.core.service.kinematics.solver.numerical.planar.isolver import INumericalPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.spatial.isolver import INumericalSpatialKinematicsSolver
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,9 +60,17 @@ class TestKinematicsFactory(TestCase):
     '''
 
     def test_create(self) -> None:
-        '''Verifies factory produces KinematicsProvides containing all expected services.'''
+        '''
+            Verifies factory produces KinematicsProvides containing all expected services.
+
+            :exceptions: None.
+        '''
         bounds: ScaraBounds = DefaultScaraProfile.create_bounds()
-        dependencies = KinematicsDependencies(bounds=bounds)
+        dls_config: DlsConfig = DefaultScaraProfile.create_dls_config()
+        dependencies = KinematicsDependencies(
+            bounds=bounds,
+            dls_config=dls_config,
+        )
         provides: KinematicsProvides = KinematicsFactory.create(
             dependencies=dependencies
         )
@@ -67,10 +79,17 @@ class TestKinematicsFactory(TestCase):
         self.assertIsInstance(provides.planar, IPlanarKinematicsSolver)
         self.assertIsInstance(provides.spatial, ISpatialKinematicsSolver)
         self.assertIsInstance(provides.workspace, IWorkspaceBoundsEvaluator)
+        self.assertIsInstance(provides.jacobian, IJacobianCalculator)
+        self.assertIsInstance(provides.numerical_planar, INumericalPlanarKinematicsSolver)
+        self.assertIsInstance(provides.numerical_spatial, INumericalSpatialKinematicsSolver)
         self.assertEqual(provides.envelope.bounds, bounds)
 
     def test_get_version(self) -> None:
-        '''Verifies factory version string is present.'''
+        '''
+            Verifies factory version string is present.
+
+            :exceptions: None.
+        '''
         version: str = KinematicsFactory.get_version()
         self.assertTrue(bool(version))
 

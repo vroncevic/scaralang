@@ -21,15 +21,16 @@ Info
 
 from __future__ import annotations
 
-from typing import Protocol, Sequence, runtime_checkable
+from collections.abc import Sequence
+from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,7 +59,6 @@ class ISafeTrajectoryRouter(Protocol):
             :param start_point: Current physical or starting position of the manipulator.
             :param waypoints: Sequence of planned target waypoints to traverse.
             :return: Ordered list of safe waypoints with detour arcs inserted where needed.
-            :exceptions: None.
         '''
 
     def get_version(self) -> str:
@@ -66,5 +66,4 @@ class ISafeTrajectoryRouter(Protocol):
             Returns router component version string representation.
 
             :return: Semantic version string.
-            :exceptions: None.
         '''

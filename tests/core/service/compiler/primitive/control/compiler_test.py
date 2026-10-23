@@ -28,7 +28,7 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.service.compiler.context.factory import CompilerContextFactory
-from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
+from scaralang.core.model.motor.mode import MotorDriveMode
 from scaralang.core.service.compiler.primitive.control.compiler import ControlCommandCompiler
 from scaralang.core.service.compiler.primitive.control.waypoint.factory import ControlWaypointBuilderFactory
 from scaralang.core.service.compiler.primitive.icompiler import IPrimitiveCompiler
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

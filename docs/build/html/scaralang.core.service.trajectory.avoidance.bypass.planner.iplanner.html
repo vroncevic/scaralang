@@ -111,9 +111,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Safe avoidance radius in mm.</p>
 </dd>
-<dt class="field-even">Exceptions<span class="colon">:</span></dt>
-<dd class="field-even"><p>None.</p>
-</dd>
 </dl>
 </dd></dl>
 
@@ -125,15 +122,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Version string representation.</p>
 </dd>
-<dt class="field-even">Exceptions<span class="colon">:</span></dt>
-<dd class="field-even"><p>None.</p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.trajectory.avoidance.bypass.planner.iplanner.IDeadZoneBypassPlanner.plan_bypass">
-<span class="sig-name descname"><span class="pre">plan_bypass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_pt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_pt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.point_2d.html#scaralang.core.model.kinematics.point_2d.Point2D" title="scaralang.core.model.kinematics.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.trajectory.waypoint.html#scaralang.core.model.trajectory.waypoint.Waypoint" title="scaralang.core.model.trajectory.waypoint.Waypoint"><span class="pre">Waypoint</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/avoidance/bypass/planner/iplanner.html#IDeadZoneBypassPlanner.plan_bypass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.iplanner.IDeadZoneBypassPlanner.plan_bypass" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plan_bypass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_pt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.pose.point_2d.html#scaralang.core.model.kinematics.pose.point_2d.Point2D" title="scaralang.core.model.kinematics.pose.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_pt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.pose.point_2d.html#scaralang.core.model.kinematics.pose.point_2d.Point2D" title="scaralang.core.model.kinematics.pose.point_2d.Point2D"><span class="pre">Point2D</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.trajectory.plan.waypoint.html#scaralang.core.model.trajectory.plan.waypoint.Waypoint" title="scaralang.core.model.trajectory.plan.waypoint.Waypoint"><span class="pre">Waypoint</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/avoidance/bypass/planner/iplanner.html#IDeadZoneBypassPlanner.plan_bypass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.avoidance.bypass.planner.iplanner.IDeadZoneBypassPlanner.plan_bypass" title="Link to this definition">¶</a></dt>
 <dd><p>Computes a collision-free bypass trajectory sequence around the central dead zone.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -146,9 +140,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Ordered list of intermediate detour Waypoints to destination.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None.</p>
 </dd>
 </dl>
 </dd></dl>

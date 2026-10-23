@@ -23,13 +23,13 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.protocol.binary_frame import BinaryFrame
+from scaralang.core.model.protocol.frame import BinaryFrame
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,20 +43,10 @@ class IScaraDecompiler(Protocol):
         It defines:
 
             :methods:
-                | decompile - Decompiles raw binary bytes into SCARA DSL script text.
                 | decompile_bytes - Decompiles raw binary bytes into SCARA DSL script text.
                 | decompile_frames - Decompiles tuple of BinaryFrames into SCARA DSL script text.
                 | get_version - Returns decompiler version string.
     '''
-
-    def decompile(self, *, data: bytes) -> str:
-        '''
-            Decompiles contiguous raw binary frame bytes into SCARA DSL script text.
-
-            :param data: Contiguous binary frame byte sequence.
-            :return: Reconstructed SCARA DSL script source text.
-            :exceptions: None.
-        '''
 
     def decompile_bytes(self, *, data: bytes) -> str:
         '''
@@ -64,7 +54,6 @@ class IScaraDecompiler(Protocol):
 
             :param data: Contiguous binary frame byte sequence.
             :return: Reconstructed SCARA DSL script source text.
-            :exceptions: None.
         '''
 
     def decompile_frames(self, *, frames: tuple[BinaryFrame, ...]) -> str:
@@ -73,7 +62,6 @@ class IScaraDecompiler(Protocol):
 
             :param frames: Tuple of parsed BinaryFrame domain models.
             :return: Reconstructed SCARA DSL script source text.
-            :exceptions: None.
         '''
 
     def get_version(self) -> str:
@@ -81,5 +69,4 @@ class IScaraDecompiler(Protocol):
             Returns decompiler version string.
 
             :return: Version string.
-            :exceptions: None.
         '''

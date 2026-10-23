@@ -27,15 +27,13 @@ from unittest.mock import MagicMock
 
 from scaralang.core.service.compiler.binary.command.icompiler import ICommandCompiler
 from scaralang.core.service.compiler.binary.motion.icompiler import IMotionCompiler
-from scaralang.core.service.compiler.binary.step.dispatcher.dependencies import (
-    DispatcherDependencies
-)
+from scaralang.core.service.compiler.binary.step.dispatcher.dependencies import DispatcherDependencies
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

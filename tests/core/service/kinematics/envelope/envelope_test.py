@@ -21,11 +21,9 @@ Info
 
 from __future__ import annotations
 
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
-from scaralang.core.model.kinematics.cartesian_pose import CartesianPose
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
 from scaralang.core.service.kinematics.envelope.envelope import WorkspaceEnvelope
 from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
@@ -34,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,7 +40,7 @@ __status__ = 'Updated'
 
 class TestWorkspaceEnvelope(TestCase):
     '''
-        Validates WorkspaceEnvelope reach radii, home pose, and structural protocol conformance.
+        Validates WorkspaceEnvelope reach radii and structural protocol conformance.
 
         It defines:
 
@@ -50,7 +48,6 @@ class TestWorkspaceEnvelope(TestCase):
                 | setUp - Initializes bounds and envelope instance.
                 | test_structural_conformance - Verifies conformance to IWorkspaceEnvelope.
                 | test_radii_calculations - Verifies r_min, r_max, and safe_r_max.
-                | test_calculate_home_pose - Verifies canonical home Cartesian 4-DOF pose.
                 | test_get_version - Verifies version string.
     '''
 
@@ -81,20 +78,9 @@ class TestWorkspaceEnvelope(TestCase):
         self.assertEqual(self.envelope.r_max, expected_r_max)
         self.assertEqual(self.envelope.safe_r_max, expected_safe_r_max)
 
-    def test_calculate_home_pose(self) -> None:
-        '''Verifies default and customized home pose calculation.'''
-        home: CartesianPose = self.envelope.calculate_home_pose()
-        expected_reach: float = (self.bounds.links.l1 + self.bounds.links.l2) * 0.65
-        expected_z: float = self.bounds.vertical.z_min + 20.0
-
-        self.assertEqual(home.x, expected_reach)
-        self.assertEqual(home.y, 0.0)
-        self.assertEqual(home.z, expected_z)
-        self.assertEqual(home.phi, 0.0)
-
     def test_get_version(self) -> str:
         '''Verifies semantic version string.'''
-        self.assertEqual(self.envelope.get_version(), '1.0.9')
+        self.assertEqual(self.envelope.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

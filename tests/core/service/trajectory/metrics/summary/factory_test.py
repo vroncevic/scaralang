@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,28 +47,44 @@ class TestSummaryFactory(TestCase):
 
         It defines:
 
+            :attributes:
+                | deps - SummaryDependencies test fixture.
             :methods:
+                | setUp - Prepares SummaryDependencies fixture.
                 | test_create - Verifies factory returns SummaryProvides bundle.
                 | test_get_version - Verifies factory version string format.
     '''
 
-    def _create_dependencies(self) -> SummaryDependencies:
-        '''Helper constructing SummaryDependencies bundle.'''
-        return SummaryDependencies(
+    deps: SummaryDependencies
+
+    def setUp(self) -> None:
+        '''
+            Prepares SummaryDependencies fixture.
+
+            :exceptions: None.
+        '''
+        self.deps = SummaryDependencies(
             cycle_time_calculator=CycleTimeCalculator(),
             speed_profile_analyzer=AxisSpeedProfileAnalyzer(),
             bottleneck_detector=MotionBottleneckDetector(),
         )
 
     def test_create(self) -> None:
-        '''Verifies factory instantiates and wires SummaryProvides bundle.'''
-        deps = self._create_dependencies()
-        bundle = SummaryFactory.create(dependencies=deps)
+        '''
+            Verifies factory instantiates and wires SummaryProvides bundle.
+
+            :exceptions: None.
+        '''
+        bundle = SummaryFactory.create(dependencies=self.deps)
         self.assertIsInstance(bundle, SummaryProvides)
         self.assertIsInstance(bundle.builder, ITrajectoryCycleSummaryBuilder)
 
     def test_get_version(self) -> None:
-        '''Verifies factory returns valid semantic version string.'''
+        '''
+            Verifies factory returns valid semantic version string.
+
+            :exceptions: None.
+        '''
         version_str = SummaryFactory.get_version()
         self.assertIsInstance(version_str, str)
         self.assertTrue(len(version_str) > 0)

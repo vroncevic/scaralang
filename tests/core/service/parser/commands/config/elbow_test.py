@@ -25,18 +25,18 @@ from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
-from scaralang.core.model.dsl.token.scara_token import ScaraToken
-from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
-from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
-from scaralang.core.model.kinematics.elbow_config import ElbowConfig
+from scaralang.core.model.dsl.token.token import ScaraToken
+from scaralang.core.model.dsl.token.token_type import ScaraTokenType
+from scaralang.core.model.exceptions.syntax import ScaraSyntaxError
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
 from scaralang.core.service.parser.commands.config.elbow import ElbowParser
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -81,22 +81,13 @@ class TestElbowParser(TestCase):
         parser = ElbowParser()
         tokens = (
             ScaraToken(
-                token_type=ScaraTokenType.IDENTIFIER,
-                value='CONFIG',
-                line=1,
-                column=1,
+                token_type=ScaraTokenType.IDENTIFIER, value='CONFIG', line=1, column=1
             ),
             ScaraToken(
-                token_type=ScaraTokenType.IDENTIFIER,
-                value='ELBOW',
-                line=1,
-                column=8,
+                token_type=ScaraTokenType.IDENTIFIER, value='ELBOW', line=1, column=8
             ),
             ScaraToken(
-                token_type=ScaraTokenType.IDENTIFIER,
-                value='LEFT',
-                line=1,
-                column=14,
+                token_type=ScaraTokenType.IDENTIFIER, value='LEFT', line=1, column=14
             ),
         )
         instruction = parser.parse(

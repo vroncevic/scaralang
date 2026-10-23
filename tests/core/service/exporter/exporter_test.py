@@ -21,11 +21,11 @@ Info
 
 from __future__ import annotations
 
-from unittest import TestCase
+from unittest import TestCase, main
 
-from scaralang.core.model.dsl.exporter.export_format import ExportFormat
-from scaralang.core.model.exceptions.scara_export_error import ScaraExportError
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.dsl.exporter.format import ExportFormat
+from scaralang.core.model.exceptions.export import ScaraExportError
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.exporter.csv.factory import CsvExporterFactory
 from scaralang.core.service.exporter.dependencies import ExporterDependencies
 from scaralang.core.service.exporter.exporter import ScaraExporter
@@ -39,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -67,8 +67,7 @@ class TestScaraExporter(TestCase):
             speed=50.0,
             command='',
         )
-        self.plan = TrajectoryPlan()
-        self.plan.add_point(wp)
+        self.plan = TrajectoryPlan(waypoints=[wp])
 
     def test_supported_formats(self) -> None:
         '''Verifies all 5 standard export formats are reported as supported.'''
@@ -112,3 +111,7 @@ class TestScaraExporter(TestCase):
     def test_get_version(self) -> None:
         '''Verifies version reporting.'''
         self.assertIsInstance(self.exporter.get_version(), str)
+
+
+if __name__ == '__main__':
+    main()

@@ -7,12 +7,12 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.model.exceptions.scara_error
-   scaralang.core.model.exceptions.scara_export_error
-   scaralang.core.model.exceptions.scara_kinematics_error
-   scaralang.core.model.exceptions.scara_protocol_error
-   scaralang.core.model.exceptions.scara_semantic_error
-   scaralang.core.model.exceptions.scara_syntax_error
+   scaralang.core.model.exceptions.error
+   scaralang.core.model.exceptions.export
+   scaralang.core.model.exceptions.kinematics
+   scaralang.core.model.exceptions.protocol
+   scaralang.core.model.exceptions.semantic
+   scaralang.core.model.exceptions.syntax
 
 Module contents
 ---------------

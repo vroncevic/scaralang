@@ -23,14 +23,13 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.kinematics.cartesian_pose import CartesianPose
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -39,7 +38,7 @@ __status__ = 'Updated'
 @runtime_checkable
 class IWorkspaceEnvelope(Protocol):
     '''
-        Structural protocol defining manipulator reach envelope dimensions and reference pose.
+        Structural protocol defining manipulator reach envelope dimensions and bounds.
 
         It defines:
 
@@ -49,7 +48,6 @@ class IWorkspaceEnvelope(Protocol):
                 | r_max - Maximum annular workspace reach radius in mm.
                 | safe_r_max - Safe maximum reach radius considering outer singularity margin.
             :methods:
-                | calculate_home_pose - Calculates the canonical default home Cartesian 4-DOF pose.
                 | get_version - Returns envelope component version string.
     '''
 
@@ -83,21 +81,6 @@ class IWorkspaceEnvelope(Protocol):
             Returns the maximum safe reach radius considering outer singularity margin in mm.
 
             :return: Safe maximum reach radius float value.
-        '''
-
-    def calculate_home_pose(
-        self,
-        reach_ratio: float = 0.65,
-        z_offset_mm: float = 20.0,
-        phi: float = 0.0,
-    ) -> CartesianPose:
-        '''
-            Calculates the canonical default home Cartesian 4-DOF pose.
-
-            :param reach_ratio: Reach multiplier relative to maximum reach.
-            :param z_offset_mm: Vertical elevation offset above z_min in mm.
-            :param phi: Tool orientation angle in radians.
-            :return: CartesianPose instance.
         '''
 
     def get_version(self) -> str:

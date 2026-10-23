@@ -21,18 +21,18 @@ Info
 
 from __future__ import annotations
 
-from scaralang.core.model.exceptions.scara_error import ScaraError
-from scaralang.core.model.exceptions.scara_export_error import ScaraExportError
-from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
-from scaralang.core.model.exceptions.scara_protocol_error import ScaraProtocolError
-from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
-from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
+from scaralang.core.model.exceptions.error import ScaraError
+from scaralang.core.model.exceptions.export import ScaraExportError
+from scaralang.core.model.exceptions.kinematics import ScaraKinematicsError
+from scaralang.core.model.exceptions.protocol import ScaraProtocolError
+from scaralang.core.model.exceptions.semantic import ScaraSemanticError
+from scaralang.core.model.exceptions.syntax import ScaraSyntaxError
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

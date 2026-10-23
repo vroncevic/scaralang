@@ -80,9 +80,7 @@ trajectory plans directly into SCARA DSL source text.</p>
 <div><dl class="field-list">
 <dt class="field-odd">methods<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">export_scara - Serializes trajectory plan into formatted .scara source code.</div>
-<div class="line">export_plan - Backward-compatible plan export contract.</div>
-<div class="line">format_waypoint - Formats trajectory waypoint into SCARA instruction.</div>
+<div class="line">export_plan - Serializes trajectory plan into formatted .scara source code.</div>
 <div class="line">get_version - Returns the exporter version string representation.</div>
 </div>
 </dd>
@@ -118,43 +116,12 @@ trajectory plans directly into SCARA DSL source text.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.export_scara">
-<span class="sig-name descname"><span class="pre">export_scara</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.plan.iplan.html#scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan" title="scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan"><span class="pre">ITrajectoryPlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/scara/iexporter.html#IScaraPlanExporter.export_scara"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.export_scara" title="Link to this definition">¶</a></dt>
-<dd><p>Serializes trajectory plan into formatted .scara source code.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>plan</strong> – Validated ITrajectoryPlan protocol instance.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Formatted SCARA DSL script.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.format_waypoint">
-<span class="sig-name descname"><span class="pre">format_waypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waypoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.trajectory.waypoint.html#scaralang.core.model.trajectory.waypoint.Waypoint" title="scaralang.core.model.trajectory.waypoint.Waypoint"><span class="pre">Waypoint</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_initial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/scara/iexporter.html#IScaraPlanExporter.format_waypoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.format_waypoint" title="Link to this definition">¶</a></dt>
-<dd><p>Formats a single trajectory waypoint into a SCARA DSL move instruction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>waypoint</strong> – Trajectory Waypoint instance.</p></li>
-<li><p><strong>is_initial</strong> – True if generating the initial joint move, False for linear.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Formatted SCARA DSL instruction line.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.get_version">
 <span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/scara/iexporter.html#IScaraPlanExporter.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.get_version" title="Link to this definition">¶</a></dt>
 <dd><p>Returns the exporter version string representation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Semantic version string.</p>
+<dd class="field-odd"><p>Exporter version string.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -179,8 +146,6 @@ trajectory plans directly into SCARA DSL source text.</p>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter._is_protocol"><code class="docutils literal notranslate"><span class="pre">IScaraPlanExporter._is_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IScaraPlanExporter._is_runtime_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.export_plan"><code class="docutils literal notranslate"><span class="pre">IScaraPlanExporter.export_plan()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.export_scara"><code class="docutils literal notranslate"><span class="pre">IScaraPlanExporter.export_scara()</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.format_waypoint"><code class="docutils literal notranslate"><span class="pre">IScaraPlanExporter.format_waypoint()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.scara.iexporter.IScaraPlanExporter.get_version"><code class="docutils literal notranslate"><span class="pre">IScaraPlanExporter.get_version()</span></code></a></li>
 </ul>
 </li>

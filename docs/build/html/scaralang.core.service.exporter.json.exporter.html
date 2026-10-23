@@ -77,8 +77,14 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">COORDINATE_PRECISION - Floating-point decimal precision for coordinates.</div>
+<div class="line">JSON_INDENT - Indentation spaces for formatted JSON serialization.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">serialize_waypoint - Converts a Waypoint into a dictionary representation.</div>
 <div class="line">export_json - Serializes ITrajectoryPlan into structured JSON text.</div>
 <div class="line">get_version - Returns the exporter version string.</div>
@@ -86,6 +92,16 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.json.exporter.JsonExporter.COORDINATE_PRECISION">
+<span class="sig-name descname"><span class="pre">COORDINATE_PRECISION</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.COORDINATE_PRECISION" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.exporter.json.exporter.JsonExporter.JSON_INDENT">
+<span class="sig-name descname"><span class="pre">JSON_INDENT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.JSON_INDENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.exporter.json.exporter.JsonExporter.export_json">
 <span class="sig-name descname"><span class="pre">export_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.plan.iplan.html#scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan" title="scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan"><span class="pre">ITrajectoryPlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/json/exporter.html#JsonExporter.export_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.export_json" title="Link to this definition">¶</a></dt>
@@ -119,7 +135,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.exporter.json.exporter.JsonExporter.serialize_waypoint">
-<span class="sig-name descname"><span class="pre">serialize_waypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waypoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.trajectory.waypoint.html#scaralang.core.model.trajectory.waypoint.Waypoint" title="scaralang.core.model.trajectory.waypoint.Waypoint"><span class="pre">Waypoint</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/json/exporter.html#JsonExporter.serialize_waypoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.serialize_waypoint" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">serialize_waypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waypoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.trajectory.plan.waypoint.html#scaralang.core.model.trajectory.plan.waypoint.Waypoint" title="scaralang.core.model.trajectory.plan.waypoint.Waypoint"><span class="pre">Waypoint</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/exporter/json/exporter.html#JsonExporter.serialize_waypoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.serialize_waypoint" title="Link to this definition">¶</a></dt>
 <dd><p>Serializes a single trajectory waypoint into a JSON-compatible dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -153,6 +169,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.exporter.json.exporter module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.json.exporter.JsonExporter"><code class="docutils literal notranslate"><span class="pre">JsonExporter</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.COORDINATE_PRECISION"><code class="docutils literal notranslate"><span class="pre">JsonExporter.COORDINATE_PRECISION</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.JSON_INDENT"><code class="docutils literal notranslate"><span class="pre">JsonExporter.JSON_INDENT</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.export_json"><code class="docutils literal notranslate"><span class="pre">JsonExporter.export_json()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.get_version"><code class="docutils literal notranslate"><span class="pre">JsonExporter.get_version()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.exporter.json.exporter.JsonExporter.serialize_waypoint"><code class="docutils literal notranslate"><span class="pre">JsonExporter.serialize_waypoint()</span></code></a></li>

@@ -7,9 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.model.dsl.diagnostic.scara_diagnostic
-   scaralang.core.model.dsl.diagnostic.scara_diagnostic_code
-   scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity
+   scaralang.core.model.dsl.diagnostic.code
+   scaralang.core.model.dsl.diagnostic.diagnostic
+   scaralang.core.model.dsl.diagnostic.severity
 
 Module contents
 ---------------

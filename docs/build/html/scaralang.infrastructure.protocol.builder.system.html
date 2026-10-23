@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.infrastructure.protocol.builder.system module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.infrastructure.protocol.checksum package" href="scaralang.infrastructure.protocol.checksum.html" />
+    <link rel="prev" title="scaralang.infrastructure.protocol.builder.provides module" href="scaralang.infrastructure.protocol.builder.provides.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.checksum.html" title="scaralang.infrastructure.protocol.checksum package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.builder.provides.html" title="scaralang.infrastructure.protocol.builder.provides module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.infrastructure.html" >scaralang.infrastructure package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.infrastructure.protocol.html" >scaralang.infrastructure.protocol package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.infrastructure.protocol.builder.html" accesskey="U">scaralang.infrastructure.protocol.builder package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.protocol.builder.system module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.infrastructure.protocol.builder.system">
+<span id="scaralang-infrastructure-protocol-builder-system-module"></span><h1>scaralang.infrastructure.protocol.builder.system module<a class="headerlink" href="#module-scaralang.infrastructure.protocol.builder.system" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>system.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Concrete implementation of binary system and control command frame builder.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.protocol.builder.system.</span></span><span class="sig-name descname"><span class="pre">BinarySystemFrameBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ipacker.html#scaralang.core.service.protocol.ipacker.IBinaryFramePacker" title="scaralang.core.service.protocol.ipacker.IBinaryFramePacker"><span class="pre">IBinaryFramePacker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/builder/system.html#BinarySystemFrameBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Builds system and control binary frames using injected wire frame packer.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">DEFAULT_JOG_SPEED - Default stepping rate for jog motion (2000).</div>
+<div class="line">MIN_OVERRIDE_PERCENT - Minimum execution speed override (1%).</div>
+<div class="line">MAX_OVERRIDE_PERCENT - Maximum execution speed override (200%).</div>
+<div class="line">BYTE_MASK - Bitmask isolating single byte values (0xFF).</div>
+<div class="line">WAIT_FORMAT - Struct format for 4-byte wait delay payload.</div>
+<div class="line">JOG_FORMAT - Struct format for 9-byte joint jog payload.</div>
+<div class="line">OVERRIDE_FORMAT - Struct format for 1-byte speed override payload.</div>
+<div class="line">_packer - Injected wire frame packer service port.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">__init__ - Initializes builder with wire frame packer collaborator.</div>
+<div class="line">build_system_cmd - Builds parameterless system command.</div>
+<div class="line">build_wait_cmd - Builds a delay pause command frame.</div>
+<div class="line">build_jog_frame - Builds a single joint relative jog frame.</div>
+<div class="line">build_override_frame - Builds an execution speed override command frame.</div>
+<div class="line">get_version - Returns component version string.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.BYTE_MASK">
+<span class="sig-name descname"><span class="pre">BYTE_MASK</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">255</span></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.BYTE_MASK" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.DEFAULT_JOG_SPEED">
+<span class="sig-name descname"><span class="pre">DEFAULT_JOG_SPEED</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2000</span></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.DEFAULT_JOG_SPEED" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.JOG_FORMAT">
+<span class="sig-name descname"><span class="pre">JOG_FORMAT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&lt;BiI'</span></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.JOG_FORMAT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.MAX_OVERRIDE_PERCENT">
+<span class="sig-name descname"><span class="pre">MAX_OVERRIDE_PERCENT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">200</span></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.MAX_OVERRIDE_PERCENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.MIN_OVERRIDE_PERCENT">
+<span class="sig-name descname"><span class="pre">MIN_OVERRIDE_PERCENT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.MIN_OVERRIDE_PERCENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.OVERRIDE_FORMAT">
+<span class="sig-name descname"><span class="pre">OVERRIDE_FORMAT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&lt;B'</span></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.OVERRIDE_FORMAT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.WAIT_FORMAT">
+<span class="sig-name descname"><span class="pre">WAIT_FORMAT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&lt;I'</span></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.WAIT_FORMAT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder._packer">
+<span class="sig-name descname"><span class="pre">_packer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ipacker.html#scaralang.core.service.protocol.ipacker.IBinaryFramePacker" title="scaralang.core.service.protocol.ipacker.IBinaryFramePacker"><span class="pre">IBinaryFramePacker</span></a></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder._packer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_jog_frame">
+<span class="sig-name descname"><span class="pre">build_jog_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame" title="scaralang.core.model.protocol.frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/builder/system.html#BinarySystemFrameBuilder.build_jog_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_jog_frame" title="Link to this definition">¶</a></dt>
+<dd><p>Builds a single joint relative jog frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq_num</strong> – Cyclic sequence index.</p></li>
+<li><p><strong>joint_id</strong> – Joint index (0: J1, 1: J2, 2: Z, 3: J4).</p></li>
+<li><p><strong>step</strong> – Relative step count displacement.</p></li>
+<li><p><strong>speed</strong> – Target stepping speed in steps per second.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Assembled BinaryFrame with CMD_JOG_JOINT payload.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_override_frame">
+<span class="sig-name descname"><span class="pre">build_override_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame" title="scaralang.core.model.protocol.frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/builder/system.html#BinarySystemFrameBuilder.build_override_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_override_frame" title="Link to this definition">¶</a></dt>
+<dd><p>Builds an execution speed override command frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq_num</strong> – Cyclic sequence index.</p></li>
+<li><p><strong>pct</strong> – Speed override percentage (1 to 200).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Assembled BinaryFrame with CMD_OVERRIDE payload.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_system_cmd">
+<span class="sig-name descname"><span class="pre">build_system_cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId" title="scaralang.core.model.protocol.message.MessageId"><span class="pre">MessageId</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame" title="scaralang.core.model.protocol.frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/builder/system.html#BinarySystemFrameBuilder.build_system_cmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_system_cmd" title="Link to this definition">¶</a></dt>
+<dd><p>Builds a parameterless system command frame (ENABLE, ESTOP, PING, etc.).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msg_id</strong> – Target command message identifier.</p></li>
+<li><p><strong>seq_num</strong> – Cyclic sequence index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Assembled parameterless BinaryFrame.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_wait_cmd">
+<span class="sig-name descname"><span class="pre">build_wait_cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame" title="scaralang.core.model.protocol.frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/builder/system.html#BinarySystemFrameBuilder.build_wait_cmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_wait_cmd" title="Link to this definition">¶</a></dt>
+<dd><p>Builds a delay pause command frame (CMD_WAIT).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delay_ms</strong> – Dwell duration in milliseconds.</p></li>
+<li><p><strong>seq_num</strong> – Cyclic sequence index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Assembled BinaryFrame with packed delay payload.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/builder/system.html#BinarySystemFrameBuilder.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.get_version" title="Link to this definition">¶</a></dt>
+<dd><p>Returns component version string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Version string.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.infrastructure.protocol.builder.system module</a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.BYTE_MASK"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.BYTE_MASK</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.DEFAULT_JOG_SPEED"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.DEFAULT_JOG_SPEED</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.JOG_FORMAT"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.JOG_FORMAT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.MAX_OVERRIDE_PERCENT"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.MAX_OVERRIDE_PERCENT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.MIN_OVERRIDE_PERCENT"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.MIN_OVERRIDE_PERCENT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.OVERRIDE_FORMAT"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.OVERRIDE_FORMAT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.WAIT_FORMAT"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.WAIT_FORMAT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder._packer"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder._packer</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_jog_frame"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.build_jog_frame()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_override_frame"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.build_override_frame()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_system_cmd"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.build_system_cmd()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.build_wait_cmd"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.build_wait_cmd()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.system.BinarySystemFrameBuilder.get_version"><code class="docutils literal notranslate"><span class="pre">BinarySystemFrameBuilder.get_version()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.infrastructure.protocol.builder.provides.html"
+                          title="previous chapter">scaralang.infrastructure.protocol.builder.provides module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.infrastructure.protocol.checksum.html"
+                          title="next chapter">scaralang.infrastructure.protocol.checksum package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.infrastructure.protocol.builder.system.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.checksum.html" title="scaralang.infrastructure.protocol.checksum package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.builder.provides.html" title="scaralang.infrastructure.protocol.builder.provides module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.infrastructure.html" >scaralang.infrastructure package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.infrastructure.protocol.html" >scaralang.infrastructure.protocol package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.infrastructure.protocol.builder.html" >scaralang.infrastructure.protocol.builder package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.protocol.builder.system module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

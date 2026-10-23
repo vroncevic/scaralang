@@ -30,13 +30,14 @@ from scaralang.core.service.parser.commands.motion.joint import JointParser
 from scaralang.core.service.parser.commands.motion.linear import LinearParser
 from scaralang.core.service.parser.commands.motion.probe import ProbeParser
 from scaralang.core.service.parser.commands.motion.provides import MotionProvides
+from scaralang.core.service.parser.commands.motion.relative import RelativeParser
 from scaralang.core.service.parser.commands.motion.retract import RetractParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,35 +62,18 @@ class MotionFactory:
             :return: Fully configured MotionProvides container.
             :exceptions: None.
         '''
-        approach_parser = ApproachParser()
-        arc_parser = ArcParser()
-        home_parser = HomeParser()
-        jog_axis_parser = JogAxisParser()
-        jog_joint_parser = JogJointParser()
-        joint_parser = JointParser()
-        linear_parser = LinearParser()
-        probe_parser = ProbeParser()
-        retract_parser = RetractParser()
         return MotionProvides(
-            approach_parser=approach_parser,
-            arc_parser=arc_parser,
-            home_parser=home_parser,
-            jog_axis_parser=jog_axis_parser,
-            jog_joint_parser=jog_joint_parser,
-            joint_parser=joint_parser,
-            linear_parser=linear_parser,
-            probe_parser=probe_parser,
-            retract_parser=retract_parser,
             parsers=(
-                linear_parser,
-                joint_parser,
-                home_parser,
-                arc_parser,
-                approach_parser,
-                retract_parser,
-                jog_axis_parser,
-                jog_joint_parser,
-                probe_parser,
+                LinearParser(),
+                JointParser(),
+                RelativeParser(),
+                HomeParser(),
+                ArcParser(),
+                ApproachParser(),
+                RetractParser(),
+                JogAxisParser(),
+                JogJointParser(),
+                ProbeParser(),
             ),
         )
 

@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.kinematics.transmission_parameters import TransmissionParameters
+from scaralang.core.model.kinematics.profile.transmission import TransmissionParameters
 from scaralang.core.service.kinematics.transmission.factory import TransmissionFactory
 from scaralang.core.service.kinematics.transmission.iconverter import IJointStepTransmissionConverter
 
@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

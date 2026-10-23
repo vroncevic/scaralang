@@ -27,6 +27,10 @@ from scaralang.core.service.compiler.instruction.provides import InstructionProv
 from scaralang.core.service.compiler.macro.dependencies import MacroDependencies
 from scaralang.core.service.compiler.macro.factory import MacroFactory
 from scaralang.core.service.compiler.macro.provides import MacroProvides
+from scaralang.core.service.compiler.macro.repeat.factory import RepeatFactory
+from scaralang.core.service.compiler.macro.repeat.provides import RepeatProvides
+from scaralang.core.service.compiler.macro.subroutine.factory import SubroutineFactory
+from scaralang.core.service.compiler.macro.subroutine.provides import SubroutineProvides
 from scaralang.core.service.compiler.plan.ast.compiler import AstPlanCompiler
 from scaralang.core.service.compiler.plan.ast.icompiler import IAstPlanCompiler
 from scaralang.core.service.compiler.primitive.factory import PrimitiveFactory
@@ -38,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,9 +78,13 @@ class AstPlanCompilerFactory:
             )
         )
         primitive_provides: PrimitiveProvides = PrimitiveFactory.create()
+        subroutine_provides: SubroutineProvides = SubroutineFactory.create()
+        repeat_provides: RepeatProvides = RepeatFactory.create()
 
         instruction_provides: InstructionProvides = InstructionFactory.create(
             dependencies=InstructionDependencies(
+                subroutine_expander=subroutine_provides.expander,
+                repeat_expander=repeat_provides.expander,
                 macro_expanders=macro_provides.expanders,
                 primitive_compilers=primitive_provides.compilers,
             )

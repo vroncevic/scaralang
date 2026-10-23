@@ -89,7 +89,6 @@ validated trajectory plans.</p>
 <dt class="field-even">methods<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
 <div class="line">__init__ - Initializes plan compiler with injected dependencies.</div>
-<div class="line">compile - Compiles DSL source text into validated ITrajectoryPlan.</div>
 <div class="line">compile_script - Compiles DSL source text into validated plan.</div>
 <div class="line">compile_program - Compiles AST program into validated plan.</div>
 <div class="line">get_version - Returns the compiler version string.</div>
@@ -111,25 +110,6 @@ validated trajectory plans.</p>
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler._parser">
 <span class="sig-name descname"><span class="pre">_parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.parser.iparser.html#scaralang.core.service.parser.iparser.IScaraParser" title="scaralang.core.service.parser.iparser.IScaraParser"><span class="pre">IScaraParser</span></a></em><a class="headerlink" href="#scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler._parser" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler.compile">
-<span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.service.trajectory.plan.iplan.html#scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan" title="scaralang.core.service.trajectory.plan.iplan.ITrajectoryPlan"><span class="pre">ITrajectoryPlan</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/compiler/plan/script/compiler.html#ScriptPlanCompiler.compile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler.compile" title="Link to this definition">¶</a></dt>
-<dd><p>Compiles DSL source text into an executable and validated ITrajectoryPlan.</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>source</strong> – Raw .scara script text.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Validated ITrajectoryPlan protocol instance.</p>
-</dd>
-<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
-<dd class="field-odd"><div class="line-block">
-<div class="line">ScaraSemanticError: If validation diagnostics occur.</div>
-</div>
-</dd>
-</dl>
-</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler.compile_program">
@@ -202,7 +182,6 @@ validated trajectory plans.</p>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler._compiler"><code class="docutils literal notranslate"><span class="pre">ScriptPlanCompiler._compiler</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler._linter"><code class="docutils literal notranslate"><span class="pre">ScriptPlanCompiler._linter</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler._parser"><code class="docutils literal notranslate"><span class="pre">ScriptPlanCompiler._parser</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler.compile"><code class="docutils literal notranslate"><span class="pre">ScriptPlanCompiler.compile()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler.compile_program"><code class="docutils literal notranslate"><span class="pre">ScriptPlanCompiler.compile_program()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler.compile_script"><code class="docutils literal notranslate"><span class="pre">ScriptPlanCompiler.compile_script()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.compiler.plan.script.compiler.ScriptPlanCompiler.get_version"><code class="docutils literal notranslate"><span class="pre">ScriptPlanCompiler.get_version()</span></code></a></li>

@@ -23,13 +23,13 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,28 +43,24 @@ class TrajectoryPlan:
 
             :attributes:
                 | name - Identifier name of the trajectory plan.
-                | _waypoints - Mutable list of compiled Waypoint entities.
+                | _waypoints - Immutable tuple of compiled Waypoint entities.
             :methods:
-                | __init__ - Initializes empty trajectory plan.
+                | __init__ - Initializes trajectory plan with waypoints sequence.
                 | waypoints - Returns read-only view of waypoints.
                 | count - Returns total number of points in plan.
-                | add_point - Appends a new waypoint to the plan.
-                | insert_point - Inserts a waypoint at a specific index.
-                | update_point - Replaces waypoint at index.
-                | remove_point - Removes waypoint at index.
-                | clear - Clears all waypoints.
-                | set_waypoints - Replaces all waypoints with a new sequence.
+                | get_version - Gets implementation version string.
     '''
 
-    _waypoints: list[Waypoint]
+    _waypoints: tuple[Waypoint, ...]
 
-    def __init__(self) -> None:
+    def __init__(self, waypoints: Sequence[Waypoint]) -> None:
         '''
-            Initializes an empty trajectory plan.
+            Initializes trajectory plan with waypoints sequence.
 
+            :param waypoints: Sequence of Waypoint entities.
             :exceptions: None.
         '''
-        self._waypoints = []
+        self._waypoints = tuple(waypoints)
 
     @property
     def name(self) -> str:
@@ -83,7 +79,7 @@ class TrajectoryPlan:
             :return: Tuple of Waypoint instances.
             :exceptions: None.
         '''
-        return tuple(self._waypoints)
+        return self._waypoints
 
     @property
     def count(self) -> int:
@@ -95,67 +91,11 @@ class TrajectoryPlan:
         '''
         return len(self._waypoints)
 
-    def add_point(self, point: Waypoint) -> None:
+    def get_version(self) -> str:
         '''
-            Appends a new point to the plan.
+            Gets implementation version string.
 
-            :param point: Waypoint entity to add.
+            :return: Version string representation.
             :exceptions: None.
         '''
-        self._waypoints.append(point)
-
-    def insert_point(self, index: int, point: Waypoint) -> None:
-        '''
-            Inserts a point at a specific index.
-
-            :param index: Target index.
-            :param point: Waypoint entity to insert.
-            :exceptions: None.
-        '''
-        self._waypoints.insert(index, point)
-
-    def update_point(self, index: int, new_point: Waypoint) -> bool:
-        '''
-            Updates an existing point at a specific index.
-
-            :param index: Target index.
-            :param new_point: Replacement Waypoint entity.
-            :return: True if updated, False otherwise.
-            :exceptions: None.
-        '''
-        if 0 <= index < len(self._waypoints):
-            self._waypoints[index] = new_point
-            return True
-
-        return False
-
-    def remove_point(self, index: int) -> bool:
-        '''
-            Removes a point at a specific index.
-
-            :param index: Target index.
-            :return: True if removed, False otherwise.
-            :exceptions: None.
-        '''
-        if 0 <= index < len(self._waypoints):
-            self._waypoints.pop(index)
-            return True
-
-        return False
-
-    def clear(self) -> None:
-        '''
-            Clears all waypoints in the plan.
-
-            :exceptions: None.
-        '''
-        self._waypoints.clear()
-
-    def set_waypoints(self, waypoints: Sequence[Waypoint]) -> None:
-        '''
-            Replaces all waypoints with a new sequence.
-
-            :param waypoints: Sequence of Waypoint instances.
-            :exceptions: None.
-        '''
-        self._waypoints = list(waypoints)
+        return __version__

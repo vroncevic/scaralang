@@ -7,17 +7,17 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.protocol.ibinary_actuator_frame_builder
-   scaralang.core.service.protocol.ibinary_actuator_payload_unpacker
-   scaralang.core.service.protocol.ibinary_frame_codec
-   scaralang.core.service.protocol.ibinary_frame_packer
-   scaralang.core.service.protocol.ibinary_frame_parser
-   scaralang.core.service.protocol.ibinary_motion_frame_builder
-   scaralang.core.service.protocol.ibinary_motion_payload_unpacker
-   scaralang.core.service.protocol.ibinary_response_builder
-   scaralang.core.service.protocol.ibinary_response_payload_unpacker
-   scaralang.core.service.protocol.ibinary_system_frame_builder
-   scaralang.core.service.protocol.ibinary_system_payload_unpacker
+   scaralang.core.service.protocol.iactuator_builder
+   scaralang.core.service.protocol.iactuator_unpacker
+   scaralang.core.service.protocol.icodec
+   scaralang.core.service.protocol.imotion_builder
+   scaralang.core.service.protocol.imotion_unpacker
+   scaralang.core.service.protocol.ipacker
+   scaralang.core.service.protocol.iparser
+   scaralang.core.service.protocol.iresponse_builder
+   scaralang.core.service.protocol.iresponse_unpacker
+   scaralang.core.service.protocol.isystem_builder
+   scaralang.core.service.protocol.isystem_unpacker
 
 Module contents
 ---------------

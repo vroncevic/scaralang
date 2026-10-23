@@ -9,6 +9,7 @@ Subpackages
 
    scaralang.core.service.compiler.primitive.motion.arc
    scaralang.core.service.compiler.primitive.motion.cartesian
+   scaralang.core.service.compiler.primitive.motion.relative
    scaralang.core.service.compiler.primitive.motion.vertical
 
 Submodules

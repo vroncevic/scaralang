@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.trajectory.plan.iread_only import ITrajectoryReadOnly
 from scaralang.core.service.trajectory.plan.plan import TrajectoryPlan
 
@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,20 +51,21 @@ class TestITrajectoryReadOnly(TestCase):
 
     def test_structural_conformance(self) -> None:
         '''Verifies concrete TrajectoryPlan satisfies ITrajectoryReadOnly protocol.'''
-        plan = TrajectoryPlan()
+        plan = TrajectoryPlan(waypoints=())
         self.assertIsInstance(plan, ITrajectoryReadOnly)
         self.assertEqual(plan.name, 'trajectory_plan')
 
     def test_read_only_properties(self) -> None:
         '''Verifies waypoints and count properties via ITrajectoryReadOnly interface.'''
-        plan = TrajectoryPlan()
-        read_only: ITrajectoryReadOnly = plan
-        self.assertEqual(read_only.count, 0)
-        self.assertEqual(len(read_only.waypoints), 0)
+        empty_plan = TrajectoryPlan(waypoints=())
+        self.assertEqual(empty_plan.count, 0)
+        self.assertEqual(len(empty_plan.waypoints), 0)
 
-        plan.add_point(
-            Waypoint(x=10.0, y=20.0, z=0.0, phi=0.0, speed=100.0, name='', command='')
+        wp = Waypoint(
+            x=10.0, y=20.0, z=0.0, phi=0.0, speed=100.0, name='', command=''
         )
+        plan = TrajectoryPlan(waypoints=[wp])
+        read_only: ITrajectoryReadOnly = plan
         self.assertEqual(read_only.count, 1)
         self.assertEqual(read_only.waypoints[0].x, 10.0)
 

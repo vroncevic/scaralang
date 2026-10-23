@@ -15,8 +15,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.core.service.kinematics.profile package" href="scaralang.core.service.kinematics.profile.html" />
-    <link rel="prev" title="scaralang.core.service.kinematics.envelope.factory module" href="scaralang.core.service.kinematics.envelope.factory.html" /> 
+    <link rel="next" title="scaralang.core.service.kinematics.envelope.ihome module" href="scaralang.core.service.kinematics.envelope.ihome.html" />
+    <link rel="prev" title="scaralang.core.service.kinematics.envelope.home_factory module" href="scaralang.core.service.kinematics.envelope.home_factory.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -28,10 +28,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.kinematics.profile.html" title="scaralang.core.service.kinematics.profile package"
+          <a href="scaralang.core.service.kinematics.envelope.ihome.html" title="scaralang.core.service.kinematics.envelope.ihome module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.kinematics.envelope.factory.html" title="scaralang.core.service.kinematics.envelope.factory module"
+          <a href="scaralang.core.service.kinematics.envelope.home_factory.html" title="scaralang.core.service.kinematics.envelope.home_factory module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -73,7 +73,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dt class="sig sig-object py" id="scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.kinematics.envelope.ienvelope.</span></span><span class="sig-name descname"><span class="pre">IWorkspaceEnvelope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/envelope/ienvelope.html#IWorkspaceEnvelope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
-<p>Structural protocol defining manipulator reach envelope dimensions and reference pose.</p>
+<p>Structural protocol defining manipulator reach envelope dimensions and bounds.</p>
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
@@ -87,7 +87,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd>
 <dt class="field-even">methods<span class="colon">:</span></dt>
 <dd class="field-even"><div class="line-block">
-<div class="line">calculate_home_pose - Calculates the canonical default home Cartesian 4-DOF pose.</div>
 <div class="line">get_version - Returns envelope component version string.</div>
 </div>
 </dd>
@@ -110,29 +109,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 
 <dl class="py property">
 <dt class="sig sig-object py" id="scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.bounds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.scara_bounds.html#scaralang.core.model.kinematics.scara_bounds.ScaraBounds" title="scaralang.core.model.kinematics.scara_bounds.ScaraBounds"><span class="pre">ScaraBounds</span></a></em><a class="headerlink" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.bounds" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.model.kinematics.profile.bounds.html#scaralang.core.model.kinematics.profile.bounds.ScaraBounds" title="scaralang.core.model.kinematics.profile.bounds.ScaraBounds"><span class="pre">ScaraBounds</span></a></em><a class="headerlink" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.bounds" title="Link to this definition">¶</a></dt>
 <dd><p>Returns the active robot geometry and limits model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ScaraBounds instance.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.calculate_home_pose">
-<span class="sig-name descname"><span class="pre">calculate_home_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reach_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_offset_mm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.cartesian_pose.html#scaralang.core.model.kinematics.cartesian_pose.CartesianPose" title="scaralang.core.model.kinematics.cartesian_pose.CartesianPose"><span class="pre">CartesianPose</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/envelope/ienvelope.html#IWorkspaceEnvelope.calculate_home_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.calculate_home_pose" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates the canonical default home Cartesian 4-DOF pose.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>reach_ratio</strong> – Reach multiplier relative to maximum reach.</p></li>
-<li><p><strong>z_offset_mm</strong> – Vertical elevation offset above z_min in mm.</p></li>
-<li><p><strong>phi</strong> – Tool orientation angle in radians.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>CartesianPose instance.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -201,7 +182,6 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope._is_protocol"><code class="docutils literal notranslate"><span class="pre">IWorkspaceEnvelope._is_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IWorkspaceEnvelope._is_runtime_protocol</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.bounds"><code class="docutils literal notranslate"><span class="pre">IWorkspaceEnvelope.bounds</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.calculate_home_pose"><code class="docutils literal notranslate"><span class="pre">IWorkspaceEnvelope.calculate_home_pose()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.get_version"><code class="docutils literal notranslate"><span class="pre">IWorkspaceEnvelope.get_version()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.r_max"><code class="docutils literal notranslate"><span class="pre">IWorkspaceEnvelope.r_max</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.envelope.ienvelope.IWorkspaceEnvelope.r_min"><code class="docutils literal notranslate"><span class="pre">IWorkspaceEnvelope.r_min</span></code></a></li>
@@ -215,13 +195,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.service.kinematics.envelope.factory.html"
-                          title="previous chapter">scaralang.core.service.kinematics.envelope.factory module</a></p>
+    <p class="topless"><a href="scaralang.core.service.kinematics.envelope.home_factory.html"
+                          title="previous chapter">scaralang.core.service.kinematics.envelope.home_factory module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.core.service.kinematics.profile.html"
-                          title="next chapter">scaralang.core.service.kinematics.profile package</a></p>
+    <p class="topless"><a href="scaralang.core.service.kinematics.envelope.ihome.html"
+                          title="next chapter">scaralang.core.service.kinematics.envelope.ihome module</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -254,10 +234,10 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.kinematics.profile.html" title="scaralang.core.service.kinematics.profile package"
+          <a href="scaralang.core.service.kinematics.envelope.ihome.html" title="scaralang.core.service.kinematics.envelope.ihome module"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.kinematics.envelope.factory.html" title="scaralang.core.service.kinematics.envelope.factory module"
+          <a href="scaralang.core.service.kinematics.envelope.home_factory.html" title="scaralang.core.service.kinematics.envelope.home_factory module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
