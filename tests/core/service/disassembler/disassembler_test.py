@@ -23,27 +23,26 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.model.dsl.binary.disassembled_frame import DisassembledFrame
-from scaralang.core.model.dsl.binary.disassembly_summary import DisassemblySummary
-from scaralang.core.model.protocol.binary_frame import BinaryFrame
-from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.model.disassembler.disassembled_frame import DisassembledFrame
+from scaralang.core.model.protocol.frame import BinaryFrame
+from scaralang.core.model.protocol.message import MessageId
 from scaralang.core.service.disassembler.disassembler import ScaraDisassembler
 from scaralang.core.service.disassembler.frame.dependencies import FrameDependencies
 from scaralang.core.service.disassembler.frame.factory import FrameFactory
 from scaralang.core.service.disassembler.frame.provides import FrameProvides
 from scaralang.core.service.disassembler.idisassembler import IScaraDisassembler
-from scaralang.core.service.protocol.ibinary_actuator_frame_builder import IBinaryActuatorFrameBuilder
-from scaralang.core.service.protocol.ibinary_frame_packer import IBinaryFramePacker
-from scaralang.core.service.protocol.ibinary_frame_parser import IBinaryFrameParser
-from scaralang.core.service.protocol.ibinary_system_frame_builder import IBinarySystemFrameBuilder
-from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
-from scaralang.infrastructure.protocol.binary.parser.factory import ParserFactory
+from scaralang.core.service.protocol.iactuator_builder import IBinaryActuatorFrameBuilder
+from scaralang.core.service.protocol.ipacker import IBinaryFramePacker
+from scaralang.core.service.protocol.iparser import IBinaryFrameParser
+from scaralang.core.service.protocol.isystem_builder import IBinarySystemFrameBuilder
+from scaralang.infrastructure.protocol.builder.factory import BuilderFactory
+from scaralang.infrastructure.protocol.parser.factory import ParserFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -162,42 +161,9 @@ class TestScaraDisassembler(TestCase):
         self.assertEqual(frames[2].msg_name, 'CMD_TOOL_PUMP')
         self.assertEqual(frames[2].detail, 'PUMP ON')
 
-    def test_calculate_summary(self) -> None:
-        '''
-            Verifies calculating disassembly summary statistics.
-
-            :exceptions: None.
-        '''
-        home_frame: DisassembledFrame = DisassembledFrame(
-            index=0, seq_num=1, msg_id=int(MessageId.CMD_HOME),
-            msg_name='CMD_HOME', detail='HOME',
-        )
-        move_frame: DisassembledFrame = DisassembledFrame(
-            index=1, seq_num=2, msg_id=int(MessageId.CMD_MOVE_JOINT_STEPS),
-            msg_name='CMD_MOVE_JOINT_STEPS', detail='MOVE',
-        )
-        pump_frame: DisassembledFrame = DisassembledFrame(
-            index=2, seq_num=3, msg_id=int(MessageId.CMD_TOOL_PUMP),
-            msg_name='CMD_TOOL_PUMP', detail='PUMP ON',
-        )
-        wait_frame: DisassembledFrame = DisassembledFrame(
-            index=3, seq_num=4, msg_id=int(MessageId.CMD_WAIT),
-            msg_name='CMD_WAIT', detail='WAIT 250ms',
-        )
-        summary: DisassemblySummary = self.disassembler.calculate_summary(
-            frames=(home_frame, move_frame, pump_frame, wait_frame),
-            byte_count=48,
-        )
-        self.assertEqual(summary.total_bytes, 48)
-        self.assertEqual(summary.decoded_frames, 4)
-        self.assertEqual(summary.motion_frames, 1)
-        self.assertEqual(summary.tool_commands, 1)
-        self.assertEqual(summary.wait_delays, 1)
-        self.assertEqual(summary.system_frames, 1)
-
     def test_get_version(self) -> None:
         '''Verifies disassembler version string retrieval.'''
-        self.assertEqual(self.disassembler.get_version(), '1.0.9')
+        self.assertEqual(self.disassembler.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

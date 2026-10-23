@@ -27,7 +27,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,7 +53,6 @@ class IScaraInfoProvider(Protocol):
 
             :param verbose: Whether to include kinematic bounds details.
             :return: Tuple of informative strings.
-            :exceptions: None.
         '''
 
     def get_supported_instructions(self) -> tuple[str, ...]:
@@ -61,7 +60,6 @@ class IScaraInfoProvider(Protocol):
             Returns list of supported DSL instruction syntax summaries.
 
             :return: Tuple of supported instruction names and signatures.
-            :exceptions: None.
         '''
 
     def build_verbose_lines(self) -> tuple[str, ...]:
@@ -69,7 +67,6 @@ class IScaraInfoProvider(Protocol):
             Builds detailed kinematic bounds and transmission lines.
 
             :return: Tuple of formatted verbose specification lines.
-            :exceptions: None.
         '''
 
     def get_version(self) -> str:

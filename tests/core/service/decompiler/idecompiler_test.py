@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,7 +50,6 @@ class TestIScaraDecompiler(TestCase):
     def test_protocol_definition(self) -> None:
         '''Verifies that IScaraDecompiler defines required protocol methods.'''
         self.assertTrue(issubclass(IScaraDecompiler, Protocol))
-        self.assertTrue(hasattr(IScaraDecompiler, 'decompile'))
         self.assertTrue(hasattr(IScaraDecompiler, 'decompile_bytes'))
         self.assertTrue(hasattr(IScaraDecompiler, 'decompile_frames'))
         self.assertTrue(hasattr(IScaraDecompiler, 'get_version'))

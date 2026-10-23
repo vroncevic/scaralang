@@ -25,10 +25,18 @@ from scaralang.core.service.kinematics.dependencies import KinematicsDependencie
 from scaralang.core.service.kinematics.envelope.factory import WorkspaceEnvelopeFactory
 from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
 from scaralang.core.service.kinematics.provides import KinematicsProvides
-from scaralang.core.service.kinematics.solver.planar.factory import PlanarKinematicsSolverFactory
-from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
-from scaralang.core.service.kinematics.solver.spatial.factory import SpatialKinematicsSolverFactory
-from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.planar.factory import PlanarKinematicsSolverFactory
+from scaralang.core.service.kinematics.solver.analytical.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.spatial.factory import SpatialKinematicsSolverFactory
+from scaralang.core.service.kinematics.solver.analytical.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.jacobian.factory import JacobianCalculatorFactory
+from scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator import IJacobianCalculator
+from scaralang.core.service.kinematics.solver.numerical.planar.dependencies import NumericalPlanarDependencies
+from scaralang.core.service.kinematics.solver.numerical.planar.factory import NumericalPlanarKinematicsSolverFactory
+from scaralang.core.service.kinematics.solver.numerical.planar.isolver import INumericalPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.spatial.dependencies import NumericalSpatialDependencies
+from scaralang.core.service.kinematics.solver.numerical.spatial.factory import NumericalSpatialKinematicsSolverFactory
+from scaralang.core.service.kinematics.solver.numerical.spatial.isolver import INumericalSpatialKinematicsSolver
 from scaralang.core.service.kinematics.workspace.factory import WorkspaceFactory
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
@@ -36,7 +44,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -69,6 +77,27 @@ class KinematicsFactory:
             planar=planar,
             vertical=dependencies.bounds.vertical,
         )
+        jacobian: IJacobianCalculator = JacobianCalculatorFactory.create(
+            links=dependencies.bounds.links,
+        )
+        num_planar_deps = NumericalPlanarDependencies(
+            jacobian_calculator=jacobian,
+            planar_solver=planar,
+            config=dependencies.dls_config,
+        )
+        numerical_planar: INumericalPlanarKinematicsSolver = (
+            NumericalPlanarKinematicsSolverFactory.create(
+                dependencies=num_planar_deps,
+            )
+        )
+        num_spatial_deps = NumericalSpatialDependencies(
+            numerical_planar=numerical_planar,
+        )
+        numerical_spatial: INumericalSpatialKinematicsSolver = (
+            NumericalSpatialKinematicsSolverFactory.create(
+                dependencies=num_spatial_deps,
+            )
+        )
         workspace: IWorkspaceBoundsEvaluator = WorkspaceFactory.create(
             bounds=dependencies.bounds,
             planar=planar,
@@ -82,6 +111,9 @@ class KinematicsFactory:
             planar=planar,
             spatial=spatial,
             workspace=workspace,
+            jacobian=jacobian,
+            numerical_planar=numerical_planar,
+            numerical_spatial=numerical_spatial,
         )
 
     @classmethod

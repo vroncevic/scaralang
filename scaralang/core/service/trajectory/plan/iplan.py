@@ -21,20 +21,63 @@ Info
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.service.trajectory.plan.imutable import ITrajectoryMutable
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
 
 
 @runtime_checkable
-class ITrajectoryPlan(ITrajectoryMutable, Protocol):
-    '''Composite structural interface protocol for a complete compilation trajectory plan.'''
+class ITrajectoryPlan(Protocol):
+    '''
+        Structural interface protocol for complete trajectory plan domain service.
+
+        It defines:
+
+            :attributes:
+                | name - Identifier name of the trajectory plan.
+                | waypoints - Returns sequence of waypoints in plan.
+                | count - Returns count of waypoints in plan.
+            :methods:
+                | get_version - Gets implementation version string.
+    '''
+
+    @property
+    def name(self) -> str:
+        '''
+            Gets the trajectory plan identifier name.
+
+            :return: Trajectory plan name string.
+        '''
+
+    @property
+    def waypoints(self) -> Sequence[Waypoint]:
+        '''
+            Returns sequence of waypoints in plan.
+
+            :return: Sequence of Waypoint entities.
+        '''
+
+    @property
+    def count(self) -> int:
+        '''
+            Returns count of waypoints in plan.
+
+            :return: Integer count.
+        '''
+
+    def get_version(self) -> str:
+        '''
+            Gets implementation version string.
+
+            :return: Version string representation.
+        '''

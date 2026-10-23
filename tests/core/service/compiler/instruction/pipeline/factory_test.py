@@ -29,12 +29,14 @@ from scaralang.core.service.compiler.instruction.pipeline.ipipeline import IInst
 from scaralang.core.service.compiler.instruction.processor.dependencies import ProcessorDependencies
 from scaralang.core.service.compiler.instruction.processor.factory import ProcessorFactory
 from scaralang.core.service.compiler.instruction.processor.iprocessor import IPrimitiveInstructionProcessor
+from scaralang.core.service.compiler.macro.repeat.factory import RepeatFactory
+from scaralang.core.service.compiler.macro.subroutine.factory import SubroutineFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -55,6 +57,8 @@ class TestPipelineFactory(TestCase):
     def setUp(self) -> None:
         '''
             Initializes test fixtures.
+
+            :exceptions: None.
         '''
         self.processor: IPrimitiveInstructionProcessor = ProcessorFactory.create(
             dependencies=ProcessorDependencies(compilers=())
@@ -63,9 +67,15 @@ class TestPipelineFactory(TestCase):
     def test_create(self) -> None:
         '''
             Verifies that factory creates configured pipeline instance.
+
+            :exceptions: None.
         '''
+        subroutine_expander = SubroutineFactory.create().expander
+        repeat_expander = RepeatFactory.create().expander
         pipeline = PipelineFactory.create(
             dependencies=PipelineDependencies(
+                subroutine_expander=subroutine_expander,
+                repeat_expander=repeat_expander,
                 macro_expanders=(),
                 processor=self.processor,
             )
@@ -75,8 +85,10 @@ class TestPipelineFactory(TestCase):
     def test_get_version(self) -> None:
         '''
             Verifies factory version returns semantic version string.
+
+            :exceptions: None.
         '''
-        self.assertEqual(PipelineFactory.get_version(), '1.0.9')
+        self.assertEqual(PipelineFactory.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

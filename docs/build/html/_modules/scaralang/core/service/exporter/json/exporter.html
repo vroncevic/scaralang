@@ -60,15 +60,16 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">json</span> <span class="kn">import</span> <span class="n">dumps</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.trajectory.plan.waypoint</span> <span class="kn">import</span> <span class="n">Waypoint</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.trajectory.plan.iplan</span> <span class="kn">import</span> <span class="n">ITrajectoryPlan</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.1.0&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -82,11 +83,17 @@
 
 <span class="sd">        It defines:</span>
 
+<span class="sd">            :attributes:</span>
+<span class="sd">                | COORDINATE_PRECISION - Floating-point decimal precision for coordinates.</span>
+<span class="sd">                | JSON_INDENT - Indentation spaces for formatted JSON serialization.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | serialize_waypoint - Converts a Waypoint into a dictionary representation.</span>
 <span class="sd">                | export_json - Serializes ITrajectoryPlan into structured JSON text.</span>
 <span class="sd">                | get_version - Returns the exporter version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">COORDINATE_PRECISION</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">JSON_INDENT</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
 
 <div class="viewcode-block" id="JsonExporter.serialize_waypoint">
 <a class="viewcode-back" href="../../../../../../scaralang.core.service.exporter.json.exporter.html#scaralang.core.service.exporter.json.exporter.JsonExporter.serialize_waypoint">[docs]</a>
@@ -104,10 +111,10 @@
         <span class="k">return</span> <span class="p">{</span>
             <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span>
             <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">waypoint</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-            <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-            <span class="s1">&#39;phi&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">phi</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">COORDINATE_PRECISION</span><span class="p">),</span>
+            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">COORDINATE_PRECISION</span><span class="p">),</span>
+            <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">COORDINATE_PRECISION</span><span class="p">),</span>
+            <span class="s1">&#39;phi&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">waypoint</span><span class="o">.</span><span class="n">phi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">COORDINATE_PRECISION</span><span class="p">),</span>
             <span class="s1">&#39;speed&#39;</span><span class="p">:</span> <span class="n">waypoint</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span>
             <span class="s1">&#39;command&#39;</span><span class="p">:</span> <span class="n">waypoint</span><span class="o">.</span><span class="n">command</span><span class="p">,</span>
         <span class="p">}</span></div>
@@ -131,7 +138,7 @@
             <span class="p">],</span>
         <span class="p">}</span>
 
-        <span class="k">return</span> <span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span></div>
+        <span class="k">return</span> <span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">JSON_INDENT</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span></div>
 
 
 <div class="viewcode-block" id="JsonExporter.get_version">

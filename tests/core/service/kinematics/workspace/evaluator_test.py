@@ -25,14 +25,15 @@ from math import radians
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.kinematics.joint_angle_bounds import JointAngleBounds
-from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.model.kinematics.point_3d import Point3D
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.model.kinematics.singularity_margins import SingularityMargins
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
+from scaralang.core.model.kinematics.profile.angle import JointAngleBounds
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
+from scaralang.core.model.kinematics.pose.point_3d import Point3D
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
+from scaralang.core.model.kinematics.profile.singularity import SingularityMargins
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
-from scaralang.core.service.kinematics.solver.planar.factory import PlanarKinematicsSolverFactory
-from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.planar.factory import PlanarKinematicsSolverFactory
+from scaralang.core.service.kinematics.solver.analytical.planar.isolver import IPlanarKinematicsSolver
 from scaralang.core.service.kinematics.workspace.factory import WorkspaceFactory
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 
@@ -40,7 +41,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -63,6 +64,7 @@ class TestWorkspaceBoundsEvaluator(TestCase):
                 | test_is_joint_reachable_j1_limit - Verifies joint 1 angular limit violation.
                 | test_is_joint_reachable_j2_limit - Verifies joint 2 angular limit violation.
                 | test_is_joint_reachable_singularity - Verifies singularity deadband rejection.
+                | test_is_joint_reachable_elbow_configurations - Verifies RIGHT vs LEFT elbow reachability.
                 | test_get_bounds - Verifies bounds accessor.
                 | test_get_version - Verifies version string accessor.
     '''
@@ -107,13 +109,17 @@ class TestWorkspaceBoundsEvaluator(TestCase):
 
     def test_is_joint_reachable_valid(self) -> None:
         '''Verifies reachable valid 2D planar position.'''
-        reachable, reasons = self.evaluator.is_joint_reachable(Point2D(x=150.0, y=100.0))
+        reachable, reasons = self.evaluator.is_joint_reachable(
+            Point2D(x=150.0, y=100.0), ElbowConfig.RIGHT
+        )
         self.assertTrue(reachable)
         self.assertEqual(len(reasons), 0)
 
     def test_is_joint_reachable_unreachable(self) -> None:
         '''Verifies rejection for points outside arm reach.'''
-        reachable, reasons = self.evaluator.is_joint_reachable(Point2D(x=400.0, y=400.0))
+        reachable, reasons = self.evaluator.is_joint_reachable(
+            Point2D(x=400.0, y=400.0), ElbowConfig.RIGHT
+        )
         self.assertFalse(reachable)
         self.assertTrue(any('Mathematically unreachable' in r for r in reasons))
 
@@ -139,7 +145,9 @@ class TestWorkspaceBoundsEvaluator(TestCase):
             bounds=restricted_bounds,
             planar=planar,
         )
-        reachable, reasons = evaluator.is_joint_reachable(Point2D(x=-150.0, y=100.0))
+        reachable, reasons = evaluator.is_joint_reachable(
+            Point2D(x=-150.0, y=100.0), ElbowConfig.RIGHT
+        )
         self.assertFalse(reachable)
         self.assertTrue(any('J1 angle' in r for r in reasons))
 
@@ -170,7 +178,9 @@ class TestWorkspaceBoundsEvaluator(TestCase):
             bounds=restricted_bounds,
             planar=planar,
         )
-        reachable, reasons = evaluator.is_joint_reachable(Point2D(x=200.0, y=0.0))
+        reachable, reasons = evaluator.is_joint_reachable(
+            Point2D(x=200.0, y=0.0), ElbowConfig.RIGHT
+        )
         self.assertFalse(reachable)
         self.assertTrue(any('J2 angle' in r for r in reasons))
 
@@ -195,9 +205,30 @@ class TestWorkspaceBoundsEvaluator(TestCase):
             bounds=singularity_bounds,
             planar=planar,
         )
-        reachable, reasons = evaluator.is_joint_reachable(Point2D(x=299.8, y=0.0))
+        reachable, reasons = evaluator.is_joint_reachable(
+            Point2D(x=299.8, y=0.0), ElbowConfig.RIGHT
+        )
         self.assertFalse(reachable)
         self.assertTrue(any('singularity deadband' in r for r in reasons))
+
+    def test_is_joint_reachable_elbow_configurations(self) -> None:
+        '''
+            Verifies reachability differences between RIGHT and LEFT elbow configurations.
+
+            :exceptions: None.
+        '''
+        point = Point2D(x=-248.3, y=-87.8)
+        reachable_r, reasons_r = self.evaluator.is_joint_reachable(
+            point, ElbowConfig.RIGHT
+        )
+        self.assertFalse(reachable_r)
+        self.assertTrue(any('J1 angle' in r and 'RIGHT' in r for r in reasons_r))
+
+        reachable_l, reasons_l = self.evaluator.is_joint_reachable(
+            point, ElbowConfig.LEFT
+        )
+        self.assertTrue(reachable_l)
+        self.assertEqual(len(reasons_l), 0)
 
     def test_get_bounds(self) -> None:
         '''Verifies access to underlying robot ScaraBounds model.'''

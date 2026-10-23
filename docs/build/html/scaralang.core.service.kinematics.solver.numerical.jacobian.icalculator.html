@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.core.service.kinematics.solver.numerical.planar package" href="scaralang.core.service.kinematics.solver.numerical.planar.html" />
+    <link rel="prev" title="scaralang.core.service.kinematics.solver.numerical.jacobian.factory module" href="scaralang.core.service.kinematics.solver.numerical.jacobian.factory.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.kinematics.solver.numerical.planar.html" title="scaralang.core.service.kinematics.solver.numerical.planar package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.kinematics.solver.numerical.jacobian.factory.html" title="scaralang.core.service.kinematics.solver.numerical.jacobian.factory module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.kinematics.html" >scaralang.core.service.kinematics package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.service.kinematics.solver.html" >scaralang.core.service.kinematics.solver package</a> &#187;</li>
+          <li class="nav-item nav-item-7"><a href="scaralang.core.service.kinematics.solver.numerical.html" >scaralang.core.service.kinematics.solver.numerical package</a> &#187;</li>
+          <li class="nav-item nav-item-8"><a href="scaralang.core.service.kinematics.solver.numerical.jacobian.html" accesskey="U">scaralang.core.service.kinematics.solver.numerical.jacobian package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator">
+<span id="scaralang-core-service-kinematics-solver-numerical-jacobian-icalculator-module"></span><h1>scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator module<a class="headerlink" href="#module-scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>icalculator.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Defines structural protocol IJacobianCalculator for planar arm differential kinematics.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.</span></span><span class="sig-name descname"><span class="pre">IJacobianCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/solver/numerical/jacobian/icalculator.html#IJacobianCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
+<p>Structural protocol defining differential kinematics and Jacobian calculations.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">compute_jacobian - Computes 2x2 forward kinematics Jacobian matrix.</div>
+<div class="line">compute_damped_inverse - Computes Damped Least Squares (DLS) pseudoinverse.</div>
+<div class="line">compute_manipulability - Calculates Yoshikawa manipulability dexterity index.</div>
+<div class="line">multiply_vector - Multiplies a 2x2 Jacobian matrix by a 2D column vector.</div>
+<div class="line">get_version - Returns calculator component version string.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator._abc_impl" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator._is_protocol">
+<span class="sig-name descname"><span class="pre">_is_protocol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator._is_protocol" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator._is_runtime_protocol">
+<span class="sig-name descname"><span class="pre">_is_runtime_protocol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator._is_runtime_protocol" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.compute_damped_inverse">
+<span class="sig-name descname"><span class="pre">compute_damped_inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">damping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.solver.jacobian.html#scaralang.core.model.kinematics.solver.jacobian.JacobianMatrix2D" title="scaralang.core.model.kinematics.solver.jacobian.JacobianMatrix2D"><span class="pre">JacobianMatrix2D</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/solver/numerical/jacobian/icalculator.html#IJacobianCalculator.compute_damped_inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.compute_damped_inverse" title="Link to this definition">¶</a></dt>
+<dd><p>Computes Damped Least Squares (DLS) pseudoinverse matrix J* = J^T (J J^T + lambda^2 I)^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta1</strong> – Joint 1 (shoulder) angle in radians.</p></li>
+<li><p><strong>theta2</strong> – Joint 2 (elbow) angle in radians.</p></li>
+<li><p><strong>damping</strong> – Levenberg-Marquardt damping factor lambda.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Damped inverse JacobianMatrix2D mapping dx -&gt; dtheta.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.compute_jacobian">
+<span class="sig-name descname"><span class="pre">compute_jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.solver.jacobian.html#scaralang.core.model.kinematics.solver.jacobian.JacobianMatrix2D" title="scaralang.core.model.kinematics.solver.jacobian.JacobianMatrix2D"><span class="pre">JacobianMatrix2D</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/solver/numerical/jacobian/icalculator.html#IJacobianCalculator.compute_jacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.compute_jacobian" title="Link to this definition">¶</a></dt>
+<dd><p>Computes 2x2 planar Jacobian matrix J from joint angles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta1</strong> – Joint 1 (shoulder) angle in radians.</p></li>
+<li><p><strong>theta2</strong> – Joint 2 (elbow) angle in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JacobianMatrix2D instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.compute_manipulability">
+<span class="sig-name descname"><span class="pre">compute_manipulability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/solver/numerical/jacobian/icalculator.html#IJacobianCalculator.compute_manipulability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.compute_manipulability" title="Link to this definition">¶</a></dt>
+<dd><p>Calculates the scalar Yoshikawa manipulability index w = sqrt(det(J J^T)).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta1</strong> – Joint 1 (shoulder) angle in radians.</p></li>
+<li><p><strong>theta2</strong> – Joint 2 (elbow) angle in radians.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Scalar manipulability measure in mm^2.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/solver/numerical/jacobian/icalculator.html#IJacobianCalculator.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.get_version" title="Link to this definition">¶</a></dt>
+<dd><p>Returns calculator component version string representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Semantic version string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.multiply_vector">
+<span class="sig-name descname"><span class="pre">multiply_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.solver.jacobian.html#scaralang.core.model.kinematics.solver.jacobian.JacobianMatrix2D" title="scaralang.core.model.kinematics.solver.jacobian.JacobianMatrix2D"><span class="pre">JacobianMatrix2D</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/solver/numerical/jacobian/icalculator.html#IJacobianCalculator.multiply_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.multiply_vector" title="Link to this definition">¶</a></dt>
+<dd><p>Multiplies a 2x2 Jacobian matrix by a 2D column vector [dx, dy]^T.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> – JacobianMatrix2D instance.</p></li>
+<li><p><strong>dx</strong> – First component of vector.</p></li>
+<li><p><strong>dy</strong> – Second component of vector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resulting 2D tuple (res_x, res_y).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator module</a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator"><code class="docutils literal notranslate"><span class="pre">IJacobianCalculator</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator._abc_impl"><code class="docutils literal notranslate"><span class="pre">IJacobianCalculator._abc_impl</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator._is_protocol"><code class="docutils literal notranslate"><span class="pre">IJacobianCalculator._is_protocol</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator._is_runtime_protocol"><code class="docutils literal notranslate"><span class="pre">IJacobianCalculator._is_runtime_protocol</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.compute_damped_inverse"><code class="docutils literal notranslate"><span class="pre">IJacobianCalculator.compute_damped_inverse()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.compute_jacobian"><code class="docutils literal notranslate"><span class="pre">IJacobianCalculator.compute_jacobian()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.compute_manipulability"><code class="docutils literal notranslate"><span class="pre">IJacobianCalculator.compute_manipulability()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.get_version"><code class="docutils literal notranslate"><span class="pre">IJacobianCalculator.get_version()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.IJacobianCalculator.multiply_vector"><code class="docutils literal notranslate"><span class="pre">IJacobianCalculator.multiply_vector()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.core.service.kinematics.solver.numerical.jacobian.factory.html"
+                          title="previous chapter">scaralang.core.service.kinematics.solver.numerical.jacobian.factory module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.core.service.kinematics.solver.numerical.planar.html"
+                          title="next chapter">scaralang.core.service.kinematics.solver.numerical.planar package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.kinematics.solver.numerical.planar.html" title="scaralang.core.service.kinematics.solver.numerical.planar package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.kinematics.solver.numerical.jacobian.factory.html" title="scaralang.core.service.kinematics.solver.numerical.jacobian.factory module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.kinematics.html" >scaralang.core.service.kinematics package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.service.kinematics.solver.html" >scaralang.core.service.kinematics.solver package</a> &#187;</li>
+          <li class="nav-item nav-item-7"><a href="scaralang.core.service.kinematics.solver.numerical.html" >scaralang.core.service.kinematics.solver.numerical package</a> &#187;</li>
+          <li class="nav-item nav-item-8"><a href="scaralang.core.service.kinematics.solver.numerical.jacobian.html" >scaralang.core.service.kinematics.solver.numerical.jacobian package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

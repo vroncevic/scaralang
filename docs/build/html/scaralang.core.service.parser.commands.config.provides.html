@@ -72,7 +72,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.parser.commands.config.provides.</span></span><span class="sig-name descname"><span class="pre">ConfigProvides</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accel_parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">elbow_parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">motor_parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">override_parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_orient_parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone_parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parsers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/config/provides.html#ConfigProvides"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.parser.commands.config.provides.</span></span><span class="sig-name descname"><span class="pre">ConfigProvides</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parsers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.service.parser.commands.iparser.html#scaralang.core.service.parser.commands.iparser.ICommandParser" title="scaralang.core.service.parser.commands.iparser.ICommandParser"><span class="pre">ICommandParser</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/config/provides.html#ConfigProvides"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Immutable container providing outbound configuration command parser interfaces.</p>
 <p>It defines:</p>
@@ -80,56 +80,33 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div><dl class="field-list">
 <dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
-<div class="line">accel_parser - Bound ICommandParser for ACCEL.</div>
-<div class="line">elbow_parser - Bound ICommandParser for CONFIG ELBOW.</div>
-<div class="line">motor_parser - Bound ICommandParser for CONFIG MOTOR.</div>
-<div class="line">override_parser - Bound ICommandParser for OVERRIDE.</div>
-<div class="line">speed_parser - Bound ICommandParser for SPEED.</div>
-<div class="line">tool_orient_parser - Bound ICommandParser for TOOL_ORIENT.</div>
-<div class="line">zone_parser - Bound ICommandParser for ZONE.</div>
 <div class="line">parsers - Tuple of all registered configuration command parsers.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">get_version - Returns config provides container version string.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides.accel_parser">
-<span class="sig-name descname"><span class="pre">accel_parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.accel_parser" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides.elbow_parser">
-<span class="sig-name descname"><span class="pre">elbow_parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.elbow_parser" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides.motor_parser">
-<span class="sig-name descname"><span class="pre">motor_parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.motor_parser" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides.override_parser">
-<span class="sig-name descname"><span class="pre">override_parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.override_parser" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/parser/commands/config/provides.html#ConfigProvides.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.get_version" title="Link to this definition">¶</a></dt>
+<dd><p>Returns component version string representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Semantic version string.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides.parsers">
-<span class="sig-name descname"><span class="pre">parsers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.parsers" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides.speed_parser">
-<span class="sig-name descname"><span class="pre">speed_parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.speed_parser" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides.tool_orient_parser">
-<span class="sig-name descname"><span class="pre">tool_orient_parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.tool_orient_parser" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scaralang.core.service.parser.commands.config.provides.ConfigProvides.zone_parser">
-<span class="sig-name descname"><span class="pre">zone_parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser" title="scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><span class="pre">ICommandParser</span></a></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.zone_parser" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">parsers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.service.parser.commands.iparser.html#scaralang.core.service.parser.commands.iparser.ICommandParser" title="scaralang.core.service.parser.commands.iparser.ICommandParser"><span class="pre">ICommandParser</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.parsers" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -148,14 +125,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.parser.commands.config.provides module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides"><code class="docutils literal notranslate"><span class="pre">ConfigProvides</span></code></a><ul>
-<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.accel_parser"><code class="docutils literal notranslate"><span class="pre">ConfigProvides.accel_parser</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.elbow_parser"><code class="docutils literal notranslate"><span class="pre">ConfigProvides.elbow_parser</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.motor_parser"><code class="docutils literal notranslate"><span class="pre">ConfigProvides.motor_parser</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.override_parser"><code class="docutils literal notranslate"><span class="pre">ConfigProvides.override_parser</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.get_version"><code class="docutils literal notranslate"><span class="pre">ConfigProvides.get_version()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.parsers"><code class="docutils literal notranslate"><span class="pre">ConfigProvides.parsers</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.speed_parser"><code class="docutils literal notranslate"><span class="pre">ConfigProvides.speed_parser</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.tool_orient_parser"><code class="docutils literal notranslate"><span class="pre">ConfigProvides.tool_orient_parser</span></code></a></li>
-<li><a class="reference internal" href="#scaralang.core.service.parser.commands.config.provides.ConfigProvides.zone_parser"><code class="docutils literal notranslate"><span class="pre">ConfigProvides.zone_parser</span></code></a></li>
 </ul>
 </li>
 </ul>

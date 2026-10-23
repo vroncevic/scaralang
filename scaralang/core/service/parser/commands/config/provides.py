@@ -23,13 +23,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -43,21 +43,18 @@ class ConfigProvides:
         It defines:
 
             :attributes:
-                | accel_parser - Bound ICommandParser for ACCEL.
-                | elbow_parser - Bound ICommandParser for CONFIG ELBOW.
-                | motor_parser - Bound ICommandParser for CONFIG MOTOR.
-                | override_parser - Bound ICommandParser for OVERRIDE.
-                | speed_parser - Bound ICommandParser for SPEED.
-                | tool_orient_parser - Bound ICommandParser for TOOL_ORIENT.
-                | zone_parser - Bound ICommandParser for ZONE.
                 | parsers - Tuple of all registered configuration command parsers.
+            :methods:
+                | get_version - Returns config provides container version string.
     '''
 
-    accel_parser: ICommandParser
-    elbow_parser: ICommandParser
-    motor_parser: ICommandParser
-    override_parser: ICommandParser
-    speed_parser: ICommandParser
-    tool_orient_parser: ICommandParser
-    zone_parser: ICommandParser
     parsers: tuple[ICommandParser, ...]
+
+    def get_version(self) -> str:
+        '''
+            Returns component version string representation.
+
+            :return: Semantic version string.
+            :exceptions: None.
+        '''
+        return __version__

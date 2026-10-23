@@ -7,8 +7,19 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   scaralang.infrastructure.protocol.ascii
-   scaralang.infrastructure.protocol.binary
+   scaralang.infrastructure.protocol.builder
+   scaralang.infrastructure.protocol.checksum
+   scaralang.infrastructure.protocol.codec
+   scaralang.infrastructure.protocol.parser
+   scaralang.infrastructure.protocol.response
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.infrastructure.protocol.struct_format
 
 Module contents
 ---------------

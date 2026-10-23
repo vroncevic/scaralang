@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,7 +48,7 @@ class DummyStepPresenter:
 
     def get_version(self) -> str:
         '''Returns version.'''
-        return '1.0.9'
+        return '1.1.0'
 
 
 class TestProgramFactory(TestCase):
@@ -68,7 +68,7 @@ class TestProgramFactory(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid semantic version.'''
-        self.assertEqual(ProgramFactory.get_version(), '1.0.9')
+        self.assertEqual(ProgramFactory.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

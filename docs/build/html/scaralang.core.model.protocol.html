@@ -15,8 +15,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.core.model.protocol.binary_delimiter module" href="scaralang.core.model.protocol.binary_delimiter.html" />
-    <link rel="prev" title="scaralang.core.model.motor.motor_interface_type module" href="scaralang.core.model.motor.motor_interface_type.html" /> 
+    <link rel="next" title="scaralang.core.model.protocol.code module" href="scaralang.core.model.protocol.code.html" />
+    <link rel="prev" title="scaralang.core.model.motor.wire_mode module" href="scaralang.core.model.motor.wire_mode.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -28,10 +28,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.protocol.binary_delimiter.html" title="scaralang.core.model.protocol.binary_delimiter module"
+          <a href="scaralang.core.model.protocol.code.html" title="scaralang.core.model.protocol.code module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.motor.motor_interface_type.html" title="scaralang.core.model.motor.motor_interface_type module"
+          <a href="scaralang.core.model.motor.wire_mode.html" title="scaralang.core.model.motor.wire_mode module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -53,57 +53,47 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.binary_delimiter.html">scaralang.core.model.protocol.binary_delimiter module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.binary_delimiter.html#scaralang.core.model.protocol.binary_delimiter.BinaryDelimiter"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_delimiter.html#scaralang.core.model.protocol.binary_delimiter.BinaryDelimiter.EOF"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter.EOF</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_delimiter.html#scaralang.core.model.protocol.binary_delimiter.BinaryDelimiter.MAX_PAYLOAD_LEN"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter.MAX_PAYLOAD_LEN</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_delimiter.html#scaralang.core.model.protocol.binary_delimiter.BinaryDelimiter.SOF1"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter.SOF1</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_delimiter.html#scaralang.core.model.protocol.binary_delimiter.BinaryDelimiter.SOF2"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter.SOF2</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.code.html">scaralang.core.model.protocol.code module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.CRC_FAIL"><code class="docutils literal notranslate"><span class="pre">ErrorCode.CRC_FAIL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.ESTOP_ACTIVE"><code class="docutils literal notranslate"><span class="pre">ErrorCode.ESTOP_ACTIVE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.EXECUTION_FAILED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXECUTION_FAILED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.HOMING_FAILED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.HOMING_FAILED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.INVALID_JOINT"><code class="docutils literal notranslate"><span class="pre">ErrorCode.INVALID_JOINT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.INVALID_LENGTH"><code class="docutils literal notranslate"><span class="pre">ErrorCode.INVALID_LENGTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.NONE"><code class="docutils literal notranslate"><span class="pre">ErrorCode.NONE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.NOT_HELD"><code class="docutils literal notranslate"><span class="pre">ErrorCode.NOT_HELD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.QUEUE_FULL"><code class="docutils literal notranslate"><span class="pre">ErrorCode.QUEUE_FULL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.code.html#scaralang.core.model.protocol.code.ErrorCode.UNKNOWN_CMD"><code class="docutils literal notranslate"><span class="pre">ErrorCode.UNKNOWN_CMD</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html">scaralang.core.model.protocol.binary_frame module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame"><code class="docutils literal notranslate"><span class="pre">BinaryFrame</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame.crc16"><code class="docutils literal notranslate"><span class="pre">BinaryFrame.crc16</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame.msg_id"><code class="docutils literal notranslate"><span class="pre">BinaryFrame.msg_id</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame.payload"><code class="docutils literal notranslate"><span class="pre">BinaryFrame.payload</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_frame.html#scaralang.core.model.protocol.binary_frame.BinaryFrame.seq_num"><code class="docutils literal notranslate"><span class="pre">BinaryFrame.seq_num</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.delimiter.html">scaralang.core.model.protocol.delimiter module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.delimiter.html#scaralang.core.model.protocol.delimiter.BinaryDelimiter"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.delimiter.html#scaralang.core.model.protocol.delimiter.BinaryDelimiter.EOF"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter.EOF</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.delimiter.html#scaralang.core.model.protocol.delimiter.BinaryDelimiter.MAX_PAYLOAD_LEN"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter.MAX_PAYLOAD_LEN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.delimiter.html#scaralang.core.model.protocol.delimiter.BinaryDelimiter.SOF1"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter.SOF1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.delimiter.html#scaralang.core.model.protocol.delimiter.BinaryDelimiter.SOF2"><code class="docutils literal notranslate"><span class="pre">BinaryDelimiter.SOF2</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html">scaralang.core.model.protocol.binary_payload_size module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.ACK"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.ACK</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.CONFIG_MOTOR"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.CONFIG_MOTOR</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.DIAGNOSTICS"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.DIAGNOSTICS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.FAULT_EVENT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.FAULT_EVENT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.JOG_FULL"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.JOG_FULL</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.JOG_SHORT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.JOG_SHORT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.JOINT_STEPS"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.JOINT_STEPS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.MOVE_EVENT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.MOVE_EVENT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.NACK"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.NACK</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.OVERRIDE"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.OVERRIDE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.STATUS"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.STATUS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.TOOL_CMD"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.TOOL_CMD</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.binary_payload_size.html#scaralang.core.model.protocol.binary_payload_size.BinaryPayloadSize.WAIT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.WAIT</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.event.html">scaralang.core.model.protocol.event module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.event.html#scaralang.core.model.protocol.event.MoveEventType"><code class="docutils literal notranslate"><span class="pre">MoveEventType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.event.html#scaralang.core.model.protocol.event.MoveEventType.DONE"><code class="docutils literal notranslate"><span class="pre">MoveEventType.DONE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.event.html#scaralang.core.model.protocol.event.MoveEventType.FAILED"><code class="docutils literal notranslate"><span class="pre">MoveEventType.FAILED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.event.html#scaralang.core.model.protocol.event.MoveEventType.START"><code class="docutils literal notranslate"><span class="pre">MoveEventType.START</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html">scaralang.core.model.protocol.error_code module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.CRC_FAIL"><code class="docutils literal notranslate"><span class="pre">ErrorCode.CRC_FAIL</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.ESTOP_ACTIVE"><code class="docutils literal notranslate"><span class="pre">ErrorCode.ESTOP_ACTIVE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.EXECUTION_FAILED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.EXECUTION_FAILED</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.HOMING_FAILED"><code class="docutils literal notranslate"><span class="pre">ErrorCode.HOMING_FAILED</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.INVALID_JOINT"><code class="docutils literal notranslate"><span class="pre">ErrorCode.INVALID_JOINT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.INVALID_LENGTH"><code class="docutils literal notranslate"><span class="pre">ErrorCode.INVALID_LENGTH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.NONE"><code class="docutils literal notranslate"><span class="pre">ErrorCode.NONE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.NOT_HELD"><code class="docutils literal notranslate"><span class="pre">ErrorCode.NOT_HELD</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.QUEUE_FULL"><code class="docutils literal notranslate"><span class="pre">ErrorCode.QUEUE_FULL</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.error_code.html#scaralang.core.model.protocol.error_code.ErrorCode.UNKNOWN_CMD"><code class="docutils literal notranslate"><span class="pre">ErrorCode.UNKNOWN_CMD</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.frame.html">scaralang.core.model.protocol.frame module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame"><code class="docutils literal notranslate"><span class="pre">BinaryFrame</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame.crc16"><code class="docutils literal notranslate"><span class="pre">BinaryFrame.crc16</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame.msg_id"><code class="docutils literal notranslate"><span class="pre">BinaryFrame.msg_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame.payload"><code class="docutils literal notranslate"><span class="pre">BinaryFrame.payload</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame.seq_num"><code class="docutils literal notranslate"><span class="pre">BinaryFrame.seq_num</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -120,76 +110,78 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.manipulator_status.html">scaralang.core.model.protocol.manipulator_status module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.manipulator_status.html#scaralang.core.model.protocol.manipulator_status.ManipulatorStatus"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.manipulator_status.html#scaralang.core.model.protocol.manipulator_status.ManipulatorStatus.is_busy"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.is_busy</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.manipulator_status.html#scaralang.core.model.protocol.manipulator_status.ManipulatorStatus.j1_steps"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.j1_steps</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.manipulator_status.html#scaralang.core.model.protocol.manipulator_status.ManipulatorStatus.j2_steps"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.j2_steps</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.manipulator_status.html#scaralang.core.model.protocol.manipulator_status.ManipulatorStatus.j4_steps"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.j4_steps</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.manipulator_status.html#scaralang.core.model.protocol.manipulator_status.ManipulatorStatus.queue_count"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.queue_count</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.manipulator_status.html#scaralang.core.model.protocol.manipulator_status.ManipulatorStatus.system_state"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.system_state</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.manipulator_status.html#scaralang.core.model.protocol.manipulator_status.ManipulatorStatus.z_steps"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.z_steps</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.message.html">scaralang.core.model.protocol.message module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId"><code class="docutils literal notranslate"><span class="pre">MessageId</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_BOOTLOADER"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_BOOTLOADER</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_CLEAR_FAULT"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_CLEAR_FAULT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_CONFIG_MOTOR"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_CONFIG_MOTOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_DISABLE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_DISABLE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_ENABLE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_ENABLE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_ESTOP"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_ESTOP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_GET_DIAGNOSTICS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_GET_DIAGNOSTICS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_GET_STATUS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_GET_STATUS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_GET_STEPS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_GET_STEPS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_HOLD"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_HOLD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_HOME"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_HOME</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_JOG_JOINT"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_JOG_JOINT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_MOVE_JOINT_STEPS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_MOVE_JOINT_STEPS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_NONE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_NONE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_OVERRIDE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_OVERRIDE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_PING"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_PING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_RESUME"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_RESUME</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_SETPOS_STEPS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_SETPOS_STEPS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_TOOL_PUMP"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_TOOL_PUMP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_TOOL_VALVE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_TOOL_VALVE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.CMD_WAIT"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_WAIT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.RESP_ACK"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_ACK</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.RESP_DIAGNOSTICS"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_DIAGNOSTICS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.RESP_FAULT_EVENT"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_FAULT_EVENT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.RESP_HOMING_EVENT"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_HOMING_EVENT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.RESP_MOVE_EVENT"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_MOVE_EVENT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.RESP_NACK"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_NACK</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.RESP_PONG"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_PONG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.RESP_STATUS"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_STATUS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId.RESP_STEPS"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_STEPS</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html">scaralang.core.model.protocol.message_id module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId"><code class="docutils literal notranslate"><span class="pre">MessageId</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_BOOTLOADER"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_BOOTLOADER</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_CLEAR_FAULT"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_CLEAR_FAULT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_CONFIG_MOTOR"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_CONFIG_MOTOR</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_DISABLE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_DISABLE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_ENABLE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_ENABLE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_ESTOP"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_ESTOP</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_GET_DIAGNOSTICS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_GET_DIAGNOSTICS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_GET_STATUS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_GET_STATUS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_GET_STEPS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_GET_STEPS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_HOLD"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_HOLD</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_HOME"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_HOME</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_JOG_JOINT"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_JOG_JOINT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_MOVE_JOINT_STEPS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_MOVE_JOINT_STEPS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_NONE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_NONE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_OVERRIDE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_OVERRIDE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_PING"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_PING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_RESUME"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_RESUME</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_SETPOS_STEPS"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_SETPOS_STEPS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_TOOL_PUMP"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_TOOL_PUMP</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_TOOL_VALVE"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_TOOL_VALVE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.CMD_WAIT"><code class="docutils literal notranslate"><span class="pre">MessageId.CMD_WAIT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.RESP_ACK"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_ACK</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.RESP_DIAGNOSTICS"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_DIAGNOSTICS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.RESP_FAULT_EVENT"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_FAULT_EVENT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.RESP_HOMING_EVENT"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_HOMING_EVENT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.RESP_MOVE_EVENT"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_MOVE_EVENT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.RESP_NACK"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_NACK</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.RESP_PONG"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_PONG</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.RESP_STATUS"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_STATUS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.message_id.html#scaralang.core.model.protocol.message_id.MessageId.RESP_STEPS"><code class="docutils literal notranslate"><span class="pre">MessageId.RESP_STEPS</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html">scaralang.core.model.protocol.payload_size module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.ACK"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.ACK</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.CONFIG_MOTOR"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.CONFIG_MOTOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.DIAGNOSTICS"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.DIAGNOSTICS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.FAULT_EVENT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.FAULT_EVENT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.JOG_FULL"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.JOG_FULL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.JOG_SHORT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.JOG_SHORT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.JOINT_STEPS"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.JOINT_STEPS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.MOVE_EVENT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.MOVE_EVENT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.NACK"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.NACK</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.OVERRIDE"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.OVERRIDE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.STATUS"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.STATUS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.TOOL_CMD"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.TOOL_CMD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.payload_size.html#scaralang.core.model.protocol.payload_size.BinaryPayloadSize.WAIT"><code class="docutils literal notranslate"><span class="pre">BinaryPayloadSize.WAIT</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.motor_wire_mode.html">scaralang.core.model.protocol.motor_wire_mode module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.motor_wire_mode.html#scaralang.core.model.protocol.motor_wire_mode.MotorWireMode"><code class="docutils literal notranslate"><span class="pre">MotorWireMode</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.motor_wire_mode.html#scaralang.core.model.protocol.motor_wire_mode.MotorWireMode.CLOSED_LOOP"><code class="docutils literal notranslate"><span class="pre">MotorWireMode.CLOSED_LOOP</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.motor_wire_mode.html#scaralang.core.model.protocol.motor_wire_mode.MotorWireMode.OPEN_LOOP"><code class="docutils literal notranslate"><span class="pre">MotorWireMode.OPEN_LOOP</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.status.html">scaralang.core.model.protocol.status module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.status.html#scaralang.core.model.protocol.status.ManipulatorStatus"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.status.html#scaralang.core.model.protocol.status.ManipulatorStatus.is_busy"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.is_busy</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.status.html#scaralang.core.model.protocol.status.ManipulatorStatus.j1_steps"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.j1_steps</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.status.html#scaralang.core.model.protocol.status.ManipulatorStatus.j2_steps"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.j2_steps</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.status.html#scaralang.core.model.protocol.status.ManipulatorStatus.j4_steps"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.j4_steps</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.status.html#scaralang.core.model.protocol.status.ManipulatorStatus.queue_count"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.queue_count</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.status.html#scaralang.core.model.protocol.status.ManipulatorStatus.system_state"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.system_state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.status.html#scaralang.core.model.protocol.status.ManipulatorStatus.z_steps"><code class="docutils literal notranslate"><span class="pre">ManipulatorStatus.z_steps</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.move_event_type.html">scaralang.core.model.protocol.move_event_type module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.move_event_type.html#scaralang.core.model.protocol.move_event_type.MoveEventType"><code class="docutils literal notranslate"><span class="pre">MoveEventType</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.move_event_type.html#scaralang.core.model.protocol.move_event_type.MoveEventType.DONE"><code class="docutils literal notranslate"><span class="pre">MoveEventType.DONE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.move_event_type.html#scaralang.core.model.protocol.move_event_type.MoveEventType.FAILED"><code class="docutils literal notranslate"><span class="pre">MoveEventType.FAILED</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.move_event_type.html#scaralang.core.model.protocol.move_event_type.MoveEventType.START"><code class="docutils literal notranslate"><span class="pre">MoveEventType.START</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.tool_id.html">scaralang.core.model.protocol.tool_id module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.tool_id.html#scaralang.core.model.protocol.tool_id.ToolId"><code class="docutils literal notranslate"><span class="pre">ToolId</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.tool_id.html#scaralang.core.model.protocol.tool_id.ToolId.PUMP"><code class="docutils literal notranslate"><span class="pre">ToolId.PUMP</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.tool_id.html#scaralang.core.model.protocol.tool_id.ToolId.VALVE"><code class="docutils literal notranslate"><span class="pre">ToolId.VALVE</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.model.protocol.tool.html">scaralang.core.model.protocol.tool module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.model.protocol.tool.html#scaralang.core.model.protocol.tool.ToolId"><code class="docutils literal notranslate"><span class="pre">ToolId</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.tool.html#scaralang.core.model.protocol.tool.ToolId.PUMP"><code class="docutils literal notranslate"><span class="pre">ToolId.PUMP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.model.protocol.tool.html#scaralang.core.model.protocol.tool.ToolId.VALVE"><code class="docutils literal notranslate"><span class="pre">ToolId.VALVE</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -240,13 +232,13 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.model.motor.motor_interface_type.html"
-                          title="previous chapter">scaralang.core.model.motor.motor_interface_type module</a></p>
+    <p class="topless"><a href="scaralang.core.model.motor.wire_mode.html"
+                          title="previous chapter">scaralang.core.model.motor.wire_mode module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.core.model.protocol.binary_delimiter.html"
-                          title="next chapter">scaralang.core.model.protocol.binary_delimiter module</a></p>
+    <p class="topless"><a href="scaralang.core.model.protocol.code.html"
+                          title="next chapter">scaralang.core.model.protocol.code module</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -279,10 +271,10 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.protocol.binary_delimiter.html" title="scaralang.core.model.protocol.binary_delimiter module"
+          <a href="scaralang.core.model.protocol.code.html" title="scaralang.core.model.protocol.code module"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.model.motor.motor_interface_type.html" title="scaralang.core.model.motor.motor_interface_type module"
+          <a href="scaralang.core.model.motor.wire_mode.html" title="scaralang.core.model.motor.wire_mode module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

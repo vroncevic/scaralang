@@ -31,14 +31,10 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
-
-
-class NonConformingTrajectoryMetrics:  # pylint: disable=too-few-public-methods
-    '''Dummy class not implementing ITrajectoryMetrics.'''
 
 
 class TestITrajectoryMetrics(TestCase):
@@ -54,18 +50,30 @@ class TestITrajectoryMetrics(TestCase):
     '''
 
     def test_structural_conformance(self) -> None:
-        '''Verifies TrajectoryMetrics satisfies ITrajectoryMetrics protocol.'''
+        '''
+            Verifies TrajectoryMetrics satisfies ITrajectoryMetrics protocol.
+
+            :exceptions: None.
+        '''
         metrics = TrajectoryMetrics()
         self.assertIsInstance(metrics, ITrajectoryMetrics)
 
     def test_factory_conformance(self) -> None:
-        '''Verifies factory returns instance satisfying ITrajectoryMetrics.'''
+        '''
+            Verifies factory returns instance satisfying ITrajectoryMetrics.
+
+            :exceptions: None.
+        '''
         provides = MetricsFactory.create()
         self.assertIsInstance(provides.metrics, ITrajectoryMetrics)
 
     def test_non_conforming_instance(self) -> None:
-        '''Verifies non-conforming object is rejected by runtime_checkable protocol.'''
-        dummy = NonConformingTrajectoryMetrics()
+        '''
+            Verifies non-conforming object is rejected by runtime_checkable protocol.
+
+            :exceptions: None.
+        '''
+        dummy = object()
         self.assertNotIsInstance(dummy, ITrajectoryMetrics)
 
 

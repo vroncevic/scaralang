@@ -21,9 +21,11 @@ Info
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import ClassVar, Final
 
-from scaralang.core.model.trajectory.validation_result import ValidationResult
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
+from scaralang.core.model.trajectory.validation.result import ValidationResult
 from scaralang.core.service.trajectory.metrics.metrics import TrajectoryMetrics
 from scaralang.core.service.trajectory.plan.iread_only import ITrajectoryReadOnly
 from scaralang.core.service.trajectory.validation.feedrate.ivalidator import IFeedrateValidator
@@ -33,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -89,12 +91,18 @@ class TrajectoryPlanValidator:
         '''
         return self.NAME
 
-    def validate_plan(self, plan: ITrajectoryReadOnly) -> tuple[bool, list[str]]:
+    def validate_plan(
+        self,
+        plan: ITrajectoryReadOnly,
+        elbow_config: ElbowConfig | Sequence[ElbowConfig],
+    ) -> tuple[bool, list[str]]:
         '''
             Validates entire trajectory plan against kinematic and feedrate bounds.
 
             :param plan: ITrajectoryReadOnly instance to validate.
+            :param elbow_config: Target kinematic elbow configuration or sequence of configs per point.
             :return: Tuple of (is_valid, messages_list).
+            :exceptions: None.
         '''
         waypoints = plan.waypoints
 
@@ -105,7 +113,15 @@ class TrajectoryPlanValidator:
         all_valid: bool = True
 
         for index, pt in enumerate(waypoints, start=self.START_INDEX):
-            res_pt: ValidationResult = self._waypoint_validator.validate_point(pt)
+            idx: int = index - self.START_INDEX
+            current_config: ElbowConfig = (
+                elbow_config[idx]
+                if isinstance(elbow_config, (tuple, list)) and idx < len(elbow_config)
+                else (elbow_config if isinstance(elbow_config, ElbowConfig) else ElbowConfig.RIGHT)
+            )
+            res_pt: ValidationResult = self._waypoint_validator.validate_point(
+                pt, current_config
+            )
 
             if not res_pt.is_valid:
                 all_valid = False

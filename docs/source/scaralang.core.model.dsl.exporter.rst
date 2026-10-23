@@ -7,7 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.model.dsl.exporter.export_format
+   scaralang.core.model.dsl.exporter.format
 
 Module contents
 ---------------

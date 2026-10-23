@@ -21,16 +21,15 @@ Info
 
 from __future__ import annotations
 
-from typing import ClassVar, Final
+from typing import Final
 
-from scaralang.core.model.kinematics.cartesian_pose import CartesianPose
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -38,15 +37,11 @@ __status__ = 'Updated'
 
 class WorkspaceEnvelope:
     '''
-        Calculates physical manipulator workspace envelope, reach radii, and reference home pose.
+        Calculates physical manipulator workspace envelope and reach radii.
 
         It defines:
 
             :attributes:
-                | _DEFAULT_HOME_REACH_RATIO - Multiplier for canonical home position radial distance.
-                | _DEFAULT_HOME_Z_OFFSET_MM - Default vertical lift offset above z_min in mm.
-                | _DEFAULT_HOME_PHI_RAD - Default roll orientation angle for home pose.
-                | _FLOAT_ZERO - Floating-point zero constant.
                 | _bounds - Robot ScaraBounds containing link lengths, limits, and margins.
             :methods:
                 | __init__ - Initializes envelope with robot bounds model.
@@ -54,14 +49,8 @@ class WorkspaceEnvelope:
                 | r_min - Returns minimum reach radius in mm.
                 | r_max - Returns maximum reach radius in mm.
                 | safe_r_max - Returns safe maximum reach radius considering margin in mm.
-                | calculate_home_pose - Calculates canonical default home Cartesian 4-DOF pose.
                 | get_version - Returns envelope component version string.
     '''
-
-    _DEFAULT_HOME_REACH_RATIO: ClassVar[float] = 0.65
-    _DEFAULT_HOME_Z_OFFSET_MM: ClassVar[float] = 20.0
-    _DEFAULT_HOME_PHI_RAD: ClassVar[float] = 0.0
-    _FLOAT_ZERO: ClassVar[float] = 0.0
 
     _bounds: ScaraBounds
 
@@ -120,26 +109,6 @@ class WorkspaceEnvelope:
             + self._bounds.links.l2
             - self._bounds.singularity.singularity_outer_margin_mm
         )
-
-    def calculate_home_pose(
-        self,
-        reach_ratio: float = _DEFAULT_HOME_REACH_RATIO,
-        z_offset_mm: float = _DEFAULT_HOME_Z_OFFSET_MM,
-        phi: float = _DEFAULT_HOME_PHI_RAD,
-    ) -> CartesianPose:
-        '''
-            Calculates the canonical default home Cartesian 4-DOF pose.
-
-            :param reach_ratio: Reach multiplier relative to maximum reach (default 0.65).
-            :param z_offset_mm: Vertical elevation offset above z_min in mm (default 20.0).
-            :param phi: Tool orientation angle in radians (default 0.0).
-            :return: CartesianPose instance.
-            :exceptions: None.
-        '''
-        reach: float = (self._bounds.links.l1 + self._bounds.links.l2) * reach_ratio
-        z: float = self._bounds.vertical.z_min + z_offset_mm
-
-        return CartesianPose(x=reach, y=self._FLOAT_ZERO, z=z, phi=phi)
 
     def get_version(self) -> str:
         '''

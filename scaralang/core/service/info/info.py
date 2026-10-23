@@ -24,17 +24,17 @@ from __future__ import annotations
 from math import degrees
 from typing import ClassVar
 
-from scaralang.core.model.dsl.exporter.export_format import ExportFormat
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.model.kinematics.transmission_parameters import TransmissionParameters
-from scaralang.core.model.protocol.binary_delimiter import BinaryDelimiter
+from scaralang.core.model.dsl.exporter.format import ExportFormat
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
+from scaralang.core.model.kinematics.profile.transmission import TransmissionParameters
+from scaralang.core.model.protocol.delimiter import BinaryDelimiter
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -57,6 +57,7 @@ class ScaraInfoProvider:
         '  --- Motion Commands ---',
         '  MOVE_L X Y Z [F] [MODE]  - Linear Cartesian motion interpolation',
         '  MOVE_J J1 J2 Z J4 [F]    - Joint space point-to-point motion',
+        '  MOVE_REL [X] [Y] [Z] [F] - Relative Cartesian motion interpolation',
         '  JUMP X Y Z [H] [F]       - Gate motion (retract, traverse, plunge)',
         '  ARC X Y CX CY CW/CCW [F] - Circular arc interpolation (CW/CCW)',
         '  APPROACH Z [F]           - Relative downward vertical approach along Z',

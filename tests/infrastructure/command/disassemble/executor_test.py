@@ -28,7 +28,8 @@ from unittest import TestCase
 from unittest import main
 from unittest.mock import MagicMock
 
-from scaralang.core.model.exceptions.scara_protocol_error import ScaraProtocolError
+from scaralang.core.model.exceptions.protocol import ScaraProtocolError
+from scaralang.core.service.disassembler.summary.factory import SummaryFactory
 from scaralang.infrastructure.command.compile.factory import CompileFactory
 from scaralang.infrastructure.command.disassemble.definition import DisassembleCommandDefinition
 from scaralang.infrastructure.command.disassemble.dependencies import DisassembleDependencies
@@ -41,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -78,6 +79,7 @@ class TestDisassembleCommandExecutor(TestCase):
                 service=DefaultDisassemblerFactory.create(),
                 summary_formatter=FormatFactory.create().formatter,
                 error_handler=ErrorFactory.create().handler,
+                summary_calculator=SummaryFactory.create().calculator,
             ),
         )
         self.temp_files: list[str] = []
@@ -188,17 +190,19 @@ class TestDisassembleCommandExecutor(TestCase):
 
     def test_disassemble_alternate_service_methods(self) -> None:
         '''
-            Verifies fallback when service provides disassemble_bytes and calculate_disassembly_summary.
+            Verifies fallback when service provides disassemble_bytes.
         '''
-        mock_service = MagicMock(spec=['disassemble_bytes', 'calculate_disassembly_summary'])
+        mock_service = MagicMock(spec=['disassemble_bytes'])
         mock_service.disassemble_bytes.return_value = ()
-        mock_service.calculate_disassembly_summary.return_value = MagicMock()
+        mock_calculator = MagicMock()
+        mock_calculator.calculate_summary.return_value = MagicMock()
         mock_formatter = MagicMock()
         mock_formatter.format_summary.return_value = 'Mock Summary'
         deps = DisassembleDependencies(
             service=mock_service,
             summary_formatter=mock_formatter,
             error_handler=ErrorFactory.create().handler,
+            summary_calculator=mock_calculator,
         )
         executor = DisassembleCommandExecutor(
             definition=MagicMock(),
@@ -222,6 +226,7 @@ class TestDisassembleCommandExecutor(TestCase):
             service=mock_service,
             summary_formatter=MagicMock(),
             error_handler=ErrorFactory.create().handler,
+            summary_calculator=MagicMock(),
         )
         executor = DisassembleCommandExecutor(
             definition=MagicMock(),
@@ -245,6 +250,7 @@ class TestDisassembleCommandExecutor(TestCase):
             service=mock_service,
             summary_formatter=MagicMock(),
             error_handler=ErrorFactory.create().handler,
+            summary_calculator=MagicMock(),
         )
         executor = DisassembleCommandExecutor(
             definition=MagicMock(),

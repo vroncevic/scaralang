@@ -27,18 +27,16 @@ from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
-from scaralang.core.model.kinematics.elbow_config import ElbowConfig
-from scaralang.core.model.trajectory.waypoint import Waypoint
-from scaralang.core.service.exporter.scara.formatter.factory import ScaraWaypointFormatterFactory
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.exporter.scara.formatter.iformatter import IScaraWaypointFormatter
-from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 from scaralang.core.service.trajectory.plan.iread_only import ITrajectoryReadOnly
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,9 +58,7 @@ class ScaraPlanExporter:
             | _formatter - Injected waypoint formatter protocol instance.
         :methods:
             | __init__ - Initializes exporter with injected waypoint formatter.
-            | format_waypoint - Formats trajectory waypoint into SCARA instruction line.
-            | export_scara - Serializes trajectory plan into formatted .scara source code.
-            | export_plan - Backward-compatible plan export contract.
+            | export_plan - Serializes trajectory plan into formatted .scara source code.
             | get_version - Returns the exporter version string.
     '''
 
@@ -83,44 +79,15 @@ class ScaraPlanExporter:
     def __init__(
         self,
         *,
-        formatter: IScaraWaypointFormatter | None = None,
+        formatter: IScaraWaypointFormatter,
     ) -> None:
         '''
-        Initializes ScaraPlanExporter with optional waypoint formatter.
+        Initializes ScaraPlanExporter with injected waypoint formatter.
 
         :param formatter: Injected IScaraWaypointFormatter protocol instance.
         :exceptions: None.
         '''
-        self._formatter: Final[IScaraWaypointFormatter] = (
-            formatter
-            if formatter is not None
-            else ScaraWaypointFormatterFactory.create()
-        )
-
-    def format_waypoint(
-        self, *, waypoint: Waypoint, is_initial: bool = False
-    ) -> str:
-        '''
-        Formats a single trajectory waypoint into a SCARA DSL instruction line.
-
-        :param waypoint: Trajectory Waypoint instance.
-        :param is_initial: True if generating the initial joint move, False for linear.
-        :return: Formatted SCARA DSL instruction line.
-        :exceptions: None.
-        '''
-        return self._formatter.format_waypoint(
-            waypoint=waypoint, is_initial=is_initial
-        )
-
-    def export_scara(self, *, plan: ITrajectoryPlan) -> str:
-        '''
-        Serializes trajectory plan into formatted .scara source code.
-
-        :param plan: Validated ITrajectoryPlan protocol instance.
-        :return: Formatted SCARA DSL script.
-        :exceptions: None.
-        '''
-        return self.export_plan(plan=plan)
+        self._formatter: Final[IScaraWaypointFormatter] = formatter
 
     def export_plan(self, *, plan: ITrajectoryReadOnly) -> str:
         '''

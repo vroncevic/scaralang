@@ -23,20 +23,20 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 
-from scaralang.core.model.kinematics.joint_angle_bounds import JointAngleBounds
-from scaralang.core.model.kinematics.link_dimensions import LinkDimensions
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.model.kinematics.singularity_margins import SingularityMargins
-from scaralang.core.model.kinematics.speed_limits import SpeedLimits
-from scaralang.core.model.kinematics.transmission_parameters import TransmissionParameters
-from scaralang.core.model.kinematics.vertical_bounds import VerticalBounds
+from scaralang.core.model.kinematics.profile.angle import JointAngleBounds
+from scaralang.core.model.kinematics.profile.link import LinkDimensions
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
+from scaralang.core.model.kinematics.profile.singularity import SingularityMargins
+from scaralang.core.model.kinematics.profile.speed import SpeedLimits
+from scaralang.core.model.kinematics.profile.transmission import TransmissionParameters
+from scaralang.core.model.kinematics.profile.vertical import VerticalBounds
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -159,6 +159,3 @@ class ProfileFactory:
             :exceptions: None.
         '''
         return __version__
-
-
-ScaraProfileFactory = ProfileFactory

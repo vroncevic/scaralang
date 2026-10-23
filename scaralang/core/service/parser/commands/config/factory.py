@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,30 +59,15 @@ class ConfigFactory:
             :return: Fully configured ConfigProvides container.
             :exceptions: None.
         '''
-        accel_parser = AccelParser()
-        elbow_parser = ElbowParser()
-        motor_parser = MotorParser()
-        override_parser = OverrideParser()
-        speed_parser = SpeedParser()
-        tool_orient_parser = ToolOrientParser()
-        zone_parser = ZoneParser()
-
         return ConfigProvides(
-            accel_parser=accel_parser,
-            elbow_parser=elbow_parser,
-            motor_parser=motor_parser,
-            override_parser=override_parser,
-            speed_parser=speed_parser,
-            tool_orient_parser=tool_orient_parser,
-            zone_parser=zone_parser,
             parsers=(
-                elbow_parser,
-                motor_parser,
-                speed_parser,
-                accel_parser,
-                override_parser,
-                zone_parser,
-                tool_orient_parser,
+                ElbowParser(),
+                MotorParser(),
+                SpeedParser(),
+                AccelParser(),
+                OverrideParser(),
+                ZoneParser(),
+                ToolOrientParser(),
             ),
         )
 

@@ -21,9 +21,9 @@ Info
 
 from __future__ import annotations
 
-from unittest import TestCase
+from unittest import TestCase, main
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.exporter.csv.exporter import CsvExporter
 from scaralang.core.service.trajectory.plan.plan import TrajectoryPlan
 
@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,7 +60,7 @@ class TestCsvExporter(TestCase):
 
     def test_export_csv_empty_plan(self) -> None:
         '''Verifies exporting an empty plan yields only the CSV header.'''
-        plan = TrajectoryPlan()
+        plan = TrajectoryPlan(waypoints=())
         output = self.exporter.export_csv(plan=plan)
         expected = 'index,name,x_mm,y_mm,z_mm,phi_deg,speed_pct,command\n'
         self.assertEqual(output, expected)
@@ -85,9 +85,7 @@ class TestCsvExporter(TestCase):
             speed=60.0,
             command='',
         )
-        plan = TrajectoryPlan()
-        plan.add_point(wp1)
-        plan.add_point(wp2)
+        plan = TrajectoryPlan(waypoints=[wp1, wp2])
         output = self.exporter.export_csv(plan=plan)
         lines = output.strip().split('\n')
         self.assertEqual(len(lines), 3)
@@ -97,3 +95,7 @@ class TestCsvExporter(TestCase):
     def test_get_version(self) -> None:
         '''Verifies version reporting.'''
         self.assertIsInstance(self.exporter.get_version(), str)
+
+
+if __name__ == '__main__':
+    main()

@@ -23,11 +23,11 @@ from __future__ import annotations
 
 from typing import Final
 
-from scaralang.core.model.dsl.diagnostic.scara_diagnostic import ScaraDiagnostic
-from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
-from scaralang.core.model.exceptions.scara_error import ScaraError
-from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
-from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+from scaralang.core.model.dsl.diagnostic.diagnostic import ScaraDiagnostic
+from scaralang.core.model.dsl.diagnostic.severity import ScaraDiagnosticSeverity
+from scaralang.core.model.exceptions.error import ScaraError
+from scaralang.core.model.exceptions.kinematics import ScaraKinematicsError
+from scaralang.core.model.exceptions.semantic import ScaraSemanticError
 from scaralang.core.service.linter.ilinter import ILinter
 from scaralang.core.service.linter.script.dependencies import ScriptDependencies
 from scaralang.core.service.parser.iparser import IScaraParser
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

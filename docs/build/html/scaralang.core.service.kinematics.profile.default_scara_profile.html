@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="scaralang.core.service.kinematics.profile.factory module" href="scaralang.core.service.kinematics.profile.factory.html" />
-    <link rel="prev" title="scaralang.core.service.kinematics.profile package" href="scaralang.core.service.kinematics.profile.html" /> 
+    <link rel="prev" title="scaralang.core.service.kinematics.profile.deadzone.provides module" href="scaralang.core.service.kinematics.profile.deadzone.provides.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
           <a href="scaralang.core.service.kinematics.profile.factory.html" title="scaralang.core.service.kinematics.profile.factory module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.kinematics.profile.html" title="scaralang.core.service.kinematics.profile package"
+          <a href="scaralang.core.service.kinematics.profile.deadzone.provides.html" title="scaralang.core.service.kinematics.profile.deadzone.provides module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -77,16 +77,129 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <p>It defines:</p>
 <blockquote>
 <div><dl class="field-list">
-<dt class="field-odd">methods<span class="colon">:</span></dt>
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><div class="line-block">
+<div class="line">DEFAULT_L1_MM - Default shoulder link length in millimeters.</div>
+<div class="line">DEFAULT_L2_MM - Default elbow link length in millimeters.</div>
+<div class="line">DEFAULT_J_LIMIT_RAD - Default joint angle symmetric limit in radians.</div>
+<div class="line">DEFAULT_Z_MIN_MM - Default minimum vertical limit in millimeters.</div>
+<div class="line">DEFAULT_Z_MAX_MM - Default maximum vertical limit in millimeters.</div>
+<div class="line">DEFAULT_MIN_SPEED - Default minimum operational speed in mm/s.</div>
+<div class="line">DEFAULT_MAX_SPEED - Default maximum operational speed in mm/s.</div>
+<div class="line">DEFAULT_SPEED - Default nominal operational speed in mm/s.</div>
+<div class="line">DEFAULT_ACCEL - Default nominal acceleration in mm/s^2.</div>
+<div class="line">DEFAULT_MAX_ACCEL - Default maximum acceleration in mm/s^2.</div>
+<div class="line">DEFAULT_SINGULARITY_MARGIN_MM - Default singularity boundary margin in mm.</div>
+<div class="line">DEFAULT_THETA2_MIN_RAD - Default theta2 singularity margin in radians.</div>
+<div class="line">DEFAULT_STEPS_PER_REV - Default motor steps per revolution.</div>
+<div class="line">DEFAULT_MICROSTEPPING - Default microstepping multiplier.</div>
+<div class="line">DEFAULT_GEAR_RATIO_J1 - Default shoulder joint reduction ratio.</div>
+<div class="line">DEFAULT_GEAR_RATIO_J2 - Default elbow joint reduction ratio.</div>
+<div class="line">DEFAULT_GEAR_RATIO_J4 - Default wrist roll joint reduction ratio.</div>
+<div class="line">DEFAULT_LEADSCREW_PITCH_Z - Default Z-axis leadscrew pitch in mm/rev.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
 <div class="line">calculate_deadzone_radius - Calculates minimum reach dead zone radius.</div>
 <div class="line">create_bounds - Generates default ScaraBounds domain model.</div>
+<div class="line">create_dls_config - Generates default DlsConfig numerical IK configuration model.</div>
 <div class="line">create_transmission - Generates default TransmissionParameters domain model.</div>
 <div class="line">get_version - Returns profile version string.</div>
 </div>
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_ACCEL">
+<span class="sig-name descname"><span class="pre">DEFAULT_ACCEL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_ACCEL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_GEAR_RATIO_J1">
+<span class="sig-name descname"><span class="pre">DEFAULT_GEAR_RATIO_J1</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_GEAR_RATIO_J1" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_GEAR_RATIO_J2">
+<span class="sig-name descname"><span class="pre">DEFAULT_GEAR_RATIO_J2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_GEAR_RATIO_J2" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_GEAR_RATIO_J4">
+<span class="sig-name descname"><span class="pre">DEFAULT_GEAR_RATIO_J4</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_GEAR_RATIO_J4" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_J_LIMIT_RAD">
+<span class="sig-name descname"><span class="pre">DEFAULT_J_LIMIT_RAD</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2.61799</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_J_LIMIT_RAD" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_L1_MM">
+<span class="sig-name descname"><span class="pre">DEFAULT_L1_MM</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">150.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_L1_MM" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_L2_MM">
+<span class="sig-name descname"><span class="pre">DEFAULT_L2_MM</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">150.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_L2_MM" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_LEADSCREW_PITCH_Z">
+<span class="sig-name descname"><span class="pre">DEFAULT_LEADSCREW_PITCH_Z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_LEADSCREW_PITCH_Z" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MAX_ACCEL">
+<span class="sig-name descname"><span class="pre">DEFAULT_MAX_ACCEL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">500.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MAX_ACCEL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MAX_SPEED">
+<span class="sig-name descname"><span class="pre">DEFAULT_MAX_SPEED</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">200.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MAX_SPEED" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MICROSTEPPING">
+<span class="sig-name descname"><span class="pre">DEFAULT_MICROSTEPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MICROSTEPPING" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MIN_SPEED">
+<span class="sig-name descname"><span class="pre">DEFAULT_MIN_SPEED</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MIN_SPEED" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_SINGULARITY_MARGIN_MM">
+<span class="sig-name descname"><span class="pre">DEFAULT_SINGULARITY_MARGIN_MM</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_SINGULARITY_MARGIN_MM" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_SPEED">
+<span class="sig-name descname"><span class="pre">DEFAULT_SPEED</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_SPEED" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_STEPS_PER_REV">
+<span class="sig-name descname"><span class="pre">DEFAULT_STEPS_PER_REV</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">200.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_STEPS_PER_REV" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_THETA2_MIN_RAD">
+<span class="sig-name descname"><span class="pre">DEFAULT_THETA2_MIN_RAD</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.087266</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_THETA2_MIN_RAD" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_Z_MAX_MM">
+<span class="sig-name descname"><span class="pre">DEFAULT_Z_MAX_MM</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_Z_MAX_MM" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_Z_MIN_MM">
+<span class="sig-name descname"><span class="pre">DEFAULT_Z_MIN_MM</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-50.0</span></em><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_Z_MIN_MM" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.calculate_deadzone_radius">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_deadzone_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j2_max_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/profile/default_scara_profile.html#DefaultScaraProfile.calculate_deadzone_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.calculate_deadzone_radius" title="Link to this definition">¶</a></dt>
@@ -110,7 +223,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_bounds">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.scara_bounds.html#scaralang.core.model.kinematics.scara_bounds.ScaraBounds" title="scaralang.core.model.kinematics.scara_bounds.ScaraBounds"><span class="pre">ScaraBounds</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/profile/default_scara_profile.html#DefaultScaraProfile.create_bounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_bounds" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.profile.bounds.html#scaralang.core.model.kinematics.profile.bounds.ScaraBounds" title="scaralang.core.model.kinematics.profile.bounds.ScaraBounds"><span class="pre">ScaraBounds</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/profile/default_scara_profile.html#DefaultScaraProfile.create_bounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_bounds" title="Link to this definition">¶</a></dt>
 <dd><p>Builds default robotic workspace and velocity bounds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -123,8 +236,22 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_dls_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_dls_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.solver.dls.html#scaralang.core.model.kinematics.solver.dls.DlsConfig" title="scaralang.core.model.kinematics.solver.dls.DlsConfig"><span class="pre">DlsConfig</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/profile/default_scara_profile.html#DefaultScaraProfile.create_dls_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_dls_config" title="Link to this definition">¶</a></dt>
+<dd><p>Builds default Damped Least Squares (DLS) numerical solver configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Configured DlsConfig domain model.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_transmission">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_transmission</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.transmission_parameters.html#scaralang.core.model.kinematics.transmission_parameters.TransmissionParameters" title="scaralang.core.model.kinematics.transmission_parameters.TransmissionParameters"><span class="pre">TransmissionParameters</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/profile/default_scara_profile.html#DefaultScaraProfile.create_transmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_transmission" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_transmission</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.kinematics.profile.transmission.html#scaralang.core.model.kinematics.profile.transmission.TransmissionParameters" title="scaralang.core.model.kinematics.profile.transmission.TransmissionParameters"><span class="pre">TransmissionParameters</span></a></span></span><a class="reference internal" href="_modules/scaralang/core/service/kinematics/profile/default_scara_profile.html#DefaultScaraProfile.create_transmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_transmission" title="Link to this definition">¶</a></dt>
 <dd><p>Builds default motor transmission parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -166,8 +293,27 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
     <ul>
 <li><a class="reference internal" href="#">scaralang.core.service.kinematics.profile.default_scara_profile module</a><ul>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_ACCEL"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_ACCEL</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_GEAR_RATIO_J1"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_GEAR_RATIO_J1</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_GEAR_RATIO_J2"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_GEAR_RATIO_J2</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_GEAR_RATIO_J4"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_GEAR_RATIO_J4</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_J_LIMIT_RAD"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_J_LIMIT_RAD</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_L1_MM"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_L1_MM</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_L2_MM"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_L2_MM</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_LEADSCREW_PITCH_Z"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_LEADSCREW_PITCH_Z</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MAX_ACCEL"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_MAX_ACCEL</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MAX_SPEED"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_MAX_SPEED</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MICROSTEPPING"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_MICROSTEPPING</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_MIN_SPEED"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_MIN_SPEED</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_SINGULARITY_MARGIN_MM"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_SINGULARITY_MARGIN_MM</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_SPEED"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_SPEED</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_STEPS_PER_REV"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_STEPS_PER_REV</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_THETA2_MIN_RAD"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_THETA2_MIN_RAD</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_Z_MAX_MM"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_Z_MAX_MM</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.DEFAULT_Z_MIN_MM"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.DEFAULT_Z_MIN_MM</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.calculate_deadzone_radius"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.calculate_deadzone_radius()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_bounds"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.create_bounds()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_dls_config"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.create_dls_config()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.create_transmission"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.create_transmission()</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.service.kinematics.profile.default_scara_profile.DefaultScaraProfile.get_version"><code class="docutils literal notranslate"><span class="pre">DefaultScaraProfile.get_version()</span></code></a></li>
 </ul>
@@ -179,8 +325,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.service.kinematics.profile.html"
-                          title="previous chapter">scaralang.core.service.kinematics.profile package</a></p>
+    <p class="topless"><a href="scaralang.core.service.kinematics.profile.deadzone.provides.html"
+                          title="previous chapter">scaralang.core.service.kinematics.profile.deadzone.provides module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -221,7 +367,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="scaralang.core.service.kinematics.profile.factory.html" title="scaralang.core.service.kinematics.profile.factory module"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.kinematics.profile.html" title="scaralang.core.service.kinematics.profile package"
+          <a href="scaralang.core.service.kinematics.profile.deadzone.provides.html" title="scaralang.core.service.kinematics.profile.deadzone.provides module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

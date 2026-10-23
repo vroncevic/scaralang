@@ -25,7 +25,7 @@ from collections.abc import Mapping
 from os.path import exists
 from typing import Final
 
-from scaralang.core.model.exceptions.scara_error import ScaraError
+from scaralang.core.model.exceptions.error import ScaraError
 from scaralang.core.service.decompiler.idecompiler import IScaraDecompiler
 from scaralang.infrastructure.command.decompile.dependencies import DecompileDependencies
 from scaralang.infrastructure.command.decompile.error.ihandler import IDecompileErrorHandler
@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -104,7 +104,7 @@ class DecompileCommandExecutor:
             with open(file_path, 'rb') as bin_file:
                 data: bytes = bin_file.read()
 
-            dsl_script: str = self._service.decompile(data=data)
+            dsl_script: str = self._service.decompile_bytes(data=data)
 
             raw_output = params.get('output')
             output_path: str = str(raw_output) if isinstance(raw_output, str) else ''

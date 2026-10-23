@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    scaralang.core.service.trajectory.avoidance.bypass
+   scaralang.core.service.trajectory.avoidance.collision
    scaralang.core.service.trajectory.avoidance.router
    scaralang.core.service.trajectory.avoidance.shape
    scaralang.core.service.trajectory.avoidance.validation

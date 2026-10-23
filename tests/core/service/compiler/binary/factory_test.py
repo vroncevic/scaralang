@@ -29,15 +29,13 @@ from scaralang.core.service.compiler.binary.factory import BinaryFactory
 from scaralang.core.service.compiler.binary.icompiler import IBinaryCompiler
 from scaralang.core.service.compiler.binary.metrics.icalculator import IMetricsCalculator
 from scaralang.core.service.compiler.binary.provides import BinaryProvides
-from scaralang.core.service.compiler.binary.step.dispatcher.idispatcher import (
-    IWaypointStepDispatcher
-)
+from scaralang.core.service.compiler.binary.step.dispatcher.idispatcher import IWaypointStepDispatcher
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -68,7 +66,7 @@ class TestBinaryFactory(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies factory version returns valid string.'''
-        self.assertEqual(BinaryFactory.get_version(), '1.0.9')
+        self.assertEqual(BinaryFactory.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.trajectory.plan.factory import PlanFactory
 from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 from scaralang.core.service.trajectory.plan.plan import TrajectoryPlan
@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,7 +53,7 @@ class TestITrajectoryPlan(TestCase):
 
     def test_structural_conformance(self) -> None:
         '''Verifies concrete TrajectoryPlan satisfies ITrajectoryPlan protocol.'''
-        plan = TrajectoryPlan()
+        plan = TrajectoryPlan(waypoints=())
         self.assertIsInstance(plan, ITrajectoryPlan)
         self.assertEqual(plan.name, 'trajectory_plan')
 
@@ -65,14 +65,13 @@ class TestITrajectoryPlan(TestCase):
 
     def test_protocol_operations(self) -> None:
         '''Verifies operations via ITrajectoryPlan interface.'''
-        plan: ITrajectoryPlan = PlanFactory.create().plan
-        self.assertEqual(plan.count, 0)
-
-        plan.add_point(
-            Waypoint(x=5.0, y=10.0, z=15.0, phi=0.0, speed=25.0, name='', command='')
+        wp = Waypoint(
+            x=5.0, y=10.0, z=15.0, phi=0.0, speed=25.0, name='', command=''
         )
+        plan: ITrajectoryPlan = TrajectoryPlan(waypoints=[wp])
         self.assertEqual(plan.count, 1)
         self.assertEqual(plan.waypoints[0].z, 15.0)
+        self.assertEqual(plan.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

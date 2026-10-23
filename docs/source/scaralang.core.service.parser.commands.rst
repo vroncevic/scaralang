@@ -14,6 +14,7 @@ Subpackages
    scaralang.core.service.parser.commands.motion
    scaralang.core.service.parser.commands.parameter
    scaralang.core.service.parser.commands.tool
+   scaralang.core.service.parser.commands.zone
 
 Submodules
 ----------
@@ -21,9 +22,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.parser.commands.icommand_parser
-   scaralang.core.service.parser.commands.icommand_parser_provider
-   scaralang.core.service.parser.commands.icommand_parser_provides
+   scaralang.core.service.parser.commands.iparser
+   scaralang.core.service.parser.commands.iprovider
+   scaralang.core.service.parser.commands.iprovides
 
 Module contents
 ---------------

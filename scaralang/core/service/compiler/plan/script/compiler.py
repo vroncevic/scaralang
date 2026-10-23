@@ -25,8 +25,8 @@ from __future__ import annotations
 from typing import Final
 
 from scaralang.core.model.dsl.ast.program import ScaraProgram
-from scaralang.core.model.dsl.diagnostic.scara_diagnostic_severity import ScaraDiagnosticSeverity
-from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
+from scaralang.core.model.dsl.diagnostic.severity import ScaraDiagnosticSeverity
+from scaralang.core.model.exceptions.semantic import ScaraSemanticError
 from scaralang.core.service.compiler.plan.ast.icompiler import IAstPlanCompiler
 from scaralang.core.service.linter.ilinter import ILinter
 from scaralang.core.service.parser.iparser import IScaraParser
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,7 +54,6 @@ class ScriptPlanCompiler:
                 | _linter - Injected static analysis linter protocol instance.
             :methods:
                 | __init__ - Initializes plan compiler with injected dependencies.
-                | compile - Compiles DSL source text into validated ITrajectoryPlan.
                 | compile_script - Compiles DSL source text into validated plan.
                 | compile_program - Compiles AST program into validated plan.
                 | get_version - Returns the compiler version string.
@@ -82,17 +81,6 @@ class ScriptPlanCompiler:
         self._parser: Final[IScaraParser] = parser
         self._compiler: Final[IAstPlanCompiler] = compiler
         self._linter: Final[ILinter] = linter
-
-    def compile(self, *, source: str) -> ITrajectoryPlan:
-        '''
-            Compiles DSL source text into an executable and validated ITrajectoryPlan.
-
-            :param source: Raw .scara script text.
-            :return: Validated ITrajectoryPlan protocol instance.
-            :exceptions:
-                | ScaraSemanticError: If validation diagnostics occur.
-        '''
-        return self.compile_script(source=source)
 
     def compile_script(self, *, source: str) -> ITrajectoryPlan:
         '''

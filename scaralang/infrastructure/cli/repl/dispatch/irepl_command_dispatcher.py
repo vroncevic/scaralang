@@ -23,14 +23,14 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.repl.repl_dispatch_result import ReplDispatchResult
-from scaralang.core.model.repl.repl_session_context import ReplSessionContext
+from scaralang.core.model.repl.result import ReplDispatchResult
+from scaralang.core.model.repl.context import ReplSessionContext
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,9 +45,7 @@ class IReplCommandDispatcher(Protocol):
 
             :methods:
                 | dispatch_line - Routes line to session handlers or flags for DSL.
-                | format_help - Returns formatted help text for REPL commands and syntax.
-                | format_status - Returns formatted status text for active session state.
-                | format_pose - Returns formatted Cartesian pose string.
+                | get_version - Returns protocol version string.
     '''
 
     def dispatch_line(
@@ -62,31 +60,11 @@ class IReplCommandDispatcher(Protocol):
             :param line: Input command line string.
             :param context: Active REPL session context model.
             :return: ReplDispatchResult model capturing dispatch outcome.
-            :exceptions: None.
         '''
 
-    def format_help(self) -> str:
+    def get_version(self) -> str:
         '''
-            Returns formatted help text for REPL commands and syntax.
+            Returns protocol version string.
 
-            :return: Multiline help string.
-            :exceptions: None.
-        '''
-
-    def format_status(self, *, context: ReplSessionContext) -> str:
-        '''
-            Returns formatted status text for active session state.
-
-            :param context: Active REPL session context model.
-            :return: Multiline status string.
-            :exceptions: None.
-        '''
-
-    def format_pose(self, *, context: ReplSessionContext) -> str:
-        '''
-            Returns formatted Cartesian pose string.
-
-            :param context: Active REPL session context model.
-            :return: Single-line Cartesian pose string.
-            :exceptions: None.
+            :return: Protocol version string.
         '''

@@ -33,7 +33,7 @@ from ats_utilities.context.factory import ContextBundleFactory
 from ats_utilities.exceptions.ats_type_error import ATSTypeError
 from ats_utilities.exceptions.ats_value_error import ATSValueError
 
-from scaralang.core.model.exceptions.scara_error import ScaraError
+from scaralang.core.model.exceptions.error import ScaraError
 from scaralang.infrastructure.cli.engine import CLI
 from scaralang.infrastructure.cli.setup.factory import CLIBundleFactory
 from scaralang.infrastructure.cli.setup.options import CLIBundleOptions
@@ -42,7 +42,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

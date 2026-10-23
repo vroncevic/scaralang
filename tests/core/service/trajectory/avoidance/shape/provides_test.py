@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,13 +48,22 @@ class TestShapeProvides(TestCase):
 
         It defines:
 
+            :attributes:
+                | planner - Instance of AvoidanceShapePlanner.
             :methods:
+                | setUp - Prepares AvoidanceShapePlanner fixture.
                 | test_provides_attributes - Verifies planner instance exposed properly.
                 | test_provides_immutability - Verifies frozen immutability of bundle.
     '''
 
-    def _create_planner(self) -> AvoidanceShapePlanner:
-        '''Helper to instantiate a dummy AvoidanceShapePlanner.'''
+    planner: AvoidanceShapePlanner
+
+    def setUp(self) -> None:
+        '''
+            Prepares AvoidanceShapePlanner fixture.
+
+            :exceptions: None.
+        '''
         validator = ValidationFactory.create(dead_zone_radius=86.0).validator
         calculator = ArcFactory.create().calculator
         deps = BypassDependencies(
@@ -67,18 +76,24 @@ class TestShapeProvides(TestCase):
             validator=validator,
             bypass_planner=bypass_planner,
         )
-        return AvoidanceShapePlanner(dependencies=shape_deps)
+        self.planner = AvoidanceShapePlanner(dependencies=shape_deps)
 
     def test_provides_attributes(self) -> None:
-        '''Verifies planner attribute is properly exposed.'''
-        planner = self._create_planner()
-        provides = ShapeProvides(planner=planner)
-        self.assertIs(provides.planner, planner)
+        '''
+            Verifies planner attribute is properly exposed.
+
+            :exceptions: None.
+        '''
+        provides = ShapeProvides(planner=self.planner)
+        self.assertIs(provides.planner, self.planner)
 
     def test_provides_immutability(self) -> None:
-        '''Verifies frozen dataclass immutability.'''
-        planner = self._create_planner()
-        provides = ShapeProvides(planner=planner)
+        '''
+            Verifies frozen dataclass immutability.
+
+            :exceptions: None.
+        '''
+        provides = ShapeProvides(planner=self.planner)
         with self.assertRaises(FrozenInstanceError):
             provides.planner = None  # type: ignore[misc]
 

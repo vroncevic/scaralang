@@ -31,14 +31,10 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
-
-
-class NonConformingCycleCalculator:  # pylint: disable=too-few-public-methods
-    '''Dummy class not implementing ICycleTimeCalculator.'''
 
 
 class TestICycleTimeCalculator(TestCase):
@@ -55,22 +51,38 @@ class TestICycleTimeCalculator(TestCase):
     '''
 
     def test_structural_conformance(self) -> None:
-        '''Verifies concrete CycleTimeCalculator satisfies ICycleTimeCalculator protocol.'''
+        '''
+            Verifies concrete CycleTimeCalculator satisfies ICycleTimeCalculator protocol.
+
+            :exceptions: None.
+        '''
         calc = CycleTimeCalculator()
         self.assertIsInstance(calc, ICycleTimeCalculator)
 
     def test_factory_return_conformance(self) -> None:
-        '''Verifies factory returns instance satisfying ICycleTimeCalculator.'''
+        '''
+            Verifies factory returns instance satisfying ICycleTimeCalculator.
+
+            :exceptions: None.
+        '''
         provides = CycleFactory.create()
         self.assertIsInstance(provides.calculator, ICycleTimeCalculator)
 
     def test_non_conforming_instance(self) -> None:
-        '''Verifies non-conforming object is rejected by runtime_checkable protocol.'''
-        dummy = NonConformingCycleCalculator()
+        '''
+            Verifies non-conforming object is rejected by runtime_checkable protocol.
+
+            :exceptions: None.
+        '''
+        dummy = object()
         self.assertNotIsInstance(dummy, ICycleTimeCalculator)
 
     def test_calculator_name_property(self) -> None:
-        '''Verifies name property returns correct identifier string.'''
+        '''
+            Verifies name property returns correct identifier string.
+
+            :exceptions: None.
+        '''
         calc = CycleTimeCalculator()
         self.assertEqual(calc.name, 'cycle_time_calculator')
 

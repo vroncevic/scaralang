@@ -25,8 +25,8 @@ from collections.abc import Mapping
 from os.path import exists
 from typing import Final
 
-from scaralang.core.model.dsl.exporter.export_format import ExportFormat
-from scaralang.core.model.exceptions.scara_error import ScaraError
+from scaralang.core.model.dsl.exporter.format import ExportFormat
+from scaralang.core.model.exceptions.error import ScaraError
 from scaralang.core.service.compiler.plan.script.icompiler import IScriptPlanCompiler
 from scaralang.core.service.exporter.iexporter import IScaraExporter
 from scaralang.infrastructure.command.export.dependencies import ExportDependencies
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -118,17 +118,13 @@ class ExportCommandExecutor:
             )
 
             raw_output = params.get('output')
-            output_path: str | None = (
-                str(raw_output) if isinstance(raw_output, str) and raw_output.strip()
-                else None
-            )
-
-            if output_path is not None:
+            if isinstance(raw_output, str) and raw_output.strip():
+                output_path: str = raw_output.strip()
                 with open(output_path, 'w', encoding='utf-8') as f_out:
                     f_out.write(exported_content)
                 msg: str = f'Exported {target_format.value} written to {output_path}'
             else:
-                msg = exported_content
+                msg: str = exported_content
 
             return {'returncode': 0, 'stdout': msg, 'stderr': ''}
 

@@ -88,6 +88,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div class="line">HOME - Multi-axis homing sequence.</div>
 <div class="line">MOVE_J - Fast point-to-point joint move.</div>
 <div class="line">MOVE_L - Linear Cartesian interpolated motion.</div>
+<div class="line">MOVE_REL - Relative Cartesian offset motion.</div>
 <div class="line">JUMP - 3D parabolic arch pick-and-place motion.</div>
 <div class="line">ARC_CW - Circular arc clockwise.</div>
 <div class="line">ARC_CCW - Circular arc counter-clockwise.</div>
@@ -114,6 +115,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <div class="line">ESTOP - Immediate emergency stop.</div>
 <div class="line">ENABLE - Energize robot stepper driver stages.</div>
 <div class="line">DISABLE - De-energize robot stepper driver stages.</div>
+<div class="line">DEF - User-defined macro subroutine definition.</div>
+<div class="line">CALL - Macro subroutine invocation.</div>
+<div class="line">REPEAT - Fixed-count iteration block loop.</div>
+<div class="line">END - Terminal block boundary for DEF or REPEAT.</div>
+<div class="line">ZONE_DEF - Geometric keep-out obstacle zone definition.</div>
 </div>
 </dd>
 </dl>
@@ -139,6 +145,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.CALL">
+<span class="sig-name descname"><span class="pre">CALL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CALL'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.CALL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.CONFIG">
 <span class="sig-name descname"><span class="pre">CONFIG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CONFIG'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.CONFIG" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -154,6 +165,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.DEF">
+<span class="sig-name descname"><span class="pre">DEF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DEF'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.DEF" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.DISABLE">
 <span class="sig-name descname"><span class="pre">DISABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DISABLE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.DISABLE" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -161,6 +177,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ENABLE">
 <span class="sig-name descname"><span class="pre">ENABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ENABLE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ENABLE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.END">
+<span class="sig-name descname"><span class="pre">END</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'END'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.END" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -219,6 +240,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.MOVE_REL">
+<span class="sig-name descname"><span class="pre">MOVE_REL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MOVE_REL'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.MOVE_REL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.OVERRIDE">
 <span class="sig-name descname"><span class="pre">OVERRIDE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'OVERRIDE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.OVERRIDE" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -236,6 +262,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.PUMP">
 <span class="sig-name descname"><span class="pre">PUMP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PUMP'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.PUMP" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.REPEAT">
+<span class="sig-name descname"><span class="pre">REPEAT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'REPEAT'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.REPEAT" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -293,6 +324,11 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <span class="sig-name descname"><span class="pre">ZONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ZONE'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ZONE" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ZONE_DEF">
+<span class="sig-name descname"><span class="pre">ZONE_DEF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ZONE_DEF'</span></em><a class="headerlink" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ZONE_DEF" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -313,11 +349,14 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.APPROACH"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.APPROACH</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ARC_CCW"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.ARC_CCW</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ARC_CW"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.ARC_CW</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.CALL"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.CALL</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.CONFIG"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.CONFIG</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.CONFIG_ELBOW"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.CONFIG_ELBOW</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.CONFIG_MOTOR"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.CONFIG_MOTOR</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.DEF"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.DEF</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.DISABLE"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.DISABLE</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ENABLE"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.ENABLE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.END"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.END</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ESTOP"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.ESTOP</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.FRAME_RESET"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.FRAME_RESET</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.FRAME_SET"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.FRAME_SET</span></code></a></li>
@@ -329,10 +368,12 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.MOVE_J"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.MOVE_J</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.MOVE_L"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.MOVE_L</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.MOVE_PALLET"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.MOVE_PALLET</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.MOVE_REL"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.MOVE_REL</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.OVERRIDE"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.OVERRIDE</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.PALLET_DEF"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.PALLET_DEF</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.PROBE"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.PROBE</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.PUMP"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.PUMP</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.REPEAT"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.REPEAT</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.RESUME"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.RESUME</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.RETRACT"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.RETRACT</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.SPEED"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.SPEED</span></code></a></li>
@@ -344,6 +385,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.WAIT"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.WAIT</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.WAIT_MS"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.WAIT_MS</span></code></a></li>
 <li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ZONE"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.ZONE</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.model.dsl.ast.command_type.ScaraCommandType.ZONE_DEF"><code class="docutils literal notranslate"><span class="pre">ScaraCommandType.ZONE_DEF</span></code></a></li>
 </ul>
 </li>
 </ul>

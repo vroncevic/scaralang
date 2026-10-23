@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    scaralang.core.service.linter.rules.motion
+   scaralang.core.service.linter.rules.obstacle
    scaralang.core.service.linter.rules.pneumatic
    scaralang.core.service.linter.rules.state
    scaralang.core.service.linter.rules.timing

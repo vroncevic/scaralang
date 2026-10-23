@@ -27,7 +27,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,6 +50,7 @@ class ScaraCommandType(StrEnum):
                 | HOME - Multi-axis homing sequence.
                 | MOVE_J - Fast point-to-point joint move.
                 | MOVE_L - Linear Cartesian interpolated motion.
+                | MOVE_REL - Relative Cartesian offset motion.
                 | JUMP - 3D parabolic arch pick-and-place motion.
                 | ARC_CW - Circular arc clockwise.
                 | ARC_CCW - Circular arc counter-clockwise.
@@ -76,6 +77,11 @@ class ScaraCommandType(StrEnum):
                 | ESTOP - Immediate emergency stop.
                 | ENABLE - Energize robot stepper driver stages.
                 | DISABLE - De-energize robot stepper driver stages.
+                | DEF - User-defined macro subroutine definition.
+                | CALL - Macro subroutine invocation.
+                | REPEAT - Fixed-count iteration block loop.
+                | END - Terminal block boundary for DEF or REPEAT.
+                | ZONE_DEF - Geometric keep-out obstacle zone definition.
     '''
 
     CONFIG = 'CONFIG'
@@ -87,6 +93,7 @@ class ScaraCommandType(StrEnum):
     HOME = 'HOME'
     MOVE_J = 'MOVE_J'
     MOVE_L = 'MOVE_L'
+    MOVE_REL = 'MOVE_REL'
     JUMP = 'JUMP'
     ARC_CW = 'ARC_CW'
     ARC_CCW = 'ARC_CCW'
@@ -113,3 +120,8 @@ class ScaraCommandType(StrEnum):
     ESTOP = 'ESTOP'
     ENABLE = 'ENABLE'
     DISABLE = 'DISABLE'
+    DEF = 'DEF'
+    CALL = 'CALL'
+    REPEAT = 'REPEAT'
+    END = 'END'
+    ZONE_DEF = 'ZONE_DEF'

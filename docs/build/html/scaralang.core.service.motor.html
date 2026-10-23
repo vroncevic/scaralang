@@ -15,7 +15,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.core.service.motor.drive_mode_resolver module" href="scaralang.core.service.motor.drive_mode_resolver.html" />
+    <link rel="next" title="scaralang.core.service.motor.factory module" href="scaralang.core.service.motor.factory.html" />
     <link rel="prev" title="scaralang.core.service.linter.provides module" href="scaralang.core.service.linter.provides.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,7 +28,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.motor.drive_mode_resolver.html" title="scaralang.core.service.motor.drive_mode_resolver module"
+          <a href="scaralang.core.service.motor.factory.html" title="scaralang.core.service.motor.factory module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.service.linter.provides.html" title="scaralang.core.service.linter.provides module"
@@ -53,17 +53,6 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.motor.drive_mode_resolver.html">scaralang.core.service.motor.drive_mode_resolver module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.motor.drive_mode_resolver.html#scaralang.core.service.motor.drive_mode_resolver.DriveModeResolver"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.drive_mode_resolver.html#scaralang.core.service.motor.drive_mode_resolver.DriveModeResolver._MODE_LOOKUP"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver._MODE_LOOKUP</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.drive_mode_resolver.html#scaralang.core.service.motor.drive_mode_resolver.DriveModeResolver.get_version"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver.get_version()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.drive_mode_resolver.html#scaralang.core.service.motor.drive_mode_resolver.DriveModeResolver.is_valid_drive_mode"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver.is_valid_drive_mode()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.drive_mode_resolver.html#scaralang.core.service.motor.drive_mode_resolver.DriveModeResolver.parse_drive_mode"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver.parse_drive_mode()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.drive_mode_resolver.html#scaralang.core.service.motor.drive_mode_resolver.DriveModeResolver.supported_mode_strings"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver.supported_mode_strings()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.motor.factory.html">scaralang.core.service.motor.factory module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.motor.factory.html#scaralang.core.service.motor.factory.MotorFactory"><code class="docutils literal notranslate"><span class="pre">MotorFactory</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.factory.html#scaralang.core.service.motor.factory.MotorFactory.create"><code class="docutils literal notranslate"><span class="pre">MotorFactory.create()</span></code></a></li>
@@ -72,21 +61,32 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.motor.interface_resolver.html">scaralang.core.service.motor.interface_resolver module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.motor.interface_resolver.html#scaralang.core.service.motor.interface_resolver.InterfaceResolver"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.interface_resolver.html#scaralang.core.service.motor.interface_resolver.InterfaceResolver._INTERFACE_LOOKUP"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver._INTERFACE_LOOKUP</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.interface_resolver.html#scaralang.core.service.motor.interface_resolver.InterfaceResolver.get_version"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver.get_version()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.interface_resolver.html#scaralang.core.service.motor.interface_resolver.InterfaceResolver.resolve_interface_type"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver.resolve_interface_type()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.interface_resolver.html#scaralang.core.service.motor.interface_resolver.InterfaceResolver.supported_interface_strings"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver.supported_interface_strings()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.motor.interface.html">scaralang.core.service.motor.interface module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.motor.interface.html#scaralang.core.service.motor.interface.InterfaceResolver"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.interface.html#scaralang.core.service.motor.interface.InterfaceResolver._INTERFACE_LOOKUP"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver._INTERFACE_LOOKUP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.interface.html#scaralang.core.service.motor.interface.InterfaceResolver.get_version"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver.get_version()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.interface.html#scaralang.core.service.motor.interface.InterfaceResolver.resolve_interface_type"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver.resolve_interface_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.interface.html#scaralang.core.service.motor.interface.InterfaceResolver.supported_interface_strings"><code class="docutils literal notranslate"><span class="pre">InterfaceResolver.supported_interface_strings()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.motor.wire_mode_converter.html">scaralang.core.service.motor.wire_mode_converter module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.motor.wire_mode_converter.html#scaralang.core.service.motor.wire_mode_converter.WireModeConverter"><code class="docutils literal notranslate"><span class="pre">WireModeConverter</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.wire_mode_converter.html#scaralang.core.service.motor.wire_mode_converter.WireModeConverter.from_wire_mode"><code class="docutils literal notranslate"><span class="pre">WireModeConverter.from_wire_mode()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.wire_mode_converter.html#scaralang.core.service.motor.wire_mode_converter.WireModeConverter.get_version"><code class="docutils literal notranslate"><span class="pre">WireModeConverter.get_version()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.wire_mode_converter.html#scaralang.core.service.motor.wire_mode_converter.WireModeConverter.to_wire_mode"><code class="docutils literal notranslate"><span class="pre">WireModeConverter.to_wire_mode()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.motor.mode.html">scaralang.core.service.motor.mode module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.motor.mode.html#scaralang.core.service.motor.mode.DriveModeResolver"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.mode.html#scaralang.core.service.motor.mode.DriveModeResolver._MODE_LOOKUP"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver._MODE_LOOKUP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.mode.html#scaralang.core.service.motor.mode.DriveModeResolver.get_version"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver.get_version()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.mode.html#scaralang.core.service.motor.mode.DriveModeResolver.is_valid_drive_mode"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver.is_valid_drive_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.mode.html#scaralang.core.service.motor.mode.DriveModeResolver.parse_drive_mode"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver.parse_drive_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.mode.html#scaralang.core.service.motor.mode.DriveModeResolver.supported_mode_strings"><code class="docutils literal notranslate"><span class="pre">DriveModeResolver.supported_mode_strings()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scaralang.core.service.motor.wire.html">scaralang.core.service.motor.wire module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.motor.wire.html#scaralang.core.service.motor.wire.WireModeConverter"><code class="docutils literal notranslate"><span class="pre">WireModeConverter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.wire.html#scaralang.core.service.motor.wire.WireModeConverter.from_wire_mode"><code class="docutils literal notranslate"><span class="pre">WireModeConverter.from_wire_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.wire.html#scaralang.core.service.motor.wire.WireModeConverter.get_version"><code class="docutils literal notranslate"><span class="pre">WireModeConverter.get_version()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.motor.wire.html#scaralang.core.service.motor.wire.WireModeConverter.to_wire_mode"><code class="docutils literal notranslate"><span class="pre">WireModeConverter.to_wire_mode()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -142,8 +142,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.core.service.motor.drive_mode_resolver.html"
-                          title="next chapter">scaralang.core.service.motor.drive_mode_resolver module</a></p>
+    <p class="topless"><a href="scaralang.core.service.motor.factory.html"
+                          title="next chapter">scaralang.core.service.motor.factory module</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -176,7 +176,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.motor.drive_mode_resolver.html" title="scaralang.core.service.motor.drive_mode_resolver module"
+          <a href="scaralang.core.service.motor.factory.html" title="scaralang.core.service.motor.factory module"
              >next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.service.linter.provides.html" title="scaralang.core.service.linter.provides module"

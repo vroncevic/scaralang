@@ -26,13 +26,14 @@ from scaralang.core.service.compiler.primitive.icompiler import IPrimitiveCompil
 from scaralang.core.service.compiler.primitive.motion.arc.factory import ArcMoveCompilerFactory
 from scaralang.core.service.compiler.primitive.motion.cartesian.factory import CartesianMoveCompilerFactory
 from scaralang.core.service.compiler.primitive.motion.compiler import MotionCommandCompiler
+from scaralang.core.service.compiler.primitive.motion.relative.factory import RelativeMoveCompilerFactory
 from scaralang.core.service.compiler.primitive.motion.vertical.factory import VerticalMoveCompilerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -60,6 +61,7 @@ class MotionCommandCompilerFactory:
         return MotionCommandCompiler(
             sub_compilers=(
                 CartesianMoveCompilerFactory.create(),
+                RelativeMoveCompilerFactory.create(),
                 VerticalMoveCompilerFactory.create(),
                 ArcMoveCompilerFactory.create(),
             )

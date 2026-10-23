@@ -27,7 +27,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -77,6 +77,12 @@ class ScaraInstructionParam(StrEnum):
                 | CLEARANCE - Safe transit clearance height.
                 | ARCH_HEIGHT - Parabolic arch travel height.
                 | TIMEOUT - Maximum wait duration before timeout.
+                | COUNT - Fixed repeat loop iteration count.
+                | X_MIN - Minimum X bound for rectangular keep-out zone.
+                | X_MAX - Maximum X bound for rectangular keep-out zone.
+                | Y_MIN - Minimum Y bound for rectangular keep-out zone.
+                | Y_MAX - Maximum Y bound for rectangular keep-out zone.
+                | SHAPE - Shape descriptor for keep-out obstacle zone.
     '''
 
     X = 'X'
@@ -124,3 +130,9 @@ class ScaraInstructionParam(StrEnum):
     START_Y = 'START_Y'
     Z_UP = 'Z_UP'
     Z_DOWN = 'Z_DOWN'
+    COUNT = 'COUNT'
+    X_MIN = 'X_MIN'
+    X_MAX = 'X_MAX'
+    Y_MIN = 'Y_MIN'
+    Y_MAX = 'Y_MAX'
+    SHAPE = 'SHAPE'

@@ -25,8 +25,9 @@ from unittest import TestCase
 from unittest import main
 from unittest.mock import MagicMock
 
-from scaralang.core.model.trajectory.validation_result import ValidationResult
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
+from scaralang.core.model.trajectory.validation.result import ValidationResult
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 from scaralang.core.service.trajectory.validation.waypoint.validator import WaypointValidator
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
@@ -35,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -78,7 +79,7 @@ class TestWaypointValidator(TestCase):
             Verifies that a valid reachable waypoint passes validation.
         '''
         wp = Waypoint(x=150.0, y=100.0, z=0.0, phi=0.0, speed=50.0, name='', command='')
-        res: ValidationResult = self.validator.validate_point(wp)
+        res: ValidationResult = self.validator.validate_point(wp, ElbowConfig.RIGHT)
         self.assertTrue(res.is_valid)
 
     def test_validate_point_out_of_workspace_z(self) -> None:
@@ -86,7 +87,7 @@ class TestWaypointValidator(TestCase):
             Verifies that a waypoint with Z out of bounds fails validation.
         '''
         wp = Waypoint(x=150.0, y=100.0, z=200.0, phi=0.0, speed=50.0, name='', command='')
-        res: ValidationResult = self.validator.validate_point(wp)
+        res: ValidationResult = self.validator.validate_point(wp, ElbowConfig.RIGHT)
         self.assertFalse(res.is_valid)
 
     def test_validate_point_unreachable(self) -> None:
@@ -94,7 +95,7 @@ class TestWaypointValidator(TestCase):
             Verifies that a waypoint beyond arm reach fails validation.
         '''
         wp = Waypoint(x=600.0, y=600.0, z=0.0, phi=0.0, speed=50.0, name='', command='')
-        res: ValidationResult = self.validator.validate_point(wp)
+        res: ValidationResult = self.validator.validate_point(wp, ElbowConfig.RIGHT)
         self.assertFalse(res.is_valid)
 
     def test_validate_point_violates_joint_limits(self) -> None:
@@ -102,7 +103,7 @@ class TestWaypointValidator(TestCase):
             Verifies that a waypoint violating joint angular limits fails validation.
         '''
         wp = Waypoint(x=299.8, y=0.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
-        res: ValidationResult = self.validator.validate_point(wp)
+        res: ValidationResult = self.validator.validate_point(wp, ElbowConfig.RIGHT)
         self.assertFalse(res.is_valid)
         self.assertIn('violates joint limits', res.message)
 
@@ -117,7 +118,8 @@ class TestWaypointValidator(TestCase):
         )
         validator = WaypointValidator(workspace=mock_workspace)
         res: ValidationResult = validator.validate_point(
-            Waypoint(x=100.0, y=100.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
+            Waypoint(x=100.0, y=100.0, z=10.0, phi=0.0, speed=50.0, name='', command=''),
+            ElbowConfig.RIGHT,
         )
         self.assertFalse(res.is_valid)
         self.assertIn('is kinematically unreachable', res.message)
@@ -131,7 +133,8 @@ class TestWaypointValidator(TestCase):
         mock_workspace.is_joint_reachable.return_value = (False, [])
         validator = WaypointValidator(workspace=mock_workspace)
         res: ValidationResult = validator.validate_point(
-            Waypoint(x=100.0, y=100.0, z=10.0, phi=0.0, speed=50.0, name='', command='')
+            Waypoint(x=100.0, y=100.0, z=10.0, phi=0.0, speed=50.0, name='', command=''),
+            ElbowConfig.RIGHT,
         )
         self.assertFalse(res.is_valid)
         self.assertIn('Joint limits exceeded', res.message)

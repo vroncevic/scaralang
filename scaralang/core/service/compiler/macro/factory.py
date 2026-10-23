@@ -29,12 +29,13 @@ from scaralang.core.service.compiler.macro.pallet.dependencies import PalletDepe
 from scaralang.core.service.compiler.macro.pallet.factory import PalletMacroExpanderFactory
 from scaralang.core.service.compiler.macro.provides import MacroProvides
 from scaralang.core.service.compiler.macro.tangent.factory import TangentMacroExpanderFactory
+from scaralang.core.service.compiler.macro.zone.factory import ZoneMacroExpanderFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -74,12 +75,16 @@ class MacroFactory:
         tangent_expander: IMacroExpander = (
             TangentMacroExpanderFactory.create()
         )
+        zone_expander: IMacroExpander = (
+            ZoneMacroExpanderFactory.create()
+        )
 
         all_expanders: tuple[IMacroExpander, ...] = (
             jump_expander,
             frame_expander,
             pallet_expander,
             tangent_expander,
+            zone_expander,
         )
 
         return MacroProvides(

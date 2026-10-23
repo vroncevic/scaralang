@@ -24,17 +24,17 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.protocol.binary_frame import BinaryFrame
-from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.model.protocol.frame import BinaryFrame
+from scaralang.core.model.protocol.message import MessageId
 from scaralang.core.service.disassembler.frame.decoder.actuator_decoder import ActuatorDecoder
 from scaralang.core.service.disassembler.frame.decoder.idecoder import IFramePayloadDecoder
-from scaralang.infrastructure.protocol.binary.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
+from scaralang.infrastructure.protocol.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -122,7 +122,7 @@ class TestActuatorDecoder(TestCase):
         '''
         Verifies version string retrieval.
         '''
-        self.assertEqual(self.decoder.get_version(), '1.0.9')
+        self.assertEqual(self.decoder.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

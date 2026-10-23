@@ -29,7 +29,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -39,11 +39,19 @@ class InstructionParamTest(TestCase):
     '''Unit tests validating ScaraInstructionParam enumeration values.'''
 
     def test_members_count(self) -> None:
-        '''Verify that 45 instruction parameter keys are defined.'''
-        self.assertEqual(len(ScaraInstructionParam), 45)
+        '''
+            Verify that 51 instruction parameter keys are defined.
+
+            :exceptions: None.
+        '''
+        self.assertEqual(len(ScaraInstructionParam), 51)
 
     def test_member_string_values(self) -> None:
-        '''Verify that members match their exact uppercase string values.'''
+        '''
+            Verify that members match their exact uppercase string values.
+
+            :exceptions: None.
+        '''
         self.assertEqual(ScaraInstructionParam.X, 'X')
         self.assertEqual(ScaraInstructionParam.Y, 'Y')
         self.assertEqual(ScaraInstructionParam.Z, 'Z')
@@ -57,12 +65,26 @@ class InstructionParamTest(TestCase):
         self.assertEqual(ScaraInstructionParam.DIST, 'DIST')
         self.assertEqual(ScaraInstructionParam.ANGLE, 'ANGLE')
         self.assertEqual(ScaraInstructionParam.ARCH, 'ARCH')
+        self.assertEqual(ScaraInstructionParam.COUNT, 'COUNT')
+        self.assertEqual(ScaraInstructionParam.X_MIN, 'X_MIN')
+        self.assertEqual(ScaraInstructionParam.X_MAX, 'X_MAX')
+        self.assertEqual(ScaraInstructionParam.Y_MIN, 'Y_MIN')
+        self.assertEqual(ScaraInstructionParam.Y_MAX, 'Y_MAX')
+        self.assertEqual(ScaraInstructionParam.SHAPE, 'SHAPE')
 
     def test_lookup_by_value(self) -> None:
-        '''Verify string lookup returns matching enum instance.'''
+        '''
+            Verify string lookup returns matching enum instance.
+
+            :exceptions: None.
+        '''
         self.assertIs(
             ScaraInstructionParam('SPEED'),
             ScaraInstructionParam.SPEED,
+        )
+        self.assertIs(
+            ScaraInstructionParam('X_MIN'),
+            ScaraInstructionParam.X_MIN,
         )
 
 

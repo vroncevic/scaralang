@@ -24,15 +24,15 @@ from __future__ import annotations
 from typing import ClassVar
 
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
-from scaralang.core.model.dsl.linter.lint_context import LintContext
-from scaralang.core.model.dsl.linter.lint_tool_state import LintToolState
-from scaralang.core.model.motor.motor_drive_mode import MotorDriveMode
+from scaralang.core.model.dsl.linter.context import LintContext
+from scaralang.core.model.dsl.linter.tool_state import LintToolState
+from scaralang.core.model.motor.mode import MotorDriveMode
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

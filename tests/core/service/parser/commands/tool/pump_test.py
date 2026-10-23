@@ -26,17 +26,17 @@ from unittest import TestCase, main
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
 from scaralang.core.model.dsl.ast.pneumatic_state import PneumaticState
-from scaralang.core.model.dsl.token.scara_token import ScaraToken
-from scaralang.core.model.dsl.token.scara_token_type import ScaraTokenType
-from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.model.dsl.token.token import ScaraToken
+from scaralang.core.model.dsl.token.token_type import ScaraTokenType
+from scaralang.core.model.exceptions.syntax import ScaraSyntaxError
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 from scaralang.core.service.parser.commands.tool.pump import PumpParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -54,10 +54,12 @@ class TestDisassembleDependencies(TestCase):
         self.mock_service = MagicMock()
         self.mock_summary_formatter = MagicMock()
         self.mock_error_handler = MagicMock()
+        self.mock_summary_calculator = MagicMock()
         self.dependencies = DisassembleDependencies(
             service=self.mock_service,
             summary_formatter=self.mock_summary_formatter,
             error_handler=self.mock_error_handler,
+            summary_calculator=self.mock_summary_calculator,
         )
 
     def test_dependencies_initialization(self) -> None:
@@ -67,6 +69,9 @@ class TestDisassembleDependencies(TestCase):
             self.dependencies.summary_formatter, self.mock_summary_formatter
         )
         self.assertIs(self.dependencies.error_handler, self.mock_error_handler)
+        self.assertIs(
+            self.dependencies.summary_calculator, self.mock_summary_calculator
+        )
 
     def test_dependencies_immutability(self) -> None:
         '''Verifies dependencies container enforces immutability via frozen dataclass.'''

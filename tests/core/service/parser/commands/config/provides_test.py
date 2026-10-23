@@ -32,13 +32,13 @@ from scaralang.core.service.parser.commands.config.provides import ConfigProvide
 from scaralang.core.service.parser.commands.config.speed import SpeedParser
 from scaralang.core.service.parser.commands.config.tool_orient import ToolOrientParser
 from scaralang.core.service.parser.commands.config.zone import ZoneParser
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,39 +59,19 @@ class TestConfigProvides(TestCase):
         '''
             Verifies attributes and protocol conformance of provided parsers.
         '''
-        accel_parser = AccelParser()
-        elbow_parser = ElbowParser()
-        motor_parser = MotorParser()
-        override_parser = OverrideParser()
-        speed_parser = SpeedParser()
-        tool_orient_parser = ToolOrientParser()
-        zone_parser = ZoneParser()
-        provides = ConfigProvides(
-            accel_parser=accel_parser,
-            elbow_parser=elbow_parser,
-            motor_parser=motor_parser,
-            override_parser=override_parser,
-            speed_parser=speed_parser,
-            tool_orient_parser=tool_orient_parser,
-            zone_parser=zone_parser,
-            parsers=(
-                elbow_parser,
-                motor_parser,
-                speed_parser,
-                accel_parser,
-                override_parser,
-                zone_parser,
-                tool_orient_parser,
-            ),
+        parsers = (
+            ElbowParser(),
+            MotorParser(),
+            SpeedParser(),
+            AccelParser(),
+            OverrideParser(),
+            ZoneParser(),
+            ToolOrientParser(),
         )
-        self.assertIs(provides.accel_parser, accel_parser)
-        self.assertIs(provides.elbow_parser, elbow_parser)
-        self.assertIs(provides.motor_parser, motor_parser)
-        self.assertIs(provides.override_parser, override_parser)
-        self.assertIs(provides.speed_parser, speed_parser)
-        self.assertIs(provides.tool_orient_parser, tool_orient_parser)
-        self.assertIs(provides.zone_parser, zone_parser)
+        provides = ConfigProvides(parsers=parsers)
+        self.assertEqual(provides.parsers, parsers)
         self.assertEqual(len(provides.parsers), 7)
+        self.assertEqual(provides.get_version(), '1.1.0')
         for parser in provides.parsers:
             self.assertIsInstance(parser, ICommandParser)
 
@@ -99,33 +79,9 @@ class TestConfigProvides(TestCase):
         '''
             Verifies container immutability on attribute reassignment.
         '''
-        accel_parser = AccelParser()
-        elbow_parser = ElbowParser()
-        motor_parser = MotorParser()
-        override_parser = OverrideParser()
-        speed_parser = SpeedParser()
-        tool_orient_parser = ToolOrientParser()
-        zone_parser = ZoneParser()
-        provides = ConfigProvides(
-            accel_parser=accel_parser,
-            elbow_parser=elbow_parser,
-            motor_parser=motor_parser,
-            override_parser=override_parser,
-            speed_parser=speed_parser,
-            tool_orient_parser=tool_orient_parser,
-            zone_parser=zone_parser,
-            parsers=(
-                elbow_parser,
-                motor_parser,
-                speed_parser,
-                accel_parser,
-                override_parser,
-                zone_parser,
-                tool_orient_parser,
-            ),
-        )
+        provides = ConfigProvides(parsers=(ElbowParser(),))
         with self.assertRaises(FrozenInstanceError):
-            setattr(provides, 'accel_parser', accel_parser)
+            setattr(provides, 'parsers', ())
 
 
 if __name__ == '__main__':

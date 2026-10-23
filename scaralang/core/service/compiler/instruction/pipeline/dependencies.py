@@ -26,12 +26,14 @@ from dataclasses import dataclass
 
 from scaralang.core.service.compiler.instruction.processor.iprocessor import IPrimitiveInstructionProcessor
 from scaralang.core.service.compiler.macro.iexpander import IMacroExpander
+from scaralang.core.service.compiler.macro.repeat.iexpander import IRepeatExpander
+from scaralang.core.service.compiler.macro.subroutine.iexpander import ISubroutineExpander
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -45,9 +47,13 @@ class PipelineDependencies:
         It defines:
 
             :attributes:
+                | subroutine_expander - Injected ISubroutineExpander component.
+                | repeat_expander - Injected IRepeatExpander component.
                 | macro_expanders - Registered IMacroExpander components.
                 | processor - Injected IPrimitiveInstructionProcessor component.
     '''
 
+    subroutine_expander: ISubroutineExpander
+    repeat_expander: IRepeatExpander
     macro_expanders: Sequence[IMacroExpander]
     processor: IPrimitiveInstructionProcessor

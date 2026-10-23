@@ -15,7 +15,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="scaralang.core.service.linter.rules.pneumatic package" href="scaralang.core.service.linter.rules.pneumatic.html" />
+    <link rel="next" title="scaralang.core.service.linter.rules.obstacle package" href="scaralang.core.service.linter.rules.obstacle.html" />
     <link rel="prev" title="scaralang.core.service.linter.rules.motion.provides module" href="scaralang.core.service.linter.rules.motion.provides.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,7 +28,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.linter.rules.pneumatic.html" title="scaralang.core.service.linter.rules.pneumatic package"
+          <a href="scaralang.core.service.linter.rules.obstacle.html" title="scaralang.core.service.linter.rules.obstacle package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.service.linter.rules.motion.provides.html" title="scaralang.core.service.linter.rules.motion.provides module"
@@ -95,7 +95,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 </div></blockquote>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scaralang.core.service.linter.rules.motion.rule.MotionLintRule._MOTION_COMMANDS">
-<span class="sig-name descname"><span class="pre">_MOTION_COMMANDS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.ast.command_type.html#scaralang.core.model.dsl.ast.command_type.ScaraCommandType" title="scaralang.core.model.dsl.ast.command_type.ScaraCommandType"><span class="pre">ScaraCommandType</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({ScaraCommandType.APPROACH,</span> <span class="pre">ScaraCommandType.ARC_CCW,</span> <span class="pre">ScaraCommandType.ARC_CW,</span> <span class="pre">ScaraCommandType.JUMP,</span> <span class="pre">ScaraCommandType.MOVE_J,</span> <span class="pre">ScaraCommandType.MOVE_L,</span> <span class="pre">ScaraCommandType.MOVE_PALLET,</span> <span class="pre">ScaraCommandType.RETRACT})</span></em><a class="headerlink" href="#scaralang.core.service.linter.rules.motion.rule.MotionLintRule._MOTION_COMMANDS" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_MOTION_COMMANDS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.ast.command_type.html#scaralang.core.model.dsl.ast.command_type.ScaraCommandType" title="scaralang.core.model.dsl.ast.command_type.ScaraCommandType"><span class="pre">ScaraCommandType</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({ScaraCommandType.APPROACH,</span> <span class="pre">ScaraCommandType.ARC_CCW,</span> <span class="pre">ScaraCommandType.ARC_CW,</span> <span class="pre">ScaraCommandType.JUMP,</span> <span class="pre">ScaraCommandType.MOVE_J,</span> <span class="pre">ScaraCommandType.MOVE_L,</span> <span class="pre">ScaraCommandType.MOVE_PALLET,</span> <span class="pre">ScaraCommandType.MOVE_REL,</span> <span class="pre">ScaraCommandType.RETRACT})</span></em><a class="headerlink" href="#scaralang.core.service.linter.rules.motion.rule.MotionLintRule._MOTION_COMMANDS" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -110,7 +110,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scaralang.core.service.linter.rules.motion.rule.MotionLintRule.check">
-<span class="sig-name descname"><span class="pre">check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.ast.instruction.html#scaralang.core.model.dsl.ast.instruction.ScaraInstruction" title="scaralang.core.model.dsl.ast.instruction.ScaraInstruction"><span class="pre">ScaraInstruction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.linter.lint_context.html#scaralang.core.model.dsl.linter.lint_context.LintContext" title="scaralang.core.model.dsl.linter.lint_context.LintContext"><span class="pre">LintContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.diagnostic.scara_diagnostic.html#scaralang.core.model.dsl.diagnostic.scara_diagnostic.ScaraDiagnostic" title="scaralang.core.model.dsl.diagnostic.scara_diagnostic.ScaraDiagnostic"><span class="pre">ScaraDiagnostic</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/linter/rules/motion/rule.html#MotionLintRule.check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.linter.rules.motion.rule.MotionLintRule.check" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.ast.instruction.html#scaralang.core.model.dsl.ast.instruction.ScaraInstruction" title="scaralang.core.model.dsl.ast.instruction.ScaraInstruction"><span class="pre">ScaraInstruction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.dsl.linter.context.html#scaralang.core.model.dsl.linter.context.LintContext" title="scaralang.core.model.dsl.linter.context.LintContext"><span class="pre">LintContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.dsl.diagnostic.diagnostic.html#scaralang.core.model.dsl.diagnostic.diagnostic.ScaraDiagnostic" title="scaralang.core.model.dsl.diagnostic.diagnostic.ScaraDiagnostic"><span class="pre">ScaraDiagnostic</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/linter/rules/motion/rule.html#MotionLintRule.check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.linter.rules.motion.rule.MotionLintRule.check" title="Link to this definition">¶</a></dt>
 <dd><p>Validates motion instruction node and updates lint simulation state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -177,8 +177,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="scaralang.core.service.linter.rules.pneumatic.html"
-                          title="next chapter">scaralang.core.service.linter.rules.pneumatic package</a></p>
+    <p class="topless"><a href="scaralang.core.service.linter.rules.obstacle.html"
+                          title="next chapter">scaralang.core.service.linter.rules.obstacle package</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -211,7 +211,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.linter.rules.pneumatic.html" title="scaralang.core.service.linter.rules.pneumatic package"
+          <a href="scaralang.core.service.linter.rules.obstacle.html" title="scaralang.core.service.linter.rules.obstacle package"
              >next</a> |</li>
         <li class="right" >
           <a href="scaralang.core.service.linter.rules.motion.provides.html" title="scaralang.core.service.linter.rules.motion.provides module"

@@ -21,10 +21,11 @@ Info
 
 from __future__ import annotations
 
-from typing import Final, Sequence
+from collections.abc import Sequence
+from typing import Final
 
-from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.trajectory.avoidance.bypass.planner.iplanner import IDeadZoneBypassPlanner
 from scaralang.core.service.trajectory.avoidance.router.dependencies import RouterDependencies
 from scaralang.core.service.trajectory.avoidance.validation.ivalidator import IDeadZoneValidator
@@ -33,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

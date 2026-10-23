@@ -10,7 +10,11 @@ Subpackages
    scaralang.core.service.compiler.macro.frame
    scaralang.core.service.compiler.macro.jump
    scaralang.core.service.compiler.macro.pallet
+   scaralang.core.service.compiler.macro.repeat
+   scaralang.core.service.compiler.macro.segmenter
+   scaralang.core.service.compiler.macro.subroutine
    scaralang.core.service.compiler.macro.tangent
+   scaralang.core.service.compiler.macro.zone
 
 Submodules
 ----------

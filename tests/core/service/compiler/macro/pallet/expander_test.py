@@ -27,10 +27,10 @@ from unittest import main
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
+from scaralang.core.model.dsl.macro.frame import WorkFrame
+from scaralang.core.model.exceptions.semantic import ScaraSemanticError
+from scaralang.core.model.kinematics.pose.point_3d import Point3D
 from scaralang.core.service.compiler.context.factory import CompilerContextFactory
-from scaralang.core.model.dsl.macro.work_frame import WorkFrame
-from scaralang.core.model.exceptions.scara_semantic_error import ScaraSemanticError
-from scaralang.core.model.kinematics.point_3d import Point3D
 from scaralang.core.service.compiler.macro.iexpander import IMacroExpander
 from scaralang.core.service.compiler.macro.pallet.dependencies import PalletDependencies
 from scaralang.core.service.compiler.macro.pallet.expander import PalletMacroExpander
@@ -40,7 +40,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

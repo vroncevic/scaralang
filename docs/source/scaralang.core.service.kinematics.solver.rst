@@ -7,8 +7,8 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.service.kinematics.solver.planar
-   scaralang.core.service.kinematics.solver.spatial
+   scaralang.core.service.kinematics.solver.analytical
+   scaralang.core.service.kinematics.solver.numerical
 
 Module contents
 ---------------

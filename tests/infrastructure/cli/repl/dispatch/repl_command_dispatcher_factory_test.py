@@ -27,13 +27,14 @@ from unittest import main
 from scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher import IReplCommandDispatcher
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher import ReplCommandDispatcher
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher_factory import ReplCommandDispatcherFactory
+from scaralang.infrastructure.cli.repl.presentation.repl_status_presenter_factory import ReplStatusPresenterFactory
 from scaralang.infrastructure.info.factory import DefaultInfoFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,20 +53,35 @@ class TestReplCommandDispatcherFactory(TestCase):
     '''
 
     def test_create(self) -> None:
-        '''Verifies factory builds ReplCommandDispatcher with injected info provider.'''
+        '''
+            Verifies factory builds ReplCommandDispatcher with injected collaborators.
+
+            :exceptions: None.
+        '''
         provider = DefaultInfoFactory.create()
-        dispatcher = ReplCommandDispatcherFactory.create(info_provider=provider)
+        presenter = ReplStatusPresenterFactory.create()
+        dispatcher = ReplCommandDispatcherFactory.create(
+            info_provider=provider, status_presenter=presenter
+        )
         self.assertIsInstance(dispatcher, ReplCommandDispatcher)
         self.assertIsInstance(dispatcher, IReplCommandDispatcher)
 
     def test_create_default(self) -> None:
-        '''Verifies factory builds default ReplCommandDispatcher instance.'''
+        '''
+            Verifies factory builds default ReplCommandDispatcher instance.
+
+            :exceptions: None.
+        '''
         dispatcher = ReplCommandDispatcherFactory.create_default()
         self.assertIsInstance(dispatcher, ReplCommandDispatcher)
         self.assertIsInstance(dispatcher, IReplCommandDispatcher)
 
     def test_get_version(self) -> None:
-        '''Verifies factory returns a valid semantic version string.'''
+        '''
+            Verifies factory returns a valid semantic version string.
+
+            :exceptions: None.
+        '''
         version: str = ReplCommandDispatcherFactory.get_version()
         self.assertIsInstance(version, str)
         self.assertTrue(len(version) > 0)

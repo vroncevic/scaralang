@@ -1,6 +1,14 @@
 scaralang.core.service.kinematics.profile package
 =================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.core.service.kinematics.profile.deadzone
+
 Submodules
 ----------
 

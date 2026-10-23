@@ -26,7 +26,7 @@ from unittest import TestCase, main
 from scaralang.core.model.dsl.ast.command_type import ScaraCommandType
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
 from scaralang.core.model.dsl.ast.instruction_param import ScaraInstructionParam
-from scaralang.core.model.dsl.diagnostic.scara_diagnostic_code import ScaraDiagnosticCode
+from scaralang.core.model.dsl.diagnostic.code import ScaraDiagnosticCode
 from scaralang.core.service.linter.context.factory import LintContextFactory
 from scaralang.core.service.linter.rules.motion.calibration.factory import CalibrationValidatorFactory
 from scaralang.core.service.linter.rules.motion.duplicate.factory import DuplicateValidatorFactory
@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -117,6 +117,22 @@ class TestMotionLintRule(TestCase):
         codes = [d.code for d in diagnostics]
         self.assertIn(ScaraDiagnosticCode.UNCALIBRATED_MOTION, codes)
         self.assertTrue(context.motion_occurred)
+
+        rel_inst = ScaraInstruction(
+            command_type=ScaraCommandType.MOVE_REL,
+            line_number=3,
+            raw_text='MOVE_REL X=10.0 Y=10.0',
+            parameters={
+                ScaraInstructionParam.X: 10.0,
+                ScaraInstructionParam.Y: 10.0,
+            },
+        )
+        rel_context = LintContextFactory.create()
+        rel_diag = rule.check(instruction=rel_inst, context=rel_context)
+        self.assertIn(
+            ScaraDiagnosticCode.UNCALIBRATED_MOTION,
+            [d.code for d in rel_diag],
+        )
 
     def test_duplicate_motion_detected(self) -> None:
         '''

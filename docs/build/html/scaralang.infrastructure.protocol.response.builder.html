@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.infrastructure.protocol.response.builder module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.infrastructure.protocol.response.dependencies module" href="scaralang.infrastructure.protocol.response.dependencies.html" />
+    <link rel="prev" title="scaralang.infrastructure.protocol.response package" href="scaralang.infrastructure.protocol.response.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.response.dependencies.html" title="scaralang.infrastructure.protocol.response.dependencies module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.response.html" title="scaralang.infrastructure.protocol.response package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.infrastructure.html" >scaralang.infrastructure package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.infrastructure.protocol.html" >scaralang.infrastructure.protocol package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.infrastructure.protocol.response.html" accesskey="U">scaralang.infrastructure.protocol.response package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.protocol.response.builder module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.infrastructure.protocol.response.builder">
+<span id="scaralang-infrastructure-protocol-response-builder-module"></span><h1>scaralang.infrastructure.protocol.response.builder module<a class="headerlink" href="#module-scaralang.infrastructure.protocol.response.builder" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>builder.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Concrete implementation of binary wire response frame builder.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.protocol.response.builder.</span></span><span class="sig-name descname"><span class="pre">BinaryResponseBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ipacker.html#scaralang.core.service.protocol.ipacker.IBinaryFramePacker" title="scaralang.core.service.protocol.ipacker.IBinaryFramePacker"><span class="pre">IBinaryFramePacker</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/response/builder.html#BinaryResponseBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Builder constructing binary wire response frames using injected frame packer.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">_packer - Injected binary wire frame packer service.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">__init__ - Initializes builder with binary frame packer collaborator.</div>
+<div class="line">build_ack - Assembles positive acknowledgment response frame.</div>
+<div class="line">build_nack - Assembles negative rejection response frame.</div>
+<div class="line">build_status - Assembles consolidated manipulator telemetry response frame.</div>
+<div class="line">build_move_event - Assembles motion execution event response frame.</div>
+<div class="line">get_version - Returns response builder version string.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder._packer">
+<span class="sig-name descname"><span class="pre">_packer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ipacker.html#scaralang.core.service.protocol.ipacker.IBinaryFramePacker" title="scaralang.core.service.protocol.ipacker.IBinaryFramePacker"><span class="pre">IBinaryFramePacker</span></a></em><a class="headerlink" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder._packer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_ack">
+<span class="sig-name descname"><span class="pre">build_ack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmd_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId" title="scaralang.core.model.protocol.message.MessageId"><span class="pre">MessageId</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">free_slots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame" title="scaralang.core.model.protocol.frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/response/builder.html#BinaryResponseBuilder.build_ack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_ack" title="Link to this definition">¶</a></dt>
+<dd><p>Constructs an ACK response frame for an executed command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd_id</strong> – MessageId of acknowledged command.</p></li>
+<li><p><strong>seq_num</strong> – Cyclic sequence index matching inbound frame.</p></li>
+<li><p><strong>free_slots</strong> – Available queue capacity slots.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Assembled BinaryFrame with packed ACK payload.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_move_event">
+<span class="sig-name descname"><span class="pre">build_move_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.protocol.event.html#scaralang.core.model.protocol.event.MoveEventType" title="scaralang.core.model.protocol.event.MoveEventType"><span class="pre">MoveEventType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame" title="scaralang.core.model.protocol.frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/response/builder.html#BinaryResponseBuilder.build_move_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_move_event" title="Link to this definition">¶</a></dt>
+<dd><p>Constructs a RESP_MOVE_EVENT binary motion notification frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq_num</strong> – Cyclic sequence index matching inbound frame.</p></li>
+<li><p><strong>event_type</strong> – Motion event code (MoveEventType or integer).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Assembled BinaryFrame with packed MOVE_EVENT payload.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_nack">
+<span class="sig-name descname"><span class="pre">build_nack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmd_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.protocol.message.html#scaralang.core.model.protocol.message.MessageId" title="scaralang.core.model.protocol.message.MessageId"><span class="pre">MessageId</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame" title="scaralang.core.model.protocol.frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/response/builder.html#BinaryResponseBuilder.build_nack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_nack" title="Link to this definition">¶</a></dt>
+<dd><p>Constructs a NACK rejection response frame for a failed command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd_id</strong> – MessageId of rejected command.</p></li>
+<li><p><strong>seq_num</strong> – Cyclic sequence index matching inbound frame.</p></li>
+<li><p><strong>error_code</strong> – Error reason code.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Assembled BinaryFrame with packed NACK payload.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_status">
+<span class="sig-name descname"><span class="pre">build_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.protocol.status.html#scaralang.core.model.protocol.status.ManipulatorStatus" title="scaralang.core.model.protocol.status.ManipulatorStatus"><span class="pre">ManipulatorStatus</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scaralang.core.model.protocol.frame.html#scaralang.core.model.protocol.frame.BinaryFrame" title="scaralang.core.model.protocol.frame.BinaryFrame"><span class="pre">BinaryFrame</span></a></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/response/builder.html#BinaryResponseBuilder.build_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_status" title="Link to this definition">¶</a></dt>
+<dd><p>Constructs a STATUS telemetry response frame with motor step positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq_num</strong> – Cyclic sequence index matching inbound frame.</p></li>
+<li><p><strong>status</strong> – Consolidated manipulator telemetry state model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Assembled BinaryFrame with packed STATUS payload.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/response/builder.html#BinaryResponseBuilder.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.get_version" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the response builder version string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Version string.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.infrastructure.protocol.response.builder module</a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder"><code class="docutils literal notranslate"><span class="pre">BinaryResponseBuilder</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder._packer"><code class="docutils literal notranslate"><span class="pre">BinaryResponseBuilder._packer</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_ack"><code class="docutils literal notranslate"><span class="pre">BinaryResponseBuilder.build_ack()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_move_event"><code class="docutils literal notranslate"><span class="pre">BinaryResponseBuilder.build_move_event()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_nack"><code class="docutils literal notranslate"><span class="pre">BinaryResponseBuilder.build_nack()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.build_status"><code class="docutils literal notranslate"><span class="pre">BinaryResponseBuilder.build_status()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.response.builder.BinaryResponseBuilder.get_version"><code class="docutils literal notranslate"><span class="pre">BinaryResponseBuilder.get_version()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.infrastructure.protocol.response.html"
+                          title="previous chapter">scaralang.infrastructure.protocol.response package</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.infrastructure.protocol.response.dependencies.html"
+                          title="next chapter">scaralang.infrastructure.protocol.response.dependencies module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.infrastructure.protocol.response.builder.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.response.dependencies.html" title="scaralang.infrastructure.protocol.response.dependencies module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.response.html" title="scaralang.infrastructure.protocol.response package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.infrastructure.html" >scaralang.infrastructure package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.infrastructure.protocol.html" >scaralang.infrastructure.protocol package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.infrastructure.protocol.response.html" >scaralang.infrastructure.protocol.response package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.protocol.response.builder module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

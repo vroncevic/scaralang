@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.infrastructure.protocol.builder.provides module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.infrastructure.protocol.builder.system module" href="scaralang.infrastructure.protocol.builder.system.html" />
+    <link rel="prev" title="scaralang.infrastructure.protocol.builder.packer module" href="scaralang.infrastructure.protocol.builder.packer.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.builder.system.html" title="scaralang.infrastructure.protocol.builder.system module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.builder.packer.html" title="scaralang.infrastructure.protocol.builder.packer module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.infrastructure.html" >scaralang.infrastructure package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.infrastructure.protocol.html" >scaralang.infrastructure.protocol package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.infrastructure.protocol.builder.html" accesskey="U">scaralang.infrastructure.protocol.builder package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.protocol.builder.provides module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.infrastructure.protocol.builder.provides">
+<span id="scaralang-infrastructure-protocol-builder-provides-module"></span><h1>scaralang.infrastructure.protocol.builder.provides module<a class="headerlink" href="#module-scaralang.infrastructure.protocol.builder.provides" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>provides.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Provides container encapsulating outbound binary wire frame builder service contracts.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.provides.BuilderProvides">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.infrastructure.protocol.builder.provides.</span></span><span class="sig-name descname"><span class="pre">BuilderProvides</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">packer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.ipacker.html#scaralang.core.service.protocol.ipacker.IBinaryFramePacker" title="scaralang.core.service.protocol.ipacker.IBinaryFramePacker"><span class="pre">IBinaryFramePacker</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">motion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.imotion_builder.html#scaralang.core.service.protocol.imotion_builder.IBinaryMotionFrameBuilder" title="scaralang.core.service.protocol.imotion_builder.IBinaryMotionFrameBuilder"><span class="pre">IBinaryMotionFrameBuilder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">actuator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.iactuator_builder.html#scaralang.core.service.protocol.iactuator_builder.IBinaryActuatorFrameBuilder" title="scaralang.core.service.protocol.iactuator_builder.IBinaryActuatorFrameBuilder"><span class="pre">IBinaryActuatorFrameBuilder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.protocol.isystem_builder.html#scaralang.core.service.protocol.isystem_builder.IBinarySystemFrameBuilder" title="scaralang.core.service.protocol.isystem_builder.IBinarySystemFrameBuilder"><span class="pre">IBinarySystemFrameBuilder</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/infrastructure/protocol/builder/provides.html#BuilderProvides"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Immutable container providing outbound binary frame builder interfaces.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">packer - Bound IBinaryFramePacker service contract.</div>
+<div class="line">motion - Bound IBinaryMotionFrameBuilder service contract.</div>
+<div class="line">actuator - Bound IBinaryActuatorFrameBuilder service contract.</div>
+<div class="line">system - Bound IBinarySystemFrameBuilder service contract.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.provides.BuilderProvides.actuator">
+<span class="sig-name descname"><span class="pre">actuator</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.iactuator_builder.html#scaralang.core.service.protocol.iactuator_builder.IBinaryActuatorFrameBuilder" title="scaralang.core.service.protocol.iactuator_builder.IBinaryActuatorFrameBuilder"><span class="pre">IBinaryActuatorFrameBuilder</span></a></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides.actuator" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.provides.BuilderProvides.motion">
+<span class="sig-name descname"><span class="pre">motion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.imotion_builder.html#scaralang.core.service.protocol.imotion_builder.IBinaryMotionFrameBuilder" title="scaralang.core.service.protocol.imotion_builder.IBinaryMotionFrameBuilder"><span class="pre">IBinaryMotionFrameBuilder</span></a></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides.motion" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.provides.BuilderProvides.packer">
+<span class="sig-name descname"><span class="pre">packer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.ipacker.html#scaralang.core.service.protocol.ipacker.IBinaryFramePacker" title="scaralang.core.service.protocol.ipacker.IBinaryFramePacker"><span class="pre">IBinaryFramePacker</span></a></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides.packer" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.infrastructure.protocol.builder.provides.BuilderProvides.system">
+<span class="sig-name descname"><span class="pre">system</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.protocol.isystem_builder.html#scaralang.core.service.protocol.isystem_builder.IBinarySystemFrameBuilder" title="scaralang.core.service.protocol.isystem_builder.IBinarySystemFrameBuilder"><span class="pre">IBinarySystemFrameBuilder</span></a></em><a class="headerlink" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides.system" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.infrastructure.protocol.builder.provides module</a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides"><code class="docutils literal notranslate"><span class="pre">BuilderProvides</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides.actuator"><code class="docutils literal notranslate"><span class="pre">BuilderProvides.actuator</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides.motion"><code class="docutils literal notranslate"><span class="pre">BuilderProvides.motion</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides.packer"><code class="docutils literal notranslate"><span class="pre">BuilderProvides.packer</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.infrastructure.protocol.builder.provides.BuilderProvides.system"><code class="docutils literal notranslate"><span class="pre">BuilderProvides.system</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.infrastructure.protocol.builder.packer.html"
+                          title="previous chapter">scaralang.infrastructure.protocol.builder.packer module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.infrastructure.protocol.builder.system.html"
+                          title="next chapter">scaralang.infrastructure.protocol.builder.system module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.infrastructure.protocol.builder.provides.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.builder.system.html" title="scaralang.infrastructure.protocol.builder.system module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.infrastructure.protocol.builder.packer.html" title="scaralang.infrastructure.protocol.builder.packer module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.infrastructure.html" >scaralang.infrastructure package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.infrastructure.protocol.html" >scaralang.infrastructure.protocol package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.infrastructure.protocol.builder.html" >scaralang.infrastructure.protocol.builder package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.infrastructure.protocol.builder.provides module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

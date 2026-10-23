@@ -28,19 +28,19 @@ from unittest import TestCase
 from unittest import main
 from unittest.mock import MagicMock
 
-from scaralang.core.model.exceptions.scara_protocol_error import ScaraProtocolError
+from scaralang.core.model.exceptions.protocol import ScaraProtocolError
 from scaralang.infrastructure.command.compile.factory import CompileFactory
 from scaralang.infrastructure.command.decompile.definition import DecompileCommandDefinition
 from scaralang.infrastructure.command.decompile.dependencies import DecompileDependencies
 from scaralang.infrastructure.command.decompile.error.factory import ErrorFactory
 from scaralang.infrastructure.command.decompile.executor import DecompileCommandExecutor
-from scaralang.infrastructure.command.decompile.factory import DecompileFactory
+from scaralang.infrastructure.decompiler.factory import DefaultDecompilerFactory
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -69,7 +69,13 @@ class TestDecompileCommandExecutor(TestCase):
             Sets up test fixtures.
         '''
         self.cmd_def = DecompileCommandDefinition()
-        self.executor = DecompileFactory.create().executor
+        self.executor = DecompileCommandExecutor(
+            definition=self.cmd_def,
+            dependencies=DecompileDependencies(
+                service=DefaultDecompilerFactory.create(),
+                error_handler=ErrorFactory.create().handler,
+            ),
+        )
         self.temp_files: list[str] = []
 
     def tearDown(self) -> None:
@@ -169,7 +175,7 @@ class TestDecompileCommandExecutor(TestCase):
             Verifies handling and structured formatting of domain ScaraProtocolError.
         '''
         mock_service = MagicMock()
-        mock_service.decompile.side_effect = ScaraProtocolError('corrupted frame')
+        mock_service.decompile_bytes.side_effect = ScaraProtocolError('corrupted frame')
         deps = DecompileDependencies(
             service=mock_service,
             error_handler=ErrorFactory.create().handler,

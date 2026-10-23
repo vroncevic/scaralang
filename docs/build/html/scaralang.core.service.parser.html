@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="scaralang.core.service.parser.commands package" href="scaralang.core.service.parser.commands.html" />
-    <link rel="prev" title="scaralang.core.service.motor.wire_mode_converter module" href="scaralang.core.service.motor.wire_mode_converter.html" /> 
+    <link rel="prev" title="scaralang.core.service.motor.wire module" href="scaralang.core.service.motor.wire.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,7 +31,7 @@
           <a href="scaralang.core.service.parser.commands.html" title="scaralang.core.service.parser.commands package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.motor.wire_mode_converter.html" title="scaralang.core.service.motor.wire_mode_converter module"
+          <a href="scaralang.core.service.motor.wire.html" title="scaralang.core.service.motor.wire module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
@@ -90,19 +90,25 @@
 <li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.tool.html#module-scaralang.core.service.parser.commands.tool">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.commands.zone.html">scaralang.core.service.parser.commands.zone package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.zone.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.zone.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.zone.html#module-scaralang.core.service.parser.commands.zone">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="scaralang.core.service.parser.commands.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html">scaralang.core.service.parser.commands.icommand_parser module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser.html#scaralang.core.service.parser.commands.icommand_parser.ICommandParser"><code class="docutils literal notranslate"><span class="pre">ICommandParser</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.commands.iparser.html">scaralang.core.service.parser.commands.iparser module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.iparser.html#scaralang.core.service.parser.commands.iparser.ICommandParser"><code class="docutils literal notranslate"><span class="pre">ICommandParser</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser_provider.html">scaralang.core.service.parser.commands.icommand_parser_provider module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser_provider.html#scaralang.core.service.parser.commands.icommand_parser_provider.ICommandParserProvider"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvider</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.commands.iprovider.html">scaralang.core.service.parser.commands.iprovider module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.iprovider.html#scaralang.core.service.parser.commands.iprovider.ICommandParserProvider"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvider</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser_provides.html">scaralang.core.service.parser.commands.icommand_parser_provides module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.icommand_parser_provides.html#scaralang.core.service.parser.commands.icommand_parser_provides.ICommandParserProvides"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvides</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scaralang.core.service.parser.commands.iprovides.html">scaralang.core.service.parser.commands.iprovides module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scaralang.core.service.parser.commands.iprovides.html#scaralang.core.service.parser.commands.iprovides.ICommandParserProvides"><code class="docutils literal notranslate"><span class="pre">ICommandParserProvides</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -285,8 +291,8 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="scaralang.core.service.motor.wire_mode_converter.html"
-                          title="previous chapter">scaralang.core.service.motor.wire_mode_converter module</a></p>
+    <p class="topless"><a href="scaralang.core.service.motor.wire.html"
+                          title="previous chapter">scaralang.core.service.motor.wire module</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -327,7 +333,7 @@ with this program. If not, see &lt;<a class="reference external" href="http://ww
           <a href="scaralang.core.service.parser.commands.html" title="scaralang.core.service.parser.commands package"
              >next</a> |</li>
         <li class="right" >
-          <a href="scaralang.core.service.motor.wire_mode_converter.html" title="scaralang.core.service.motor.wire_mode_converter module"
+          <a href="scaralang.core.service.motor.wire.html" title="scaralang.core.service.motor.wire module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>

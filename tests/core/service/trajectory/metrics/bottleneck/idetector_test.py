@@ -31,14 +31,10 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
-
-
-class NonConformingBottleneckDetector:  # pylint: disable=too-few-public-methods
-    '''Dummy class not implementing IMotionBottleneckDetector.'''
 
 
 class TestIMotionBottleneckDetector(TestCase):
@@ -55,22 +51,38 @@ class TestIMotionBottleneckDetector(TestCase):
     '''
 
     def test_structural_conformance(self) -> None:
-        '''Verifies MotionBottleneckDetector satisfies protocol.'''
+        '''
+            Verifies MotionBottleneckDetector satisfies protocol.
+
+            :exceptions: None.
+        '''
         detector = MotionBottleneckDetector()
         self.assertIsInstance(detector, IMotionBottleneckDetector)
 
     def test_factory_conformance(self) -> None:
-        '''Verifies factory returns instance satisfying protocol.'''
+        '''
+            Verifies factory returns instance satisfying protocol.
+
+            :exceptions: None.
+        '''
         provides = BottleneckFactory.create()
         self.assertIsInstance(provides.detector, IMotionBottleneckDetector)
 
     def test_non_conforming_instance(self) -> None:
-        '''Verifies non-conforming object is rejected by runtime_checkable protocol.'''
-        dummy = NonConformingBottleneckDetector()
+        '''
+            Verifies non-conforming object is rejected by runtime_checkable protocol.
+
+            :exceptions: None.
+        '''
+        dummy = object()
         self.assertNotIsInstance(dummy, IMotionBottleneckDetector)
 
     def test_detector_name(self) -> None:
-        '''Verifies detector name property returns expected identifier string.'''
+        '''
+            Verifies detector name property returns expected identifier string.
+
+            :exceptions: None.
+        '''
         detector = MotionBottleneckDetector()
         self.assertEqual(detector.name, 'motion_bottleneck_detector')
 

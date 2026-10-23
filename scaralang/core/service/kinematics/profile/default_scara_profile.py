@@ -21,21 +21,23 @@ Info
 
 from __future__ import annotations
 
-from math import cos, pi, sqrt
+from typing import ClassVar
 
-from scaralang.core.model.kinematics.joint_angle_bounds import JointAngleBounds
-from scaralang.core.model.kinematics.link_dimensions import LinkDimensions
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.model.kinematics.singularity_margins import SingularityMargins
-from scaralang.core.model.kinematics.speed_limits import SpeedLimits
-from scaralang.core.model.kinematics.transmission_parameters import TransmissionParameters
-from scaralang.core.model.kinematics.vertical_bounds import VerticalBounds
+from scaralang.core.model.kinematics.solver.dls import DlsConfig
+from scaralang.core.model.kinematics.profile.angle import JointAngleBounds
+from scaralang.core.model.kinematics.profile.link import LinkDimensions
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
+from scaralang.core.model.kinematics.profile.singularity import SingularityMargins
+from scaralang.core.model.kinematics.profile.speed import SpeedLimits
+from scaralang.core.model.kinematics.profile.transmission import TransmissionParameters
+from scaralang.core.model.kinematics.profile.vertical import VerticalBounds
+from scaralang.core.service.kinematics.profile.deadzone.calculator import DeadzoneCalculator
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,12 +49,52 @@ class DefaultScaraProfile:
 
         It defines:
 
+            :attributes:
+                | DEFAULT_L1_MM - Default shoulder link length in millimeters.
+                | DEFAULT_L2_MM - Default elbow link length in millimeters.
+                | DEFAULT_J_LIMIT_RAD - Default joint angle symmetric limit in radians.
+                | DEFAULT_Z_MIN_MM - Default minimum vertical limit in millimeters.
+                | DEFAULT_Z_MAX_MM - Default maximum vertical limit in millimeters.
+                | DEFAULT_MIN_SPEED - Default minimum operational speed in mm/s.
+                | DEFAULT_MAX_SPEED - Default maximum operational speed in mm/s.
+                | DEFAULT_SPEED - Default nominal operational speed in mm/s.
+                | DEFAULT_ACCEL - Default nominal acceleration in mm/s^2.
+                | DEFAULT_MAX_ACCEL - Default maximum acceleration in mm/s^2.
+                | DEFAULT_SINGULARITY_MARGIN_MM - Default singularity boundary margin in mm.
+                | DEFAULT_THETA2_MIN_RAD - Default theta2 singularity margin in radians.
+                | DEFAULT_STEPS_PER_REV - Default motor steps per revolution.
+                | DEFAULT_MICROSTEPPING - Default microstepping multiplier.
+                | DEFAULT_GEAR_RATIO_J1 - Default shoulder joint reduction ratio.
+                | DEFAULT_GEAR_RATIO_J2 - Default elbow joint reduction ratio.
+                | DEFAULT_GEAR_RATIO_J4 - Default wrist roll joint reduction ratio.
+                | DEFAULT_LEADSCREW_PITCH_Z - Default Z-axis leadscrew pitch in mm/rev.
             :methods:
                 | calculate_deadzone_radius - Calculates minimum reach dead zone radius.
                 | create_bounds - Generates default ScaraBounds domain model.
+                | create_dls_config - Generates default DlsConfig numerical IK configuration model.
                 | create_transmission - Generates default TransmissionParameters domain model.
                 | get_version - Returns profile version string.
     '''
+
+    DEFAULT_L1_MM: ClassVar[float] = 150.0
+    DEFAULT_L2_MM: ClassVar[float] = 150.0
+    DEFAULT_J_LIMIT_RAD: ClassVar[float] = 2.61799
+    DEFAULT_Z_MIN_MM: ClassVar[float] = -50.0
+    DEFAULT_Z_MAX_MM: ClassVar[float] = 50.0
+    DEFAULT_MIN_SPEED: ClassVar[float] = 1.0
+    DEFAULT_MAX_SPEED: ClassVar[float] = 200.0
+    DEFAULT_SPEED: ClassVar[float] = 50.0
+    DEFAULT_ACCEL: ClassVar[float] = 100.0
+    DEFAULT_MAX_ACCEL: ClassVar[float] = 500.0
+    DEFAULT_SINGULARITY_MARGIN_MM: ClassVar[float] = 5.0
+    DEFAULT_THETA2_MIN_RAD: ClassVar[float] = 0.087266
+
+    DEFAULT_STEPS_PER_REV: ClassVar[float] = 200.0
+    DEFAULT_MICROSTEPPING: ClassVar[float] = 16.0
+    DEFAULT_GEAR_RATIO_J1: ClassVar[float] = 4.0
+    DEFAULT_GEAR_RATIO_J2: ClassVar[float] = 4.0
+    DEFAULT_GEAR_RATIO_J4: ClassVar[float] = 1.0
+    DEFAULT_LEADSCREW_PITCH_Z: ClassVar[float] = 8.0
 
     @classmethod
     def calculate_deadzone_radius(
@@ -70,9 +112,8 @@ class DefaultScaraProfile:
             :return: Dead zone radius in mm.
             :exceptions: None.
         '''
-        return max(
-            abs(l1 - l2),
-            sqrt(l1**2 + l2**2 - 2.0 * l1 * l2 * cos(pi - abs(j2_max_rad))),
+        return DeadzoneCalculator().calculate_radius(
+            l1=l1, l2=l2, j2_max_rad=j2_max_rad
         )
 
     @classmethod
@@ -83,31 +124,33 @@ class DefaultScaraProfile:
             :return: Configured ScaraBounds domain model.
             :exceptions: None.
         '''
-        l1: float = 150.0
-        l2: float = 150.0
-        j2_max: float = 2.61799
+        l1: float = cls.DEFAULT_L1_MM
+        l2: float = cls.DEFAULT_L2_MM
+        j2_max: float = cls.DEFAULT_J_LIMIT_RAD
         deadzone_r_min: float = cls.calculate_deadzone_radius(l1, l2, j2_max)
 
         return ScaraBounds(
             links=LinkDimensions(l1=l1, l2=l2),
-            vertical=VerticalBounds(z_min=-50.0, z_max=50.0),
+            vertical=VerticalBounds(
+                z_min=cls.DEFAULT_Z_MIN_MM, z_max=cls.DEFAULT_Z_MAX_MM
+            ),
             speeds=SpeedLimits(
-                min_speed=1.0,
-                max_speed=200.0,
-                default_speed=50.0,
-                default_accel=100.0,
-                max_accel=500.0,
+                min_speed=cls.DEFAULT_MIN_SPEED,
+                max_speed=cls.DEFAULT_MAX_SPEED,
+                default_speed=cls.DEFAULT_SPEED,
+                default_accel=cls.DEFAULT_ACCEL,
+                max_accel=cls.DEFAULT_MAX_ACCEL,
             ),
             joints=JointAngleBounds(
-                j1_min_rad=-2.61799,
-                j1_max_rad=2.61799,
+                j1_min_rad=-cls.DEFAULT_J_LIMIT_RAD,
+                j1_max_rad=cls.DEFAULT_J_LIMIT_RAD,
                 j2_min_rad=-j2_max,
                 j2_max_rad=j2_max,
             ),
             singularity=SingularityMargins(
-                singularity_outer_margin_mm=5.0,
-                singularity_inner_margin_mm=5.0,
-                singularity_theta2_min_rad=0.087266,
+                singularity_outer_margin_mm=cls.DEFAULT_SINGULARITY_MARGIN_MM,
+                singularity_inner_margin_mm=cls.DEFAULT_SINGULARITY_MARGIN_MM,
+                singularity_theta2_min_rad=cls.DEFAULT_THETA2_MIN_RAD,
                 deadzone_r_min=deadzone_r_min,
             ),
         )
@@ -121,13 +164,23 @@ class DefaultScaraProfile:
             :exceptions: None.
         '''
         return TransmissionParameters(
-            steps_per_rev=200.0,
-            microstepping=16.0,
-            gear_ratio_j1=4.0,
-            gear_ratio_j2=4.0,
-            gear_ratio_j4=1.0,
-            leadscrew_pitch_z=8.0,
+            steps_per_rev=cls.DEFAULT_STEPS_PER_REV,
+            microstepping=cls.DEFAULT_MICROSTEPPING,
+            gear_ratio_j1=cls.DEFAULT_GEAR_RATIO_J1,
+            gear_ratio_j2=cls.DEFAULT_GEAR_RATIO_J2,
+            gear_ratio_j4=cls.DEFAULT_GEAR_RATIO_J4,
+            leadscrew_pitch_z=cls.DEFAULT_LEADSCREW_PITCH_Z,
         )
+
+    @classmethod
+    def create_dls_config(cls) -> DlsConfig:
+        '''
+            Builds default Damped Least Squares (DLS) numerical solver configuration.
+
+            :return: Configured DlsConfig domain model.
+            :exceptions: None.
+        '''
+        return DlsConfig()
 
     @classmethod
     def get_version(cls) -> str:

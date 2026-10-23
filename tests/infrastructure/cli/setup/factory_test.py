@@ -21,12 +21,7 @@ Info
 
 from __future__ import annotations
 
-from unittest import TestCase
-from unittest import main
-
-from ats_utilities.base.setup.factory import BaseBundleFactory
-from ats_utilities.base.setup.options import BaseBundleOptions
-from ats_utilities.context.factory import ContextBundleFactory
+from unittest import TestCase, main
 
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
 from scaralang.infrastructure.cli.setup.factory import CLIBundleFactory
@@ -37,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -57,16 +52,12 @@ class TestCLIBundleFactory(TestCase):
     def test_create_bundle(self) -> None:
         '''
             Verifies creating initialized CLIBundle.
+
+            :exceptions: None.
         '''
-        base_bundle = BaseBundleFactory.create_bundle(
-            options=BaseBundleOptions(
-                info_file=ScaralangBundleFactory._info_file,  # pylint: disable=protected-access
-                use_generator=False,
-                context_bundle=ContextBundleFactory.create_bundle(),
-            )
-        )
+        scaralang_bundle = ScaralangBundleFactory.create_bundle()
         options = CLIBundleOptions(
-            parser=base_bundle.option_manager
+            parser=scaralang_bundle.base.option_manager
         )
         bundle = CLIBundleFactory.create_bundle(options=options)
         self.assertIsInstance(bundle, CLIBundle)
@@ -75,9 +66,11 @@ class TestCLIBundleFactory(TestCase):
     def test_get_version(self) -> None:
         '''
             Verifies factory version string.
+
+            :exceptions: None.
         '''
         version = CLIBundleFactory.get_version()
-        self.assertEqual(version, '1.0.9')
+        self.assertEqual(version, '1.1.0')
 
 
 if __name__ == '__main__':

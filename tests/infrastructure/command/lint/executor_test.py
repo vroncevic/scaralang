@@ -28,7 +28,7 @@ from unittest import TestCase
 from unittest import main
 from unittest.mock import MagicMock
 
-from scaralang.core.model.exceptions.scara_syntax_error import ScaraSyntaxError
+from scaralang.core.model.exceptions.syntax import ScaraSyntaxError
 from scaralang.core.service.linter.diagnostic.factory import DiagnosticFactory
 from scaralang.infrastructure.command.lint.definition import LintCommandDefinition
 from scaralang.infrastructure.command.lint.dependencies import LintDependencies
@@ -40,7 +40,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

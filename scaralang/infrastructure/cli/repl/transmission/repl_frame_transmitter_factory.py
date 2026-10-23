@@ -21,13 +21,15 @@ Info
 
 from __future__ import annotations
 
+from scaralang.infrastructure.cli.repl.transmission.buffer.factory import BufferFactory
+from scaralang.infrastructure.cli.repl.transmission.buffer.ibuffer import ITransmissionBuffer
 from scaralang.infrastructure.cli.repl.transmission.repl_frame_transmitter import ReplFrameTransmitter
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -48,18 +50,30 @@ class ReplFrameTransmitterFactory:
     def create(
         cls,
         *,
+        buffer: ITransmissionBuffer | None = None,
         endpoint: str = 'dry-run',
         dry_run: bool = True,
     ) -> ReplFrameTransmitter:
         '''
             Builds and returns a ReplFrameTransmitter instance.
 
+            :param buffer: Optional collaborator logging transmitted binary frames.
             :param endpoint: Target connection endpoint identifier.
             :param dry_run: True if running in simulated dry-run mode.
             :return: Instantiated ReplFrameTransmitter instance.
             :exceptions: None.
         '''
-        return ReplFrameTransmitter(endpoint=endpoint, dry_run=dry_run)
+        resolved_buffer: ITransmissionBuffer
+        if buffer is None:
+            resolved_buffer = BufferFactory.create().buffer
+        else:
+            resolved_buffer = buffer
+
+        return ReplFrameTransmitter(
+            buffer=resolved_buffer,
+            endpoint=endpoint,
+            dry_run=dry_run,
+        )
 
     @classmethod
     def get_version(cls) -> str:

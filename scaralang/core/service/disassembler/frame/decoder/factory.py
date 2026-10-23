@@ -25,14 +25,14 @@ from scaralang.core.service.disassembler.frame.decoder.actuator_decoder import A
 from scaralang.core.service.disassembler.frame.decoder.idecoder import IFramePayloadDecoder
 from scaralang.core.service.disassembler.frame.decoder.joint_steps_decoder import JointStepsDecoder
 from scaralang.core.service.disassembler.frame.decoder.system_decoder import SystemDecoder
-from scaralang.core.service.protocol.ibinary_actuator_payload_unpacker import IBinaryActuatorPayloadUnpacker
-from scaralang.core.service.protocol.ibinary_motion_payload_unpacker import IBinaryMotionPayloadUnpacker
+from scaralang.core.service.protocol.iactuator_unpacker import IBinaryActuatorPayloadUnpacker
+from scaralang.core.service.protocol.imotion_unpacker import IBinaryMotionPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'

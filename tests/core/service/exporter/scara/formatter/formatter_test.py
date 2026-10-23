@@ -24,7 +24,7 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.exporter.scara.formatter.factory import ScaraWaypointFormatterFactory
 from scaralang.core.service.exporter.scara.formatter.formatter import ScaraWaypointFormatter
 from scaralang.core.service.exporter.scara.formatter.iformatter import IScaraWaypointFormatter
@@ -33,7 +33,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -77,7 +77,7 @@ class TestScaraWaypointFormatter(TestCase):
         '''
         instance = ScaraWaypointFormatterFactory.create()
         self.assertIsInstance(instance, IScaraWaypointFormatter)
-        self.assertEqual(ScaraWaypointFormatterFactory.get_version(), '1.0.9')
+        self.assertEqual(ScaraWaypointFormatterFactory.get_version(), '1.1.0')
 
     def test_format_motion_joint(self) -> None:
         '''
@@ -165,7 +165,7 @@ class TestScaraWaypointFormatter(TestCase):
         '''
         Verifies version string retrieval.
         '''
-        self.assertEqual(self.formatter.get_version(), '1.0.9')
+        self.assertEqual(self.formatter.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

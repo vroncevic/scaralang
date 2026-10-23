@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scaralang.core.service.trajectory.reconfiguration.planner module &#8212; scaralang https://github.com/vroncevic/scaralang/releases documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
+    
+    <script src="_static/documentation_options.js?v=d8dba6ca"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scaralang.core.service.trajectory.reconfiguration.provides module" href="scaralang.core.service.trajectory.reconfiguration.provides.html" />
+    <link rel="prev" title="scaralang.core.service.trajectory.reconfiguration.ireconfiguration_planner module" href="scaralang.core.service.trajectory.reconfiguration.ireconfiguration_planner.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.trajectory.reconfiguration.provides.html" title="scaralang.core.service.trajectory.reconfiguration.provides module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.trajectory.reconfiguration.ireconfiguration_planner.html" title="scaralang.core.service.trajectory.reconfiguration.ireconfiguration_planner module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.trajectory.html" >scaralang.core.service.trajectory package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.service.trajectory.reconfiguration.html" accesskey="U">scaralang.core.service.trajectory.reconfiguration package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.trajectory.reconfiguration.planner module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-scaralang.core.service.trajectory.reconfiguration.planner">
+<span id="scaralang-core-service-trajectory-reconfiguration-planner-module"></span><h1>scaralang.core.service.trajectory.reconfiguration.planner module<a class="headerlink" href="#module-scaralang.core.service.trajectory.reconfiguration.planner" title="Link to this heading">¶</a></h1>
+<dl class="simple">
+<dt>Module</dt><dd><p>planner.py</p>
+</dd>
+<dt>Copyright</dt><dd><p>Copyright (C) 2026 Vladimir Roncevic &lt;<a class="reference external" href="mailto:elektron&#46;ronca&#37;&#52;&#48;gmail&#46;com">elektron<span>&#46;</span>ronca<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;
+scaralang is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+scaralang is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along
+with this program. If not, see &lt;<a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+</dd>
+<dt>Info</dt><dd><p>Implementation of arm elbow configuration transition trajectory planner.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scaralang.core.service.trajectory.reconfiguration.planner.</span></span><span class="sig-name descname"><span class="pre">ElbowReconfigurationPlanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.service.trajectory.reconfiguration.dependencies.html#scaralang.core.service.trajectory.reconfiguration.dependencies.ReconfigurationDependencies" title="scaralang.core.service.trajectory.reconfiguration.dependencies.ReconfigurationDependencies"><span class="pre">ReconfigurationDependencies</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/reconfiguration/planner.html#ElbowReconfigurationPlanner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines class ElbowReconfigurationPlanner implementing IElbowReconfigurationPlanner contract structurally.
+Plans safe transition waypoints for SCARA arm elbow configuration switching.</p>
+<p>It defines:</p>
+<blockquote>
+<div><dl class="field-list">
+<dt class="field-odd">attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">HALF_FACTOR - Divisor factor for midpoint computation.</div>
+<div class="line">SINGULARITY_J2_RAD - Elbow joint angle at boundary singularity in radians.</div>
+<div class="line">RETRACT_SUFFIX - Waypoint name suffix for retraction phase.</div>
+<div class="line">ALIGN_SUFFIX - Waypoint name suffix for alignment phase.</div>
+<div class="line">TRANSIT_NAME - Waypoint name for intermediate singularity transit.</div>
+<div class="line">CMD_RETRACT - Command tag for vertical retraction.</div>
+<div class="line">CMD_TRANSIT - Command tag for singularity transit.</div>
+<div class="line">CMD_ALIGN - Command tag for safe-height alignment.</div>
+<div class="line">_planar - Injected planar kinematics solver.</div>
+<div class="line">_workspace - Injected workspace bounds and reachability evaluator.</div>
+</div>
+</dd>
+<dt class="field-even">methods<span class="colon">:</span></dt>
+<dd class="field-even"><div class="line-block">
+<div class="line">__init__ - Initializes ElbowReconfigurationPlanner constructor.</div>
+<div class="line">is_reconfiguration_required - Checks if elbow reconfiguration is needed.</div>
+<div class="line">plan_reconfiguration - Generates safe intermediate transition waypoints.</div>
+<div class="line">get_version - Returns planner component version string.</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.ALIGN_SUFFIX">
+<span class="sig-name descname"><span class="pre">ALIGN_SUFFIX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'_ALIGN'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.ALIGN_SUFFIX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.CMD_ALIGN">
+<span class="sig-name descname"><span class="pre">CMD_ALIGN</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RECONFIG_ALIGN'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.CMD_ALIGN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.CMD_RETRACT">
+<span class="sig-name descname"><span class="pre">CMD_RETRACT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RECONFIG_RETRACT'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.CMD_RETRACT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.CMD_TRANSIT">
+<span class="sig-name descname"><span class="pre">CMD_TRANSIT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RECONFIG_TRANSIT'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.CMD_TRANSIT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.HALF_FACTOR">
+<span class="sig-name descname"><span class="pre">HALF_FACTOR</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.HALF_FACTOR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.RETRACT_SUFFIX">
+<span class="sig-name descname"><span class="pre">RETRACT_SUFFIX</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'_RETRACT'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.RETRACT_SUFFIX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.SINGULARITY_J2_RAD">
+<span class="sig-name descname"><span class="pre">SINGULARITY_J2_RAD</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.SINGULARITY_J2_RAD" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.TRANSIT_NAME">
+<span class="sig-name descname"><span class="pre">TRANSIT_NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RECONFIG_TRANSIT'</span></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.TRANSIT_NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner._planar">
+<span class="sig-name descname"><span class="pre">_planar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.kinematics.solver.analytical.planar.isolver.html#scaralang.core.service.kinematics.solver.analytical.planar.isolver.IPlanarKinematicsSolver" title="scaralang.core.service.kinematics.solver.analytical.planar.isolver.IPlanarKinematicsSolver"><span class="pre">IPlanarKinematicsSolver</span></a></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner._planar" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner._workspace">
+<span class="sig-name descname"><span class="pre">_workspace</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scaralang.core.service.kinematics.workspace.ievaluator.html#scaralang.core.service.kinematics.workspace.ievaluator.IWorkspaceBoundsEvaluator" title="scaralang.core.service.kinematics.workspace.ievaluator.IWorkspaceBoundsEvaluator"><span class="pre">IWorkspaceBoundsEvaluator</span></a></em><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner._workspace" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.get_version">
+<span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/reconfiguration/planner.html#ElbowReconfigurationPlanner.get_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.get_version" title="Link to this definition">¶</a></dt>
+<dd><p>Returns planner component version string representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Semantic version string.</p>
+</dd>
+<dt class="field-even">Exceptions<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.is_reconfiguration_required">
+<span class="sig-name descname"><span class="pre">is_reconfiguration_required</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_elbow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.solver.elbow.html#scaralang.core.model.kinematics.solver.elbow.ElbowConfig" title="scaralang.core.model.kinematics.solver.elbow.ElbowConfig"><span class="pre">ElbowConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_elbow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.kinematics.solver.elbow.html#scaralang.core.model.kinematics.solver.elbow.ElbowConfig" title="scaralang.core.model.kinematics.solver.elbow.ElbowConfig"><span class="pre">ElbowConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/reconfiguration/planner.html#ElbowReconfigurationPlanner.is_reconfiguration_required"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.is_reconfiguration_required" title="Link to this definition">¶</a></dt>
+<dd><p>Determines whether a transition between two elbow configurations is required.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from_elbow</strong> – Current arm kinematic elbow configuration.</p></li>
+<li><p><strong>to_elbow</strong> – Target arm kinematic elbow configuration.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if configurations differ and reconfiguration is needed, False otherwise.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.plan_reconfiguration">
+<span class="sig-name descname"><span class="pre">plan_reconfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scaralang.core.model.trajectory.plan.reconfiguration.html#scaralang.core.model.trajectory.plan.reconfiguration.ReconfigurationRequest" title="scaralang.core.model.trajectory.plan.reconfiguration.ReconfigurationRequest"><span class="pre">ReconfigurationRequest</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="scaralang.core.model.trajectory.plan.waypoint.html#scaralang.core.model.trajectory.plan.waypoint.Waypoint" title="scaralang.core.model.trajectory.plan.waypoint.Waypoint"><span class="pre">Waypoint</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/scaralang/core/service/trajectory/reconfiguration/planner.html#ElbowReconfigurationPlanner.plan_reconfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.plan_reconfiguration" title="Link to this definition">¶</a></dt>
+<dd><p>Plans intermediate waypoints to safely reconfigure robot elbow from one pose to another.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> – ReconfigurationRequest parameter bundle containing transition parameters.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ordered list of intermediate transition waypoints leading to target pose.</p>
+</dd>
+<dt class="field-odd">Exceptions<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="line-block">
+<div class="line">ScaraKinematicsError: If waypoints or transition poses violate kinematic limits.</div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">scaralang.core.service.trajectory.reconfiguration.planner module</a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner</span></code></a><ul>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.ALIGN_SUFFIX"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.ALIGN_SUFFIX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.CMD_ALIGN"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.CMD_ALIGN</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.CMD_RETRACT"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.CMD_RETRACT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.CMD_TRANSIT"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.CMD_TRANSIT</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.HALF_FACTOR"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.HALF_FACTOR</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.RETRACT_SUFFIX"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.RETRACT_SUFFIX</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.SINGULARITY_J2_RAD"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.SINGULARITY_J2_RAD</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.TRANSIT_NAME"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.TRANSIT_NAME</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner._planar"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner._planar</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner._workspace"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner._workspace</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.get_version"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.get_version()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.is_reconfiguration_required"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.is_reconfiguration_required()</span></code></a></li>
+<li><a class="reference internal" href="#scaralang.core.service.trajectory.reconfiguration.planner.ElbowReconfigurationPlanner.plan_reconfiguration"><code class="docutils literal notranslate"><span class="pre">ElbowReconfigurationPlanner.plan_reconfiguration()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scaralang.core.service.trajectory.reconfiguration.ireconfiguration_planner.html"
+                          title="previous chapter">scaralang.core.service.trajectory.reconfiguration.ireconfiguration_planner module</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scaralang.core.service.trajectory.reconfiguration.provides.html"
+                          title="next chapter">scaralang.core.service.trajectory.reconfiguration.provides module</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/scaralang.core.service.trajectory.reconfiguration.planner.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.trajectory.reconfiguration.provides.html" title="scaralang.core.service.trajectory.reconfiguration.provides module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scaralang.core.service.trajectory.reconfiguration.ireconfiguration_planner.html" title="scaralang.core.service.trajectory.reconfiguration.ireconfiguration_planner module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">scaralang https://github.com/vroncevic/scaralang/releases documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >scaralang</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="scaralang.html" >scaralang package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="scaralang.core.html" >scaralang.core package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="scaralang.core.service.html" >scaralang.core.service package</a> &#187;</li>
+          <li class="nav-item nav-item-5"><a href="scaralang.core.service.trajectory.html" >scaralang.core.service.trajectory package</a> &#187;</li>
+          <li class="nav-item nav-item-6"><a href="scaralang.core.service.trajectory.reconfiguration.html" >scaralang.core.service.trajectory.reconfiguration package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">scaralang.core.service.trajectory.reconfiguration.planner module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, Vladimir Roncevic &lt;elektron.ronca@gmail.com&gt;.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

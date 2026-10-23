@@ -26,8 +26,11 @@ from unittest import main
 
 from scaralang.core.service.kinematics.envelope.ienvelope import IWorkspaceEnvelope
 from scaralang.core.service.kinematics.provides import KinematicsProvides
-from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
-from scaralang.core.service.kinematics.solver.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.analytical.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.jacobian.icalculator import IJacobianCalculator
+from scaralang.core.service.kinematics.solver.numerical.planar.isolver import INumericalPlanarKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.spatial.isolver import INumericalSpatialKinematicsSolver
 from scaralang.core.service.kinematics.workspace.ievaluator import IWorkspaceBoundsEvaluator
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
@@ -35,7 +38,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -53,19 +56,30 @@ class TestDefaultKinematicsFactory(TestCase):
     '''
 
     def test_create(self) -> None:
-        '''Verifies create returns operational KinematicsProvides bundle.'''
+        '''
+            Verifies create returns operational KinematicsProvides bundle.
+
+            :exceptions: None.
+        '''
         provides: KinematicsProvides = DefaultKinematicsFactory.create()
         self.assertIsInstance(provides, KinematicsProvides)
         self.assertIsInstance(provides.envelope, IWorkspaceEnvelope)
         self.assertIsInstance(provides.planar, IPlanarKinematicsSolver)
         self.assertIsInstance(provides.spatial, ISpatialKinematicsSolver)
         self.assertIsInstance(provides.workspace, IWorkspaceBoundsEvaluator)
+        self.assertIsInstance(provides.jacobian, IJacobianCalculator)
+        self.assertIsInstance(provides.numerical_planar, INumericalPlanarKinematicsSolver)
+        self.assertIsInstance(provides.numerical_spatial, INumericalSpatialKinematicsSolver)
         self.assertEqual(provides.envelope.bounds.links.l1, 150.0)
 
     def test_get_version(self) -> None:
-        '''Verifies factory returns valid semantic version string.'''
+        '''
+            Verifies factory returns valid semantic version string.
+
+            :exceptions: None.
+        '''
         version: str = DefaultKinematicsFactory.get_version()
-        self.assertEqual(version, '1.0.9')
+        self.assertEqual(version, '1.1.0')
 
 
 if __name__ == '__main__':

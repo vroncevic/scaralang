@@ -7,11 +7,12 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.model.motor.axis_mask
-   scaralang.core.model.motor.motor_config
-   scaralang.core.model.motor.motor_drive_mode
-   scaralang.core.model.motor.motor_drive_mode_alias
-   scaralang.core.model.motor.motor_interface_type
+   scaralang.core.model.motor.alias
+   scaralang.core.model.motor.config
+   scaralang.core.model.motor.interface
+   scaralang.core.model.motor.mask
+   scaralang.core.model.motor.mode
+   scaralang.core.model.motor.wire_mode
 
 Module contents
 ---------------

@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,18 +52,22 @@ class TestDefaultInstructionParserFactory(TestCase):
     def test_create(self) -> None:
         '''
             Verifies that factory returns default configured InstructionProvides instance.
+
+            :exceptions: None.
         '''
         provides = DefaultInstructionParserFactory.create()
         self.assertIsInstance(provides, InstructionProvides)
         self.assertIsInstance(provides.parser, IInstructionLineParser)
-        self.assertEqual(len(provides.parser.handlers), 31)
+        self.assertEqual(len(provides.parser.handlers), 37)
 
     def test_get_version(self) -> None:
         '''
             Verifies that get_version returns a valid version string.
+
+            :exceptions: None.
         '''
         version = DefaultInstructionParserFactory.get_version()
-        self.assertEqual(version, '1.0.9')
+        self.assertEqual(version, '1.1.0')
 
 
 if __name__ == '__main__':

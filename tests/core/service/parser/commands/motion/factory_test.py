@@ -23,7 +23,7 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 from scaralang.core.service.parser.commands.motion.factory import MotionFactory
 from scaralang.core.service.parser.commands.motion.provides import MotionProvides
 
@@ -31,7 +31,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -50,11 +50,12 @@ class TestMotionFactory(TestCase):
 
     def test_create(self) -> None:
         '''
-            Verifies all 9 motion command parsers are instantiated in MotionProvides container.
+            Verifies all 10 motion command parsers are instantiated in MotionProvides container.
         '''
         provides = MotionFactory.create()
         self.assertIsInstance(provides, MotionProvides)
-        self.assertEqual(len(provides.parsers), 9)
+        self.assertEqual(len(provides.parsers), 10)
+
         for parser in provides.parsers:
             self.assertIsInstance(parser, ICommandParser)
 
@@ -62,7 +63,7 @@ class TestMotionFactory(TestCase):
         '''
             Verifies factory version reporting.
         '''
-        self.assertEqual(MotionFactory.get_version(), '1.0.9')
+        self.assertEqual(MotionFactory.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

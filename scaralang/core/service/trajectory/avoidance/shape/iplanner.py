@@ -24,14 +24,14 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -65,7 +65,6 @@ class IAvoidanceShapePlanner(Protocol):
             :param speed: Feedrate speed in mm/s.
             :param closed: Whether to close the contour by connecting back to the start.
             :return: List of Waypoint instances with detours inserted where needed.
-            :exceptions: None.
         '''
 
     def get_version(self) -> str:
@@ -73,5 +72,4 @@ class IAvoidanceShapePlanner(Protocol):
             Returns planner component version string representation.
 
             :return: Semantic version string.
-            :exceptions: None.
         '''

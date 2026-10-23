@@ -24,17 +24,18 @@ from __future__ import annotations
 from math import degrees, hypot
 from typing import ClassVar, Final
 
-from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.model.kinematics.point_3d import Point3D
-from scaralang.core.model.kinematics.scara_bounds import ScaraBounds
-from scaralang.core.model.kinematics.scara_joints_2d import ScaraJoints2D
-from scaralang.core.service.kinematics.solver.planar.isolver import IPlanarKinematicsSolver
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
+from scaralang.core.model.kinematics.pose.point_3d import Point3D
+from scaralang.core.model.kinematics.profile.bounds import ScaraBounds
+from scaralang.core.model.kinematics.solver.solution_2d import ScaraJoints2D
+from scaralang.core.service.kinematics.solver.analytical.planar.isolver import IPlanarKinematicsSolver
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -132,52 +133,45 @@ class WorkspaceBoundsEvaluator:
     def is_joint_reachable(
         self,
         point: Point2D,
+        elbow_config: ElbowConfig,
     ) -> tuple[bool, list[str]]:
         '''
             Evaluates if target position can be achieved within physical joint limits.
 
             :param point: Target Cartesian 2D planar coordinate in mm.
+            :param elbow_config: Target kinematic elbow configuration.
             :return: Tuple of (is_reachable, list_of_warning_messages).
             :exceptions: None.
         '''
-        reasons: list[str] = []
-        reachable_any: bool = False
+        elbow_left: bool = elbow_config == ElbowConfig.LEFT
+        ik_res: ScaraJoints2D = self._planar.solve_ik_2d(
+            point=point, elbow_left=elbow_left
+        )
 
-        for elbow_left in (False, True):
-            ik_res: ScaraJoints2D = self._planar.solve_ik_2d(
-                point=point, elbow_left=elbow_left
-            )
+        if not ik_res.reachable:
+            return False, ['Mathematically unreachable (cos_q2 > 1.0)']
 
-            if not ik_res.reachable:
-                reasons.append('Mathematically unreachable (cos_q2 > 1.0)')
-                continue
+        theta1: float = ik_res.theta1
+        theta2: float = ik_res.theta2
 
-            theta1: float = ik_res.theta1
-            theta2: float = ik_res.theta2
+        if (
+            theta1 < self._bounds.joints.j1_min_rad
+            or theta1 > self._bounds.joints.j1_max_rad
+        ):
+            return False, [
+                f'J1 angle {degrees(theta1):.1f}° exceeds limit for {elbow_config.value} elbow'
+            ]
 
-            if (
-                theta1 < self._bounds.joints.j1_min_rad
-                or theta1 > self._bounds.joints.j1_max_rad
-            ):
-                reasons.append(f'J1 angle {degrees(theta1):.1f}° exceeds limit')
-                continue
+        if (
+            theta2 < self._bounds.joints.j2_min_rad
+            or theta2 > self._bounds.joints.j2_max_rad
+        ):
+            return False, [
+                f'J2 angle {degrees(theta2):.1f}° exceeds limit for {elbow_config.value} elbow'
+            ]
 
-            if (
-                theta2 < self._bounds.joints.j2_min_rad
-                or theta2 > self._bounds.joints.j2_max_rad
-            ):
-                reasons.append(f'J2 angle {degrees(theta2):.1f}° exceeds limit')
-                continue
-
-            if abs(theta2) < self._bounds.singularity.singularity_theta2_min_rad:
-                reasons.append('J2 in singularity deadband')
-                continue
-
-            reachable_any = True
-            break
-
-        if not reachable_any:
-            return False, reasons
+        if abs(theta2) < self._bounds.singularity.singularity_theta2_min_rad:
+            return False, ['J2 in singularity deadband']
 
         return True, []
 

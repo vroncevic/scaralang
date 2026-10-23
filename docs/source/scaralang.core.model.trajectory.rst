@@ -1,21 +1,17 @@
 scaralang.core.model.trajectory package
 =======================================
 
-Submodules
-----------
+Subpackages
+-----------
 
 .. toctree::
    :maxdepth: 4
 
-   scaralang.core.model.trajectory.arc_point
-   scaralang.core.model.trajectory.axis_peak_metric
-   scaralang.core.model.trajectory.bottleneck_incident
-   scaralang.core.model.trajectory.bypass_arc_geometry
-   scaralang.core.model.trajectory.circle_geometry
-   scaralang.core.model.trajectory.constraint_type
-   scaralang.core.model.trajectory.trajectory_cycle_report
-   scaralang.core.model.trajectory.validation_result
-   scaralang.core.model.trajectory.waypoint
+   scaralang.core.model.trajectory.geometry
+   scaralang.core.model.trajectory.metrics
+   scaralang.core.model.trajectory.obstacle
+   scaralang.core.model.trajectory.plan
+   scaralang.core.model.trajectory.validation
 
 Module contents
 ---------------

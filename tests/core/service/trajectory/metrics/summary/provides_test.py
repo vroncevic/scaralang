@@ -35,7 +35,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -47,32 +47,47 @@ class TestSummaryProvides(TestCase):
 
         It defines:
 
+            :attributes:
+                | builder - Instance of TrajectoryCycleSummaryBuilder.
             :methods:
+                | setUp - Prepares TrajectoryCycleSummaryBuilder fixture.
                 | test_bundle_initialization - Verifies attributes initialized correctly.
                 | test_bundle_immutability - Verifies FrozenInstanceError on modification.
     '''
 
-    def _create_builder(self) -> TrajectoryCycleSummaryBuilder:
-        '''Helper constructing builder.'''
+    builder: TrajectoryCycleSummaryBuilder
+
+    def setUp(self) -> None:
+        '''
+            Prepares TrajectoryCycleSummaryBuilder fixture.
+
+            :exceptions: None.
+        '''
         deps = SummaryDependencies(
             cycle_time_calculator=CycleTimeCalculator(),
             speed_profile_analyzer=AxisSpeedProfileAnalyzer(),
             bottleneck_detector=MotionBottleneckDetector(),
         )
-        return TrajectoryCycleSummaryBuilder(dependencies=deps)
+        self.builder = TrajectoryCycleSummaryBuilder(dependencies=deps)
 
     def test_bundle_initialization(self) -> None:
-        '''Verifies bundle holds provided summary builder service instance.'''
-        builder = self._create_builder()
-        bundle = SummaryProvides(builder=builder)
-        self.assertIs(bundle.builder, builder)
+        '''
+            Verifies bundle holds provided summary builder service instance.
+
+            :exceptions: None.
+        '''
+        bundle = SummaryProvides(builder=self.builder)
+        self.assertIs(bundle.builder, self.builder)
 
     def test_bundle_immutability(self) -> None:
-        '''Verifies frozen dataclass rejects attribute mutations.'''
-        builder = self._create_builder()
-        bundle = SummaryProvides(builder=builder)
+        '''
+            Verifies frozen dataclass rejects attribute mutations.
+
+            :exceptions: None.
+        '''
+        bundle = SummaryProvides(builder=self.builder)
         with self.assertRaises(FrozenInstanceError):
-            bundle.builder = builder  # type: ignore[misc]
+            bundle.builder = self.builder  # type: ignore[misc]
 
 
 if __name__ == '__main__':

@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -52,17 +52,21 @@ class TestLinterFactory(TestCase):
     def test_create_returns_provides(self) -> None:
         '''
             Verifies create builds a LinterProvides container with default wired rules.
+
+            :exceptions: None.
         '''
         provides = LinterFactory.create()
         self.assertIsInstance(provides, LinterProvides)
         self.assertIsInstance(provides.linter, ILinter)
-        self.assertEqual(len(provides.linter.rules), 4)
+        self.assertEqual(len(provides.linter.rules), 5)
 
     def test_get_version(self) -> None:
         '''
             Verifies factory returns correct version string.
+
+            :exceptions: None.
         '''
-        self.assertEqual(LinterFactory.get_version(), '1.0.9')
+        self.assertEqual(LinterFactory.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

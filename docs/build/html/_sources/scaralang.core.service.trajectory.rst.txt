@@ -11,6 +11,7 @@ Subpackages
    scaralang.core.service.trajectory.discretization
    scaralang.core.service.trajectory.metrics
    scaralang.core.service.trajectory.plan
+   scaralang.core.service.trajectory.reconfiguration
    scaralang.core.service.trajectory.validation
 
 Module contents

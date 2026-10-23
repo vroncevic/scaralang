@@ -17,6 +17,7 @@ Submodules
    scaralang.core.service.parser.commands.motion.linear
    scaralang.core.service.parser.commands.motion.probe
    scaralang.core.service.parser.commands.motion.provides
+   scaralang.core.service.parser.commands.motion.relative
    scaralang.core.service.parser.commands.motion.retract
 
 Module contents

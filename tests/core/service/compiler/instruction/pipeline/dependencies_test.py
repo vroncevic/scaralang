@@ -24,9 +24,43 @@ from __future__ import annotations
 from unittest import TestCase, main
 
 from scaralang.core.model.dsl.ast.instruction import ScaraInstruction
-from scaralang.core.model.dsl.compiler.compiler_context import CompilerContext
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.dsl.compiler.context import CompilerContext
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.compiler.instruction.pipeline.dependencies import PipelineDependencies
+
+
+class DummySubroutineExpander:
+    '''Dummy subroutine expander for dependency tests.'''
+
+    def expand_subroutines(
+        self,
+        *,
+        instructions: tuple[ScaraInstruction, ...],
+    ) -> tuple[ScaraInstruction, ...]:
+        '''Dummy expand.'''
+        _ = instructions
+        return ()
+
+    def get_version(self) -> str:
+        '''Dummy version.'''
+        return '1.1.0'
+
+
+class DummyRepeatExpander:
+    '''Dummy repeat expander for dependency tests.'''
+
+    def expand_repeats(
+        self,
+        *,
+        instructions: tuple[ScaraInstruction, ...],
+    ) -> tuple[ScaraInstruction, ...]:
+        '''Dummy expand.'''
+        _ = instructions
+        return ()
+
+    def get_version(self) -> str:
+        '''Dummy version.'''
+        return '1.1.0'
 
 
 class DummyProcessor:
@@ -44,7 +78,7 @@ class DummyProcessor:
 
     def get_version(self) -> str:
         '''Dummy version.'''
-        return '1.0.9'
+        return '1.1.0'
 
 
 class TestPipelineDependencies(TestCase):
@@ -58,9 +92,22 @@ class TestPipelineDependencies(TestCase):
     '''
 
     def test_initialization(self) -> None:
-        '''Verifies PipelineDependencies holds expanders and processor.'''
+        '''
+            Verifies PipelineDependencies holds expanders and processor.
+
+            :exceptions: None.
+        '''
+        subroutine_expander = DummySubroutineExpander()
+        repeat_expander = DummyRepeatExpander()
         processor = DummyProcessor()
-        deps = PipelineDependencies(macro_expanders=(), processor=processor)
+        deps = PipelineDependencies(
+            subroutine_expander=subroutine_expander,
+            repeat_expander=repeat_expander,
+            macro_expanders=(),
+            processor=processor,
+        )
+        self.assertIs(deps.subroutine_expander, subroutine_expander)
+        self.assertIs(deps.repeat_expander, repeat_expander)
         self.assertEqual(deps.macro_expanders, ())
         self.assertIs(deps.processor, processor)
 

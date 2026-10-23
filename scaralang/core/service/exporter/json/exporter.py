@@ -22,15 +22,16 @@ Info
 from __future__ import annotations
 
 from json import dumps
+from typing import ClassVar
 
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.trajectory.plan.iplan import ITrajectoryPlan
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -42,11 +43,17 @@ class JsonExporter:
 
         It defines:
 
+            :attributes:
+                | COORDINATE_PRECISION - Floating-point decimal precision for coordinates.
+                | JSON_INDENT - Indentation spaces for formatted JSON serialization.
             :methods:
                 | serialize_waypoint - Converts a Waypoint into a dictionary representation.
                 | export_json - Serializes ITrajectoryPlan into structured JSON text.
                 | get_version - Returns the exporter version string.
     '''
+
+    COORDINATE_PRECISION: ClassVar[int] = 3
+    JSON_INDENT: ClassVar[int] = 2
 
     def serialize_waypoint(
         self, *, index: int, waypoint: Waypoint
@@ -62,10 +69,10 @@ class JsonExporter:
         return {
             'index': index,
             'name': waypoint.name,
-            'x': round(waypoint.x, 3),
-            'y': round(waypoint.y, 3),
-            'z': round(waypoint.z, 3),
-            'phi': round(waypoint.phi, 3),
+            'x': round(waypoint.x, self.COORDINATE_PRECISION),
+            'y': round(waypoint.y, self.COORDINATE_PRECISION),
+            'z': round(waypoint.z, self.COORDINATE_PRECISION),
+            'phi': round(waypoint.phi, self.COORDINATE_PRECISION),
             'speed': waypoint.speed,
             'command': waypoint.command,
         }
@@ -86,7 +93,7 @@ class JsonExporter:
             ],
         }
 
-        return dumps(payload, indent=2) + '\n'
+        return dumps(payload, indent=self.JSON_INDENT) + '\n'
 
     def get_version(self) -> str:
         '''

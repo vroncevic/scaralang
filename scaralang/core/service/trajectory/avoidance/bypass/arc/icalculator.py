@@ -23,14 +23,14 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.kinematics.point_2d import Point2D
-from scaralang.core.model.trajectory.bypass_arc_geometry import BypassArcGeometry
+from scaralang.core.model.kinematics.pose.point_2d import Point2D
+from scaralang.core.model.trajectory.geometry.bypass import BypassArcGeometry
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -61,7 +61,6 @@ class ITangentArcCalculator(Protocol):
             :param end_pt: Target destination coordinate Point2D in mm.
             :param safe_radius: Safe clearance circle radius in mm.
             :return: Calculated BypassArcGeometry value object.
-            :exceptions: None.
         '''
 
     def get_version(self) -> str:
@@ -69,5 +68,4 @@ class ITangentArcCalculator(Protocol):
             Returns calculator component version string representation.
 
             :return: Component semantic version string.
-            :exceptions: None.
         '''

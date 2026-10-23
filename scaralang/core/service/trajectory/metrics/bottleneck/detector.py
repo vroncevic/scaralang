@@ -24,16 +24,16 @@ from __future__ import annotations
 from typing import ClassVar
 
 from scaralang.core.model.dsl.binary.step import BinaryStep
-from scaralang.core.model.kinematics.axis_name import AxisName
-from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
-from scaralang.core.model.trajectory.bottleneck_incident import BottleneckIncident
-from scaralang.core.model.trajectory.constraint_type import ConstraintType
+from scaralang.core.model.kinematics.pose.axis import AxisName
+from scaralang.core.model.kinematics.pose.steps import JointStepCoordinates
+from scaralang.core.model.trajectory.metrics.bottleneck import BottleneckIncident
+from scaralang.core.model.trajectory.metrics.constraint import ConstraintType
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -86,14 +86,15 @@ class MotionBottleneckDetector:
         step: BinaryStep,
         step_index: int,
         prev_coords: JointStepCoordinates,
-    ) -> BottleneckIncident | None:
+    ) -> tuple[BottleneckIncident, ...]:
         '''
             Determines whether a motion step is constrained by an axis velocity or acceleration.
 
             :param step: Motion step under analysis.
             :param step_index: Index of step in execution sequence.
             :param prev_coords: Preceding joint step coordinates (j1, j2, z, j4).
-            :return: BottleneckIncident if movement occurred, else None.
+            :return: Tuple containing BottleneckIncident if movement occurred, empty tuple otherwise.
+            :exceptions: None.
         '''
         deltas: tuple[int, int, int, int] = (
             abs(step.target_steps.j1 - prev_coords.j1),
@@ -104,7 +105,7 @@ class MotionBottleneckDetector:
         max_delta: int = max(deltas)
 
         if max_delta == self.ZERO_DELTA:
-            return None
+            return ()
 
         limiting_axis: AxisName = self._AXIS_NAMES[deltas.index(max_delta)]
         constraint_type: ConstraintType = (
@@ -113,11 +114,13 @@ class MotionBottleneckDetector:
             else ConstraintType.VELOCITY
         )
 
-        return BottleneckIncident(
-            step_index=step_index,
-            limiting_axis=limiting_axis,
-            constraint_type=constraint_type,
-            duration_us=step.duration_us,
+        return (
+            BottleneckIncident(
+                step_index=step_index,
+                limiting_axis=limiting_axis,
+                constraint_type=constraint_type,
+                duration_us=step.duration_us,
+            ),
         )
 
     def detect_bottlenecks(self, *, steps: tuple[BinaryStep, ...]) -> tuple[BottleneckIncident, ...]:
@@ -126,20 +129,19 @@ class MotionBottleneckDetector:
 
             :param steps: Sequence of compiled binary motion steps.
             :return: Tuple of BottleneckIncident records.
+            :exceptions: None.
         '''
         incidents: list[BottleneckIncident] = []
         prev_coords: JointStepCoordinates = self.INITIAL_COORDS
 
         for index, step in enumerate(steps):
-            incident: BottleneckIncident | None = self.detect_step_bottleneck(
-                step=step,
-                step_index=index,
-                prev_coords=prev_coords,
+            incidents.extend(
+                self.detect_step_bottleneck(
+                    step=step,
+                    step_index=index,
+                    prev_coords=prev_coords,
+                )
             )
-
-            if incident is not None:
-                incidents.append(incident)
-
             prev_coords = step.target_steps
 
         return tuple(incidents)

@@ -1,0 +1,117 @@
+# -*- coding: UTF-8 -*-
+
+'''
+Module
+    imotion_builder_test.py
+Copyright
+    Copyright (C) 2026 Vladimir Roncevic <elektron.ronca@gmail.com>
+    scaralang is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    scaralang is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along
+    with this program. If not, see <http://www.gnu.org/licenses/>.
+Info
+    Unit tests for IBinaryMotionFrameBuilder protocol compliance.
+'''
+
+from __future__ import annotations
+
+from unittest import TestCase
+from unittest import main
+
+from scaralang.core.model.protocol.frame import BinaryFrame
+from scaralang.core.model.protocol.joint_steps import JointSteps
+from scaralang.core.model.protocol.message import MessageId
+from scaralang.core.service.protocol.imotion_builder import IBinaryMotionFrameBuilder
+from scaralang.infrastructure.protocol.builder.motion import BinaryMotionFrameBuilder
+from scaralang.infrastructure.protocol.builder.packer import BinaryFramePacker
+
+__author__ = 'Vladimir Roncevic'
+__copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
+__credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
+__license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
+__version__ = '1.1.0'
+__maintainer__ = 'Vladimir Roncevic'
+__email__ = 'elektron.ronca@gmail.com'
+__status__ = 'Updated'
+
+
+class TestIBinaryMotionFrameBuilder(TestCase):
+    '''
+        Test cases verifying IBinaryMotionFrameBuilder structural subtyping.
+
+        It defines:
+
+            :methods:
+                | test_structural_compliance - Verifies builder satisfies protocol.
+                | test_build_joint_move - Verifies joint move frame construction.
+                | test_build_jog_frame - Verifies jog frame construction through protocol.
+                | test_get_version - Verifies version retrieval.
+    '''
+
+    def test_structural_compliance(self) -> None:
+        '''
+            Verifies that concrete builder satisfies IBinaryMotionFrameBuilder.
+
+            :exceptions: None.
+        '''
+        builder = BinaryMotionFrameBuilder(packer=BinaryFramePacker())
+        self.assertIsInstance(builder, IBinaryMotionFrameBuilder)
+        self.assertFalse(isinstance(object(), IBinaryMotionFrameBuilder))
+
+    def test_build_joint_move(self) -> None:
+        '''
+            Verifies joint move frame construction through protocol contract.
+
+            :exceptions: None.
+        '''
+        builder = BinaryMotionFrameBuilder(packer=BinaryFramePacker())
+        steps = JointSteps(
+            target_j1_steps=100,
+            target_j2_steps=200,
+            target_z_steps=300,
+            target_j4_steps=400,
+            duration_us=1000,
+            feedrate_scale=100,
+        )
+        frame = builder.build_joint_move(steps=steps, seq_num=1)
+        self.assertIsInstance(frame, BinaryFrame)
+        self.assertEqual(frame.msg_id, MessageId.CMD_MOVE_JOINT_STEPS)
+        self.assertEqual(frame.seq_num, 1)
+
+    def test_build_jog_frame(self) -> None:
+        '''
+            Verifies jog frame construction through protocol contract.
+
+            :exceptions: None.
+        '''
+        builder = BinaryMotionFrameBuilder(packer=BinaryFramePacker())
+        frame = builder.build_jog_frame(
+            seq_num=3,
+            joint_id=1,
+            step=50,
+            speed=1500,
+        )
+        self.assertIsInstance(frame, BinaryFrame)
+        self.assertEqual(frame.msg_id, MessageId.CMD_JOG_JOINT)
+        self.assertEqual(frame.seq_num, 3)
+
+    def test_get_version(self) -> None:
+        '''
+            Verifies semantic version string retrieval.
+
+            :exceptions: None.
+        '''
+        builder = BinaryMotionFrameBuilder(packer=BinaryFramePacker())
+        version: str = builder.get_version()
+        self.assertIsInstance(version, str)
+        self.assertTrue(len(version) > 0)
+
+
+if __name__ == '__main__':
+    main()

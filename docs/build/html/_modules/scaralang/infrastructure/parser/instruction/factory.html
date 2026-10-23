@@ -64,11 +64,12 @@
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.config.factory</span> <span class="kn">import</span> <span class="n">ConfigFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.flow.factory</span> <span class="kn">import</span> <span class="n">FlowFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.frame.factory</span> <span class="kn">import</span> <span class="n">FrameFactory</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.icommand_parser</span> <span class="kn">import</span> <span class="n">ICommandParser</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.icommand_parser_provider</span> <span class="kn">import</span> <span class="n">ICommandParserProvider</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.iparser</span> <span class="kn">import</span> <span class="n">ICommandParser</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.iprovider</span> <span class="kn">import</span> <span class="n">ICommandParserProvider</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.macro.factory</span> <span class="kn">import</span> <span class="n">MacroFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.motion.factory</span> <span class="kn">import</span> <span class="n">MotionFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.tool.factory</span> <span class="kn">import</span> <span class="n">ToolFactory</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.service.parser.commands.zone.factory</span> <span class="kn">import</span> <span class="n">ZoneFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.instruction.dependencies</span> <span class="kn">import</span> <span class="n">InstructionDependencies</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.instruction.factory</span> <span class="kn">import</span> <span class="n">InstructionFactory</span>
 <span class="kn">from</span> <span class="nn">scaralang.core.service.parser.instruction.provides</span> <span class="kn">import</span> <span class="n">InstructionProvides</span>
@@ -77,7 +78,7 @@
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.1.0&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -105,6 +106,7 @@
         <span class="n">ConfigFactory</span><span class="p">,</span>
         <span class="n">FlowFactory</span><span class="p">,</span>
         <span class="n">ToolFactory</span><span class="p">,</span>
+        <span class="n">ZoneFactory</span><span class="p">,</span>
     <span class="p">)</span>
 
 <div class="viewcode-block" id="DefaultInstructionParserFactory.create">

@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   scaralang.core.model.disassembler
    scaralang.core.model.dsl
    scaralang.core.model.exceptions
    scaralang.core.model.kinematics

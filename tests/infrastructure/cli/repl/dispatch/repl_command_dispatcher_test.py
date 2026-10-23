@@ -26,8 +26,8 @@ from unittest import main
 
 from scaralang.core.model.dsl.ast.speed_mode import SpeedMode
 from scaralang.core.model.dsl.ast.zone_mode import ZoneMode
-from scaralang.core.model.repl.repl_pose_state import ReplPoseState
-from scaralang.core.model.repl.repl_session_context import ReplSessionContext
+from scaralang.core.model.repl.pose import ReplPoseState
+from scaralang.core.model.repl.context import ReplSessionContext
 from scaralang.core.service.repl.context.factory import ReplSessionContextFactory
 from scaralang.infrastructure.cli.repl.dispatch.irepl_command_dispatcher import IReplCommandDispatcher
 from scaralang.infrastructure.cli.repl.dispatch.repl_command_dispatcher import ReplCommandDispatcher
@@ -37,7 +37,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -49,6 +49,8 @@ class TestReplCommandDispatcher(TestCase):
 
         It defines:
 
+            :attributes:
+                | dispatcher - ReplCommandDispatcher instance under test.
             :methods:
                 | setUp - Initializes shared dispatcher under test.
                 | test_empty_line - Verifies empty line handled gracefully.
@@ -62,11 +64,19 @@ class TestReplCommandDispatcher(TestCase):
     '''
 
     def setUp(self) -> None:
-        '''Initializes shared dispatcher under test.'''
+        '''
+            Initializes shared dispatcher under test.
+
+            :exceptions: None.
+        '''
         self.dispatcher: ReplCommandDispatcher = ReplCommandDispatcherFactory.create_default()
 
     def test_empty_line(self) -> None:
-        '''Verifies empty line returns handled with empty message.'''
+        '''
+            Verifies empty line returns handled with empty message.
+
+            :exceptions: None.
+        '''
         context = ReplSessionContextFactory.create()
         res = self.dispatcher.dispatch_line(line='   ', context=context)
         self.assertTrue(res.is_handled)
@@ -74,7 +84,11 @@ class TestReplCommandDispatcher(TestCase):
         self.assertEqual(res.message, '')
 
     def test_exit_commands(self) -> None:
-        '''Verifies exit, quit and :q terminate session.'''
+        '''
+            Verifies exit, quit and :q terminate session.
+
+            :exceptions: None.
+        '''
         context = ReplSessionContextFactory.create()
         for cmd in ('exit', 'QUIT', '  :q '):
             res = self.dispatcher.dispatch_line(line=cmd, context=context)
@@ -82,7 +96,11 @@ class TestReplCommandDispatcher(TestCase):
             self.assertTrue(res.is_handled)
 
     def test_help_commands(self) -> None:
-        '''Verifies help and ? display manual.'''
+        '''
+            Verifies help and ? display manual.
+
+            :exceptions: None.
+        '''
         context = ReplSessionContextFactory.create()
         res = self.dispatcher.dispatch_line(line='help', context=context)
         self.assertFalse(res.is_exit)
@@ -92,7 +110,11 @@ class TestReplCommandDispatcher(TestCase):
         self.assertIn('clear, cls', res.message)
 
     def test_clear_commands(self) -> None:
-        '''Verifies clear and cls emit ANSI clear sequence.'''
+        '''
+            Verifies clear and cls emit ANSI clear sequence.
+
+            :exceptions: None.
+        '''
         context = ReplSessionContextFactory.create()
         for cmd in ('clear', 'CLEAR', 'cls', '  cls '):
             res = self.dispatcher.dispatch_line(line=cmd, context=context)
@@ -101,7 +123,11 @@ class TestReplCommandDispatcher(TestCase):
             self.assertEqual(res.message, '\033[H\033[2J')
 
     def test_info_commands(self) -> None:
-        '''Verifies info, specs, and verbose options return toolchain report.'''
+        '''
+            Verifies info, specs, and verbose options return toolchain report.
+
+            :exceptions: None.
+        '''
         context = ReplSessionContextFactory.create()
         for cmd in ('info', 'specs', 'catalog', 'info -v', 'info verbose'):
             res = self.dispatcher.dispatch_line(line=cmd, context=context)
@@ -110,7 +136,11 @@ class TestReplCommandDispatcher(TestCase):
             self.assertIn('Toolchain', res.message)
 
     def test_status_and_pose_commands(self) -> None:
-        '''Verifies status and pose commands report coordinates and states.'''
+        '''
+            Verifies status and pose commands report coordinates and states.
+
+            :exceptions: None.
+        '''
         context = ReplSessionContext(
             pose=ReplPoseState(
                 current_x=120.5,
@@ -131,11 +161,13 @@ class TestReplCommandDispatcher(TestCase):
         pose_res = self.dispatcher.dispatch_line(line='pose', context=context)
         self.assertTrue(pose_res.is_handled)
         self.assertIn('X=120.50 mm', pose_res.message)
-        formatted_pose = self.dispatcher.format_pose(context=context)
-        self.assertIn('X=120.50 mm', formatted_pose)
 
     def test_unhandled_dsl_line(self) -> None:
-        '''Verifies motion instruction lines are not handled as built-in.'''
+        '''
+            Verifies motion instruction lines are not handled as built-in.
+
+            :exceptions: None.
+        '''
         context = ReplSessionContextFactory.create()
         res = self.dispatcher.dispatch_line(
             line='MOVE LINE X=100 Y=100 Z=0 SPEED=100', context=context
@@ -144,10 +176,16 @@ class TestReplCommandDispatcher(TestCase):
         self.assertFalse(res.is_exit)
 
     def test_factory_and_protocol_conformance(self) -> None:
-        '''Verifies factory instantiation and structural protocol typing.'''
+        '''
+            Verifies factory instantiation and structural protocol typing.
+
+            :exceptions: None.
+        '''
         dispatcher = ReplCommandDispatcherFactory.create_default()
         self.assertTrue(isinstance(dispatcher, IReplCommandDispatcher))
-        self.assertEqual(ReplCommandDispatcherFactory.get_version(), '1.0.9')
+        self.assertEqual(ReplCommandDispatcherFactory.get_version(), '1.1.0')
+        self.assertEqual(dispatcher.get_version(), '1.1.0')
+        self.assertEqual(self.dispatcher.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':

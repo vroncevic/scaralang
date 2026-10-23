@@ -1,6 +1,14 @@
 scaralang.infrastructure.cli.repl.transmission package
 ======================================================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scaralang.infrastructure.cli.repl.transmission.buffer
+
 Submodules
 ----------
 

@@ -29,7 +29,7 @@ from ats_utilities.exceptions.ats_value_error import ATSValueError
 from ats_utilities.option.imanager import IOptionManager
 from ats_utilities.utils.reflection import to_str
 
-from scaralang.core.model.exceptions.scara_error import ScaraError
+from scaralang.core.model.exceptions.error import ScaraError
 from scaralang.infrastructure.cli.setup.bundle import CLIBundle
 from scaralang.infrastructure.cli.setup.validator import CLIBundleValidator
 from scaralang.infrastructure.command.idefinition import ICommandDefinition
@@ -39,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -89,17 +89,16 @@ class CLI:
         '''
         try:
             command_name, params = self._parser.parse_command()
-            executor: (
-                ICommandExecutor[ICommandDefinition, object, object] | None
-            ) = self._executors.get(command_name)
-
-            if executor is None:
+            if command_name not in self._executors:
                 return {
                     'returncode': 1,
                     'stdout': '',
                     'stderr': f'cli::run - command {command_name} not found'
                 }
 
+            executor: ICommandExecutor[ICommandDefinition, object, object] = (
+                self._executors[command_name]
+            )
             return executor.execute(params=params)
 
         except (ATSValueError, ATSTypeError) as exc:

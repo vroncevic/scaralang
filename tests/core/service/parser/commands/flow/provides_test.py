@@ -32,13 +32,13 @@ from scaralang.core.service.parser.commands.flow.provides import FlowProvides
 from scaralang.core.service.parser.commands.flow.resume import ResumeParser
 from scaralang.core.service.parser.commands.flow.sync import SyncParser
 from scaralang.core.service.parser.commands.flow.wait import WaitParser
-from scaralang.core.service.parser.commands.icommand_parser import ICommandParser
+from scaralang.core.service.parser.commands.iparser import ICommandParser
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -59,39 +59,19 @@ class TestFlowProvides(TestCase):
         '''
             Verifies attributes and protocol conformance of provided parsers.
         '''
-        disable_parser = DisableParser()
-        enable_parser = EnableParser()
-        estop_parser = EstopParser()
-        hold_parser = HoldParser()
-        resume_parser = ResumeParser()
-        sync_parser = SyncParser()
-        wait_parser = WaitParser()
-        provides = FlowProvides(
-            disable_parser=disable_parser,
-            enable_parser=enable_parser,
-            estop_parser=estop_parser,
-            hold_parser=hold_parser,
-            resume_parser=resume_parser,
-            sync_parser=sync_parser,
-            wait_parser=wait_parser,
-            parsers=(
-                wait_parser,
-                sync_parser,
-                hold_parser,
-                resume_parser,
-                enable_parser,
-                disable_parser,
-                estop_parser,
-            ),
+        parsers = (
+            WaitParser(),
+            SyncParser(),
+            HoldParser(),
+            ResumeParser(),
+            EnableParser(),
+            DisableParser(),
+            EstopParser(),
         )
-        self.assertIs(provides.disable_parser, disable_parser)
-        self.assertIs(provides.enable_parser, enable_parser)
-        self.assertIs(provides.estop_parser, estop_parser)
-        self.assertIs(provides.hold_parser, hold_parser)
-        self.assertIs(provides.resume_parser, resume_parser)
-        self.assertIs(provides.sync_parser, sync_parser)
-        self.assertIs(provides.wait_parser, wait_parser)
+        provides = FlowProvides(parsers=parsers)
+        self.assertEqual(provides.parsers, parsers)
         self.assertEqual(len(provides.parsers), 7)
+        self.assertEqual(provides.get_version(), '1.1.0')
         for parser in provides.parsers:
             self.assertIsInstance(parser, ICommandParser)
 
@@ -99,33 +79,9 @@ class TestFlowProvides(TestCase):
         '''
             Verifies container immutability on attribute reassignment.
         '''
-        disable_parser = DisableParser()
-        enable_parser = EnableParser()
-        estop_parser = EstopParser()
-        hold_parser = HoldParser()
-        resume_parser = ResumeParser()
-        sync_parser = SyncParser()
-        wait_parser = WaitParser()
-        provides = FlowProvides(
-            disable_parser=disable_parser,
-            enable_parser=enable_parser,
-            estop_parser=estop_parser,
-            hold_parser=hold_parser,
-            resume_parser=resume_parser,
-            sync_parser=sync_parser,
-            wait_parser=wait_parser,
-            parsers=(
-                wait_parser,
-                sync_parser,
-                hold_parser,
-                resume_parser,
-                enable_parser,
-                disable_parser,
-                estop_parser,
-            ),
-        )
+        provides = FlowProvides(parsers=(WaitParser(),))
         with self.assertRaises(FrozenInstanceError):
-            setattr(provides, 'disable_parser', disable_parser)
+            setattr(provides, 'parsers', ())
 
 
 if __name__ == '__main__':

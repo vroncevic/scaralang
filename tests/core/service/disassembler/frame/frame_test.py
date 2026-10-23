@@ -24,21 +24,21 @@ from __future__ import annotations
 from unittest import TestCase
 from unittest import main
 
-from scaralang.core.model.protocol.binary_frame import BinaryFrame
+from scaralang.core.model.protocol.frame import BinaryFrame
 from scaralang.core.model.protocol.joint_steps import JointSteps
-from scaralang.core.model.protocol.message_id import MessageId
+from scaralang.core.model.protocol.message import MessageId
 from scaralang.core.service.disassembler.frame.decoder.factory import PayloadDecoderFactory
 from scaralang.core.service.disassembler.frame.frame import FrameDetailDecoder
 from scaralang.core.service.disassembler.frame.iframe import IFrameDetailDecoder
-from scaralang.infrastructure.protocol.binary.builder.factory import BuilderFactory
-from scaralang.infrastructure.protocol.binary.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
-from scaralang.infrastructure.protocol.binary.parser.unpacker.motion import BinaryMotionPayloadUnpacker
+from scaralang.infrastructure.protocol.builder.factory import BuilderFactory
+from scaralang.infrastructure.protocol.parser.unpacker.actuator import BinaryActuatorPayloadUnpacker
+from scaralang.infrastructure.protocol.parser.unpacker.motion import BinaryMotionPayloadUnpacker
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -63,7 +63,7 @@ class TestFrameDetailDecoder(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies decoder version string retrieval.'''
-        self.assertEqual(self.decoder.get_version(), '1.0.9')
+        self.assertEqual(self.decoder.get_version(), '1.1.0')
 
     def test_decode_msg_name(self) -> None:
         '''Verifies decoding message ID to symbolic name.'''

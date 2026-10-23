@@ -59,16 +59,15 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
 
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.cartesian_pose</span> <span class="kn">import</span> <span class="n">CartesianPose</span>
-<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.scara_bounds</span> <span class="kn">import</span> <span class="n">ScaraBounds</span>
+<span class="kn">from</span> <span class="nn">scaralang.core.model.kinematics.profile.bounds</span> <span class="kn">import</span> <span class="n">ScaraBounds</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s1">&#39;(C) 2026, https://vroncevic.github.io/scaralang&#39;</span>
 <span class="n">__credits__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Vladimir Roncevic&#39;</span><span class="p">,</span> <span class="s1">&#39;Python Software Foundation&#39;</span><span class="p">]</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/vroncevic/scaralang/blob/dev/LICENSE&#39;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.0.9&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;1.1.0&#39;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s1">&#39;Vladimir Roncevic&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;elektron.ronca@gmail.com&#39;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s1">&#39;Updated&#39;</span>
@@ -78,15 +77,11 @@
 <a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.envelope.envelope.html#scaralang.core.service.kinematics.envelope.envelope.WorkspaceEnvelope">[docs]</a>
 <span class="k">class</span> <span class="nc">WorkspaceEnvelope</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Calculates physical manipulator workspace envelope, reach radii, and reference home pose.</span>
+<span class="sd">        Calculates physical manipulator workspace envelope and reach radii.</span>
 
 <span class="sd">        It defines:</span>
 
 <span class="sd">            :attributes:</span>
-<span class="sd">                | _DEFAULT_HOME_REACH_RATIO - Multiplier for canonical home position radial distance.</span>
-<span class="sd">                | _DEFAULT_HOME_Z_OFFSET_MM - Default vertical lift offset above z_min in mm.</span>
-<span class="sd">                | _DEFAULT_HOME_PHI_RAD - Default roll orientation angle for home pose.</span>
-<span class="sd">                | _FLOAT_ZERO - Floating-point zero constant.</span>
 <span class="sd">                | _bounds - Robot ScaraBounds containing link lengths, limits, and margins.</span>
 <span class="sd">            :methods:</span>
 <span class="sd">                | __init__ - Initializes envelope with robot bounds model.</span>
@@ -94,14 +89,8 @@
 <span class="sd">                | r_min - Returns minimum reach radius in mm.</span>
 <span class="sd">                | r_max - Returns maximum reach radius in mm.</span>
 <span class="sd">                | safe_r_max - Returns safe maximum reach radius considering margin in mm.</span>
-<span class="sd">                | calculate_home_pose - Calculates canonical default home Cartesian 4-DOF pose.</span>
 <span class="sd">                | get_version - Returns envelope component version string.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-
-    <span class="n">_DEFAULT_HOME_REACH_RATIO</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.65</span>
-    <span class="n">_DEFAULT_HOME_Z_OFFSET_MM</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">20.0</span>
-    <span class="n">_DEFAULT_HOME_PHI_RAD</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">_FLOAT_ZERO</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
     <span class="n">_bounds</span><span class="p">:</span> <span class="n">ScaraBounds</span>
 
@@ -160,29 +149,6 @@
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">l2</span>
             <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">singularity</span><span class="o">.</span><span class="n">singularity_outer_margin_mm</span>
         <span class="p">)</span>
-
-<div class="viewcode-block" id="WorkspaceEnvelope.calculate_home_pose">
-<a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.envelope.envelope.html#scaralang.core.service.kinematics.envelope.envelope.WorkspaceEnvelope.calculate_home_pose">[docs]</a>
-    <span class="k">def</span> <span class="nf">calculate_home_pose</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">reach_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_DEFAULT_HOME_REACH_RATIO</span><span class="p">,</span>
-        <span class="n">z_offset_mm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_DEFAULT_HOME_Z_OFFSET_MM</span><span class="p">,</span>
-        <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_DEFAULT_HOME_PHI_RAD</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CartesianPose</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">            Calculates the canonical default home Cartesian 4-DOF pose.</span>
-
-<span class="sd">            :param reach_ratio: Reach multiplier relative to maximum reach (default 0.65).</span>
-<span class="sd">            :param z_offset_mm: Vertical elevation offset above z_min in mm (default 20.0).</span>
-<span class="sd">            :param phi: Tool orientation angle in radians (default 0.0).</span>
-<span class="sd">            :return: CartesianPose instance.</span>
-<span class="sd">            :exceptions: None.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">reach</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">l1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">l2</span><span class="p">)</span> <span class="o">*</span> <span class="n">reach_ratio</span>
-        <span class="n">z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span><span class="o">.</span><span class="n">vertical</span><span class="o">.</span><span class="n">z_min</span> <span class="o">+</span> <span class="n">z_offset_mm</span>
-
-        <span class="k">return</span> <span class="n">CartesianPose</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">reach</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_FLOAT_ZERO</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="n">phi</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="WorkspaceEnvelope.get_version">
 <a class="viewcode-back" href="../../../../../../scaralang.core.service.kinematics.envelope.envelope.html#scaralang.core.service.kinematics.envelope.envelope.WorkspaceEnvelope.get_version">[docs]</a>

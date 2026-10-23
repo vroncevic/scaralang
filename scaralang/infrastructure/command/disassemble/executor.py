@@ -25,10 +25,11 @@ from collections.abc import Mapping
 from os.path import exists
 from typing import Final
 
-from scaralang.core.model.dsl.binary.disassembled_frame import DisassembledFrame
-from scaralang.core.model.dsl.binary.disassembly_summary import DisassemblySummary
-from scaralang.core.model.exceptions.scara_error import ScaraError
+from scaralang.core.model.disassembler.disassembled_frame import DisassembledFrame
+from scaralang.core.model.disassembler.disassembly_summary import DisassemblySummary
+from scaralang.core.model.exceptions.error import ScaraError
 from scaralang.core.service.disassembler.idisassembler import IScaraDisassembler
+from scaralang.core.service.disassembler.summary.icalculator import IDisassemblySummaryCalculator
 from scaralang.infrastructure.command.disassemble.dependencies import DisassembleDependencies
 from scaralang.infrastructure.command.disassemble.error.ihandler import IDisassembleErrorHandler
 from scaralang.infrastructure.command.disassemble.format.iformatter import IDisassembleSummaryFormatter
@@ -38,7 +39,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,6 +57,7 @@ class DisassembleCommandExecutor:
                 | _service - Injected SCARA disassembler service protocol.
                 | _summary_formatter - Injected summary presentation formatter.
                 | _error_handler - Injected disassemble error handler protocol.
+                | _summary_calculator - Injected summary calculator protocol.
             :methods:
                 | execute - Executes the disassemble command.
                 | get_definition - Returns the command definition metadata.
@@ -65,6 +67,7 @@ class DisassembleCommandExecutor:
     _service: IScaraDisassembler
     _summary_formatter: IDisassembleSummaryFormatter
     _error_handler: IDisassembleErrorHandler
+    _summary_calculator: IDisassemblySummaryCalculator
 
     def __init__(
         self,
@@ -83,6 +86,7 @@ class DisassembleCommandExecutor:
         self._service: Final[IScaraDisassembler] = dependencies.service
         self._summary_formatter: Final[IDisassembleSummaryFormatter] = dependencies.summary_formatter
         self._error_handler: Final[IDisassembleErrorHandler] = dependencies.error_handler
+        self._summary_calculator: Final[IDisassemblySummaryCalculator] = dependencies.summary_calculator
 
     def execute(
         self,
@@ -125,16 +129,9 @@ class DisassembleCommandExecutor:
                 )
 
             if bool(params.get('summary')):
-                summary: DisassemblySummary
-
-                if hasattr(self._service, 'calculate_summary'):
-                    summary = self._service.calculate_summary(
-                        frames=disassembled, byte_count=len(data)
-                    )
-                else:
-                    summary = self._service.calculate_disassembly_summary(
-                        frames=disassembled, byte_count=len(data)
-                    )
+                summary: DisassemblySummary = self._summary_calculator.calculate_summary(
+                    frames=disassembled, byte_count=len(data)
+                )
 
                 summary_text: str = self._summary_formatter.format_summary(
                     summary=summary

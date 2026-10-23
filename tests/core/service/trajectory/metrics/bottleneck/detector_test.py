@@ -24,19 +24,19 @@ from __future__ import annotations
 from unittest import TestCase, main
 
 from scaralang.core.model.dsl.binary.step import BinaryStep
-from scaralang.core.model.kinematics.axis_name import AxisName
-from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
-from scaralang.core.model.protocol.binary_frame import BinaryFrame
-from scaralang.core.model.protocol.message_id import MessageId
-from scaralang.core.model.trajectory.bottleneck_incident import BottleneckIncident
-from scaralang.core.model.trajectory.constraint_type import ConstraintType
+from scaralang.core.model.kinematics.pose.axis import AxisName
+from scaralang.core.model.kinematics.pose.steps import JointStepCoordinates
+from scaralang.core.model.protocol.frame import BinaryFrame
+from scaralang.core.model.protocol.message import MessageId
+from scaralang.core.model.trajectory.metrics.bottleneck import BottleneckIncident
+from scaralang.core.model.trajectory.metrics.constraint import ConstraintType
 from scaralang.core.service.trajectory.metrics.bottleneck.detector import MotionBottleneckDetector
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -57,7 +57,7 @@ class TestMotionBottleneckDetector(TestCase):
         self.assertEqual(len(incidents), 0)
 
     def test_detect_step_bottleneck_no_motion(self) -> None:
-        '''Verifies None returned when motion step has zero displacement.'''
+        '''Verifies empty tuple returned when motion step has zero displacement.'''
         detector = MotionBottleneckDetector()
         frame = BinaryFrame(
             msg_id=MessageId.CMD_MOVE_JOINT_STEPS,
@@ -73,12 +73,12 @@ class TestMotionBottleneckDetector(TestCase):
             description='idle',
             line_number=1,
         )
-        incident = detector.detect_step_bottleneck(
+        incidents = detector.detect_step_bottleneck(
             step=stationary_step,
             step_index=0,
             prev_coords=JointStepCoordinates(j1=0, j2=0, z=0, j4=0),
         )
-        self.assertIsNone(incident)
+        self.assertEqual(len(incidents), 0)
 
     def test_detect_bottlenecks_identifies_limiting_axes(self) -> None:
         '''Verifies limiting axes and constraint categories are accurately detected.'''

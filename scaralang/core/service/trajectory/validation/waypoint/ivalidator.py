@@ -23,14 +23,15 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from scaralang.core.model.trajectory.validation_result import ValidationResult
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.kinematics.solver.elbow import ElbowConfig
+from scaralang.core.model.trajectory.validation.result import ValidationResult
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 
 __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -57,10 +58,15 @@ class IWaypointValidator(Protocol):
             :return: Validator name string.
         '''
 
-    def validate_point(self, point: Waypoint) -> ValidationResult:
+    def validate_point(
+        self,
+        point: Waypoint,
+        elbow_config: ElbowConfig,
+    ) -> ValidationResult:
         '''
             Validates whether a waypoint is within reachable workspace and joint limits.
 
             :param point: Waypoint containing 3D coordinates and feedrate.
+            :param elbow_config: Target kinematic elbow configuration.
             :return: ValidationResult with status and details.
         '''

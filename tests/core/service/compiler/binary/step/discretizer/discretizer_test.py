@@ -21,18 +21,24 @@ Info
 
 from __future__ import annotations
 
+from io import StringIO
 from unittest import TestCase, main
+from unittest.mock import MagicMock, patch
 
-from scaralang.core.model.exceptions.scara_kinematics_error import ScaraKinematicsError
-from scaralang.core.model.kinematics.joint_angles import JointAngles
-from scaralang.core.model.kinematics.joint_step_coordinates import JointStepCoordinates
+from scaralang.core.model.exceptions.kinematics import ScaraKinematicsError
+from scaralang.core.model.kinematics.solver.status import IkStatus
+from scaralang.core.model.kinematics.pose.angles import JointAngles
+from scaralang.core.model.kinematics.pose.steps import JointStepCoordinates
+from scaralang.core.model.kinematics.solver.solution import ScaraJoints
 from scaralang.core.model.protocol.joint_steps import JointSteps
-from scaralang.core.model.trajectory.waypoint import Waypoint
+from scaralang.core.model.trajectory.plan.waypoint import Waypoint
 from scaralang.core.service.compiler.binary.step.discretizer.dependencies import DiscretizerDependencies
 from scaralang.core.service.compiler.binary.step.discretizer.discretizer import StepDiscretizer
 from scaralang.core.service.compiler.binary.step.discretizer.idiscretizer import IStepDiscretizer
 from scaralang.core.service.compiler.binary.step.duration.factory import SegmentDurationCalculatorFactory
 from scaralang.core.service.kinematics.profile.default_scara_profile import DefaultScaraProfile
+from scaralang.core.service.kinematics.solver.analytical.spatial.isolver import ISpatialKinematicsSolver
+from scaralang.core.service.kinematics.solver.numerical.spatial.isolver import INumericalSpatialKinematicsSolver
 from scaralang.core.service.kinematics.transmission.factory import TransmissionFactory
 from scaralang.infrastructure.kinematics.factory import DefaultKinematicsFactory
 
@@ -40,7 +46,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.0.9'
+__version__ = '1.1.0'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -58,6 +64,7 @@ class TestStepDiscretizer(TestCase):
                 | test_angles_to_steps - Verifies conversion from angles to steps.
                 | test_discretize_waypoint - Verifies Cartesian waypoint discretization.
                 | test_discretize_unreachable_waypoint_raises_error - Verifies ScaraKinematicsError.
+                | test_discretize_fallback_recovers_waypoint - Verifies DLS numerical recovery.
                 | test_discretize_z_out_of_bounds_raises_error - Verifies Z limits error.
                 | test_get_version - Verifies implementation version string.
     '''
@@ -68,13 +75,14 @@ class TestStepDiscretizer(TestCase):
 
             :exceptions: None.
         '''
-        spatial = DefaultKinematicsFactory.create().spatial
+        kinematics = DefaultKinematicsFactory.create()
         transmission = TransmissionFactory.create(
             transmission=DefaultScaraProfile.create_transmission()
         )
         duration_calculator = SegmentDurationCalculatorFactory.create()
         deps = DiscretizerDependencies(
-            spatial=spatial,
+            spatial=kinematics.spatial,
+            numerical_spatial=kinematics.numerical_spatial,
             transmission=transmission,
             duration_calculator=duration_calculator,
         )
@@ -138,11 +146,67 @@ class TestStepDiscretizer(TestCase):
             name='',
             command='',
         )
-        with self.assertRaises(ScaraKinematicsError):
+        with self.assertRaises(ScaraKinematicsError) as cm:
             self.discretizer.discretize_waypoint(
                 waypoint=unreachable,
                 prev_angles=JointAngles(theta1=0.0, theta2=0.0, z=0.0, theta4=0.0),
             )
+        self.assertIn('analytical solver failed', str(cm.exception))
+        self.assertIn('numerical DLS fallback failed', str(cm.exception))
+
+    def test_discretize_fallback_recovers_waypoint(self) -> None:
+        '''
+            Verifies that numerical DLS fallback recovers waypoint when analytical IK fails.
+
+            :exceptions: None.
+        '''
+        mock_spatial = MagicMock(spec=ISpatialKinematicsSolver)
+        mock_spatial.solve_ik_4d.return_value = ScaraJoints(
+            theta1=0.0,
+            theta2=0.0,
+            z=10.0,
+            theta4=0.0,
+            reachable=False,
+            status=IkStatus.OUT_OF_REACH,
+        )
+        mock_numerical = MagicMock(spec=INumericalSpatialKinematicsSolver)
+        mock_numerical.solve_dls_4d.return_value = ScaraJoints(
+            theta1=0.5,
+            theta2=0.5,
+            z=10.0,
+            theta4=0.0,
+            reachable=True,
+            status=IkStatus.SUCCESS,
+        )
+        transmission = TransmissionFactory.create(
+            transmission=DefaultScaraProfile.create_transmission()
+        )
+        duration_calculator = SegmentDurationCalculatorFactory.create()
+        deps = DiscretizerDependencies(
+            spatial=mock_spatial,
+            numerical_spatial=mock_numerical,
+            transmission=transmission,
+            duration_calculator=duration_calculator,
+        )
+        discretizer = StepDiscretizer(dependencies=deps)
+        waypoint = Waypoint(
+            x=150.0,
+            y=50.0,
+            z=10.0,
+            phi=0.0,
+            speed=50.0,
+            name='',
+            command='',
+        )
+        with patch('scaralang.core.service.compiler.binary.step.discretizer.discretizer.stderr', new_callable=StringIO) as fake_err:
+            steps, angles = discretizer.discretize_waypoint(
+                waypoint=waypoint,
+                prev_angles=JointAngles(theta1=0.0, theta2=0.0, z=0.0, theta4=0.0),
+            )
+            self.assertIsInstance(steps, JointSteps)
+            self.assertIsInstance(angles, JointAngles)
+            self.assertIn('OUT_OF_REACH', fake_err.getvalue())
+            self.assertIn('recovered using numerical DLS fallback', fake_err.getvalue())
 
     def test_discretize_z_out_of_bounds_raises_error(self) -> None:
         '''
@@ -171,7 +235,7 @@ class TestStepDiscretizer(TestCase):
 
             :exceptions: None.
         '''
-        self.assertEqual(self.discretizer.get_version(), '1.0.9')
+        self.assertEqual(self.discretizer.get_version(), '1.1.0')
 
 
 if __name__ == '__main__':
