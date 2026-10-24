@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -51,7 +51,7 @@ class TestFrameHeaderFormatter(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies component version string retrieval.'''
-        self.assertEqual(self.formatter.get_version(), '1.1.0')
+        self.assertEqual(self.formatter.get_version(), '1.1.1')
 
     def test_format_header(self) -> None:
         '''Verifies formatting of wire header line.'''
