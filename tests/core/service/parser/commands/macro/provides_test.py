@@ -34,7 +34,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -88,7 +88,7 @@ class TestMacroProvides(TestCase):
         self.assertIs(provides.subroutine_parsers, subroutine_parsers)
         self.assertIs(provides.loop_parsers, loop_parsers)
         self.assertEqual(len(provides.parsers), 7)
-        self.assertEqual(provides.get_version(), '1.1.0')
+        self.assertEqual(provides.get_version(), '1.1.1')
         for parser in provides.parsers:
             self.assertIsInstance(parser, ICommandParser)
 

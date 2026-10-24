@@ -32,7 +32,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -56,7 +56,7 @@ class DummyInfoProvider:
 
     def get_version(self) -> str:
         '''Dummy get_version implementation.'''
-        return '1.1.0'
+        return '1.1.1'
 
 
 class TestIScaraInfoProvider(TestCase):

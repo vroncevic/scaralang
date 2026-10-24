@@ -36,7 +36,7 @@ __author__ = 'Vladimir Roncevic'
 __copyright__ = '(C) 2026, https://vroncevic.github.io/scaralang'
 __credits__ = ['Vladimir Roncevic', 'Python Software Foundation']
 __license__ = 'https://github.com/vroncevic/scaralang/blob/dev/LICENSE'
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 __maintainer__ = 'Vladimir Roncevic'
 __email__ = 'elektron.ronca@gmail.com'
 __status__ = 'Updated'
@@ -71,7 +71,7 @@ class TestActuatorFrameBuilder(TestCase):
 
     def test_get_version(self) -> None:
         '''Verifies get_version returns valid version string.'''
-        self.assertEqual(self.actuator_builder.get_version(), '1.1.0')
+        self.assertEqual(self.actuator_builder.get_version(), '1.1.1')
 
     def test_build_actuator_frame_open_loop(self) -> None:
         '''Verifies building binary frame for OPEN_LOOP actuator configuration.'''

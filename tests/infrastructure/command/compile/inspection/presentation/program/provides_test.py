@@ -39,7 +39,7 @@ class DummyStepPresenter:
 
     def get_version(self) -> str:
         '''Returns version.'''
-        return '1.1.0'
+        return '1.1.1'
 
 
 class TestProgramProvides(TestCase):

@@ -43,7 +43,7 @@ class DummySubroutineExpander:
 
     def get_version(self) -> str:
         '''Dummy version.'''
-        return '1.1.0'
+        return '1.1.1'
 
 
 class DummyRepeatExpander:
@@ -60,7 +60,7 @@ class DummyRepeatExpander:
 
     def get_version(self) -> str:
         '''Dummy version.'''
-        return '1.1.0'
+        return '1.1.1'
 
 
 class DummyProcessor:
@@ -78,7 +78,7 @@ class DummyProcessor:
 
     def get_version(self) -> str:
         '''Dummy version.'''
-        return '1.1.0'
+        return '1.1.1'
 
 
 class TestPipelineDependencies(TestCase):
